@@ -12,7 +12,7 @@ require_once 'Member.class.php';
 require_once 'LogEntry.class.php';
 
 function validateField($fieldName, $missingFields){
-    if(in_array($fieldName, $missingFileds)){
+    if(in_array($fieldName, $missingFields)){
         echo 'class="error"';
     }
 }

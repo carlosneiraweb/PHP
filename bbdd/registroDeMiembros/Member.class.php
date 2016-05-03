@@ -11,7 +11,9 @@
 require_once 'DataObject.class.php';
 
 class Member extends DataObject{
-    
+    //de ejemplo no hacer caso
+    public $altura = 20;
+    var $precio = 100;
     protected $data = array(
         
         "id" => "",
@@ -19,11 +21,11 @@ class Member extends DataObject{
         "password" => "",
         "firstname" => "",
         "lastname" => "",
-        "joinDate" => "",
+        "joindate" => "",
         "gender" => "",
-        "favoriteGenre" => "",
-        "emailAddress" => "",
-        "otherInterest" =>""
+        "favoritegenre" => "",
+        "emailaddress" => "",
+        "otherinterests" =>""
         );
     
     private $_genres = array(
@@ -85,6 +87,7 @@ class Member extends DataObject{
             parent::disconnect($con);
             if($row) return new Member($row);
         } catch (Exception $ex) {
+            echo $ex->getLine();
             parent::disconnect($con);
             die("Query failed: ".$ex->getMessage());
         }
@@ -108,6 +111,9 @@ class Member extends DataObject{
             $row = $st->fetch();
             if($row) return new Member($row);
         } catch (Exception $ex) {
+            echo $ex->getFile();
+            echo '<br>';
+            echo $ex->getLine();
             parent::disconnet($con);
             die("Query failed: ".$ex->getMessage());
         }
@@ -122,14 +128,14 @@ class Member extends DataObject{
     public static function getByEmailAddress($emailAddress){
         
         $con = parent::connect();
-        $sql = "SELECT * FROM ".TBL_MEMBERS." WHERE emailAddress = :emailAddress";
+        $sql = "SELECT * FROM ".TBL_MEMBERS." WHERE emailAddress = :emailaddress";
         try{
             $st = $con->prepare($sql);
-            $st->bindValue(":emailAddress", $emailAddress, PDO::PARAM_STR);
-            $st->excute();
+            $st->bindValue(":emailaddress", $emailAddress, PDO::PARAM_STR);
+            $st->execute();
             $row = $st->fetch();
             parent::disconnect($con);
-            if(row) return new Member($row);    
+            if($row) return new Member($row);    
         } catch(Exception $ex) {
             parent::disconnect($con);
             die("Query failed: ".$ex->getMessage());
@@ -159,6 +165,7 @@ class Member extends DataObject{
         
         $con = parent::connect();
         $sql = "INSERT INTO ".TBL_MEMBERS. "(
+            
             username,
             password,
             firstname,
@@ -168,9 +175,10 @@ class Member extends DataObject{
             favoritegenre,
             emailaddress,
             otherinterests
+             
             ) VALUES (
             :username,
-            :password(:password),
+            password(:password),
             :firstname,
             :lastname,
             :joindate,
@@ -178,6 +186,7 @@ class Member extends DataObject{
             :favoritegenre,
             :emailaddress,
             :otherinterests
+            
             )";
         
         try{
@@ -190,12 +199,17 @@ class Member extends DataObject{
             $st->bindValue(":gender", $this->data["gender"], PDO::PARAM_STR);
             $st->bindValue(":favoritegenre", $this->data["favoritegenre"], PDO::PARAM_STR);
             $st->bindValue(":emailaddress", $this->data["emailaddress"], PDO::PARAM_STR);
-            $st->bindValue(":otherInterest", $this->data["otherinterests"], PDO::PARAM_STR);
+            $st->bindValue(":otherinterests", $this->data["otherinterests"], PDO::PARAM_STR);
+            
             $st->execute();
             
             parent::disconnect($con);
         } catch (Exception $ex) {
             parent::disconnect($con);
+            echo 'El error se produce en la línea: '.$ex->getLine().'<br>';
+            echo 'Del archivo: '.$ex->getFile();
+            echo'<br>';
+            echo $ex->getCode().'<br>';
             die("Query failed: ".$ex->getMessage());
         }
             
@@ -205,7 +219,9 @@ class Member extends DataObject{
     //fin insert    
     }
 
-    
+    public static function saludar(){
+        echo'hola';
+    }
     //fin clase
 }
 

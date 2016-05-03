@@ -18,7 +18,7 @@ abstract class DataObject {
     //Es llamado cada vez que se hace una instancia
     //de una clase que la extienda
     public function __construct($data){
-     
+     echo $this->altura;
         foreach ($data as $k => $v){
             if(array_key_exists($k, $this->data)){ //si $k existe en la tabla data, important!!!           
                 $this->data[$k] = $v;
