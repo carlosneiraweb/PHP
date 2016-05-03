@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Esta funci&oacute;n devuelve un array de mensajes que coinciden con el criterio de b&uacute;squeda dado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imap-scanmailbox.html">imap_scanmailbox</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imap-set-quota.html">imap_set_quota</a></div>
+ <div class="up"><a href="ref.imap.html">Funciones de IMAP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imap-search" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imap_search</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">imap_search</span> &mdash; <span class="dc-title">Esta función devuelve un array de mensajes que coinciden con el criterio de búsqueda dado</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imap-search-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>imap_search</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$imap_stream</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$criteria</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$options</code><span class="initializer"> = SE_FREE</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$charset</code><span class="initializer"> = <strong><code>NULL</code></strong></span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Esta función realiza una búsqueda en el buzón actualmente abierto
+   en el flujo <acronym title="Internet Message Access Protocol">IMAP</acronym> dado.
+  </p>
+  <p class="para">
+   Por ejemplo, para hacer coincidir todos los mensajes no respondidos por Mami, debería
+   usar: &quot;UNANSWERED FROM mami&quot;. La búsqueda parece ser insensible a
+   mayúsculas-minúsculas. La lista de criterios viene dada por una lectura del
+   código fuente de c-client UW y puede estar incompleta o
+   no ser exacta (véase <a href="http://www.faqs.org/rfcs/rfc2060" class="link external">&raquo;&nbsp;RFC2060</a>, 
+   sección 6.4.4).
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imap-search-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+imap_stream</code></dt>
+<dd>
+<p class="para">IMAP stream devuelto por
+<span class="function"><a href="function.imap-open.html" class="function">imap_open()</a></span>.</p></dd>
+
+    
+     <dt>
+<code class="parameter">criteria</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Una cadena, delimitada por espacios, en la que están permitidas las siguientes
+       palabras clave. Cualquier argumento multi-palabra (p.ej.
+       <em>FROM &quot;joey smith&quot;</em>) debe encerrarse entre comillas. Los resultados
+       serán contra todos los parámetros del campo <code class="parameter">criteria</code>.
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          ALL - devuelve todos los mensajes que coinciden con el resto del criterio
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          ANSWERED - coincide con los mensajes con la bandera \\ANSWERED establecida
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          BCC &quot;cadena&quot; - coincide con los mensajes con &quot;cadena&quot; en el campo Bcc:
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          BEFORE &quot;fecha&quot; - coincide con los mensajes con Date: antes de &quot;fecha&quot;
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          BODY &quot;cadena&quot; - coincide con los mensajes con &quot;cadena&quot; en el cuerpo del mensaje
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          CC &quot;cadena&quot; - coincide con los mensajes con &quot;cadena&quot; en el campo Cc:
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          DELETED - coincide con los mensajes borrados
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          FLAGGED - coincide con los mensajes con la bandera \\FLAGGED establecida
+          (algunas veces referidos como Importante o Urgente)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          FROM &quot;cadena&quot; - coincide con los mensajes con &quot;cadena&quot; en el campo From:
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          KEYWORD &quot;cadena&quot; - coincide con los mensajes con &quot;cadena&quot; como palabra clave
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          NEW - coincide con los mensajes nuevos
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          OLD - coincide con los mensajes antiguos
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          ON &quot;fecha&quot; - coincide con los mensajes con Date: coincidiendo con &quot;fecha&quot;
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          RECENT - coincide con los mensajes con la bandera \\RECENT establecida
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          SEEN - coincide con los mensajes que han sido leídos (la bandera \\SEEN está estabecido)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          SINCE &quot;fecha&quot; - coincide con los mensajes con Date: después de &quot;fecha&quot;
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          SUBJECT &quot;cadena&quot; - coincide con los mensajes con &quot;cadena&quot; en Subject:
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          TEXT &quot;cadena&quot; - coincide con los mensajes con el texto &quot;cadena&quot;
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          TO &quot;cadena&quot; - coincide con los mensajes con &quot;cadena&quot; en To:
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          UNANSWERED - coincide con los mensajes que no han sido respondidos
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          UNDELETED - coincide con los mensajes que no están eliminados
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          UNFLAGGED - coincide con los mensajes que no tienen bandera
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          UNKEYWORD &quot;cadena&quot; - coincide con los mensajes que no tienen la
+          palabra clave &quot;cadena&quot;
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          UNSEEN - coincide con los mensajes que aún no han sido leídos
+         </span>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">options</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los valores válidos para <code class="parameter">options</code> son
+       <strong><code>SE_UID</code></strong>, que causa que el array devuelto
+       contenga UIDs en vez de números de secuencia de mensajes.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">charset</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Conjunto de caracteres MIME a utilizar cuando se ordenan cadenas.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imap-search-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array de números de mensajes o UIDs.
+  </p>
+  <p class="para">
+   Devuelve <strong><code>FALSE</code></strong> si no comprende el criterio de búsqueda dado por
+   <code class="parameter">criteria</code> o no se han encontrado mensajes.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.imap-search-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="imap-search.examples">
+   <p><strong>Ejemplo #1 <span class="function"><strong>imap_search()</strong></span> example</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conn&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_open</span><span style="color: #007700">(</span><span style="color: #DD0000">'{imap.example.com:993/imap/ssl}INBOX'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'foo@example.com'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'pass123'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OP_READONLY</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$some&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_search</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'SUBJECT&nbsp;"COMO&nbsp;ser&nbsp;Guapo"&nbsp;SINCE&nbsp;"8&nbsp;August&nbsp;2008"'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SE_UID</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$msgnos&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_search</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ALL'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$uids&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_search</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ALL'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SE_UID</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$some</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$msgnos</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$uids</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [0] =&gt; 4
+    [1] =&gt; 6
+    [2] =&gt; 11
+)
+Array
+(
+    [0] =&gt; 1
+    [1] =&gt; 2
+    [2] =&gt; 3
+    [3] =&gt; 4
+    [4] =&gt; 5
+    [5] =&gt; 6
+)
+Array
+(
+    [0] =&gt; 1
+    [1] =&gt; 4
+    [2] =&gt; 6
+    [3] =&gt; 8
+    [4] =&gt; 11
+    [5] =&gt; 12
+)
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.imap-search-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.imap-listscan.html" class="function" rel="rdfs-seeAlso">imap_listscan()</a> - Devuelve la lista de buzones que coinciden con el texto dado</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imap-scanmailbox.html">imap_scanmailbox</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imap-set-quota.html">imap_set_quota</a></div>
+ <div class="up"><a href="ref.imap.html">Funciones de IMAP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

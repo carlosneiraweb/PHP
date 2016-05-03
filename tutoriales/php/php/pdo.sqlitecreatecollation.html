@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Registra una funci&oacute;n definida por el usuario para emplearla como funci&oacute;n de cotejo en sentencias SQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.sqlitecreateaggregate.html">PDO::sqliteCreateAggregate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.sqlitecreatefunction.html">PDO::sqliteCreateFunction</a></div>
+ <div class="up"><a href="ref.pdo-sqlite.html">SQLite (PDO)</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdo.sqlitecreatecollation" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDO::sqliteCreateCollation</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.11, PHP 7)</p><p class="refpurpose"><span class="refname">PDO::sqliteCreateCollation</span> &mdash; <span class="dc-title">
+   Registra una función definida por el usuario para emplearla como función de cotejo en sentencias SQL
+  </span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-pdo.sqlitecreatecollation-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>PDO::sqliteCreateCollation</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$name</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$callback</code></span>
+   )</div>
+
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función ha sido declarada
+<em class="emphasis">EXPERIMENTAL</em>. Su funcionamiento, nombre y 
+la documentación que le acompaña puede cambiar sin previo aviso en futuras versiones de PHP.
+Utilícela bajo su propia responsabilidad.
+</p></div>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-pdo.sqlitecreatecollation-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Nombre de la función de cotejo de SQL a crear o redefinir.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">callback</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de una función de PHP o una definida por el usuario para aplicarla como retrollamada, definiendo el comportamiento del cotejamiento. Debería aceptar dos cadenas y devolver lo mismo que strcmp(), es decir, debería devolver -1, 1, o 0 si la primera cadena es anterior en orden, posterior, o es igual a la segunda.
+      </p>
+      <p class="para">
+       Es necesario definir esta función como:
+       <div class="methodsynopsis dc-description">
+        <span class="type">int</span> <span class="methodname"><span class="replaceable">collation</span></span>
+         ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$string1</code></span>
+        , <span class="methodparam"><span class="type">string</span> <code class="parameter">$string2</code></span>
+        )</div>
+
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-pdo.sqlitecreatecollation-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-pdo.sqlitecreatecollation-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1090">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>PDO::sqliteCreateCollation()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$bd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'sqlite::memory:'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test&nbsp;(col1&nbsp;string)"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test&nbsp;VALUES&nbsp;('a1')"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test&nbsp;VALUES&nbsp;('a10')"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test&nbsp;VALUES&nbsp;('a2')"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">sqliteCreateCollation</span><span style="color: #007700">(</span><span style="color: #DD0000">'NATURAL_CMP'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'strnatcmp'</span><span style="color: #007700">);<br />foreach&nbsp;(</span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;col1&nbsp;FROM&nbsp;test&nbsp;ORDER&nbsp;BY&nbsp;col1"</span><span style="color: #007700">)&nbsp;as&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'col1'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br />echo&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />foreach&nbsp;(</span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;col1&nbsp;FROM&nbsp;test&nbsp;ORDER&nbsp;BY&nbsp;col1&nbsp;COLLATE&nbsp;NATURAL_CMP"</span><span style="color: #007700">)&nbsp;as&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'col1'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+a1
+a10
+a2
+
+a1
+a2
+a10
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-pdo.sqlitecreatecollation-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Este método no está disponible con el controlador de SQLite2.
+    Use la API de sqlite del estilo antiguo en su lugar.
+   </p>
+  </p></blockquote>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.sqlitecreateaggregate.html">PDO::sqliteCreateAggregate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.sqlitecreatefunction.html">PDO::sqliteCreateFunction</a></div>
+ <div class="up"><a href="ref.pdo-sqlite.html">SQLite (PDO)</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

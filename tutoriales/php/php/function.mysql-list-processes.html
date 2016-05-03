@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Lista los procesos de MySQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-list-fields.html">mysql_list_fields</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-list-tables.html">mysql_list_tables</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-list-processes" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_list_processes</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.0, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_list_processes</span> &mdash; <span class="dc-title">Lista los procesos de MySQL</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-list-processes-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta extensión fue declarada obsoleta en PHP 5.5.0 y eliminada en PHP 7.0.0.
+En su lugar debería utilzarse las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a>.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Alternatives to this function include:</p>
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli.thread-id.html" class="function">mysqli_thread_id()</a></span></li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-list-processes-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>mysql_list_processes</strong></span>
+    ([ <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code><span class="initializer"> = NULL</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Recupera los hilos del servidor MySQL actuales.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-list-processes-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+link_identifier</code></dt>
+<dd>
+<p class="para">La conexión MySQL. Si el
+identificador de enlace no se especifica, el último enlace abierto por
+<span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> es asumido. Si no se encuentra dicho enlace, la
+función intentará establecer un nuevo enlace como si <span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> fuese invocado
+sin parámetros. Si no se encuentra o establece una conexión, un error de nivel
+<strong><code>E_WARNING</code></strong> es generado.</p></dd>
+
+
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-list-processes-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Un puntero de resultados de tipo <span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> en caso de éxito  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysql-list-processes-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1822">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysql_list_processes()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'usuario_mysql'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña_mysql'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_list_processes</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br /><br />while&nbsp;(</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_fetch_assoc</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">)){<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%s&nbsp;%s&nbsp;%s&nbsp;%s&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">"Id"</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">"Host"</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">"db"</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">"Command"</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">"Time"</span><span style="color: #007700">]);<br />}<br /></span><span style="color: #0000BB">mysql_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+1 localhost test Processlist 0
+4 localhost mysql sleep 5
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-list-processes-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-thread-id.html" class="function" rel="rdfs-seeAlso">mysql_thread_id()</a> - Devuelve el ID del hilo actual</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-stat.html" class="function" rel="rdfs-seeAlso">mysql_stat()</a> - Obtiene el estado actual del sistema</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-list-fields.html">mysql_list_fields</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-list-tables.html">mysql_list_tables</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

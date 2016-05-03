@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Enumerar todos los gestores de salida en uso</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ob-implicit-flush.html">ob_implicit_flush</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ob-start.html">ob_start</a></div>
+ <div class="up"><a href="ref.outcontrol.html">Funciones del Control de la salida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ob-list-handlers" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ob_list_handlers</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">ob_list_handlers</span> &mdash; <span class="dc-title">Enumerar todos los gestores de salida en uso</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ob-list-handlers-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>ob_list_handlers</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Enumera todos los gestores de salida en uso.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ob-list-handlers-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Esta función devolverá un array con los gestores de salida en uso (si existen). Si
+   <a href="outcontrol.configuration.html#ini.output-buffering" class="link">output_buffering</a> está habilitado o
+   se usó una función anónima con <span class="function"><a href="function.ob-start.html" class="function">ob_start()</a></span>,
+   <span class="function"><strong>ob_list_handlers()</strong></span> devolverá &quot;default output handler&quot;
+   (gestor de salida predeterminado).
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ob-list-handlers-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-531">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>ob_list_handlers()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//usando&nbsp;output_buffering=On<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">ob_list_handlers</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">ob_end_flush</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">ob_start</span><span style="color: #007700">(</span><span style="color: #DD0000">"ob_gzhandler"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">ob_list_handlers</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">ob_end_flush</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;funciones&nbsp;anónimas<br /></span><span style="color: #0000BB">ob_start</span><span style="color: #007700">(function(</span><span style="color: #0000BB">$string</span><span style="color: #007700">)&nbsp;{&nbsp;return&nbsp;</span><span style="color: #0000BB">$string</span><span style="color: #007700">;&nbsp;});<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">ob_list_handlers</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">ob_end_flush</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [0] =&gt; default output handler
+)
+
+Array
+(
+    [0] =&gt; ob_gzhandler
+)
+
+Array
+(
+    [0] =&gt; Closure::__invoke
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ob-list-handlers-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ob-end-clean.html" class="function" rel="rdfs-seeAlso">ob_end_clean()</a> - Limpiar (eliminar) el b&uacute;fer de salida y deshabilitar el almacenamiento en el mismo</span></li>
+    <li class="member"><span class="function"><a href="function.ob-end-flush.html" class="function" rel="rdfs-seeAlso">ob_end_flush()</a> - Volcar (enviar) el b&uacute;fer de salida y deshabilitar el almacenamiento en el mismo</span></li>
+    <li class="member"><span class="function"><a href="function.ob-get-flush.html" class="function" rel="rdfs-seeAlso">ob_get_flush()</a> - Volcar el b&uacute;fer de salida, devolverlo como una cadena de caracteres y deshabilitar el almacenamiento en el b&uacute;fer de salida</span></li>
+    <li class="member"><span class="function"><a href="function.ob-start.html" class="function" rel="rdfs-seeAlso">ob_start()</a> - Activa el almacenamiento en b&uacute;fer de la salida</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ob-implicit-flush.html">ob_implicit_flush</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ob-start.html">ob_start</a></div>
+ <div class="up"><a href="ref.outcontrol.html">Funciones del Control de la salida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

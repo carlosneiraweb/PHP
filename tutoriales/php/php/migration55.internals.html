@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambios internos en PHP</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration55.ini.html">Cambios en el manejor de fichero INI</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration54.html">Migrar de PHP 5.3.x hacia PHP 5.4.x</a></div>
+ <div class="up"><a href="migration55.html">Migrar de PHP 5.4.x a PHP 5.5.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="migration55.internals" class="sect1">
+  <h2 class="title">Cambios internos en PHP</h2>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     Las extensiones ya no pueden sobrescribir <strong class="command">zend_execute()</strong>, por lo que
+     deberían sobrescribir en su lugar <strong class="command">zend_execute_ex()</strong>.
+     <em>EG(current_execute_data)</em> ya están inicializado en
+     <strong class="command">zend_execute_ex()</strong>, por lo que pordría ser necesario el empleo de
+     <em>EG(current_execute_data)-&gt;prev_execute_data</em> en su lugar para que
+     las extensiones sean compatibles.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Se eliminó <em>EG(arg_types_stack)</em>,
+     <em>EX(fbc)</em>, <em>EX(called_scope)</em> y
+     <em>EX(current_object)</em>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Se añadió <em>op_array-&gt;nested_calls</em>, la cual se calcula
+     en tiempo de compilación.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Se añadió <em>EX(call_slots)</em>, la cual es un array para almacenar
+     información sobre llamadas anidadas sintácticamente (p.ej.,
+     <em>foo(bar())</em>) y es preasignada junto con
+     <em>execute_data</em>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Se añadió <em>EX(call)</em>, la cual es un puntero a la función
+     llamada en uso; es un elemento de <em>EX(call_slots)</em>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Los códigos de operación
+     <a href="internals2.opcodes.init-method-call.html" class="link">INIT_METHOD_CALL</a>,
+     <a href="internals2.opcodes.init-static-method-call.html" class="link">ZEND_INIT_STATIC_METHOD_CALL</a>,
+     <a href="internals2.opcodes.init-fcall-by-name.html" class="link">ZEND_INIT_FCALL_BY_NAME</a>
+     y
+     <a href="internals2.opcodes.init-ns-fcall-by-name.html" class="link">ZEND_INIT_NS_FCALL_BY_NAME</a>
+     emplean <em>result.num</em> como índice en
+     <em>EX(call_slots)</em>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     El código de operación <a href="internals2.opcodes.new.html" class="link">ZEND_NEW</a> emplea
+     <em>extended_value</em> como índice en
+     <em>EX(call_slots)</em>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Los códigos de operación <a href="internals2.opcodes.do-fcall.html" class="link">ZEND_DO_FCALL</a>
+     y
+     <a href="internals2.opcodes.do-fcall-by-name.html" class="link">ZEND_DO_FCALL_BY_NAME</a>
+     emplean <em>op2.num</em> como índice en
+     <em>EX(call_slots)</em>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Se añadió <em>op_array-&gt;used_stack</em>, la cual es calculada en
+     tiempo de compilación; el espacio de pila correspondiente es preasignado junto con
+     <em>execute_data</em>. Como resultado, los códigos de operación ZEND_SEND* y
+     ZEND_DO_FCALL* ya no necesitan verificar desbordamientos de pila.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Se eliminó el campo <em>execute_data-&gt;Ts</em>. Las variables temporales de
+     la máquina virtual se asignan siempre inmediatamente antes de la estructura
+     <em>execute_data</em>, por lo que ahora se pueden acceder a dichas variables por su
+     índice desde el puntero base de <em>execute_data</em> en lugar de
+     mediante <em>execute_data-&gt;Ts</em>. El compilador almacena los nuevos
+     índices en <em>op_array-&gt;opcodes[*].op?.num</em>. Las macros
+     <strong class="command">EX_TMP_VAR()</strong> y <strong class="command">EX_TMP_VAR_NUM()</strong>
+     se pueden usar para acceder a las variables temporales por el índice o número. Se
+     puede convertir el número a un índice mediante <strong class="command">EX_TMP_VAR_NUM(0,
+     num)</strong> o convertir de índice a número mediante
+     <strong class="command">(EX_TMP_VAR_NUM(0,0)-EX_TMP_VAR(0,offset))</strong>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Se eliminó el campo <em>execute_data-&gt;CVs</em>. La variables compiladas de
+     la máquina virtual son siempre asignadas inmediantamente después de la estructura
+     <em>execute_data</em>, or lo que ahora se pueden acceder a dichas variables por su
+     índice desde el puntero base de <em>execute_data</em> en lugar de
+     vmedianteia <em>execute_data-&gt;CVs</em>. Se puede emplear la macro
+     <strong class="command">EX_CV_NUM()</strong> para acceder a dichas variables compiladas mediante
+     el número.
+    </span>
+   </li>
+  </ul>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration55.ini.html">Cambios en el manejor de fichero INI</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration54.html">Migrar de PHP 5.3.x hacia PHP 5.4.x</a></div>
+ <div class="up"><a href="migration55.html">Migrar de PHP 5.4.x a PHP 5.5.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

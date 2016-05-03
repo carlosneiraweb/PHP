@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene el uso de los recursos actuales</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.getopt.html">getopt</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ini-alter.html">ini_alter</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.getrusage" class="refentry">
+ <div class="refnamediv"> 
+  <h1 class="refname">getrusage</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">getrusage</span> &mdash; <span class="dc-title">Obtiene el uso de los recursos actuales</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.getrusage-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>getrusage</strong></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$who</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Esta es una interfaz de <strong class="command">getrusage(2)</strong>. Obtiene datos devueltos 
+   de la llamada al sistema. 
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.getrusage-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">who</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si el parámetro <code class="parameter">who</code> es 1, getrusage será llamado con 
+       <strong><code>RUSAGE_CHILDREN</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.getrusage-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array asociativo que contiene los datos devueltos por la llamada al 
+   sistema. Todas las entradas son accesibles mediante el uso de sus nombres de campo documentado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.getrusage-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-561">
+    <p><strong>Ejemplo #1 <span class="function"><strong>getrusage()</strong></span> ejemplo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$dat&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">getrusage</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #0000BB">$dat</span><span style="color: #007700">[</span><span style="color: #DD0000">"ru_nswap"</span><span style="color: #007700">];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;número&nbsp;de&nbsp;intercambios<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$dat</span><span style="color: #007700">[</span><span style="color: #DD0000">"ru_majflt"</span><span style="color: #007700">];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;número&nbsp;de&nbsp;fallos&nbsp;de&nbsp;página<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$dat</span><span style="color: #007700">[</span><span style="color: #DD0000">"ru_utime.tv_sec"</span><span style="color: #007700">];&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;tiempo&nbsp;de&nbsp;usuario&nbsp;utilizado&nbsp;(segundos)<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$dat</span><span style="color: #007700">[</span><span style="color: #DD0000">"ru_utime.tv_usec"</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;tiempo&nbsp;de&nbsp;usuario&nbsp;usado&nbsp;(microsegundos)<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.getrusage-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>7.0.0</td>
+       <td>
+        Está función no tiene soporte en Windows.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.getrusage-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    En Windows, <span class="function"><strong>getrusage()</strong></span> solamente devolverá los siguientes
+    miembros:
+   </p>
+   <p class="para">
+    <ul class="simplelist">
+     <li class="member"><em>&quot;ru_stime.tv_sec&quot;</em></li>
+     <li class="member"><em>&quot;ru_stime.tv_usec&quot;</em></li>
+     <li class="member"><em>&quot;ru_utime.tv_sec&quot;</em></li>
+     <li class="member"><em>&quot;ru_utime.tv_usec&quot;</em></li>
+     <li class="member">
+      <em>&quot;ru_majflt&quot;</em> (solo si <code class="parameter">who</code> es
+      <strong><code>RUSAGE_SELF</code></strong>)
+     </li>
+     <li class="member">
+      <em>&quot;ru_maxrss&quot;</em> (solo si <code class="parameter">who</code> es
+      <strong><code>RUSAGE_SELF</code></strong>)
+     </li>
+    </ul>
+   </p>
+   <p class="para">
+    Si a <span class="function"><strong>getrusage()</strong></span> se le llama con <code class="parameter">who</code> 
+    establecido a <em>1</em> (<strong><code>RUSAGE_CHILDREN</code></strong>), se
+    recopilan los usos de recursos para los hilos (lo que significa que la función es
+    llamada internamente con <strong><code>RUSAGE_THREAD</code></strong>).
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    En BeOS 2000, solamente se devuelven los siguientes miembros:
+   </p>
+   <p class="para">
+    <ul class="simplelist">
+     <li class="member"><em>&quot;ru_stime.tv_sec&quot;</em></li>
+     <li class="member"><em>&quot;ru_stime.tv_usec&quot;</em></li>
+     <li class="member"><em>&quot;ru_utime.tv_sec&quot;</em></li>
+     <li class="member"><em>&quot;ru_utime.tv_usec&quot;</em></li>
+    </ul>
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.getrusage-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member">Página principal de sistema sobre <strong class="command">getrusage(2)</strong></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.getopt.html">getopt</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ini-alter.html">ini_alter</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Iniciar una nueva sesi&oacute;n o reanudar la existente</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.session-set-save-handler.html">session_set_save_handler</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.session-status.html">session_status</a></div>
+ <div class="up"><a href="ref.session.html">Funciones de sesi&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.session-start" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">session_start</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">session_start</span> &mdash; <span class="dc-title">Iniciar una nueva sesión o reanudar la existente</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.session-start-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>session_start</strong></span>
+    ([ <span class="methodparam"><span class="type">array</span> <code class="parameter">$options</code><span class="initializer"> = []</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>session_start()</strong></span> crea una sesión o reanuda la
+   actual basada en un identificador de sesión pasado mediante una petición GET o POST,
+   o pasado mediante una cookie.
+  </p>
+  <p class="para">
+   Cuando <span class="function"><strong>session_start()</strong></span> es llamada o cuando se autoinicia una sesión,
+   PHP llamará a los gestores de almacenamiento de sesiones open y read. Éstos serán un gestor
+   de almacenamiento proporcionado por omisión o por extensiones de PHP (como SQLite o Memcached); o pueden ser
+   un gestor personalizado como está definido en <span class="function"><a href="function.session-set-save-handler.html" class="function">session_set_save_handler()</a></span>.
+   La llamada de retorno read recuperará cualquier información se de sesión existente (almacenada en un formato serializado especial)
+   y será deserializada y usada para rellenar automáticamente la variable superglobal $_SESSION cuando la
+   llamada de retorno read devuelva la información de sesión guardada a la gestión de sesiones de PHP.
+  </p>
+  <p class="para">
+   Para usar una sesión nominada llame a
+   <span class="function"><a href="function.session-name.html" class="function">session_name()</a></span> antes de llamar a
+   <span class="function"><strong>session_start()</strong></span>.
+  </p>
+  <p class="para">
+   Cuando <a href="session.configuration.html#ini.session.use-trans-sid" class="link">session.use_trans_sid</a>
+   está habilidado, la función <span class="function"><strong>session_start()</strong></span> registrará
+   un gestor de salida interno para la reescritura de URL.
+  </p>
+  <p class="para">
+   Si un usuario utiliza <em>ob_gzhandler</em> o similar con
+   <span class="function"><a href="function.ob-start.html" class="function">ob_start()</a></span>, el orden de las funciones es importante para
+   la salida adecuada. Por ejemplo,
+   <em>ob_gzhandler</em> se debe registrar antes de iniciar una sesión.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.session-start-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">options</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Si se proporciona, este array asociativo de opciones sobrescribirá las
+      <a href="session.configuration.html" class="link">directivas de configuración de sesiones</a>
+      establecidas actualmente.
+      Las claves no deben incluir el prefijo <em>session.</em>.
+     </p>
+     <p class="para">
+      Además del conjunto habitual de directivas de configuración, también se
+      puede proporcionar la opción <em>read_and_close</em>. Si se establece a
+      <strong><code>TRUE</code></strong>, resultará en el cierre inmediato de la sesión después de haber
+      sido leída, evitando así el bloqueo inncesario si los datos de la sesión
+      no han cambiado.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.session-start-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Esta función devuleve <strong><code>TRUE</code></strong> si una sesión fue iniciada satisfactoriamente,
+   si no, devuelve <strong><code>FALSE</code></strong>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.session-start-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>7.0.0</td>
+        <td>
+         Se añadió el parámetro <code class="parameter">options</code>.
+        </td>
+      </tr>
+
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Si una sesión falla al iniciarse, se devuelve <strong><code>FALSE</code></strong>.
+        Anteriormente se devolvía <strong><code>TRUE</code></strong>.
+       </td>
+      </tr>
+
+      <tr>
+       <td>4.3.3</td>
+       <td>
+        A partir de PHP 4.3.3, llamar a <span class="function"><strong>session_start()</strong></span>
+        después de que una sesión estuviera previamente iniciada resultaba en un
+        error de nivel <strong><code>E_NOTICE</code></strong>. También, el
+        segundo inicio de sesión se ignoraba simplemente.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.session-start-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="refsect2 unknown-examplet" id="refsect2-function.session-start-unknown-examplet">
+   <h4 class="title">Un ejemplo de sesión básico</h4>
+   
+   <p class="para">
+    <div class="example" id="example-5323">
+     <p><strong>Ejemplo #1 <var class="filename">pagina1.php</var></strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;pagina1.php<br /><br /></span><span style="color: #0000BB">session_start</span><span style="color: #007700">();<br /><br />echo&nbsp;</span><span style="color: #DD0000">'Bienvenido&nbsp;a&nbsp;la&nbsp;página&nbsp;#1'</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$_SESSION</span><span style="color: #007700">[</span><span style="color: #DD0000">'color'</span><span style="color: #007700">]&nbsp;&nbsp;=&nbsp;</span><span style="color: #DD0000">'verde'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$_SESSION</span><span style="color: #007700">[</span><span style="color: #DD0000">'animal'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'gato'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$_SESSION</span><span style="color: #007700">[</span><span style="color: #DD0000">'instante'</span><span style="color: #007700">]&nbsp;&nbsp;&nbsp;=&nbsp;</span><span style="color: #0000BB">time</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;Funciona&nbsp;si&nbsp;la&nbsp;cookie&nbsp;de&nbsp;sesión&nbsp;fue&nbsp;aceptada<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">'&lt;br&nbsp;/&gt;&lt;a&nbsp;href="pagina2.php"&gt;página&nbsp;2&lt;/a&gt;'</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;O&nbsp;quizás&nbsp;pasar&nbsp;el&nbsp;id&nbsp;de&nbsp;sesión,&nbsp;si&nbsp;fuera&nbsp;necesario<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">'&lt;br&nbsp;/&gt;&lt;a&nbsp;href="pagina2.php?'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">SID&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">'"&gt;página&nbsp;2&lt;/a&gt;'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   </p>
+   <p class="para">
+    Después de ver <var class="filename">pagina1.php</var>, la segunda página
+    <var class="filename">pagina2.php</var> contendrá mágicamente la información de la
+    sesión. Consulte la <a href="ref.session.html" class="link">referencia de sesiones</a>
+    para informarse sobre la <a href="session.idpassing.html" class="link">propagación de
+    los ID de sesiones</a> ya que explica, por ejemplo, en qué consiste la constante
+    <strong><code>SID</code></strong>.
+   </p>
+   <p class="para">
+    <div class="example" id="example-5324">
+     <p><strong>Ejemplo #2 <var class="filename">pagina2.php</var></strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;pagina2.php<br /><br /></span><span style="color: #0000BB">session_start</span><span style="color: #007700">();<br /><br />echo&nbsp;</span><span style="color: #DD0000">'Bienvenido&nbsp;a&nbsp;la&nbsp;página&nbsp;#2&lt;br&nbsp;/&gt;'</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #0000BB">$_SESSION</span><span style="color: #007700">[</span><span style="color: #DD0000">'color'</span><span style="color: #007700">];&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;verde<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$_SESSION</span><span style="color: #007700">[</span><span style="color: #DD0000">'animal'</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;gato<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">date</span><span style="color: #007700">(</span><span style="color: #DD0000">'Y&nbsp;m&nbsp;d&nbsp;H:i:s'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$_SESSION</span><span style="color: #007700">[</span><span style="color: #DD0000">'instante'</span><span style="color: #007700">]);<br /><br /></span><span style="color: #FF8000">//&nbsp;Puede&nbsp;ser&nbsp;conveniente&nbsp;usar&nbsp;el&nbsp;SID&nbsp;aquí,&nbsp;como&nbsp;hicimos&nbsp;en&nbsp;pagina1.php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">'&lt;br&nbsp;/&gt;&lt;a&nbsp;href="pagina1.php"&gt;página&nbsp;1&lt;/a&gt;'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   </p>
+  </div>
+
+  <div class="refsect2 unknown-unknown-exampleu" id="refsect2-function.session-start-unknown-unknown-exampleu">
+   <h4 class="title">Proporcionar opciones a <span class="function"><strong>session_start()</strong></span></h4>
+   
+   <div class="example" id="example-5325">
+    <p><strong>Ejemplo #3 Sobrescribir el tiempo de vida de la cookie</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Esto&nbsp;envía&nbsp;una&nbsp;cookie&nbsp;persistente&nbsp;que&nbsp;dura&nbsp;un&nbsp;día&nbsp;day.<br /></span><span style="color: #0000BB">session_start</span><span style="color: #007700">([<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'cookie_lifetime'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">86400</span><span style="color: #007700">,<br />]);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   
+   <div class="example" id="example-5326">
+    <p><strong>Ejemplo #4 Leer la sesión y cerrarla</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Si&nbsp;sabemos&nbsp;que&nbsp;no&nbsp;necesitamos&nbsp;cambiar&nbsp;nada&nbsp;de&nbsp;la&nbsp;sesión,<br />//&nbsp;podemos&nbsp;simplemente&nbsp;leerla&nbsp;y&nbsp;cerrarla&nbsp;inmediatamente&nbsp;para&nbsp;evitar<br />//&nbsp;bloquear&nbsp;el&nbsp;fichero&nbsp;de&nbsp;sesión&nbsp;y&nbsp;otras&nbsp;páginas<br /></span><span style="color: #0000BB">session_start</span><span style="color: #007700">([<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'cookie_lifetime'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">86400</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'read_and_close'&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">,<br />]);</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </div>
+
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.session-start-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Para usar sesiones basadas en cookies, <span class="function"><strong>session_start()</strong></span>
+    debe ser llamada antes de imprimir cualquier cosa en el navegador.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Se recomienda el uso de <a href="zlib.configuration.html#ini.zlib.output-compression" class="link">zlib.output_compression</a>
+    en vez de <span class="function"><a href="function.ob-gzhandler.html" class="function">ob_gzhandler()</a></span>
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Esta función envía varias cabeceras HTTP dependiendo de la
+    configuración. Véase <span class="function"><a href="function.session-cache-limiter.html" class="function">session_cache_limiter()</a></span> para
+    personalizar estas cabeceras.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.session-start-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><var class="varname"><var class="varname"><a href="reserved.variables.session.html" class="classname">$_SESSION</a></var></var></li>
+    <li class="member">
+     La directiva de configuarción <a href="session.configuration.html#ini.session.auto-start" class="link">session.auto_start</a>
+    </li>
+    <li class="member"><span class="function"><a href="function.session-id.html" class="function" rel="rdfs-seeAlso">session_id()</a> - Obtener y/o establecer el id de sesi&oacute;n actual</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.session-set-save-handler.html">session_set_save_handler</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.session-status.html">session_status</a></div>
+ <div class="up"><a href="ref.session.html">Funciones de sesi&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

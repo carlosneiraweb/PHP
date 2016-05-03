@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Recupera informaci&oacute;n sobre los datos almacenados en la cach&eacute; del usuario</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.wincache-ucache-inc.html">wincache_ucache_inc</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.wincache-ucache-meminfo.html">wincache_ucache_meminfo</a></div>
+ <div class="up"><a href="ref.wincache.html">Funciones de WinCache</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.wincache-ucache-info" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">wincache_ucache_info</h1>
+  <p class="verinfo">(PECL wincache &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">wincache_ucache_info</span> &mdash; <span class="dc-title">
+   Recupera información sobre los datos almacenados en la caché del usuario
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.wincache-ucache-info-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>wincache_ucache_info</strong></span>
+    ([ <span class="methodparam"><span class="type">bool</span> <code class="parameter">$summaryonly</code><span class="initializer"> = false</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$key</code><span class="initializer"> = NULL</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Recupera información sobre los datos almacenados en la caché del usuario.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.wincache-ucache-info-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">summaryonly</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Controla si el array devuelto contiene información sobre las entradas de caché individuales 
+       junto con el resumen caché del usuario.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">key</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La clave de una entrada en la caché del usuario. Si se especifica a continuación, el array 
+       devuelto contendrá información sólo acerca de que la entrada de caché. Si no se especifica y 
+       <code class="parameter">summaryonly</code> es establecido a <strong><code>FALSE</code></strong> entonces el array devuelto contendrá 
+       información sobre todas las entradas en la caché.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.wincache-ucache-info-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Array de metadatos sobre caché de usuario  o <strong><code>FALSE</code></strong> en caso de error
+  </p>
+    <p class="para">
+   El array devuelto por esta función contiene los siguientes elementos:
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      <em>total_cache_uptime</em> - tiempo total en segundos que el caché de usuario ha sido activo
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <em>total_item_count</em> - número total de elementos que están actualmente en la caché del usuario
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <em>is_local_cache</em> - true si el caché es de metadatos para una instancia de caché local, 
+       false si los metadatos es para el la caché global
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <em>total_hit_count</em> - número de veces que los datos se han servido de la memoria caché
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <em>total_miss_count</em> - número de veces que los datos no se han encontrado en la caché
+     </span>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>ucache_entries</em> - un array que contiene la información sobre todos los elementos almacenados en caché:
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <span class="simpara">
+         <em>key_name</em> - nombre de la clave que se utiliza para almacenar los datos
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>value_type</em> - tipo de valor almacenado por la clave
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>use_time</em> - tiempo en segundos desde el fichero ha sido visitado en la caché de código de operación
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>last_check</em> - tiempo en segundos desde el fichero ha sido chequeado para modificaciones
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>is_session</em> - indica si los datos son una variable de sesión
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>ttl_seconds</em> - el tiempo restante de los datos a vivir en la memoria caché, 0 significa infinito
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>age_seconds</em> - tiempo transcurrido desde el momento que los datos han sido añadidos en la caché
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>hitcount</em> - número de veces que los datos se han servido de la memoria caché
+        </span>
+       </li>
+      </ul>
+     </p>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.wincache-ucache-info-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-661">
+    <p><strong>Ejemplo #1 Usar <span class="function"><strong>wincache_ucache_info()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />wincache_ucache_get</span><span style="color: #007700">(</span><span style="color: #DD0000">'green'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">wincache_ucache_set</span><span style="color: #007700">(</span><span style="color: #DD0000">'green'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2922</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">wincache_ucache_get</span><span style="color: #007700">(</span><span style="color: #DD0000">'green'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">wincache_ucache_get</span><span style="color: #007700">(</span><span style="color: #DD0000">'green'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">wincache_ucache_get</span><span style="color: #007700">(</span><span style="color: #DD0000">'green'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">wincache_ucache_info</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array 
+( [&quot;total_cache_uptime&quot;] =&gt; int(0)
+  [&quot;is_local_cache&quot;] =&gt; bool(false)
+  [&quot;total_item_count&quot;] =&gt; int(1) 
+  [&quot;total_hit_count&quot;] =&gt; int(3) 
+  [&quot;total_miss_count&quot;] =&gt; int(1) 
+  [&quot;ucache_entries&quot;] =&gt; Array(1) 
+    ( [1] =&gt; Array(6)
+      ( 
+        [&quot;key_name&quot;] =&gt; string(5) &quot;green&quot;
+        [&quot;value_type&quot;] =&gt; string(4) &quot;long&quot; 
+        [&quot;is_session&quot;] =&gt; int(0) 
+        [&quot;ttl_seconds&quot;] =&gt; int(0)
+        [&quot;age_seconds&quot;] =&gt; int(0)
+        [&quot;hitcount&quot;] =&gt; int(3) 
+       ) 
+    ) 
+)
+</pre></div>
+    </div>    
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.wincache-ucache-info-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.wincache-fcache-meminfo.html" class="function" rel="rdfs-seeAlso">wincache_fcache_meminfo()</a> - Recupera informaci&oacute;n sobre el uso de memoria cach&eacute; de ficheros</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-ocache-fileinfo.html" class="function" rel="rdfs-seeAlso">wincache_ocache_fileinfo()</a> - Retrieves information about files cached in the opcode cache</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-ocache-meminfo.html" class="function" rel="rdfs-seeAlso">wincache_ocache_meminfo()</a> - Retrieves information about opcode cache memory usage</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-rplist-meminfo.html" class="function" rel="rdfs-seeAlso">wincache_rplist_meminfo()</a> - Retrieves information about memory usage by the resolve file path cache</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-rplist-fileinfo.html" class="function" rel="rdfs-seeAlso">wincache_rplist_fileinfo()</a> - Retrieves information about resolve file path cache</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-refresh-if-changed.html" class="function" rel="rdfs-seeAlso">wincache_refresh_if_changed()</a> - Refreshes the cache entries for the cached files</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-ucache-meminfo.html" class="function" rel="rdfs-seeAlso">wincache_ucache_meminfo()</a> - Recupera informaci&oacute;n sobre el uso de memoria cach&eacute; de usuario</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-scache-info.html" class="function" rel="rdfs-seeAlso">wincache_scache_info()</a> - Retrieves information about files cached in the session cache</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-scache-meminfo.html" class="function" rel="rdfs-seeAlso">wincache_scache_meminfo()</a> - Recupera informaci&oacute;n sobre el uso de memoria cach&eacute; de sesi&oacute;n</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.wincache-ucache-inc.html">wincache_ucache_inc</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.wincache-ucache-meminfo.html">wincache_ucache_meminfo</a></div>
+ <div class="up"><a href="ref.wincache.html">Funciones de WinCache</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener un delegado para un servicio</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sca.createdataobject.html">SCA::createDataObject</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sca-localproxy.createdataobject.html">SCA_LocalProxy::createDataObject</a></div>
+ <div class="up"><a href="ref.sca.html">Funciones de SCA</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sca.getservice" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SCA::getService</h1>
+  <p class="verinfo">(PECL SDO &gt;= 0.5.0)</p><p class="refpurpose"><span class="refname">SCA::getService</span> &mdash; <span class="dc-title">
+   Obtener un delegado para un servicio
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-sca.getservice-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> 
+   <span class="methodname"><strong>SCA::getService</strong></span>
+    ( <span class="methodparam">
+    <span class="type">string</span>
+     <code class="parameter">$target</code>
+   </span>
+   [, <span class="methodparam">
+    <span class="type">string</span>
+     <code class="parameter">$binding</code>
+   </span>   
+   [, <span class="methodparam">
+    <span class="type">array</span>
+     <code class="parameter">$config</code>
+   </span>   
+  ]] )</div>
+
+  
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función ha sido declarada
+<em class="emphasis">EXPERIMENTAL</em>. Su funcionamiento, nombre y 
+la documentación que le acompaña puede cambiar sin previo aviso en futuras versiones de PHP.
+Utilícela bajo su propia responsabilidad.
+</p></div>
+  
+  <p class="para">Examina el objetivo e inicializa y devuelve un delegado del tipo
+   apropiado. Si el objetivo es para un componente de PHP local, el delegado devuelto será un
+   SCA_LocalProxy. Si el objeitov es para un fichero WSDL, el delegado devuelto será un
+   SCA_SoapProxy.</p>
+  
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-sca.getservice-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+
+      <code class="parameter">target</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">Una ruta absoluta o relativa al servicio objetivo o descripción de
+       servicio (p.ej. una URL a una descripción de un servicio json-rpc, un componente
+       de PHP , un fichero WSDL, etc.). Una ruta relativa, si se especifica, 
+       se resuelve relativa a la ubicación  del script que emite la llamada a
+       <span class="function"><strong>getService()</strong></span>, y no con include_path 
+       o el directorio actual de trabajo.</p>
+     </dd>
+
+   
+   
+    <dt>
+
+     <code class="parameter">binding</code>
+    </dt>
+
+    <dd>
+
+     <p class="para">La vinculación (esto es, el protocolo) a usar para comunicarse con el servicio
+      (p.ej. binding.jsonrpc para un servicio json-rpc). Observe que algunos tipos de servicios
+      se pueden deducir del parámetro target (p.ej. si el parámetro target 
+      finaliza con .wsdl, SCA asumirá binding.soap). Cualquier vinculación que
+      pueda ser especificada en una anotación se puede especificar aquí. Por ejemplo,
+      &#039;binding.soap&#039; es equivalente a la anotación &#039;@binding.soap&#039;.</p>
+    </dd>
+
+   
+   
+    <dt>
+
+     <code class="parameter">config</code>
+    </dt>
+
+    <dd>
+
+     <p class="para">Cualquier propiedad de configuración adiciones para la vinculación (p.ej.
+      array(&#039;location&#039; =&gt; &#039;http://example.org&#039;)). Cualquier configuración de vinculación
+      que pueda ser especificada en una anotación se puede especificar aquí. Por
+      ejemplo, &#039;location&#039; es equivalente a la anotación &#039;@location&#039; para 
+      configurar la ubicación de un servicio soap objetivo.</p>
+    </dd>
+
+   
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-sca.getservice-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El SCA_LocalProxy o SCA_SoapProxy.
+  </p>
+ </div>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <div class="refsect1 examples" id="refsect1-sca.getservice-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5886">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>SCA::getService()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo muestra cómo obtener un delegado para un servicio soap de email descrito
+     por <var class="filename">EmailService.wsdl</var> y ubicado en 
+     <var class="filename">http://example.org</var>.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">include&nbsp;</span><span style="color: #DD0000">'SCA/SCA.php'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$service&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">SCA</span><span style="color: #007700">::</span><span style="color: #0000BB">getService</span><span style="color: #007700">(</span><span style="color: #DD0000">'EmailService.wsdl'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'binding.soap'</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">'location'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'http://example.org'</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$service</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">send</span><span style="color: #007700">(...);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   </div>
+  </p>
+ </div>
+
+ 
+ 
+ 
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sca.createdataobject.html">SCA::createDataObject</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sca-localproxy.createdataobject.html">SCA_LocalProxy::createDataObject</a></div>
+ <div class="up"><a href="ref.sca.html">Funciones de SCA</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

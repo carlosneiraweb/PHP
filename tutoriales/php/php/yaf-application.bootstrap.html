@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Llamar al arranque</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="yaf-application.app.html">Yaf_Application::app</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="yaf-application.clearlasterror.html">Yaf_Application::clearLastError</a></div>
+ <div class="up"><a href="class.yaf-application.html">Yaf_Application</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="yaf-application.bootstrap" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Yaf_Application::bootstrap</h1>
+  <p class="verinfo">(Yaf &gt;=1.0.0)</p><p class="refpurpose"><span class="refname">Yaf_Application::bootstrap</span> &mdash; <span class="dc-title">Llamar al arranque</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-yaf-application.bootstrap-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>Yaf_Application::bootstrap</strong></span>
+    ([ <span class="methodparam"><span class="type"><a href="class.yaf-bootstrap-abstract.html" class="type Yaf_Bootstrap_Abstract">Yaf_Bootstrap_Abstract</a></span> <code class="parameter">$bootstrap</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Ejecuta un Arranque, todos los métodos definidos en el Arranque y prefijados con
+   &quot;_init&quot; serán llamados según su orden de declaración. Si no se proporciona el parámetro bootstrap, Yaf buscará
+   un Arranque en application.directory.
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-yaf-application.bootstrap-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">bootstrap</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Una instancia de la clase <a href="class.yaf-bootstrap-abstract.html" class="classname">Yaf_Bootstrap_Abstract</a>
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-yaf-application.bootstrap-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Una instancia de la clase <a href="class.yaf-application.html" class="classname">Yaf_Application</a>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-yaf-application.bootstrap-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-4661">
+   <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>A Bootstrap()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/**<br />&nbsp;*&nbsp;Este&nbsp;fichero&nbsp;debería&nbsp;estar&nbsp;en&nbsp;la&nbsp;ruta&nbsp;APPLICATION_PATH&nbsp;.&nbsp;"/application/"&nbsp;(la&nbsp;cual&nbsp;estaría&nbsp;definida&nbsp;en&nbsp;la&nbsp;configuración&nbsp;pasada&nbsp;a&nbsp;Yaf_Application),<br />&nbsp;*&nbsp;y&nbsp;llamarse&nbsp;Bootstrap.php,&nbsp;para&nbsp;que&nbsp;la&nbsp;instancia&nbsp;de&nbsp;Yaf_Application&nbsp;lo&nbsp;pueda&nbsp;encontrar<br />&nbsp;*/<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Bootstrap&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">Yaf_Bootstrap_Abstract&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">_initConfig</span><span style="color: #007700">(</span><span style="color: #0000BB">Yaf_Dispatcher&nbsp;$dispatcher</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Primera&nbsp;llamada\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">_initPlugin</span><span style="color: #007700">(</span><span style="color: #0000BB">$dispatcher</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Segunda&nbsp;llamada\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="example-4662">
+   <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>Yaf_Application::bootstrap()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />defined</span><span style="color: #007700">(</span><span style="color: #DD0000">'APPLICATION_PATH'</span><span style="color: #007700">)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;APPLICATION_PATH&nbsp;será&nbsp;usada&nbsp;en&nbsp;el&nbsp;fichero&nbsp;ini&nbsp;de&nbsp;configuración<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">||&nbsp;</span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">'APPLICATION_PATH'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">__DIR__</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//__DIR__&nbsp;fue&nbsp;introducido&nbsp;después&nbsp;de&nbsp;PHP&nbsp;5.3<br /><br /></span><span style="color: #0000BB">$application&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Yaf_Application</span><span style="color: #007700">(</span><span style="color: #0000BB">APPLICATION_PATH</span><span style="color: #007700">.</span><span style="color: #DD0000">'/conf/application.ini'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$application</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bootstrap</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Primera llamada
+Segunda llamada
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-yaf-application.bootstrap-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member"><a href="class.yaf-bootstrap-abstract.html" class="classname">Yaf_Bootstrap_Abstract</a></li>
+  </ul>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="yaf-application.app.html">Yaf_Application::app</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="yaf-application.clearlasterror.html">Yaf_Application::clearLastError</a></div>
+ <div class="up"><a href="class.yaf-application.html">Yaf_Application</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Informaci&oacute;n General</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intro.mysqlnd.html">Introducci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd.install.html">Instalaci&oacute;n</a></div>
+ <div class="up"><a href="book.mysqlnd.html">Mysqlnd</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd.overview" class="chapter">
+ <h1>Información General</h1>
+
+ <p class="para">
+  <em class="emphasis">Lo que no es</em>
+ </p>
+ <p class="para">
+  Aunque el Controlador Nativo de MySQL está escrito como una extensión de PHP, es
+  importanete observar que no proporciona una nueva API al programador
+  de PHP. Las APIs de programador para conectividad de bases de datos MySQL están
+  proporcionadas por las extensiones, <em>mysqli</em> y PDO
+  MYSQL. Estas extensiones ahora pueden utilizar servicios del Controlador Nativo de
+  MySQL para comunicarse con el Servidor MySQL. Por lo tanto, no se debería
+  pensar en el Controlador Nativo de MySQL como una API.
+ </p>
+ <p class="para">
+  <em class="emphasis">¿Por qué usarlo?</em>
+ </p>
+ <p class="para">
+  El uso del Controlador Nativo de MySQL ofrece varias ventajas sobre el uso
+  de la Biblioteca Cliente de MySQL.
+ </p>
+ <p class="para">
+  La antigua Biblioteca Cliente de MySQL fue escrita por MySQL AB (ahora Oracle 
+  Corporation) y por lo tanto fue liberada bajo la licencia de MySQL. Esto,
+  a la larga, condujo a que el soporte para MySQL fuera deshabilitado de forma predeterminada en PHP.
+  Sin embargo, el Controlador Nativo de MySQL ha sido desarrollado como parte del proyecto
+  de PHP, y, por lo tanto, es liberado bajo la licencia de PHP. Esto elimina
+  las cuestiones sobre licencias que han sido problemáticas en el pasado.
+ </p>
+ <p class="para">
+  También, en el pasado, se necesitaba construir las extensiones de bases de datos MySQL
+  con una copia de la Biblioteca Cliente de MySQL. Esto, normalmente, significaba que
+  se necesitaba tener instalado MySQL en una máquina donde se construyera
+  el código fuente de PHP. También, cuando una aplicación de PHP era ejecutada, las
+  extensiones de bases de datos de MySQL llamarían al fichero de la Biblioteca Cliente de
+  MySQL en tiempo de ejecución, por lo que el fichero era necesario instalarlo en el sistema.
+  Con el Controlador Nativo de MySQL ese ya no es el caso debido a que está incluido
+  como parte de la distribución estándar. Así, no se necesita tener instalado MySQL
+  para construir PHP o ejecutar aplicaciones de bases de datos de PHP.
+ </p>
+ <p class="para">
+  Ya que el Controlador Nativo de MySQL está escrito como una extensión de PHP, está
+  íntimamente asociado con el funcionamiento de PHP. Esto conduce a obtener ganancias en
+  eficiencia, especialmente en lo que se refiere al uso de memeria, ya que el controlador
+  utiliza el sistema de administración de memoria de PHP. También soporta el límite de memoria
+  de PHP. El uso del Controlador Nativo de PHP conduce a un rendimiento comparable o mejor
+  que el uso de la Biblioteca Cliente de MySQL; siempre se asegura del
+  uso de memoria más eficiente. Un ejemplo de la eficiencia de memoria es
+  el hecho de que cuando se usa la Biblioteca Cliente de MySQL, cada columna es almacenada
+  en memoria dos veces, mientras que con el Controlador Nativo de MySQL cada columna solamente se
+  almacena una vez en memoria.
+ </p>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <strong>Informe del uso de memoria</strong><br />
+  <p class="para">
+   Ya que el Controlador Nativo de MySQL utiliza el sistema de administración de memoria de PHP,
+   su uso de memoria se puede seguir con <span class="function"><a href="function.memory-get-usage.html" class="function">memory_get_usage()</a></span>.
+   Esto no es posible con libmysqlclient porque utiliza la función de C malloc()
+   en su lugar.
+  </p>
+ </p></blockquote>
+ <p class="para">
+  <em class="emphasis">Características especiales</em>
+ </p>
+ <p class="para">
+  El Controlador Nativo de MySQL también proporciona algunas características especiales no disponibles
+  cuando las extensiones de bases de datos de MySQL utilizan la Biblioteca Cliente de MySQL. Estas
+  características especiales están listadas abajo:
+ </p>
+ <ul class="itemizedlist">
+  <li class="listitem">
+   <p class="para">
+    Conexiones persistentes mejoradas
+   </p>
+  </li>
+  <li class="listitem">
+   <p class="para">
+    La función especial <span class="function"><a href="mysqli-result.fetch-all.html" class="function">mysqli_fetch_all()</a></span>
+   </p>
+  </li>
+  <li class="listitem">
+   <p class="para">
+    Llamadas para obtener estadísticas de rendimiento:
+    <span class="function"><a href="function.mysqli-get-cache-stats.html" class="function">mysqli_get_cache_stats()</a></span>,
+    <span class="function"><a href="mysqli.get-client-stats.html" class="function">mysqli_get_client_stats()</a></span>,
+    <span class="function"><a href="mysqli.get-connection-stats.html" class="function">mysqli_get_connection_stats()</a></span>
+   </p>
+  </li>
+ </ul>
+ <p class="para">
+  Se puede demostrar que la capacidad de obtener estadísticas de rendimiento es muy útil en
+  la identificación de cuellos de botella de rendimiento.
+ </p>
+ <p class="para">
+  El Controlador Nativo de MySQL también permite conexiones persistentes cuando se
+  usa junto con la extensión <em>mysqli</em>.
+ </p>
+ <p class="para">
+  <em class="emphasis">Soporte para SSL</em>
+ </p>
+ <p class="para">
+  El Controlador Nativo de MySQL tiene soporte para SSL desde la versión 5.3.3 de PHP. 
+ </p>
+ <p class="para">
+  <em class="emphasis">Soporte para el Protocolo de Compresión</em>
+ </p>
+ <p class="para">
+  A partir de PHP 5.3.2, el Controlador Nativo de MySQL soporta el protocolo de compresión
+  cliente-servidor. El Controlador Nativo de MySQL no lo soportaba en 5.3.0 y
+  5.3.1. Las extensiones como <em>ext/mysql</em>,
+  <em>ext/mysqli</em>, que están configuradas para usar el Controlador Nativo de MySQL,
+  también puede tomar ventaja de esta característica. Observe que <em>PDO_MYSQL</em> 
+  <em class="emphasis">NO</em> soporta compresión al usarla junto con mysqlnd.
+ </p>
+ <p class="para">
+  <em class="emphasis">Soporte para Tuberías con Nombre</em>
+ </p>
+ <p class="para">
+  El soporte para las tuberías con nombre para Windows fue añadido en la versión 5.4.0 de PHP.
+ </p>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intro.mysqlnd.html">Introducci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd.install.html">Instalaci&oacute;n</a></div>
+ <div class="up"><a href="book.mysqlnd.html">Mysqlnd</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

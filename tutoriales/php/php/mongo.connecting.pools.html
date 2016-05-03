@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Agrupaci&oacute;n de conexiones (versi&oacute;n 1.2.0-1.2.12 *solamente*)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.connecting.persistent.html">Conexiones persistentes (versi&oacute;n 1.3.0+)</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.connecting.persistent.manual.html">Connexiones persistentes manuales (versiones hasta 1.1.4 *solamente*</a></div>
+ <div class="up"><a href="mongo.connecting.html">Conexi&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongo.connecting.pools" class="section">
+  <h2 class="title">Agrupación de conexiones (versión 1.2.0-1.2.12 *solamente*)</h2>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Esta sección ya no tiene relevancia a partir de la versión 1.3.0 del controlador
+    y únicamente sirve como información histórica de cómo solía funcionar la
+    agrupación.
+   </p>
+   <p class="para">
+    Las últimas versiones del controlador ya no posee el concepto de agrupación, por lo que
+    solamente mantendrá una conexión por proceso, para cada tipo de conexión
+    (ReplicaSet/standalone/mongos), para cada combinación de credenciales.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   La creación de conexiones es uno de las cosas más pesada que el driver 
+   realiza. Puede tomar miles de milisegundos establecer una conexión correcta,
+   incluso en una red rápida.  Por lo tanto, el driver intentará reducir el número de nuevas
+   conexiones creadas mediante la reutilización del pool de conexiones.
+  </p>
+  <p class="para">
+   Cuando un usuario crea una nueva instancia de <a href="class.mongoclient.html" class="classname">MongoClient</a>, todas
+   las conexiones necesarias serán tomadas por el pool (un conjunto de replicas de conexiones 
+   pueden requerir conexiones múltiples). Cuando la instancia de
+   <a href="class.mongoclient.html" class="classname">MongoClient</a> se sale del ámbito, las conexiones se
+   retornarán al pool.  Cuando el proceso en PHP termine, todas las conexiones en el
+   pools serán cerrados.
+  </p>
+  <div class="section">
+   <h2 class="title">&quot;¿Por qué tengo tantas conexiones abiertas?&quot;</h2>
+   <p class="para">
+    Las conexiones en el pool pueden generar un gran número de estas. Esto es
+    normal y, con un poco de aritmética, es posible averiguar la cantidad de conexiones
+    que se crearán.  Hay tres factores que determinan el número total de
+    conexiones:
+   </p>
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      <em>
+       connections_per_pool
+      </em>
+     </p>
+     <p class="para">
+      Cada pool creará, por omisión, un número ilimitado de
+      conexiones. Uno puede suponer que este es un problema: si puede crear un
+      número ilimitado de conexiones, no se podría crear miles y el
+      servidor se quedaría sin descriptores de ficheros. En la práctica, es poco probable,
+      ya que las conexiones no utilizadas son devueltas al pool para usarlos luego, Así las futuras
+      conexiones van a utilizar la misma conexión en lugar de crear uno nuevo.
+      A menos que cree miles de conexiones a la vez sin que ninguna este 
+      fuera del ámbito, el número de conexiones abiertas deben permanecer en un 
+      número razonable.
+     </p>
+     <p class="para">
+      Puede verse cuantas conexiones se tiene en el pool utilizando la función
+      <span class="function"><a href="mongopool.info.html" class="function">MongoPool::info()</a></span>.  Agregue los campos &quot;in use&quot; y
+      &quot;in pool&quot; de un servidor determinado.  Ese será el número total de
+      conexiones de ese pool.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>
+       pools_per_process
+      </em>
+     </p>
+     <p class="para">
+      Cada dirección del servidor MongoDB al cual se va a conectar contiene su propio
+      pool de conexiones.  Por ejemplo, si el hostname local es &quot;example.net&quot;, connectarse
+      a &quot;example.net:27017&quot;, &quot;localhost:27017&quot;, y &quot;/tmp/mongodb-27017.sock&quot;
+      creará tres grupos pools de conexiones.  Puede ver como muchos grupos pools de conexiones
+      tienes abiertas usando <span class="function"><a href="mongopool.info.html" class="function">MongoPool::info()</a></span>.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>
+       processes
+      </em>
+     </p>
+     <p class="para">
+      Cada proceso PHP tiene un conjunto independiente de pools.  PHP-FPM y Apache
+      generalmente crean entre 6 y un par de docenas de PHP worker children. Compruebe
+      su configuración y vea cuál es el máximo número de procesos de PHP que se pueden
+      procesar.
+     </p>
+     <p class="para">
+      Si está usando PHP-FPM, la estimación del número de conexiones puede ser 
+      difícil porque este puede procesar más workers de PHP-FPM y así volver pesado la carga. Para estar
+      en lado de la seguro, mire en parámetro <em>max_children</em> o sume
+      <em>spare_servers</em> + <em>start_servers</em>
+      (elegir el número más alto). Esto indicará cuántos procesos de PHP
+      (es decir, conjuntos de agrpuaciones) se deberían planificar.
+     </p>
+    </li>
+   </ul>
+   <p class="para">
+    Las tres variables de arriba se pueen multiplicar juntas para obtener el número
+    máximo de conexiones esperadas:
+    <em>connections_per_pool</em> *
+    <em>pools_per_process</em> *
+    <em>processes</em>. Observe que
+    <em>connections_per_pool</em> puede ser diferente para diferentes
+    agrupaciones, por lo que <em>connections_per_pool</em> debería ser el máximo.
+   </p>
+   <p class="para">
+    Por ejemplo, supongamos que se recibe 30 conexiones por pool, 10 pools por
+    procesos en PHP, y 128 procesos PHP.  Entonces podemos esperar 38400 conexiones desde
+    esta máquina.  Por lo tanto, debemos establecer el límite del descriptor del fichero para
+    ser lo suficientemente alto para manejar todas las conexiones o pueda ejecutarse los ficheros
+    de descriptores.
+   </p>
+   <p class="para">
+    See <a href="class.mongopool.html" class="classname">MongoPool</a> para obtener más información sobre la conexión
+    pooling.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.connecting.persistent.html">Conexiones persistentes (versi&oacute;n 1.3.0+)</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.connecting.persistent.manual.html">Connexiones persistentes manuales (versiones hasta 1.1.4 *solamente*</a></div>
+ <div class="up"><a href="mongo.connecting.html">Conexi&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

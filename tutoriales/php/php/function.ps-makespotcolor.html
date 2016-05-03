@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Crear un color directo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-lineto.html">ps_lineto</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-moveto.html">ps_moveto</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ps-makespotcolor" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ps_makespotcolor</h1>
+  <p class="verinfo">(PECL ps &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">ps_makespotcolor</span> &mdash; <span class="dc-title">Crear un color directo</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ps-makespotcolor-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>ps_makespotcolor</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$psdoc</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$name</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$reserved</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Crea un color directo desde el color de relleno actual. El color de relleno debe ser
+   definido en los espacios de color RGB, CMYK o gris. El nombre del color directo puede ser un
+   nombre arbitrario. Un color directo se puece establecer como cualquier otro color
+   con la función <span class="function"><a href="function.ps-setcolor.html" class="function">ps_setcolor()</a></span>. Cuando el documento no se imprime,
+   sino que se muestra con un visualizador de postscript, se utiliza el color dado en el espacio
+   de color especificado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ps-makespotcolor-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">psdoc</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de recursos del fichero postscript,
+       como el devuelto por la función <span class="function"><a href="function.ps-new.html" class="function">ps_new()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del color directo, p.ej. Pantone 5565.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ps-makespotcolor-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El ID del nuevo color directo o 0 en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ps-makespotcolor-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4081">
+    <p><strong>Ejemplo #1 Crear y utilizar un color directo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$ps&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ps_new</span><span style="color: #007700">();<br />if&nbsp;(!</span><span style="color: #0000BB">ps_open_file</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"color_directo.ps"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"No&nbsp;se&nbsp;puede&nbsp;abrir&nbsp;el&nbsp;fichero&nbsp;PostScript\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;exit;<br />}<br /><br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Creator"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"color_directo.php"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Author"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Uwe&nbsp;Steinmann"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Title"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Ejemplo&nbsp;de&nbsp;color&nbsp;directo"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">ps_begin_page</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">596</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">842</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_setcolor</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"fill"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"cmyk"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.37</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.34</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.34</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$color_directo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ps_makespotcolor</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"PANTONE&nbsp;5565&nbsp;C"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_setcolor</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"fill"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"spot"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$color_directo</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.5</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_moveto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_lineto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_lineto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_lineto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_lineto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_fill</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_end_page</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">ps_delete</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>
+     Este ejemplo crea el color directo &quot;PANTONE 5565 C&quot; que
+     es un verde oscuro (oliva) y rellena un rectángulo con el 50% de intensidad.
+    </p></div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ps-makespotcolor-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ps-setcolor.html" class="function" rel="rdfs-seeAlso">ps_setcolor()</a> - Establecer el color actual</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-lineto.html">ps_lineto</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-moveto.html">ps_moveto</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener todos los valores de una entrada de resultados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ldap-get-values-len.html">ldap_get_values_len</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ldap-list.html">ldap_list</a></div>
+ <div class="up"><a href="ref.ldap.html">LDAP Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ldap-get-values" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ldap_get_values</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">ldap_get_values</span> &mdash; <span class="dc-title">Obtener todos los valores de una entrada de resultados</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ldap-get-values-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>ldap_get_values</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code></span>
+   , <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result_entry_identifier</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$attribute</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Lee todos los valores del atributo en la entrada en el resultado.
+  </p>
+  <p class="para">
+   Esta llamada necesita un <code class="parameter">result_entry_identifier</code>,
+   tal que sea precedido por una de las llamadas de búsqueda de ldap y una
+   de las llamadas para obtener una entrada individual.
+  </p>
+  <p class="para">
+   Su solicitud será fuertemente codificada para buscar ciertos
+   atributos (tales como &quot;apellido&quot; o &quot;correo&quot;), o tendrá que utilizar
+   la llamada <span class="function"><a href="function.ldap-get-attributes.html" class="function">ldap_get_attributes()</a></span> para resolver
+   qué atributos existen para una entrada dada.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.ldap-get-values-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">link_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un identificador de enlace de LDAP, devuelto por <span class="function"><a href="function.ldap-connect.html" class="function">ldap_connect()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">result_entry_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">attribute</code></dt>
+
+     <dd>
+
+      <p class="para">
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.ldap-get-values-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un arreglo de valores para el atributo en caso de éxito y <strong><code>FALSE</code></strong> en
+   caso de error. El número de valores puede ser hallado indexando &quot;count&quot; en el
+   arreglo resultante. Los valores individuales son accedidos por un índice entero en el
+   arreglo. El índice primero es 0.
+  </p>
+  <p class="para">
+   LDAP permite más de una entrada para un atributo, así que puede, por ejemplo,
+   almacenar un número de direcciones para la entrada de directorio de una persona
+   etiquetado con el atributo &quot;correo&quot;
+   <div class="informalexample">
+    <pre class="literallayout">
+    return_value[&quot;count&quot;] = Número de valores para el atributo
+    return_value[0] = Primer valor del atributo
+    return_value[i] = i-ésimo valor del atributo
+    </pre>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.ldap-get-values-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4904">
+    <p><strong>Ejemplo #1 Listar todos los valores del atributo &quot;correo&quot; para una
+     entrada de directorio </strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;$ds&nbsp;es&nbsp;un&nbsp;identificador&nbsp;de&nbsp;enlace&nbsp;válido&nbsp;para&nbsp;un&nbsp;servidor&nbsp;de&nbsp;directorio<br /><br />//&nbsp;$sr&nbsp;es&nbsp;un&nbsp;resultado&nbsp;de&nbsp;búsqueda&nbsp;válido&nbsp;de&nbsp;una&nbsp;llamada&nbsp;previa&nbsp;a<br />//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;una&nbsp;de&nbsp;las&nbsp;llamadas&nbsp;de&nbsp;búsqueda&nbsp;de&nbsp;directorio&nbsp;ldap<br /><br />//&nbsp;$entry&nbsp;es&nbsp;un&nbsp;identificador&nbsp;de&nbsp;entrada&nbsp;válido&nbsp;de&nbsp;una&nbsp;llavada&nbsp;previa&nbsp;a<br />//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;una&nbsp;de&nbsp;las&nbsp;llamadas&nbsp;que&nbsp;devuelve&nbsp;una&nbsp;entrada&nbsp;de&nbsp;directorio<br /><br /></span><span style="color: #0000BB">$values&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ldap_get_values</span><span style="color: #007700">(</span><span style="color: #0000BB">$ds</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$entry</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"correo"</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #0000BB">$values</span><span style="color: #007700">[</span><span style="color: #DD0000">"count"</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"&nbsp;direcciones&nbsp;de&nbsp;correo&nbsp;para&nbsp;esta&nbsp;entrada.&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br /><br />for&nbsp;(</span><span style="color: #0000BB">$i</span><span style="color: #007700">=</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">$values</span><span style="color: #007700">[</span><span style="color: #DD0000">"count"</span><span style="color: #007700">];&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$values</span><span style="color: #007700">[</span><span style="color: #0000BB">$i</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.ldap-get-values-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ldap-get-values-len.html" class="function" rel="rdfs-seeAlso">ldap_get_values_len()</a> - Obtener todos los valores binarios desde una entrada de resultados</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ldap-get-values-len.html">ldap_get_values_len</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ldap-list.html">ldap_list</a></div>
+ <div class="up"><a href="ref.ldap.html">LDAP Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

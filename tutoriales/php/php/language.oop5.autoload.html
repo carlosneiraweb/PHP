@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Autocarga de clases</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.constants.html">Constantes de clases</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.decon.html">Constructores y destructores</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.oop5.autoload" class="sect1">
+ <h2 class="title">Autocarga de clases</h2>
+ <p class="para">
+  Muchos desarrolladores que escriben aplicaciones orientadas a objetos
+  crean un fichero fuente de PHP para cada definición de clase. Una de las
+  mayores molestias es tener que hacer una larga lista de inclusiones
+  al comienzo de cada script (uno por cada clase).
+ </p>
+ <p class="para">
+  En PHP, 5 esto ya no es necesario. La
+  función <span class="function"><a href="function.spl-autoload-register.html" class="function">spl_autoload_register()</a></span> registra cualquier número de
+  autocargadores, posibilitando que las clases e interfaces sean cargadas automáticamente
+  si no están definidas actualmente. Al registrar autocargadores, a PHP se le da
+  una última oportunidad de cargar las clases o interfaces antes de que falle por un error.
+ </p>
+ <div class="tip"><strong class="tip">Sugerencia</strong>
+  <p class="para">
+   Pese a que la función <span class="function"><a href="function.autoload.html" class="function">__autoload()</a></span> también puede ser empleada para
+   autocargar clases e interfaces, es preferible utilizar la
+   función <span class="function"><a href="function.spl-autoload-register.html" class="function">spl_autoload_register()</a></span>. Esto es debido a que es
+   una alternativa más flexibe (posibilitando que se pueda especificar cualquier número
+   de autocargadores en la aplicación, tales como los de las bibliotecas de terceros). Por esta
+   razón, se desaconseja el uso de <span class="function"><a href="function.autoload.html" class="function">__autoload()</a></span>, ya que podría estar
+   obsoleta en el futuro.
+  </p>
+ </div>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   Antes de 5.3.0, las excepciones lanzadas en la función
+   <span class="function"><a href="function.autoload.html" class="function">__autoload()</a></span> no podían ser capturadas en el
+   bloque <a href="language.exceptions.html" class="link">catch</a>, resultando en
+   un error fatal. Desde 5.3 en adelante, esto es posible simpre que, si
+   se lanza una excepción personalizada, esté disponible la clase de la excepción personalizada.
+   La función <span class="function"><a href="function.autoload.html" class="function">__autoload()</a></span> podría utilizarse recursivamente para
+   cargar la clase de excepción personalizada.
+  </p>
+ </p></blockquote>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   La autocarga no está disponible si se utiliza PHP en el
+   <a href="features.commandline.html" class="link">modo interactivo</a> CLI.
+  </p>
+ </p></blockquote>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   Si el nombre de la clase se utiliza, por ejemplo, en <span class="function"><a href="function.call-user-func.html" class="function">call_user_func()</a></span>,
+   este puede contener algunos caracteres peligrosos tales como <em>../</em>.
+   Se recomienda no utilizar la entrada del usuario en tales funciones, o al menos
+   verificar dicha entrada en <span class="function"><a href="function.autoload.html" class="function">__autoload()</a></span>.
+  </p>
+ </p></blockquote>
+ <p class="para">
+  <div class="example" id="example-212">
+   <p><strong>Ejemplo #1 Ejemplo de autocarga</strong></p>
+   <div class="example-contents"><p>
+    Este ejemplo intenta cargar las clases <em>MiClase1</em>
+    y <em>MiClase2</em> desde los ficheros <var class="filename">MiClase1.php</var>
+    y <var class="filename">MiClase2.php</var>, respectivamente.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />spl_autoload_register</span><span style="color: #007700">(function&nbsp;(</span><span style="color: #0000BB">$nombre_clase</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;</span><span style="color: #0000BB">$nombre_clase&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">'.php'</span><span style="color: #007700">;<br />});<br /><br /></span><span style="color: #0000BB">$obj&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MiClase1</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$obj2&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MiClase2</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="example-213">
+   <p><strong>Ejemplo #2 Otro ejemplo de autocarga</strong></p>
+   <div class="example-contents"><p>
+    Este ejemplo intenta cargar la interfaz <em>IPrueba</em>.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />spl_autoload_register</span><span style="color: #007700">(function&nbsp;(</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">);<br />});<br /><br />class&nbsp;</span><span style="color: #0000BB">Foo&nbsp;</span><span style="color: #007700">implements&nbsp;</span><span style="color: #0000BB">IPrueba&nbsp;</span><span style="color: #007700">{<br />}<br /><br /></span><span style="color: #FF8000">/*<br />string(7)&nbsp;"IPrueba"<br /><br />Fatal&nbsp;error:&nbsp;Interface&nbsp;'IPrueba'&nbsp;not&nbsp;found&nbsp;in&nbsp;...<br />*/<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="example-214">
+   <p><strong>Ejemplo #3 Autocarga con manejo de excepciones para 5.3.0+</strong></p>
+   <div class="example-contents"><p>
+    Este ejemplo lanza una excepción y demuestra los bloques try/catch.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />spl_autoload_register</span><span style="color: #007700">(function&nbsp;(</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Intentando&nbsp;cargar&nbsp;</span><span style="color: #0000BB">$nombre</span><span style="color: #DD0000">.\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;new&nbsp;</span><span style="color: #0000BB">Exception</span><span style="color: #007700">(</span><span style="color: #DD0000">"Imposible&nbsp;cargar&nbsp;</span><span style="color: #0000BB">$nombre</span><span style="color: #DD0000">."</span><span style="color: #007700">);<br />});<br /><br />try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">ClaseNoCargable</span><span style="color: #007700">();<br />}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">Exception&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getMessage</span><span style="color: #007700">(),&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Intentando cargar ClaseNoCargable.
+Imposible cargar ClaseNoCargable.
+</pre></div>
+   </div>
+  </div>
+  <div class="example" id="example-215">
+   <p><strong>Ejemplo #4 Autocarga con manejo de excepciones para 5.3.0+: Excepción personalizada ausente</strong></p>
+   <div class="example-contents"><p>
+    Este ejemplo lanza una excepción para una excepción personalizada no cargable.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />spl_autoload_register</span><span style="color: #007700">(function&nbsp;(</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Intentando&nbsp;cargar&nbsp;</span><span style="color: #0000BB">$nombre</span><span style="color: #DD0000">.\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;new&nbsp;</span><span style="color: #0000BB">ExcepciónAusente</span><span style="color: #007700">(</span><span style="color: #DD0000">"Imposible&nbsp;cargar&nbsp;</span><span style="color: #0000BB">$nombre</span><span style="color: #DD0000">."</span><span style="color: #007700">);<br />});<br /><br />try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">ClaseNoCargable</span><span style="color: #007700">();<br />}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">Exception&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getMessage</span><span style="color: #007700">(),&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Intentando cargar ClaseNoCargable.
+Intentando cargar ExcepciónAusente.
+
+Fatal error: Class &#039;ExcepciónAusente&#039; not found in testExcepcionAusente.php on line 4
+</pre></div>
+   </div>
+  </div>
+ </p>
+ 
+ <div class="simplesect">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.unserialize.html" class="function">unserialize()</a></span></li>
+    <li class="member"><a href="var.configuration.html#unserialize-callback-func" class="link">unserialize_callback_func</a></li>
+    <li class="member"><span class="function"><a href="function.spl-autoload-register.html" class="function">spl_autoload_register()</a></span></li>
+     <li class="member"><span class="function"><a href="function.spl-autoload.html" class="function">spl_autoload()</a></span></li>
+     <li class="member"><span class="function"><a href="function.autoload.html" class="function">__autoload()</a></span></li>
+   </ul>
+  </p>
+ </div>
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.constants.html">Constantes de clases</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.decon.html">Constructores y destructores</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Calcula el polinomio crc32 de una cadena</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.count-chars.html">count_chars</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.crypt.html">crypt</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.crc32" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">crc32</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.1, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">crc32</span> &mdash; <span class="dc-title">Calcula el polinomio crc32 de una cadena</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.crc32-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>crc32</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$str</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Genera el polinomio de comprobación de redundancia cíclica de 32 bits
+   de longitud de <code class="parameter">str</code>. Este valor se usa por lo general
+   para validar la integridad de los datos transmitidos.
+  </p>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="simpara">
+    Dado que el tipo integer de PHP es con signo, muchas comprobaciones de suma de crc32
+    resultarán en números enteros negativos en plataformas de 32 bits. Aunque en instalaciones
+    de 64 bits, todos los resultados de <span class="function"><strong>crc32()</strong></span> serán enteros positivos.
+   </p>
+   <p class="simpara">
+    Por lo tanto, es necesario usar el formateador &quot;%u&quot; de <span class="function"><a href="function.sprintf.html" class="function">sprintf()</a></span> o
+    <span class="function"><a href="function.printf.html" class="function">printf()</a></span> para obtener la representación de cadena de la comprobación
+    de suma de <span class="function"><strong>crc32()</strong></span> sin signo en formato decimal.
+   </p>
+   <p class="simpara">
+    Para una representación hexadecimal de la comprobación de suma se puede usar el
+    formateador &quot;%x&quot; de <span class="function"><a href="function.sprintf.html" class="function">sprintf()</a></span> o <span class="function"><a href="function.printf.html" class="function">printf()</a></span> ,
+    o las funciones de conversión de <span class="function"><a href="function.dechex.html" class="function">dechex()</a></span>, en donde se ha de tener
+    cuidado en ambos casos de convertir el resultado de <span class="function"><strong>crc32()</strong></span> a
+    un entero sin signo.
+   </p>
+   <p class="simpara">
+    Las instalaciones de 64 bits también devuelven enteros negativos para resultados de
+    valores mayores que los considerados, aunque rompería la conversión a hexadecimal
+    ya que los valores negativos tendrían un índice 0xFFFFFFFF######## extra. Ya que
+    las representaciones hexadecimales parecen ser el caso de uso más común,
+    hemos decidido no deshacernos de ellas incluso si rompe la comparación decimal directa
+    en alrededor del 59% de los casos donde se convierten de 32 a 64 bits.
+   </p>
+   <p class="simpara">
+    Mirando atrás, el tener una función que devolvía un entero quizás no era la
+    mejor idea y el devolver una representación de cadena hexadecimal de inmediato (como
+    lo hace, p.ej., <span class="function"><a href="function.md5.html" class="function">md5()</a></span>) podría haber sido un plan mejor con el
+    que comenzar.
+   </p>
+   <p class="simpara">
+    Para una solución más portable se podría considerar también el
+    <span class="function"><a href="function.hash.html" class="function">hash()</a></span> genérico. <code class="code">hash(&quot;crc32b&quot;, $str)</code> 
+    devolverá la misma cadena que <code class="code">str_pad(dechex(crc32($str)), 8, &#039;0&#039;, STR_PAD_LEFT)</code>.
+   </p>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.crc32-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">str</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los datos.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.crc32-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la suma de verificación CRC32 de <code class="parameter">str</code> como un integer.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.crc32-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5377">
+    <p><strong>Ejemplo #1 Mostrar una suma de verificación crc32</strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo muestro cómo imprimir una suma de verificación convertida
+     con la función <span class="function"><a href="function.printf.html" class="function">printf()</a></span>:
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$suma&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">crc32</span><span style="color: #007700">(</span><span style="color: #DD0000">"El&nbsp;veloz&nbsp;murcielago&nbsp;hindu&nbsp;comia&nbsp;feliz&nbsp;cardillo&nbsp;y&nbsp;kiwi."</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%u\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$suma</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.crc32-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.hash.html" class="function" rel="rdfs-seeAlso">hash()</a> - Genera un valor cifrado con base a un string</span></li>
+    <li class="member"><span class="function"><a href="function.md5.html" class="function" rel="rdfs-seeAlso">md5()</a> - Calcula el hash md5 de un string</span></li>
+    <li class="member"><span class="function"><a href="function.sha1.html" class="function" rel="rdfs-seeAlso">sha1()</a> - Calcula el hash sha1 de un string</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.count-chars.html">count_chars</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.crypt.html">crypt</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

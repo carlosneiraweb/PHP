@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Tutorial</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.manual.html">Manual</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.tutorial.connecting.html">Estableciendo una Conexi&oacute;n</a></div>
+ <div class="up"><a href="mongo.manual.html">Manual</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongo.tutorial" class="chapter">
+ <h1>Tutorial</h1>
+<h2>Tabla de contenidos</h2><ul class="chunklist chunklist_chapter"><li><a href="mongo.tutorial.connecting.html">Estableciendo una Conexi&oacute;n</a></li><li><a href="mongo.tutorial.selectdb.html">Obteniendo una Base de Datos</a></li><li><a href="mongo.tutorial.collection.html">Obteniendo Una Colecci&oacute;n</a></li><li><a href="mongo.tutorial.insert.html">Insertando un Documento</a></li><li><a href="mongo.tutorial.findone.html">Localizando documentos usando MongoCollection::findOne</a></li><li><a href="mongo.tutorial.insert.multiple.html">A&ntilde;adiendo M&uacute;ltiples Documentos</a></li><li><a href="mongo.tutorial.counting.html">Contando los Documentos de una Colecci&oacute;n</a></li><li><a href="mongo.tutorial.cursor.html">Usando un Cursor para Obtener Todo de los Documentos</a></li><li><a href="mongo.tutorial.criteria.html">Estableciendo el Criterio de la Consulta</a></li><li><a href="mongo.tutorial.multi.query.html">Consultando un Conjunto de Documentos con una Consulta</a></li><li><a href="mongo.tutorial.indexes.html">Creando un &Iacute;ndice</a></li></ul>
+
+ <div class="warning"><strong class="warning">Advertencia</strong>
+  <p class="para">Esta extensión está obsoleta. Debe
+usarse en su lugar la extensión
+<a href="set.mongodb.html" class="link">MongoDB</a>.</p>
+ </div>
+ <p class="para">
+  Este es el controlador oficial de MongoDB para PHP.
+ </p>
+ <p class="para">Lo siguiente es una muestra de código que conecta, inserta documentos, consulta a
+  documentos, itera sobre resultados de consultas, y desconecta de MongoDB.
+  Hay más detalles de cada paso del tutorial más abajo.
+ </p>
+ <div class="example" id="mongo.tutorial.basics">
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;conectar<br /></span><span style="color: #0000BB">$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;seleccionar&nbsp;una&nbsp;base&nbsp;de&nbsp;datos<br /></span><span style="color: #0000BB">$bd&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">comedy</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;seleccionar&nbsp;una&nbsp;colección&nbsp;(equivalente&nbsp;a&nbsp;una&nbsp;tabla&nbsp;en&nbsp;una&nbsp;base&nbsp;de&nbsp;datos&nbsp;relacional)<br /></span><span style="color: #0000BB">$colección&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">cartoons</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;añadir&nbsp;un&nbsp;registro<br /></span><span style="color: #0000BB">$documento&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">"title"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"Calvin&nbsp;and&nbsp;Hobbes"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"author"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"Bill&nbsp;Watterson"&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$documento</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;añadir&nbsp;un&nbsp;nuevo&nbsp;registro,&nbsp;con&nbsp;un&nbsp;distinto&nbsp;"perfil"<br /></span><span style="color: #0000BB">$documento&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">"title"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"XKCD"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"online"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">true&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$documento</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;encontrar&nbsp;todo&nbsp;lo&nbsp;que&nbsp;haya&nbsp;en&nbsp;la&nbsp;colección<br /></span><span style="color: #0000BB">$cursor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;recorrer&nbsp;el&nbsp;resultado<br /></span><span style="color: #007700">foreach&nbsp;(</span><span style="color: #0000BB">$cursor&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$documento</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$documento</span><span style="color: #007700">[</span><span style="color: #DD0000">"title"</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+  <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+  <div class="example-contents screen">
+<div class="cdata"><pre>
+Calvin and Hobbes
+XKCD
+</pre></div>
+  </div>
+ </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.manual.html">Manual</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.tutorial.connecting.html">Estableciendo una Conexi&oacute;n</a></div>
+ <div class="up"><a href="mongo.manual.html">Manual</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

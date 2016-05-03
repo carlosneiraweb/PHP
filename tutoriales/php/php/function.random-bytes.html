@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Genera bytes seudoaleatorios criptogr&aacute;ficamente seguros</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.csprng.html">Funciones de CSPRNG</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.random-int.html">random_int</a></div>
+ <div class="up"><a href="ref.csprng.html">Funciones de CSPRNG</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.random-bytes" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">random_bytes</h1>
+  <p class="verinfo">(PHP 7)</p><p class="refpurpose"><span class="refname">random_bytes</span> &mdash; <span class="dc-title">Genera bytes seudoaleatorios criptográficamente seguros</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.random-bytes-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>random_bytes</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$length</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Genera una cadena de longitud arbitraria de bytes aleatorios criptográficos
+   aptos para usos criptográficos, como la generación de sales, claves o
+   inicialización de vectores.
+  </p>
+  
+<p class="para">
+ Las fuentes de aleatoriedad empleadas por esta función son las siguientes:
+</p>
+<ul class="itemizedlist">
+ <li class="listitem">
+  <span class="simpara">
+   En Windows,
+   se utilizará siempre
+   <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa379942(v=vs.85).aspx" class="link external">&raquo;&nbsp;<span class="function"><strong>CryptGenRandom()</strong></span></a>.
+  </span>
+ </li>
+ <li class="listitem">
+  <span class="simpara">
+   En Linux, se utilizará la llamada al sistema
+   <a href="http://man7.org/linux/man-pages/man2/getrandom.2.html" class="link external">&raquo;&nbsp;getrandom(2)</a>
+   si está disponible.
+  </span>
+ </li>
+ <li class="listitem">
+  <span class="simpara">
+   En otras plataformas, se utilizará <var class="filename">/dev/urandom</var>.
+  </span>
+ </li>
+ <li class="listitem">
+  <span class="simpara">
+   Si no están disponibles ninguna de las fuentes citadas anteriormente, se
+   lanzará una <a href="class.exception.html" class="classname">Exception</a>.
+  </span>
+ </li>
+</ul>
+
+  
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <span class="simpara">
+   Aunque esta función se añadió a PHP en PHP 7.0, hay disponible una
+   <a href="https://github.com/paragonie/random_compat" class="link external">&raquo;&nbsp;implementación de espacio de usuario</a>
+   para PHP 5.2 hasta 5.6, inclusive.
+  </span>
+ </p></blockquote>
+
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.random-bytes-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">length</code></dt>
+
+    <dd>
+
+     <p class="para">
+      La longitud de la cadena aleatoria que debería ser devuelta en bytes.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.random-bytes-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un string que contiene el número solicitado de bytes aleatorios
+   criptográficamente seguros.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.random-bytes-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <ul class="itemizedlist">
+   
+<li class="listitem">
+ <span class="simpara">
+  Si no se puede encontrar una fuente de aleatoriedad apropiada,
+  se lanzará una <a href="class.exception.html" class="classname">Exception</a>.
+ </span>
+</li>
+<li class="listitem">
+ <span class="simpara">
+  Si se proporcionan parámetros inválidos, se lanzará
+  un <a href="class.typeerror.html" class="classname">TypeError</a>.
+ </span>
+</li>
+
+   <li class="listitem">
+    <span class="simpara">
+     Si se proporciona un número de bytes para <code class="parameter">length</code> inválidos, se
+     lanzará un <a href="class.error.html" class="classname">Error</a>.
+    </span>
+   </li>
+  </ul>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.random-bytes-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="random-bytes.example.basic">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>random_bytes()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$bytes&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">random_bytes</span><span style="color: #007700">(</span><span style="color: #0000BB">5</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">bin2hex</span><span style="color: #007700">(</span><span style="color: #0000BB">$bytes</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+string(10) &quot;385e33f741&quot;
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.random-bytes-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member"><span class="function"><a href="function.random-int.html" class="function" rel="rdfs-seeAlso">random_int()</a> - Genera n&uacute;meros enteros seudoaleatorios criptogr&aacute;ficamente seguros</span></li>
+   <li class="member"><span class="function"><a href="function.openssl-random-pseudo-bytes.html" class="function" rel="rdfs-seeAlso">openssl_random_pseudo_bytes()</a> - Genera una cadena de bytes pseudo-aleatoria</span></li>
+   <li class="member"><span class="function"><a href="function.bin2hex.html" class="function" rel="rdfs-seeAlso">bin2hex()</a> - Convierte datos binarios en su representaci&oacute;n hexadecimal</span></li>
+  </ul>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.csprng.html">Funciones de CSPRNG</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.random-int.html">random_int</a></div>
+ <div class="up"><a href="ref.csprng.html">Funciones de CSPRNG</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

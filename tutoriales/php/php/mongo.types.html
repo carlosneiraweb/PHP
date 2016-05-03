@@ -1,0 +1,370 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Tipos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongocommandcursor.valid.html">MongoCommandCursor::valid</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongoid.html">MongoId</a></div>
+ <div class="up"><a href="book.mongo.html">Mongo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongo.types" class="part">
+
+ <h1>Tipos</h1>
+<h2>Tabla de contenidos</h2><ul class="chunklist chunklist_part"><li><a href="class.mongoid.html">MongoId</a></li><li><a href="class.mongocode.html">MongoCode</a></li><li><a href="class.mongodate.html">MongoDate</a></li><li><a href="class.mongoregex.html">MongoRegex</a></li><li><a href="class.mongobindata.html">MongoBinData</a></li><li><a href="class.mongoint32.html">MongoInt32</a></li><li><a href="class.mongoint64.html">MongoInt64</a></li><li><a href="class.mongodbref.html">MongoDBRef</a></li><li><a href="class.mongominkey.html">MongoMinKey</a></li><li><a href="class.mongomaxkey.html">MongoMaxKey</a></li><li><a href="class.mongotimestamp.html">MongoTimestamp</a></li></ul>
+
+
+ <div class="partintro">
+  <div class="section">
+   <p class="para">
+    MongoDB permite a los programadores guardar y consultar datos expresados tanto en los
+    tipos básicos de PHP, los tipos compuestos (arrays, arrays asociativos, y objetos), y
+    en media docena de clases que proporciona el driver MongoDB de PHP (para expresiones
+    regulares, fechas, y otras aplicaciones especializadas).
+   </p>
+  </div>
+
+  <div class="section">
+   <h2 class="title">Booleanos y <strong><code>NULL</code></strong></h2>
+   <p class="para">
+    <strong><code>TRUE</code></strong>, <strong><code>FALSE</code></strong>, y <strong><code>NULL</code></strong> pueden usarse tal cual.
+   </p>
+  </div>
+
+  <div class="section">
+   <h2 class="title">Números</h2>
+   <p class="para">
+    En MongoDB los números son distintos de los strings: &quot;123&quot; no es lo mismo que 123.
+    Por tanto, si se desea asegurar de que los números se ordenan y comparan correctamente,
+    debe asegurarse de que realmente se almacenan como números.
+   </p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$doc&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">123</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"b"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"123"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$doc</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$doc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">123</span><span style="color: #007700">));&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;coincide<br /></span><span style="color: #0000BB">$doc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"123"</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;no&nbsp;coincide<br /></span><span style="color: #0000BB">$doc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">123.0</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;coincide<br /></span><span style="color: #0000BB">$doc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"b"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">123</span><span style="color: #007700">));&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;no&nbsp;coincide<br /></span><span style="color: #0000BB">$doc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"b"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"123"</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;coincide<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">
+    Como vemos, los números en coma flotante se comparan y coinciden con los números enteros
+    tal como cabría esperar.
+   </p>
+   <div class="section">
+    <h2 class="title">Números Largos</h2>
+    <p class="para">
+     Por omisión, en sistemas de 32 bits, los números se envían a la base de datos como
+     enteros de 32 bit. En sistemas 64 bits, se envían como enteros de 64 bit. Para guardar la
+     compatibilidad, todos los sistemas deserializan los enteros de 64 bit como números
+     en coma flotante. Los números en coma flotante no son exactos. Si fuera necesario usar
+     valores exactos, habría que hacerlo ajsutando el
+     <a href="mongo.configuration.html" class="link">fichero php.ini</a>.
+    </p>
+    <p class="para">
+     En sistemas de 32 bits, si <em>mongo.long_as_object</em> está habilitado,
+     los enteros de 64 bit se devolverán como objetos <a href="class.mongoint64.html" class="classname">MongoInt64</a>.
+     El entero se almacenará en el campo <em>value</em>
+     con una precisión perfecta (como un string). 
+     <a href="class.mongoint64.html" class="classname">MongoInt64</a> puede usarse también para guardar enteros de 64 bit en máquinas
+     de 32 bits.
+    </p>
+    <p class="para">
+     En sistemas de 64 bits, puede o bien habilitarse <em>mongo.long_as_object</em>
+     o <em>mongo.native_long</em>.
+     <em>mongo.native_long</em> devolverá enteros de 64 bit y
+     enteros &quot;normales&quot; de PHP. <a href="class.mongoint32.html" class="classname">MongoInt32</a> puede usarse para
+     almacenar enteros de 32 bit en máquinas de 64 bits.
+    </p>
+    <p class="para">
+     Debe establecerse un valor en <em>mongo.long_as_object</em> y en
+     <em>mongo.native_long</em> de acuerdo al comportamiento que se espere, incluso
+     en el caso de que coincida con los valores por omisión (para prevenir futuros cambios de estos
+     valores).
+    </p>
+    <p class="para">
+     Vea también: <a href="mongo.configuration.html" class="link">Opciones de php.ini</a>,
+     <a href="class.mongoint32.html" class="classname">MongoInt32</a>, <a href="class.mongoint64.html" class="classname">MongoInt64</a>.
+    </p>
+   </div>
+  </div>
+
+  <div class="section">
+   <h2 class="title">Strings</h2>
+   <p class="para">
+    Los strings deben ser UTF-8. Si no, o bien se convierten a UTF-8
+    antes de enviarse a la base de datos, o bien se almacenan como datos binarios.
+   </p>
+   <p class="para">
+    Pueden usarse expresiones regulares para consultar strings, y se expresan usando la clase
+    <a href="class.mongoregex.html" class="classname">MongoRegex</a>.
+   </p>
+  </div>
+
+  <div class="section">
+   <h2 class="title">Datos Binarios</h2>
+   <p class="para">
+    Tanto los textos que no son UTF-8, como las imágenes, o cualuier otro dato binario, debe enviarse
+    a la base de datos usando el tipo <a href="class.mongobindata.html" class="classname">MongoBinData</a>.
+   </p>
+  </div>
+
+  <div class="section">
+   <h2 class="title">Fechas</h2>
+   <p class="para">
+    Pueden crearse fechas usando la clase <a href="class.mongodate.html" class="classname">MongoDate</a>. Se almacenan
+    como milisegundos a partir de la fecha de referencia.
+   </p>
+   <p class="para">
+    <a href="class.mongotimestamp.html" class="classname">MongoTimestamp</a> no es para almacenar fechas ni timestamps,
+    sino que se usa internamente por MongoDB. A no ser que se esté creando una herramienta que
+    interactúe con los entresijos de réplicas o sharding, se deberá usar
+    <a href="class.mongodate.html" class="classname">MongoDate</a>, y <em class="emphasis">no</em>
+    <a href="class.mongotimestamp.html" class="classname">MongoTimestamp</a>.
+   </p>
+  </div>
+
+  <div class="section">
+   <h2 class="title">Ids Únicos</h2>
+   <p class="para">
+    El driver creará automáticamente un campo <em>_id</em> antes de 
+    insertar un documento (a no ser que el usuario haya especificado uno). Este campo es una instancia
+    de <a href="class.mongoid.html" class="classname">MongoId</a> (en otros lenguajes habitualmente se le llama
+    &quot;ObjectId&quot;).
+   </p>
+   <p class="para">
+    Estos ids se componen de 12 bytes:
+    <ul class="itemizedlist">
+     <li class="listitem">
+      <p class="para">4 bytes de timestamp</p>
+      <p class="para">
+       Dos registros no pueden tener el mismo id si se han insertado en momentos
+       diferentes.
+      </p>
+     </li>
+     <li class="listitem">
+      <p class="para">3 bytes de id de máquina</p>
+      <p class="para">
+       Dos registros no pueden tener el mismo id si se han insertado en máquinas
+       diferentes.
+      </p>
+     </li>
+     <li class="listitem">
+      <p class="para">2 bytes de id de hebra</p>
+      <p class="para">
+       Dos registros no pueden tener el mismo id si se han insertado por diferentes
+       hebras en la misma máquina.
+      </p>
+     </li>
+     <li class="listitem">
+      <p class="para">3 bytes de valor incremental</p>
+      <p class="para">
+       Cada vez que se crea un id, un contador global se incrementa, y se usa
+       para el incremento del siguiente id.
+      </p>
+     </li>
+    </ul>
+    Por tanto, dos registros no pueden tener el mismo id, a no ser que un único proceso
+    en una misma máquina trate de insertar 256^3 (más de 16 millones) de documentos en
+    un segundo, desbordando el campo de incremento.
+   </p>
+  </div>
+
+  <div class="section">
+   <h2 class="title">JavaScript</h2>
+   <p class="para">
+    MongoDB incorpora un motor JavaScript, de modo que se pueden incluir código JavaScript
+    en las consultas (usando la claúsula $where), enviarlo directamente a la base de datos para
+    ejecutarlo, y usarlo para llevar a cabo agregaciones.
+   </p>
+   <p class="para">
+    Por seguridad, en <a href="class.mongocode.html" class="classname">MongoCode</a> utilice el campo <em>scope</em>
+    cuando vaya a usar variables PHP en JavaScript. Cuando el código no requiera de
+    valores externos, se puede o bien usar <a href="class.mongocode.html" class="classname">MongoCode</a> o símplemente
+    un string. Revise la 
+    <a href="mongo.security.html" class="link">sección de seguridad</a> para más
+    información sobre cómo enviar código JavaScript a la base de datos.
+   </p>
+  </div>
+
+  <div class="section">
+   <h2 class="title">Arrays y Objetos</h2>
+
+   <p class="para">
+    También pueden guardarse arrays y objetos en la base de datos. Los arrays con clave
+    numérica incremental se almacenarán como arrays. En cualquier otro caso, se almacenarán
+    como objetos.
+   </p>
+
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;$puntuaciones&nbsp;se&nbsp;almacenará&nbsp;como&nbsp;array<br /></span><span style="color: #0000BB">$puntuaciones&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">98</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">73</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">85</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"puntuaciones"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$puntuaciones</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;$puntuaciones&nbsp;se&nbsp;almacenará&nbsp;como&nbsp;un&nbsp;objeto<br /></span><span style="color: #0000BB">$puntuaciones&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"pregunta1"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">98</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"examen"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"pregunta2"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">73</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"final"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">85</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"puntuaciones"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$puntuaciones</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+
+   <p class="para">
+    Si consultamos estos objetos en la consola de la base de dato, obtendremos algo similar a esto:
+    <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">&gt; db.students.find()
+{ &quot;_id&quot; : ObjectId(&quot;4b06beada9ad6390dab17c43&quot;), &quot;puntuaciones&quot; : [ 98, 100, 73, 85 ] }
+{ &quot;_id&quot; : ObjectId(&quot;4b06bebea9ad6390dab17c44&quot;), &quot;puntuaciones&quot; : { &quot;pregunta1&quot; : 98, &quot;examen&quot; : 100, &quot;pregunta2&quot; : 73, &quot;final&quot; : 85 } }</pre>
+</div>
+    </div>
+
+   </p>
+
+   <p class="para">
+    La base de datos puede almacenar también objetos PHP arbitrarios (pese a que
+    se devolverán como arrays asociativos). Los campos se usan para pares clave/valor.
+    Por ejemplo, la entrada de un blog podría ser así:
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;clase&nbsp;de&nbsp;la&nbsp;entrada&nbsp;de&nbsp;un&nbsp;blog<br />&nbsp;&nbsp;</span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Entrada&nbsp;</span><span style="color: #007700">{<br /><br />&nbsp;&nbsp;var&nbsp;</span><span style="color: #0000BB">$autor</span><span style="color: #007700">;<br />&nbsp;&nbsp;var&nbsp;</span><span style="color: #0000BB">$contenido</span><span style="color: #007700">;<br />&nbsp;&nbsp;var&nbsp;</span><span style="color: #0000BB">$comentarios&nbsp;</span><span style="color: #007700">=&nbsp;array();<br />&nbsp;&nbsp;var&nbsp;</span><span style="color: #0000BB">$fecha</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">__construct</span><span style="color: #007700">(</span><span style="color: #0000BB">$autor</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$contenido</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">autor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$autor</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">contenido&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$contenido</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fecha&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoDate</span><span style="color: #007700">();<br />&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">establecerTitulo</span><span style="color: #007700">(</span><span style="color: #0000BB">$titulo</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">titulo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$titulo</span><span style="color: #007700">;<br />&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;crear&nbsp;una&nbsp;entrada&nbsp;de&nbsp;blog&nbsp;sencilla&nbsp;e&nbsp;insertarla&nbsp;en&nbsp;base&nbsp;de&nbsp;datos<br /></span><span style="color: #0000BB">$entrada1&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Entrada</span><span style="color: #007700">(</span><span style="color: #DD0000">"Adam"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Esto&nbsp;es&nbsp;una&nbsp;entrada&nbsp;de&nbsp;un&nbsp;blog"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$blog</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada1</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #FF8000">//&nbsp;no&nbsp;hay&nbsp;niguna&nbsp;restricción&nbsp;del&nbsp;tipo&nbsp;usado&nbsp;en&nbsp;el&nbsp;campo&nbsp;"autor",&nbsp;de&nbsp;manera&nbsp;que&nbsp;podemos<br />//&nbsp;usarlo&nbsp;como&nbsp;un&nbsp;objeto&nbsp;anidado<br /></span><span style="color: #0000BB">$autor&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"nombre"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"Fred"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"karma"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">42</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$entrada2&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Entrada</span><span style="color: #007700">(</span><span style="color: #0000BB">$autor</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Ésta&nbsp;es&nbsp;otra&nbsp;entrada&nbsp;de&nbsp;blog."</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;creamos&nbsp;un&nbsp;campo&nbsp;más&nbsp;para&nbsp;el&nbsp;título<br /></span><span style="color: #0000BB">$entrada2</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">establecerTitulo</span><span style="color: #007700">(</span><span style="color: #DD0000">"Segunda&nbsp;Entrada"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$blog</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada2</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </p>
+
+   <p class="para">
+    En la consola de la base de datos, lo veríamos parecido a esto:
+    <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">&gt; db.blog.find()
+{ &quot;_id&quot; : ObjectId(&quot;4b06c263edb87a281e09dad8&quot;), &quot;autor&quot; : &quot;Adam&quot;, &quot;contenido&quot; : &quot;Esto es una entrada de un blog&quot;, &quot;comentarios&quot; : [ ], &quot;fecha&quot; : &quot;Fri Nov 20 2009 11:22:59 GMT-0500 (EST)&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;4b06c282edb87a281e09dad9&quot;), &quot;autor&quot; : { &quot;nombre&quot; : &quot;Fred&quot;, &quot;karma&quot; : 42 }, &quot;contenido&quot; : &quot;Ésta es otra entrada de blog&quot;, &quot;comentarios&quot; : [ ], &quot;fecha&quot; : &quot;Fri Nov 20 2009 11:23:30 GMT-0500 (EST)&quot;, &quot;titulo&quot; : &quot;Segunda Entrada&quot; }</pre>
+</div>
+    </div>
+
+   </p>
+
+   <p class="para">
+    El driver no detecta referencias cíclicas en arrays ni en objetos. Por
+    ejemplo, esto emitiría un error fatal:
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents">
+<div class="txtcode"><pre class="txtcode">Fatal error: Nesting level too deep - recursive dependency?</pre>
+</div>
+    </div>
+
+    Si se necesitara insertar documentos que pudieran tener dependencias cíclicas, deberá
+    comprobarse a mano antes de pasarlo al driver.
+   </p>
+  </div>
+ </div>
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongocommandcursor.valid.html">MongoCommandCursor::valid</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongoid.html">MongoId</a></div>
+ <div class="up"><a href="book.mongo.html">Mongo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

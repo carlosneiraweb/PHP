@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Entrecomilla una cadena de caracteres para usarla en una consulta</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.query.html">PDO::query</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.rollback.html">PDO::rollBack</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdo.quote" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDO::quote</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7, PECL pdo &gt;= 0.2.1)</p><p class="refpurpose"><span class="refname">PDO::quote</span> &mdash; <span class="dc-title">
+   Entrecomilla una cadena de caracteres para usarla en una consulta
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-pdo.quote-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">string</span> <span class="methodname"><strong>PDO::quote</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$string</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$parameter_type</code><span class="initializer"> = PDO::PARAM_STR</span></span>
+  ] )</div>
+
+  
+  <p class="para rdfs-comment">
+   <span class="function"><strong>PDO::quote()</strong></span> entrecomilla el string de entrada (si fuera
+   necesario) y escapa los caracteres especiales contenidos en dicho string, usando
+   un estilo de entrecomillado apropiado para el controlador subyacente.
+  </p>
+  <p class="para">
+   Si se usa esta función para construir sentencias SQL, se
+   recomienda <em class="emphasis">encarecidamente</em> usar
+   <span class="function"><a href="pdo.prepare.html" class="function">PDO::prepare()</a></span> para preparar sentencias SQL con
+   los parámetros vinculados en vez de usar <span class="function"><strong>PDO::quote()</strong></span> para interpolar
+   entradas del usuario en una consulta SQL. Las sentencias preparadas con parámetros vinculados
+   no son sólo más portables, más convenientes, e inmunes a inyecciones SQL, sino que
+   son mucho más rápidas de ejecutar que las consultas interpoladas, ya que tanto el lado del
+   servidor como el del cliente pueden almacenar en caché una forma compilada de la consulta.
+  </p>
+  <p class="para">
+   No todos los controladores de PDO implementan este método (como ejemplo notable, PDO_ODBC).
+   En su lugar, se ha de considerar el uso de sentencias preparadas.
+  </p>
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <h1 class="title">Seguridad: el conjunto de caracteres predeterminado</h1>
+   <p class="para">
+    El conjunto de caracteres debe establecerse o bien al nivel del servidor, o dentro de la
+    misma conexión a la base de datos (dependiendo del controlador) para que afecte a
+    <span class="methodname"><strong>PDO::quote()</strong></span>. Véase la <a href="pdo.drivers.html" class="link">documentación específica
+    del controlador</a> para más información.
+   </p>
+  </div>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-pdo.quote-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">string</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La cadena de caracteres a entrecomillar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">parameter_type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Proporciona una declaración de tipo de datos para los controladores que tengan 
+       un estilo de entrecomillado alternativo.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-pdo.quote-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un string entrecomillado teóricamente seguro para pasarlo a una
+   sentencia SQL. Devuelve <strong><code>FALSE</code></strong> si el controlador no soporta el entrecomillado
+   en esta forma.
+  </p>
+ </div>
+
+ 
+ 
+ 
+ <div class="refsect1 examples" id="refsect1-pdo.quote-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1028">
+    <p><strong>Ejemplo #1 Entrecomillar una cadena de caracteres normal</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conexión&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'sqlite:/home/lynn/music.sql3'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Cadena&nbsp;simple&nbsp;*/<br /></span><span style="color: #0000BB">$cadena&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Agradable'</span><span style="color: #007700">;<br />print&nbsp;</span><span style="color: #DD0000">"Cadena&nbsp;sin&nbsp;entrecomillar:&nbsp;</span><span style="color: #0000BB">$cadena</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />print&nbsp;</span><span style="color: #DD0000">"Cadena&nbsp;entrecomillada:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">quote</span><span style="color: #007700">(</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Cadena sin entrecomillar: Agradable
+Cadena entrecomillada: &#039;Agradable&#039;
+</pre></div>
+    </div>
+   </div>
+   <div class="example" id="example-1029">
+    <p><strong>Ejemplo #2 Entrecomillar una cadena peligrosa</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conexión&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'sqlite:/home/lynn/music.sql3'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Cadena&nbsp;peligrosa&nbsp;*/<br /></span><span style="color: #0000BB">$cadena&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Cadena&nbsp;\'&nbsp;desagradable'</span><span style="color: #007700">;<br />print&nbsp;</span><span style="color: #DD0000">"Cadena&nbsp;sin&nbsp;entrecomillar:&nbsp;</span><span style="color: #0000BB">$cadena</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />print&nbsp;</span><span style="color: #DD0000">"Cadena&nbsp;entrecomillada:"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">quote</span><span style="color: #007700">(</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Cadena sin entrecomillar: Cadena &#039; desagradable
+Cadena entrecomillada: &#039;Cadena &#039;&#039; desagradable&#039;
+</pre></div>
+    </div>
+   </div>
+   <div class="example" id="example-1030">
+    <p><strong>Ejemplo #3 Entrecomillar una cadena compleja</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conexión&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'sqlite:/home/lynn/music.sql3'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Cadena&nbsp;compleja&nbsp;*/<br /></span><span style="color: #0000BB">$cadena&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"Ca'de''na&nbsp;\"co'\"mpleja"</span><span style="color: #007700">;<br />print&nbsp;</span><span style="color: #DD0000">"Cadena&nbsp;sin&nbsp;entrecomillar:&nbsp;</span><span style="color: #0000BB">$cadena</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />print&nbsp;</span><span style="color: #DD0000">"Cadena&nbsp;entrecomillada:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">quote</span><span style="color: #007700">(</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Cadena sin entrecomillar: Ca&#039;de&#039;&#039;na &quot;co&#039;&quot;mpleja
+Cadena entrecomillada: &#039;Ca&#039;&#039;de&#039;&#039;&#039;&#039;na &quot;co&#039;&#039;&quot;mpleja&#039;
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-pdo.quote-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdo.prepare.html" class="function" rel="rdfs-seeAlso">PDO::prepare()</a> - Prepara una sentencia para su ejecuci&oacute;n y devuelve un objeto sentencia</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.execute.html" class="function" rel="rdfs-seeAlso">PDOStatement::execute()</a> - Ejecuta una sentencia preparada</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.query.html">PDO::query</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.rollback.html">PDO::rollBack</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,358 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>PHP y COM</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="faq.html.html">PHP y HTML</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="faq.migration5.html">Migraci&oacute;n de PHP 4 a PHP 5</a></div>
+ <div class="up"><a href="faq.html">FAQ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="faq.com" class="chapter">
+ <h1>PHP y COM</h1>
+
+ 
+ 
+ <p class="para">
+  PHP puede ser usado para acceder a objetos COM y DCOM en plataformas Win32.
+ </p>
+ 
+ <div class="qandaset"><ol class="qandaset_questions"><li><a href="#faq.com.q1">
+    
+     He compilado un DLL para calcular algo. &iquest;Hay alguna forma de ejecutar ese DLL bajo PHP?
+    
+   </a></li><li><a href="#faq.com.q2">
+    
+     &iquest;Qu&eacute; quiere decir &#039;Unsupported variant type: xxxx (0xxxxx)&#039;?
+    
+   </a></li><li><a href="#faq.com.q3">
+    
+     &iquest;Es posible manipular objetos visuales en PHP?
+    
+   </a></li><li><a href="#faq.com.q4">
+    
+     &iquest;Puedo almacenar un objeto COM en una sesi&oacute;n?
+    
+   </a></li><li><a href="#faq.com.q5">
+    
+     &iquest;C&oacute;mo puedo atrapar errores de COM?
+    
+   </a></li><li><a href="#faq.com.q6">
+    
+     &iquest;Puedo generar archivos DLL desde scripts PHP como puedo en Perl?
+    
+   </a></li><li><a href="#faq.com.q7">
+    
+     &iquest;Qu&eacute; quiere decir &#039;Unable to obtain IDispatch interface for CLSID
+     {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}&#039;?
+    
+   </a></li><li><a href="#faq.com.q8">
+    
+     &iquest;C&oacute;mo puedo ejecutar un objeto COM desde un servidor remoto?
+    
+   </a></li><li><a href="#faq.com.q9">
+    
+     Recibo &#039;DCOM is disabled in C:\ruta...\nombre_script.php on line 6&#039;,
+     &iquest;qu&eacute; puedo hacer?
+    
+   </a></li><li><a href="#faq.com.q10">
+    
+     &iquest;Es posible leer/manipular un objeto ActiveX en una p&aacute;gina con PHP?
+    
+   </a></li><li><a href="#faq.com.q11">
+    
+     &iquest;Es posible obtener una instancia en ejecuci&oacute;n de un componente?
+    
+   </a></li><li><a href="#faq.com.q12">
+    
+     &iquest;Hay una forma de manejar un evento enviado desde un objeto COM?
+    
+   </a></li><li><a href="#faq.com.q13">
+    
+     Estoy teniendo problemas al intentar invocar un m&eacute;todo de un objeto
+     COM el cual expone m&aacute;s de una interfaz. &iquest;Qu&eacute; puedo hacer?
+    
+   </a></li><li><a href="#faq.com.q14">
+    
+     As&iacute; que PHP funciona con COM, &iquest;qu&eacute; hay de COM+?
+    
+   </a></li><li><a href="#faq.com.q15">
+    
+     Si PHP puede manipular objetos COM, &iquest;podemos imaginar el uso de MTS
+     para manejar recursos de componentes, en conjunto con PHP?
+    
+   </a></li></ol></div>
+  <dl class="qandaentry" id="faq.com.q1">
+   <dt><strong>
+    
+     He compilado un DLL para calcular algo. ¿Hay alguna forma de ejecutar ese DLL bajo PHP?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Si se trata de un DLL simple no hay forma aun de ejecutarlo desde PHP. Si el archivo DLL contiene un
+     servidor COM es posible que pueda acceder a él si implementa la interfaz IDispatch.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q2">
+   <dt><strong>
+    
+     ¿Qué quiere decir &#039;Unsupported variant type: xxxx (0xxxxx)&#039;?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Existen docenas de tipos VARIANT y combinaciones de ellos. La mayoría de ellos son soportados pero
+     algunos aun deben ser implementados.
+     Las matrices no están completamente soportadas. Solo las matrices unidimensionales de índice
+     pueden ser pasadas entre PHP y COM.
+     Si encuentra otros tipos que no sean soportados, por favor repórtelos como un bug (si aun no han sido reportados)
+     y ofrezca tanta información como tenga disponible.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q3">
+   <dt><strong>
+    
+     ¿Es posible manipular objetos visuales en PHP?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     En general es posible, pero ya que PHP es usado frecuentemente como un
+     lenguaje de scripting web, corre en el contexto de servidores web, por
+     lo que objetos visuales nunca aparecerán en el escritorio de los
+     servidores. Si usa PHP para una aplicación de scripting, p.ej. en
+     conjunto con PHP-GTK, no hay limitaciones al acceder y manipular
+     objetos visuales a través de COM.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q4">
+   <dt><strong>
+    
+     ¿Puedo almacenar un objeto COM en una sesión?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     No, no puede. Las instancias COM son tratadas como recursos y por lo
+     tanto sólo están disponibles en el contexto de un script único.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q5">
+   <dt><strong>
+    
+     ¿Cómo puedo atrapar errores de COM?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     La extensión COM lanza excepciones
+     <em>com_exception</em>, las cuales puede atrapar y luego
+     inspeccionar el miembro <em>code</em> para determinar el
+     siguiente paso.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q6">
+   <dt><strong>
+    
+     ¿Puedo generar archivos DLL desde scripts PHP como puedo en Perl?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     No, desafortunadamente no existe una herramienta de ese tipo
+     disponible para PHP.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q7">
+   <dt><strong>
+    
+     ¿Qué quiere decir &#039;Unable to obtain IDispatch interface for CLSID
+     {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}&#039;?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Este error puede tener varias razones:
+     <ul class="itemizedlist">
+      <li class="listitem">
+       <span class="simpara">
+        el valor CLSID es incorrecto
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        el archivo DLL solicitado no existe
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        el componente solicitado no implementa la interfaz IDispatch
+       </span>
+      </li>
+     </ul>
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q8">
+   <dt><strong>
+    
+     ¿Cómo puedo ejecutar un objeto COM desde un servidor remoto?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Exactamente como ejecuta objetos locales. Tan solo debe pasar la IP de
+     la máquina remota como segundo parámetro al constructor COM.
+    </p>
+    <p class="para">
+     Asegúrese de que ha definido <a href="com.configuration.html#ini.com.allow-dcom" class="link">com.allow_dcom</a><em>=</em><strong><code>TRUE</code></strong>
+     en su <var class="filename">php.ini</var>.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q9">
+   <dt><strong>
+    
+     Recibo &#039;DCOM is disabled in C:\ruta...\nombre_script.php on line 6&#039;,
+     ¿qué puedo hacer?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Edite su archivo <var class="filename">php.ini</var> y defina <a href="com.configuration.html#ini.com.allow-dcom" class="link">com.allow_dcom</a><em>=</em><strong><code>TRUE</code></strong>.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q10">
+   <dt><strong>
+    
+     ¿Es posible leer/manipular un objeto ActiveX en una página con PHP?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Esto no tiene nada que ver con PHP. Los objetos ActiveX son cargados
+     en el lado del cliente si son solicitados por el documento HTML. No
+     hay relación con el script PHP y por lo tanto no hay una interacción
+     directa posible con el lado del servidor.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q11">
+   <dt><strong>
+    
+     ¿Es posible obtener una instancia en ejecución de un componente?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Esto es posible con la ayuda de monikers. Si desea obtener múltiples
+     referencias a la misma instancia de word, puede crear esa instancia
+     como se muestra:
+    </p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$word&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">COM</span><span style="color: #007700">(</span><span style="color: #DD0000">"C:\docs\word.doc"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+          </div>
+
+          <p class="para">
+           Esto creará una nueva instancia si no hay una instancia en ejecución
+           disponible, o devolverá un gestor a la instancia en ejecución, si
+           existe.
+          </p>
+         </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q12">
+   <dt><strong>
+    
+     ¿Hay una forma de manejar un evento enviado desde un objeto COM?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Puede definir el receptor de un evento y asociarlo usando
+     <span class="function"><a href="function.com-event-sink.html" class="function">com_event_sink()</a></span>. Es posible usar
+     <span class="function"><a href="function.com-print-typeinfo.html" class="function">com_print_typeinfo()</a></span> para que PHP genere un
+     esqueleto para la clase receptora del evento.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q13">
+   <dt><strong>
+    
+     Estoy teniendo problemas al intentar invocar un método de un objeto
+     COM el cual expone más de una interfaz. ¿Qué puedo hacer?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     La respuesta es tan simple como poco satisfactoria. No estamos seguros
+     pero parece que no es posible hacer nada. Si alguien tiene información
+     específica al respecto, por favor <a href="mailto:harald.radi@nme.at" class="link external">&raquo;&nbsp;infórmenos</a> :)
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q14">
+   <dt><strong>
+    
+     Así que PHP funciona con COM, ¿qué hay de COM+?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     COM+ extiende COM mediante un marco para administrar componentes a
+     través de MTS y MSMQ pero no hay nada especial que PHP deba soportar
+     para usar tales componentes.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.com.q15">
+   <dt><strong>
+    
+     Si PHP puede manipular objetos COM, ¿podemos imaginar el uso de MTS
+     para manejar recursos de componentes, en conjunto con PHP?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     PHP por sí mismo no maneja transacciones aun. Por lo tanto si un error
+     ocurre no se inicia un proceso rollback. Si usa componentes que
+     soporten transacciones tendrá que implementar la gestión de
+     transacciones usted mismo.
+    </p>
+   </dd>
+  </dl>
+  
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="faq.html.html">PHP y HTML</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="faq.migration5.html">Migraci&oacute;n de PHP 4 a PHP 5</a></div>
+ <div class="up"><a href="faq.html">FAQ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

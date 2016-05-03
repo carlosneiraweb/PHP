@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener propiedades predeterminadas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="reflectionclass.getconstructor.html">ReflectionClass::getConstructor</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="reflectionclass.getdoccomment.html">ReflectionClass::getDocComment</a></div>
+ <div class="up"><a href="class.reflectionclass.html">ReflectionClass</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="reflectionclass.getdefaultproperties" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ReflectionClass::getDefaultProperties</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">ReflectionClass::getDefaultProperties</span> &mdash; <span class="dc-title">Obtener propiedades predeterminadas</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-reflectionclass.getdefaultproperties-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">array</span> <span class="methodname"><strong>ReflectionClass::getDefaultProperties</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve las propiedades predeterminadas de una clase (incluyendo las propiedades heredadas).
+  </p>
+    <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Este método sólo funciona para las propiedades estáticas cuando se utiliza en las clases internas. 
+    El valor por defecto de una propiedad de clase estática no puede ser rastreada utilizando este método 
+    sobre las clases definidas por el usuario.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-reflectionclass.getdefaultproperties-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">Esta función no tiene parámetros.</p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-reflectionclass.getdefaultproperties-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Un <span class="type"><a href="language.types.array.html" class="type array">array</a></span> de propiedades predeterminadas, donde la clave es el nombre de la
+   propiedad y el valor corresponde con el valor de la propiedad o <strong><code>NULL</code></strong> si la
+   propiedad no tuviera ningún valor predeterminado. Esta función no hace distinción entre
+   propiedades estáticas y no estáticas, y no tiene en cuenta los modificadores
+   de visibilidad.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-reflectionclass.getdefaultproperties-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5739">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="methodname"><strong>ReflectionClass::getDefaultProperties()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Bar&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;protected&nbsp;</span><span style="color: #0000BB">$propiedadHeredada&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'predeterminadoHeredada'</span><span style="color: #007700">;<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">Foo&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">Bar&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;</span><span style="color: #0000BB">$propiedad&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'predeterminadoPropiedad'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;</span><span style="color: #0000BB">$propiedadPrivada&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'predeterminadoPropiedadPrivada'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;static&nbsp;</span><span style="color: #0000BB">$propiedadEstatica&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'propiedadEstatica'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;</span><span style="color: #0000BB">$propiedadSinValor</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$claseReflexion&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">ReflectionClass</span><span style="color: #007700">(</span><span style="color: #DD0000">'Foo'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$claseReflexion</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getDefaultProperties</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(5) {
+   [&quot;propiedadEstatica&quot;]=&gt;
+   string(14) &quot;propiedadEstatia&quot;
+   [&quot;propiedad&quot;]=&gt;
+   string(15) &quot;predeterminadoPropiedad&quot;
+   [&quot;propiedadPrivada&quot;]=&gt;
+   string(22) &quot;predeterminadoPropiedadPrivada&quot;
+   [&quot;propiedadSinValor&quot;]=&gt;
+   NULL
+   [&quot;propiedadHeredada&quot;]=&gt;
+   string(16) &quot;predeterminadoHeredada&quot;
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-reflectionclass.getdefaultproperties-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="reflectionclass.getproperties.html" class="methodname" rel="rdfs-seeAlso">ReflectionClass::getProperties()</a> - Obtiene las propiedades</span></li>
+    <li class="member"><span class="methodname"><a href="reflectionclass.getstaticproperties.html" class="methodname" rel="rdfs-seeAlso">ReflectionClass::getStaticProperties()</a> - Obtiene las propiedades est&aacute;ticas</span></li>
+    <li class="member"><span class="methodname"><a href="reflectionclass.getproperty.html" class="methodname" rel="rdfs-seeAlso">ReflectionClass::getProperty()</a> - Obtiene un objeto ReflectionProperty para una propiedad de una clase</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="reflectionclass.getconstructor.html">ReflectionClass::getConstructor</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="reflectionclass.getdoccomment.html">ReflectionClass::getDocComment</a></div>
+ <div class="up"><a href="class.reflectionclass.html">ReflectionClass</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

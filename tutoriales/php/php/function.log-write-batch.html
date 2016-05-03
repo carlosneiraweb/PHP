@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Funci&oacute;n de retrollamada al escribir lotes</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.log-reply.html">log_reply</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.writes.html">Escrituras</a></div>
+ <div class="up"><a href="mongo.context.html">Opciones de Contexto de flugo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.log-write-batch" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">log_write_batch</h1>
+  <p class="verinfo">(PECL mongo &gt;= 1.5.0)</p><p class="refpurpose"><span class="refname">log_write_batch</span> &mdash; <span class="dc-title">Función de retrollamada al escribir lotes</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.log-write-batch-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="methodname"><strong>log_write_batch</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$server</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter">$writeOptions</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter">$batch</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter">$protocolOptions</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Una función de tipo <span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span>, usada por
+   <a href="context.mongodb.html#context.mongodb.log-write-batch" class="link">la opción de contexto log_write_batch</a>,
+   al ejecutar una operación por lotes.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Esta <em class="emphasis">no</em> es una función real, es solamente un prototipo de
+    cómo debería ser la función.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.log-write-batch-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+     <dt>
+ <code class="parameter">server</code> </dt>
+ <dd>
+ <p class="para"> Un array que contiene la información básica sobre el servidor elegido. <table class="doctable informaltable">  <thead> <tr> <th>Clave</th> <th>Valor</th> </tr>
+ </thead>
+ <tbody class="tbody"> <tr> <td>Hash</td> <td>Hash del servidor, ejemplo: <em>localhost:27017;-;X;56052</em></td> </tr>
+ <tr> <td>type</td> <td>Tipo de nodo (primario/secundario/mongos/árbitro): <em>2</em></td> </tr>
+ <tr> <td>max_bson_size</td> <td>El tamaño máximo de BSON que acepta este nodo por el cable: <em>16777216</em></td> </tr>
+ <tr> <td>max_message_size</td> <td>El tamaño máximo de mensaje que acepta este nodo por el cable: <em>48000000</em></td> </tr>
+ <tr> <td>request_id</td> <td>El identificador de petición para este mensaje: <em>42</em></td> </tr>
+ </tbody>  </table>
+ </p> </dd>
+ 
+    <dt>
+ <code class="parameter">writeOptions</code> </dt>
+ <dd>
+ <p class="para"> <table class="doctable informaltable">  <thead> <tr> <th>Clave</th> <th>Valor</th> </tr>
+ </thead>
+ <tbody class="tbody"> <tr> <td>ordered</td> <td>boolean, si la operación (en caso de que sea por lotes) debe ejecutarse secuencialmente (ordered=true)</td> </tr>
+ <tr> <td>writeConcern</td> <td>Un array de opciones de writeConcern (véase más abajo)</td> </tr>
+ </tbody>  </table>
+ <table class="doctable table"> <caption><strong>Valores del array writeConcern</strong></caption>  <thead> <tr> <th>Clave</th> <th>Valor</th> </tr>
+ </thead>
+ <tbody class="tbody"> <tr> <td>fsync</td> <td>boolean, forzar el vuelco al disco antes de la devolución</td> </tr>
+ <tr> <td>j</td> <td>boolean, forzar la escritura en el diario ante de la devolución</td> </tr>
+ <tr> <td>wtimeout</td> <td>integer, milisegundos, tiempo máximo de espera del primario para verificar la réplica</td> </tr>
+ <tr> <td>w</td> <td>integer=cuenta del servidor, o string=etiqueta de réplica</td> </tr>
+ </tbody>  </table>
+ </p> </dd>
+ 
+   
+    <dt>
+
+     <code class="parameter">batch</code>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Array, la operación por lotes real.
+     </p>
+    </dd>
+
+   
+     <dt>
+ <code class="parameter">protocolOptions</code> </dt>
+ <dd>
+ <p class="para"> <table class="doctable informaltable">  <thead> <tr> <th>Clave</th> <th>Valor</th> </tr>
+ </thead>
+ <tbody class="tbody"> <tr> <td>message_length</td> <td>El tamaño total (en bytes) del mensaje codificado a enviar por el cable</td> </tr>
+ <tr> <td>request_id</td> <td>El identificador de petición para este mensaje: <em>42</em></td> </tr>
+ <tr> <td>namespace</td> <td>El espacio de nombres de MongoDB usado para el protocolo del mensaje <em>dbname.collectionname</em></td> </tr>
+ </tbody>  </table>
+ </p> </dd>
+ 
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.log-write-batch-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <table class="doctable informaltable">
+   
+    <thead>
+     <tr>
+      <th>Versión</th>
+      <th>Descripción</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>1.5.0</td>
+      <td>
+       Solamente disponible al conectarse a MongoDB 2.6.0+
+      </td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </div>
+
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.log-reply.html">log_reply</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.writes.html">Escrituras</a></div>
+ <div class="up"><a href="mongo.context.html">Opciones de Contexto de flugo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

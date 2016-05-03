@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Caso 3: Configurando doc_root o user_dir</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.cgi-bin.force-redirect.html">Caso 2: utilizando cgi.force_redirect</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.cgi-bin.shell.html">Caso 4: El analizador de PHP fuera del &aacute;rbol de la web</a></div>
+ <div class="up"><a href="security.cgi-bin.html">Instalado como CGI binario</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="security.cgi-bin.doc-root" class="sect1">
+    <h2 class="title">Caso 3: Configurando doc_root o user_dir</h2>
+    <p class="simpara">
+     Para incluir contenido activo, como scripts y ejecutables, en los
+     directorios de documentos del servidor web es algunas veces considerado una práctica
+     insegura.  Si, por el hecho del algún error de configuración, los scripts
+     no se ejecutan y son mostrados como documentos HTML regulares, esto
+     podría resultar en una fuga de información de propiedad intelectual
+     o de información de seguridad como las contraseñas.  Por lo tanto muchos Administradores de Sistemas 
+     preferirán configurar otra estructura de directorios para scripts que sean
+     accesibles solamente a través del CGI de PHP, y por lo tanto siempre interpretado y no desplegado como tal.
+    </p>
+    <p class="simpara">
+     También si el método para asegurar las peticiones no es
+     redirigido, como se describió en la sección anterior, no está
+     disponible, es necesario configurar un script doc_root que sea
+     diferente de la raíz del documento web.
+    </p>
+    <p class="simpara">
+     Usted puede configurar el script de la raíz de documento de PHP en la directiva
+     de configuración <a href="ini.core.html#ini.doc-root" class="link">doc_root</a> en el
+     <a href="configuration.file.html" class="link">fichero de configuración</a>, o
+     puede configurar la variable de entorno <span class="envar">PHP_DOCUMENT_ROOT</span>.
+     Si éste es configurado, la versión del <acronym title="Common Gateway Interface">CGI</acronym>
+     de PHP siempre construirá el nombre del fichero para abrir con este
+     <code class="parameter">doc_root</code> y la ruta de información en la petición,
+     de tal forma que pueda estar seguro que ningún script será ejecutado fuera de
+     este directorio (excepto por <code class="parameter">user_dir</code> que se encuentra
+     más abajo).
+    </p>
+    <p class="simpara">
+     Otra opción utilizable es esta <a href="ini.core.html#ini.user-dir" class="link">user_dir</a>.  Cuando user_dir no está configurado,
+     lo único que controla el fichero abierto es <code class="parameter">doc_root</code>.
+     Al abrir una URL como <var class="filename">http://mi.servidor/~usuario/documento.php</var> no resulta
+     en la apertura de un fichero bajo el directorio personal de los usuarios, pero si
+     un fichero llamado <var class="filename">~usuario/documento.php</var> debajo de
+     doc_root (si, un nombre de directorio que inicia con una a tilde [<em>~</em>]).
+    </p>
+    <p class="simpara">
+     Si user_dir es configurado, por ejemplo <var class="filename">public_php</var>, una petición como <var class="filename">http://mi.servidor/~usuario/doc.php</var> abrirá un
+     fichero llamado <var class="filename">doc.php</var> bajo el directorio
+     llamado <var class="filename">public_php</var> debajo de el directorio
+     personal del usuario.  Si el directorio personal del usuario es <var class="filename">/home/usuario</var>, el fichero ejecutado será
+     <var class="filename">/home/user/public_php/doc.php</var>.
+    </p>
+    <p class="simpara">
+     La expansión de <code class="parameter">user_dir</code> sucede sin tomar en cuenta
+     la configuración de <code class="parameter">doc_root</code>, así que usted puede
+     controlar el acceso a la raíz de los documentos y el directorio de los
+     usuarios separadamente.
+    </p>
+   </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.cgi-bin.force-redirect.html">Caso 2: utilizando cgi.force_redirect</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.cgi-bin.shell.html">Caso 4: El analizador de PHP fuera del &aacute;rbol de la web</a></div>
+ <div class="up"><a href="security.cgi-bin.html">Instalado como CGI binario</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

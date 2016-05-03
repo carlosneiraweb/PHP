@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Serie PECL/mysqlnd_ms 1.2</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes-one-three.html">Serie PECL/mysqlnd_ms 1.3</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-one.html">Serie PECL/mysqlnd_ms 1.1</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.changes-one-two" class="section">
+  <h2 class="title">Serie PECL/mysqlnd_ms 1.2</h2>
+  <p class="para">
+   1.2.1-beta
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Fecha de publicación: 01/2012
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Motivo/tema: véase 1.2.0-alpha
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Cambios de pruebas menores.
+  </p>
+  <p class="para">
+   1.2.0-alpha
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Fecha de publicación: 11/2011
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Motivo/tema: Inyección de ID de Transacciones Global y concepto de calidad de servicio
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   El la versión 1.2, el foco continua siendo el soporte de clústeres de bases de datos MySQL
+   con replicación asíncrona. El complemento intenta hacer uso del clúster
+   introduciendo un filtro de calidad de servicio que pueden usar las aplicaciones para definir
+   la calidad de servicio que necesitan del clúster. Los niveles de servicio proporcionados son
+   la consistencia final con la edad máxima/demora del esclavo opcional, la consistencia de sesión
+   y la consistencia fuerte.
+  </p>
+  <p class="para">
+   Además, el complemento puede realizar una inyección de id de transacciones global en el lado del cliente
+   para hacer más sencilla la tolerancia a fallos manual en el maestro.
+  </p>
+  <p class="para">
+   Cambios en las características
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Se introdujo el filtro de calidad de servicio (QoS). Los niveles de servicio proporcionados por el filtro QoS son:
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <span class="simpara">
+         consistenia finak, con opción de demora de esclavos
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         consistencia de sesión, con GTID opcional
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         consistencia fuerte
+        </span>
+       </li>
+      </ul>
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se añadió la función <span class="function"><a href="function.mysqlnd-ms-set-qos.html" class="function">mysqlnd_ms_set_qos()</a></span> para establecer la
+      calidad de conexión requierida en tiempo de ejecución. Las nuevas constantes relacionadas con
+      <span class="function"><a href="function.mysqlnd-ms-set-qos.html" class="function">mysqlnd_ms_set_qos()</a></span> son:
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <span class="simpara">
+         <strong><code>MYSQLND_MS_QOS_CONSISTENCY_STRONG</code></strong>
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <strong><code>MYSQLND_MS_QOS_CONSISTENCY_SESSION</code></strong>
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <strong><code>MYSQLND_MS_QOS_CONSISTENCY_EVENTUAL</code></strong>
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <strong><code>MYSQLND_MS_QOS_OPTION_GTID</code></strong>
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <strong><code>MYSQLND_MS_QOS_OPTION_AGE</code></strong>
+        </span>
+       </li>
+      </ul>
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se añadió la inyección de id de transacciones global (GTID) en el lado del cliente.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Las nuevas estadísticas relacionadas con el GTID:
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <span class="simpara">
+         <em>gtid_autocommit_injections_success</em>
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>gtid_autocommit_injections_failure</em>
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>gtid_commit_injections_success</em>
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>gtid_commit_injections_failure</em>
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>gtid_implicit_commit_injections_success</em>
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <em>gtid_implicit_commit_injections_failure</em>
+        </span>
+       </li>
+      </ul>
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se añadió <span class="function"><a href="function.mysqlnd-ms-get-last-gtid.html" class="function">mysqlnd_ms_get_last_gtid()</a></span> para obtener el último
+      id de transacción global.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se habilitó el soporte para multimaestros sin esclavos.
+     </p>
+    </li>
+   </ul>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes-one-three.html">Serie PECL/mysqlnd_ms 1.3</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-one.html">Serie PECL/mysqlnd_ms 1.1</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

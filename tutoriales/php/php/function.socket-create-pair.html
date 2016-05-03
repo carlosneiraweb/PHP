@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Crea un par de sockets indistinguibles y los almacena en una matriz</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-create-listen.html">socket_create_listen</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-create.html">socket_create</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.socket-create-pair" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">socket_create_pair</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.1.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">socket_create_pair</span> &mdash; <span class="dc-title">Crea un par de sockets indistinguibles y los almacena en una matriz</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.socket-create-pair-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>socket_create_pair</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$domain</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$protocol</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$fd</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>socket_create_pair()</strong></span> crea dos sockets conectados e
+   indistinguibles y los almacena en <code class="parameter">fd</code>.
+   Esta función se usa comúnmente en IPC (InterProcess Communication - Comunicación entre procesos).
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.socket-create-pair-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">domain</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El parámetro <code class="parameter">domain</code> especifica la familia de
+       protocolos que se va a usar en el socket. Véase <span class="function"><a href="function.socket-create.html" class="function">socket_create()</a></span>
+       para la lista completa.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El parámetro <code class="parameter">type</code> selecciona el tipo de comunicación
+       que va a usar el socket. Véase <span class="function"><a href="function.socket-create.html" class="function">socket_create()</a></span> para la
+       lista completa.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">protocol</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El parámetro <code class="parameter">protocol</code> establece el protocolo
+       específico dentro del <code class="parameter">domain</code> especificado a usar
+       cuando se comunica con el socket devuelto. El valor apropiado se puede recuperar por
+       nombre usando <span class="function"><a href="function.getprotobyname.html" class="function">getprotobyname()</a></span>. Si
+       el protocolo deseado es TCP, o UDP, se pueden usar también las constantes
+       <strong><code>SOL_TCP</code></strong>, y <strong><code>SOL_UDP</code></strong>
+       correspondientes.
+      </p>
+      <p class="para">
+       Véase <span class="function"><a href="function.socket-create.html" class="function">socket_create()</a></span> para la lista completa de protocolos
+       soportados.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">fd</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Referencia a una matriz en la cuál los dos recursos socket serán insertados.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.socket-create-pair-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 changelog" id="refsect1-function.socket-create-pair-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Esta función ahora es rehabilitada en plataformas Windows.
+       </td>
+      </tr>
+
+      <tr>
+       <td>4.3.0</td>
+       <td>
+        Esta función no estaba disponible en plataformas Windows
+        a causa de un error.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.socket-create-pair-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5101">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>socket_create_pair()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$sockets&nbsp;</span><span style="color: #007700">=&nbsp;array();<br /><br /></span><span style="color: #FF8000">/*&nbsp;En&nbsp;Windows&nbsp;necesitamos&nbsp;usar&nbsp;AF_INET&nbsp;*/<br /></span><span style="color: #0000BB">$domain&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">strtoupper</span><span style="color: #007700">(</span><span style="color: #0000BB">substr</span><span style="color: #007700">(</span><span style="color: #0000BB">PHP_OS</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">))&nbsp;==&nbsp;</span><span style="color: #DD0000">'WIN'&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #0000BB">AF_INET&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #0000BB">AF_UNIX</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Configurar&nbsp;el&nbsp;par&nbsp;de&nbsp;sockets&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">socket_create_pair</span><span style="color: #007700">(</span><span style="color: #0000BB">$domain</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SOCK_STREAM</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sockets</span><span style="color: #007700">)&nbsp;===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"socket_create_pair&nbsp;failed.&nbsp;Reason:&nbsp;"</span><span style="color: #007700">.</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">());<br />}<br /></span><span style="color: #FF8000">/*&nbsp;Enviar&nbsp;y&nbsp;Recibir&nbsp;Información&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">socket_write</span><span style="color: #007700">(</span><span style="color: #0000BB">$sockets</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">],&nbsp;</span><span style="color: #DD0000">"ABCdef123\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #DD0000">"ABCdef123\n"</span><span style="color: #007700">))&nbsp;===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"socket_write()&nbsp;failed.&nbsp;Reason:&nbsp;"</span><span style="color: #007700">.</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">(</span><span style="color: #0000BB">$sockets</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]));<br />}<br />if&nbsp;((</span><span style="color: #0000BB">$data&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">socket_read</span><span style="color: #007700">(</span><span style="color: #0000BB">$sockets</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #DD0000">"ABCdef123\n"</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">PHP_BINARY_READ</span><span style="color: #007700">))&nbsp;===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"socket_read()&nbsp;failed.&nbsp;Reason:&nbsp;"</span><span style="color: #007700">.</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">(</span><span style="color: #0000BB">$sockets</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]));<br />}<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$data</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Cerrar&nbsp;los&nbsp;sockets&nbsp;*/<br /></span><span style="color: #0000BB">socket_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$sockets</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]);<br /></span><span style="color: #0000BB">socket_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$sockets</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5102">
+    <p><strong>Ejemplo #2 Ejemplo IPC de <span class="function"><strong>socket_create_pair()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$ary&nbsp;</span><span style="color: #007700">=&nbsp;array();<br /></span><span style="color: #0000BB">$strone&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Mensaje&nbsp;del&nbsp;Padre.'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$strtwo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Mensaje&nbsp;del&nbsp;Hijo.'</span><span style="color: #007700">;<br /><br />if&nbsp;(</span><span style="color: #0000BB">socket_create_pair</span><span style="color: #007700">(</span><span style="color: #0000BB">AF_UNIX</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SOCK_STREAM</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$ary</span><span style="color: #007700">)&nbsp;===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"socket_create_pair()&nbsp;failed.&nbsp;Reason:&nbsp;"</span><span style="color: #007700">.</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">());<br />}<br /></span><span style="color: #0000BB">$pid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">pcntl_fork</span><span style="color: #007700">();<br />if&nbsp;(</span><span style="color: #0000BB">$pid&nbsp;</span><span style="color: #007700">==&nbsp;-</span><span style="color: #0000BB">1</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Could&nbsp;not&nbsp;fork&nbsp;Process.'</span><span style="color: #007700">;<br />}&nbsp;elseif&nbsp;(</span><span style="color: #0000BB">$pid</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*padre*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">socket_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">socket_write</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$strone</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #0000BB">$strone</span><span style="color: #007700">))&nbsp;===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"socket_write()&nbsp;failed.&nbsp;Reason:&nbsp;"</span><span style="color: #007700">.</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]));<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">socket_read</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #0000BB">$strtwo</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">PHP_BINARY_READ</span><span style="color: #007700">)&nbsp;==&nbsp;</span><span style="color: #0000BB">$strtwo</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Recieved&nbsp;</span><span style="color: #0000BB">$strtwo</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">socket_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]);<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*hijo*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">socket_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">socket_write</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$strtwo</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #0000BB">$strtwo</span><span style="color: #007700">))&nbsp;===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"socket_write()&nbsp;failed.&nbsp;Reason:&nbsp;"</span><span style="color: #007700">.</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]));<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">socket_read</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #0000BB">$strone</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">PHP_BINARY_READ</span><span style="color: #007700">)&nbsp;==&nbsp;</span><span style="color: #0000BB">$strone</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Recieved&nbsp;</span><span style="color: #0000BB">$strone</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">socket_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ary</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.socket-create-pair-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.socket-create.html" class="function" rel="rdfs-seeAlso">socket_create()</a> - Crear un socket (extremo de comunicaci&oacute;n)</span></li>
+    <li class="member"><span class="function"><a href="function.socket-create-listen.html" class="function" rel="rdfs-seeAlso">socket_create_listen()</a> - Abre un socket en un puerto para aceptar conexiones</span></li>
+    <li class="member"><span class="function"><a href="function.socket-bind.html" class="function" rel="rdfs-seeAlso">socket_bind()</a> - Vincula un nombre a un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-listen.html" class="function" rel="rdfs-seeAlso">socket_listen()</a> - Escucha una conexi&oacute;n sobre un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-last-error.html" class="function" rel="rdfs-seeAlso">socket_last_error()</a> - Devuelve el &uacute;ltimo error sobre un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-strerror.html" class="function" rel="rdfs-seeAlso">socket_strerror()</a> - Devuelve una cadena que describe un error de socket</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-create-listen.html">socket_create_listen</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-create.html">socket_create</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

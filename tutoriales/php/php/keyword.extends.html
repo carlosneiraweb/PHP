@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>extends</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="keyword.class.html">class</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="oop4.constructor.html">Constructores</a></div>
+ <div class="up"><a href="oop4.html">Clases y Objetos (PHP 4)</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="keyword.extends" class="sect1">
+   <h2 class="title"><em>extends</em></h2>
+
+   <p class="para">
+    Frecuentemente son necesarias clases con variables y funciones semejantes
+    a los de otra clase ya existente. De hecho, es una buena práctica
+    definir una clase genérica que pueda ser utilizada en todos sus
+    proyectos y adaptar esta clase a las necesidades de cada uno de sus
+    proyectos específicos. Para facilitar esto, las clases pueden ser
+    extensiones de otras clases. La clase extendida o derivada
+    tiene todas las variables y funciones de la clase base (esto es
+    llamado &#039;herencia&#039; a pesar del hecho de que nadie ha muerto) y aquello que
+    se agregue en la definición extendida. No es posible
+    disminuir una clase, es decir, remover la definición de cualquier función o
+    variable existente. Una clase extendida siempre es dependiente de 
+    una sóla clase base, es decir, la herencia múltiple no 
+    está soportada. Las clases son extendidas utilizando la palabra clave &#039;<em>extends</em>&#039;.
+   </p>
+ 
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Named_Cart&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">Cart&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;</span><span style="color: #0000BB">$owner</span><span style="color: #007700">;<br />&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">set_owner&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$name</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">owner&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$name</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+ 
+   <p class="para">
+    Esto define una clase llamada Named_Cart que contiene todas las variables y funciones de
+    Cart más una variable adicional <var class="varname"><var class="varname">$owner</var></var> y una
+    función adicional <em>set_owner()</em>. Se crea un carrito con nombre de la manera habitual y
+    ahora se puede indicar y obtener el dueño del carrito. Aún se pueden utilizar las funciones de
+    carrito normal en los carritos con nombre:
+   </p>
+ 
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$ncart&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Named_Cart</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Crear&nbsp;un&nbsp;carrito&nbsp;con&nbsp;nombre<br /></span><span style="color: #0000BB">$ncart</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set_owner</span><span style="color: #007700">(</span><span style="color: #DD0000">"kris"</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Nombrar&nbsp;el&nbsp;carrito<br /></span><span style="color: #007700">print&nbsp;</span><span style="color: #0000BB">$ncart</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">owner</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;imprimir&nbsp;el&nbsp;nombre&nbsp;del&nbsp;dueño&nbsp;del&nbsp;carrito<br /></span><span style="color: #0000BB">$ncart</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add_item</span><span style="color: #007700">(</span><span style="color: #DD0000">"10"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;(funcionalidad&nbsp;heredada&nbsp;de&nbsp;cart)<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+
+   <p class="para">
+    Esto también es llamado una relación &quot;padre-hijo&quot;. Se crea una clase,
+    el padre, y se utiliza <em>extends</em> para crear una nueva clase
+    <em class="emphasis">basada</em> en la clase padre: la clase hijo. Es posible
+    incluso utilizar esta nueva clase hijo y crear otra clase basada en esta clase
+     hijo.
+   </p>
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <p class="para">
+     ¡Las clases deben de estar definidas antes de ser utilizadas! Si se desea que la clase
+     <em>Named_Cart</em> extienda a la clase
+     <em>Cart</em>, se tendrá que definir primero la clase
+     <em>Cart</em>. Si se quiere crear otra clase llamada
+     <em>Yellow_named_cart</em> basada en la clase
+     <em>Named_Cart</em> se tiene que definir primero
+     <em>Named_Cart</em>. Para resumir: el orden en que las
+     clases se definen es importante.
+    </p>
+   </p></blockquote>
+  </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="keyword.class.html">class</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="oop4.constructor.html">Constructores</a></div>
+ <div class="up"><a href="oop4.html">Clases y Objetos (PHP 4)</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

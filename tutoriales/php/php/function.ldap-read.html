@@ -1,0 +1,253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Leer una entrada</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ldap-parse-result.html">ldap_parse_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ldap-rename.html">ldap_rename</a></div>
+ <div class="up"><a href="ref.ldap.html">LDAP Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ldap-read" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ldap_read</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">ldap_read</span> &mdash; <span class="dc-title">Leer una entrada</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ldap-read-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>ldap_read</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$base_dn</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$filter</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$attributes</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$attrsonly</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$sizelimit</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$timelimit</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$deref</code></span>
+  ]]]]] )</div>
+
+  <p class="para rdfs-comment">
+   Realiza la búsqueda de un <code class="parameter">filter</code> en específico en el
+   directorio con el alcance de <strong><code>LDAP_SCOPE_BASE</code></strong>. Lo que es
+   equivalente a leer una entrada del directorio.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.ldap-read-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">link_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un enlace identificador de LDAP, devuelto por <span class="function"><a href="function.ldap-connect.html" class="function">ldap_connect()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">base_dn</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El DN base para el directorio.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">filter</code></dt>
+
+     <dd>
+
+      <p class="para">
+       No se permite un filtro vacío. Si quieres devolver absolutamente toda
+       la información de esta entrada, utiliza un filtro como este 
+       <em>objectClass=*</em>. Si sabes qué tipos de entradas se
+       utilizan en el servidor de directorio, podrías utilizar un filtro apropiado
+       tal como <em>objectClass=inetOrgPerson</em>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">attributes</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un array de los atributos requeridos, por ejemplo, array(&quot;mail&quot;, &quot;sn&quot;, &quot;cn&quot;).
+       Nótese que el &quot;dn&quot; siempre se devuelve independientemente de qué tipos de atributos
+       son requeridos.
+      </p>
+      <p class="para">
+       Utilizar este parámetro es mucho más eficiente que la acción predeterminada
+       (la cual es devolver todos los atributos y sus valores asociados). 
+       El uso de este parámetro debería ser, por lo tanto, considerado una buena
+       práctica.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">attrsonly</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Debería ser establecido a 1 si solamente se buscan los tipos de atributos. Si se establece a 0,
+       ambos los tipos de atributos y los valores de los atributos son extraídos como es el
+       comportamiento predeterminado.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">sizelimit</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Permite limitar la cuenta de entradas extraídas. Establecer esto a 0
+       significa que no hay límite.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Este parámetro NO puede prevalecer al límite de tamaño preestablecido en el lado del servidor. Aunque
+        puedes establecerlo al más bajo.
+       </p>
+       <p class="para">
+        Algunos equipos servidores de directorio serán configurados para devovler no más de
+        un determinado número predefinido de entradas. Si esto sucede, el servidor indicará
+        que solamente ha devuelto un conjunto parcial de resultados. Esto también sucede si
+        utilizas este parámetro para limitar la cuenta de las entradas extraídas.
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">timelimit</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Establece el número de segundos de cuan larga será la búsqueda. Al establecer
+       esto a 0 significa que no hay límite.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Este parámetro NO puede prevalecer al límite de tiempo preestablecido en el lado del servidor. Aunque
+        puedes establecerlo al más bajo.
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">deref</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Especifica cuantos alias deberían ser manejados durante la búsqueda. Este puede ser
+       uno de los siguientes:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>LDAP_DEREF_NEVER</code></strong> - (predeterminado) Los alias nunca son
+          desreferenciados.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>LDAP_DEREF_SEARCHING</code></strong> - Los alias deberían ser
+          desreferenciados durante la búsqueda pero no cuando se quiere ubicar el objeto base.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>LDAP_DEREF_FINDING</code></strong> - Los alias deberían ser
+          desreferenciados cuando se quiere ubicar el objeto base pero no durante la búsqueda.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>LDAP_DEREF_ALWAYS</code></strong> - Los alias deberían ser siempre
+          desreferenciados.
+         </span>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.ldap-read-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un identificador del resultado de la búsqueda o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 changelog" id="refsect1-function.ldap-read-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>4.0.5</td>
+       <td>
+        Se añadió soporte para búsquedas en paralelo.
+        Para más detalles vea <span class="function"><a href="function.ldap-search.html" class="function">ldap_search()</a></span>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ldap-parse-result.html">ldap_parse_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ldap-rename.html">ldap_rename</a></div>
+ <div class="up"><a href="ref.ldap.html">LDAP Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

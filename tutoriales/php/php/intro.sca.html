@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Introducci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.sca.html">SCA</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sca.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="up"><a href="book.sca.html">SCA</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intro.sca" class="preface">
+  <h1 class="title">Introducción</h1>
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta extensión es
+<em class="emphasis">EXPERIMENTAL</em>. Esto significa que el comportamiento de esta extensión, 
+los nombres de sus funciones y todo lo documentado sobre esta extensión, puede
+cambiar en una futura edición de PHP sin previo aviso. El uso de 
+esta extensión queda bajo su propia responsabilidad.</p></div>
+  <p class="para"> 
+   SCA para PHP posibilita a un programador de PHP para escribir
+   componentes reusables, que pueden ser invocados de varias formas, con una
+   interfaz idéntica y con un mínimo de preocupación. Por ahora,
+   los componentes se pueden llamar unos a otros localmente o mediante servicios web,
+   pero en el futuro se espera que sean posibles otras formas. Proporciona
+   al programador una manera de realizar esto, la cual parecerá tan natural
+   como sea posible en PHP. 
+  </p>
+  
+  <p class="para"> 
+   Los componentes SCA usan anotaciones estilo phpDocumentor (véase
+   http://www.phpdoc.org/) para declarar dependencias sobre
+   otros componentes SCA o servicios Web. El tiempo de ejecución de SCA para PHP
+   resuelve estas dependiencias en tiempo de ejecución en nombre de los componentes,
+   y así permite que el programador de PHP se centre en la lógica de negocio
+   en vez de ubicar y obtener referencias a dependencias.
+  </p>
+  
+  <p class="para"> 
+   El modelo de programcación de SCA para PHP se puede ampliar para admitir
+   varios tipos de servicios, como REST y Atompub. Sin embargo, los sevicios
+   web (más exactamente, definidos con WSDL, servicios SOAP/HTTP), son
+   los únicos tipos actualmente especificados.
+  </p>
+  
+  <p class="para"> 
+   Los componentes también usan anotaciones para definir la interfaz que
+   exponen como servicio. El tiempo de ejecución de SCA para PHP automáticamete
+   generará WSDL desde estas anotaciones, por lo que un componente SCA se
+   expone con facilidad como un servicio web. Estas anotaciones son una extensión
+   natural de las proporcionadas por phpDocumentor. Implementar un servicio
+   web puede ser tan simple como colocar un componente de PHP bajo la raíz de
+   documentos de un servidor web. 
+  </p>
+  
+  <p class="para"> 
+   Los componentes también usan anotaciones para especificar estructuras de datos
+   (expresadas usandos tipos complejos de esquemas XML) que son luego manejadas
+   usando Objetos de Datos de Servicio (SDOs). 
+  </p>
+  
+  <p class="para"> 
+   Un script de PHP que no es un componente SCA y que no contiene
+   anotaciones puede usar los servicios de un componente SCA. Un script o
+   componente de PHP puede realizar llamadas a un servicio web que no sea un componente SCA,
+   pero usando el mismo sistema de llamadas o anotaciones para obtener una
+   referencia.
+  </p>
+  
+  <p class="para"> 
+   Primero se mostrará un componente SCA sencillo, ConvertedStockQuote,
+   que ilustra muchas de las características de SCA para PHP. Tiene un
+   método,
+   <span class="function"><strong>getQuote()</strong></span>, que, dada una cinta de cotizaciones,
+   obtiene una cotización para tal acción, convertida a la moneda dada.
+   Se usará este ejemplo como base para explicar SCA para PHP
+   a lo largo del resto de este documento.
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-5872">
+    <p><strong>Ejemplo #1 Un componente SCA sencillo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">include&nbsp;</span><span style="color: #DD0000">"SCA/SCA.php"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/**<br />&nbsp;*&nbsp;Calcular&nbsp;un&nbsp;precio&nbsp;de&nbsp;acción&nbsp;para&nbsp;una&nbsp;clave&nbsp;de&nbsp;pizarra&nbsp;dada&nbsp;en&nbsp;una&nbsp;moneda&nbsp;dada.<br />&nbsp;*<br />&nbsp;*&nbsp;@service<br />&nbsp;*&nbsp;@binding.soap<br />&nbsp;*/<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">ConvertedStockQuote&nbsp;</span><span style="color: #007700">{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/**<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;El&nbsp;servicio&nbsp;de&nbsp;tasa&nbsp;de&nbsp;cambio&nbsp;de&nbsp;moneda&nbsp;a&nbsp;usar.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@reference<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@binding.php&nbsp;../ExchangeRate/ExchangeRate.php<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">public&nbsp;</span><span style="color: #0000BB">$exchange_rate</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/**<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;El&nbsp;servicio&nbsp;de&nbsp;cotización&nbsp;de&nbsp;acciones&nbsp;a&nbsp;usar.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@reference<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@binding.soap&nbsp;../StockQuote/StockQuote.wsdl<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">public&nbsp;</span><span style="color: #0000BB">$stock_quote</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/**<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Obtener&nbsp;una&nbsp;cotización&nbsp;de&nbsp;acción&nbsp;para&nbsp;una&nbsp;clave&nbsp;de&nbsp;pizarra&nbsp;dada&nbsp;en&nbsp;una&nbsp;moneda&nbsp;dada.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;string&nbsp;$ticker&nbsp;La&nbsp;clave&nbsp;de&nbsp;pizarra.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;string&nbsp;$currency&nbsp;La&nbsp;moneda&nbsp;al&nbsp;que&nbsp;converitr&nbsp;el&nbsp;valor.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;float&nbsp;El&nbsp;valor&nbsp;de&nbsp;la&nbsp;acción&nbsp;es&nbsp;la&nbsp;moneda&nbsp;dada.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">getQuote</span><span style="color: #007700">(</span><span style="color: #0000BB">$ticker</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$currency</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$quote&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">stock_quote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getQuote</span><span style="color: #007700">(</span><span style="color: #0000BB">$ticker</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$rate&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exchange_rate</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getRate</span><span style="color: #007700">(</span><span style="color: #0000BB">$currency</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;&nbsp;</span><span style="color: #0000BB">$rate&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">$quote</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  
+  <p class="para"> 
+   En este ejemplo se ve que un componente SCA está implementado por un
+   script que contien una clase de PHP y que incluye
+   <var class="filename">SCA.php</var>. La clase contiene una mezcla de
+   lógica de negocio y referencias a otros componentes o servicios. En
+   el método ilustrado
+   <span class="function"><strong>getQuote()</strong></span> existe solamente lógica de
+   negocio, aunque cuenta con que las variables de instancia
+   <var class="varname"><var class="varname">$stock_quote</var></var> y
+   <var class="varname"><var class="varname">$exchange_rate</var></var> hayan sido inicializadas.
+   Estas recurren a otros dos componentes que serán inicializados en el tiempo de
+   ejecución de SCA con delegados para estos dos servicios, siempre que se
+   ejecute este componente. Las anotaciones para estos dos servicios muestran un
+   compoente local, que será invocado dentro del mismo periodo de ejecución
+   de PHP, y un componente remoto que será invocado mediante una
+   petición SOAP. Este componente también expone el método
+   <span class="function"><strong>getQuote()</strong></span> localmente y como servicio
+   web, por lo que, por turnos, pueden ser invocados tanto local como remotamente.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.sca.html">SCA</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sca.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="up"><a href="book.sca.html">SCA</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

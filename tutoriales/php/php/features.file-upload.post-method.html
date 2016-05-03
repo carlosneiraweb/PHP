@@ -1,0 +1,252 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Subida con el m&eacute;todo POST</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.file-upload.html">Subida de ficheros</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.file-upload.errors.html">Explicaci&oacute;n de los mensajes de error</a></div>
+ <div class="up"><a href="features.file-upload.html">Subida de ficheros</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="features.file-upload.post-method" class="sect1">
+  <h2 class="title">Subida con el método POST</h2>
+  <p class="simpara">
+   Esta característica permite la subida de ficheros de texto y binarios.
+   Con la autenticación de PHP y las funciones de manipulación de ficheros
+   se tiene control completo sobre quién está autorizado a realizar una subida y
+   qué hay que hacer con el fichero una vez subido.
+  </p>
+  <p class="simpara">
+   PHP es capaz de recibir subidas de ficheros de cualquier navegador
+   compatible con el RFC-1867.
+  </p>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Configuraciones relacionadas</strong><br />
+   <p class="para">
+    Véanse también las directivas <a href="ini.core.html#ini.file-uploads" class="link">file_uploads</a>,
+    <a href="ini.core.html#ini.upload-max-filesize" class="link">upload_max_filesize</a>,
+    <a href="ini.core.html#ini.upload-tmp-dir" class="link">upload_tmp_dir</a>,
+    <a href="ini.core.html#ini.post-max-size" class="link">post_max_size</a> y
+    <a href="info.configuration.html#ini.max-input-time" class="link">max_input_time</a>
+    de <var class="filename">php.ini</var>
+   </p>
+  </p></blockquote>
+  
+  <p class="para">
+   PHP también admite el método PUT para subir ficheros tal y como lo
+   utilizan los clientes <span class="productname">Netscape Composer</span> y
+   <span class="productname">Amaya</span> del W3C. Véase el <a href="features.file-upload.put-method.html" class="link">Soporte para el
+   método PUT</a> para más detalles.
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-401">
+    <p><strong>Ejemplo #1 Formulario para la subida de ficheros</strong></p>
+    <div class="example-contents"><p>
+     Se puede construir una página de subida de ficheros creando un formulario especial
+     parecido a este:
+    </p></div>
+    <div class="example-contents">
+<div class="htmlcode"><pre class="htmlcode">&lt;!-- El tipo de codificación de datos, enctype, DEBE especificarse como sigue --&gt;
+&lt;form enctype=&quot;multipart/form-data&quot; action=&quot;__URL__&quot; method=&quot;POST&quot;&gt;
+    &lt;!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero --&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;MAX_FILE_SIZE&quot; value=&quot;30000&quot; /&gt;
+    &lt;!-- El nombre del elemento de entrada determina el nombre en el array $_FILES --&gt;
+    Enviar este fichero: &lt;input name=&quot;fichero_usuario&quot; type=&quot;file&quot; /&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Enviar fichero&quot; /&gt;
+&lt;/form&gt;</pre>
+</div>
+    </div>
+
+    <div class="example-contents"><p>
+     El <em>__URL__</em> del ejemplo anterior se debe sustituir
+     y debe apuntar a un fichero de PHP.
+    </p></div>
+    <div class="example-contents"><p>
+     El campo oculto <em>MAX_FILE_SIZE</em> (medido en bytes) debe
+     preceder al campo de entrada del fichero, siendo su valor el tamaño de fichero máximo aceptado por PHP.
+     Se debe utilizar siempre este elemento del formulario, ya que evita a los usuarios la molestia de
+     esperar a que un fichero grande sea transferido sólo para descubrir que falló la transferencia 
+     porque era demasiado grande. Hay que tener en cuenta que engañar a esta configuración en el
+     lado del navegador es muy fácil; nunca dependa de que los ficheros que tengan un tamaño mayor
+     sean bloqueados por esta característica. Es simplemente una característica conventiene para
+     los usuarios en el lado cliente de la aplicación. No obstante, la configuración de PHP (en el lado del
+     servidor) para un tamaño máximo no puede ser engañada.
+    </p></div>
+   </div>
+  </p>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Asegúrese de que el formulario de subida de ficheros tiene el atributo <em>enctype=&quot;multipart/form-data&quot;</em>
+    o de lo contrario la subida de ficheros no funcionará.
+   </p>
+  </p></blockquote>
+  
+  <p class="para">
+   El array global <var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES</a></var></var> contendrá toda la información de los los ficheros subidos.
+   Su contenido en el formulario del ejemplo es el siguiente. Observe que se asume el empleo del
+   nombre <em class="emphasis">fichero_usuario</em> para el fichero subido, tal como se utiliza en el script
+   de ejemplo anterior. Este puede ser cualquier nombre.
+   <dl>
+
+    
+     <dt>
+<var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['name']</a></var></var></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre original del fichero en la máquina del cliente.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['type']</a></var></var></dt>
+
+     <dd>
+
+      <p class="para">
+       El tipo MIME del fichero, si el navegador proporcionó esta
+       información. Un ejemplo sería
+       <em>&quot;image/gif&quot;</em>. Este tipo MIME, sin embargo,
+       no se comprueba en el lado de PHP y por lo tanto no se garantiza
+       su valor.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['size']</a></var></var></dt>
+
+     <dd>
+
+      <p class="para">
+       El tamaño, en bytes, del fichero subido.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['tmp_name']</a></var></var></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre temporal del fichero en el cual se almacena el fichero
+       subido en el servidor.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['error']</a></var></var></dt>
+
+     <dd>
+
+      <p class="para">
+       El <a href="features.file-upload.errors.html" class="link">código de error</a>
+       asociado a esta subida.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  
+  <p class="para">
+   Por defecto, los ficheros se almacenan en el directorio temporal predeterminado
+   del servidor, a menos que se haya indicado otra ubicaicón con la directiva <a href="ini.core.html#ini.upload-tmp-dir" class="link">upload_tmp_dir</a> en
+   <var class="filename">php.ini</var>. Se puede cambiar el directorio predeterminado
+   del servidor estableciendo la variable de entorno
+   <span class="envar">TMPDIR</span> en el entorno en que se ejecuta PHP.
+   Configurarlo usando <span class="function"><a href="function.putenv.html" class="function">putenv()</a></span> desde un script de PHP
+   no funcionará. Esta variable de entorno también se puede utilizar
+   para asegurarse de que las demás operaciones están trabajando sobre los ficheros
+   subidos.
+   <div class="example" id="example-402">
+    <p><strong>Ejemplo #2 Validación de la subida de ficheros</strong></p>
+    <div class="example-contents"><p>
+     Véanse también las entradas de las funciones <span class="function"><a href="function.is-uploaded-file.html" class="function">is_uploaded_file()</a></span>
+     y <span class="function"><a href="function.move-uploaded-file.html" class="function">move_uploaded_file()</a></span> para más información. El
+     siguiente ejemplo procesará la subida de fichero desde un formulario.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;En&nbsp;versiones&nbsp;de&nbsp;PHP&nbsp;anteriores&nbsp;a&nbsp;la&nbsp;4.1.0,&nbsp;debería&nbsp;utilizarse&nbsp;$HTTP_POST_FILES&nbsp;en&nbsp;lugar<br />//&nbsp;de&nbsp;$_FILES.<br /><br /></span><span style="color: #0000BB">$dir_subida&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'/var/www/uploads/'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$fichero_subido&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$dir_subida&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">basename</span><span style="color: #007700">(</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">[</span><span style="color: #DD0000">'fichero_usuario'</span><span style="color: #007700">][</span><span style="color: #DD0000">'name'</span><span style="color: #007700">]);<br /><br />echo&nbsp;</span><span style="color: #DD0000">'&lt;pre&gt;'</span><span style="color: #007700">;<br />if&nbsp;(</span><span style="color: #0000BB">move_uploaded_file</span><span style="color: #007700">(</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">[</span><span style="color: #DD0000">'fichero_usuario'</span><span style="color: #007700">][</span><span style="color: #DD0000">'tmp_name'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$fichero_subido</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"El&nbsp;fichero&nbsp;es&nbsp;válido&nbsp;y&nbsp;se&nbsp;subió&nbsp;con&nbsp;éxito.\n"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"¡Posible&nbsp;ataque&nbsp;de&nbsp;subida&nbsp;de&nbsp;ficheros!\n"</span><span style="color: #007700">;<br />}<br /><br />echo&nbsp;</span><span style="color: #DD0000">'Más&nbsp;información&nbsp;de&nbsp;depuración:'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">);<br /><br />print&nbsp;</span><span style="color: #DD0000">"&lt;/pre&gt;"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="simpara">
+   El script de PHP que recibe el fichero subido debería implementar
+   cualquier lógica necesaria para determinar qué se debe hacer
+   con el fichero subido. Se puede, por ejemplo, utilizar la
+   variable <var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['size']</a></var></var>
+   para descartar cualquier fichero que sea demasiado pequeño o demasiado grande. Se
+   podría utilizar la
+   variable <var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['type']</a></var></var>
+   para descartar cualquier fichero que no corresponda con un cierto criterio de tipo, aunque
+   esto se debe emplear solo como la primera de una serie de comprobaciones debido a que este valor
+   está completamente bajo el control del cliente y no se comprueba en el lado
+   de PHP.
+   También se puede usar <var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['error']</a></var></var>
+   y planear la lógica de acuerdo con los <a href="features.file-upload.errors.html" class="link">códigos de error</a>.
+   Cualquiera que sea la lógica, se debería borrar el fichero del
+   directorio temporal o moverlo a otra ubicación.
+  </p>
+  <p class="simpara">
+   Si no se selecciona ningún fichero en el formulario para realizar la subida, PHP devolverá
+   <var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['size']</a></var></var> como 0, y
+   <var class="varname"><var class="varname"><a href="reserved.variables.files.html" class="classname">$_FILES['fichero_usuario']['tmp_name']</a></var></var> como ninguno.
+  </p>
+  <p class="simpara">
+   El fichero será borrado del directorio temporal al final
+   de la solicitud si este no ha sido movido o renombrado.
+  </p>
+  <div class="example" id="example-403">
+   <p><strong>Ejemplo #3 Subir un array de ficheros</strong></p>
+   <div class="example-contents"><p>
+    PHP admite la <a href="faq.html.html#faq.html.arrays" class="link">funcionalidad de array en HTML</a>
+    incluso con ficheros.
+   </p></div>
+   <div class="example-contents">
+<div class="htmlcode"><pre class="htmlcode">&lt;form action=&quot;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+&lt;p&gt;Imágenes:
+&lt;input type=&quot;file&quot; name=&quot;imágenes[]&quot; /&gt;
+&lt;input type=&quot;file&quot; name=&quot;imágenes[]&quot; /&gt;
+&lt;input type=&quot;file&quot; name=&quot;imágenes[]&quot; /&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Enviar&quot; /&gt;
+&lt;/p&gt;
+&lt;/form&gt;</pre>
+</div>
+   </div>
+
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">foreach&nbsp;(</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">[</span><span style="color: #DD0000">"imágenes"</span><span style="color: #007700">][</span><span style="color: #DD0000">"error"</span><span style="color: #007700">]&nbsp;as&nbsp;</span><span style="color: #0000BB">$clave&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$error</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">$error&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">UPLOAD_ERR_OK</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$nombre_tmp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">[</span><span style="color: #DD0000">"imágenes"</span><span style="color: #007700">][</span><span style="color: #DD0000">"tmp_name"</span><span style="color: #007700">][</span><span style="color: #0000BB">$clave</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$nombre&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">[</span><span style="color: #DD0000">"imágenes"</span><span style="color: #007700">][</span><span style="color: #DD0000">"name"</span><span style="color: #007700">][</span><span style="color: #0000BB">$clave</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">move_uploaded_file</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_tmp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"datos/</span><span style="color: #0000BB">$nombre</span><span style="color: #DD0000">"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <p class="para">
+   Se puede implementar una barra de progreso de subida de ficheros con el <a href="session.upload-progress.html" class="link">Progreso de subida en sesiones</a>.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.file-upload.html">Subida de ficheros</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.file-upload.errors.html">Explicaci&oacute;n de los mensajes de error</a></div>
+ <div class="up"><a href="features.file-upload.html">Subida de ficheros</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

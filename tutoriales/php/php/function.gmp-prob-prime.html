@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Revisa si el n&uacute;mero es &quot;probablemente primo&quot;</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.gmp-powm.html">gmp_powm</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.gmp-random-bits.html">gmp_random_bits</a></div>
+ <div class="up"><a href="ref.gmp.html">Funciones de GMP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.gmp-prob-prime" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">gmp_prob_prime</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">gmp_prob_prime</span> &mdash; <span class="dc-title">Revisa si el número es &quot;probablemente primo&quot;</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.gmp-prob-prime-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>gmp_prob_prime</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.gmp.html" class="type GMP">GMP</a></span> <code class="parameter">$a</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$reps</code><span class="initializer"> = 10</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   La función usa la prueba probabilística de Miller-Rabin para revisar si un número es primo.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.gmp-prob-prime-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">a</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número a ser revisado como primo.
+      </p>
+      <p class="para"><span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> de número de GMP en PHP 5.5 y anterior, o un objeto de <a href="class.gmp.html" class="classname">GMP</a> en PHP 5.6 y posterior, o un string numérico siempre que sea posible convertirlo a un número.</p> 
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">reps</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Valores rasonables
+       de <code class="parameter">reps</code> varían de 5 a 10 (por defecto siendo
+       10); un valor superior disminuye la probabilidad para un número no primo a
+       pasar como un &quot;probable&quot; primo.
+      </p>
+      <p class="para"><span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> de número de GMP en PHP 5.5 y anterior, o un objeto de <a href="class.gmp.html" class="classname">GMP</a> en PHP 5.6 y posterior, o un string numérico siempre que sea posible convertirlo a un número.</p> 
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.gmp-prob-prime-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Si ésta función devolvier 0, <code class="parameter">a</code> es
+   definitivamente no primo. Si devuelve 1, entonces
+   <code class="parameter">a</code> es &quot;probablemente&quot; primo. si devolviera 2,
+   entonces <code class="parameter">a</code> es seguramente primo. 
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.gmp-prob-prime-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3943">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>gmp_prob_prime()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;definitivamente&nbsp;no&nbsp;primo<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">gmp_prob_prime</span><span style="color: #007700">(</span><span style="color: #DD0000">"6"</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;probablemente&nbsp;primo<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">gmp_prob_prime</span><span style="color: #007700">(</span><span style="color: #DD0000">"1111111111111111111"</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;definitivamente&nbsp;primo<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">gmp_prob_prime</span><span style="color: #007700">(</span><span style="color: #DD0000">"11"</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+0
+1
+2
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.gmp-powm.html">gmp_powm</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.gmp-random-bits.html">gmp_random_bits</a></div>
+ <div class="up"><a href="ref.gmp.html">Funciones de GMP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

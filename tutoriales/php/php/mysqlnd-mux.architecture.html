@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Arquitectura</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-mux.concepts.html">Conceptos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-mux.connection_pool.html">Agrupamiento de conexiones</a></div>
+ <div class="up"><a href="mysqlnd-mux.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-mux.architecture" class="section">
+  <h2 class="title">Arquitectura</h2>
+  <p class="para">
+   El complemento de multiplexación de conexiones de mysqlnd está implementado como una extensión de PHP.
+   Está estcrito en C y opera bajo el manto de PHP. Durante el
+   arranque del intérprete de PHP, en la fase de inicialización de módulos del
+   motor de PHP, se registra como un complemento de
+   <a href="book.mysqlnd.html" class="link">mysqlnd</a> para reemplazar a los métodos en C
+   específicos de mysqlnd.
+  </p>
+  <p class="para">
+   La biblioteca mysqlnd utiliza los flujos de PHP para comunicarse con el servidor
+   MySQL. A los flujos de PHP se acceden mediante la biblioteca mysqlnd a través de su módulo de red.
+   El complemento de multiplexación de conexiones de mysqlnd actúa como delegado de los métodos del
+   módulo de red de la biblioteca mysqlnd para controlar la apertura y el cierre de flujos de red.
+  </p>
+  <p class="para">
+   Cuando se abre una conexión de usuario a MySQL utlizando las funciones de conexión
+   apropiadas de <a href="book.mysqli.html" class="link">mysqli</a>,
+   <a href="ref.pdo-mysql.html" class="link">PDO_MYSQL</a> o
+   <a href="book.mysql.html" class="link">ext/mysql</a>, el complemento busca en su
+   agrupamiento de conexiones una conexión de red abierta. Si el agrupamiento
+   contiene una conexión de red al host especificado por la función de conexión
+   que use el método de transporte solicitado (TCP/IP, socket de dominio Unix, tuberías con nombre de Windows),
+   la conexión del agrupamiento se vincula al gestor de usuario. De lo contrario, se abre
+   una nueva conexión de red, se coloca en el agrupamiento y se asocia con el
+   gestor de conexión de usuario. De esta manera, múltiples gestores de usuario pueden ser vinculados
+   a la misma conexión de red.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-mux.concepts.html">Conceptos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-mux.connection_pool.html">Agrupamiento de conexiones</a></div>
+ <div class="up"><a href="mysqlnd-mux.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

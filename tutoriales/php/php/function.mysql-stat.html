@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene el estado actual del sistema</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-set-charset.html">mysql_set_charset</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-tablename.html">mysql_tablename</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-stat" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_stat</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.0, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_stat</span> &mdash; <span class="dc-title">Obtiene el estado actual del sistema</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-stat-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta extensión fue declarada obsoleta en PHP 5.5.0 y eliminada en PHP 7.0.0.
+En su lugar debería utilzarse las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a>.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Alternatives to this function include:</p>
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli.stat.html" class="function">mysqli_stat()</a></span></li>
+    <li class="member"><span class="methodname"><a href="pdo.getattribute.html" class="methodname">PDO::getAttribute(PDO::ATTR_SERVER_INFO)</a></span></li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-stat-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>mysql_stat</strong></span>
+    ([ <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code><span class="initializer"> = NULL</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>mysql_stat()</strong></span> devuelve el estado actual del servidor.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-stat-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+link_identifier</code></dt>
+<dd>
+<p class="para">La conexión MySQL. Si el
+identificador de enlace no se especifica, el último enlace abierto por
+<span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> es asumido. Si no se encuentra dicho enlace, la
+función intentará establecer un nuevo enlace como si <span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> fuese invocado
+sin parámetros. Si no se encuentra o establece una conexión, un error de nivel
+<strong><code>E_WARNING</code></strong> es generado.</p></dd>
+
+
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-stat-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un string con el estado del tiempo de funcionamiento, hilos, consultas, tablas abiertas,
+   tablas de volcado y consultas por segundo. Para obtener una lista completa de variables de
+   estado, es necesario usar el comando SQL <em>SHOW STATUS</em>.
+   Si <code class="parameter">link_identifier</code> no es válido, se devuelve <strong><code>NULL</code></strong>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysql-stat-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1834">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysql_stat()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'usuario_mysql'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña_mysql'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$estado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">explode</span><span style="color: #007700">(</span><span style="color: #DD0000">'&nbsp;&nbsp;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysql_stat</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$estado</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [0] =&gt; Uptime: 5380
+    [1] =&gt; Threads: 2
+    [2] =&gt; Questions: 1321299
+    [3] =&gt; Slow queries: 0
+    [4] =&gt; Opens: 26
+    [5] =&gt; Flush tables: 1
+    [6] =&gt; Open tables: 17
+    [7] =&gt; Queries per second avg: 245.595
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-1835">
+    <p><strong>Ejemplo #2 Ejemplo alternativo de <span class="function"><strong>mysql_stat()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'usuario_mysql'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña_mysql'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_query</span><span style="color: #007700">(</span><span style="color: #DD0000">'SHOW&nbsp;STATUS'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br />while&nbsp;(</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_fetch_assoc</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'Nombre_variable'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">'&nbsp;=&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'Valor'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+back_log = 50
+basedir = /usr/local/
+bdb_cache_size = 8388600
+bdb_log_buffer_size = 32768
+bdb_home = /var/db/mysql/
+bdb_max_lock = 10000
+bdb_logdir = 
+bdb_shared_data = OFF
+bdb_tmpdir = /var/tmp/
+...
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-stat-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-get-server-info.html" class="function" rel="rdfs-seeAlso">mysql_get_server_info()</a> - Obtiene informaci&oacute;n del servidor MySQL</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-list-processes.html" class="function" rel="rdfs-seeAlso">mysql_list_processes()</a> - Lista los procesos de MySQL</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-set-charset.html">mysql_set_charset</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-tablename.html">mysql_tablename</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

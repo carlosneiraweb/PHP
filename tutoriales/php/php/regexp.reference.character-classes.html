@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Clases car&aacute;cter</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.dot.html">Punto</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.alternation.html">Alternancia</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="regexp.reference.character-classes" class="section">
+  <h2 class="title">Clases carácter</h2>
+  <p class="para">
+   Un corchete de apertura inicia una clase carácter,
+   finalizada por un corchete de cierre. Un corchete de
+   cierre por sí solo no es especial. Si se requiere
+   un corchete de cierre como un miembro de la clase, éste debería ser
+   el primer carácter de información en la clase (después de un circunflejo
+   inicial, si está presente) o escapado con una barra invertida.
+  </p>
+  <p class="para">
+   Una clase carácter coincide con un sólo carácter en el sujeto;
+   el carácter debe estar en el conjunto de caracteres definido por
+   la clase, a menos que el primer carácter en la clase sea un
+   circunflejo, en cuyo caso el carácter sujeto no debe de estar en
+   el conjunto definido por la clase. Si un circunflejo es requerido
+   en realidad como un miembro de la clase, asegúrese de que no sea el
+   primer carácter, o escápelo con una barra invertida.
+  </p>
+  <p class="para">
+   Por ejemplo, la clase carácter [aeiou] coincide con cualquier vocal
+   minúscula, mientras que [^aeiou] con cualquier carácter que no sea
+   una vocal minúscula. Observe que un circunflejo es sólo una
+   notación conveniente para especificar los caracteres que están en
+   la clase enumerando los que no están. Si no es una
+   declaración: aún consume un carácter de la cadena objetivo,
+   y falla si el punto actual está al final de la
+   cadena.
+  </p>
+  <p class="para">
+   Cuando está establecida la coincidencia insensible a mayúsculas-minúculas, cualquier
+   letra en una clase representa tanto su versión en mayúsculas como
+   minusculas, así, por ejemplo, una clase insensible [aeiou] coincidice con &quot;A&quot;
+   así como con &quot;a&quot;, y una clase insensible [^aeiou] no coincide con
+   &quot;A&quot;, mientras que una versión sensible lo haría.
+  </p>
+  <p class="para">
+   El carácter nueva línea nunca es tratado de manera especial en
+   las clases carácter, sin importar el establecimiento de la opción <a href="reference.pcre.pattern.modifiers.html" class="link">PCRE_DOTALL</a> 
+   o <a href="reference.pcre.pattern.modifiers.html" class="link">PCRE_MULTILINE</a>.
+   Una clase como [^a] siempre coincidirá con una nueva línea.
+  </p>
+  <p class="para">
+   El carácter menos (guión) se puede usar para especificar un rango
+   de caracteres en una clase carácter. Por ejemplo, [d-m]
+   coincide con cualquier letra entre d y m, inclusive. Si un carácter
+   - (menos) se requiere en una clase, se debe escapar con una
+   barra invertida o aparecer en una posición donde no pueda ser
+   interpretado como indicador de rango, típicamente como el primer o último
+   carácter en una clase.
+  </p>
+  <p class="para">
+   No es posible tener un carácter literal &quot;]&quot; como el
+   carácter final de un rango. Un patrón como [W-]46] es
+   interpretado como una clase de dos caracteres (&quot;W&quot; y &quot;-&quot;)
+   seguido de una cadena literal &quot;46]&quot;, por lo que coincidiría con &quot;W46]&quot; o
+   &quot;-46]&quot;. Sin embargo, si el &quot;]&quot; es escapado con una barra invertida
+   es interpretado como el final del rango, así [W-\]46] es
+   interpretado como un clase individual que contiene un rango seguido de dos
+   caracteres aparte. La representación octal o hexadecimal
+   de &quot;]&quot; también se puede usar al final del rango.
+  </p>
+  <p class="para">
+   Los rangos operan en la secuencia de colación de ASCII. También se pueden
+   usar para caracteres especificados numéricamente, por ejemplo
+   [\000-\037]. Si un rango que incluye letras se usa cuando
+   se establece la coincidencia insensible a mayúsculas-minúsculas, coincide con las
+   letras en cualquier caso. Por ejemplo, [W-c] es equivalente a
+   [][\^_`wxyzabc], comparados insensiblemente, y si las tablas
+   de caracteres para la configuración regional &quot;fr&quot; están siendo usadas, [\xc8-\xcb] coincide
+   con caracteres E acentudos en ambos casos.
+  </p>
+  <p class="para">
+   Los tipos de caracteres \d, \D, \s, \S, \w, y \W también pueden
+   aparecer en la clase carácter, y añaden a la clase los caracteres
+   que ellos representan. Por ejemplo, [\dABCDEF] coincide con cualquier
+   dígito hexadecimal. Un circunflejo se puede usar convenientemente
+   con los tipos de caracteres en mayúsculas para especificar un
+   conjunto de caracteres más restrictivo que el tipo de coincidencia en minúscula.
+   Por ejemplo, la clase [^\W_] coincide con cualquier letra o dígito,
+   excepto con el subrayado.
+  </p>
+  <p class="para">
+   Todos los caracteres no alfanuméricos distintos de \, -, ^ (al
+   comienzo) y el ] finalizador no son especiales en una clase
+   carácter, pero no es perjudicial si se escapan. El terminador
+   de patrón siempre es especial y debe ser escapado cuando se usa
+   dentro de una expresión.
+  </p>
+  <p class="para">
+   Perl soporta la notación POSIX para clases carácter. Ésta usa nombres
+   encerrados entre <em>[:</em> y <em>:]</em> dentro de los corchetes. PCRE también
+   soporta esta notación. Por ejemplo, <em>[01[:alpha:]%]</em>
+   coincide con &quot;0&quot;, &quot;1&quot;, cualquier carácter alfabético, o &quot;%&quot;. Los nombres de las
+   clases soportadas son:
+   <table class="doctable table">
+    <caption><strong>Clases carácter</strong></caption>
+    
+     <tbody class="tbody">
+      <tr><td><em>alnum</em></td><td>letras y dígitos</td></tr>
+
+      <tr><td><em>alpha</em></td><td>letras</td></tr>
+
+      <tr><td><em>ascii</em></td><td>códigos de caracteres 0 - 127</td></tr>
+
+      <tr><td><em>blank</em></td><td>espacio o tabulación solamente</td></tr>
+
+      <tr><td><em>cntrl</em></td><td>caracteres de control</td></tr>
+
+      <tr><td><em>digit</em></td><td>dígitos decimales (lo mismo que \d)</td></tr>
+
+      <tr><td><em>graph</em></td><td>caracteres imprimibles, excluyendo el espacio</td></tr>
+
+      <tr><td><em>lower</em></td><td>letras minúsculas</td></tr>
+
+      <tr><td><em>print</em></td><td>caracteres imprimibles, incluyendo el espacio</td></tr>
+
+      <tr><td><em>punct</em></td><td>caracterse imprimibles, excluyendo letras y dígitos</td></tr>
+
+      <tr><td><em>space</em></td><td>escpacio en blanco (casi lo mismo que \s)</td></tr>
+
+      <tr><td><em>upper</em></td><td>letras mayúsculas</td></tr>
+
+      <tr><td><em>word</em></td><td>caracteres &quot;word&quot; (palabra) (lo mismo que \w)</td></tr>
+
+      <tr><td><em>xdigit</em></td><td>dígitos hexadecimales</td></tr>
+
+     </tbody>
+    
+   </table>
+
+   Los caracteres <em>space</em> son HT (9), LF (10), VT (11), FF (12), CR (13),
+   y espacio (32). Observe que esta lista incluye el caracter VT (código
+   11). Esto hace que &quot;space&quot; sea diferente de <em>\s</em>, el cuál no incluye VT (por
+   compatibilidad con Perl).
+  </p>
+  <p class="para">
+   El nombre <em>word</em> es una extensión de Perl, y <em>blank</em> es una extensión de GNU
+   desde Perl 5.8. Otra extensión de Perl es la negación, indicada
+   por un carácter <em>^</em> después de los dos puntos. Por ejemplo,
+   <em>[12[:^digit:]]</em> coincide con &quot;1&quot;, &quot;2&quot;, o cualquier no-digito.
+  </p>
+  <p class="para">
+   En el modo UTF-8, los caracteres con valores mayores que 128 no coinciden con ninguna
+   de las clases carácter POSIX.
+  </p>
+  <p class="para">
+   Dentro de una clase de caracteres pueden aparecer propiedades de carácter de Unicode. No
+   pueden ser parte de un rango. El carácter menos (-) después de una clase de caracteres
+   de Unicode se comparará literalmente. Intentar finalizar un rango con una propiedad de
+   carácter Unicode resultará en una advertencia.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.dot.html">Punto</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.alternation.html">Alternancia</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

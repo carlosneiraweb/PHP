@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve un string con la descripci&oacute;n del c&oacute;digo de error</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-multi-setopt.html">curl_multi_setopt</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.curl-pause.html">curl_pause</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.curl-multi-strerror" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">curl_multi_strerror</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.5.0, PHP 7)</p><p class="refpurpose"><span class="refname">curl_multi_strerror</span> &mdash; <span class="dc-title">Devuelve un string con la descripción del código de error</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.curl-multi-strerror-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>curl_multi_strerror</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$errornum</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve un mensaje de error que describe el código de error CURLM dado.
+  </p>
+
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.curl-multi-strerror-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">errornum</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Una de las constantes de <a href="http://curl.haxx.se/libcurl/c/libcurl-errors.html" class="link external">&raquo;&nbsp;códigos de error CURLM</a> .
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.curl-multi-strerror-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un string con la descripción del código de error válido, <strong><code>NULL</code></strong> si no lo es.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.curl-multi-strerror-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4759">
+    <p><strong>Ejemplo #1 Ejemplo con <span class="function"><strong>curl_multi_strerror()</strong></span> </strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Crea&nbsp;gestores&nbsp;cURL<br /></span><span style="color: #0000BB">$ch1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_init</span><span style="color: #007700">(</span><span style="color: #DD0000">"http://example.com"</span><span style="color: #007700">/);<br /></span><span style="color: #0000BB">$ch2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_init</span><span style="color: #007700">(</span><span style="color: #DD0000">"http://php.net/"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Crea&nbsp;un&nbsp;multi&nbsp;gestor&nbsp;cURL<br /></span><span style="color: #0000BB">$mh&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_multi_init</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;Añade&nbsp;los&nbsp;gestores&nbsp;al&nbsp;multi&nbsp;gestor<br /></span><span style="color: #0000BB">curl_multi_add_handle</span><span style="color: #007700">(</span><span style="color: #0000BB">$mh</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$ch1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">curl_multi_add_handle</span><span style="color: #007700">(</span><span style="color: #0000BB">$mh</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$ch2</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ejecuta&nbsp;el&nbsp;multi&nbsp;gestor<br /></span><span style="color: #007700">do&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$status&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_multi_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$mh</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$active</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Revisa&nbsp;si&nbsp;se&nbsp;ha&nbsp;producido&nbsp;errores<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if(</span><span style="color: #0000BB">$status&nbsp;</span><span style="color: #007700">&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Muestra&nbsp;mensaje&nbsp;de&nbsp;error<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"ERROR!\n&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">curl_multi_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">$status</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}&nbsp;while&nbsp;(</span><span style="color: #0000BB">$status&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">CURLM_CALL_MULTI_PERFORM&nbsp;</span><span style="color: #007700">||&nbsp;</span><span style="color: #0000BB">$active</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.curl-multi-strerror-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.curl-strerror.html" class="function" rel="rdfs-seeAlso">curl_strerror()</a> - Devuelve un string que describe el c&oacute;digo de error dado</span></li>
+    <li class="member"><a href="http://curl.haxx.se/libcurl/c/libcurl-errors.html" class="link external">&raquo;&nbsp;códigos de error cURL</a></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-multi-setopt.html">curl_multi_setopt</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.curl-pause.html">curl_pause</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

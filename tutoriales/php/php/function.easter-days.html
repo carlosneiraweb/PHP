@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener el n&uacute;mero de d&iacute;as desp&uacute;es del 21 de marzo en el cu&aacute;l cae Pascua para un a&ntilde;o dado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.easter-date.html">easter_date</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.frenchtojd.html">frenchtojd</a></div>
+ <div class="up"><a href="ref.calendar.html">Funciones de Calendario</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.easter-days" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">easter_days</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">easter_days</span> &mdash; <span class="dc-title">Obtener el número de días despúes del 21 de marzo en el cuál cae Pascua para un año dado</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.easter-days-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>easter_days</strong></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$year</code><span class="initializer"> = date(&quot;Y&quot;)</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$method</code><span class="initializer"> = CAL_EASTER_DEFAULT</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene el número de días despúes del 21 de marzo en el cuál cae Pascua
+   para un año dado. Si no se especifica el año, se asume el año
+   actual.
+  </p>
+  <p class="para">
+   Esta función se puede usar en vez de
+   <span class="function"><a href="function.easter-date.html" class="function">easter_date()</a></span> para calcular cuándo cae Pascua para años
+   fuera del rango de fechas Unix (esto es, antes de 1970
+   o después de 2037).
+  </p>
+  <p class="para">
+   La fecha del Domiongo de Pascua fue definida por el Concilio de Nicea en
+   el año 325 D.C. como el domingo después de la primera luna llena que cae en
+   o después del Equinocio de Primavera. El equinocio se asume que cae en
+   el 21 de marzo, por lo que el cálculo se reduce a determinar la fecha
+   de la luna llena y la fecha del siguiente domingo. El
+   algoritmo que se usa aquí fue introducido alrededor del año 532 por
+   Dionisio el Exiguo. Bajo el Calendario Juliano (para años anteriores a
+   1753) se usa un simple ciclo de 19 años para rastrear las fases de la
+   luna. Bajo el Calendario Gregoriano (para años posteriores a 1753 -
+   concebido por Clavio y Lilio, e introducido por el papa Gregorio
+   XIII en Octubre de 1582, e introducido en Gran Bretaña y sus colonias en
+   Septiembre de 1752) se añadieron dos factores de corrección para hacer el
+   ciclo más exacto.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.easter-days-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">year</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El año como un número positivo. Si se omite, el valor predeterminado  será el del
+       año actual según la hora local.
+      </p>
+     </dd>
+
+      
+    
+     <dt>
+<code class="parameter">method</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Permite calcular las fechas de Pascua basadas
+       en el calendario Gregoriano durante los años 1582 - 1752 cuando se establece a
+       <strong><code>CAL_EASTER_ROMAN</code></strong>. Vea las <a href="calendar.constants.html" class="link">constantes de calendario</a> para más constantes
+       válidas.
+      </p>
+     </dd>
+
+      
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.easter-days-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El número de días después del 21 de marzo en el que cae el Domingo de Pascua
+   para el año <code class="parameter">year</code> dado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.easter-days-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2481">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>easter_days()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">easter_days</span><span style="color: #007700">(</span><span style="color: #0000BB">1999</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;14,&nbsp;esto&nbsp;es,&nbsp;4&nbsp;de&nbsp;abril<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">easter_days</span><span style="color: #007700">(</span><span style="color: #0000BB">1492</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;32,&nbsp;esto&nbsp;es,&nbsp;22&nbsp;de&nbsp;abril<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">easter_days</span><span style="color: #007700">(</span><span style="color: #0000BB">1913</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;&nbsp;2,&nbsp;esto&nbsp;es,&nbsp;23&nbsp;de&nbsp;marzo<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.easter-days-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.easter-date.html" class="function" rel="rdfs-seeAlso">easter_date()</a> - Obtener la fecha Unix para la medianoche de Pascua de un a&ntilde;o dado</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.easter-date.html">easter_date</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.frenchtojd.html">frenchtojd</a></div>
+ <div class="up"><a href="ref.calendar.html">Funciones de Calendario</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve una lista de encabezados de respuesta enviados (o listos para enviar)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.header.html">header</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.headers-sent.html">headers_sent</a></div>
+ <div class="up"><a href="ref.network.html">Funciones de red</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.headers-list" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">headers_list</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">headers_list</span> &mdash; <span class="dc-title">Devuelve una lista de encabezados de respuesta enviados (o listos para enviar)</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.headers-list-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>headers_list</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>headers_list()</strong></span> devolverá una lista de encabezados
+   a ser enviados al navegador / cliente. Para determinar si se han enviado o no 
+   estos encabezados, use <span class="function"><a href="function.headers-sent.html" class="function">headers_sent()</a></span>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.headers-list-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array indexado numéricamente de encabezados.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.headers-list-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4995">
+    <p><strong>Ejemplo #1 Ejemplos usando <span class="function"><strong>headers_list()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">/*&nbsp;setcookie()&nbsp;agrega&nbsp;una&nbsp;cabecera&nbsp;de&nbsp;respuesta&nbsp;propia&nbsp;*/<br /></span><span style="color: #0000BB">setcookie</span><span style="color: #007700">(</span><span style="color: #DD0000">'foo'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bar'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Definir&nbsp;un&nbsp;encabezado&nbsp;de&nbsp;respuesta&nbsp;personalizado<br />&nbsp;&nbsp;&nbsp;Este&nbsp;será&nbsp;ignorado&nbsp;por&nbsp;la&nbsp;mayoría&nbsp;de&nbsp;los&nbsp;clientes&nbsp;*/<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"X-Sample-Test:&nbsp;foo"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Especificar&nbsp;el&nbsp;contenido&nbsp;de&nbsp;texto&nbsp;plano&nbsp;en&nbsp;nuestra&nbsp;respuesta&nbsp;*/<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-type:&nbsp;text/plain'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;¿Qué&nbsp;encabezados&nbsp;se&nbsp;van&nbsp;a&nbsp;enviar?&nbsp;*/<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">headers_list</span><span style="color: #007700">());<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(4) {
+  [0]=&gt;
+  string(23) &quot;X-Powered-By: PHP/5.1.3&quot;
+  [1]=&gt;
+  string(19) &quot;Set-Cookie: foo=bar&quot;
+  [2]=&gt;
+  string(18) &quot;X-Sample-Test: foo&quot;
+  [3]=&gt;
+  string(24) &quot;Content-type: text/plain&quot;
+}
+
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.headers-list-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+<p class="para">
+ Las cabeceras sólo serán accesibles y mostradas si se utiliza un SAPI
+ que lo soporte.
+</p>
+</p></blockquote>
+
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.headers-list-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.headers-sent.html" class="function" rel="rdfs-seeAlso">headers_sent()</a> - Comprueba si o donde han enviado cabeceras</span></li>
+    <li class="member"><span class="function"><a href="function.header.html" class="function" rel="rdfs-seeAlso">header()</a> - Enviar encabezado sin formato HTTP</span></li>
+    <li class="member"><span class="function"><a href="function.setcookie.html" class="function" rel="rdfs-seeAlso">setcookie()</a> - Enviar una cookie</span></li>
+    <li class="member"><span class="function"><a href="function.apache-response-headers.html" class="function" rel="rdfs-seeAlso">apache_response_headers()</a> - Obtiene todas las cabeceras HTTP de respuesta</span></li>
+    <li class="member"><span class="function"><a href="function.http-response-code.html" class="function" rel="rdfs-seeAlso">http_response_code()</a> - Obtener u establecer el c&oacute;digo de respuesta HTTP</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.header.html">header</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.headers-sent.html">headers_sent</a></div>
+ <div class="up"><a href="ref.network.html">Funciones de red</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

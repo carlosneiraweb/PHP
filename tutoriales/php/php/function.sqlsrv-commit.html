@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Consolida una transacci&oacute;n que se inici&oacute; con sqlsrv_begin_transaction</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlsrv-close.html">sqlsrv_close</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlsrv-configure.html">sqlsrv_configure</a></div>
+ <div class="up"><a href="ref.sqlsrv.html">SQLSRV Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.sqlsrv-commit" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">sqlsrv_commit</h1>
+  <p class="verinfo">(No hay información de versión disponible, podría estar únicamente en SVN)</p><p class="refpurpose"><span class="refname">sqlsrv_commit</span> &mdash; <span class="dc-title">Consolida una transacción que se inició con <span class="function"><a href="function.sqlsrv-begin-transaction.html" class="function">sqlsrv_begin_transaction()</a></span></span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.sqlsrv-commit-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>sqlsrv_commit</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$conn</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Consolida una transacción que se inició con <span class="function"><a href="function.sqlsrv-begin-transaction.html" class="function">sqlsrv_begin_transaction()</a></span>. 
+   La conexión retorna al modo auto-commit después de que se llame a <span class="function"><strong>sqlsrv_commit()</strong></span>. 
+   La transacción que se consolida incluye todas las sentencias que fueron
+   ejecutadas después de la llamada a <span class="function"><a href="function.sqlsrv-begin-transaction.html" class="function">sqlsrv_begin_transaction()</a></span>. 
+   Las transacciones explícitas deben iniciarse y consolidarse o revertirse utilizando estas
+   funciones en vez de ejecutar las sentencias SQL que empiezan y consolidan/revierten
+   transacciones. Para más información, ver 
+   <a href="http://msdn.microsoft.com/en-us/library/cc296206.aspx" class="link external">&raquo;&nbsp;SQLSRV Transactions</a>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.sqlsrv-commit-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">conn</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La conexión en la que se va a consolidar la transacción.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.sqlsrv-commit-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.sqlsrv-commit-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2405">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>sqlsrv_commit()</strong></span></strong></p>
+    <div class="example-contents"><p>
+    El siguiente ejemplo demuestra cómo utilizar <span class="function"><strong>sqlsrv_commit()</strong></span> 
+    junto con <span class="function"><a href="function.sqlsrv-begin-transaction.html" class="function">sqlsrv_begin_transaction()</a></span> y 
+    <span class="function"><a href="function.sqlsrv-rollback.html" class="function">sqlsrv_rollback()</a></span>.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$serverName&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"serverName\sqlexpress"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$connectionInfo&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">"Database"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"dbName"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"UID"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"userName"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"PWD"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlsrv_connect</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$serverName</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$connectionInfo</span><span style="color: #007700">);<br />if(&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">sqlsrv_errors</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">true&nbsp;</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Empezar&nbsp;la&nbsp;transacción.&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(&nbsp;</span><span style="color: #0000BB">sqlsrv_begin_transaction</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">)&nbsp;===&nbsp;</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">sqlsrv_errors</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">true&nbsp;</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Inicializar&nbsp;los&nbsp;parámetros.&nbsp;*/<br /></span><span style="color: #0000BB">$orderId&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$qty&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$productId&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/*&nbsp;Preparar&nbsp;y&nbsp;ejecutar&nbsp;la&nbsp;primera&nbsp;sentencia.&nbsp;*/<br /></span><span style="color: #0000BB">$sql1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;OrdersTable&nbsp;(ID,&nbsp;Quantity,&nbsp;ProductID)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUES&nbsp;(?,&nbsp;?,&nbsp;?)"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$params1&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #0000BB">$orderId</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$qty</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$productId&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$stmt1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlsrv_query</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sql1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$params1&nbsp;</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Preparar&nbsp;y&nbsp;ejecutar&nbsp;la&nbsp;segunda&nbsp;sentencia.&nbsp;*/<br /></span><span style="color: #0000BB">$sql2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"UPDATE&nbsp;InventoryTable&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;Quantity&nbsp;=&nbsp;(Quantity&nbsp;-&nbsp;?)&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;ProductID&nbsp;=&nbsp;?"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$params2&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">$qty</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$productId</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$stmt2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlsrv_query</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sql2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$params2&nbsp;</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Si&nbsp;ambas&nbsp;sentencias&nbsp;finalizan&nbsp;con&nbsp;éxito,&nbsp;consolidar&nbsp;la&nbsp;transacción.&nbsp;*/<br />/*&nbsp;En&nbsp;caso&nbsp;contrario,&nbsp;revertir&nbsp;la&nbsp;transacción.&nbsp;*/<br /></span><span style="color: #007700">if(&nbsp;</span><span style="color: #0000BB">$stmt1&nbsp;</span><span style="color: #007700">&amp;&amp;&nbsp;</span><span style="color: #0000BB">$stmt2&nbsp;</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">sqlsrv_commit</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Transacción&nbsp;consolidada.&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">sqlsrv_rollback</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Transacción&nbsp;revertida.&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.sqlsrv-commit-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.sqlsrv-begin-transaction.html" class="function" rel="rdfs-seeAlso">sqlsrv_begin_transaction()</a> - Inicia una transacci&oacute;n de base de datos</span></li>
+    <li class="member"><span class="function"><a href="function.sqlsrv-rollback.html" class="function" rel="rdfs-seeAlso">sqlsrv_rollback()</a> - Rolls back a transaction that was begun with 
+  sqlsrv_begin_transaction</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlsrv-close.html">sqlsrv_close</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlsrv-configure.html">sqlsrv_configure</a></div>
+ <div class="up"><a href="ref.sqlsrv.html">SQLSRV Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

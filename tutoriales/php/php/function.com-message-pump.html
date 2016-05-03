@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Procesar mensajes COM, durmiendo hata timeoutms milisegundos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.com-load-typelib.html">com_load_typelib</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.com-print-typeinfo.html">com_print_typeinfo</a></div>
+ <div class="up"><a href="ref.com.html">Funciones de COM</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.com-message-pump" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">com_message_pump</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.2.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">com_message_pump</span> &mdash; <span class="dc-title">Procesar mensajes COM, durmiendo hata timeoutms milisegundos</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.com-message-pump-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>com_message_pump</strong></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$timeoutms</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Esta función duerme hasta <code class="parameter">timeoutms</code>
+   milisegundos, o hasta que llegue un mensaje a la cola.
+  </p>
+  <p class="para">
+   El propósito de esta función es guiar las llamadas COM entre departamentos y
+   tratar varios temas de sincronización. Permite a su script esperar
+   de manera eficiente a eventos que van a ser desencadenados, mientras que todavía trata otros evetntos
+   o ejecuta otro código en segundo plano. Debería usarla en un bucle, como
+   se demostró en el ejemplo de la función <span class="function"><a href="function.com-event-sink.html" class="function">com_event_sink()</a></span>,
+   hasta que finalice usando objetos COM de límite de eventos.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.com-message-pump-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">timeoutms</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El tiempo límite, en milisegundos.
+      </p>
+      <p class="para">
+       Si no se especifica un valor para <code class="parameter">timeoutms</code>,
+       se asumirá 0. Un valor de 0 significa que no se realizará ninguna
+       espera; si hay mensajes pendientes serán despachados cuanto
+       antes; si no hay mensajes pendientes, la función devolverá
+       <strong><code>FALSE</code></strong> immediatamente sin dormir.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.com-message-pump-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Si un mensaje o mensajes llegan antes del tiempo límite, serán
+   despachados y la función devolverá <strong><code>TRUE</code></strong>. Si se agota el tiempo límite y
+   no se procesaron mensajes, el valor devuelto será <strong><code>FALSE</code></strong>.
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.com-load-typelib.html">com_load_typelib</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.com-print-typeinfo.html">com_print_typeinfo</a></div>
+ <div class="up"><a href="ref.com.html">Funciones de COM</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

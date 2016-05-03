@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Saneamiento</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="filter.examples.validation.html">Validaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.filter.html">Funciones de Filter</a></div>
+ <div class="up"><a href="filter.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="filter.examples.sanitization" class="section">
+  <h2 class="title">Saneamiento</h2>
+  <p class="para">
+   <div class="example" id="example-5649">
+    <p><strong>Ejemplo #1 Saneando y validando direcciones de correo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'joe@example.org'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'bogus&nbsp;-&nbsp;at&nbsp;-&nbsp;example&nbsp;dot&nbsp;org'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'(bogus@example.org)'</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$sanitized_a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">filter_var</span><span style="color: #007700">(</span><span style="color: #0000BB">$a</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">FILTER_SANITIZE_EMAIL</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">filter_var</span><span style="color: #007700">(</span><span style="color: #0000BB">$sanitized_a</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">FILTER_VALIDATE_EMAIL</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Esta&nbsp;dirección&nbsp;de&nbsp;correo&nbsp;saneada&nbsp;(a)&nbsp;es&nbsp;válida.\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$sanitized_b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">filter_var</span><span style="color: #007700">(</span><span style="color: #0000BB">$b</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">FILTER_SANITIZE_EMAIL</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">filter_var</span><span style="color: #007700">(</span><span style="color: #0000BB">$sanitized_b</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">FILTER_VALIDATE_EMAIL</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Esta&nbsp;dirección&nbsp;de&nbsp;correo&nbsp;saneada&nbsp;(b)&nbsp;es&nbsp;válida.\n"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Esta&nbsp;dirección&nbsp;de&nbsp;correo&nbsp;saneada&nbsp;(b)&nbsp;no&nbsp;es&nbsp;válida.\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$sanitized_c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">filter_var</span><span style="color: #007700">(</span><span style="color: #0000BB">$c</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">FILTER_SANITIZE_EMAIL</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">filter_var</span><span style="color: #007700">(</span><span style="color: #0000BB">$sanitized_c</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">FILTER_VALIDATE_EMAIL</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Esta&nbsp;dirección&nbsp;de&nbsp;correo&nbsp;saneada&nbsp;(c)&nbsp;es&nbsp;válida.\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Antes:&nbsp;</span><span style="color: #0000BB">$c</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Después:&nbsp;&nbsp;</span><span style="color: #0000BB">$sanitized_c</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Esta dirección de correo saneada (a) es válida.
+Esta dirección de correo saneada (b) no es válida.
+Esta dirección de correo saneada (c) es válida.
+Antes: (bogus@example.org)
+Después: bogus@example.org
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5650">
+    <p><strong>Ejemplo #2 Configuración de un filtro por omisión</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+filter.default&nbsp;=&nbsp;full_special_chars<br />filter.default_flags&nbsp;=&nbsp;0</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="filter.examples.validation.html">Validaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.filter.html">Funciones de Filter</a></div>
+ <div class="up"><a href="filter.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establece los ticks por segundo de la imagen</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="imagick.setimagescene.html">Imagick::setImageScene</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="imagick.setimagetype.html">Imagick::setImageType</a></div>
+ <div class="up"><a href="class.imagick.html">Imagick</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="imagick.setimagetickspersecond" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Imagick::setImageTicksPerSecond</h1>
+  <p class="verinfo">(PECL imagick 2.0.0)</p><p class="refpurpose"><span class="refname">Imagick::setImageTicksPerSecond</span> &mdash; <span class="dc-title">Establece los ticks por segundo de la imagen</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-imagick.setimagetickspersecond-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>Imagick::setImageTicksPerSecond</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$ticks_per_second</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Ajusta la cantidad de tiempo que se muestra un marco de una imagen animada.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Para GIFs animados, esta función no cambia el número de &#039;ticks de imagen&#039;
+    por segundo, el cual está siempre definido como 100. En su lugar, ajusta la cantidad de
+    tiempo que se muestra un marco para simular el cambio de &#039;ticks por
+    segundo&#039;.
+   </p>
+   <p class="para">
+    Por ejemplo, para un GIF animado donde cada marco se muestra para 20 ticks
+    (1/5 de un segundo), al llamar a este método en cada marco de esa imagen
+    con un argumento de <em>50</em>, los marcos se ajustan para que
+    se muestren por 40 ticks (2/5 de un segundo) y así, la animación se reproducirá
+    a la mitad de la velocidad original.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-imagick.setimagetickspersecond-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">ticks_per_second</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La duración por la que imagen debería mostrarse expresada en ticks
+       por segundo.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-imagick.setimagetickspersecond-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-imagick.setimagetickspersecond-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3743">
+    <p><strong>Ejemplo #1 Modificar un GIF animado con <span class="function"><strong>Imagick::setImageTicksPerSecond()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Modificar&nbsp;un&nbsp;GIF&nbsp;animado&nbsp;para&nbsp;que&nbsp;la&nbsp;primera&nbsp;mitad&nbsp;del&nbsp;GIF&nbsp;se&nbsp;reproduzca&nbsp;a<br />//&nbsp;la&nbsp;mitad&nbsp;de&nbsp;su&nbsp;velocidad,&nbsp;y&nbsp;la&nbsp;segunda&nbsp;mitad&nbsp;se&nbsp;reproduzca&nbsp;al&nbsp;doble&nbsp;de&nbsp;su<br />//&nbsp;velocidad&nbsp;actual<br /><br /></span><span style="color: #0000BB">$imagick&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">(</span><span style="color: #0000BB">realpath</span><span style="color: #007700">(</span><span style="color: #DD0000">"Test.gif"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$imagick&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">coalesceImages</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">$totalFrames&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getNumberImages</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">$frameCount&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;<br /><br />foreach&nbsp;(</span><span style="color: #0000BB">$imagick&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$frame</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setImageTicksPerSecond</span><span style="color: #007700">(</span><span style="color: #0000BB">50</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">$frameCount&nbsp;</span><span style="color: #007700">&lt;&nbsp;(</span><span style="color: #0000BB">$totalFrames&nbsp;</span><span style="color: #007700">/&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Modificar&nbsp;el&nbsp;marco&nbsp;para&nbsp;que&nbsp;se&nbsp;muestre&nbsp;al&nbsp;doble&nbsp;de&nbsp;lo&nbsp;actual<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setImageTicksPerSecond</span><span style="color: #007700">(</span><span style="color: #0000BB">50</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Modificar&nbsp;el&nbsp;marco&nbsp;para&nbsp;que&nbsp;se&nbsp;muestre&nbsp;a&nbsp;la&nbsp;mitad&nbsp;de&nbsp;lo&nbsp;actual<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setImageTicksPerSecond</span><span style="color: #007700">(</span><span style="color: #0000BB">200</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$frameCount</span><span style="color: #007700">++;<br />}<br /><br /></span><span style="color: #0000BB">$imagick&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">deconstructImages</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">writeImages</span><span style="color: #007700">(</span><span style="color: #DD0000">"/ruta/donde/guardar/salida.gif"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="imagick.setimagescene.html">Imagick::setImageScene</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="imagick.setimagetype.html">Imagick::setImageType</a></div>
+ <div class="up"><a href="class.imagick.html">Imagick</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

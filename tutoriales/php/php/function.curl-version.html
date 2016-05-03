@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene la informaci&oacute;n de la versi&oacute;n de cURL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-unescape.html">curl_unescape</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.curlfile.html">CURLFile</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.curl-version" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">curl_version</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.2, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">curl_version</span> &mdash; <span class="dc-title">Obtiene la información de la versión de cURL</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.curl-version-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>curl_version</strong></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$age</code><span class="initializer"> = CURLVERSION_NOW</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve información acerca de la versión de cURL.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.curl-version-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">age</code></dt>
+
+     <dd>
+
+      <p class="para">
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.curl-version-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array asociativo con los siguientes elementos:   
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Índice</th>
+       <th>Valor descriptivo</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>version_number</td>
+       <td>-Número de versión cURL 24 bits</td>
+      </tr>
+
+      <tr>
+       <td>version</td>
+       <td>Número de versión cURL, como string</td>
+      </tr>
+
+      <tr>
+       <td>ssl_version_number</td>
+       <td>Número de versión OpenSSL 24 bits</td>
+      </tr>
+
+      <tr>
+       <td>ssl_version</td>
+       <td>Número de versión OpenSSL, como string</td>
+      </tr>
+
+      <tr>
+       <td>libz_version</td>
+       <td>Número de versión zlib version, como cadena</td>
+      </tr>
+
+      <tr>
+       <td>host</td>
+       <td>Información acerca del host donde se compiló cURL</td>
+      </tr>
+
+      <tr>
+       <td>age</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td>features</td>
+       <td>Un máscara de las constantes <em>CURL_VERSION_XXX</em></td>
+      </tr>
+
+      <tr>
+       <td>protocols</td>
+       <td>Un array de los nombres de protocolos soportados por cURL</td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.curl-version-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4770">
+    <p><strong>Ejemplo #1 ejemplo de <span class="function"><strong>curl_version()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo comprueba que características están disponibles
+     en esta versión de cURL usando la máscara <em>&#039;features&#039;</em> devuelta
+     por <span class="function"><strong>curl_version()</strong></span>.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Obtener&nbsp;array&nbsp;de&nbsp;la&nbsp;versión&nbsp;de&nbsp;curl<br /></span><span style="color: #0000BB">$version&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_version</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;Estos&nbsp;son&nbsp;los&nbsp;campos&nbsp;que&nbsp;se&nbsp;pueden&nbsp;usar&nbsp;para&nbsp;<br />//&nbsp;comprobar&nbsp;ciertas&nbsp;caracerísticas&nbsp;para&nbsp;esta&nbsp;versión&nbsp;de&nbsp;curl<br /></span><span style="color: #0000BB">$bitfields&nbsp;</span><span style="color: #007700">=&nbsp;Array(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'CURL_VERSION_IPV6'</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'CURL_VERSION_KERBEROS4'</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'CURL_VERSION_SSL'</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'CURL_VERSION_LIBZ'<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">);<br /><br /><br />foreach(</span><span style="color: #0000BB">$bitfields&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$feature</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$feature&nbsp;</span><span style="color: #007700">.&nbsp;(</span><span style="color: #0000BB">$version</span><span style="color: #007700">[</span><span style="color: #DD0000">'features'</span><span style="color: #007700">]&nbsp;&amp;&nbsp;</span><span style="color: #0000BB">constant</span><span style="color: #007700">(</span><span style="color: #0000BB">$feature</span><span style="color: #007700">)&nbsp;?&nbsp;</span><span style="color: #DD0000">'&nbsp;coincide'&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #DD0000">'&nbsp;no&nbsp;coincide'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-unescape.html">curl_unescape</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.curlfile.html">CURLFile</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

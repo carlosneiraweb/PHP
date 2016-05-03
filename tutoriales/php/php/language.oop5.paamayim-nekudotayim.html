@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Operador de Resoluci&oacute;n de &Aacute;mbito (::)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.inheritance.html">Herencia de Objetos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.static.html">La palabra reservada 'static'</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.oop5.paamayim-nekudotayim" class="sect1">
+  <h2 class="title">Operador de Resolución de Ámbito (::)</h2>
+
+  <p class="para">
+   El Operador de Resolución de Ámbito (también denominado Paamayim Nekudotayim)
+   o en términos simples, el doble dos-puntos, es un token que permite acceder
+   a elementos <a href="language.oop5.static.html" class="link">estáticos</a>,
+   <a href="language.oop5.constants.html" class="link">constantes</a>, y sobrescribir
+   propiedades o métodos de una clase.
+  </p>
+
+  <p class="para">
+   Cuando se hace referencia a estos items desde el exterior de la
+   definición de la clase, se utiliza el nombre de la clase.
+  </p>
+
+  <p class="para">
+   A partir de PHP 5.3.0, es posible hacer referencia a una clase usando una variable.
+   El valor de la variable no puede ser una palabra clave (por ej., <em>self</em>,
+   <em>parent</em> y <em>static</em>).
+  </p>
+
+  <p class="para">
+   Paamayim Nekudotayim podría, en un principio, parecer una extraña elección
+   para bautizar a un doble dos-puntos. Sin embargo, mientras se escribía el
+   Zend Engine 0.5 (que utilizó PHP 3), asi es como el equipo Zend decidió
+   bautizarlo. En realidad, significa doble dos-puntos - en Hebreo!
+  </p>
+
+  <div class="example" id="example-223">
+   <p><strong>Ejemplo #1 :: desde el exterior de la definición de la clase</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">MyClass&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;</span><span style="color: #0000BB">CONST_VALUE&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Un&nbsp;valor&nbsp;constante'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$classname&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'MyClass'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$classname</span><span style="color: #007700">::</span><span style="color: #0000BB">CONST_VALUE</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.3.0<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">::</span><span style="color: #0000BB">CONST_VALUE</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+
+  <p class="para">
+   Las tres palabras claves especiales <var class="varname"><var class="varname">self</var></var>, <var class="varname"><var class="varname">parent</var></var> y 
+   <var class="varname"><var class="varname">static</var></var> son utilizadas para acceder a propiedades y métodos desde el interior 
+   de la definición de la clase.
+  </p>
+
+  <div class="example" id="example-224">
+   <p><strong>Ejemplo #2 :: desde el interior de la definición de la clase</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">OtherClass&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">MyClass<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;static&nbsp;</span><span style="color: #0000BB">$my_static&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'variable&nbsp;estática'</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;static&nbsp;function&nbsp;</span><span style="color: #0000BB">doubleColon</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">parent</span><span style="color: #007700">::</span><span style="color: #0000BB">CONST_VALUE&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">self</span><span style="color: #007700">::</span><span style="color: #0000BB">$my_static&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$classname&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'OtherClass'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$classname</span><span style="color: #007700">::</span><span style="color: #0000BB">doubleColon</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">//&nbsp;A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.3.0<br /><br /></span><span style="color: #0000BB">OtherClass</span><span style="color: #007700">::</span><span style="color: #0000BB">doubleColon</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+
+  <p class="para">
+   Cuando una clase extendida sobrescribe la definición parent de un método,
+   PHP no invocará al método parent. Depende de la clase extendida el hecho de
+   llamar o no al método parent. Esto también se aplica a definiciones de
+   métodos <a href="language.oop5.decon.html" class="link">Constructores y Destructores</a>,
+   <a href="language.oop5.overloading.html" class="link">Sobrecarga</a>, y
+   <a href="language.oop5.magic.html" class="link">Mágicos</a>.
+  </p>
+
+  <div class="example" id="example-225">
+   <p><strong>Ejemplo #3 Invocando a un método parent</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">MyClass<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;protected&nbsp;function&nbsp;</span><span style="color: #0000BB">myFunc</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"MyClass::myFunc()\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">OtherClass&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">MyClass<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Sobrescritura&nbsp;de&nbsp;definición&nbsp;parent<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">public&nbsp;function&nbsp;</span><span style="color: #0000BB">myFunc</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Pero&nbsp;todavía&nbsp;se&nbsp;puede&nbsp;llamar&nbsp;a&nbsp;la&nbsp;función&nbsp;parent<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">parent</span><span style="color: #007700">::</span><span style="color: #0000BB">myFunc</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"OtherClass::myFunc()\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$class&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">OtherClass</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$class</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">myFunc</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+   <p class="para">
+    Véase también <a href="language.oop5.basic.html#language.oop5.basic.class.this" class="link">algunos ejemplos de 
+    trucos de llamadas estáticas </a>.
+ </p>
+
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.inheritance.html">Herencia de Objetos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.static.html">La palabra reservada 'static'</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

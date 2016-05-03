@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Crear un socket (extremo de comunicaci&oacute;n)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-create-pair.html">socket_create_pair</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-get-option.html">socket_get_option</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.socket-create" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">socket_create</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.1.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">socket_create</span> &mdash; <span class="dc-title">Crear un socket (extremo de comunicación)</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.socket-create-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>socket_create</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$domain</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$protocol</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Crea y devuelve un recurso socket, también referido como un extremo
+   de comunicación. Una conexión típica de red está constituida por 2 sockets, uno
+   realizando el papel del cliente, y otro realizando el papel del servidor.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.socket-create-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">domain</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El parámetro <code class="parameter">domain</code> especifica la familia de
+       protocolos que va a usar por el socket.
+      </p>
+      <table class="doctable table">
+       <caption><strong>Available address/protocol families</strong></caption>
+       
+        <thead>
+         <tr>
+          <th>Dominio</th>
+          <th>Descripción</th>
+         </tr>
+
+        </thead>
+
+        <tbody class="tbody">
+         <tr>
+          <td><strong><code>AF_INET</code></strong></td>
+          <td>
+           Protocolos basados en Internet IPv4. TCP y UDP son protocolos comunes de
+           esta familia de protocolos.
+          </td>
+         </tr>
+
+         <tr>
+          <td><strong><code>AF_INET6</code></strong></td>
+          <td>
+           Protocolos basados en Internet IPv6. TCP y UDP son protocolos comunes de
+           esta familia de protocolos.
+          </td>
+         </tr>
+
+         <tr>
+          <td><strong><code>AF_UNIX</code></strong></td>
+          <td>
+           Familia de protocolos de comunicación local. Alta eficacia y baja
+           sobrecarga la hacen una gran forma de IPC (Interprocess Communication - Comunicación entre procesos).
+          </td>
+         </tr>
+
+        </tbody>
+       
+      </table>
+
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El parámetro <code class="parameter">type</code> selecciona el tipo de comunicación
+       que va a usar el socket.
+      </p>
+      <table class="doctable table">
+       <caption><strong>Tipos de sockets disponibles</strong></caption>
+       
+        <thead>
+         <tr>
+          <th>Tipo</th>
+          <th>Descripción</th>
+         </tr>
+
+        </thead>
+
+        <tbody class="tbody">
+         <tr>
+          <td><strong><code>SOCK_STREAM</code></strong></td>
+          <td>
+           Proporciona flujos de bytes orientados a conexión, secuenciados, fiables y full-duplex.
+           Puede soportar un mecanismo de transmisión fuera de banda.
+           El protocolo TCP está basado en este tipo de socket.
+          </td>
+         </tr>
+
+         <tr>
+          <td><strong><code>SOCK_DGRAM</code></strong></td>
+          <td>
+           Soporta datagramas (no orientado a conexión, mensajes no fiables de una longitud máxima).
+           El protocolo UDP está basado en este tipo de socket.
+          </td>
+         </tr>
+
+           <tr>
+          <td><strong><code>SOCK_SEQPACKET</code></strong></td>
+          <td>
+           Proporciona una ruta de transmisión de datos orientada a conexión secuenciada, fiable, de dos
+           direcciones para datagramas de longitud máxima fija; se requiere un consumidor para leer
+           un paquete entero con cada llamada de lectura.
+          </td>
+         </tr>
+
+         <tr>
+          <td><strong><code>SOCK_RAW</code></strong></td>
+          <td>
+           Proporciona acceso al protocolo de red sin formato. Este tipo especial de socket
+           se puede usar para construir manualmente cualquier tipo de protocolo. Un uso común
+           para este socket es realizar solicitudes ICMP (como ping).
+          </td>
+         </tr>
+
+         <tr>
+          <td><strong><code>SOCK_RDM</code></strong></td>
+          <td>
+           Proporcional una capa de datagramas fiable que no garantiza el orden.
+           Lo más seguro es que esto no esté implementado en su sistema operativo.
+          </td>
+         </tr>
+
+        </tbody>
+       
+      </table>
+
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">protocol</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El parámetro <code class="parameter">protocol</code> establece el protocolo
+       específico dentro del <code class="parameter">domain</code> especificado a usar
+       al comunicarse con el socket devuelto. El valor apropiado puede ser
+       recuperado por su nombre usando <span class="function"><a href="function.getprotobyname.html" class="function">getprotobyname()</a></span>. Si
+       el protocolo deseado es TCP o UDP, también se pueden usar las constantes
+       <strong><code>SOL_TCP</code></strong>, y <strong><code>SOL_UDP</code></strong>
+       correspondientes.
+      </p>
+      <table class="doctable table">
+       <caption><strong>Protocolos comunes</strong></caption>
+       
+        <thead>
+         <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+         </tr>
+
+        </thead>
+
+        <tbody class="tbody">
+         <tr>
+          <td>icmp</td>
+          <td>
+           Internet Control Message Protocol (Protocolo de Mensajes de Control de Internet) 
+           es usado principalmente por pasarelas y hosts para notificar errores en la comunicación por
+           datagramas. El comando &quot;ping&quot; (presente en la mayoría de los sistemas operativos modernos) es
+           un ejemplo de la aplicación del ICMP.
+          </td>
+         </tr>
+
+         <tr>
+          <td>udp</td>
+          <td>
+           User Datagram Protocol (Protocolo de Datagramas de Usuario) es un protocolo no orientado
+           a conexión, no fiable, con longitud de registros fija. A causa de estos aspectos, UDP
+           requiere una cantidad mínima de sobrecarga del protocolo.
+          </td>
+         </tr>
+
+         <tr>
+          <td>tcp</td>
+          <td>
+           Transmission Control Protocol (Protocolo de Control de Transmisión) es un protocolo fiable
+           orientado a conexión, orientado a flujo, full duplex. TCP garantiza que todos los paquetes
+           de datos serán recibidos en el orden en el que fueron enviados. Si algún paquete se pierde
+           por alguna razón durante la comunicación, TCP automáticamente retransmitirá el paquete hasta
+           que el host destino adminta ese paquete. Por razones de fiabilidad y rendimiento,
+           la implementación de TCP decide por sí misma los límites apropiados de los octetos
+           de la capa de comunicación de datagramas subyacente. Por lo tanto, las aplicaciones TCP deben
+           tener en cuenta la posibilidad de transmisión de resgistros parciales.
+          </td>
+         </tr>
+
+        </tbody>
+       
+      </table>
+
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.socket-create-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <span class="function"><strong>socket_create()</strong></span> devuelve un recurso socket en caso de éxito,
+   o <strong><code>FALSE</code></strong> en caso de error. El código de error real se puede recuperar llamando a
+   <span class="function"><a href="function.socket-last-error.html" class="function">socket_last_error()</a></span>. Este código de error se puede pasar a
+   <span class="function"><a href="function.socket-strerror.html" class="function">socket_strerror()</a></span> para obtener una explicación textual del
+   error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 errors" id="refsect1-function.socket-create-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+   <p class="para">
+    Si se da un <code class="parameter">domain</code> o
+    <code class="parameter">type</code> no válido, <span class="function"><strong>socket_create()</strong></span>
+    los pone por defecto a <strong><code>AF_INET</code></strong> y
+    <strong><code>SOCK_STREAM</code></strong> respectivamente y además emite un
+    mensaje <strong><code>E_WARNING</code></strong>.
+   </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.socket-create-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.socket-accept.html" class="function" rel="rdfs-seeAlso">socket_accept()</a> - Acepta una conexi&oacute;n de un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-bind.html" class="function" rel="rdfs-seeAlso">socket_bind()</a> - Vincula un nombre a un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-connect.html" class="function" rel="rdfs-seeAlso">socket_connect()</a> - Inicia una conexi&oacute;n sobre un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-listen.html" class="function" rel="rdfs-seeAlso">socket_listen()</a> - Escucha una conexi&oacute;n sobre un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-last-error.html" class="function" rel="rdfs-seeAlso">socket_last_error()</a> - Devuelve el &uacute;ltimo error sobre un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-strerror.html" class="function" rel="rdfs-seeAlso">socket_strerror()</a> - Devuelve una cadena que describe un error de socket</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-create-pair.html">socket_create_pair</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-get-option.html">socket_get_option</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Salta a una posici&oacute;n del descriptor de fichero desde donde proceda</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.dio-read.html">dio_read</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.dio-stat.html">dio_stat</a></div>
+ <div class="up"><a href="ref.dio.html">Funciones de Direct IO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.dio-seek" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">dio_seek</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.2.0, PHP 5 &lt;= 5.0.5, PHP 7)</p><p class="refpurpose"><span class="refname">dio_seek</span> &mdash; <span class="dc-title">Salta a una posición del descriptor de fichero desde donde proceda</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.dio-seek-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>dio_seek</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$fd</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$pos</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$whence</code><span class="initializer"> = SEEK_SET</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>dio_seek()</strong></span> se usa para cambiar la posición del fichero
+   del descriptor de fichero proporcionado.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.dio-seek-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">fd</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Descriptor de fichero devuelto por <span class="function"><a href="function.dio-open.html" class="function">dio_open()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">pos</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Nueva posición.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">whence</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Indica cómo interpretar la posición <code class="parameter">pos</code>:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          <strong><code>SEEK_SET</code></strong> (por omisión) - indica que
+          <code class="parameter">pos</code> se contabiliza a partir del comienzo
+          del fichero.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          <strong><code>SEEK_CUR</code></strong> - indica que
+          <code class="parameter">pos</code> se contabiliza a partir de la posición
+          actual del fichero. Este valor puede ser positivo o negativo.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          <strong><code>SEEK_END</code></strong> - Indica que
+          <code class="parameter">pos</code> contabiliza caracteres a partir del final
+          del fichero. Un valor negativo especifica una posición perteneciente al
+          contenido del fichero; un valor positivo especifica una posición que
+          supera el final. Si éste fuera el caso, y se escribieran datos, se
+          rellenaría el fichero con ceros hasta alcanzar la posición que
+          proceda.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.dio-seek-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.dio-seek-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2568">
+    <p><strong>Ejemplo #1 Posicionamiento de un fichero</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$fd&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">dio_open</span><span style="color: #007700">(</span><span style="color: #DD0000">'/dev/ttyS0'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">O_RDWR</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">dio_seek</span><span style="color: #007700">(</span><span style="color: #0000BB">$fd</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SEEK_SET</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;la&nbsp;posición&nbsp;está&nbsp;a&nbsp;10&nbsp;caracteres&nbsp;del&nbsp;comienzo<br /><br /></span><span style="color: #0000BB">dio_seek</span><span style="color: #007700">(</span><span style="color: #0000BB">$fd</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SEEK_CUR</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;la&nbsp;posición&nbsp;está&nbsp;a&nbsp;8&nbsp;caracteres&nbsp;del&nbsp;comienzo<br /><br /></span><span style="color: #0000BB">dio_seek</span><span style="color: #007700">(</span><span style="color: #0000BB">$fd</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">5</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SEEK_END</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;la&nbsp;posición&nbsp;está&nbsp;a&nbsp;5&nbsp;caracteres&nbsp;del&nbsp;final<br /><br /></span><span style="color: #0000BB">dio_seek</span><span style="color: #007700">(</span><span style="color: #0000BB">$fd</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SEEK_END</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;la&nbsp;posición&nbsp;supera&nbsp;ahora&nbsp;10&nbsp;caracteres&nbsp;del&nbsp;final&nbsp;del&nbsp;fichero.<br />//&nbsp;Los&nbsp;10&nbsp;caracteres&nbsp;intermedios&nbsp;entre&nbsp;el&nbsp;final&nbsp;y&nbsp;la&nbsp;posición&nbsp;actual<br />//&nbsp;se&nbsp;rellenan&nbsp;con&nbsp;ceros.<br /><br /></span><span style="color: #0000BB">dio_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$fd</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>     
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.dio-read.html">dio_read</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.dio-stat.html">dio_stat</a></div>
+ <div class="up"><a href="ref.dio.html">Funciones de Direct IO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

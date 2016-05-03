@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Abre una conexi&oacute;n a una base de datos Microsoft SQL Server</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlsrv-configure.html">sqlsrv_configure</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlsrv-errors.html">sqlsrv_errors</a></div>
+ <div class="up"><a href="ref.sqlsrv.html">SQLSRV Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.sqlsrv-connect" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">sqlsrv_connect</h1>
+  <p class="verinfo">(No hay información de versión disponible, podría estar únicamente en SVN)</p><p class="refpurpose"><span class="refname">sqlsrv_connect</span> &mdash; <span class="dc-title">Abre una conexión a una base de datos Microsoft SQL Server </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.sqlsrv-connect-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>sqlsrv_connect</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$serverName</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$connectionInfo</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Abre una conexión a una base de datos Microsoft SQL Server. Por defecto, la conexión
+   se intenta utilizando la autenticación Windows. Para conectar utilizando la autenticación SQL Server, 
+   incluir &quot;UID&quot; y &quot;PWD&quot; en el array de opciones de conexión.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.sqlsrv-connect-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">serverName</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del servidor en el que se ha establecido una conexión. Para conectar 
+       a una instancia específica, poner una barra invertida después del nombre de servidor
+       e indicar el nombre de la instancia (e.g. NombreServidor\sqlexpress).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">connectionInfo</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un array asociativo que especifica las opciones de conexión al servidor. 
+       Si no se ha especificado ningún valor para el UID y PWD, la conexión 
+       se intentará utilizando la autenticación Windows. Para una lista completa de claves  
+       soportadas, ver <a href="http://msdn.microsoft.com/en-us/library/ff628167.aspx" class="link external">&raquo;&nbsp;Opciones de Conexión SQLSRV</a>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.sqlsrv-connect-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Un recurso de conexión. Si no se puede abrir la conexión, se retorna el valor <strong><code>FALSE</code></strong> .
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.sqlsrv-connect-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2406">
+    <p><strong>Ejemplo #1 Conectar utilizando autenticación Windows.</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$serverName&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"serverName\sqlexpress"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//serverName\instanceName<br /><br />//&nbsp;Puesto&nbsp;que&nbsp;no&nbsp;se&nbsp;han&nbsp;especificado&nbsp;UID&nbsp;ni&nbsp;PWD&nbsp;en&nbsp;el&nbsp;array&nbsp;&nbsp;$connectionInfo,<br />//&nbsp;La&nbsp;conexión&nbsp;se&nbsp;intentará&nbsp;utilizando&nbsp;la&nbsp;autenticación&nbsp;Windows.<br /></span><span style="color: #0000BB">$connectionInfo&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">"Database"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"dbName"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlsrv_connect</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$serverName</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$connectionInfo</span><span style="color: #007700">);<br /><br />if(&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Conexión&nbsp;establecida.&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />}else{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Conexión&nbsp;no&nbsp;se&nbsp;pudo&nbsp;establecer.&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">sqlsrv_errors</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2407">
+    <p><strong>Ejemplo #2 Conectar especificando nombre de usuario y contraseña.</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$serverName&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"serverName\sqlexpress"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//serverName\instanceName<br /></span><span style="color: #0000BB">$connectionInfo&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">"Database"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"dbName"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"UID"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"userName"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"PWD"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlsrv_connect</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$serverName</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$connectionInfo</span><span style="color: #007700">);<br /><br />if(&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Conexión&nbsp;establecida.&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />}else{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Conexión&nbsp;no&nbsp;se&nbsp;pudo&nbsp;establecer.&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">sqlsrv_errors</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2408">
+    <p><strong>Ejemplo #3 Conectar a un puerto específico.</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$serverName&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"serverName\sqlexpress,&nbsp;1542"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//serverName\instanceName,&nbsp;portNumber&nbsp;(por&nbsp;defecto&nbsp;es&nbsp;1433)<br /></span><span style="color: #0000BB">$connectionInfo&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">"Database"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"dbName"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"UID"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"userName"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"PWD"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlsrv_connect</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$serverName</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$connectionInfo</span><span style="color: #007700">);<br /><br />if(&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Conexión&nbsp;establecida.&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />}else{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Conexión&nbsp;no&nbsp;se&nbsp;pudo&nbsp;establecer.&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">sqlsrv_errors</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.sqlsrv-connect-notes">
+  <h3 class="title">Notas</h3>
+  <p class="para">
+   Por defecto, la función <span class="function"><strong>sqlsrv_connect()</strong></span> utiliza la conexión mediante agrupación para  
+   mejorar el funcionamiento de la conexión. Para desconectar el funcionamiento en modo grupo (p.ej. forzar una nueva conexión 
+   en cada llamada), configurar la opción &quot;ConnectionPooling&quot; en el
+   array $connectionOptions a 0 (o <strong><code>FALSE</code></strong>). Para más información, ver
+   <a href="http://msdn.microsoft.com/en-us/library/cc644930.aspx" class="link external">&raquo;&nbsp;Cola de conexión SQLSRV</a>.
+  </p>
+  <p class="para">
+  La extensión SQLSRV no tiene una función específica para cambiar a que base de datos 
+  se está conectado. La base de datos objetivo se especifica en el array 
+  de opciones $connectionOptions que se pasa a sqlsrv_connect. Para cambiar la
+  base de datos en una conexión ya abierta, ejecutar la siguiente sentencia sql &quot;USE dbName&quot; 
+  (p.ej. sqlsrv_query($conn, &quot;USE dbName&quot;)).
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.sqlsrv-connect-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.sqlsrv-close.html" class="function" rel="rdfs-seeAlso">sqlsrv_close()</a> - Cierra una conexi&oacute;n abierta y libera los recursos asociados a la conexi&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="function.sqlsrv-errors.html" class="function" rel="rdfs-seeAlso">sqlsrv_errors()</a> - Devuelve informaci&oacute;n de errores y alertas (warnings) de la &uacute;ltima operaci&oacute;n SQLSRV realizada</span></li>
+    <li class="member"><span class="function"><a href="function.sqlsrv-query.html" class="function" rel="rdfs-seeAlso">sqlsrv_query()</a> - Prepares and executes a query.</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlsrv-configure.html">sqlsrv_configure</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlsrv-errors.html">sqlsrv_errors</a></div>
+ <div class="up"><a href="ref.sqlsrv.html">SQLSRV Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

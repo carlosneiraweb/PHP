@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Abrir una conexi&oacute;n al servidor CUBRID</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.cubrid-connect-with-url.html">cubrid_connect_with_url</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.cubrid-current-oid.html">cubrid_current_oid</a></div>
+ <div class="up"><a href="ref.cubrid.html">Funciones de CUBRID</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.cubrid-connect" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">cubrid_connect</h1>
+  <p class="verinfo">(PECL CUBRID &gt;= 8.3.1)</p><p class="refpurpose"><span class="refname">cubrid_connect</span> &mdash; <span class="dc-title">Abrir una conexión al servidor CUBRID</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.cubrid-connect-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>cubrid_connect</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$host</code></span>  
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$port</code></span>  
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$dbname</code></span>  
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$userid</code></span>  
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$passwd</code></span>  
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$new_link</code><span class="initializer"> = false</span></span>  
+  ]]] )</div>
+
+  <p class="para rdfs-comment">
+   La función <span class="function"><strong>cubrid_connect()</strong></span> se usa para establecer el
+   entorno para la conexión al servidor usando la dirección del servidor,
+   número de puerto, nombre de la base de datos, nombre de usuario, y contraseña. Si no
+   se dan el nombre de usuario y la contraseña, se realizará la conexión &quot;PUBLIC&quot; por
+   defecto.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.cubrid-connect-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">host</code></dt>
+
+     <dd>
+<p class="para">Nombre del host o dirección IP del servidor CAS de CUBRID.</p></dd>
+
+    
+    
+     <dt>
+<code class="parameter">port</code></dt>
+
+     <dd>
+<p class="para">Número de puerto del servidor CAS de CUBRID (BROKER_PORT configurado en $CUBRID/conf/cubrid_broker.conf).</p></dd>
+
+    
+    
+     <dt>
+<code class="parameter">dbname</code></dt>
+
+     <dd>
+<p class="para">Nombre de la base de datos.</p></dd>
+
+    
+    
+     <dt>
+<code class="parameter">userid</code></dt>
+
+     <dd>
+<p class="para">Nombre de usuario para la base de datos. Si no se da, el valor
+      por omisión es &quot;public&quot;.</p></dd>
+
+    
+    
+     <dt>
+<code class="parameter">passwd</code></dt>
+
+     <dd>
+<p class="para">Contraseña del usuario. Si no se da, el valor por omisión es &quot;&quot;.</p></dd>
+
+    
+    
+     <dt>
+<code class="parameter">new_link</code></dt>
+
+     <dd>
+<p class="para">Si se hace una segunda llamada a
+      <span class="function"><strong>cubrid_connect()</strong></span> con los mismos argumentos, no se
+      establecerá una nueva conexión, en su lugar, se devolverá el identificador
+      de conexión de la conexión ya abierta. El
+      parámetro <code class="parameter">new_link</code> modifica este comportamiento y
+      hace que <span class="function"><strong>cubrid_connect()</strong></span> abra siempre una nueva conexión,
+      incluso si <span class="function"><strong>cubrid_connect()</strong></span> fue llamada antes con los
+      mismos parámetros.</p></dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.cubrid-connect-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El identificador de conexión, cuando el proceso tiene éxito. 
+  </p>
+  <p class="para">
+   <strong><code>FALSE</code></strong>, cuando el proceso no tiene éxito.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.cubrid-connect-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1110">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>cubrid_connect()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%-30s&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"CUBRID&nbsp;PHP&nbsp;Version:"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">cubrid_version</span><span style="color: #007700">());<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">33000</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"demodb"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"dba"</span><span style="color: #007700">);<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$conn</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'Connect&nbsp;Error&nbsp;('</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">cubrid_error_code</span><span style="color: #007700">()&nbsp;.</span><span style="color: #DD0000">')'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">cubrid_error_msg</span><span style="color: #007700">());<br />}<br /><br /></span><span style="color: #0000BB">$db_params&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_get_db_parameter</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br /><br />while&nbsp;(list(</span><span style="color: #0000BB">$param_name</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$param_value</span><span style="color: #007700">)&nbsp;=&nbsp;</span><span style="color: #0000BB">each</span><span style="color: #007700">(</span><span style="color: #0000BB">$db_params</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%-30s&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$param_name</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$param_value</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$server_info&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_get_server_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$client_info&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_get_client_info</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%-30s&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Información&nbsp;del&nbsp;Servidor:"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$server_info</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%-30s&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Información&nbsp;del&nbsp;Cliente:"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$client_info</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$charset&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_get_charset</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%-30s&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Conjunto&nbsp;de&nbsp;carac.:"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$charset</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">cubrid_disconnect</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+CUBRID PHP Version:            9.1.0.0001
+
+PARAM_ISOLATION_LEVEL          3
+LOCK_TIMEOUT                   -1
+MAX_STRING_LENGTH              1073741823
+PARAM_AUTO_COMMIT              0
+
+Información del Servidor:      9.1.0.0212
+Información del Cliente:       9.1.0
+
+Conjunto de carac. de CUBRID:  iso8859-1
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.cubrid-connect-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.cubrid-pconnect.html" class="function" rel="rdfs-seeAlso">cubrid_pconnect()</a> - Abrir una conexi&oacute;n persistente a un servidor CUBRID</span></li>
+    <li class="member"><span class="function"><a href="function.cubrid-connect-with-url.html" class="function" rel="rdfs-seeAlso">cubrid_connect_with_url()</a> - Establecer el entorno para la conexi&oacute;n al servidor de CUBRID</span></li>
+    <li class="member"><span class="function"><a href="function.cubrid-pconnect-with-url.html" class="function" rel="rdfs-seeAlso">cubrid_pconnect_with_url()</a> - Abrir una conexi&oacute;n persistente al servidor CUBRID</span></li>
+    <li class="member"><span class="function"><a href="function.cubrid-disconnect.html" class="function" rel="rdfs-seeAlso">cubrid_disconnect()</a> - Cerrar una conexi&oacute;n a una base de datos</span></li>
+    <li class="member"><span class="function"><a href="function.cubrid-close.html" class="function" rel="rdfs-seeAlso">cubrid_close()</a> - Cerrar la conexi&oacute;n de CUBRID</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.cubrid-connect-with-url.html">cubrid_connect_with_url</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.cubrid-current-oid.html">cubrid_current_oid</a></div>
+ <div class="up"><a href="ref.cubrid.html">Funciones de CUBRID</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

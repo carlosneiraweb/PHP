@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>A&ntilde;ade una operaci&oacute;n de escritura a un lote</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mongowritebatch.html">MongoWriteBatch</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongowritebatch.construct.html">MongoWriteBatch::__construct</a></div>
+ <div class="up"><a href="class.mongowritebatch.html">MongoWriteBatch</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongowritebatch.add" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">MongoWriteBatch::add</h1>
+  <p class="verinfo">(PECL mongo &gt;= 1.5.0)</p><p class="refpurpose"><span class="refname">MongoWriteBatch::add</span> &mdash; <span class="dc-title">Añade una operación de escritura a un lote</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-mongowritebatch.add-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>MongoWriteBatch::add</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$item</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Añade una operación de escritura al lote.
+  </p>
+  <p class="para">
+   Si <code class="parameter">$item</code> hace que el lote exceda los límites
+   <a href="url.mongodb.dochub.maxWriteBatchSize" class="link external">&raquo;&nbsp;maxWriteBatchSize</a>
+   o <a href="url.mongodb.dochub.maxBsonObjectSize" class="link external">&raquo;&nbsp;maxBsonObjectSize</a>,
+   el controlador dividirá internamente los lotes en varias órdenes de
+   escritura en la llamada a <span class="methodname"><a href="mongowritebatch.execute.html" class="methodname">MongoWriteBatch::execute()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-mongowritebatch.add-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">item</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Un array que describe una operación de escritura. La estructura de este valor
+      depende del tipo de operación del lote.
+      <table class="doctable informaltable">
+       <thead>
+        <tr>
+         <th>Tipo de lote</th>
+         <th>Argumento previsto</th>
+        </tr>
+
+       </thead>
+
+       <tbody class="tbody">
+        <tr>
+         <td><strong><code>MongoWriteBatch::COMMAND_INSERT</code></strong></td>
+         <td>
+          <span class="simpara">El documento a añadir.</span>
+         </td>
+        </tr>
+
+        <tr>
+         <td><strong><code>MongoWriteBatch::COMMAND_UPDATE</code></strong></td>
+         <td>
+          <p class="para">Operación de acualización pura.</p>
+          <p class="para">Las claves requeridas son <em>&quot;q&quot;</em> y <em>&quot;u&quot;</em>, las cuales se corresponden a los parámetros <a href="mongocollection.update.html#mongocollection.update.criteria" class="link"><code class="parameter">$criteria</code></a> y <a href="mongocollection.update.html#mongocollection.update.new_object" class="link"><code class="parameter">$new_object</code></a> de <span class="function"><a href="mongocollection.update.html" class="function">MongoCollection::update()</a></span>, respectivamente.</p>
+          <p class="para">Las claves opcionales son <em>&quot;multi&quot;</em> y <em>&quot;upsert&quot;</em>, las cuales se corresponden a las opciones <a href="mongocollection.update.html#mongocollection.update.multiple" class="link"><em>&quot;multiple&quot;</em></a> y <a href="mongocollection.update.html#mongocollection.update.upsert" class="link"><em>&quot;upsert&quot;</em></a> para <span class="function"><a href="mongocollection.update.html" class="function">MongoCollection::update()</a></span>, respectivamente. Si no se especifican, ambas opciones se predeterminan a <strong><code>FALSE</code></strong>.</p>
+         </td>
+        </tr>
+
+        <tr>
+         <td><strong><code>MongoWriteBatch::COMMAND_DELETE</code></strong></td>
+         <td>
+          <p class="para">Operación de eliminación pura..</p>
+          <p class="para">Las claves requeridas son: <em>&quot;q&quot;</em> y <em>&quot;limit&quot;</em>, las cuales se corresponden al parámetro <a href="mongocollection.remove.html#mongocollection.remove.criteria" class="link"><code class="parameter">$criteria</code></a> y a la opción <a href="mongocollection.remove.html#mongocollection.remove.justone" class="link"><em>&quot;justOne&quot;</em></a> de <span class="function"><a href="mongocollection.remove.html" class="function">MongoCollection::remove()</a></span>, respectivamente.</p>
+          <p class="para">La opción <em>&quot;limit&quot;</em> es un <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>; sin embargo, MongoDB únicamente soporta <em>0</em> (es decir, eliminar todos los documentos coincidentes) y <em>1</em> (es decir, eliminar al menos un elemento coincidente) por ahora.</p>
+         </td>
+        </tr>
+
+       </tbody>
+      </table>
+
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-mongowritebatch.add-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito y lanza una excepción en caso de fallo.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-mongowritebatch.add-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <ul class="simplelist">
+   <li class="member"><a href="class.exception.html" class="classname">Exception</a> en fallos de análisis de parámetros</li>
+   <li class="member"><a href="class.exception.html" class="classname">Exception</a> en errores de validación de argumentos (p.ej. claves ausentes)</li>
+  </ul>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-mongowritebatch.add-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="mongowritebatch.add.example.insert">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="methodname"><strong>MongoWriteBatch::add()</strong></span></strong></p>
+   <div class="example-contents"><p>
+    Poner en lotes varias operaciones de inserción
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mc&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$colección&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">selectCollection</span><span style="color: #007700">(</span><span style="color: #DD0000">"test"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"test"</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #0000BB">$docs&nbsp;</span><span style="color: #007700">=&nbsp;array();<br /></span><span style="color: #0000BB">$docs</span><span style="color: #007700">[]&nbsp;=&nbsp;array(</span><span style="color: #DD0000">"my"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"demo"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$docs</span><span style="color: #007700">[]&nbsp;=&nbsp;array(</span><span style="color: #DD0000">"is"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"working"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$docs</span><span style="color: #007700">[]&nbsp;=&nbsp;array(</span><span style="color: #DD0000">"pretty"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"well"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$lote&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoInsertBatch</span><span style="color: #007700">(</span><span style="color: #0000BB">$colección</span><span style="color: #007700">);<br />foreach(</span><span style="color: #0000BB">$docs&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$documento</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$lote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$documento</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">$lote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <div class="example" id="mongowritebatch.add.example.update">
+   <p><strong>Ejemplo #2 Ejemplo de <span class="methodname"><strong>MongoWriteBatch::add()</strong></span></strong></p>
+   <div class="example-contents"><p>
+    Poner en lotes varias operaciones de actualización
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mc&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$colección&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">selectCollection</span><span style="color: #007700">(</span><span style="color: #DD0000">"test"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"test"</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #0000BB">$item1&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"q"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"my"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"demo"</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"u"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'$set'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"try"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">)),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"multi"&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">/*&nbsp;valor&nbsp;predeterminado&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"upsert"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">/*&nbsp;valor&nbsp;predeterminado&nbsp;*/<br /></span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$item2&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"q"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"is"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"working"</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"u"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'$set'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"try"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">)),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"multi"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">,<br />);<br /></span><span style="color: #0000BB">$item3&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"q"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"created"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"new-document"</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"u"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'$set'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"try"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">)),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"upsert"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">,<br />);<br /><br /></span><span style="color: #0000BB">$lote&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoUpdateBatch</span><span style="color: #007700">(</span><span style="color: #0000BB">$colección</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$item1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$item2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$item3</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <div class="example" id="mongowritebatch.add.example.delete">
+   <p><strong>Ejemplo #3 Ejemplo de <span class="methodname"><strong>MongoWriteBatch::add()</strong></span></strong></p>
+   <div class="example-contents"><p>
+    Poner en lotes varias operaciones de eliminación
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mc&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$colección&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">selectCollection</span><span style="color: #007700">(</span><span style="color: #DD0000">"test"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"test"</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #0000BB">$item1&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"q"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"my"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"demo"</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"limit"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,<br />);<br /></span><span style="color: #0000BB">$item2&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"q"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"try"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"limit"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,<br />);<br /><br /><br /></span><span style="color: #0000BB">$lote&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoDeleteBatch</span><span style="color: #007700">(</span><span style="color: #0000BB">$colección</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$item1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$item2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$lote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+ 
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mongowritebatch.html">MongoWriteBatch</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongowritebatch.construct.html">MongoWriteBatch::__construct</a></div>
+ <div class="up"><a href="class.mongowritebatch.html">MongoWriteBatch</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

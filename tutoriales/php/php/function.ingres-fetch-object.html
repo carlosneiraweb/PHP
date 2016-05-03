@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene una fila de resultados en un objeto</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ingres-fetch-assoc.html">ingres_fetch_assoc</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ingres-fetch-proc-return.html">ingres_fetch_proc_return</a></div>
+ <div class="up"><a href="ref.ingres.html">Funciones de Ingres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ingres-fetch-object" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ingres_fetch_object</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.2, PHP 5 &lt;= 5.0.5, PECL ingres &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">ingres_fetch_object</span> &mdash; <span class="dc-title">Obtiene una fila de resultados en un objeto</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ingres-fetch-object-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">object</span> <span class="methodname"><strong>ingres_fetch_object</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$result_type</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Esta función es similar a
+   <span class="function"><a href="function.ingres-fetch-array.html" class="function">ingres_fetch_array()</a></span>, con una diferencia: se devuelve
+   un objeto en lugar de un array. Indirectamente, esto significa
+   que se puede acceder a los datos solamente por los nombres de los campos, y no or
+   otros índices (los números son nombres de propiedades ilegales).
+  </p>
+  <p class="para">
+   Con respecto a la velocidad, la función es idéntica a
+   <span class="function"><a href="function.ingres-fetch-array.html" class="function">ingres_fetch_array()</a></span>, y casi tan rápida como
+   <span class="function"><a href="function.ingres-fetch-row.html" class="function">ingres_fetch_row()</a></span> (la diferencia es
+   indignificante).
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Configuraciones relacionadas</strong><br />
+   <p class="para">
+    Véanse también las directivas <a href="ingres.configuration.html#ini.ingres.fetch-buffer-size" class="link">ingres.fetch_buffer_size</a>
+    y <a href="ingres.configuration.html#ini.ingres.utf8" class="link">ingres.utf8</a>
+    de la sección <a href="ingres.configuration.html" class="link">Configuración en
+    tiempo de ejecución</a>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ingres-fetch-object-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">link</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de resultados de la consulta
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">result_type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       (Argumento opcional) <code class="parameter">result_type</code> es una
+       constante que puede tomar los siguientes valores: <strong><code>INGRES_ASSOC</code></strong>,
+       <strong><code>INGRES_NUM</code></strong>, y <strong><code>INGRES_BOTH</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ingres-fetch-object-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un objeto que se corresponde con la fila obtenida,
+   o <strong><code>FALSE</code></strong> si no existen más filas
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ingres-fetch-object-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1316">
+    <p><strong>Ejemplo #1 Obtener una fila en un objeto</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ingres_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$base_datos</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$usuario</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$contraseña</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ingres_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,</span><span style="color: #DD0000">"select&nbsp;*&nbsp;from&nbsp;table"</span><span style="color: #007700">);<br />while&nbsp;(</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ingres_fetch_object</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user_id</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fullname</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ingres-fetch-object-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ingres-query.html" class="function" rel="rdfs-seeAlso">ingres_query()</a> - Env&iacute;a una consulta SQL a Ingres</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-num-fields.html" class="function" rel="rdfs-seeAlso">ingres_num_fields()</a> - Obtiene el n&uacute;mero de campos devueltos por la &uacute;ltima consulta</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-field-name.html" class="function" rel="rdfs-seeAlso">ingres_field_name()</a> - Obtiene el nombre de un campo de un resultado de una consulta</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-fetch-array.html" class="function" rel="rdfs-seeAlso">ingres_fetch_array()</a> - Obtiene una fila de resultados en un array</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-fetch-assoc.html" class="function" rel="rdfs-seeAlso">ingres_fetch_assoc()</a> - Obtienen una fila de resultados en un array asociativo</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-fetch-row.html" class="function" rel="rdfs-seeAlso">ingres_fetch_row()</a> - Obtiene una fila de resultados en un array enumerado</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ingres-fetch-assoc.html">ingres_fetch_assoc</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ingres-fetch-proc-return.html">ingres_fetch_proc_return</a></div>
+ <div class="up"><a href="ref.ingres.html">Funciones de Ingres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

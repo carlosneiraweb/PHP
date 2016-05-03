@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Crea un resource de BBCode</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.bbcode-add-smiley.html">bbcode_add_smiley</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.bbcode-destroy.html">bbcode_destroy</a></div>
+ <div class="up"><a href="ref.bbcode.html">Funciones de BBCode</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.bbcode-create" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">bbcode_create</h1>
+  <p class="verinfo">(PECL bbcode &gt;= 0.9.0)</p><p class="refpurpose"><span class="refname">bbcode_create</span> &mdash; <span class="dc-title">Crea un resource de BBCode</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.bbcode-create-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>bbcode_create</strong></span>
+    ([ <span class="methodparam"><span class="type">array</span> <code class="parameter">$bbcode_initial_tags</code><span class="initializer"> = NULL</span></span>
+  ] )</div>
+
+  
+  <p class="para rdfs-comment">
+   Esta función retorna un nuevo resource de BBCode usado para analizar
+   strings BBCode.
+  </p>
+  
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.bbcode-create-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">bbcode_initial_tags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un array asociativo que contiene el nombre de la etiqueta como clave y
+       los parámetros requeridos para analizar correctamente el BBCode por su
+       valor. Se soportan los siguientes pares clave/valor:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          <var class="varname"><var class="varname">flags</var></var> opcional - un set de
+          flags basado en las constantes BBCODE_FLAGS_*.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <var class="varname"><var class="varname">type</var></var> requerido - un int
+          indicando el tipo de etiqueta. Usar las constantes BBCODE_TYPE_*.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <var class="varname"><var class="varname">open_tag</var></var> requerido - el
+          string HTML usado para reemplazar a la etiqueta de apertura.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <var class="varname"><var class="varname">close_tag</var></var> requerido - el
+          string HTML usado para reemplazar a la etiqueta de cierre.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <var class="varname"><var class="varname">default_arg</var></var> opcional - usar
+          este valor como el argumento por defecto si no se indica uno y
+          tag_type es de tipo OPTARG.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <var class="varname"><var class="varname">content_handling</var></var> opcional -
+          proporciona la llamada de retorno usada para modificar el
+          contenido. La Notación Orientada a Objetos soportada únicamente desde
+          0.10.1
+          El prototipo para la llamada de retorno es:
+          string nombre<em>(string $contenido, string $argumento)</em>
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <var class="varname"><var class="varname">param_handling</var></var> opcional - 
+          proporciona la llamada de retorno usada para la modificación del
+          argumento. La Notación Orientada a Objetos soportada únicamente desde
+          0.10.1
+          El prototipo para la llamada de retorno es:
+          string nombre<em>(string $contenido, string $argumento)</em>
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <var class="varname"><var class="varname">childs</var></var> opcional - lista de
+          hijos aceptados para la etiqueta. El formato de la lista es un
+          string de valores separados por comas. Si la lista comienza con !
+          entonces es la lista de hijos no permitidos para la etiqueta.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <var class="varname"><var class="varname">parent</var></var> opcional - lista de
+          padres aceptados para la etiqueta. El formato de la lista es un
+          string de valores separados por comas.
+         </span>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.bbcode-create-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Retorna un resource BBCode_Container
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.bbcode-create-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5330">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>bbcode_create()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$arrayBBCode&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">=&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'type'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">BBCODE_TYPE_ROOT</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #DD0000">'childs'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'!i'</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'i'</span><span style="color: #007700">=&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'type'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">BBCODE_TYPE_NOARG</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'open_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;i&gt;'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'close_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;/i&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'childs'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'b'</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'url'</span><span style="color: #007700">=&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'type'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">BBCODE_TYPE_OPTARG</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'open_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;a&nbsp;href="{PARAM}"&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'close_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;/a&gt;'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'default_arg'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'{CONTENT}'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'childs'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'b,i'</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'img'</span><span style="color: #007700">=&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'type'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">BBCODE_TYPE_NOARG</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'open_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;img&nbsp;src="'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'close_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'"&nbsp;/&gt;'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'childs'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">''</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'b'</span><span style="color: #007700">=&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'type'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">BBCODE_TYPE_NOARG</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'open_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;b&gt;'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'close_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;/b&gt;'</span><span style="color: #007700">),<br />);<br /></span><span style="color: #0000BB">$texto&nbsp;</span><span style="color: #007700">=&nbsp;&lt;&lt;&lt;EOF<br /></span><span style="color: #DD0000">[b]Texto&nbsp;en&nbsp;negrita[/b]<br />[i]Texto&nbsp;en&nbsp;cursiva[/i]<br />[url]http://www.php.net/[/url]<br />[url=http://pecl.php.net/][b]Contenido[/b][/url]<br />[img]http://static.php.net/www.php.net/images/php.gif[/img]<br />[url=http://www.php.net/]<br />[img]http://static.php.net/www.php.net/images/php.gif[/img]<br />[/url]<br /></span><span style="color: #007700">EOF;<br /></span><span style="color: #0000BB">$BBHandler</span><span style="color: #007700">=</span><span style="color: #0000BB">bbcode_create</span><span style="color: #007700">(</span><span style="color: #0000BB">$arrayBBCode</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">bbcode_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$BBHandler</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$texto</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+&lt;b&gt;Texto en negrita&lt;/b&gt;
+[i]Texto en cursiva[/i]
+&lt;a href=&quot;http://www.php.net/&quot;&gt;http://www.php.net/&lt;/a&gt;
+&lt;a href=&quot;http://pecl.php.net/&quot;&gt;&lt;b&gt;Content Text&lt;/b&gt;&lt;/a&gt;
+&lt;img src=&quot;http://static.php.net/www.php.net/images/php.gif&quot; /&gt;
+&lt;a href=&quot;http://www.php.net/&quot;&gt;
+[img]http://static.php.net/www.php.net/images/php.gif[/img]
+&lt;/a&gt;
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.bbcode-add-smiley.html">bbcode_add_smiley</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.bbcode-destroy.html">bbcode_destroy</a></div>
+ <div class="up"><a href="ref.bbcode.html">Funciones de BBCode</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

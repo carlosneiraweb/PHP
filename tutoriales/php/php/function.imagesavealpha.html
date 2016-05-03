@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establecer la bandera para guardar la informaci&oacute;n completa del canal alfa (como oposici&oacute;n a la transparencia de un simple color) cuando se guardan im&aacute;genes PNG</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imagerotate.html">imagerotate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagescale.html">imagescale</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imagesavealpha" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imagesavealpha</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.2, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">imagesavealpha</span> &mdash; <span class="dc-title">Establecer la bandera para guardar la información completa del canal alfa (como oposición a la transparencia de un simple color) cuando se guardan imágenes PNG</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imagesavealpha-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>imagesavealpha</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$image</code></span>
+   , <span class="methodparam"><span class="type">bool</span> <code class="parameter">$saveflag</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>imagesavealpha()</strong></span> establece la bandera para intentar guardar
+   la información completa del canal alfa (como oposición a la transparencia de un simple color)
+   cuando se guardan imágenes PNG.
+  </p>
+  <p class="para">
+   Se debe deshabilitar la mezcla alfa
+   (<em>imagealphablending($im, false)</em>), para usarlo.
+  </p>
+  <p class="para">
+   El canal alfa no está soportado por todos los navegadores, si tiene problemas con
+   su navegador, intente cargar su script con un navegador compatible con el canal
+   alfa, p.ej. la última version de Mozilla.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imagesavealpha-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+image</code></dt>
+<dd>
+<p class="para">Un recurso image, es devuelto por una de las funciones de creación de imágenes,
+como <span class="function"><a href="function.imagecreatetruecolor.html" class="function">imagecreatetruecolor()</a></span>.</p></dd>
+
+    
+     <dt>
+<code class="parameter">saveflag</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si se ha de guardar el canal alfa o no. Por defecto es <strong><code>FALSE</code></strong>. 
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imagesavealpha-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.imagesavealpha-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3570">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>imagesavealpha()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Cargar&nbsp;una&nbsp;imagen&nbsp;png&nbsp;con&nbsp;canales&nbsp;alfa<br /></span><span style="color: #0000BB">$png&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagecreatefrompng</span><span style="color: #007700">(</span><span style="color: #DD0000">'./ejemplo_canal_alfa.png'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Hacer&nbsp;las&nbsp;operaciones&nbsp;requeridas<br /><br />//&nbsp;Desactivar&nbsp;la&nbsp;mezcla&nbsp;alfa&nbsp;y&nbsp;establecer&nbsp;la&nbsp;bandera&nbsp;alfa<br /></span><span style="color: #0000BB">imagealphablending</span><span style="color: #007700">(</span><span style="color: #0000BB">$png</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">imagesavealpha</span><span style="color: #007700">(</span><span style="color: #0000BB">$png</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Impirmir&nbsp;la&nbsp;imagen&nbsp;al&nbsp;navegador<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-Type:&nbsp;image/png'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">imagepng</span><span style="color: #007700">(</span><span style="color: #0000BB">$png</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">imagedestroy</span><span style="color: #007700">(</span><span style="color: #0000BB">$png</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.imagesavealpha-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Esta función require GD 2.0.1 o superior (se recomienda 2.0.28 o superior).</span></p></blockquote>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.imagesavealpha-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.imagealphablending.html" class="function" rel="rdfs-seeAlso">imagealphablending()</a> - Establece el modo de mezcla para una imagen</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imagerotate.html">imagerotate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagescale.html">imagescale</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,318 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Secure Shell 2</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="wrappers.phar.html">phar://</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="wrappers.rar.html">rar://</a></div>
+ <div class="up"><a href="wrappers.html">Protocolos y Envolturas soportados</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="wrappers.ssh2" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ssh2://</h1>
+  <p class="refpurpose"><span class="refname">ssh2://</span> &mdash; <span class="dc-title">Secure Shell 2</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-wrappers.ssh2-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">
+   <var class="filename">ssh2.shell://</var>
+   <var class="filename">ssh2.exec://</var>
+   <var class="filename">ssh2.tunnel://</var>
+   <var class="filename">ssh2.sftp://</var>
+   <var class="filename">ssh2.scp://</var>
+   PHP 4.3.0 y superior (PECL)
+  </p>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Esta envoltura no está habilitada por omisión</strong><br />
+   <span class="simpara">
+    Para poder usarse la envoltura <var class="filename">ssh2.*://</var> debe instalarase
+    la extensión <a href="http://pecl.php.net/package/ssh2" class="link external">&raquo;&nbsp;SSH2</a>
+    disponible en <a href="http://pecl.php.net/" class="link external">&raquo;&nbsp;PECL</a>.
+   </span>
+  </p></blockquote>
+  
+  <p class="simpara">
+   Además de permitir hacer un login tradicional en la URI, la envoltura ssh2
+   también puede reutilizar las conexiones ya abiertas, proporcionando el recurso
+   de conexión en el apartado host de la URL.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 usage" id="refsect1-wrappers.ssh2-usage"> 
+  <h3 class="title">Uso</h3>
+  <ul class="itemizedlist">
+   <li class="listitem"><span class="simpara"><var class="filename">ssh2.shell://usuario:contraseña@ejemplo.com:22/xterm</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">ssh2.exec://usuario:contraseña@ejemplo.com:22/usr/local/bin/comando</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">ssh2.tunnel://usuario:contraseña@ejemplo.com:22/192.168.0.1:14</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">ssh2.sftp://usuario:contraseña@ejemplo.com:22/ruta/a/fichero</var></span></li>
+  </ul>
+ </div>
+ 
+ 
+ <div class="refsect1 options" id="refsect1-wrappers.ssh2-options">
+  <h3 class="title">Opciones</h3>
+  <p class="para">
+   <table class="doctable table">
+    <caption><strong>Resumen de la Envoltura</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Atributo</th>
+       <th>ssh2.shell</th>
+       <th>ssh2.exec</th>
+       <th>ssh2.tunnel</th>
+       <th>ssh2.sftp</th>
+       <th>ssh2.scp</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>Restringido por <a href="filesystem.configuration.html#ini.allow-url-fopen" class="link">allow_url_fopen</a></td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite Lecturas</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite Escrituras</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite Añadir contenidos</td>
+       <td>No</td>
+       <td>No</td>
+       <td>No</td>
+       <td>Sí (cuando esté soportado por el servidor)</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite Lecturas y Escrituras Simultáneas</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>Sí</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.stat.html" class="function">stat()</a></span></td>
+       <td>No</td>
+       <td>No</td>
+       <td>No</td>
+       <td>Sí</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.unlink.html" class="function">unlink()</a></span></td>
+       <td>No</td>
+       <td>No</td>
+       <td>No</td>
+       <td>Sí</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.rename.html" class="function">rename()</a></span></td>
+       <td>No</td>
+       <td>No</td>
+       <td>No</td>
+       <td>Sí</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.mkdir.html" class="function">mkdir()</a></span></td>
+       <td>No</td>
+       <td>No</td>
+       <td>No</td>
+       <td>Sí</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.rmdir.html" class="function">rmdir()</a></span></td>
+       <td>No</td>
+       <td>No</td>
+       <td>No</td>
+       <td>Sí</td>
+       <td>No</td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+  
+  
+  
+  <p class="para">
+   <table class="doctable table">
+    <caption><strong>Opciones de contexto</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Nombre</th>
+       <th>Uso</th>
+       <th>Valor por omisión</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td><em>session</em></td>
+       <td>Recurso ssh2 preconectado a utilizar</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>sftp</em></td>
+       <td>Recurso sftp preubicado a reutilizar</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>methods</em></td>
+       <td>métodos a usar de entre Key exchange, hostkey, cipher, compression, y MAC</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>callbacks</em></td>
+       <td class="empty">&nbsp;</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>username</em></td>
+       <td>Nombre de usuario con el que conectar</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>password</em></td>
+       <td>Contraseña a utilizar en autenticación con contraseña</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>pubkey_file</em></td>
+       <td>Nombre del fichero con la clave pública que se usará para autenticar</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>privkey_file</em></td>
+       <td>Nombre del fichero con la clave privada que se usará para autenticar</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>env</em></td>
+       <td>Array asociativo con las variables de entorno que se van a asignar</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>term</em></td>
+       <td>Tipo de emulación del terminal a solicitar cuando se asigne un pty (pseudo terminal)</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>term_width</em></td>
+       <td>Ancho del terminal solicitado cuando se asigne un pty</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>term_height</em></td>
+       <td>Altura del terminal solicitado cuando se asigne un pty</td>
+       <td class="empty">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td><em>term_units</em></td>
+       <td>Unidades a usar con term_width y con term_height</td>
+       <td><strong><code>SSH2_TERM_UNIT_CHARS</code></strong></td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+ 
+ 
+ <div class="refsect1 examples" id="refsect1-wrappers.ssh2-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-368">
+   <p><strong>Ejemplo #1 Abriendo un flujo a partir de una conexión activa</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$session&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ssh2_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'example.com'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">22</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ssh2_auth_pubkey_file</span><span style="color: #007700">(</span><span style="color: #0000BB">$session</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'username'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'/home/username/.ssh/id_rsa.pub'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'/home/username/.ssh/id_rsa'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'secret'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$stream&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #DD0000">"ssh2.tunnel://</span><span style="color: #0000BB">$session</span><span style="color: #DD0000">/remote.example.com:1234"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'r'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="example-369">
+   <p><strong>Ejemplo #2 ¡La variable <var class="varname"><var class="varname">$session</var></var> debe permanecer disponible!</strong></p>
+   <div class="example-contents"><p>
+    Para utilizar la envoltura <var class="filename">ssh2.*://$session</var> debe
+    mantenerse el recurso <var class="varname"><var class="varname">$session</var></var> disponible. El código siguiente no
+    tendrá el efecto deseado:
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$session&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ssh2_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'example.com'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">22</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ssh2_auth_pubkey_file</span><span style="color: #007700">(</span><span style="color: #0000BB">$session</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'username'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'/home/username/.ssh/id_rsa.pub'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'/home/username/.ssh/id_rsa'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'secret'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$connection_string&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"ssh2.sftp://</span><span style="color: #0000BB">$session</span><span style="color: #DD0000">/"</span><span style="color: #007700">;<br />unset(</span><span style="color: #0000BB">$session</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$stream&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #0000BB">$connection_string&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"path/to/file"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'r'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>
+    unset() cierra la sesión, ya que <var class="varname"><var class="varname">$connection_string</var></var> no
+    contiene una referencia a la variable <var class="varname"><var class="varname">$session</var></var>, simplemente una representación de la cadena
+    derivada de ella. Esto también ocurre cuando <span class="function"><a href="function.unset.html" class="function">unset()</a></span> va implícito
+    porque se sale del ámbito (como dentro de una función).
+   </p></div>
+  </div>
+  
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="wrappers.phar.html">phar://</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="wrappers.rar.html">rar://</a></div>
+ <div class="up"><a href="wrappers.html">Protocolos y Envolturas soportados</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

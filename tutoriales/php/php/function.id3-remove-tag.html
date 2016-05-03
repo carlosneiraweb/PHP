@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Elimina una etiqueta ID3 existente</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.id3-get-version.html">id3_get_version</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.id3-set-tag.html">id3_set_tag</a></div>
+ <div class="up"><a href="ref.id3.html">Funciones ID3</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.id3-remove-tag" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">id3_remove_tag</h1>
+  <p class="verinfo">(PECL id3 &gt;= 0.1)</p><p class="refpurpose"><span class="refname">id3_remove_tag</span> &mdash; <span class="dc-title">Elimina una etiqueta ID3 existente</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.id3-remove-tag-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>id3_remove_tag</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$filename</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$version</code><span class="initializer"> = ID3_V1_0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>id3_remove_tag()</strong></span> Es usada para eliminar información almacenada
+   de una etiqueta ID3.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.id3-remove-tag-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">filename</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Ruta al fichero MP3
+      </p>
+      <p class="para">
+       En lugar de un nombre de fichero puede pasarse un contexto de flujos válido.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">version</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Permite especificar la versión de la etiqueta, esto se debe a que los ficheros MP3
+       pueden contener ambas versiones de etiquetas, 1.x y 2.x
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.id3-remove-tag-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.id3-remove-tag-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-678">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>id3_remove_tag()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">id3_remove_tag</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">"ruta/a/ejemplo.mp3"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">ID3_V1_0&nbsp;</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Etiqueta&nbsp;eliminada&nbsp;exitosamente\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>
+     Si es posible escribir en el fichero y este contiene una etiqueta 1.0, imprimirá:
+    </p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Etiqueta eliminada exitosamente
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.id3-remove-tag-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Actualmente <span class="function"><strong>id3_remove_tag()</strong></span> solamente soporta versiones 1.0
+    y 1.1. Si se desea eliminar una etiqueta 1.0 y el fichero contiene una etiqueta 1.1,
+    esta será eliminada, esto se debe a que la etiqueta versión 1.1 es sólo una extensión de la 1.0.
+   </span>
+  </p></blockquote>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.id3-remove-tag-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.id3-set-tag.html" class="function" rel="rdfs-seeAlso">id3_set_tag()</a> - Actualiza la informaci&oacute;n almacenada en una etiqueta ID3</span></li>
+    <li class="member"><span class="function"><a href="function.id3-get-tag.html" class="function" rel="rdfs-seeAlso">id3_get_tag()</a> - Obtiene toda la informaci&oacute;n almacenada en una etiqueta ID3</span></li>
+    <li class="member"><span class="function"><a href="function.id3-get-version.html" class="function" rel="rdfs-seeAlso">id3_get_version()</a> - Obtiene la versi&oacute;n de una etiqueta ID3</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.id3-get-version.html">id3_get_version</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.id3-set-tag.html">id3_set_tag</a></div>
+ <div class="up"><a href="ref.id3.html">Funciones ID3</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

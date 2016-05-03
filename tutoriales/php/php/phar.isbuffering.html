@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Determinar si las operaciones de escritura de Phar est&aacute; siendo almacenadas en buffer, o est&aacute;n siendo volcadas directamente al disco</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.interceptfilefuncs.html">Phar::interceptFileFuncs</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.iscompressed.html">Phar::isCompressed</a></div>
+ <div class="up"><a href="class.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="phar.isbuffering" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Phar::isBuffering</h1>
+  <p class="verinfo">(PHP &gt;= 5.3.0, PECL phar &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">Phar::isBuffering</span> &mdash; <span class="dc-title">Determinar si las operaciones de escritura de Phar está siendo almacenadas en buffer, o están siendo volcadas directamente al disco</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-phar.isbuffering-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>Phar::isBuffering</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  
+  <p class="para rdfs-comment">
+   Este método se puede usar para determinar si un Phar guardará los cambios
+   al disco inmediatamente, o si se necesita una llamada <span class="function"><a href="phar.stopbuffering.html" class="function">Phar::stopBuffering()</a></span>
+   para habilitar el guardado de los cambios.
+  </p>
+  <p class="para">
+   La escritura en buffer de Phar es por archivo, el almacenamiento activo en buffer del
+   archivo Phar <em>foo.phar</em> no afecta a los cambios
+   hechos al archivo Phar <em>bar.phar</em>.
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-phar.isbuffering-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> si las operaciones de escritura están siendo almacenadas en buffer, <strong><code>FALSE</code></strong> si no.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-phar.isbuffering-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-765">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>Phar::isBuffering()</strong></span></strong></p>
+    <div class="example-contents"><p>
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$p&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Phar</span><span style="color: #007700">(</span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #0000BB">__FILE__</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">'/nuevo_phar.phar'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'nuevo_phar.phar'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$p2&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Phar</span><span style="color: #007700">(</span><span style="color: #DD0000">'phar_existente.phar'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$p</span><span style="color: #007700">[</span><span style="color: #DD0000">'fichero1.txt'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'hola'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isBuffering</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$p2</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isBuffering</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;<br /></span>=2=<br /><span style="color: #0000BB">&lt;?php<br />$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">startBuffering</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isBuffering</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$p2</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isBuffering</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">stopBuffering</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;<br /></span>=3=<br /><span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isBuffering</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$p2</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isBuffering</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+bool(false)
+bool(false)
+=2=
+bool(true)
+bool(false)
+=3=
+bool(false)
+bool(false)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-phar.isbuffering-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="phar.startbuffering.html" class="function" rel="rdfs-seeAlso">Phar::startBuffering()</a> - Iniciar las operaciones de escritura en buffer de Phar, no modifica el objeto Phar del disco</span></li>
+    <li class="member"><span class="function"><a href="phar.stopbuffering.html" class="function" rel="rdfs-seeAlso">Phar::stopBuffering()</a> - Detener las peticiones de escritura en buffer del archivo Phar, y guardar los cambios en disco</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.interceptfilefuncs.html">Phar::interceptFileFuncs</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.iscompressed.html">Phar::isCompressed</a></div>
+ <div class="up"><a href="class.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

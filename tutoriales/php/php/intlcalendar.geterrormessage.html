@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener el &uacute;ltime mensaje de error del objeto</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlcalendar.geterrorcode.html">IntlCalendar::getErrorCode</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlcalendar.getfirstdayofweek.html">IntlCalendar::getFirstDayOfWeek</a></div>
+ <div class="up"><a href="class.intlcalendar.html">IntlCalendar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intlcalendar.geterrormessage" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">IntlCalendar::getErrorMessage</h1>
+  <h1 class="refname">intlcal_get_error_message</h1>
+  <p class="verinfo">(PHP 5.5.0, PHP 7, PECL &gt;= 3.0.0a1)</p><p class="refpurpose"><span class="refname">IntlCalendar::getErrorMessage</span> -- <span class="refname">intlcal_get_error_message</span> &mdash; <span class="dc-title">Obtener el últime mensaje de error del objeto</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-intlcalendar.geterrormessage-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo orientado a objetos (method):</p>
+   <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">string</span> <span class="methodname"><strong>IntlCalendar::getErrorMessage</strong></span>
+    ( <span class="methodparam">void</span>
+    )</div>
+
+  <p class="para rdfs-comment">Estilo por procedimientos:</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>intlcal_get_error_message</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.intlcalendar.html" class="type IntlCalendar">IntlCalendar</a></span> <code class="parameter">$calendar</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve el mensaje de error (si lo hubiera) asociado al error reportado por
+   <span class="function"><a href="intlcalendar.geterrorcode.html" class="function">IntlCalendar::getErrorCode()</a></span> o
+   <span class="function"><a href="intlcalendar.geterrorcode.html" class="function">intlcal_get_error_code()</a></span>. Si no hubiera ningún mensaje
+   de error asociado, solamente será devuelto el string con la representación
+   del nombre de la constante de error. De lo contrario, el mensaje también incluye un
+   mensaje establecido en el lado de la vinculación de PHP.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-intlcalendar.geterrormessage-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">calendar</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El objeto calendario, en la interfaz procedimental.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-intlcalendar.geterrormessage-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El mensaje de error asociado con el último error ocurrido en una llamada a una función
+   sobre este objeto, o un string que indica la no existencia de errores.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-intlcalendar.geterrormessage-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2841">
+   <p><strong>Ejemplo #1 <span class="function"><strong>IntlCalendar::getErrorMessage()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$cal&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">createInstance</span><span style="color: #007700">(</span><span style="color: #DD0000">'UTC'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'en_US'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$cal</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getErrorMessage</span><span style="color: #007700">());<br /><br /></span><span style="color: #0000BB">$cal</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getWeekendTransition</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">DOW_WEDNESDAY</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$cal</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getErrorMessage</span><span style="color: #007700">());</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+string(12) &quot;U_ZERO_ERROR&quot;
+string(82) &quot;intlcal_get_weekend_transition: Error calling ICU method: U_ILLEGAL_ARGUMENT_ERROR&quot;
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlcalendar.geterrorcode.html">IntlCalendar::getErrorCode</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlcalendar.getfirstdayofweek.html">IntlCalendar::getFirstDayOfWeek</a></div>
+ <div class="up"><a href="class.intlcalendar.html">IntlCalendar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

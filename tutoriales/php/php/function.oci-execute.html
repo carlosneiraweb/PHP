@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecuta una sentencia</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.oci-error.html">oci_error</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.oci-fetch-all.html">oci_fetch_all</a></div>
+ <div class="up"><a href="ref.oci8.html">Funciones de OCI8</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.oci-execute" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">oci_execute</h1>
+  <p class="verinfo">(PHP 5, PHP 7, PECL OCI8 &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">oci_execute</span> &mdash; <span class="dc-title">Ejecuta una sentencia</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.oci-execute-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>oci_execute</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$statement</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$mode</code><span class="initializer"> = OCI_COMMIT_ON_SUCCESS</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Ejecuta la sentencia dada por <code class="parameter">statement</code> anteriormente devuelta
+   desde <span class="function"><a href="function.oci-parse.html" class="function">oci_parse()</a></span>.
+  </p>
+  <p class="para">
+   Después de la ejecución, las sentencias como <em>INSERT</em>,
+   por omisión, contendrán datos consolidados en la base de datos. Para sentencias
+   como <em>SELECT</em>, la ejecución realiza la lógica de la
+   consulta. Los resultados de las consultas pueden obtenerse posteriormente en PHP con
+   funciones como <span class="function"><a href="function.oci-fetch-array.html" class="function">oci_fetch_array()</a></span>.
+  </p>
+  <p class="para">
+   Cada sentencia analizada podría ser ejecutada múltiples veces, ahorrando el
+   coste de un reanálisis. Esto se utlilza comúnmente
+   para sentencias <em>INSERT</em> cuando los datos están vinculados
+   con <span class="function"><a href="function.oci-bind-by-name.html" class="function">oci_bind_by_name()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.oci-execute-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">statement</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un identificador de sentencia de OCI válido.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Este segundo parámetro opcional puede ser una de las siguietnes constantes:
+       <table class="doctable table">
+        <caption><strong>Modos de ejecución</strong></caption>
+        
+         <thead>
+          <tr>
+           <th>Constante</th>
+           <th>Descripción</th>
+          </tr>
+
+         </thead>
+
+         <tbody class="tbody">
+          <tr>
+           <td><strong><code>OCI_COMMIT_ON_SUCCESS</code></strong></td>
+           <td>Consolida automáticamente todos los cambios pendientes de
+            esta conexión cuando la sentencia ha tenido éxito. Es
+            la predetermianda.</td>
+          </tr>
+
+          <tr>
+           <td><strong><code>OCI_DESCRIBE_ONLY</code></strong></td>
+           <td>Dispone los metadatos de la consulta a funciones
+            como <span class="function"><a href="function.oci-field-name.html" class="function">oci_field_name()</a></span>, pero no
+            crea un conjunto de resultados. Cualquier llamada de obtención subsiguiente,
+            como con <span class="function"><a href="function.oci-fetch-array.html" class="function">oci_fetch_array()</a></span>,
+            fallará.</td>
+          </tr>
+
+          <tr>
+           <td><strong><code>OCI_NO_AUTO_COMMIT</code></strong></td>
+           <td>No consolida automáticamete los cambios. Antes de PHP
+            5.3.2 (PECL OCI8 1.4)
+            use <strong><code>OCI_DEFAULT</code></strong>, la cual es equivalente
+            a <strong><code>OCI_NO_AUTO_COMMIT</code></strong>.</td>
+          </tr>
+
+         </tbody>
+        
+       </table>
+
+      </p>
+      <p class="para">
+       Al usar el modo <strong><code>OCI_NO_AUTO_COMMIT</code></strong> se inicia o continua una
+       transacción. Las transacciones son automáticamente revertidas cuando
+       la conexión se cierra, o cuando el script finaliza. Para consolidar
+       explícitamente una trasacción, invoque a <span class="function"><a href="function.oci-commit.html" class="function">oci_commit()</a></span>,
+       o a <span class="function"><a href="function.oci-rollback.html" class="function">oci_rollback()</a></span> para abortarla.
+      </p>
+      <p class="para">
+       Cuando se insertar o actualizan datos, se recomienda usar transacciones
+       para mantener la consistencia de datos relacionales y por razones de
+       rendimiento.
+      </p>
+      <p class="para">
+       Si se usa el modo <strong><code>OCI_NO_AUTO_COMMIT</code></strong> para cualquier
+       sentencia, incluyendo consultas, y no se llama posteriormente a
+       <span class="function"><a href="function.oci-commit.html" class="function">oci_commit()</a></span>
+       o <span class="function"><a href="function.oci-rollback.html" class="function">oci_rollback()</a></span>,
+       OCI8 realizará una reversión al final del
+       script incluso si no se modificó ningún dato. Para evitar reversiones
+       innecesarias, muchos scripts no usan
+       el modo <strong><code>OCI_NO_AUTO_COMMIT</code></strong> para consultas o
+       PL/SQL. Tenga cuidado de asegurar la consistencia transaccional
+       apropiada para la aplicación cuando
+       use <span class="function"><strong>oci_execute()</strong></span> con diferentes modos en
+       el mismo script.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.oci-execute-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.oci-execute-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2210">
+    <p><strong>Ejemplo #1 <span class="function"><strong>oci_execute()</strong></span> para consultas</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'hr'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'welcome'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'localhost/XE'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$stid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'SELECT&nbsp;*&nbsp;FROM&nbsp;employees'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"&lt;table&nbsp;border='1'&gt;\n"</span><span style="color: #007700">;<br />while&nbsp;(</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_fetch_array</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_ASSOC</span><span style="color: #007700">+</span><span style="color: #0000BB">OCI_RETURN_NULLS</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;tr&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$elemento</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;"&nbsp;</span><span style="color: #007700">.&nbsp;(</span><span style="color: #0000BB">$elemento&nbsp;</span><span style="color: #007700">!==&nbsp;</span><span style="color: #0000BB">null&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #0000BB">htmlentities</span><span style="color: #007700">(</span><span style="color: #0000BB">$elemento</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">ENT_QUOTES</span><span style="color: #007700">)&nbsp;:&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"&lt;/td&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;/tr&gt;\n"</span><span style="color: #007700">;<br />}<br />echo&nbsp;</span><span style="color: #DD0000">"&lt;/table&gt;\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2211">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>oci_execute()</strong></span> sin especificar un modo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Antes&nbsp;de&nbsp;ejecutarlo,&nbsp;cree&nbsp;la&nbsp;tabla:<br />//&nbsp;&nbsp;&nbsp;CREATE&nbsp;TABLE&nbsp;MYTABLE&nbsp;(col1&nbsp;NUMBER);<br /><br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'hr'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'welcome'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'localhost/XE'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$stid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'INSERT&nbsp;INTO&nbsp;mytab&nbsp;(col1)&nbsp;VALUES&nbsp;(123)'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;La&nbsp;fila&nbsp;se&nbsp;consolida&nbsp;y&nbsp;es&nbsp;visible&nbsp;inmediatamente&nbsp;a&nbsp;otros&nbsp;usuarios<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2212">
+    <p><strong>Ejemplo #3 Ejemplo de <span class="function"><strong>oci_execute()</strong></span> con <strong><code>OCI_NO_AUTO_COMMIT</code></strong></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Antes&nbsp;de&nbsp;ejecutarlo,&nbsp;cree&nbsp;la&nbsp;tabla:<br />//&nbsp;&nbsp;&nbsp;CREATE&nbsp;TABLE&nbsp;MYTABLE&nbsp;(col1&nbsp;NUMBER);<br /><br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'hr'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'welcome'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'localhost/XE'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$stid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'INSERT&nbsp;INTO&nbsp;mytab&nbsp;(col1)&nbsp;VALUES&nbsp;(:bv)'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_bind_by_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">':bv'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">);<br />for&nbsp;(</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;&nbsp;++</span><span style="color: #0000BB">$i</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_NO_AUTO_COMMIT</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;use&nbsp;OCI_DEFAULT&nbsp;para&nbsp;PHP&nbsp;&lt;=&nbsp;5.3.1<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">oci_commit</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;consolida&nbsp;todos&nbsp;los&nbsp;nuevos&nbsp;valores:&nbsp;1,&nbsp;2,&nbsp;3,&nbsp;4,&nbsp;5<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2213">
+    <p><strong>Ejemplo #4 Ejemplo de <span class="function"><strong>oci_execute()</strong></span> con diferentes modos de consolidación</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Antes&nbsp;de&nbsp;ejecutarlo,&nbsp;cree&nbsp;la&nbsp;tabla:<br />//&nbsp;&nbsp;&nbsp;CREATE&nbsp;TABLE&nbsp;MYTABLE&nbsp;(col1&nbsp;NUMBER);<br /><br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'hr'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'welcome'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'localhost/XE'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$stid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'INSERT&nbsp;INTO&nbsp;mytab&nbsp;(col1)&nbsp;VALUES&nbsp;(123)'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_NO_AUTO_COMMIT</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;datos&nbsp;no&nbsp;consolidados<br /><br /></span><span style="color: #0000BB">$stid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'INSERT&nbsp;INTO&nbsp;mytab&nbsp;(col1)&nbsp;VALUES&nbsp;(456)'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;consolida&nbsp;tanto&nbsp;el&nbsp;valor&nbsp;123&nbsp;como&nbsp;456<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2214">
+    <p><strong>Ejemplo #5 Ejemplo de <span class="function"><strong>oci_execute()</strong></span> con
+     <strong><code>OCI_DESCRIBE_ONLY</code></strong></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'hr'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'welcome'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'localhost/XE'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$stid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'SELECT&nbsp;*&nbsp;FROM&nbsp;locations'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$s</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_DESCRIBE_ONLY</span><span style="color: #007700">);<br />for&nbsp;(</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;=&nbsp;</span><span style="color: #0000BB">oci_num_fields</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">);&nbsp;++</span><span style="color: #0000BB">$i</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">oci_field_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"&lt;br&gt;\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.oci-execute-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Las transacciones son automáticamente revertidas cuando se cierran las
+    conexiones, o cuando el script finaliza, lo que ocurra antes. Para consolidar
+    explícitamente una transacción, invoque a <span class="function"><a href="function.oci-commit.html" class="function">oci_commit()</a></span>.
+   </p>
+   <p class="para">
+    Cualquier llamada a <span class="function"><strong>oci_execute()</strong></span> que use
+    el modo <strong><code>OCI_COMMIT_ON_SUCCESS</code></strong>, explícitamente o por
+    omisión, consolidará cualquier transacción no consolidada anterioremente.
+   </p>
+   <p class="para">
+    Cualquier sentencia DDL de Oracle, como <em>CREATE</em>
+    o <em>DROP</em>, consolidará automáticamente cualquier
+    transacción no consolidada.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Debido a que la función <span class="function"><strong>oci_execute()</strong></span> generalmente
+    envía la sentencia a la
+    base de datos, <span class="function"><strong>oci_execute()</strong></span> puede identificar algunos
+    errores de sintaxis que no identifica la función ligera local
+    <span class="function"><a href="function.oci-parse.html" class="function">oci_parse()</a></span>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.oci-execute-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.oci-parse.html" class="function" rel="rdfs-seeAlso">oci_parse()</a> - Prepara una sentencia de Oracle para su ejecuci&oacute;n</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.oci-error.html">oci_error</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.oci-fetch-all.html">oci_fetch_all</a></div>
+ <div class="up"><a href="ref.oci8.html">Funciones de OCI8</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

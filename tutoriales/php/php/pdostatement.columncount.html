@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve el n&uacute;mero de columnas de un conjunto de resultados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdostatement.closecursor.html">PDOStatement::closeCursor</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdostatement.debugdumpparams.html">PDOStatement::debugDumpParams</a></div>
+ <div class="up"><a href="class.pdostatement.html">PDOStatement</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdostatement.columncount" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDOStatement::columnCount</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7, PECL pdo &gt;= 0.2.0)</p><p class="refpurpose"><span class="refname">PDOStatement::columnCount</span> &mdash; <span class="dc-title">
+   Devuelve el número de columnas de un conjunto de resultados
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-pdostatement.columncount-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">int</span> <span class="methodname"><strong>PDOStatement::columnCount</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  
+  <p class="para rdfs-comment">
+   Use <span class="function"><strong>PDOStatement::columnCount()</strong></span> para devolver el número
+   de columnas del conjunto representado por el objeto PDOStatement.
+  </p>
+  <p class="para">
+   S el objeto PDOStatement fue devuelto desde <span class="function"><a href="pdo.query.html" class="function">PDO::query()</a></span>,
+   el número de columnas estará inmediatamente disponible.
+  </p>
+  <p class="para">
+   Si el objeto PDOStatement fue devuelto desde
+   <span class="function"><a href="pdo.prepare.html" class="function">PDO::prepare()</a></span>, un número preciso de columnas no estará
+   disponible hasta que se invoque a <span class="function"><a href="pdostatement.execute.html" class="function">PDOStatement::execute()</a></span>.
+  </p>
+  
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-pdostatement.columncount-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el número de columnas del conjunto de resultados representado por el
+   objeto PDOStatement. Si no hubiera conjunto de resultados,
+   <span class="function"><strong>PDOStatement::columnCount()</strong></span> devuelve <em>0</em>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-pdostatement.columncount-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1039">
+    <p><strong>Ejemplo #1 Contar columnas</strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo demuestra cómo <span class="function"><strong>PDOStatement::columnCount()</strong></span>
+     opera con y sin un conjunto de resultados.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$gbd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'odbc:sample'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'db2inst1'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ibmdb2'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$gsent&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;name,&nbsp;colour&nbsp;FROM&nbsp;fruit"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Cuenta&nbsp;el&nbsp;número&nbsp;de&nbsp;columnas&nbsp;del&nbsp;(no&nbsp;existente)&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;*/<br /></span><span style="color: #0000BB">$cuenta_col&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">columnCount</span><span style="color: #007700">();<br />print(</span><span style="color: #DD0000">"Antes&nbsp;de&nbsp;execute(),&nbsp;el&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;tiene&nbsp;</span><span style="color: #0000BB">$cuenta_col</span><span style="color: #DD0000">&nbsp;columnas&nbsp;(debería&nbsp;ser&nbsp;0)\n"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;Cuenta&nbsp;el&nbsp;número&nbsp;de&nbsp;columnas&nbsp;del&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;*/<br /></span><span style="color: #0000BB">$cuenta_col&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">columnCount</span><span style="color: #007700">();<br />print(</span><span style="color: #DD0000">"Después&nbsp;de&nbsp;execute(),&nbsp;el&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;tiene&nbsp;</span><span style="color: #0000BB">$cuenta_col</span><span style="color: #DD0000">&nbsp;columnas&nbsp;(debería&nbsp;ser&nbsp;2)\n"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Antes de execute(), el conjunto de resultados tiene 0 columnas (debería ser 0)
+Después de execute(), el conjunto de resultados tiene 2 columnas (debería ser 2)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ 
+ <div class="refsect1 seealso" id="refsect1-pdostatement.columncount-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdo.prepare.html" class="function" rel="rdfs-seeAlso">PDO::prepare()</a> - Prepara una sentencia para su ejecuci&oacute;n y devuelve un objeto sentencia</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.execute.html" class="function" rel="rdfs-seeAlso">PDOStatement::execute()</a> - Ejecuta una sentencia preparada</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.rowcount.html" class="function" rel="rdfs-seeAlso">PDOStatement::rowCount()</a> - Devuelve el n&uacute;mero de filas afectadas por la &uacute;ltima sentencia SQL</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdostatement.closecursor.html">PDOStatement::closeCursor</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdostatement.debugdumpparams.html">PDOStatement::debugDumpParams</a></div>
+ <div class="up"><a href="class.pdostatement.html">PDOStatement</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Iniciar un nuevo patr&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-begin-page.html">ps_begin_page</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-begin-template.html">ps_begin_template</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ps-begin-pattern" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ps_begin_pattern</h1>
+  <p class="verinfo">(PECL ps &gt;= 1.2.0)</p><p class="refpurpose"><span class="refname">ps_begin_pattern</span> &mdash; <span class="dc-title">Iniciar un nuevo patrón</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ps-begin-pattern-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>ps_begin_pattern</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$psdoc</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$width</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$height</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$xstep</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$ystep</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$painttype</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Inicia un nuevo patrón. Un patrón es como una página que contiene, por ejemplo, un dibujo
+   que puede ser utilizado par rellenar áreas. Se usa como un color llamando a la función
+   <span class="function"><a href="function.ps-setcolor.html" class="function">ps_setcolor()</a></span> y estableciendo el espacio de color a
+   <em>pattern</em>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ps-begin-pattern-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">psdoc</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de recursos del fichero postscript,
+       como el devuelto por la función <span class="function"><a href="function.ps-new.html" class="function">ps_new()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">width</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El ancho del patrón en píxeles.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">height</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El alto del patrón en píxeles.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">x-step</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La distancia en píxeles de la ubicación del patrón en
+       dirección horizontal.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">y-step</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La distancia en píxeles de la ubicación del patrón en
+       dirección vertical.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">painttype</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Debe ser 1 ó 2.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ps-begin-pattern-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El identificador del patrón  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ps-begin-pattern-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4077">
+    <p><strong>Ejemplo #1 Crear y usar un patrón</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$ps&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ps_new</span><span style="color: #007700">();<br /><br />if&nbsp;(!</span><span style="color: #0000BB">ps_open_file</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"patrón.ps"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"No&nbsp;se&nbsp;puede&nbsp;abrir&nbsp;el&nbsp;fichero&nbsp;PostScript\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;exit;<br />}<br /><br /></span><span style="color: #0000BB">ps_set_parameter</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"warning"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"true"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Creator"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"patrón.php"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Author"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Uwe&nbsp;Steinmann"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Title"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Ejemplo&nbsp;de&nbsp;patrón"</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #0000BB">$patrón_ps&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ps_begin_pattern</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_setlinewidth</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_setcolor</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"stroke"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"rgb"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_moveto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_lineto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">7</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">7</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_stroke</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_moveto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">7</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_lineto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">7</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_stroke</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_end_pattern</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">ps_begin_page</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">596</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">842</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_setcolor</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"both"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"pattern"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$patrón_ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_rect</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">400</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_fill</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_end_page</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">ps_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_delete</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ps-begin-pattern-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ps-end-pattern.html" class="function" rel="rdfs-seeAlso">ps_end_pattern()</a> - Finalizar un patr&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="function.ps-setcolor.html" class="function" rel="rdfs-seeAlso">ps_setcolor()</a> - Establecer el color actual</span></li>
+    <li class="member"><span class="function"><a href="function.ps-shading-pattern.html" class="function" rel="rdfs-seeAlso">ps_shading_pattern()</a> - Crear un patr&oacute;n basado en un sombreado</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-begin-page.html">ps_begin_page</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-begin-template.html">ps_begin_template</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

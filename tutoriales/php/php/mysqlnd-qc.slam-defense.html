@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Defensa de cierre</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-qc.pattern-based-caching.html">Almacenamiento en cach&eacute; basado en patrones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-qc.cache-candidates.html">Buscar candidatas a la cach&eacute;</a></div>
+ <div class="up"><a href="mysqlnd-qc.quickstart.html">Guia r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-qc.slam-defense" class="section">
+  <h2 class="title">Defensa de cierre</h2>
+  <p class="para">
+   Una caché mal diseñada puede hacer más daño que bien. En el peor de los casos, una caché
+   puede aumentar la carga del servidor de bases de datos en lugar de minimizarla. Una situación de sobrecarga
+   puede ocurrir si una entrada de la caché altamente compartida expira (estampida de la caché).
+  </p>
+  <p class="para">
+   Las entradas de la caché son compartidas y reutilizadas en diferentes grados, dependiendo del
+   almacenamiento usado. El gestor de almacenamiento predeterminado almacena entradas en la memoria del proceso.
+   Así, una entrada de la caché puede ser reutilzada durante el periodo de vida de un proceso. Otros procesos
+   de PHP no puede acceder a ella. Si se usa Memcache, una entrada de la caché puede ser compartida
+   entre múltiples procesos de PHP e incluso entre múltiples máquinas, dependiendo de la
+   configuración que se use.
+  </p>
+  <p class="para">
+   Si una entrada de la caché altamente compartida almacenada en, por ejemplo, Memcache expira, muchos clientes no
+   obtendrán una coincidencia con la caché. Muchas peticiones de clientes ya no son servidas desde
+   la caché, sino que se intenta ejecutar la consulta subyacente en el servidor de bases de datos. Hasta que
+   la entrada de la caché sea refrescada, más y más clientes contactarán con el servidor de bases de datos.
+   En el peor de los casos, el resultado será la pérdida total del servicio.
+  </p>
+  <p class="para">
+   La sobrecarga se puede evitar usando un gestor de almacenamiento que limite la reutilización de entradas
+   de la caché a unos pocos clientes. Entonces, como media, es probable que sólo un número limitado
+   de clientes intenten refrescar una entrada de la caché de forma concurrente.
+  </p>
+  <p class="para">
+   Adicionalmente, el mecanismo interno de defensa de cierre puede y debería usarse. Si
+   está activada la defensa de cierre, a una entrada expirada se le amplía el tiempo de vida.
+   El primer cliente que no obtenga una coincidencia con la caché para la entrada expirada intentará
+   refrescar dicha entrada dentro del tiempo de vida ampliado. Todos los demás clientes que soliciten
+   la entrada de la caché son servidos temporalmente desde la caché aunque el
+   <em>TTL</em> original de dicha entrada haya expirado. Los demás clientes no
+   experimentarán una no coincidencia con la caché antes de que se agote el tiempo de vida.
+  </p>
+  <p class="para">
+   <div class="example" id="example-2088">
+    <p><strong>Ejemplo #1 Habilitar el mecanismo de defensa de cierre</strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">mysqlnd_qc.slam_defense=1
+mysqlnd_qc.slam_defense_ttl=1</pre>
+</div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   El mecanismo de defensa de cierre se habilita con la directiva de configuración
+   <a href="mysqlnd-qc.configuration.html#ini.mysqlnd-qc.slam-defense" class="link"><em>mysqlnd_qc.slam_defense</em></a>.
+   El tiempo de vida ampliado de una entrada de la caché se establece con
+   <a href="mysqlnd-qc.configuration.html#ini.mysqlnd-qc.slam-defense-ttl" class="link"><em>mysqlnd_qc.slam_defense_ttl</em></a>.
+  </p>
+  <p class="para">
+   La función
+   <span class="function"><a href="function.mysqlnd-qc-get-core-stats.html" class="function">mysqlnd_qc_get_core_stats()</a></span> devuelve un array de
+   estadísticas. Las estadísticas <em>slam_stale_refresh</em> y
+   <em>slam_stale_hit</em> son incrementadas si la defensa de cierre tiene lugar.
+  </p>
+  <p class="para">
+   No es posible establecer una recomendación universal en la configuración de la defensa de cierre.
+   Se advierte a los usuarios que monitoricen y prueben sus configuraciones y que deduzcan
+   los ajustes en consecuencia.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-qc.pattern-based-caching.html">Almacenamiento en cach&eacute; basado en patrones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-qc.cache-candidates.html">Buscar candidatas a la cach&eacute;</a></div>
+ <div class="up"><a href="mysqlnd-qc.quickstart.html">Guia r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

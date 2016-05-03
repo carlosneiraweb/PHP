@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecuta el equivalente de la llamada al sistema select() sobre las matrices
+   de flujos dadas con un tiempo de espera especificado por tv_sec y tv_usec</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.stream-resolve-include-path.html">stream_resolve_include_path</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.stream-set-blocking.html">stream_set_blocking</a></div>
+ <div class="up"><a href="ref.stream.html">Funciones de Flujos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.stream-select" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">stream_select</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">stream_select</span> &mdash; <span class="dc-title">Ejecuta el equivalente de la llamada al sistema select() sobre las matrices
+   de flujos dadas con un tiempo de espera especificado por tv_sec y tv_usec </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.stream-select-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>stream_select</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$read</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$write</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$except</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$tv_sec</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$tv_usec</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   La función <span class="function"><strong>stream_select()</strong></span> acepta matrices de flujos y
+   espera a que cambien su estado. Su operación es equivalente a la de la función
+   <span class="function"><a href="function.socket-select.html" class="function">socket_select()</a></span> excepto que actúa sobre flujos.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.stream-select-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">read</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los flujos listados en la matriz <code class="parameter">read</code> serán observados para
+       comprobar si los caracteres están disponibles para la lectura (de manera más precisa, para ver si
+       una lectura no bloqueará - en particular, un recurso de flujo está también listo en
+       el final de archivo, en cuyo caso una llamada a <span class="function"><a href="function.fread.html" class="function">fread()</a></span> devolverá
+       una cadena de longitud cero).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">write</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los flujos listados en la matriz <code class="parameter">write</code> serán
+       observados para comprobar si una escritura no bloqueará.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">except</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los flujos listados en la matriz <code class="parameter">except</code> serán
+       observados para una llegada de información excepcional de alta prioridad (&quot;fuera de banda&quot;).
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Cuando <span class="function"><strong>stream_select()</strong></span> devuelve, las matrices
+        <code class="parameter">read</code>, <code class="parameter">write</code> y
+        <code class="parameter">except</code> se modifican para indicar qué recursos de flujo
+        cambiaron de estado actualmente.
+       </p>
+      </p></blockquote>
+      <span class="simpara">
+       No se necesita pasar cada matriz a
+       <span class="function"><strong>stream_select()</strong></span>. Se pueden omitir y usar una
+       matriz vacía o <strong><code>NULL</code></strong> en su lugar. No se olvide también de que estas matrices son
+       pasadas <em class="emphasis">por referencia</em> y serán modificadas después de que
+       <span class="function"><strong>stream_select()</strong></span> devuelva.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">tv_sec</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los parámetros <code class="parameter">tv_sec</code> y <code class="parameter">tv_usec</code>
+       forman juntos el parámetro <em class="emphasis">timeout</em>,
+       <code class="parameter">tv_sec</code> especifica el número de segundos mientras que
+       <code class="parameter">tv_usec</code> especifica el número de microsegundos.
+       El <code class="parameter">timeout</code> (tiemop de espera) es un límite superior de la cantidad
+       de tiempo que <span class="function"><strong>stream_select()</strong></span> esperará antes de devolver.
+       Si <code class="parameter">tv_sec</code> y <code class="parameter">tv_usec</code> están
+       establecidos a <em>0</em>, <span class="function"><strong>stream_select()</strong></span>
+       no esperará información - en su lugar devolverá inmediantamente, indicando el
+       estado acutal de los flujos.
+      </p>
+      <p class="para">
+       Si <code class="parameter">tv_sec</code> es <strong><code>NULL</code></strong> <span class="function"><strong>stream_select()</strong></span>
+       puede bloquear indefinidamente, devolviendo sólo cuando ocurra un evento de los
+       flujos observados (o si una señal interrumpe la llamada al sistema).
+      </p>
+      <div class="warning"><strong class="warning">Advertencia</strong>
+       <p class="para">
+        Usar un valor de tiempo de espera de <em>0</em> permite
+        emitir instantáneamente el estado de los flujos, sin embargo, NO es una buena
+        idea usar un valor de tiempo de espera de <em>0</em> en un bucle ya que
+        causará que el script consuma demasiado tiempo de la CPU.
+       </p>
+       <p class="para">
+        Es mucho mejor especificar un valor de tiempo de espera de unos pocos segundos, aunque
+        si se necesita comprobar y ejecutar actualmente otro código, usar un
+        valor de tiempo de espera de al menos <em>200000</em> microsegundos
+        ayudará a reducir el uso de la CPU del script.
+       </p>
+       <p class="para">
+        Recuerde que el valor del tiempo de espera es el tiempo máximo que transcurrirá;
+        <span class="function"><strong>stream_select()</strong></span> devolverá tan pronto como los
+        flujos requeridos estén listos para su uso.
+       </p>
+      </div>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">tv_usec</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Véase la descripción de <code class="parameter">tv_sec</code>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.stream-select-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Si se tuvo éxito <span class="function"><strong>stream_select()</strong></span> devolverá el número de
+   recursos de flujo contenidos en las matrices modificadas, lo cual puede ser cero si
+   el tiempo de espera expira antes de que no ocurra nada interesante. Si se produjo un error
+   devolverá <strong><code>FALSE</code></strong> y se lanzará una advertendia (esto puede suceder si la llamada al sistema es
+   interrumpida por una señal entrante).
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.stream-select-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4579">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>stream_select()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo hace una comprobación para ver si ha llegado información para leer sobre
+     <code class="parameter">$stream1</code> o <code class="parameter">$stream2</code>.
+     Ya que el tiempo de espera es <em>0</em> devolverá
+     inmediatamente:
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Prepararse&nbsp;para&nbsp;leer&nbsp;una&nbsp;matriz&nbsp;*/<br /></span><span style="color: #0000BB">$read&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">$stream1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$stream2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$write&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$except&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br />if&nbsp;(</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">===&nbsp;(</span><span style="color: #0000BB">$num_changed_streams&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">stream_select</span><span style="color: #007700">(</span><span style="color: #0000BB">$read</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$write</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$except</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Manejo&nbsp;de&nbsp;errores&nbsp;*/<br /></span><span style="color: #007700">}&nbsp;elseif&nbsp;(</span><span style="color: #0000BB">$num_changed_streams&nbsp;</span><span style="color: #007700">&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Sucedió&nbsp;algo&nbsp;interesante&nbsp;en&nbsp;al&nbsp;menos&nbsp;uno&nbsp;de&nbsp;los&nbsp;flujos&nbsp;*/<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.stream-select-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Debido a las limitaciones en el actual Zend Engine no es posible pasar un
+    modificador constante como <strong><code>NULL</code></strong> directamente como un parámetro a una función
+    que espera que este parámetro sea pasado por referencia. En su lugar use una
+    variable temporal o una expresión con el miembro más a la izquierda como una
+    variable temporal:
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$e&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">stream_select</span><span style="color: #007700">(</span><span style="color: #0000BB">$r</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$w</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Asegúrese de usar el operador <em>===</em> cuando se compruebe un
+    error. Ya que <span class="function"><strong>stream_select()</strong></span> puede devolver 0, la
+    comparación con <em>==</em> sería evaluada como <strong><code>TRUE</code></strong>:
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$e&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br />if&nbsp;(</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">stream_select</span><span style="color: #007700">(</span><span style="color: #0000BB">$r</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$w</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;stream_select()\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Si se lee/escribe en un flujo devuelto en las matrices sea consciente de que
+    éstas no leen/escriben necesariamente la cantidad total de información que se
+    solicitó. Inluso sólo pueden ser capaces de leer/escribir un sólo
+    byte.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Algunos flujos (como <em>zlib</em>) no pueden ser seleccionados por esta
+    función.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Compatibilidad con Windows: <span class="function"><strong>stream_select()</strong></span> usado sobre una
+    tubería devuelta desde <span class="function"><a href="function.proc-open.html" class="function">proc_open()</a></span> puede causar pérdida de información
+    bajo Windows 98.
+   </p>
+   <p class="para">
+    El uso de <span class="function"><strong>stream_select()</strong></span> sobre
+    descriptores de archivos devueltos por <span class="function"><a href="function.proc-open.html" class="function">proc_open()</a></span> fallará
+    y devolverá <strong><code>FALSE</code></strong> bajo Windows.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.stream-select-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member"><span class="function"><a href="function.stream-set-blocking.html" class="function" rel="rdfs-seeAlso">stream_set_blocking()</a> - Establecer el modo bloqueo/no-bloqueo en un flujo</span></li>
+  </ul>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.stream-resolve-include-path.html">stream_resolve_include_path</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.stream-set-blocking.html">stream_set_blocking</a></div>
+ <div class="up"><a href="ref.stream.html">Funciones de Flujos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

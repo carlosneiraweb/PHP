@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Abre un flujo de un objeto grande existente</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.pgsqllobcreate.html">PDO::pgsqlLOBCreate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.pgsqllobunlink.html">PDO::pgsqlLOBUnlink</a></div>
+ <div class="up"><a href="ref.pdo-pgsql.html">PostgreSQL (PDO)</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdo.pgsqllobopen" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDO::pgsqlLOBOpen</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.2, PHP 7, PECL pdo_pgsql &gt;= 1.0.2)</p><p class="refpurpose"><span class="refname">PDO::pgsqlLOBOpen</span> &mdash; <span class="dc-title">Abre un flujo de un objeto grande existente</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-pdo.pgsqllobopen-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">resource</span> <span class="methodname"><strong>PDO::pgsqlLOBOpen</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$oid</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$mode</code><span class="initializer"> = &quot;rb&quot;</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>PDO::pgsqlLOBOpen()</strong></span> obre un flujo para acceder a los datos
+   a los que hace referencia <code class="parameter">oid</code>.  Si <code class="parameter">mode</code>
+   es <em>r</em>, el flujo será abierto para lectura; si
+   <code class="parameter">mode</code> es <em>w</em>, el flujo será
+   abierto para escritura. Se pueden utilizar todas las funciones de sistema de ficheros usuales,
+   tales como <span class="function"><a href="function.fread.html" class="function">fread()</a></span>, <span class="function"><a href="function.fwrite.html" class="function">fwrite()</a></span> y
+   <span class="function"><a href="function.fgets.html" class="function">fgets()</a></span>, para manipular el contenido del flujo.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Esta función, y todas las manipulaciones del objeto grande,
+    debe ser invocada y realizada dentro de una transacción.
+   </span>
+  </p></blockquote>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-pdo.pgsqllobopen-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">oid</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un identificador de objeto grande.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si el modo es <em>r</em>, se abre el flujo para lectura.
+       Si el modo es <em>w</em>, se abre el flujo para escritura.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-pdo.pgsqllobopen-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un recurso de flujo en caso de éxito  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-pdo.pgsqllobopen-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1086">
+    <p><strong>Ejemplo #1 Un ejemplo de  <span class="function"><strong>PDO::pgsqlLOBOpen()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Siguiendo el ejemplo de <span class="function"><a href="pdo.pgsqllobcreate.html" class="function">PDO::pgsqlLOBCreate()</a></span>,
+     este trozo de código recupera el objeto grande de
+     la base de datos y lo envía al navegador.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$bd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'pgsql:dbname=test&nbsp;host=localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$usuario</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$contraseña</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setAttribute</span><span style="color: #007700">(</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">ATTR_ERRMODE</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">ERRMODE_EXCEPTION</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">beginTransaction</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"select&nbsp;oid&nbsp;from&nbsp;BLOBS&nbsp;where&nbsp;ident&nbsp;=&nbsp;?"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(array(</span><span style="color: #0000BB">$some_id</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindColumn</span><span style="color: #007700">(</span><span style="color: #DD0000">'oid'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$oid</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">PARAM_STR</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch</span><span style="color: #007700">(</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">FETCH_BOUND</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$flujo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">pgsqlLOBOpen</span><span style="color: #007700">(</span><span style="color: #0000BB">$oid</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'r'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Content-type:&nbsp;application/octet-stream"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fpassthru</span><span style="color: #007700">(</span><span style="color: #0000BB">$flujo</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ 
+ <div class="refsect1 seealso" id="refsect1-pdo.pgsqllobopen-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdo.pgsqllobcreate.html" class="function" rel="rdfs-seeAlso">PDO::pgsqlLOBCreate()</a> - Crea un nuevo objeto grande</span></li>
+    <li class="member"><span class="function"><a href="pdo.pgsqllobunlink.html" class="function" rel="rdfs-seeAlso">PDO::pgsqlLOBUnlink()</a> - Elimina un objeto grande</span></li>
+    <li class="member"><span class="function"><a href="function.pg-lo-open.html" class="function" rel="rdfs-seeAlso">pg_lo_open()</a> - Open a large object</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.pgsqllobcreate.html">PDO::pgsqlLOBCreate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.pgsqllobunlink.html">PDO::pgsqlLOBUnlink</a></div>
+ <div class="up"><a href="ref.pdo-pgsql.html">PostgreSQL (PDO)</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

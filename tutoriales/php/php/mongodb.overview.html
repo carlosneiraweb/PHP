@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Vista general de la arquitectura</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongodb.architecture.html">Arquitectura del controlador y sus entresijos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongodb.persistence.html">Persistencia de datos</a></div>
+ <div class="up"><a href="mongodb.architecture.html">Arquitectura del controlador y sus entresijos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongodb.overview" class="article">
+  
+  <h1>Vista general de la arquitectura</h1>
+
+
+  <p class="para">
+   Esta sección explica cómo todas las diferentes partes del controlador encajan
+   entre sí, desde tiempos de ejecución de lenguaje diferentes, a través de extensiones y
+   hacia las bibliotecas de PHP por último. Esta nueva arquitectura ha reemplazado a la antigua
+   extensión <a href="book.mongo.html" class="link">mongo</a>. Nos referiremos a la nueva
+   como la extensión <em class="emphasis">mongodb</em>.
+  </p>
+  <p class="para">
+   <div class="mediaobject">
+    
+    <div class="imageobject">
+     <img src="images/f3bc48edf40d5e3e09a166c7fadc7efb-driver_arch.png" alt="Diagrama de la arquitectura" width="625" height="450" />
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   En lo más alto de esta pila se sitúa una
+   <a href="http://github.com/mongodb/mongo-php-library" class="link external">&raquo;&nbsp;biblioteca de PHP</a> pura, la cual distribuimos
+   como um paquete de Composer. Esta biblioteca proporcionará una API similar
+   a la que los usuarios llevan esperando desde el controlador de mongo antiguo (p.ej. métodos CRUD,
+   objetos de bases de datos y colecciones, ayudantes de comandos), por lo que esperamos que sea una
+   dependencia común para la mayoría de las aplicaciones construidas con MongoDB. Esta biblioteca
+   también implementa
+   <a href="https://github.com/mongodb/specifications" class="link external">&raquo;&nbsp;especificaciones</a> comunes, por el
+   interés de mejorar la consistencia de la API a través de todos los
+   <a href="http://docs.mongodb.org/ecosystem/drivers/" class="link external">&raquo;&nbsp;controladores</a> mantenidos por
+   MongoDB (y con suerte, también algunos controladores de la comunidad).
+  </p>
+  <p class="para">
+   Justo debajo de la biblioteca tenemos los controladores de nivel más bajo: uno por plataforma.
+   Estas extensiones formarán de forma efectiva el «pegamento» entre PHP y HHVM y nuestras
+   bibliotecas del sistema (<a href="http://github.com/mongodb/mongo-c-driver" class="link external">&raquo;&nbsp;libmongoc</a> y
+   <a href="http://github.com/mongodb/libbson" class="link external">&raquo;&nbsp;libbson</a>). Estas extensiones
+   expondrán una API pública idéntica para la funcionalidad más
+   esencial y sensible al rendimiento:
+
+   <ul class="simplelist">
+    <li class="member">Administración de conexiones</li>
+    <li class="member">Codificación y decodificación de BSON</li>
+    <li class="member">Serializacón documentos de objetos (para dar soporte a bibliotecas ODM)</li>
+    <li class="member">Ejecución de  comandos y escritura de operaciones</li>
+    <li class="member">Manejo de consultas y cursores</li>
+   </ul>
+  </p>
+
+  <p class="para">
+   Al separar los entresijos del contrlador y la API de alto nivel en extensiones y
+   bibliotecas de PHP, respectivamente, esperamos reducir nuestra carga de manteminiento y 
+   permitir una iteración más rápida en nuevas características. Como efecto secundario de agradecer, esto
+   también hace más sencillo que cualquiera pueda contribuir al controlador. Además,
+   una API pública idéntica para estas extensiones hará mucho más fácil
+   portar una aplicación durante tiempos de ejecución de PHP, si la aplicación usa
+   directamente el controlador de bajo nivel o una biblioteca de alto nivel.
+  </p>
+  <p class="para">
+   <a href="http://docs.mongodb.org/manual/core/gridfs/" class="link external">&raquo;&nbsp;GridFS</a> es un buen ejemplo
+   de por qué elegimos esta dirección.
+   Aunque implementamos GridFS en C para nuestro controlador antiguo de mongo, realmente es
+   una especificación de alto nivel. Su API es una abstracción para
+   acceder a dos colecciones: ficheros (esto es, metadatos) y trozos (esto es, bloques de
+   datos). Asimismo, todo el añadido sintáctico encontrado en el controlador antiguo de mongo,
+   como el procesamiento de ficheros subidos o la exposición de ficheros de GridFS como flujos de PHP,
+   se puede implementar en PHP puro. Siempre que poseamos métodos rendidores para
+   leer desde y escribir en colecciones de GridFS (y gracias a nuestras extensiones
+   de bajo nivel), lo haremos: al mover esta API a PHP todos ganamos.
+  </p>
+  <p class="para">
+   Antes mencionamos que esperamos que la biblioteca de PHP sea una dependencia
+   común para <em class="emphasis">la mayoría</em> de las aplicaciones, pero no para
+   <em class="emphasis">todas</em>. Algunos usuarios podrían prefereir adherirse a la API sin
+   florituras ofrecida por las extensiones, o crear su propia abstracción de alto nivel
+   (parecida a <a href="https://github.com/doctrine/mongodb" class="link external">&raquo;&nbsp;Doctrine MongoDB</a> para
+   el controlador antiguo de mongo). Las futuras bibliotecas podrían incluir una biblioteca de PHP dirigida
+   a la administración de MongoDB con una API para la gestión de varios usuarios
+   y comandos de operaciones. La siguiente versión mayor de
+   <a href="https://github.com/doctrine/mongodb-odm" class="link external">&raquo;&nbsp;Doctrine MongoDB ODM</a>
+   probablemente también se sitúe directamente el lo alto de esta extensiones.
+  </p>
+  <p class="para">
+   Aunque continuaremos manteniendo y dando soporte al controlador antiguo de mongo y a sus
+   usuarios para el futuro próximo, invitamos a todo el mundo a utilizar el
+   controlador de nueva generación y considerarlo para cualquier proyecto nuevo por venir.
+   Los componentes esenciales se pueden encontrar a través de GitHub y JIRA:
+
+   <table class="doctable table">
+    <caption><strong>Ubicaciones del código fuente del controlador y JIRA</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Proyecto</th>
+       <th>GitHub</th>
+       <th>JIRA</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>Biblioteca de PHP</td>
+       <td><a href="http://github.com/mongodb/mongo-php-library" class="link external">&raquo;&nbsp;mongodb/mongo-php-library</a></td>
+       <td><a href="http://jira.mongodb.org/browse/PHPLIB" class="link external">&raquo;&nbsp;PHPLIB</a></td>
+      </tr>
+
+      <tr>
+       <td>Controlador de PHP 5 y PHP 7 (phongo)</td>
+       <td><a href="http://github.com/mongodb/mongo-php-driver" class="link external">&raquo;&nbsp;mongodb/mongo-php-driver</a></td>
+       <td><a href="http://jira.mongodb.org/browse/PHPC" class="link external">&raquo;&nbsp;PHPC</a></td>
+      </tr>
+
+      <tr>
+       <td>Controlador de HHVM (hippo)</td>
+       <td><a href="http://github.com/mongodb/mongo-hhvm-driver" class="link external">&raquo;&nbsp;mongodb/mongo-hhvm-driver</a></td>
+       <td><a href="http://jira.mongodb.org/browse/HHVM" class="link external">&raquo;&nbsp;HHVM</a></td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+
+  <p class="para">
+   El proyecto <a href="http://jira.mongodb.org/browse/PHP" class="link external">&raquo;&nbsp;PHP</a> existente en JIRA
+   permanecerá abierto para la notificación de errores del controlador antiguo de mongo, aunque
+   solicitaremos que utilice los nuevos proyectos de antes para cualquier cosa concerniente a
+   nuestros controladores de la siguiente generación.
+  </p>
+ </div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongodb.architecture.html">Arquitectura del controlador y sus entresijos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongodb.persistence.html">Persistencia de datos</a></div>
+ <div class="up"><a href="mongodb.architecture.html">Arquitectura del controlador y sus entresijos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

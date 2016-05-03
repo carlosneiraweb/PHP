@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Asuntos de Escritura (Write Concerns)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.readpreferences.html">Preferencias de lectura</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.sqltomongo.html">Tabla de correlaci&oacute;n de SQL a Mongo</a></div>
+ <div class="up"><a href="mongo.manual.html">Manual</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongo.writeconcerns" class="chapter">
+ <h1>Asuntos de Escritura (Write Concerns)</h1>
+
+ 
+ <p class="para">
+  MongoDB proporciona diferentes maneras de seleccionar la duración de una escritura a
+  la base de datos. Estas formas se llaman <em>Asuntos de
+  Escritura</em> y lo abarcan todo: desde ignorar completamente todos los errores,
+  a seleccionar específicamente qué servidores son necesarios para confirmar la escritura
+  antes de devolver la operación.
+ </p>
+ <p class="para">
+  Cuando una a escritura (como con <span class="methodname"><a href="mongocollection.insert.html" class="methodname">MongoCollection::insert()</a></span>,
+  <span class="methodname"><a href="mongocollection.update.html" class="methodname">MongoCollection::update()</a></span>, y
+  <span class="methodname"><a href="mongocollection.remove.html" class="methodname">MongoCollection::remove()</a></span>) se le proporciona una opción de
+  Asunto de Escritura (<em>&quot;w&quot;</em>), el controlador enviará la consulta a MongoDB
+  y luego proseguirá con un comando <em>getLastError</em>
+  (<acronym title="getLastError">GLE</acronym>) con la opción de Asunto de Escritura al mismo tiempo.
+  El servidor solo devuelve cuando la condición de Asunto de Escritura se verifica que se
+  cumple, o la consulta expira (controlado con la
+  opción<em>&quot;wtimeout&quot;</em>, <em>10000</em> milisegundos
+  es lo predeterminado).
+ </p>
+ 
+ <div class="warning"><strong class="warning">Advertencia</strong>
+  <p class="para">
+   Incluso si un comando <em>getLastError</em> expira, los datos
+   habrán sido escritos probablemente en el servidor primario y serán
+   replicados a todos los secundarios una vez se hayan finalizado con ellos.
+  </p>
+  <p class="para">
+   La típica razón para que una expiración ocurra es si se especifica un Asunto de
+   Escritura que requiera confirmación de más servidores de los que estén disponibles
+   en ese momento.
+  </p>
+ </div>
+ 
+ <p class="para">
+  Cuando se usan escrituras reconocidas y el conjunto de réplica ha fallado, el controlador
+  se desconectará automáticamente del primario, lanzando una excepción, e
+  intentará encontrar un nuevo primario en la siguiente operación (una aplicación debe
+  decidir si reintentar o no la operación en el nuevo primario).
+ </p>
+ <p class="para">
+  Cuando se usan escrituras no reconocidas (w=0) y el conjunto de réplica ha fallado,
+  no hay manera de que el controlador esté al tanto del campo, por lo que continuará
+  y fallará en la escritura silenciosamente.
+ </p>
+ <p class="para">
+  El Asunto de Escritura predeterminado para <a href="class.mongoclient.html" class="classname">MongoClient</a> es
+  <em>1</em>: operaciones de escritura reconocidas.
+ </p>
+ 
+ 
+ <p class="para">
+  <table id="mongo.writeconcerns.options" class="doctable table">
+   <caption><strong>Asuntos de Escritura disponibles</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Asunto de Escritura</th>
+      <th>Significado</th>
+      <th>Descripción</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     
+     <tr>
+      <td>w=0</td>
+      <td>Sin reconocimiento</td>
+      <td>A una escritura no le seguirá una llamada a <acronym title="getLastError">GLE</acronym>, por lo que no será verificada (&quot;dispara y olvida&quot;)</td>
+     </tr>
+
+     <tr>
+      <td>w=1</td>
+      <td>Con reconocimiento</td>
+      <td>El servidor reconocerá la escritura (el primario en una configuración de conjunto de réplica)</td>
+     </tr>
+
+     <tr>
+      <td>w=N</td>
+      <td>Reconocimiento por parte del conjunto de réplica</td>
+      <td>El servidor primario reconocerá la escritra, que
+       será replicada a <em>N-1</em> secundarios.</td>
+     </tr>
+
+     <tr>
+      <td>w=majority</td>
+      <td>Reconociemiento por la mayoría</td>
+      <td>La escritura será reconocia por la mayoría del conjunto de réplica (primario inclusive). Es un string reservado especial.</td>
+     </tr>
+
+     <tr>
+      <td>w=&lt;tag set&gt;</td>
+      <td>Reconocimiento por parte del conjunto de etiquetas del conjunto de réplica</td>
+      <td>La escritura será reconocida por miembros de conjunto de etiquetas completo</td>
+     </tr>
+
+     <tr>
+      <td>j=true</td>
+      <td>Con diario</td>
+      <td>El primario reconocerá la escritura y el diario será volcado a disco</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </p>
+ 
+ <div class="simplesect">
+  <h3 class="title">Usar WriteConcerns</h3>
+  <p class="para">
+   Cada método que causa escrituras
+   (<span class="methodname"><a href="mongocollection.insert.html" class="methodname">MongoCollection::insert()</a></span>,
+   <span class="methodname"><a href="mongocollection.update.html" class="methodname">MongoCollection::update()</a></span>, 
+   <span class="methodname"><a href="mongocollection.remove.html" class="methodname">MongoCollection::remove()</a></span>, y
+   <span class="methodname"><a href="mongocollection.batchinsert.html" class="methodname">MongoCollection::batchInsert()</a></span>) permite un argumento
+   opcional para enviar un conjunto de opciones al servidor de MongoDB. Con este array
+   de opciones se puede establecer el WriteConcern como ilustra el siguiente ejemplo:
+  </p>
+  <div class="example" id="example-1470">
+   <p><strong>Ejemplo #1 Pasar un WriteConcern a una operación de escritura</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Establecer&nbsp;w=0&nbsp;para&nbsp;insertar:<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$someDoc</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Establecer&nbsp;w=majority&nbsp;para&nbsp;acutalizar:<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">update</span><span style="color: #007700">(</span><span style="color: #0000BB">$someDoc</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$someUpdates</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"majority"</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Establecer&nbsp;w=5&nbsp;y&nbsp;j=true&nbsp;para&nbsp;eliminar:<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">update</span><span style="color: #007700">(</span><span style="color: #0000BB">$someDoc</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"j"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Establecer&nbsp;w="AllDCs"&nbsp;para&nbsp;batchInsert:<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">update</span><span style="color: #007700">(array(</span><span style="color: #0000BB">$someDoc1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$someDoc2</span><span style="color: #007700">),&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"AllDCs"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <p class="para">
+   Además de establecer WriteConcerns por operación como un argumento de opción, es
+   también posible establecer un WriteConcern predeterminado de diferentes formas.
+  </p>
+  <p class="para">
+   La primera forma es a través de la <a href="" class="link">cadena
+   de conexión</a>. La cadena de conexión acpeta las opciones
+   <em>journal</em>, <em>w</em>, y
+   <em>wTimeoutMS</em>:
+  </p>
+  <div class="example" id="example-1471">
+   <p><strong>Ejemplo #2 WriteConcerns en cadena de conexión</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #DD0000">"mongodb://localhost/?journal=true&amp;w=majority&amp;wTimeoutMS=20000"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Desde la versión 1.5  del controlador, también es posible llamar a
+   <span class="methodname"><a href="mongodb.setwriteconcern.html" class="methodname">MongoDB::setWriteConcern()</a></span> y a
+   <span class="methodname"><a href="mongocollection.setwriteconcern.html" class="methodname">MongoCollection::setWriteConcern()</a></span> para establecer un WriteConcern
+   predeterminado para todas las operaciones creadas desde ese objeto
+   <a href="class.mongodb.html" class="classname">MongoDB</a> o <a href="class.mongocollection.html" class="classname">MongoCollection</a>
+   específico:
+  </p>
+  <div class="example" id="example-1472">
+   <p><strong>Ejemplo #3 MongoDB::setWriteConcern y MongoCollection::setWriteConcern</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #DD0000">"mongodb://localhost/"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">demoDb</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$d</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">demoCollection</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Establecer&nbsp;w=3&nbsp;en&nbsp;el&nbsp;objeto&nbsp;de&nbsp;base&nbsp;de&nbsp;datos&nbsp;con&nbsp;un&nbsp;tiempo&nbsp;de&nbsp;espera&nbsp;de&nbsp;25000ms<br /></span><span style="color: #0000BB">$d</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setWriteConcern</span><span style="color: #007700">(</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">25000</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Establecer&nbsp;w=majority&nbsp;en&nbsp;el&nbsp;objeto&nbsp;de&nbsp;colección&nbsp;sin&nbsp;cambiar&nbsp;el&nbsp;tiempo&nbsp;de&nbsp;espera<br /></span><span style="color: #0000BB">$c</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setWriteConcern</span><span style="color: #007700">(</span><span style="color: #DD0000">"majority"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+ 
+ <div class="simplesect">
+  <h3 class="title">Escrituras no reconocidas</h3>
+  <p class="para">
+   Al no requerir que el servidor reconozca las escrituras, estas se pueden realizar
+   extremadamente rápido, pero no se sabrá si realmente han tenido éxito.
+   Las escritura puede fallas por varias razones: si hay problemas de red, si un
+   servidor de bases de datos falla, o si la escritura simplemente no era válida (p.ej., al
+   escribir en una colección de sistema, o errores de clave duplicada).
+  </p>
+  <p class="para">
+   Durante el desarrollo, siempre se deberían usar escrituras reconocidas (para evitar
+   errores inadvertidos, tales como errores de sintaxis, operadores no válidos, errores de clave duplicada
+   , etc.). En la producción, las escrituras no reconocidas se pueden usar para datos &quot;no importantes&quot;. Estos
+   varían según la aplicación, pero generalmente son datos automáticos (al contrario de generados
+   por el usuario), como el rastreo de clics o ubicaciones GPS, donde se pueden obtener
+   miles de registros por segundo.
+  </p>
+  <p class="para">
+   Es muy recomendable realizar una escritura reconocida al final de una serie
+   de escrituras no reconocidas. Esto no incurrirá en una penalización muy grande
+   de redimiento, pero aún se puede capturar cualquier error que pudiera
+   ocurrir.
+  </p>
+  <div class="example" id="mongo.writeconcerns.unacknowledged-example">
+   <p><strong>Ejemplo #4 Asunto de escritura no reconocido, seguido de una escritura reconocida</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$documento</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">update</span><span style="color: #007700">(</span><span style="color: #0000BB">$criterios</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$nuevonObj</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$otraCosa</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">));<br />try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">remove</span><span style="color: #007700">(</span><span style="color: #0000BB">$something</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br />}&nbsp;catch(</span><span style="color: #0000BB">MongoCursorException&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Manejar&nbsp;la&nbsp;excepción...&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;Aquí&nbsp;se&nbsp;debería&nbsp;emitir&nbsp;consultas&nbsp;find()&nbsp;en&nbsp;los&nbsp;IDs&nbsp;generados&nbsp;para<br />&nbsp;&nbsp;&nbsp;&nbsp;$otraCosa&nbsp;y&nbsp;$documento,&nbsp;para&nbsp;verificar&nbsp;que&nbsp;han&nbsp;sido&nbsp;escritos&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos<br />&nbsp;&nbsp;&nbsp;&nbsp;e&nbsp;intentar&nbsp;resolver&nbsp;dónde&nbsp;ocurrió&nbsp;algo&nbsp;en&nbsp;la&nbsp;serie.&nbsp;*/<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>
+    Si la última escritura lanza una excepción, se sabrá que hay un problema
+    en la base de datos.
+   </p></div>
+  </div>
+ </div>
+ 
+ <div class="simplesect">
+  <h3 class="title">Escrituras reconocidas</h3>
+  <p class="para">
+   Este tipo de operaciones de escritura se asegura de que la base de datos ha
+   aceptado la operación de escritura antes de indicar que ha tenido éxito. Si la escritura
+   falla, lanzará una <a href="class.mongocursorexception.html" class="classname">MongoCursorException</a> con una
+   explicación del fallo. El comportamiento predeterminado dee <a href="class.mongoclient.html" class="classname">MongoClient</a>
+   es reconocer la escritura (w=1).
+  </p>
+  <p class="para">
+   Es posible especificar cuántos miembros de un conjunto de réplica tienen que
+   reconocer la escritura (esto es, tiene que replicarla) antes de que la escritura se
+   estime como reconocida y la operación devuelve.
+   <div class="example" id="mongo.writeconcerns.acknowledged-example">
+    <p><strong>Ejemplo #5 Escrituras reconocidas</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Forzar&nbsp;el&nbsp;reconocimiento&nbsp;por&nbsp;parte&nbsp;del&nbsp;primario&nbsp;solamente<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$doc</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Forzar&nbsp;el&nbsp;reconocimiento&nbsp;por&nbsp;parte&nbsp;del&nbsp;primario,&nbsp;y&nbsp;otro&nbsp;miembro&nbsp;del<br />//&nbsp;conjunto&nbsp;de&nbsp;réplica<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$doc</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Forzar&nbsp;el&nbsp;reconocimiento&nbsp;por&nbsp;parte&nbsp;del&nbsp;primario,&nbsp;y&nbsp;otros&nbsp;seis&nbsp;miembros&nbsp;del<br />//&nbsp;conjunto&nbsp;de&nbsp;réplica&nbsp;(probablemente&nbsp;nunca&nbsp;debería&nbsp;hacer&nbsp;esto):<br /></span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$doc</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">7</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>
+     Recuerde seleccionar el Asunto de Escritura con cuidado. Si se tiene un
+     conjunto de réplica con 5 miembros y se selecciona un Asunto de Escritura de
+     <em>4</em>, se corre el riesgo de bloquear la escritura para siempre cuando
+     un miembro del conjunto de réplica se desconecte por matenimiento o por un corte temporal
+     de la red.
+    </p></div>
+   </div>
+  </p>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    El paso de un valor de tipo string al Asunto de Escritura posee un significado específico
+    (Reconocimiento por parte del conjunto de etiquetas del conjunto de réplica). Tenga cuidado de
+    <em class="emphasis">NO</em> usar valores de tipo string para números (esto es,
+    <em>array(&quot;w&quot; =&gt; &quot;1&quot;)</em>) ya que serán tratados como el nombre de un conjunto de
+    etiquetas.
+   </p>
+  </div>
+ </div>
+ 
+ <div class="simplesect">
+  <h3 class="title">Escrituras reconocidas por la mayoría</h3>
+  <p class="para">
+   Usar la opción de Asunto de Escritura <em>majority</em> es la forma
+   recomendada para escrituras que requieren sobrevidir al apocalipsis, ya que se asegurá
+   de que la mayoría del conjunto de réplica tendrá la escritura y, por lo tanto, se
+   garantizará que sobrevivirá a todos los escenarios de corte sospechosos usuales.
+  </p>
+  <div class="example" id="mongo.writeconcerns.majority.acknowledged-example">
+   <p><strong>Ejemplo #6 Escritura reconocida por la mayoría</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$documento</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"majority"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+ 
+ 
+ 
+ <div class="simplesect">
+  <h3 class="title">Escrituras con diario</h3>
+  <p class="para">
+   Al conectarse a un conjunto de réplica, el Asunto de Escritura predeterminado es hacer
+   que solamente el servidor primario reconozca al escritura. Hay, sin embargo, una ventata de
+   100 ms hasta que la escritura se escriba en el diario y sea volcada al disco. Es posible forzar
+   a que la escritura sea escrita en el diario antes de que sea reconocia estableicendo la
+   opción <em>j</em>:
+   <div class="example" id="mongo.writeconcerns.journalled">
+    <p><strong>Ejemplo #7 Escritura reconocida y esctrita en el diario</strong></p>
+    <div class="example-contents"><p>Forzar el volcado del diatio</p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$opciones&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"w"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"j"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">,<br />);<br />try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$documento</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$opciones</span><span style="color: #007700">);<br />}&nbsp;catch(</span><span style="color: #0000BB">MongoCursorException&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;manejar&nbsp;la&nbsp;excpeción&nbsp;*/<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+ 
+ <div class="simplesect">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member">
+    <a href="http://docs.mongodb.org/manual/applications/replication/#replica-set-write-concern" class="link external">&raquo;&nbsp;MongoDB WriteConcern docs</a>
+   </li>
+  </ul>
+ </div>
+ 
+ <div class="simplesect">
+  <h3 class="title">Historial de cambios</h3>
+  <table class="doctable informaltable">
+   
+    <thead>
+     <tr>
+      <th>Versión</th>
+      <th>Descripción</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>1.3.0</td>
+      <td>
+       Se introdujo <a href="class.mongoclient.html" class="classname">MongoClient</a>, cuyo comportamiento predeterminado es
+       <a href="mongo.writeconcerns.html#mongo.writeconcerns.acknowledged" class="link">reconocer</a> escrituras.
+       La obsoleta <a href="class.mongo.html" class="classname">Mongo</a> no reconoce las escrituras de forma
+       predeterminada.
+      </td>
+     </tr>
+
+     <tr>
+      <td>1.3.0</td>
+      <td>
+       La opción de escritura <em>&quot;safe&quot;</em> ahora es obsoleta y no
+       está disponible con la nueva clase <a href="class.mongoclient.html" class="classname">MongoClient</a>.
+       Use la opción <em>&quot;w&quot;</em> en su lugar.
+      </td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </div>
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.readpreferences.html">Preferencias de lectura</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.sqltomongo.html">Tabla de correlaci&oacute;n de SQL a Mongo</a></div>
+ <div class="up"><a href="mongo.manual.html">Manual</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configuraci&oacute;n en tiempo de ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="filesystem.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="filesystem.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="filesystem.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="filesystem.configuration" class="section">
+ <h2 class="title">Configuración en tiempo de ejecución</h2>
+ <p class="simpara">
+El comportamiento de estas funciones se ve afectado por la configuración de <var class="filename">php.ini</var>.
+</p>
+ <p class="para">
+  <table class="doctable table">
+   <caption><strong>Opciones de configuración del sistema de ficheros y flujos</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Nombre</th>
+      <th>Por defecto</th>
+      <th>Cambiable</th>
+      <th>Historial de cambios</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><a href="filesystem.configuration.html#ini.allow-url-fopen" class="link">allow_url_fopen</a></td>
+      <td>&quot;1&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>PHP_INI_ALL en PHP &lt;= 4.3.4. Disponible desde PHP 4.0.4.</td>
+     </tr>
+
+     <tr>
+      <td><a href="filesystem.configuration.html#ini.allow-url-include" class="link">allow_url_include</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible a partir de PHP 5.2.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="filesystem.configuration.html#ini.user-agent" class="link">user_agent</a></td>
+      <td>NULL</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible a partir de PHP 4.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="filesystem.configuration.html#ini.default-socket-timeout" class="link">default_socket_timeout</a></td>
+      <td>&quot;60&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible a partir de PHP 4.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="filesystem.configuration.html#ini.from" class="link">from</a></td>
+      <td>&quot;&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td class="empty">&nbsp;</td>
+     </tr>
+
+     <tr>
+      <td><a href="filesystem.configuration.html#ini.auto-detect-line-endings" class="link">auto_detect_line_endings</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible a partir de PHP 4.3.0.</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </p>
+ 
+ <p class="para">He aquí una breve explicación de
+las directivas de configuración.</p>
+ 
+ <p class="para">
+  <dl>
+
+   
+    <dt id="ini.allow-url-fopen">
+     <code class="parameter">allow_url_fopen</code>
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Esta opción habilita las envolturas fopen de tipo URL que permiten
+      el acceso a objetos URL como ficheros. Las envolturas predeterminadas están proporcionads para
+      el acceso de <a href="features.remote-files.html" class="link">ficheros remotos</a>
+      usando los protocolos ftp o http, algunas extensiones como
+      <a href="ref.zlib.html" class="link">zlib</a> pueden registrar envolturas adicionales. 
+     </p>
+     <blockquote class="note"><p><strong class="note">Nota</strong>: 
+      <p class="para">
+       Esta opción fue introducida inmediatamente después que la distribución de la versión
+       4.0.3. Para versiones hasta 4.0.3 inclusive, sólo se puede deshabilitar esta
+       característica en tiempo de compilación usando el conmutador de configuración
+       <a href="configure.about.html#configure.disable-url-fopen-wrapper" class="link"><code class="parameter">
+        --disable-url-fopen-wrapper</code></a>.
+      </p>
+     </p></blockquote>
+     <div class="warning"><strong class="warning">Advertencia</strong>
+      <p class="para"> 
+       En versiones de Windows anteriores a PHP 4.3.0, las siguientes funciones no
+       soportan el acceso a ficheros remotos: <span class="function"><a href="function.include.html" class="function">include</a></span>,
+       <span class="function"><a href="function.include-once.html" class="function">include_once</a></span>, <span class="function"><a href="function.require.html" class="function">require</a></span>,
+       <span class="function"><a href="function.require-once.html" class="function">require_once</a></span> y las funciones imagecreatefromXXX
+       de la extensión <a href="ref.image.html" class="xref">Funciones de GD e Im&aacute;genes</a>.
+      </p>
+     </div>
+    </dd>
+
+   
+   
+   
+    <dt id="ini.allow-url-include">
+     <code class="parameter">allow_url_include</code>
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Esta opción permite es uso de envolturas fopen de tipo URL con las siguientes
+      funciones: <span class="function"><a href="function.include.html" class="function">include</a></span>, <span class="function"><a href="function.include-once.html" class="function">include_once</a></span>, 
+      <span class="function"><a href="function.require.html" class="function">require</a></span>, <span class="function"><a href="function.require-once.html" class="function">require_once</a></span>.
+     </p>
+     <blockquote class="note"><p><strong class="note">Nota</strong>: 
+      <p class="para">
+       Esta opción requiere allow_url_fopen para ser activada. 
+      </p>
+     </p></blockquote>
+    </dd>
+
+   
+   
+   
+    <dt id="ini.user-agent">
+     <code class="parameter">user_agent</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Define el agente de usuario de PHP para el envío.
+     </p>
+    </dd>
+
+   
+   
+   
+    <dt id="ini.default-socket-timeout">
+     <code class="parameter">default_socket_timeout</code>
+     <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Tiempo de espera predeterminado (en segundos) para sockets basados en flujos.
+     </p>
+     <blockquote class="note"><p><strong class="note">Nota</strong>: 
+      <span class="simpara">
+       Esta opción de configuración fue introducida en PHP 4.3.0
+      </span>
+     </p></blockquote>
+    </dd>
+
+   
+   
+   
+    <dt id="ini.from">
+     <code class="parameter">from</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      La dirección de email a usar en conexiones FTP no autenticadas y
+      como valor de la cabecera From de conexiones HTTP, al usar las envolturas
+      ftp y http, respectivamente.
+     </p>
+    </dd>
+
+   
+   
+   
+    <dt id="ini.auto-detect-line-endings">
+     <code class="parameter">auto_detect_line_endings</code>
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Cuando se activa, PHP examinará la información leída por
+      <span class="function"><a href="function.fgets.html" class="function">fgets()</a></span> y <span class="function"><a href="function.file.html" class="function">file()</a></span> para ver si se
+      está usando las convenciones de final de línea de Unix, MS-Dos o Macintosh.
+     </p>
+     <p class="para">Esto permite a PHP inter-operar con los sistemas Macintosh,
+      pero por defecto está en Off, ya que hay una pérdida muy pequeña de rendimiento
+      cuando se detectan las convenciones de EOL para la primera línea, y también
+      porque la gente que usa retornos de carro como elementos serparadores bajo
+      sistemas Unix podrían experimentar un comportamiento que no es compatible con versiones anteriores.
+     </p>
+     <blockquote class="note"><p><strong class="note">Nota</strong>: 
+      <span class="simpara">
+       Esta opción de configuración fue introducida en PHP 4.3.0
+      </span>
+     </p></blockquote>
+    </dd>
+
+   
+  </dl>
+
+ </p>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="filesystem.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="filesystem.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="filesystem.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

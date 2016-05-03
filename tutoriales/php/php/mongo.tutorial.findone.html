@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Localizando documentos usando MongoCollection::findOne</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.tutorial.insert.html">Insertando un Documento</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.tutorial.insert.multiple.html">A&ntilde;adiendo M&uacute;ltiples Documentos</a></div>
+ <div class="up"><a href="mongo.tutorial.html">Tutorial</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongo.tutorial.findone" class="section">
+  <h2 class="title">
+   Localizando documentos usando <span class="function"><a href="mongocollection.findone.html" class="function">MongoCollection::findOne()</a></span>
+  </h2>
+  <p class="para">
+   Para comprobar que el documento que insertamos en el paso anterior está almacenado en
+   la base de datos, podemos realizar una operación
+   <span class="function"><a href="mongocollection.findone.html" class="function">MongoCollection::findOne()</a></span> para obtener un único
+   documento de la colección. Este método es útil cuando sólo hay un documento que
+   concuerde con la consulta, o cuando sólo se está interesado en un resultado.
+  </p>
+  <div class="example" id="mongo.tutorial.findone-example">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conexión&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$colección&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">database</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">collectionName</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$documento&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$colección</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">findOne</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$documento&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+array(6) {
+  [&quot;_id&quot;]=&gt;
+  object(MongoId)#8 (1) {
+    [&quot;$id&quot;]=&gt;
+    string(24) &quot;4e2995576803fab768000000&quot;
+  }
+  [&quot;name&quot;]=&gt;
+  string(7) &quot;MongoDB&quot;
+  [&quot;type&quot;]=&gt;
+  string(8) &quot;database&quot;
+  [&quot;count&quot;]=&gt;
+  int(1)
+  [&quot;info&quot;]=&gt;
+  array(2) {
+    [&quot;x&quot;]=&gt;
+    int(203)
+    [&quot;y&quot;]=&gt;
+    int(102)
+  }
+  [&quot;versions&quot;]=&gt;
+  array(3) {
+    [0]=&gt;
+    string(5) &quot;0.9.7&quot;
+    [1]=&gt;
+    string(5) &quot;0.9.8&quot;
+    [2]=&gt;
+    string(5) &quot;0.9.9&quot;
+  }
+}
+</pre></div>
+   </div>
+  </div>
+  <p class="para">
+   Hay un campo <em>_id</em> que se ha añadido
+   automáticamente al documento. <em>_id</em> es el campo de la
+   &quot;clave primaria&quot;. Si el documento no especifica una, el controlador la añadirá
+   automáticamente.
+  </p>
+  <p class="para">
+   Si se ha especificado un campo <em>_id</em>, debe ser único en toda
+   la colección. Por ejemplo:
+  </p>
+  <div class="example" id="mongo.tutorial.findone-example-2">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conexión&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$bd&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">database</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"_id"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /></span><span style="color: #FF8000">//&nbsp;esto&nbsp;lanzará&nbsp;una&nbsp;excepción<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"_id"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;esto&nbsp;está&nbsp;bien,&nbsp;ya&nbsp;que&nbsp;es&nbsp;una&nbsp;colección&nbsp;diferente<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bar</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"_id"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <p class="para">
+   Por omisión, el controlador se asegurará de que el servidor ha aceptado la escritura
+   antes de devolver. Opcionalmente se puede desactivar este comportamiento pasando
+   <em>array(&quot;w&quot; =&gt; 0)</em> como segundo argumento. Esto significa que
+   el controlador debería no esperar a que la base de datos acepte la escritura y
+   no lanzar la excepción de <em>_id</em> duplicado.
+  </p>
+  <div class="section" id="mongo.tutorial.findone.seealso">
+   <h2 class="title">Ver También</h2>
+   <p class="para">
+    <span class="function"><a href="mongocollection.findone.html" class="function">MongoCollection::findOne()</a></span>
+    contiene más información sobre cómo localizar datos.
+   </p>
+   <p class="para">
+    <a href="class.mongoid.html" class="classname">MongoId</a> ofrece más detalles de los identificadores únicos.
+   </p>
+   <p class="para">
+    La sección <a href="mongo.writes.html" class="link">writes</a> trata
+    las escrituras en mayor profundidad, y el capítulo <a href="mongo.writeconcerns.html" class="xref">Asuntos de Escritura (Write Concerns)</a>
+    entra en detalles sobre las diferentes opciones de Write Concern.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.tutorial.insert.html">Insertando un Documento</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.tutorial.insert.multiple.html">A&ntilde;adiendo M&uacute;ltiples Documentos</a></div>
+ <div class="up"><a href="mongo.tutorial.html">Tutorial</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecutar una consulta en una base de datos dada y devolver un array</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-busy-timeout.html">sqlite_busy_timeout</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.sqlite-array-query" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">sqlite_array_query</h1>
+  <h1 class="refname">SQLiteDatabase::arrayQuery</h1>
+  <p class="verinfo">(PHP 5 &lt; 5.4.0, PECL sqlite &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">sqlite_array_query</span> -- <span class="refname">SQLiteDatabase::arrayQuery</span> &mdash; <span class="dc-title">Ejecutar una consulta en una base de datos dada y devolver un array</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.sqlite-array-query-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>sqlite_array_query</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$dbhandle</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$query</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$result_type</code><span class="initializer"> = SQLITE_BOTH</span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$decode_binary</code><span class="initializer"> = true</span></span>
+  ]] )</div>
+
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>sqlite_array_query</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$query</code></span>
+   , <span class="methodparam"><span class="type">resource</span> <code class="parameter">$dbhandle</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$result_type</code><span class="initializer"> = SQLITE_BOTH</span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$decode_binary</code><span class="initializer"> = true</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">Estilo orientado a objetos (método):</p>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">array</span> <span class="methodname"><strong>SQLiteDatabase::arrayQuery</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$query</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$result_type</code><span class="initializer"> = SQLITE_BOTH</span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$decode_binary</code><span class="initializer"> = true</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>sqlite_array_query()</strong></span> ejecuta la consulta dada y devuelve
+   un array con el conjunto de resultados completo. Es similar a llamar a
+   <span class="function"><a href="function.sqlite-query.html" class="function">sqlite_query()</a></span> y después a <span class="function"><a href="function.sqlite-fetch-array.html" class="function">sqlite_fetch_array()</a></span>
+   para cada fila del conjunto de resultados. <span class="function"><strong>sqlite_array_query()</strong></span> es
+   significativamente más rápida que la mencionada anteriormente.
+  </p>
+  <div class="tip"><strong class="tip">Sugerencia</strong>
+   <p class="para">
+    <span class="function"><strong>sqlite_array_query()</strong></span> es más apropiada para consultas
+    que devuelven 45 filas o menos. Si se tienen más datos que estos, se
+    recomienda que escriba sus scripts para que usen en su lugar
+    <span class="function"><a href="function.sqlite-unbuffered-query.html" class="function">sqlite_unbuffered_query()</a></span> para un rendimiento más
+    óptimo.
+   </p>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.sqlite-array-query-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">query</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La consulta a ejecutar.
+      </p>
+      <p class="para">
+       La información dentro de la consulta debería ser <a href="function.sqlite-escape-string.html" class="link">escapada apropiadamente</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">dbhandle</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El recurso de Base de Datos SQLite; devuelto por <span class="function"><a href="function.sqlite-open.html" class="function">sqlite_open()</a></span>
+       cuando se usa procedimentalmente. Este parámetro no es necesario
+       al usar el método orientado a objetos.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">result_type</code></dt>
+
+     <dd>
+
+      <p class="para">El parámetro opcional <code class="parameter">result_type</code>
+acepta una constante y determina cómo se indexará el array devuelto.
+Usar <strong><code>SQLITE_ASSOC</code></strong> devolverá índices asociativos
+(los nombres de los campos) mientras que <strong><code>SQLITE_NUM</code></strong> devolverá
+sólo índices numéricos (los campos en números ordinales). <strong><code>SQLITE_BOTH</code></strong>
+devolverá índices tanto asociativos como numéricos.
+<strong><code>SQLITE_BOTH</code></strong> es el valor por defecto para esta función.</p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">decode_binary</code></dt>
+
+     <dd>
+
+      <p class="para">Cuando el parámetro <code class="parameter">decode_binary</code>
+es seteado a <strong><code>TRUE</code></strong> (el valor por defecto), PHP decodificará la codificación binaria
+que se aplicó a los datos si éstos fueron codificados usando la función
+<span class="function"><a href="function.sqlite-escape-string.html" class="function">sqlite_escape_string()</a></span>.  Normalmente debería dejar este valor
+por defecto, a menos que esté interoperando con bases de datos creadas por otras
+aplicaciones sqlite.</p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Dos sintaxis alternativas son
+soportadas para la compatibilidad con otras extensiones de base de datos (tal como MySQL).
+La forma preferida es la primera, donde el parámetro <code class="parameter">dbhandle</code>
+es el primero de la función.</span></p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.sqlite-array-query-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array con el conjunto de resultados completo; <strong><code>FALSE</code></strong> de otro modo.
+  </p>
+  <p class="para">Los nombre de las columnas devueltos por
+<strong><code>SQLITE_ASSOC</code></strong> y <strong><code>SQLITE_BOTH</code></strong> serán
+mayúsculas o no de acuerdo al valor de la opción de configuración
+<a href="sqlite.configuration.html#ini.sqlite.assoc-case" class="link">sqlite.assoc_case</a>.
+</p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.sqlite-array-query-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2364">
+    <p><strong>Ejemplo #1 Estilo por procedimientos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$gestor_bd&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlite_open</span><span style="color: #007700">(</span><span style="color: #DD0000">'sqlitedb'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlite_array_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$gestor_bd</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'SELECT&nbsp;name,&nbsp;email&nbsp;FROM&nbsp;users&nbsp;LIMIT&nbsp;25'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SQLITE_ASSOC</span><span style="color: #007700">);<br />foreach&nbsp;(</span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Nombre:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'name'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">'&nbsp;&nbsp;E-mail:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'email'</span><span style="color: #007700">];<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2365">
+    <p><strong>Ejemplo #2 Estilo orientado a objetos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$gestor_bd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SQLiteDatabase</span><span style="color: #007700">(</span><span style="color: #DD0000">'sqlitedb'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gestor_bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">arrayQuery</span><span style="color: #007700">(</span><span style="color: #DD0000">'SELECT&nbsp;name,&nbsp;email&nbsp;FROM&nbsp;users&nbsp;LIMIT&nbsp;25'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SQLITE_ASSOC</span><span style="color: #007700">);<br />foreach&nbsp;(</span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Nombre:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'name'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">'&nbsp;&nbsp;E-mail:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'email'</span><span style="color: #007700">];<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.sqlite-array-query-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.sqlite-query.html" class="function" rel="rdfs-seeAlso">sqlite_query()</a> - Ejecutar una consulta en una base de datos dada y devolver un gestor de resultados</span></li>
+    <li class="member"><span class="function"><a href="function.sqlite-fetch-array.html" class="function" rel="rdfs-seeAlso">sqlite_fetch_array()</a> - Recupera la siguiente fila de un conjunto de resultados como un array</span></li>
+    <li class="member"><span class="function"><a href="function.sqlite-fetch-string.html" class="function" rel="rdfs-seeAlso">sqlite_fetch_string()</a> - Alias de sqlite_fetch_single</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-busy-timeout.html">sqlite_busy_timeout</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

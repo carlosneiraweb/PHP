@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Desencripta texto cifrado con los par&aacute;metros dados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mcrypt-create-iv.html">mcrypt_create_iv</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mcrypt-ecb.html">mcrypt_ecb</a></div>
+ <div class="up"><a href="ref.mcrypt.html">Funciones de Mcrypt</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mcrypt-decrypt" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mcrypt_decrypt</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.2, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">mcrypt_decrypt</span> &mdash; <span class="dc-title">Desencripta texto cifrado con los parámetros dados</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.mcrypt-decrypt-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>mcrypt_decrypt</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$cipher</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$key</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$data</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$mode</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$iv</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Desencripta <code class="parameter">data</code> y devuelve los datos sin cifrar.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.mcrypt-decrypt-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">cipher</code></dt>
+
+     <dd>
+
+      <p class="para">Una de las constantes <strong><code>MCRYPT_nombredelcifrado</code></strong>, o el nombre del algoritmo como string.</p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">key</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La clave con la cual los datos fueron cifrados. Si la clave proporcionada no
+       está soportada por el cifrador, la función emitirá una advertencia y devolverá <strong><code>FALSE</code></strong>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">data</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La información que será descifrada con el cifrador y modo dados por los parámetros <code class="parameter">cipher</code>
+       y <code class="parameter">mode</code>. Si el tamaño de la información no es n * blocksize,
+       la información será rellenada con &#039;<em>\0</em>&#039;.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">Una de las constantes <strong><code>MCRYPT_MODE_nombredelmodo</code></strong>, o una de las siguientes strings: &quot;ecb&quot;, &quot;cbc&quot;, &quot;cfb&quot;, &quot;ofb&quot;, &quot;nofb&quot; o &quot;stream&quot;.</p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">iv</code></dt>
+
+     <dd>
+
+      <p class="para">Utilizado para la inicialización en los modos CBC, CFB, OFB, y en algunos algoritmos en el modo STREAM. Si el tamañlo del IV proporcionado no está soportado por el modo de encadenamiento o no se proporcionó ninún IV, y el modo de encadenamiento requiere uno, la función emitirá una advertencia y devolverá <strong><code>FALSE</code></strong>.</p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mcrypt-decrypt-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve los datos descifrados en formato cadena  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 changelog" id="refsect1-function.mcrypt-decrypt-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.6.0</td>
+       <td>
+        Tamaños incorrectos en <code class="parameter">key</code> y <code class="parameter">iv</code>
+        ya no son admitidos. <span class="function"><strong>mcrypt_decrypt()</strong></span> emitirá
+        una advertencia y devolverá <strong><code>FALSE</code></strong> si los datos de entrada son incorrectos. Anteriormente la clave y
+        el IV eran rellenados con bytes &#039;<em>\0</em>&#039; hasta el siguiente tamaño válido.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.mcrypt-decrypt-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mcrypt-encrypt.html" class="function" rel="rdfs-seeAlso">mcrypt_encrypt()</a> - Cifra texto plano con los par&aacute;metros dados</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mcrypt-create-iv.html">mcrypt_create_iv</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mcrypt-ecb.html">mcrypt_ecb</a></div>
+ <div class="up"><a href="ref.mcrypt.html">Funciones de Mcrypt</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

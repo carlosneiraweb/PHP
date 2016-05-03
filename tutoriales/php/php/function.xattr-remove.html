@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Elimina un atributo extendido</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.xattr-list.html">xattr_list</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.xattr-set.html">xattr_set</a></div>
+ <div class="up"><a href="ref.xattr.html">Funciones de xattr</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.xattr-remove" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">xattr_remove</h1>
+  <p class="verinfo">(PECL xattr &gt;= 0.9.0)</p><p class="refpurpose"><span class="refname">xattr_remove</span> &mdash; <span class="dc-title">
+   Elimina un atributo extendido
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.xattr-remove-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>xattr_remove</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$filename</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$name</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$flags</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Esta función elimina un atributo extendido del archivo.
+  </p>
+  <p class="para">Los atributos extendidos tienen dos espacios de nombres diferentes: de usuario
+y raíz. El  de usuario está disponible para todos los usuarios, mientras que el espacio de nombres raíz
+está disponible sólo para usuarios con privilegios root. xattr opera en el espacio de nombres
+de usuario por defecto, pero esto puede ser cambiado con el parámetro
+<code class="parameter">flags</code>.</p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.xattr-remove-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">filename</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El archivo del que se elimina el atributo.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del atributo a eliminar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">flags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <table class="doctable table">
+        <caption><strong>Banderas xattr soportadas</strong></caption>
+        
+         <tbody class="tbody">
+          <tr>
+           <td><strong><code>XATTR_DONTFOLLOW</code></strong></td>
+           <td>No sigue el enlace simbólico pero se puede operar en este.</td>
+          </tr>
+
+          <tr>
+           <td><strong><code>XATTR_ROOT</code></strong></td>
+           <td>
+            Establece atributos en la raíz (segura) de espacio de nombres. Requiere privilegios de 
+            administrador.
+           </td>
+          </tr>
+
+         </tbody>
+        
+       </table>
+
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.xattr-remove-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.xattr-remove-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2683">
+    <p><strong>Ejemplo #1 Elimina todos los atributos extendidos de un archivo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$file&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'some_file'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$attributes&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">xattr_list</span><span style="color: #007700">(</span><span style="color: #0000BB">$file</span><span style="color: #007700">);<br /><br />foreach&nbsp;(</span><span style="color: #0000BB">$attributes&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$attr_name</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">xattr_remove</span><span style="color: #007700">(</span><span style="color: #0000BB">$file</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$attr_name</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.xattr-remove-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.xattr-list.html" class="function" rel="rdfs-seeAlso">xattr_list()</a> - Obtener una lista de atributos extendidos</span></li>
+    <li class="member"><span class="function"><a href="function.xattr-set.html" class="function" rel="rdfs-seeAlso">xattr_set()</a> - Establece un atributo extendido</span></li>
+    <li class="member"><span class="function"><a href="function.xattr-get.html" class="function" rel="rdfs-seeAlso">xattr_get()</a> - Obtener un atributo extendido</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.xattr-list.html">xattr_list</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.xattr-set.html">xattr_set</a></div>
+ <div class="up"><a href="ref.xattr.html">Funciones de xattr</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

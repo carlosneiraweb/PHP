@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambios con versiones incompatibles</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration54.changes.html">&iquest;Qu&eacute; ha cambiado en PHP 5.4.x?</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration54.new-features.html">Nuevas caracter&iacute;sticas</a></div>
+ <div class="up"><a href="migration54.html">Migrar de PHP 5.3.x hacia PHP 5.4.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="migration54.incompatible" class="section">
+  <h2 class="title">Cambios con versiones incompatibles</h2>
+  <p class="simpara">
+   Aunque la mayoría del código existente en PHP 5 debería funcionar sin muchos cambios, por favor
+   tome nota de algunas incompatibilidades con versiones anteriores:
+  </p>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     El <a href="features.safe-mode.html" class="link">modo seguro</a> ya no
+     es soportado. Cualquier aplicación que dependa del modo seguro puede necesitar
+     ajustes, en términos de seguridad.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Las <a href="security.magicquotes.html" class="link">comillas mágicas</a> han sido eliminadas. Las aplicaciones que dependan
+     de esta característica pueden necesitar ser actualizadas, para evitar cuestiones de seguridad.
+    </span>
+    <span class="simpara">
+     <span class="function"><a href="function.get-magic-quotes-gpc.html" class="function">get_magic_quotes_gpc()</a></span> y <span class="function"><a href="function.get-magic-quotes-runtime.html" class="function">get_magic_quotes_runtime()</a></span>
+     ahora siempre devuelven <strong><code>FALSE</code></strong>. <span class="function"><a href="function.set-magic-quotes-runtime.html" class="function">set_magic_quotes_runtime()</a></span> emite un
+     error de nivel <strong><code>E_CORE_ERROR</code></strong> al intentar habilitar las <a href="security.magicquotes.html" class="link">Comillas mágicas</a>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Las directivas de <var class="filename">php.ini</var> <a href="ini.core.html#ini.register-globals" class="link">register_globals</a> y
+     <a href="ini.core.html#ini.register-long-arrays" class="link">register_long_arrays</a>
+     han sido eliminadas.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Las directivas mbstring.script_encoding han sido eliminadas. Use <a href="ini.core.html#ini.zend.script-encoding" class="link">zend.script_encoding</a> en su lugar.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.references.pass.html" class="link">El paso por referencia en tiempo de llamada</a> ha sido eliminado.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Las sentencias <a href="control-structures.break.html" class="link">break</a>
+     y <a href="control-structures.continue.html" class="link">continue</a>
+     ya no aceptan argumentos variables (p.ej., <em>break 1 + foo() * $bar;</em>).
+     Los argumentos estáticos aún funcionan, como <em>break 2;</em>. Como efecto secundario de este cambio
+     <em>break 0;</em> y <em>continue 0;</em> ya no están permitidos.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     En la <a href="book.datetime.html" class="link">extensión de fecha y hora</a>, la zona horaria ya no puede ser
+     establecida usando la variable de entorno TZ. En su lugar se tiene que especificar una zona horaria usando la
+     opción de <var class="filename">php.ini</var> <a href="datetime.configuration.html#ini.date.timezone" class="link">date.timezone</a> o la función
+     <span class="function"><a href="function.date-default-timezone-set.html" class="function">date_default_timezone_set()</a></span>. PHP ya no intentará adivinar la zona horaria, y en su lugar recurrirá a &quot;UTC&quot;
+     y emitirá un error de nivel <strong><code>E_WARNING</code></strong>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Los índices de cadenas no numericos - p.ej. <em>$a[&#039;foo&#039;]</em> donde $a es una cadena - ahora devuelven
+     false sobre <span class="function"><a href="function.isset.html" class="function">isset()</a></span> y true sobre <span class="function"><a href="function.empty.html" class="function">empty()</a></span>, y producen un error de nivel <strong><code>E_WARNING</code></strong>
+     si se intenta usarlos. Los índices de los tipo double, bool y null producen un error de nivel <strong><code>E_NOTICE</code></strong>. Las cadenas numéricas
+     (p.ej. <em>$a[&#039;2&#039;]</em>) aún funcionan como antes. Observe que los índices como <em>&#039;12.3&#039;</em>
+     y <em>&#039;5 foobar&#039;</em> son considerados no numéricos y producen un error de nivel <strong><code>E_WARNING</code></strong>,
+     aunque son convertidos a 12 y 5 respectivamente, por razones de retrocompatibilidad.
+    </span>
+    <span class="simpara">
+     Nota: El siguiente código devuelve resultados diferentes.
+    </span>
+    <span class="simpara">
+     $str=&#039;abc&#039;;var_dump(isset($str[&#039;x&#039;])); // false para PHP 5.4 o posterior, pero true para 5.3 o anterior
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Ahora, convertir un array a cadena genera un error de nivel <strong><code>E_NOTICE</code></strong>,
+     aunque el resultado de la conversión aún será la cadena <em>&quot;Array&quot;</em>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Convertir <strong><code>NULL</code></strong>, <strong><code>FALSE</code></strong>, o una cadena vacía en un objeto añadiendo una propiedad
+     ahora emitirá un error de nivel <strong><code>E_WARNING</code></strong>, en lugar de nivel <strong><code>E_STRICT</code></strong>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Los nombres de parámetros que cubren super globales ahora causan un error fatal. Esto prohíbe código como
+     <em>function foo($_GET, $_POST) {}</em>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Los <a href="book.hash.html" class="link">algoritmos hash</a> Salsa10 y Salsa20 han sido eliminados.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.array-combine.html" class="function">array_combine()</a></span> ahora devuelve <em>array()</em> en lugar de <strong><code>FALSE</code></strong>
+     cuando se proporcionan dos arrays vacíos como parámetros.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Si se utiliza <span class="function"><a href="function.htmlentities.html" class="function">htmlentities()</a></span> con conjuntos de caracteres asiáticos,
+     funcion como <span class="function"><a href="function.htmlspecialchars.html" class="function">htmlspecialchars()</a></span> - este siempre ha sido el
+     caso en versiones de PHP anteriores, pero ahora se emite un error de nivel
+     <strong><code>E_STRICT</code></strong>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     El tercer parámetro de <span class="function"><a href="function.ob-start.html" class="function">ob_start()</a></span> se cambió de
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span> <code class="parameter">erase</code> a <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+     <code class="parameter">flags</code>. Observe que el código que establezca explícitamente
+     <code class="parameter">erase</code> a <strong><code>FALSE</code></strong> ya no se comportará como se esperaba
+     en PHP 5.4: siga
+     <a href="function.ob-start.html#function.ob-start.flags-bc" class="link">este ejemplo</a> para escribir
+     código que sea compatible con PHP 5.3 y 5.4.
+    </span>
+   </li>
+  </ul>
+  <p class="simpara">
+   Las siguientes palabras clave ahora son <a href="reserved.html" class="link">reservadas</a>, por lo que no se pueden usar
+   como nombres de funciones, clases, etc.
+  </p>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.oop5.traits.html" class="link">trait</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.types.callable.html" class="link">callable</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.oop5.traits.html" class="link">insteadof</a>
+    </span>
+   </li>
+  </ul>
+  <p class="simpara">
+   Las siguientes funciones han sido eliminadas de PHP:
+  </p>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.define-syslog-variables.html" class="function">define_syslog_variables()</a></span>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.import-request-variables.html" class="function">import_request_variables()</a></span>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.session-is-registered.html" class="function">session_is_registered()</a></span>, <span class="function"><a href="function.session-register.html" class="function">session_register()</a></span>
+     y <span class="function"><a href="function.session-unregister.html" class="function">session_unregister()</a></span>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Los alias
+     <span class="function"><a href="function.mysqli-bind-param.html" class="function">mysqli_bind_param()</a></span>, <span class="function"><a href="function.mysqli-bind-result.html" class="function">mysqli_bind_result()</a></span>,
+     <span class="function"><a href="function.mysqli-client-encoding.html" class="function">mysqli_client_encoding()</a></span>, <span class="function"><a href="function.mysqli-fetch.html" class="function">mysqli_fetch()</a></span>,
+     <span class="function"><a href="function.mysqli-param-count.html" class="function">mysqli_param_count()</a></span>, <span class="function"><a href="function.mysqli-get-metadata.html" class="function">mysqli_get_metadata()</a></span>,
+     <span class="function"><a href="function.mysqli-send-long-data.html" class="function">mysqli_send_long_data()</a></span>, mysqli::client_encoding() y mysqli_stmt::stmt().
+    </span>
+   </li>
+  </ul>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration54.changes.html">&iquest;Qu&eacute; ha cambiado en PHP 5.4.x?</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration54.new-features.html">Nuevas caracter&iacute;sticas</a></div>
+ <div class="up"><a href="migration54.html">Migrar de PHP 5.3.x hacia PHP 5.4.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

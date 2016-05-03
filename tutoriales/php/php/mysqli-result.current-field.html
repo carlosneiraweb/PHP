@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener posici&oacute;n del campo actual de un puntero a un resultado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mysqli-result.html">mysqli_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli-result.data-seek.html">mysqli_result::data_seek</a></div>
+ <div class="up"><a href="class.mysqli-result.html">mysqli_result</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqli-result.current-field" class="refentry">
+ <div class="refnamediv">
+ <h1 class="refname">mysqli_result::$current_field</h1>
+ <h1 class="refname">mysqli_field_tell</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">mysqli_result::$current_field</span> -- <span class="refname">mysqli_field_tell</span> &mdash; <span class="dc-title">Obtener posición del campo actual de un puntero a un resultado</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-mysqli-result.current-field-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo orientado a objetos</p>
+  <div class="fieldsynopsis">
+   <span class="type">int</span> <var class="varname"><a href="mysqli-result.current-field.html">$mysqli_result-&gt;current_field</a></var>
+  ;</div>
+  
+  <p class="para">Estilo por procedimientos</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>mysqli_field_tell</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.mysqli-result.html" class="type mysqli_result">mysqli_result</a></span> <code class="parameter">$result</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve la posición del cursor de campos utilizado en la última llamada de
+   <span class="function"><a href="mysqli-result.fetch-field.html" class="function">mysqli_fetch_field()</a></span>. Se puede utilizar este valor como argumento
+   para <span class="function"><a href="mysqli-result.field-seek.html" class="function">mysqli_field_seek()</a></span>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-mysqli-result.current-field-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+result</code></dt>
+<dd>
+<p class="para">Sólo estilo por procedimientos: Un conjunto de identificadores
+de resultados devuelto por <span class="function"><a href="mysqli.query.html" class="function">mysqli_query()</a></span>, <span class="function"><a href="mysqli.store-result.html" class="function">mysqli_store_result()</a></span>
+o <span class="function"><a href="mysqli.use-result.html" class="function">mysqli_use_result()</a></span>.</p></dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-mysqli-result.current-field-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la posición actual del cursor de campos.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-mysqli-result.current-field-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1945">
+   <p><strong>Ejemplo #1 Estilo orientado a objetos</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_ususario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mundo"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;comprobar&nbsp;conexión&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Conexión&nbsp;fallida:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;exit();<br />}<br /><br /></span><span style="color: #0000BB">$query&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;Name,&nbsp;SurfaceArea&nbsp;from&nbsp;Country&nbsp;ORDER&nbsp;BY&nbsp;Code&nbsp;LIMIT&nbsp;5"</span><span style="color: #007700">;<br /><br />if&nbsp;(</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #0000BB">$query</span><span style="color: #007700">))&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Obtener&nbsp;información&nbsp;de&nbsp;los&nbsp;campos&nbsp;en&nbsp;todas&nbsp;las&nbsp;columnas&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">while&nbsp;(</span><span style="color: #0000BB">$finfo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_field</span><span style="color: #007700">())&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;obtener&nbsp;posición&nbsp;del&nbsp;puntero&nbsp;de&nbsp;campo&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$currentfield&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">current_field</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Columna&nbsp;%d:\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$currentfield</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Nombre:&nbsp;&nbsp;&nbsp;&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">name</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Tabla:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">table</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"max.&nbsp;Long:&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">max_length</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Banderas:&nbsp;&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">flags</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Ttipo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%d\n\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">type</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;ccerrar&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="example-1946">
+   <p><strong>Ejemplo #2 Estilo por procedimientos</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$link&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"my_user"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"my_password"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"world"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;comprobar&nbsp;conexión&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Conexión&nbsp;fallida:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;exit();<br />}<br /><br /></span><span style="color: #0000BB">$query&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;Name,&nbsp;SurfaceArea&nbsp;from&nbsp;Country&nbsp;ORDER&nbsp;BY&nbsp;Code&nbsp;LIMIT&nbsp;5"</span><span style="color: #007700">;<br /><br />if&nbsp;(</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$link</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$query</span><span style="color: #007700">))&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Obtener&nbsp;información&nbsp;de&nbsp;campo&nbsp;para&nbsp;cada&nbsp;campo&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">while&nbsp;(</span><span style="color: #0000BB">$finfo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_fetch_field</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">))&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;obtener&nbsp;posición&nbsp;del&nbsp;puntero&nbsp;de&nbsp;campo&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$currentfield&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_field_tell</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Columna&nbsp;%d:\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$currentfield</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Nombre:&nbsp;&nbsp;&nbsp;&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">name</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Tabla:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">table</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"max.&nbsp;Long:&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">max_length</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Banderas:&nbsp;&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">flags</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Tipo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%d\n\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$finfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">type</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">mysqli_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">mysqli_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$link</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado de los ejemplos sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Columna 1:
+Nombre:    Name
+Tabla:     Country
+max. Long: 11
+Banderas:  1
+Tipo:      254
+
+Columna 2:
+Nombre:    SurfaceArea
+Tabla:     Country
+max. Long: 10
+Banderas:  32769
+Tipo:      4
+
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-mysqli-result.current-field-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli-result.fetch-field.html" class="function" rel="rdfs-seeAlso">mysqli_fetch_field()</a> - Retorna el pr&oacute;ximo campo del resultset</span></li>
+    <li class="member"><span class="function"><a href="mysqli-result.field-seek.html" class="function" rel="rdfs-seeAlso">mysqli_field_seek()</a> - Establecer el puntero del resultado al &iacute;ndice del campo especificado</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mysqli-result.html">mysqli_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli-result.data-seek.html">mysqli_result::data_seek</a></div>
+ <div class="up"><a href="class.mysqli-result.html">mysqli_result</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configuraci&oacute;n en tiempo de ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="zlib.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="zlib.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="zlib.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="zlib.configuration" class="section">
+ <h2 class="title">Configuración en tiempo de ejecución</h2>
+ <p class="simpara">
+El comportamiento de estas funciones se ve afectado por la configuración de <var class="filename">php.ini</var>.
+</p>
+ <p class="para">
+  La extensión zlib ofrece la opción de comprimir de manera trasparente
+  las páginas sobre la marcha, si el navegador que hace la solicitud
+  lo soporta. Por lo tanto hay tres opciones en el <a href="configuration.file.html" class="link">archivo de configuración</a> <var class="filename">php.ini</var>.
+   <table class="doctable table">
+   <caption><strong>Opciones de Configuración de Zlib</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Nombre</th>
+      <th>Por defecto</th>
+      <th>Cambiable</th>
+      <th>Historial de cambios</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><a href="zlib.configuration.html#ini.zlib.output-compression" class="link">zlib.output_compression</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 4.0.5.</td>
+     </tr>
+
+     <tr>
+      <td><a href="zlib.configuration.html#ini.zlib.output-compression-level" class="link">zlib.output_compression_level</a></td>
+      <td>&quot;-1&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 4.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="zlib.configuration.html#ini.zlib.output-handler" class="link">zlib.output_handler</a></td>
+      <td>&quot;&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 4.3.0.</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+   Para más detalles y definiciones de los modos de
+PHP_INI_*, vea <a href="configuration.changes.modes.html" class="xref">D&oacute;nde se puede realizar un ajuste de configuraci&oacute;n</a>.
+</p>
+ 
+ <p class="para">He aquí una breve explicación de
+las directivas de configuración.</p>
+ 
+ <p class="para">
+ <dl>
+
+  
+   <dt id="ini.zlib.output-compression">
+    <code class="parameter">zlib.output_compression</code>
+    <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>/<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+   </dt>
+
+   <dd>
+
+    <p class="para">
+     Para comprimir páginas transparentemente. Si esta opción está
+     configurada en &quot;On&quot; en <var class="filename">php.ini</var> o en la configuración de 
+     Apache, las páginas serán comprimidas si el navegador envía
+     un encabezado &quot;Accept-Encoding: gzip&quot; o &quot;deflate&quot;. Los 
+     encabezados &quot;Content-Encoding: gzip&quot; (respectivamente
+     &quot;deflate&quot;) y &quot;Vary: Accept-Encoding&quot; serán agregados a la
+     salida. En tiempo de ejecución, esto se puede configurar
+     sólo antes de enviar cualquier salida.
+    </p>
+    <p class="para">
+     Esta opción también acepta valores enteros en lugar del
+     booleano &quot;On&quot;/&quot;Off&quot;, usando esto se puede configurar el
+     tamaño del buffer de salida (por defecto es 4KB).
+    </p>
+    <blockquote class="note"><p><strong class="note">Nota</strong>: 
+     <p class="para">
+      <a href="outcontrol.configuration.html#ini.output-handler" class="link">output_handler</a> debe estar 
+      vacío si ésta se configura en &#039;On&#039; ! De otra manera se debe usar <em>zlib.output_handler</em>.
+     </p>
+    </p></blockquote>
+   </dd>
+
+  
+
+  
+   <dt id="ini.zlib.output-compression-level">
+    <code class="parameter">zlib.output_compression_level</code>
+    <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+   </dt>
+
+   <dd>
+
+    <p class="para">
+     Nivel de compresión usado para la salida de la compresión transparente.
+     Especifica un valor entre 0 (no comprimido) y 9 (máxima compresión).
+     El valor por defecto es -1, que deja que el servidor decida cual
+     nivel utilizar.
+    </p>
+   </dd>
+
+  
+
+  
+   <dt id="ini.zlib.output-handler">
+    <code class="parameter">zlib.output_handler</code>
+    <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+   </dt>
+
+   <dd>
+
+    <p class="para">
+     No se pueden especificar manejadores adicionales de salida si
+     zlib.output_compression está activada aquí. Esta configuración
+     hace lo mismo que <a href="outcontrol.configuration.html#ini.output-handler" class="link">
+     output_handler</a> pero en un orden diferente.
+    </p>
+   </dd>
+
+  
+
+ </dl>
+
+ </p>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="zlib.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="zlib.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="zlib.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

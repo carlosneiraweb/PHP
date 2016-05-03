@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Empezar a construir un complemento de mysqlnd</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd.plugin.api.html">La API de complementos de mysqlnd</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.mysqlnd-ms.html">mysqlnd_ms</a></div>
+ <div class="up"><a href="mysqlnd.plugin.html">API de Complementos del Controlador Nativo de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd.plugin.developing" class="section">
+  <h2 class="title">Empezar a construir un complemento de mysqlnd</h2>
+  <p class="para">
+   Es importante recordar que un complemento de <em>mysqlnd</em>
+   es una extensión de PHP en sí mismo.
+  </p>
+  <p class="para">
+   El siguiente código muestra la estructura básica de la función MINIT
+   que se usará en el típico complemento de <em>mysqlnd</em>:
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+/* my_php_mysqlnd_plugin.c */
+
+ static PHP_MINIT_FUNCTION(mysqlnd_plugin) {
+  /* globales, entradas ini, recursos, clases */
+
+  /* registrar el complemento mysqlnd */
+  mysqlnd_plugin_id = mysqlnd_plugin_register();
+
+  conn_m = mysqlnd_get_conn_methods();
+  memcpy(org_conn_m, conn_m,
+    sizeof(struct st_mysqlnd_conn_methods));
+
+  conn_m-&gt;query = MYSQLND_METHOD(mysqlnd_plugin_conn, query);
+  conn_m-&gt;connect = MYSQLND_METHOD(mysqlnd_plugin_conn, connect);
+}
+</pre></div>
+  </div>
+
+  <div class="example-contents">
+<div class="cdata"><pre>
+/* my_mysqlnd_plugin.c */
+
+ enum_func_status MYSQLND_METHOD(mysqlnd_plugin_conn, query)(/* ... */) {
+  /* ... */
+}
+enum_func_status MYSQLND_METHOD(mysqlnd_plugin_conn, connect)(/* ... */) {
+  /* ... */
+}
+</pre></div>
+  </div>
+
+  <p class="para">
+   <em class="emphasis">Análisis de tareas: de C al espacio de usuario</em>
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+ class proxy extends mysqlnd_plugin_connection {
+  public function connect($host, ...) { .. }
+}
+mysqlnd_plugin_set_conn_proxy(new proxy());
+</pre></div>
+  </div>
+
+  <p class="para">
+   Proceso:
+  </p>
+  <ol type="1">
+   <li class="listitem">
+    <p class="para">
+     PHP: el usuario registra la llamada de retorno del complemento
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     PHP: el usuario llama a cualquier API de MySQL de PHP para conectarse a MySQL
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     C: ext/*mysql* llama al método de mysqlnd
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     C: mysqlnd finaliza en ext/mysqlnd_plugin
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     C: ext/mysqlnd_plugin
+     <ol type="1">
+      <li class="listitem">
+       <p class="para">
+        Llama a la llamada de retorno del espacio de usuario
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        O al método original de <em>mysqlnd</em>, si la llamada de retorno
+        del espacio de usuario no está establecida
+       </p>
+      </li>
+     </ol>
+    </p>
+   </li>
+  </ol>
+  <p class="para">
+   Es necesario realizar lo siguiente:
+  </p>
+  <ol type="1">
+   <li class="listitem">
+    <p class="para">
+     Escribir una clase &quot;mysqlnd_plugin_connection&quot; en C
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     Aceptar y registrar el objeto proxy a través de
+     &quot;mysqlnd_plugin_set_conn_proxy()&quot;
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     Llamar a los métodos del proxy del espacio de usuario desde C (optimización -
+     zend_interfaces.h)
+    </p>
+   </li>
+  </ol>
+  <p class="para">
+   Se pueden llamar a los métodos del objeto del espacio de usuario usando
+   <em>call_user_function()</em> o se puede operar a nivel
+   cercano al Motor Zend y usar
+   <em>zend_call_method()</em>.
+  </p>
+  <p class="para">
+   <em class="emphasis"> Optimización: llamar a los métodos desde C usando
+    zend_call_method </em>
+  </p>
+  <p class="para">
+   El siguiente trozo de código muestra el prototipo para la
+   función <em>zend_call_method</em>, tomado de
+   <var class="filename">zend_interfaces.h</var>.
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+ ZEND_API zval* zend_call_method(
+  zval **object_pp, zend_class_entry *obj_ce,
+  zend_function **fn_proxy, char *function_name,
+  int function_name_len, zval **retval_ptr_ptr,
+  int param_count, zval* arg1, zval* arg2 TSRMLS_DC
+);
+</pre></div>
+  </div>
+
+  <p class="para">
+   La API Zend solamente soporta dos argumentos. Se pueden necesitar más, por ejemplo:
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+ enum_func_status (*func_mysqlnd_conn__connect)(
+  MYSQLND *conn, const char *host,
+  const char * user, const char * passwd,
+  unsigned int passwd_len, const char * db,
+  unsigned int db_len, unsigned int port,
+  const char * socket, unsigned int mysql_flags TSRMLS_DC
+);
+</pre></div>
+  </div>
+
+  <p class="para">
+   Para evitar este problema se necesitará realizar una copia de
+   <em>zend_call_method()</em> y añadir la facilidad para
+   parámetros adicionales. Se puede hacer esto creando un conjunto de
+   macros <em>MY_ZEND_CALL_METHOD_WRAPPER</em>.
+  </p>
+  <p class="para">
+   <em class="emphasis">Llamar al espacio de usuario de PHP</em>
+  </p>
+  <p class="para">
+   Este trozo de código muestra el método optimizado para llamar a una función del
+   espacio de usuario desde C:
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre> 
+/* my_mysqlnd_plugin.c */
+
+MYSQLND_METHOD(my_conn_class,connect)(
+  MYSQLND *conn, const char *host /* ... */ TSRMLS_DC) {
+  enum_func_status ret = FAIL;
+  zval * global_user_conn_proxy = fetch_userspace_proxy();
+  if (global_user_conn_proxy) {
+    /* llamar al proxy del espacio de usuario */
+    ret = MY_ZEND_CALL_METHOD_WRAPPER(global_user_conn_proxy, host, /*...*/);
+  } else {
+    /* o al método original de mysqlnd = no hagas nada, sé transparente */
+    ret = org_methods.connect(conn, host, user, passwd,
+          passwd_len, db, db_len, port,
+          socket, mysql_flags TSRMLS_CC);
+  }
+  return ret;
+}
+</pre></div>
+  </div>
+
+  <p class="para">
+   <em class="emphasis">Llamar al espacio de usuario: argumentos simples
+   </em>
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+/* my_mysqlnd_plugin.c */
+
+ MYSQLND_METHOD(my_conn_class,connect)(
+  /* ... */, const char *host, /* ...*/) {
+  /* ... */
+  if (global_user_conn_proxy) {
+    /* ... */
+    zval* zv_host;
+    MAKE_STD_ZVAL(zv_host);
+    ZVAL_STRING(zv_host, host, 1);
+    MY_ZEND_CALL_METHOD_WRAPPER(global_user_conn_proxy, zv_retval, zv_host /*, ...*/);
+    zval_ptr_dtor(&amp;zv_host);
+    /* ... */
+  }
+  /* ... */
+}
+</pre></div>
+  </div>
+
+  <p class="para">
+   <em class="emphasis">Llamar al espacio de usuario: estrucutras como argumentos
+   </em>
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+/* my_mysqlnd_plugin.c */
+
+MYSQLND_METHOD(my_conn_class, connect)(
+  MYSQLND *conn, /* ...*/) {
+  /* ... */
+  if (global_user_conn_proxy) {
+    /* ... */
+    zval* zv_conn;
+    ZEND_REGISTER_RESOURCE(zv_conn, (void *)conn, le_mysqlnd_plugin_conn);
+    MY_ZEND_CALL_METHOD_WRAPPER(global_user_conn_proxy, zv_retval, zv_conn, zv_host /*, ...*/);
+    zval_ptr_dtor(&amp;zv_conn);
+    /* ... */
+  }
+  /* ... */
+}
+</pre></div>
+  </div>
+
+  <p class="para">
+   El primer argumento de la mayoría de los métodos de <em>mysqlnd</em> es un &quot;objeto&quot;
+   de C. Por ejemplo, el primer argumento del método connect() es
+   un puntero a <em>MYSQLND</em>. La estructura MYSQLND
+   representa un objeto de conexión de <em>mysqlnd</em>.
+  </p>
+  <p class="para">
+   El puntero del objeto de conexión de <em>mysqlnd</em> puede ser
+   comparado con un gestor de ficheros de E/S estándar. Al igual que un gestor de ficheros de E/S
+   estándar, un objeto de conexión de <em>mysqlnd</em> será vinculado
+   al espacio de usuario usando el tipo de variable de recurso de PHP.
+  </p>
+  <p class="para">
+   <em class="emphasis">Desde C al espacio de usuario y volver</em>
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+ class proxy extends mysqlnd_plugin_connection {
+  public function connect($conn, $host, ...) {
+    /* &quot;pre&quot; enganche */
+    printf(&quot;Connecting to host = &#039;%s&#039;\n&quot;, $host);
+    debug_print_backtrace();
+    return parent::connect($conn);
+  }
+
+  public function query($conn, $query) {
+    /* &quot;post&quot; enganche */
+    $ret = parent::query($conn, $query);
+    printf(&quot;Query = &#039;%s&#039;\n&quot;, $query);
+    return $ret;
+  }
+}
+mysqlnd_plugin_set_conn_proxy(new proxy());
+</pre></div>
+  </div>
+
+  <p class="para">
+   Los usuario de PHP pueden llamar a la implementación padre de un
+   método sobrescrito.
+  </p>
+  <p class="para">
+   Como resultado de la derivación, es posible refinar solamente los métodos
+   seleccionados, y se puede optar por tener &quot;pre&quot; o &quot;post&quot; enganches.
+  </p>
+  <p class="para">
+   <em class="emphasis">Contruir la clase:
+    mysqlnd_plugin_connection::connect() </em>
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+/*  my_mysqlnd_plugin_classes.c */
+
+ PHP_METHOD(&quot;mysqlnd_plugin_connection&quot;, connect) {
+  /* ... ¡simplificado! ... */
+  zval* mysqlnd_rsrc;
+  MYSQLND* conn;
+  char* host; int host_len;
+  if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, &quot;rs&quot;,
+    &amp;mysqlnd_rsrc, &amp;host, &amp;host_len) == FAILURE) {
+    RETURN_NULL();
+  }
+  ZEND_FETCH_RESOURCE(conn, MYSQLND* conn, &amp;mysqlnd_rsrc, -1,
+    &quot;Mysqlnd Connection&quot;, le_mysqlnd_plugin_conn);
+  if (PASS == org_methods.connect(conn, host, /* simplified! */ TSRMLS_CC))
+    RETVAL_TRUE;
+  else
+    RETVAL_FALSE;
+}
+</pre></div>
+  </div>
+
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd.plugin.api.html">La API de complementos de mysqlnd</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.mysqlnd-ms.html">mysqlnd_ms</a></div>
+ <div class="up"><a href="mysqlnd.plugin.html">API de Complementos del Controlador Nativo de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

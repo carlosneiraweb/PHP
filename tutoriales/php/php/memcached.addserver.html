@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>A&ntilde;ade un servidor a la provisi&oacute;n de servidores</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="memcached.addbykey.html">Memcached::addByKey</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="memcached.addservers.html">Memcached::addServers</a></div>
+ <div class="up"><a href="class.memcached.html">Memcached</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="memcached.addserver" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Memcached::addServer</h1>
+  <p class="verinfo">(PECL memcached &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">Memcached::addServer</span> &mdash; <span class="dc-title">Añade un servidor a la provisión de servidores</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-memcached.addserver-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>Memcached::addServer</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$host</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$port</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$weight</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>Memcached::addServer()</strong></span> añade el servidor especificado a la
+   provisión de servidores. En esta operación no se establece una conexión al servidor, aunque
+   si se emplea la opción de distribución de claves (a través de
+   <strong><code>Memcached::DISTRIBUTION_CONSISTENT</code></strong> o
+   <strong><code>Memcached::OPT_LIBKETAMA_COMPATIBLE</code></strong>), algunas de las 
+   estructuras de datos internas deberán ser actualizadas. Así, si fuera necesario añadir
+   varios servidores, es mejor utilizar
+   <span class="methodname"><a href="memcached.addservers.html" class="methodname">Memcached::addServers()</a></span>, ya que la actualización se realiza 
+   una única vez.
+  </p>
+  <p class="para">
+   El mismo servidor podría aparecer varias veces en la provisión de servidores, debido a que no
+   se realiza ninguna comprobación de duplicados. Esta característica no es aconsejable; emplee en su lugar la opción
+   <code class="parameter">weight</code> para aumentar el peso de selección (importancia)
+   de dicho servidor.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-memcached.addserver-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">host</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de host del servidor de memcache. Si el nombre de host no es válido,
+       las operaciones relacinadas con datos establecerán el
+       código de resultado <strong><code>Memcached::RES_HOST_LOOKUP_FAILURE</code></strong>. A
+       partir de la versión 2.0.0b1, este parámetro puede también especificar la ruta de un
+       socket de unix, p.ej., <em>/ruta/a/memcached.sock</em>,
+       para emplear socket de dominio de UNIX; en este caso también se debe establecer
+       <code class="parameter">port</code> a <em>0</em>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">port</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El puerto en que memcache está funcionado. Normalmente es
+       <em>11211</em>. A partir de la versión 2.0.0b1, se debe establecer este
+       parámetro a <em>0</em> al utilizar socket de dominio UNIX.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">weight</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El peso (importancia) del servidor relativo al peso total de todos los
+       servidores en la provisión. Controla la probabilidad de que un servidor sea
+       elegido para realizar operaciones. Solamente se utiliza para la opción de 
+       distribución consistente y normalmente corresponde a la cantidad de memoria
+       disponible para memcache en dicho servidor.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-memcached.addserver-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-memcached.addserver-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4937">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>Memcached::addServer()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Memcached</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;Añadir&nbsp;2&nbsp;servidores,&nbsp;de&nbsp;forma&nbsp;que&nbsp;el&nbsp;segundo<br />&nbsp;&nbsp;&nbsp;tiene&nbsp;el&nbsp;doble&nbsp;de&nbsp;probabilidades&nbsp;de&nbsp;ser&nbsp;seleccionado.&nbsp;*/<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addServer</span><span style="color: #007700">(</span><span style="color: #DD0000">'mem1.dominio.com'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">11211</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">33</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addServer</span><span style="color: #007700">(</span><span style="color: #DD0000">'mem2.dominio.com'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">11211</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">67</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-memcached.addserver-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="memcached.addservers.html" class="methodname" rel="rdfs-seeAlso">Memcached::addServers()</a> - A&ntilde;adir varios servidores a la agrupaci&oacute;n de servidores</span></li>
+    <li class="member"><span class="methodname"><a href="memcached.resetserverlist.html" class="methodname" rel="rdfs-seeAlso">Memcached::resetServerList()</a> - Limpia todos los servidores de la lista de servidores</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="memcached.addbykey.html">Memcached::addByKey</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="memcached.addservers.html">Memcached::addServers</a></div>
+ <div class="up"><a href="class.memcached.html">Memcached</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

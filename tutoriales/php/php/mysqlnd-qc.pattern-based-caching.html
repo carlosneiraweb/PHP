@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Almacenamiento en cach&eacute; basado en patrones</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-qc.per-query-ttl.html">Establecer el tiempo de vida (TTL)</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-qc.slam-defense.html">Defensa de cierre</a></div>
+ <div class="up"><a href="mysqlnd-qc.quickstart.html">Guia r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-qc.pattern-based-caching" class="section">
+  <h2 class="title">Almacenamiento en caché basado en patrones</h2>
+  <p class="para">
+   Una aplicación tiene tres opciones para indicarle a PECL/mysqlnd_qc si será usada
+   una sentencia en particular. El enfoque más básico es almacenar en caché todas las sentencias
+   estableciendo <em><a href="mysqlnd-qc.configuration.html" class="link">
+   mysqlnd_qc.cache_by_default = 1</a></em>. Este enfoque a menudo es poco
+   práctico, aunque habilita a los usuarios realizar una estimación rápida sobre
+   las ganancias de rendimiento máximas de la caché. Una aplicación diseñada para
+   usar una caché podría prefijar las sentencias seleccionadas con las sugerencias SQL
+   apropiadas. Sin embargo, alterar el código fuente de una aplicación podría no ser siempre posible
+   o deseado, por ejemplo, para evitar problemas con actualizaciones de software. Por ello,
+   PECL/mysqlnd_qc permite establecer una llamada de retorno que decida si una consulta será
+   almacenada en caché.
+  </p>
+  <p class="para">
+   La llamada de retorno se instala con la función <span class="function"><a href="function.mysqlnd-qc-set-is-select.html" class="function">mysqlnd_qc_set_is_select()</a></span>.
+   A la llamada de retorno se le proporciona una cadena de sentencia de cada sentencia
+   inspeccionada por el complemento. Luego, la llamada de retorno puede decidir si almacenará en caché
+   la función. La llamada de retonro debe devolver <strong><code>FALSE</code></strong>
+   si la sentencia no será almacenada en caché. Un valor de retorno de <strong><code>TRUE</code></strong>
+   hace que el complemento intente añadir la sentencia a la caché. A la entrada de la caché
+   se le dará el TTL predeterminado (<em><a href="mysqlnd-qc.configuration.html" class="link">
+   mysqlnd_qc.ttl</a></em>). Si la llamada de retorno devuelve
+   un valor numérico se usará éste como el TTL en lugar del predeterminado global.
+  </p>
+  <p class="para">
+   <div class="example" id="example-2087">
+    <p><strong>Ejemplo #1 Establecer una llamada de retorno con <span class="function"><a href="function.mysqlnd-qc-set-is-select.html" class="function">mysqlnd_qc_set_is_select()</a></span></strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">mysqlnd_qc.enable_qc=1
+mysqlnd_qc.collect_statistics=1</pre>
+</div>
+    </div>
+
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;llamada&nbsp;de&nbsp;retorno&nbsp;que&nbsp;decice&nbsp;si&nbsp;una&nbsp;consulta&nbsp;se&nbsp;almacena&nbsp;en&nbsp;caché&nbsp;*/<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">is_select</span><span style="color: #007700">(</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;</span><span style="color: #0000BB">$patrones&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;true&nbsp;-&nbsp;usar&nbsp;lo&nbsp;predetermiando&nbsp;por&nbsp;mysqlnd_qc.ttl&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"@SELECT\s+.*\s+FROM\s+test@ismU"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;3&nbsp;-&nbsp;usar&nbsp;TTL&nbsp;=&nbsp;3&nbsp;segundos&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"@SELECT\s+.*\s+FROM\s+news@ismU"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">3<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;comprobar&nbsp;si&nbsp;la&nbsp;consulta&nbsp;coincide&nbsp;con&nbsp;el&nbsp;patrón&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">foreach&nbsp;(</span><span style="color: #0000BB">$patrones&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$patrón&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$ttl</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">preg_match</span><span style="color: #007700">(</span><span style="color: #0000BB">$patrón</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"is_select(%45s):&nbsp;almacenada\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$ttl</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"is_select(%45s):&nbsp;no&nbsp;almacenada\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">;<br />}<br /></span><span style="color: #FF8000">/*&nbsp;instalar&nbsp;la&nbsp;llamada&nbsp;de&nbsp;retorno&nbsp;*/<br /></span><span style="color: #0000BB">mysqlnd_qc_set_is_select</span><span style="color: #007700">(</span><span style="color: #DD0000">"is_select"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Conectar,&nbsp;crear&nbsp;y&nbsp;rellenar&nbsp;la&nbsp;tabla&nbsp;test&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"host"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"esquema"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"puerto"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"socket"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT)"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id)&nbsp;VALUES&nbsp;(1),&nbsp;(2),&nbsp;(3)"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;colocada&nbsp;en&nbsp;la&nbsp;caché&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id&nbsp;FROM&nbsp;test&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;1"</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">/*&nbsp;coincidencia&nbsp;con&nbsp;la&nbsp;caché&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id&nbsp;FROM&nbsp;test&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;1"</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">/*&nbsp;colocada&nbsp;en&nbsp;la&nbsp;caché&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;*&nbsp;FROM&nbsp;test"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$estadísticas&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqlnd_qc_get_core_stats</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Colocada&nbsp;en&nbsp;caché:&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$estadísticas</span><span style="color: #007700">[</span><span style="color: #DD0000">'cache_put'</span><span style="color: #007700">]);<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Coincidencia&nbsp;con&nbsp;la&nbsp;caché:&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$estadísticas</span><span style="color: #007700">[</span><span style="color: #DD0000">'cache_hit'</span><span style="color: #007700">]);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado de los ejemplos
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+is_select(                    DROP TABLE IF EXISTS test): no almacenada
+is_select(                    CREATE TABLE test(id INT)): no almacenada
+is_select(    INSERT INTO test(id) VALUES (1), (2), (3)): no almacenada
+is_select(             SELECT id FROM test WHERE id = 1): almacenada
+is_select(             SELECT id FROM test WHERE id = 1): almacenada
+is_select(                           SELECT * FROM test): almacenada
+Colocada en caché: 2
+Coincidencia con la caché: 1
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   La llamada de retorno del ejemplo comprueba si una cadena de sentencia coincide con un patrón.
+   Si éste es el caso, devuelve <strong><code>TRUE</code></strong> para almacenar en caché
+   la consulta usando el TTL global o un TTL alternativo.
+  </p>
+  <p class="para">
+   Para minimizar los cambios en la aplicación, la llamada de retorno puede colocarse y registrarse
+   en un fichero autoantepuesto.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-qc.per-query-ttl.html">Establecer el tiempo de vida (TTL)</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-qc.slam-defense.html">Defensa de cierre</a></div>
+ <div class="up"><a href="mysqlnd-qc.quickstart.html">Guia r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

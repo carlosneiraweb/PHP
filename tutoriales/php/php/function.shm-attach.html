@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Crea o abre un segmento de memoria compartida</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sem-remove.html">sem_remove</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.shm-detach.html">shm_detach</a></div>
+ <div class="up"><a href="ref.sem.html">Funciones de Sem&aacute;foro</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.shm-attach" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">shm_attach</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">shm_attach</span> &mdash; <span class="dc-title">Crea o abre un segmento de memoria compartida</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.shm-attach-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>shm_attach</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$key</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$memsize</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$perm</code><span class="initializer"> = 0666</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>shm_attach()</strong></span> devuelve un id que se puede usar para acceder
+   a la memoria compartida de System V con la clave dada por <code class="parameter">key</code>, la
+   primera llamada crea el segmento de memoria compartida con
+   <code class="parameter">memsize</code> y los permisos opcionales a nivel de bits
+   <code class="parameter">perm</code>.
+  </p>
+  <p class="para">
+   Una segunda llamada a <span class="function"><strong>shm_attach()</strong></span> para la misma clave dada por
+   <code class="parameter">key</code> devolverá un identificador de memoria
+   diferente, pero ambos identificadores acceden a la misma memoria compartida
+   subyacente. <code class="parameter">memsize</code> y
+   <code class="parameter">perm</code> serán ignorados.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.shm-attach-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">key</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un ID numérico de segmento de memoria compartida
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">memsize</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El tamaño de la memoria. Si no se proporciona, por defecto es el valor de
+       <em>sysvshm.init_mem</em> del <var class="filename">php.ini</var>, de otro modo es 10000
+       bytes.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">perm</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los bits de permiso opcionales. Por defecto es 0666.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.shm-attach-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un identificador de segmento de memoria compartida.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.shm-attach-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Esta función ahora devuelve un <a href="language.types.resource.html" class="link">recurso</a> en vez de un
+        <a href="language.types.integer.html" class="link">integer</a>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.shm-attach-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Esta función solía devolver un valor integer antes de
+    PHP 5.3.0. Para obtener el mismo valor de un modo portable, el
+    valor devuelto puede ser convertido a un integer:
+   </p>
+   <p class="para">
+    <div class="example" id="example-4243">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Crear&nbsp;un&nbsp;fichero&nbsp;temporal&nbsp;y&nbsp;devolver&nbsp;su&nbsp;ruta<br /></span><span style="color: #0000BB">$tmp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">tempnam</span><span style="color: #007700">(</span><span style="color: #DD0000">'/tmp'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'PHP'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Obtener&nbsp;la&nbsp;clave&nbsp;de&nbsp;token&nbsp;del&nbsp;fichero<br /></span><span style="color: #0000BB">$key&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ftok</span><span style="color: #007700">(</span><span style="color: #0000BB">$tmp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'a'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Adjuntar&nbsp;el&nbsp;recurso&nbsp;SHM,&nbsp;observe&nbsp;la&nbsp;conversión&nbsp;después<br /></span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">shm_attach</span><span style="color: #007700">(</span><span style="color: #0000BB">$key</span><span style="color: #007700">);<br /><br />if&nbsp;(</span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'No&nbsp;se&nbsp;pudo&nbsp;crear&nbsp;el&nbsp;segmento&nbsp;de&nbsp;memoria&nbsp;compartida'</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Convertir&nbsp;a&nbsp;integer,&nbsp;ya&nbsp;que&nbsp;antes&nbsp;de&nbsp;PHP&nbsp;5.3.0&nbsp;se&nbsp;devuelve<br />//&nbsp;el&nbsp;id&nbsp;del&nbsp;recurso,&nbsp;el&nbsp;cual&nbsp;puede&nbsp;ser&nbsp;expuesto&nbsp;cuando&nbsp;se&nbsp;convierte&nbsp;un&nbsp;recurso<br />//&nbsp;en&nbsp;un&nbsp;integer<br /></span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&nbsp;(integer)&nbsp;</span><span style="color: #0000BB">$id</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </div>
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.shm-attach-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.shm-detach.html" class="function" rel="rdfs-seeAlso">shm_detach()</a> - Desconectarse del segmento de memoria compartida</span></li>
+    <li class="member"><span class="function"><a href="function.ftok.html" class="function" rel="rdfs-seeAlso">ftok()</a> - Convertir un nombre de ruta y un identificador de proyecto a una clave IPC de System V</span></li>
+   </ul>
+  </p>
+ </div>
+  
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sem-remove.html">sem_remove</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.shm-detach.html">shm_detach</a></div>
+ <div class="up"><a href="ref.sem.html">Funciones de Sem&aacute;foro</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Volcar (enviar) el b&uacute;fer de salida y deshabilitar el almacenamiento en el mismo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ob-end-clean.html">ob_end_clean</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ob-flush.html">ob_flush</a></div>
+ <div class="up"><a href="ref.outcontrol.html">Funciones del Control de la salida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ob-end-flush" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ob_end_flush</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">ob_end_flush</span> &mdash; <span class="dc-title">Volcar (enviar) el búfer de salida y deshabilitar el almacenamiento en el mismo</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ob-end-flush-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>ob_end_flush</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Esta función enviará el contenido del búfer de salida en cola (si
+   existe) y los deshabilitará. Si fuera necesario procesar
+   el contenido del búfer, se ha de llamar a
+   <span class="function"><a href="function.ob-get-contents.html" class="function">ob_get_contents()</a></span> antes que a
+   <span class="function"><strong>ob_end_flush()</strong></span>, ya que el contenido del búfer es
+   descartado después de llamar a <span class="function"><strong>ob_end_flush()</strong></span>.
+  </p>
+  <p class="para">
+   El búfer de salida debe estar iniciado por
+   <span class="function"><a href="function.ob-start.html" class="function">ob_start()</a></span> con los indicadores <a href="outcontrol.constants.html#constant.php-output-handler-flushable" class="link">PHP_OUTPUT_HANDLER_FLUSHABLE</a>
+   y <a href="outcontrol.constants.html#constant.php-output-handler-removable" class="link">PHP_OUTPUT_HANDLER_REMOVABLE</a>
+   Si no, <span class="function"><strong>ob_end_flush()</strong></span> no funcionará.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Esta función es similar a <span class="function"><a href="function.ob-get-flush.html" class="function">ob_get_flush()</a></span>, excepto
+    que <span class="function"><a href="function.ob-get-flush.html" class="function">ob_get_flush()</a></span> devuelve el búfer como una cadena de caracteres.
+   </span>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ob-end-flush-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error. Entre las posibles razones de un fallo se encuentra llamar
+   a la función sin un búfer activo, o que por algún motivo no se pueda
+   eliminar un búfer (posible en el caso de búferes especiales).
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.ob-end-flush-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Si la función falla, genera un error de nivel <strong><code>E_NOTICE</code></strong>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ob-end-flush-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-525">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>ob_end_flush()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     El siguiente ejemplo muestra una forma sencilla de volcar y finalizar todos los
+     búferes de salida:
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;</span><span style="color: #007700">while&nbsp;(@</span><span style="color: #0000BB">ob_end_flush</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ob-end-flush-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ob-start.html" class="function" rel="rdfs-seeAlso">ob_start()</a> - Activa el almacenamiento en b&uacute;fer de la salida</span></li>
+    <li class="member"><span class="function"><a href="function.ob-get-contents.html" class="function" rel="rdfs-seeAlso">ob_get_contents()</a> - Devolver el contenido del b&uacute;fer de salida</span></li>
+    <li class="member"><span class="function"><a href="function.ob-get-flush.html" class="function" rel="rdfs-seeAlso">ob_get_flush()</a> - Volcar el b&uacute;fer de salida, devolverlo como una cadena de caracteres y deshabilitar el almacenamiento en el b&uacute;fer de salida</span></li>
+    <li class="member"><span class="function"><a href="function.ob-flush.html" class="function" rel="rdfs-seeAlso">ob_flush()</a> - Vaciar (enviar) el b&uacute;fer de salida</span></li>
+    <li class="member"><span class="function"><a href="function.ob-end-clean.html" class="function" rel="rdfs-seeAlso">ob_end_clean()</a> - Limpiar (eliminar) el b&uacute;fer de salida y deshabilitar el almacenamiento en el mismo</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ob-end-clean.html">ob_end_clean</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ob-flush.html">ob_flush</a></div>
+ <div class="up"><a href="ref.outcontrol.html">Funciones del Control de la salida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

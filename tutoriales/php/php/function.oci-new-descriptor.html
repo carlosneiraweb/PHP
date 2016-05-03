@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Inicializa un nuevo descriptor vac&iacute;o LOB o FILE</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.oci-new-cursor.html">oci_new_cursor</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.oci-num-fields.html">oci_num_fields</a></div>
+ <div class="up"><a href="ref.oci8.html">Funciones de OCI8</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.oci-new-descriptor" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">oci_new_descriptor</h1>
+  <p class="verinfo">(PHP 5, PHP 7, PECL OCI8 &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">oci_new_descriptor</span> &mdash; <span class="dc-title">Inicializa un nuevo descriptor vacío LOB o FILE</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.oci-new-descriptor-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type OCI-Lob">OCI-Lob</span></span> <span class="methodname"><strong>oci_new_descriptor</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$connection</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code><span class="initializer"> = OCI_DTYPE_LOB</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Asigna recursos para contener un descriptor o un localizador LOB.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.oci-new-descriptor-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">connection</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un identificador de conexión de Oracle devuelto por 
+       <span class="function"><a href="function.oci-connect.html" class="function">oci_connect()</a></span> o <span class="function"><a href="function.oci-pconnect.html" class="function">oci_pconnect()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los valores válidos para <code class="parameter">type</code> son: 
+       <strong><code>OCI_DTYPE_FILE</code></strong>, <strong><code>OCI_DTYPE_LOB</code></strong> y
+       <strong><code>OCI_DTYPE_ROWID</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.oci-new-descriptor-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un nuevo descriptor de LOB o FILE en caso de éxito, <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.oci-new-descriptor-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2249">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>oci_new_descriptor()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Este&nbsp;script&nbsp;está&nbsp;diseñado&nbsp;para&nbsp;ser&nbsp;invocado&nbsp;desde&nbsp;un&nbsp;formulario&nbsp;HTML.<br />&nbsp;*&nbsp;Se&nbsp;le&nbsp;ha&nbsp;de&nbsp;proporcionar&nbsp;$user,&nbsp;$password,&nbsp;$table,&nbsp;$where,&nbsp;y&nbsp;$commitsize<br />&nbsp;*&nbsp;desde&nbsp;el&nbsp;formulario.&nbsp;Entonces,&nbsp;el&nbsp;script&nbsp;elimina<br />&nbsp;*&nbsp;las&nbsp;filas&nbsp;seleccionadas&nbsp;usando&nbsp;el&nbsp;ROWID&nbsp;y&nbsp;consolida&nbsp;después&nbsp;de&nbsp;cada<br />&nbsp;*&nbsp;conjunto&nbsp;de&nbsp;filas&nbsp;$commitsize.&nbsp;(Úselo&nbsp;con&nbsp;cuidado,&nbsp;no&nbsp;hay&nbsp;reversión)<br />&nbsp;*/<br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$user</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$password</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"select&nbsp;rowid&nbsp;from&nbsp;</span><span style="color: #0000BB">$table</span><span style="color: #DD0000">&nbsp;</span><span style="color: #0000BB">$where</span><span style="color: #DD0000">"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$rowid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_new_descriptor</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_D_ROWID</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_define_by_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"ROWID"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$rowid</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">);<br />while&nbsp;(</span><span style="color: #0000BB">oci_fetch</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$nrows&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_num_rows</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$delete&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"delete&nbsp;from&nbsp;</span><span style="color: #0000BB">$table</span><span style="color: #DD0000">&nbsp;where&nbsp;ROWID&nbsp;=&nbsp;:rid"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">oci_bind_by_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$delete</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">":rid"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$rowid</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_B_ROWID</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$delete</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$nrows</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;((</span><span style="color: #0000BB">$nrows&nbsp;</span><span style="color: #007700">%&nbsp;</span><span style="color: #0000BB">$commitsize</span><span style="color: #007700">)&nbsp;==&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">oci_commit</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">$nrows&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_num_rows</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$nrows</span><span style="color: #DD0000">&nbsp;eliminada...\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">oci_free_statement</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Este&nbsp;script&nbsp;demuestra&nbsp;la&nbsp;subida&nbsp;de&nbsp;ficheros&nbsp;a&nbsp;columnas&nbsp;LOB.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;El&nbsp;campo&nbsp;de&nbsp;formulario&nbsp;usado&nbsp;para&nbsp;este&nbsp;ejemplo&nbsp;es&nbsp;como&nbsp;este:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&lt;form&nbsp;action="upload.php"&nbsp;method="post"&nbsp;enctype="multipart/form-data"&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&lt;input&nbsp;type="file"&nbsp;name="lob_upload"&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;...<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br />&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(!isset(</span><span style="color: #0000BB">$lob_upload</span><span style="color: #007700">)&nbsp;||&nbsp;</span><span style="color: #0000BB">$lob_upload&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #DD0000">'none'</span><span style="color: #007700">){<br /></span><span style="color: #0000BB">?&gt;<br /></span>&lt;form&nbsp;action="upload.php"&nbsp;method="post"&nbsp;enctype="multipart/form-data"&gt;<br />Upload&nbsp;file:&nbsp;&lt;input&nbsp;type="file"&nbsp;name="lob_upload"&nbsp;/&gt;&lt;br&nbsp;/&gt;<br />&lt;input&nbsp;type="submit"&nbsp;value="Upload"&nbsp;/&gt;&nbsp;-&nbsp;&lt;input&nbsp;type="reset"&nbsp;value="Reset"&nbsp;/&gt;<br />&lt;/form&gt;<br /><span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;</span><span style="color: #007700">}&nbsp;else&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$lob_upload&nbsp;contiene&nbsp;el&nbsp;nombre&nbsp;temporal&nbsp;del&nbsp;fichero&nbsp;subido<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;véase&nbsp;también&nbsp;la&nbsp;sección&nbsp;de&nbsp;características&nbsp;sobre&nbsp;la&nbsp;subida&nbsp;de&nbsp;ficheros,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;le&nbsp;gustaría&nbsp;usar&nbsp;subidas&nbsp;seguras<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$user</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$password</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$lob&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_new_descriptor</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_D_LOB</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"insert&nbsp;into&nbsp;</span><span style="color: #0000BB">$table</span><span style="color: #DD0000">&nbsp;(id,&nbsp;the_blob)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;values(my_seq.NEXTVAL,&nbsp;EMPTY_BLOB())&nbsp;returning&nbsp;the_blob&nbsp;into&nbsp;:the_blob"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">oci_bind_by_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">':the_blob'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$lob</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_B_BLOB</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_DEFAULT</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">$lob</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">savefile</span><span style="color: #007700">(</span><span style="color: #0000BB">$lob_upload</span><span style="color: #007700">)){<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">oci_commit</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Blob&nbsp;successfully&nbsp;uploaded\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Couldn't&nbsp;upload&nbsp;Blob\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$lob</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">free</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">oci_free_statement</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">oci_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br />&nbsp;&nbsp;}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <div class="example" id="example-2250">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>oci_new_descriptor()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Llamar&nbsp;a&nbsp;procedimientos&nbsp;almacenados&nbsp;de&nbsp;PL/SQL&nbsp;que&nbsp;contienen&nbsp;CLOBs&nbsp;como&nbsp;parámetros<br />&nbsp;*&nbsp;de&nbsp;entrada&nbsp;(PHP&nbsp;4&nbsp;&gt;=&nbsp;4.0.6).<br />&nbsp;*&nbsp;Ejemplo&nbsp;de&nbsp;firma&nbsp;de&nbsp;procedimiento&nbsp;almacenado&nbsp;de&nbsp;PL/SQL:<br />&nbsp;*<br />&nbsp;*&nbsp;PROCEDURE&nbsp;save_data<br />&nbsp;*&nbsp;&nbsp;&nbsp;Argument&nbsp;Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In/Out&nbsp;Default?<br />&nbsp;*&nbsp;&nbsp;&nbsp;------------------------------&nbsp;-----------------------&nbsp;------&nbsp;--------<br />&nbsp;*&nbsp;&nbsp;&nbsp;KEY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUMBER(38)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IN<br />&nbsp;*&nbsp;&nbsp;&nbsp;DATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLOB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IN<br />&nbsp;*<br />&nbsp;*/<br /><br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$user</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$password</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"begin&nbsp;save_data(:key,&nbsp;:data);&nbsp;end;"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$clob&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_new_descriptor</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_D_LOB</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_bind_by_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">':key'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$key</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_bind_by_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">':data'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$clob</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_B_CLOB</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$clob</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">write</span><span style="color: #007700">(</span><span style="color: #0000BB">$data</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_DEFAULT</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_commit</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$clob</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">free</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">oci_free_statement</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.oci-new-descriptor-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    En versiones de PHP anteriores a la 5.0.0 se debe usar <span class="function"><a href="function.ocinewdescriptor.html" class="function">ocinewdescriptor()</a></span>
+    en su lugar. Este nombre aún puede usarse; se dejó como alias de
+    <span class="function"><strong>oci_new_descriptor()</strong></span> por razones de retrocompatibilidad.
+    Sin embargo, este nombre es obsoleto y no se recomienda.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.oci-new-descriptor-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.oci-bind-by-name.html" class="function" rel="rdfs-seeAlso">oci_bind_by_name()</a> - Vincula una variable de PHP a un par&aacute;metro de sustituci&oacute;n de Oracle</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.oci-new-cursor.html">oci_new_cursor</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.oci-num-fields.html">oci_num_fields</a></div>
+ <div class="up"><a href="ref.oci8.html">Funciones de OCI8</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

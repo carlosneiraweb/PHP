@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Aplica una funci&oacute;n a la imagen</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="imagick.frameimage.html">Imagick::frameImage</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="imagick.fximage.html">Imagick::fxImage</a></div>
+ <div class="up"><a href="class.imagick.html">Imagick</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="imagick.functionimage" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Imagick::functionImage</h1>
+  <p class="verinfo">(No hay información de versión disponible, podría estar únicamente en SVN)</p><p class="refpurpose"><span class="refname">Imagick::functionImage</span> &mdash; <span class="dc-title">Aplica una función a la imagen</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-imagick.functionimage-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>Imagick::functionImage</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$function</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter">$arguments</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$channel</code><span class="initializer"> = Imagick::CHANNEL_DEFAULT</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Aplica una expresión aritmética, relacional o lógica a una imagen. 
+  </p>
+  <p class="para">
+   Véase también <a href="http://www.imagemagick.org/Usage/transform/#function" class="link external">&raquo;&nbsp;ImageMagick
+   v6 Examples - Image Transformations — Function, Multi-Argument Evaluate</a>
+  </p>
+  <p class="para">
+   Este método está disponible si Imagick ha sido compilado con la versión 6.4.9 o superior de ImageMagick.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-imagick.functionimage-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">function</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Consulte esta lista de <a href="imagick.constants.html#imagick.constants.function" class="link">constantes de función</a>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">arguments</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Array de argumentos a pasar a esta función.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-imagick.functionimage-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-imagick.functionimage-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Lanza ImagickException en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-imagick.functionimage-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3646">
+    <p><strong>Ejemplo #1 Crear un degradado sinusoide</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$imagick&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">newPseudoImage</span><span style="color: #007700">(</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'gradient:black-white'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$argumentos&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">90</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">functionImage</span><span style="color: #007700">(</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">::</span><span style="color: #0000BB">FUNCTION_SINUSOID</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$argumentos</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Content-Type:&nbsp;image/png"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setImageFormat</span><span style="color: #007700">(</span><span style="color: #DD0000">"png"</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getImageBlob</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="mediaobject">
+     
+     <div class="imageobject">
+      <img src="images/c0d23d2d6769e53e24a1b3136c064577-functionImage_sinusoidal.png" alt="Salida de crear un degradado sinusoidal" width="200" height="200" />
+     </div>
+    </div>
+   </div>
+   
+   <div class="example" id="example-3647">
+    <p><strong>Ejemplo #2 Crear un degradado desde el polinomio (4x^2 - 4x + 1) </strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$imagick&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">newPseudoImage</span><span style="color: #007700">(</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'gradient:black-white'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$argumentos&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">4</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">functionImage</span><span style="color: #007700">(</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">::</span><span style="color: #0000BB">FUNCTION_POLYNOMIAL</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$argumentos</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Content-Type:&nbsp;image/png"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setimageformat</span><span style="color: #007700">(</span><span style="color: #DD0000">"png"</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$imagick</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getImageBlob</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="mediaobject">
+     
+     <div class="imageobject">
+      <img src="images/c0d23d2d6769e53e24a1b3136c064577-functionImage_polynomial.png" alt="Salida de crear un degradado polinómico" width="200" height="200" />
+     </div>
+    </div>
+   </div>
+   
+   <div class="example" id="example-3648">
+    <p><strong>Ejemplo #3 Crear un degradao complejo a partir del polinomio (4x^2 - 4x^2 + 1) modulado por un degradao sinusoide</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$imagick1&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$imagick1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">newPseudoImage</span><span style="color: #007700">(</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'gradient:black-white'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$argumentos&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">9</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">90</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$imagick1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">functionImage</span><span style="color: #007700">(</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">::</span><span style="color: #0000BB">FUNCTION_SINUSOID</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$argumentos</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$imagick2&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$imagick2</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">newPseudoImage</span><span style="color: #007700">(</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">200</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'gradient:black-white'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$argumentos&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">0.5</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$imagick2</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">functionImage</span><span style="color: #007700">(</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">::</span><span style="color: #0000BB">FUNCTION_SINUSOID</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$argumentos</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$imagick1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">compositeimage</span><span style="color: #007700">(</span><span style="color: #0000BB">$imagick2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">::</span><span style="color: #0000BB">COMPOSITE_MULTIPLY</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Content-Type:&nbsp;image/png"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$imagick1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setImageFormat</span><span style="color: #007700">(</span><span style="color: #DD0000">"png"</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$imagick1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getImageBlob</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="mediaobject">
+     
+     <div class="imageobject">
+      <img src="images/c0d23d2d6769e53e24a1b3136c064577-functionImage_multiplied.png" alt="Salida de craer un degradado complejo" width="200" height="200" />
+     </div>
+    </div>
+   </div>
+   
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="imagick.frameimage.html">Imagick::frameImage</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="imagick.fximage.html">Imagick::fxImage</a></div>
+ <div class="up"><a href="class.imagick.html">Imagick</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

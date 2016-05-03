@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene informaci&oacute;n sobre un proceso abierto por
+  proc_open</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.proc-close.html">proc_close</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.proc-nice.html">proc_nice</a></div>
+ <div class="up"><a href="ref.exec.html">Funciones de ejecuci&oacute;n de programas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.proc-get-status" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">proc_get_status</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">proc_get_status</span> &mdash; <span class="dc-title">Obtiene información sobre un proceso abierto por
+  <span class="function"><a href="function.proc-open.html" class="function">proc_open()</a></span></span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.proc-get-status-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>proc_get_status</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$process</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>proc_get_status()</strong></span> recupera información sobre
+   un proceso abierto mediante el uso
+   de <span class="function"><a href="function.proc-open.html" class="function">proc_open()</a></span>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.proc-get-status-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">process</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El <span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> <span class="function"><a href="function.proc-open.html" class="function">proc_open()</a></span> que
+       será evaluado.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.proc-get-status-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Un valor <span class="type"><a href="language.types.array.html" class="type array">array</a></span> con la información recolectada
+   en caso de éxito, y <strong><code>FALSE</code></strong> si ocurre un error. La matriz
+   devuelta contiene los siguientes elementos:
+  </p>
+  <p class="para">
+  <table class="doctable informaltable">
+   
+    <thead>
+     <tr><th>element</th><th>type</th><th>description</th></tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>command</td>
+      <td><span class="type"><a href="language.types.string.html" class="type string">string</a></span></td>
+      <td>
+       La cadena del comando que fue pasada a
+       <span class="function"><a href="function.proc-open.html" class="function">proc_open()</a></span>.
+      </td>
+     </tr>
+
+     <tr>
+      <td>pid</td>
+      <td><span class="type"><a href="language.types.integer.html" class="type int">int</a></span></td>
+      <td>process id</td>
+     </tr>
+
+     <tr>
+      <td>running</td>
+      <td><span class="type"><a href="language.types.boolean.html" class="type bool">bool</a></span></td>
+      <td>
+       <strong><code>TRUE</code></strong> si el proceso aun está siendo ejecutado, <strong><code>FALSE</code></strong>
+       si ha terminado.
+      </td>
+     </tr>
+
+     <tr>
+      <td>signaled</td>
+      <td><span class="type"><a href="language.types.boolean.html" class="type bool">bool</a></span></td>
+      <td>
+       <strong><code>TRUE</code></strong> si el proceso hijo ha sido terminado por una
+       señal no atrapada. En windows, este valor siempre es
+       <strong><code>FALSE</code></strong>.
+      </td>
+     </tr>
+
+     <tr>
+      <td>stopped</td>
+      <td><span class="type"><a href="language.types.boolean.html" class="type bool">bool</a></span></td>
+      <td>
+       <strong><code>TRUE</code></strong> si el proceso hijo fue detenido por una señal. En
+       windows, este valor siempre es <strong><code>FALSE</code></strong>.
+      </td>
+     </tr>
+
+     <tr>
+      <td>exitcode</td>
+      <td><span class="type"><a href="language.types.integer.html" class="type int">int</a></span></td>
+      <td>
+       El código de salida devuelto por el proceso (el cual
+       tiene sentido únicamente si <em>running</em>
+       es <strong><code>FALSE</code></strong>). Solo la primera llamada a esta función
+       devuelve el valor real, la siguiente llamada devuelve
+       <em>-1</em>.
+      </td>
+     </tr>
+
+     <tr>
+      <td>termsig</td>
+      <td><span class="type"><a href="language.types.integer.html" class="type int">int</a></span></td>
+      <td>
+       El número de la señal que causó que el
+       proceso hijo finalizara su ejecución (sólo tiene
+       sentido si <em>signaled</em> es <strong><code>TRUE</code></strong>).
+      </td>
+     </tr>
+
+     <tr>
+      <td>stopsig</td>
+      <td><span class="type"><a href="language.types.integer.html" class="type int">int</a></span></td>
+      <td>
+       El número de la señal que causó que el
+       proceso hijo detuviera su ejecución (sólo tiene
+       sentido si <em>stopped</em> es <strong><code>TRUE</code></strong>).
+      </td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.proc-get-status-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.proc-open.html" class="function" rel="rdfs-seeAlso">proc_open()</a> - Ejecuta un comando y abre un puntero de fichero para entrada/salida</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.proc-close.html">proc_close</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.proc-nice.html">proc_nice</a></div>
+ <div class="up"><a href="ref.exec.html">Funciones de ejecuci&oacute;n de programas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

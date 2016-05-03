@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener el tama&ntilde;o de las agrupaciones de conexiones</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.construct.html">Mongo::__construct</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.getslave.html">Mongo::getSlave</a></div>
+ <div class="up"><a href="class.mongo.html">Mongo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongo.getpoolsize" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Mongo::getPoolSize</h1>
+  <p class="verinfo">(PECL mongo &gt;=1.2.0)</p><p class="refpurpose"><span class="refname">Mongo::getPoolSize</span> &mdash; <span class="dc-title">Obtener el tamaño de las agrupaciones de conexiones</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-mongo.getpoolsize-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">int</span> <span class="methodname"><strong>Mongo::getPoolSize</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="simpara">Esta característica ha sido declarada <em class="emphasis">OBSOLETA</em> a partir de la
+    versión 1.2.3. Se recomienda encarecidamente no confiar en ella. Por favor, use
+    <span class="function"><a href="mongopool.getsize.html" class="function">MongoPool::getSize()</a></span> en su lugar.
+   </p>
+  </div>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-mongo.getpoolsize-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">Esta función no tiene parámetros.</p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-mongo.getpoolsize-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el tamaño de la agrupación actual.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-mongo.getpoolsize-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>1.2.11</td>
+       <td>Emite un error de nivel <strong><code>E_DEPRECATED</code></strong> al usarla.</td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-mongo.getpoolsize-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1652">
+   <p><strong>Ejemplo #1 Cambiar el tamaño de la agrupación</strong></p>
+   <div class="example-contents"><p>
+    Devuelve el tamaño de la agrupación predeterminada, establece un nuevo tamaño, imprime
+    ese nuevo tamaño y la información de depuración de la agrupación. Observe que cambiar el
+    tamaño de la agrupación únicamente afecta a agrupaciones conexiones nuevas, no cambia las antiguas.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$conexión&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Mongo</span><span style="color: #007700">(</span><span style="color: #DD0000">"host1"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;el&nbsp;tamaño&nbsp;de&nbsp;la&nbsp;agrupación&nbsp;es&nbsp;-1<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"el&nbsp;tamaño&nbsp;de&nbsp;la&nbsp;agrupación&nbsp;es:&nbsp;"</span><span style="color: #007700">.</span><span style="color: #0000BB">Mongo</span><span style="color: #007700">::</span><span style="color: #0000BB">getPoolSize</span><span style="color: #007700">().</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"establecer&nbsp;el&nbsp;tamaño&nbsp;de&nbsp;la&nbsp;agrupación&nbsp;a&nbsp;200\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">Mongo</span><span style="color: #007700">::</span><span style="color: #0000BB">setPoolSize</span><span style="color: #007700">(</span><span style="color: #0000BB">200</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;el&nbsp;tamaño&nbsp;de&nbsp;la&nbsp;agrupación&nbsp;es&nbsp;200<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"el&nbsp;tamaño&nbsp;de&nbsp;la&nbsp;agrupación&nbsp;es:&nbsp;"</span><span style="color: #007700">.</span><span style="color: #0000BB">Mongo</span><span style="color: #007700">::</span><span style="color: #0000BB">getPoolSize</span><span style="color: #007700">().</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$conexión2&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Mongo</span><span style="color: #007700">(</span><span style="color: #DD0000">"host2"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;lo&nbsp;que&nbsp;queda&nbsp;para&nbsp;host1&nbsp;es&nbsp;-2<br />//&nbsp;lo&nbsp;que&nbsp;queda&nbsp;para&nbsp;host2&nbsp;es&nbsp;199<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">Mongo</span><span style="color: #007700">::</span><span style="color: #0000BB">poolDebug</span><span style="color: #007700">());<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-mongo.getpoolsize-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mongo.setpoolsize.html" class="function" rel="rdfs-seeAlso">Mongo::setPoolSize()</a> - Establecer el tama&ntilde;o para futuras agrupaciones de conexiones</span></li>
+    <li class="member"><span class="function"><a href="mongo.pooldebug.html" class="function" rel="rdfs-seeAlso">Mongo::poolDebug()</a> - Devuelve informaci&oacute;n sobre todas las agrupaciones de conexiones</span></li>
+    <li class="member">La documentación de <a href="mongo.connecting.html" class="link">conexión</a>.</li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.construct.html">Mongo::__construct</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.getslave.html">Mongo::getSlave</a></div>
+ <div class="up"><a href="class.mongo.html">Mongo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

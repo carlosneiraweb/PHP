@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Transacciones XA/Distribuidas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.transactions.html">Transacciones locales</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.qos-consistency.html">Nivel de servicio y consistencia</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.quickstart.xa_transactions" class="section">
+  <h2 class="title">Transacciones XA/Distribuidas</h2>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Requisitos de versión</strong><br />
+   <p class="para">
+    Las funciones relacionadas con XA han sido introducidas en la verisón 1.6.0-alpha de PECL mysqlnd_ms.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Se buscan los primeros adaptadores</strong><br />
+   <p class="para">
+    Esta característica está actualmente en desarrollo. Podrían existir problemas y/o
+    limitaciones. No la use en entornos de producción, aunque
+    las primeras pruebas indican una calidad razonable.
+   </p>
+   <p class="para">
+    Por favor, contacte con el equipo de desarrollo si está interesado en esta característica.
+    Estamos buscando comentarios de la vida real para completar esta característica.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   Las transacciones XA son un método estandarizado para ejecutar transacciones a través
+   de varios recursos. Estos recursos pueden ser bases de datos u otros sistemas
+   transaccionales. El servidor de MySQL admite sentencias SQL de XA, las cuales permiten a los usuarios
+   llevar a cabo una transacción SQL distribuida que genera varios servidores de bases de datos,
+   o cualquier otro tipo siempre y cuando admita también las sentencias SQL. En este
+   tipo de escenario, es responsabilidad del usuario coordinar los servidores
+   participantes.
+  </p>
+  <p class="para">
+   <em>PECL/mysqlnd_ms</em> puede actuar como un coordinador de transacciones para una transacción
+   global (distribuida, XA) se lleve a cabo solamente en servidores de MySQL. Como coordinador transacciones, el complemento
+   rastrea todos los servidores involucrados en una transacción global y envía de forma transparente
+   las sentencias SQL apropiadas a los participantes. Las transacción globales son controladas con
+   <span class="function"><a href="function.mysqlnd-ms-xa-begin.html" class="function">mysqlnd_ms_xa_begin()</a></span>, <span class="function"><a href="function.mysqlnd-ms-xa-commit.html" class="function">mysqlnd_ms_xa_commit()</a></span>
+   y <span class="function"><a href="function.mysqlnd-ms-xa-rollback.html" class="function">mysqlnd_ms_xa_rollback()</a></span>. Los detalles SQL mayormente están ocultos a
+   la aplicación, ya que es necesario rastrear y coordinar a los participantes.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1992">
+    <p><strong>Ejemplo #1 Patrón general para transacciones XA</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nombre_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;iniciar&nbsp;una&nbsp;transacción&nbsp;global&nbsp;*/<br /></span><span style="color: #0000BB">$gtrid_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"12345"</span><span style="color: #007700">;<br />if&nbsp;(!</span><span style="color: #0000BB">mysqlnd_ms_xa_begin</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$gtrid_id</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;ejecutar&nbsp;las&nbsp;consultas&nbsp;como&nbsp;siempre:&nbsp;XA&nbsp;BEGIN&nbsp;será&nbsp;inyectada&nbsp;en&nbsp;cuanto&nbsp;se&nbsp;ejecute&nbsp;una&nbsp;consulta&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;orders(order_id,&nbsp;item)&nbsp;VALUES&nbsp;(1,&nbsp;'christmas&nbsp;tree,&nbsp;1.8m')"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Tanto&nbsp;si&nbsp;falla&nbsp;INSERT&nbsp;o&nbsp;falla&nbsp;la&nbsp;inyección&nbsp;de&nbsp;XA&nbsp;BEGIN&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(</span><span style="color: #DD0000">'XA'&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">substr</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">sqlstate</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Fallo&nbsp;relacionado&nbsp;con&nbsp;una&nbsp;transacción/XA&nbsp;global,&nbsp;[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Fallo&nbsp;de&nbsp;INSERT,&nbsp;[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;revertir&nbsp;la&nbsp;transacción&nbsp;global&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">mysqlnd_ms_xa_rollback</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$xid</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">"Deteniendo."</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;continuar&nbsp;con&nbsp;la&nbsp;realización&nbsp;de&nbsp;consultas&nbsp;en&nbsp;otros&nbsp;servidores,&nbsp;p.ej.&nbsp;otros&nbsp;fragmentos&nbsp;*/<br /><br />/*&nbsp;consignar&nbsp;la&nbsp;transacción&nbsp;global&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">mysqlnd_ms_xa_commit</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$xa_id</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   A diferencia de las transacciones locales, la cuales se llevan a cabo en un único servidor,
+   las transacciones XA tienen un identificador (xid) asociado a ellas.
+   El identificador de transacción de XA está compuesto por un identificador de transacción
+   global (gtrid), un identificador de ramificación (bqual), y
+   un identificador de formato (formatID). Solamente el identificador de transacción global puede
+   y debe proporcionarse al invocar a cualquier función de XA del complemento.
+  </p>
+  <p class="para">
+   Una vez que ha sido iniciada una transacción global, el complemento comienza a rastrear servidores
+   hsata que la transacción global finaliza. Cuando un servidor se escoge para la ejecución de una consulta,
+   el complemento inyecta la sentencia SQL <em>XA BEGIN</em> antes de
+   ejecutar la sentencia SQL real en el servidor. <em>XA BEGIN</em>
+   hace que el servidor participe en la transacción global. Si falla la inyección
+   de la sentencia SQL, el complemento informará del problema en réplica a la función
+   de ejecución de consultas que se empleó. En el ejemplo de arriba,
+   <em>$mysqli-&gt;query(&quot;INSERT INTO orders(order_id, item) VALUES (1, &#039;christmas tree, 1.8m&#039;)&quot;)</em>
+   indicaría tal error. Se podría comprobar el código de estado SQL de los errores para
+   determinar la consulta real (aquí: <em>INSERT</em>) que ha fallado
+   o el error relacionado con la transacción global. Depende de usted ignorar el
+   fallo de iniciar la transacción global en un servidor y continuar la ejecución
+   sin tener al servidor participando en la transacción global.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1993">
+    <p><strong>Ejemplo #2 Las transacciones locales y globales son mutuamente exclusivas</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nombre_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;iniciar&nbsp;una&nbsp;transacción&nbsp;local&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">begin_transaction</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d/%s]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">sqlstate</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;anora&nbsp;no&nbsp;se&nbsp;puede&nbsp;iniciar&nbsp;la&nbsp;transición&nbsp;global&nbsp;-&nbsp;primero&nbsp;debe&nbsp;finalizar&nbsp;la&nbsp;local&nbsp;*/<br /></span><span style="color: #0000BB">$gtrid_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"12345"</span><span style="color: #007700">;<br />if&nbsp;(!</span><span style="color: #0000BB">mysqlnd_ms_xa_begin</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$gtrid_id</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d/%s]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">sqlstate</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">));<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+
+Warning: mysqlnd_ms_xa_begin(): (mysqlnd_ms) Some work is done outside global transaction. You must end the active local transaction first in ... on line ...
+[1400/XAE09] (mysqlnd_ms) Some work is done outside global transaction. You must end the active local transaction first
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Una transacción global no se puede iniciar cuando una transacción local está activa.
+   El complelento intenta detectar esta situación tan pronto como sea posible, que es cuando
+   se llama a <span class="function"><a href="function.mysqlnd-ms-xa-begin.html" class="function">mysqlnd_ms_xa_begin()</a></span>. Si solamente se emplean llamadas a la API para
+   controlar transacciones, el complemento sabrá qué transacción local está abierta,
+   devolviendo un error para <span class="function"><a href="function.mysqlnd-ms-xa-begin.html" class="function">mysqlnd_ms_xa_begin()</a></span>. Sin embargo, observe que
+   las <a href="mysqlnd-ms.transaction.html" class="link">limitaciones para detectar límites
+   de transacciones</a> del complemento. En el peor de los casos, si se emplea SQL directo
+   para transacciones locales (<em>BEGIN</em>,
+   <em>COMMIT</em>, ...), podría suceder que un error de demorara
+   hasta que se ejecute alguna sentencia SQL en el servidor.
+  </p>
+  <p class="para">
+   Para finalizar una transacción global se ha de invocar a <span class="function"><a href="function.mysqlnd-ms-xa-commit.html" class="function">mysqlnd_ms_xa_commit()</a></span> o
+   a <span class="function"><a href="function.mysqlnd-ms-xa-rollback.html" class="function">mysqlnd_ms_xa_rollback()</a></span>. Cuando finaliza una transacción global,
+   todos los participantes deben ser informados de dicha finalización. Por lo tando, PECL/mysqlnd_ms
+   enviará de forma transparente las sentencias SQL relacionadas apropiadas
+   a alguno o todos ellos. Cualquier fallo durante esta fase ocasionará una reversión
+   implícita. La API relacionada con XA se mantiene aquí intencionadamente simple. Una API
+   más compleja que proporcionara más control dejaría al descubierto pocas ventajas, si las hubiera,
+   sobre una implementación de usuario que enviara todas las sentencias SQL de XA de bajo nivel por sí misma.
+  </p>
+  <p class="para">
+   Las transacciones XA emplean el protocolo de consignación de dos fases. El protocolo de consignación
+   de dos fases es un protocolo de bloqueo. Hay casos en los que no se puede hacer ningún
+   progreso, incluso al emplear tiempos de espera. Los coordinadores de transaccionesbe made, not even when using timeouts. Transaction coordinators
+   deberían sobrevivir a sus propios fallos, ser capaces de detectar bloqueos y deshacer empates.
+   <em>PECL/mysqlnd_ms</em> toma el papel de un coordinador de transacciones y puede ser
+   configurado para sobrevivir a su propia caída para evitar problemas con servidores de MySQL bloqueados.
+   Por tanto, el complemento puede y debería ser configurado para utilizar un estado persistente y seguro ante caídas
+   para permitir la recolección de basura de transacciones globales abortadas y no finalizadas.
+   Una transacción global puede ser abortada en un estado abierto si el complemento falla (se cae)
+   o falla una conexión desde el complemento a un participante de una transacción global.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1994">
+    <p><strong>Ejemplo #3 Almacenamiento del estado del coordinador de transacciones</strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">{
+    &quot;myapp&quot;: {
+        &quot;xa&quot;: {
+            &quot;state_store&quot;: {
+                &quot;participant_localhost_ip&quot;: &quot;192.168.2.12&quot;,
+                &quot;mysql&quot;: {
+                    &quot;host&quot;: &quot;192.168.2.13&quot;,
+                    &quot;user&quot;: &quot;root&quot;,
+                    &quot;password&quot;: &quot;&quot;,
+                    &quot;db&quot;: &quot;test&quot;,
+                    &quot;port&quot;: &quot;3312&quot;,
+                    &quot;socket&quot;: null
+                }
+            }
+        },
+        &quot;master&quot;: {
+            &quot;master_0&quot;: {
+                &quot;host&quot;: &quot;localhost&quot;,
+                &quot;socket&quot;: &quot;\/tmp\/mysql.sock&quot;
+            }
+        },
+        &quot;slave&quot;: {
+            &quot;slave_0&quot;: {
+                &quot;host&quot;: &quot;192.168.2.14&quot;,
+                &quot;port&quot;: &quot;3306&quot;
+            }
+        }
+    }
+}</pre>
+</div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Actualmente, <em>PECL/mysqlnd_ms</em> admite solamente el uso de tablas de bases de datos de MySQL
+   como almacenamiento de estados. Las definiciones de SQL de las tablas se proporcionan en la
+   <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.xa" class="link">sección de configuración del complemento.</a>
+   Asegúrese de utilizar un motor de almacenamiento transaccional y seguro ante caídas
+   para las tablas, como InnoDB. InnoDB es el motor de tablas
+   predeterminado en versiones recientes del servidor de MySQL. Asegúrese también
+   de que el servidor de bases de datos sea altamente disponible.
+  </p>
+  <p class="para">
+   Si se ha configurado un almacén de estado, el complemento puede realizar una recolección de basura.
+   Durante dicha recolección, podría ser necesario conectarse a un participante
+   de una transacción global fallida. Así, el almacén de estado mantiene una lista de participantes
+   y, entre otras cosas, sus nombres de host. Si la recolección de basura se ejecuta
+   en otro host que no sea el que haya escrito una entrada de participación con el
+   el nombre de host <em>localhost</em>, entonces <em>localhost</em>
+   se resolverá a máquinas diferentes. Hay dos soluciones al problema.
+   O no se configura ningún servidor con el nombre de host <em>localhost</em> y
+   se configura una dirección IP (y puerto), o se indica la recolección de basura.
+   En el ejemplo anterior, <em>localhost</em> se usa para
+   <em>master_0</em>, de ahí que podría no resolverse al host
+   correcto durante la recolección de basura. Sin embargo, <em>participant_localhost_ip</em>
+   también está establecido para indicar la recolección de basura que <em>localhost</em>
+   representa para la IP <em>192.168.2.12</em>.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.transactions.html">Transacciones locales</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.qos-consistency.html">Nivel de servicio y consistencia</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

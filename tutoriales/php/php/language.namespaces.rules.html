@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Reglas de resoluci&oacute;n de nombres</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.namespaces.fallback.html">Utilizar espacios de nombres: una alternativa a funciones/constantes globales</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.namespaces.faq.html">P+F: cosas que es necesario saber sobre los espacios de nombres</a></div>
+ <div class="up"><a href="language.namespaces.html">Espacios de nombres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.namespaces.rules" class="sect1">
+  <h2 class="title">Reglas de resolución de nombres</h2>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7)</p>
+  <p class="para">
+   A continuación se exponen unas definiciones importantes para estas reglas de resolución:
+   <dl>
+
+    <strong class="title">Definiciones de nombres de espacios de nombres</strong>
+    
+     <dt>
+Nombre no cualificado</dt>
+
+     <dd>
+
+      <p class="para">
+       Es un identificador sin un separador de espacios de nombres, como <em>Foo</em>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+Nombre cualificado</dt>
+
+     <dd>
+
+      <p class="para">
+       Es un identificador con un separador de espacios de nombres, como <em>Foo\Bar</em>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+Nombre completamente cualificado</dt>
+
+     <dd>
+
+      <p class="para">
+       Es un identificador con un separador de espacios de nombres que comienza con un separador
+       de espacios de nombres, como <em>\Foo\Bar</em>. <em>namespace\Foo</em>
+       también es un nombre completamente cualificado.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  <p class="para">
+   Los nombres se resuelven siguiendo estas reglas de resolución:
+   <ol type="1">
+    <li class="listitem">
+     <span class="simpara">
+      Las llamadas a clases, funciones o constantes completamente cualificadas se resuelven durante la
+      compilación. Por ejemplo <em>new \A\B</em> se resuelve con la clase <em>A\B</em>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Todos los nombres no cualificados y cualificados (no los completamente cualificados) se traducen
+      durante la compilación según las reglas de
+      importación actuales. Por ejemplo, si el espacio de nombres <em>A\B\C</em> se importa como
+      <em>C</em>, una llamada a
+      <em>C\D\e()</em> se traduce como <em>A\B\C\D\e()</em>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Dentro de un espacio de nombres, todos los nombres cualificados no traducidos según la reglas
+      de importación llevan antepuesto el espacio de nombres actual. Por ejemplo, si una llamada
+      a <em>C\D\e()</em> se lleva a cabo dentro del espacio de nombres <em>A\B</em>,
+      se traduce como <em>A\B\C\D\e()</em>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Los nombres de clases no cualificados se traducen durante la compilación según las reglas de
+      importación actuales (el nombre completo sustituido por el nombre abreviado importado). Por ejemplo,
+      si el espacio de nombres <em>A\B\C</em> se importa como C, <em>new C()</em> se
+      traduce como <em>new A\B\C()</em>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Dentro de un espacio de nombres (digamos A\B), las llamadas a funciones no cualificadas se resuelven
+      durante la ejecución. Así se resuelve una llamada a la función
+      <em>foo()</em>:
+     </span>
+     <ol type="1">
+      <li class="listitem">
+       <span class="simpara">
+        Se busca una función del espacio de nombres actual:
+        <em>A\B\foo()</em>.
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        Se intenta encontrar y llamar a la función <em class="emphasis">global</em>
+        <em>foo()</em>.
+       </span>
+      </li>
+     </ol>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Dentro de un espacio de nombres (digamos <em>A\B</em>), las llamadas a nombres de clases
+      no cualificados o cualificados (no los completamente cualificados) se resuelven durante la
+      ejecución. Así se resuelve una llamada a
+      <em>new C()</em> o a <em>new D\E()</em>.
+      Para <em> new C()</em>:
+     </span>
+     <ol type="1">
+      <li class="listitem">
+       <span class="simpara">
+        Se busca una clase del espacio de nombres actual:
+        <em>A\B\C</em>.
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        Se intenta autocargar <em>A\B\C</em>.
+       </span>
+      </li>
+     </ol>
+     <span class="simpara">
+      Para <em> new D\E()</em>:
+     </span>
+     <ol type="1">
+      <li class="listitem">
+       <span class="simpara">
+        Se busca una clase anteponiendo el espacio de nombres actual:
+        <em>A\B\D\E</em>.
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        Se intenta autocargar <em>A\B\D\E</em>.
+       </span>
+      </li>
+     </ol>
+     <span class="simpara">
+      Para referirse a cualquier clase global en el espacio de nombres global, 
+      se debe emplear su nombre completamente cualificado <em>new \C()</em>.
+     </span>
+    </li>
+   </ol>
+  </p>
+  <div class="example" id="example-289">
+   <p><strong>Ejemplo #1 Las resoluciones de nombres ilustradas</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">namespace&nbsp;</span><span style="color: #0000BB">A</span><span style="color: #007700">;<br />use&nbsp;</span><span style="color: #0000BB">B</span><span style="color: #007700">\</span><span style="color: #0000BB">D</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">C</span><span style="color: #007700">\</span><span style="color: #0000BB">E&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">F</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;llamadas&nbsp;a&nbsp;funciones<br /><br /></span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;primero&nbsp;se&nbsp;intenta&nbsp;llamar&nbsp;a&nbsp;"foo"&nbsp;definida&nbsp;en&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"A"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;después&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;global&nbsp;"foo"<br /><br /></span><span style="color: #007700">\</span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;"foo"&nbsp;definidia&nbsp;en&nbsp;el&nbsp;ámbito&nbsp;global<br /><br /></span><span style="color: #0000BB">mi</span><span style="color: #007700">\</span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;"foo"&nbsp;definida&nbsp;en&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"A\mi"<br /><br /></span><span style="color: #0000BB">F</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;primero&nbsp;se&nbsp;intenta&nbsp;llamar&nbsp;a&nbsp;"F"&nbsp;definida&nbsp;en&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"A"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;después&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;global&nbsp;"F"<br /><br />//&nbsp;referecias&nbsp;a&nbsp;clases<br /><br /></span><span style="color: #007700">new&nbsp;</span><span style="color: #0000BB">B</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;crea&nbsp;un&nbsp;objeto&nbsp;de&nbsp;la&nbsp;clase&nbsp;"B"&nbsp;definida&nbsp;en&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"A"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra,&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"A\B"<br /><br /></span><span style="color: #007700">new&nbsp;</span><span style="color: #0000BB">D</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;usando&nbsp;las&nbsp;reglas&nbsp;de&nbsp;importación,&nbsp;se&nbsp;crea&nbsp;un&nbsp;objeto&nbsp;de&nbsp;la&nbsp;clase&nbsp;"D"&nbsp;definida&nbsp;en&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"B"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra,&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"B\D"<br /><br /></span><span style="color: #007700">new&nbsp;</span><span style="color: #0000BB">F</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;usando&nbsp;las&nbsp;reglas&nbsp;de&nbsp;importación,&nbsp;se&nbsp;crea&nbsp;un&nbsp;objeto&nbsp;de&nbsp;la&nbsp;clase&nbsp;"E"&nbsp;definida&nbsp;en&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"C"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra,&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"C\E"<br /><br /></span><span style="color: #007700">new&nbsp;\</span><span style="color: #0000BB">B</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;crea&nbsp;un&nbsp;objeto&nbsp;de&nbsp;la&nbsp;clase&nbsp;"B"&nbsp;definida&nbsp;en&nbsp;el&nbsp;ámbito&nbsp;global<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra,&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"B"<br /><br /></span><span style="color: #007700">new&nbsp;\</span><span style="color: #0000BB">D</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;crea&nbsp;un&nbsp;objeto&nbsp;de&nbsp;la&nbsp;clase&nbsp;"D"&nbsp;definida&nbsp;en&nbsp;el&nbsp;ámbito&nbsp;global<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra,&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"D"<br /><br /></span><span style="color: #007700">new&nbsp;\</span><span style="color: #0000BB">F</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;crea&nbsp;un&nbsp;objeto&nbsp;de&nbsp;la&nbsp;clase&nbsp;"F"&nbsp;definida&nbsp;en&nbsp;el&nbsp;ámbito&nbsp;global<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra,&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"F"<br /><br />//&nbsp;métodos&nbsp;estáticos&nbsp;y&nbsp;funciones&nbsp;de&nbsp;un&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;desde&nbsp;otro&nbsp;espacio&nbsp;de&nbsp;nombres<br /><br /></span><span style="color: #0000BB">B</span><span style="color: #007700">\</span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;"foo"&nbsp;desde&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"A\B"<br /><br /></span><span style="color: #0000BB">B</span><span style="color: #007700">::</span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;se&nbsp;llama&nbsp;al&nbsp;método&nbsp;"foo"&nbsp;de&nbsp;la&nbsp;clase&nbsp;"B"&nbsp;definidia&nbsp;en&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"A"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra&nbsp;la&nbsp;clase&nbsp;"A\B",&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"A\B"<br /><br /></span><span style="color: #0000BB">D</span><span style="color: #007700">::</span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;usando&nbsp;las&nbsp;reglas&nbsp;de&nbsp;importación,&nbsp;se&nbsp;llama&nbsp;al&nbsp;método&nbsp;"foo"&nbsp;de&nbsp;la&nbsp;clase&nbsp;"D"&nbsp;definida&nbsp;en&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"B"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra&nbsp;la&nbsp;clase&nbsp;"B\D",&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"B\D"<br /><br /></span><span style="color: #007700">\</span><span style="color: #0000BB">B</span><span style="color: #007700">\</span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;se&nbsp;llama&nbsp;a&nbsp;la&nbsp;función&nbsp;"foo"&nbsp;desde&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"B"<br /><br /></span><span style="color: #007700">\</span><span style="color: #0000BB">B</span><span style="color: #007700">::</span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;se&nbsp;llama&nbsp;al&nbsp;método&nbsp;"foo"&nbsp;de&nbsp;la&nbsp;clase&nbsp;"B"&nbsp;desde&nbsp;el&nbsp;ámbito&nbsp;global<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;es&nbsp;encuentra&nbsp;la&nbsp;clase&nbsp;"B",&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"B"<br /><br />//&nbsp;métodos&nbsp;estáticos&nbsp;yfunciones&nbsp;de&nbsp;un&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;del&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;actual<br /><br /></span><span style="color: #0000BB">A</span><span style="color: #007700">\</span><span style="color: #0000BB">B</span><span style="color: #007700">::</span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;se&nbsp;llama&nbsp;al&nbsp;método&nbsp;"foo"&nbsp;de&nbsp;la&nbsp;clase&nbsp;"B"&nbsp;desde&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"A\A"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra&nbsp;la&nbsp;clase&nbsp;"A\A\B",&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"A\A\B"<br /><br /></span><span style="color: #007700">\</span><span style="color: #0000BB">A</span><span style="color: #007700">\</span><span style="color: #0000BB">B</span><span style="color: #007700">::</span><span style="color: #0000BB">foo</span><span style="color: #007700">();&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;se&nbsp;llama&nbsp;al&nbsp;método&nbsp;"foo"&nbsp;de&nbsp;la&nbsp;clase&nbsp;"B"&nbsp;desde&nbsp;el&nbsp;espacio&nbsp;de&nbsp;nombres&nbsp;"A"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;si&nbsp;no&nbsp;se&nbsp;encuentra&nbsp;la&nbsp;clase&nbsp;"A\B",&nbsp;se&nbsp;intenta&nbsp;autocargar&nbsp;la&nbsp;clase&nbsp;"A\B"<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.namespaces.fallback.html">Utilizar espacios de nombres: una alternativa a funciones/constantes globales</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.namespaces.faq.html">P+F: cosas que es necesario saber sobre los espacios de nombres</a></div>
+ <div class="up"><a href="language.namespaces.html">Espacios de nombres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

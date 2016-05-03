@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Extrae una fila como array asociativo, num&eacute;rico o ambos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.cubrid-error.html">cubrid_error</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.cubrid-fetch-assoc.html">cubrid_fetch_assoc</a></div>
+ <div class="up"><a href="cubridmysql.cubrid.html">Funciones de compatibilidad CUBRID MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.cubrid-fetch-array" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">cubrid_fetch_array</h1>
+  <p class="verinfo">(PECL CUBRID &gt;=8.3.0)</p><p class="refpurpose"><span class="refname">cubrid_fetch_array</span> &mdash; <span class="dc-title">Extrae una fila como array asociativo, numérico o ambos</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.cubrid-fetch-array-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>cubrid_fetch_array</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code><span class="initializer"> = CUBRID_BOTH</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   La función <span class="function"><strong>cubrid_fetch_array()</strong></span> se utiliza para consultar una
+   única fila del resultado de la consulta, y lo devuelve como array. El cursor
+   avanza automáticamente a la siguiente fila del resultado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.cubrid-fetch-array-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">result</code></dt>
+
+     <dd>
+<p class="para"><code class="parameter">result</code> proviene de una llamada a la función <span class="function"><a href="function.cubrid-execute.html" class="function">cubrid_execute()</a></span></p></dd>
+
+    
+    
+     <dt>
+<code class="parameter">type</code></dt>
+
+     <dd>
+<p class="para">Tipo de array del resultado obtenido: CUBRID_NUM, CUBRID_ASSOC,
+      CUBRID_BOTH, CUBRID_OBJECT. Si se operan con objetos lob, se puede usar CUBRID_LOB.</p></dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.cubrid-fetch-array-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">Devuelve un array de cadenas que se corresponden a la fila consultada, cuando ésta tenga éxito.</p>
+  <p class="para"><strong><code>FALSE</code></strong>, cuando no existen más filas; NULL, cuando el proceso no tiene éxito.</p>
+  <p class="para">El tipo del array devuelto se definirá dependiendo de cómo se haya solicitado. Usando CUBRID_BOTH (por omisión), se obtendrá un array con índices numéricos y asociativos, y se podrá decidir qué tipo de datos usar mediante el parámetro <code class="parameter">type</code>. En la variable <code class="parameter">type</code> puede asignarse uno de los siguientes valores:</p>
+  <ul class="simplelist">
+   <li class="member">CUBRID_NUM : Array numérico (basado en 0)</li>
+   <li class="member">CUBRID_ASSOC : Array asociativo</li>
+   <li class="member">CUBRID_BOTH : Array numérico y asociativo (predeterminado)</li>
+  </ul>  
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.cubrid-fetch-array-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1170">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>cubrid_fetch_array()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conexión&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">33000</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"demodb"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$solicitud&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;name,area,seats,address&nbsp;FROM&nbsp;stadium&nbsp;WHERE&nbsp;nation_code='GRE'&nbsp;AND&nbsp;seats&nbsp;&gt;&nbsp;10000"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%-40s&nbsp;%-10s&nbsp;%-6s&nbsp;%-20s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"name"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"area"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"seats"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"address"</span><span style="color: #007700">);<br />while&nbsp;(</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_fetch_array</span><span style="color: #007700">(</span><span style="color: #0000BB">$solicitud</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CUBRID_NUM</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%-40s&nbsp;%-10s&nbsp;%-6s&nbsp;%-20s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #0000BB">2</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #0000BB">3</span><span style="color: #007700">]);<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;si&nbsp;se&nbsp;operan&nbsp;con&nbsp;objetos&nbsp;lob,&nbsp;se&nbsp;puede&nbsp;usar&nbsp;cubrid_fetch_array($solicitud,&nbsp;CUBRID_NUM&nbsp;|&nbsp;CUBRID_LOB)<br /><br /></span><span style="color: #0000BB">cubrid_close_request</span><span style="color: #007700">(</span><span style="color: #0000BB">$solicitud</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">cubrid_disconnect</span><span style="color: #007700">(</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+name                                     area       seats  address             
+Panathinaiko Stadium                     86300.00   50000  Athens, Greece      
+Olympic Stadium                          54700.00   13000  Athens, Greece      
+Olympic Indoor Hall                      34100.00   18800  Athens, Greece      
+Olympic Hall                             52400.00   21000  Athens, Greece      
+Olympic Aquatic Centre                   42500.00   11500  Athens, Greece      
+Markopoulo Olympic Equestrian Centre     64000.00   15000  Markopoulo, Athens, Greece
+Faliro Coastal Zone Olympic Complex      34650.00   12171  Faliro, Athens, Greece
+Athens Olympic Stadium                   120400.00  71030  Maroussi, Athens, Greece
+Ano Liossia                              34000.00   12000  Ano Liosia, Athens, Greece
+</pre></div>
+   </div>
+   
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.cubrid-fetch-array-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.cubrid-execute.html" class="function" rel="rdfs-seeAlso">cubrid_execute()</a> - Ejecutar una sentencia SQL preparada</span></li>
+    <li class="member"><span class="function"><a href="function.cubrid-fetch.html" class="function" rel="rdfs-seeAlso">cubrid_fetch()</a> - Obtener la siguiente fila de un conjunto de resultados</span></li>
+    <li class="member"><span class="function"><a href="function.cubrid-fetch-row.html" class="function" rel="rdfs-seeAlso">cubrid_fetch_row()</a> - Devuelve un array num&eacute;rico con los valores de la fila actual</span></li>
+    <li class="member"><span class="function"><a href="function.cubrid-fetch-assoc.html" class="function" rel="rdfs-seeAlso">cubrid_fetch_assoc()</a> - Devuelve un array asociativo que se corresponde con la fila obtenida</span></li>
+    <li class="member"><span class="function"><a href="function.cubrid-fetch-object.html" class="function" rel="rdfs-seeAlso">cubrid_fetch_object()</a> - Devuelve un objeto con los nombres de las columnas</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.cubrid-error.html">cubrid_error</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.cubrid-fetch-assoc.html">cubrid_fetch_assoc</a></div>
+ <div class="up"><a href="cubridmysql.cubrid.html">Funciones de compatibilidad CUBRID MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

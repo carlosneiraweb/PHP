@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener la marca temporal de Unix para una fecha GMT</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.gmdate.html">gmdate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.gmstrftime.html">gmstrftime</a></div>
+ <div class="up"><a href="ref.datetime.html">Funciones de Fecha/Hora</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.gmmktime" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">gmmktime</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">gmmktime</span> &mdash; <span class="dc-title">Obtener la marca temporal de Unix para una fecha GMT</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.gmmktime-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>gmmktime</strong></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$hour</code><span class="initializer"> = gmdate(&quot;H&quot;)</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$minute</code><span class="initializer"> = gmdate(&quot;i&quot;)</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$second</code><span class="initializer"> = gmdate(&quot;s&quot;)</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$month</code><span class="initializer"> = gmdate(&quot;n&quot;)</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$day</code><span class="initializer"> = gmdate(&quot;j&quot;)</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$year</code><span class="initializer"> = gmdate(&quot;Y&quot;)</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$is_dst</code><span class="initializer"> = -1</span></span>
+  ]]]]]]] )</div>
+
+  <p class="para rdfs-comment">
+   Idéntica a <span class="function"><a href="function.mktime.html" class="function">mktime()</a></span> excepto que los parámetros pasados representan una
+   fecha GMT. <span class="function"><strong>gmmktime()</strong></span> internamente usa <span class="function"><a href="function.mktime.html" class="function">mktime()</a></span>
+   por lo que sólo los momento válidos derivados del momento local se pueden usar.
+  </p>
+  <p class="para">
+   Como en <span class="function"><a href="function.mktime.html" class="function">mktime()</a></span>, los argumentos pueden ser expuestos en orden
+   de derecha a izquierda, con cualquier argumento que se omita establecido al
+   valor GMT correspondiente actual.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.gmmktime-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">hour</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número de la hora relativo al inicio del día determinado por
+       <code class="parameter">month</code>, <code class="parameter">day</code> y <code class="parameter">year</code>.
+       Los valores negativos referencias la hora antes de la media noche del día en cuestión.
+       Los valores mayores que 23 referencian la hora apropiada en el/los día/s siguiente/s.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">minute</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número del minuto relativo al inicio de <code class="parameter">hour</code>.
+       Los valores negativos referencian el minuto en la hora previa.
+       Los valores maayores que 59 referencian el minuto apropiado en la/s hora/s siguiente/s.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">second</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número de segundos relativo al inicio de <code class="parameter">minute</code>.
+       Los valores negativos referencian el segundo en el minuto previo.
+       Los valores mayores que 59 referencian el segundo apropiado en el/los minuto/s siguiente/s.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">month</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número del mes relativo al inicio del año previo.
+       Los valores de 1 a 12 referencian los meses del calendario normal del año en cuestión.
+       Los valores menores que 1 (incluyendo valores negativos) referencian los  meses del año previo en orden inverso, por lo que 0 es December, -1 es  November, etc.
+       Los valores mayores que 12 referencian el mes apropiado en el/los año/s siguiente/s.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">day</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número del día relativo al final del mes previo.
+       Los valores del 1 al 28, 29, 30 o 31 (dependiendo del mes) referenciacn los  días normales del mes relevante.the normal days in the relevant month.
+       Los valores menores que 1 (incluyendo valores negativos) referencian los  días del mes previo por lo que 0 es el último día del mes previo, -1 es  el día anterior a ese, etc.
+       Los valores mayores que el número de días del mes relevante referencian el día apropiado en el/los mes/es siguiente/s.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">year</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El año
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">is_dst</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los parámetros siempre representan una fecha GMT por lo que <code class="parameter">is_dst</code>
+       no influye en el resultado.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Este parámetro ha sido eliminado en PHP 7.0.0.
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.gmmktime-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve una marca de tiempo Unix de tipo <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.gmmktime-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>7.0.0</td>
+       <td>
+        El parámetro <code class="parameter">is_dst</code> ha sido eliminado.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.1.0</td>
+       <td>
+        A partir de PHP 5.1.0, el parámetro <code class="parameter">is_dst</code> se volvió
+        obsoleto. Como resultado, se podría usar en su lugar las nuevas características
+        de manejo de zonas horarias.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.gmmktime-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2544">
+    <p><strong>Ejemplo #1 Ejemplo básico de <span class="function"><strong>gmmktime()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Imprime:&nbsp;July&nbsp;1,&nbsp;2000&nbsp;is&nbsp;on&nbsp;a&nbsp;Saturday<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"July&nbsp;1,&nbsp;2000&nbsp;is&nbsp;on&nbsp;a&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">date</span><span style="color: #007700">(</span><span style="color: #DD0000">"l"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">gmmktime</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">7</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2000</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.gmmktime-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mktime.html" class="function" rel="rdfs-seeAlso">mktime()</a> - Obtener la marca de tiempo Unix de una fecha</span></li>
+    <li class="member"><span class="function"><a href="function.date.html" class="function" rel="rdfs-seeAlso">date()</a> - Dar formato a la fecha/hora local</span></li>
+    <li class="member"><span class="function"><a href="function.time.html" class="function" rel="rdfs-seeAlso">time()</a> - Devuelve la fecha Unix actual</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.gmdate.html">gmdate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.gmstrftime.html">gmstrftime</a></div>
+ <div class="up"><a href="ref.datetime.html">Funciones de Fecha/Hora</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

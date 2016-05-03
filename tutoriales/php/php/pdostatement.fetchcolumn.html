@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve una &uacute;nica columna de la siguiente fila de un conjunto de resultados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdostatement.fetchall.html">PDOStatement::fetchAll</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdostatement.fetchobject.html">PDOStatement::fetchObject</a></div>
+ <div class="up"><a href="class.pdostatement.html">PDOStatement</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdostatement.fetchcolumn" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDOStatement::fetchColumn</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7, PECL pdo &gt;= 0.9.0)</p><p class="refpurpose"><span class="refname">PDOStatement::fetchColumn</span> &mdash; <span class="dc-title">
+   Devuelve una única columna de la siguiente fila de un conjunto de resultados
+  </span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-pdostatement.fetchcolumn-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>PDOStatement::fetchColumn</strong></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$column_number</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  
+  <p class="para rdfs-comment">
+   Devuelve una única columna de la siguiente fila de un conjunto de resultados, o <strong><code>FALSE</code></strong> si
+   no existen más filas.
+  </p>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    No debería utilizarse <span class="function"><strong>PDOStatement::fetchColumn()</strong></span> para
+    recuperar columnas booleanas, ya que es imposible distinguir el valor
+    <strong><code>FALSE</code></strong> de la ausencia de filas a recurperar. Use
+    <span class="function"><a href="pdostatement.fetch.html" class="function">PDOStatement::fetch()</a></span> en su lugar.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-pdostatement.fetchcolumn-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">column_number</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número de índice basado en 0 de la columna que se quiere obtener desde la fila. Si
+       no se proporicona ningún valor, <span class="function"><strong>PDOStatement::fetchColumn()</strong></span>
+       obtiene la primera columna.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-pdostatement.fetchcolumn-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <span class="function"><strong>PDOStatement::fetchColumn()</strong></span> devuelve una única columna
+   de la siguiente fila de un conjunto de resultados.
+  </p>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    No existe una forma de devolver otra columna de la misma fila si se
+    utiliza <span class="function"><strong>PDOStatement::fetchColumn()</strong></span> para recuperar datos.
+   </p>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-pdostatement.fetchcolumn-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1056"><p><strong>Ejemplo #1 Devolver la primera columna de la siguiente fila</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$gsent&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;name,&nbsp;colour&nbsp;FROM&nbsp;fruit"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /><br />print(</span><span style="color: #DD0000">"Obtener&nbsp;la&nbsp;primera&nbsp;columna&nbsp;de&nbsp;la&nbsp;primera&nbsp;fila&nbsp;del&nbsp;conjunto&nbsp;de&nbsp;resultados:\n"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetchColumn</span><span style="color: #007700">();<br />print(</span><span style="color: #DD0000">"nombre&nbsp;=&nbsp;</span><span style="color: #0000BB">$resultado</span><span style="color: #DD0000">\n"</span><span style="color: #007700">);<br /><br />print(</span><span style="color: #DD0000">"Obtener&nbsp;la&nbsp;segunda&nbsp;columna&nbsp;de&nbsp;la&nbsp;segunda&nbsp;fila&nbsp;del&nbsp;conjunto&nbsp;de&nbsp;resultados:\n"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetchColumn</span><span style="color: #007700">(</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br />print(</span><span style="color: #DD0000">"color&nbsp;=&nbsp;</span><span style="color: #0000BB">$resultado</span><span style="color: #DD0000">\n"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Obtener la primera columna de la primera fila del conjunto de resultados:
+nombre = lemon
+Obtener la segunda columna de la segunda fila del conjunto de resultados:
+color = red
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-pdostatement.fetchcolumn-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdo.query.html" class="function" rel="rdfs-seeAlso">PDO::query()</a> - Ejecuta una sentencia SQL, devolviendo un conjunto de resultados como un objeto PDOStatement</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.fetch.html" class="function" rel="rdfs-seeAlso">PDOStatement::fetch()</a> - Obtiene la siguiente fila de un conjunto de resultados</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.fetchall.html" class="function" rel="rdfs-seeAlso">PDOStatement::fetchAll()</a> - Devuelve un array que contiene todas las filas del conjunto de resultados</span></li>
+    <li class="member"><span class="function"><a href="pdo.prepare.html" class="function" rel="rdfs-seeAlso">PDO::prepare()</a> - Prepara una sentencia para su ejecuci&oacute;n y devuelve un objeto sentencia</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.setfetchmode.html" class="function" rel="rdfs-seeAlso">PDOStatement::setFetchMode()</a> - Establece el modo de obtenci&oacute;n para esta sentencia</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdostatement.fetchall.html">PDOStatement::fetchAll</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdostatement.fetchobject.html">PDOStatement::fetchObject</a></div>
+ <div class="up"><a href="class.pdostatement.html">PDOStatement</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

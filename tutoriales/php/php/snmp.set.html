@@ -1,0 +1,253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Set the value of an SNMP object</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="snmp.getnext.html">SNMP::getnext</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="snmp.setsecurity.html">SNMP::setSecurity</a></div>
+ <div class="up"><a href="class.snmp.html">SNMP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="snmp.set" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SNMP::set</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.4.0, PHP 7)</p><p class="refpurpose"><span class="refname">SNMP::set</span> &mdash; <span class="dc-title">Set the value of an SNMP object</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-snmp.set-description">
+  <h3 class="title">Descripción</h3>
+
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>SNMP::set</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$object_id</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$type</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$value</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Requests remote <acronym title="Simple Network Management Protocol">SNMP</acronym> agent setting the value of
+   one or more SNMP objects specified by the <code class="parameter">object_id</code>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-snmp.set-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   <p class="para">
+    If <code class="parameter">object_id</code> is <span class="type"><a href="language.types.string.html" class="type string">string</a></span>, both
+    <code class="parameter">type</code> and <code class="parameter">value</code> must be
+    <span class="type"><a href="language.types.string.html" class="type string">string</a></span> too. If <code class="parameter">object_id</code> is <span class="type"><a href="language.types.array.html" class="type array">array</a></span>
+    <code class="parameter">value</code> must be equal-sized array containing
+    corresponding values, <code class="parameter">type</code> may be either
+    <span class="type"><a href="language.types.string.html" class="type string">string</a></span> (it&#039;s value will be used for all
+    <code class="parameter">object_id</code>-<code class="parameter">value</code> pairs) or
+    equal-sized array with per-OID value. When any other parameters&#039; combinations are
+    used, a number of E_WARNING messages may be shown with detailed description.
+   </p>
+   
+    <dt>
+<code class="parameter">object_id</code></dt>
+
+    <dd>
+
+     <p class="para">
+      The SNMP object id
+     </p>
+     <p class="para">
+      When count of OIDs in object_id array is greater than
+      max_oids object property set method will have to use multiple queries
+      to perform requested value updates. In this case type and value checks
+      are made per-chunk so second or subsequent requests may fail due to
+      wrong type or value for OID requested. To mark this a warning is
+      raised when count of OIDs in object_id array is greater than max_oids.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">type</code></dt>
+
+    <dd>
+
+     <p class="para">
+<acronym>MIB</acronym> define el tipo de cada identificador de objeto. Debe indicarse con un único carácter de la siguiente lista.
+</p>
+<table class="doctable table">
+ <caption><strong>tipos</strong></caption>
+ 
+  <tbody class="tbody">
+   <tr><td>=</td><td>Tipo adquirido a partir de MIB</td></tr>
+
+   <tr><td>i</td><td>INTEGER</td> </tr>
+
+   <tr><td>u</td><td>INTEGER</td></tr>
+
+   <tr><td>s</td><td>STRING</td></tr>
+
+   <tr><td>x</td><td>HEX STRING</td></tr>
+
+   <tr><td>d</td><td>DECIMAL STRING</td></tr>
+
+   <tr><td>n</td><td>NULLOBJ</td></tr>
+
+   <tr><td>o</td><td>OBJID</td></tr>
+
+   <tr><td>t</td><td>TIMETICKS</td></tr>
+
+   <tr><td>a</td><td>IPADDRESS</td></tr>
+
+   <tr><td>b</td><td>BITS</td></tr>
+
+  </tbody>
+ 
+</table>
+
+<p class="para">
+ Si se definió <strong><code>OPAQUE_SPECIAL_TYPES</code></strong> al compilar la biblioteca <acronym title="Simple Network Management Protocol">SNMP</acronym>, los siguientes valores serán también válidos:
+</p>
+<table class="doctable table">
+ <caption><strong>tipos</strong></caption>
+ 
+  <tbody class="tbody">
+   <tr><td>U</td><td>int64 sin signo</td></tr>
+
+   <tr><td>I</td><td>int64 con signo</td></tr>
+
+   <tr><td>F</td><td>float</td></tr>
+
+   <tr><td>D</td><td>double</td></tr>
+
+  </tbody>
+ 
+</table>
+
+
+     <p class="para">
+La mayoría, utilizarán su correspondiente tipo ASN.1. &#039;s&#039;, &#039;x&#039;, &#039;d&#039; y &#039;b&#039; son diferentes formas de especificar un valor de OCTET STRING, y
+el tipo sin signo &#039;u&#039; se usa también para manejar valores Gauge32.
+</p>
+
+     <p class="para">
+Si se cargan los ficheros MIB en el árbol MIB con &quot;snmp_read_mib&quot; o con la configuración de libsnmp, se puede usar &#039;=&#039; como
+parámetro <code class="parameter">type</code> para todos los id de objetos, ya que se podrá leer automáticamente el tipo a partir del MIB.
+</p>
+
+     <p class="para">
+Tenga presente que hay dos formas de asigar a una variable los tipos BITS, como por ejemplo.
+&quot;SYNTAX    BITS {telnet(0), ftp(1), http(2), icmp(3), snmp(4), ssh(5), https(6)}&quot;:
+</p>
+<ul class="itemizedlist">
+ <li class="listitem">
+  <span class="simpara">
+   Usando el tipo &quot;b&quot; y una lista numérica de bits. No se recomienda usar este método, ya que una consulta GET para un mismo OID devolvería, por ejemplo 0xF8.
+  </span>
+ </li>
+ <li class="listitem">
+  <span class="simpara">
+   Usando el tipo &quot;x&quot; y un número hexadecimal, pero si el prefijo &quot;0x&quot;.
+  </span>
+ </li>
+</ul>
+<p class="para">
+ Revise el apartado de ejemplos para más detalles.
+</p>
+
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">value</code></dt>
+
+    <dd>
+
+     <p class="para">
+      The new value.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-snmp.set-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 errors" id="refsect1-snmp.set-errors">
+<h3 class="title">Errores/Excepciones</h3>
+<p class="para">
+ Este método no lanza ninguna excepción de manera predeterminada.
+ Para poder lanzar una excepción SNMPException cuando ocurre alguno de los errores de la biblioteca 
+ el parámetro <code class="parameter">exceptions_enabled</code> de la clase SNMP
+ se debería establecer al valor correspondiente. Véase <a href="class.snmp.html#snmp.props.exceptions-enabled" class="link">
+ la explicación de <code class="parameter">SNMP::$exceptions_enabled</code></a> para más detalles.
+</p>
+</div>
+
+
+
+ <div class="refsect1 examples" id="refsect1-snmp.set-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="snmp.set.example.basic">
+   <p><strong>Ejemplo #1 Set single <acronym title="Simple Network Management Protocol">SNMP</acronym> object id</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;$session&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SNMP</span><span style="color: #007700">(</span><span style="color: #0000BB">SNMP</span><span style="color: #007700">::</span><span style="color: #0000BB">VERSION_2C</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"127.0.0.1"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"private"</span><span style="color: #007700">);<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$session</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set</span><span style="color: #007700">(</span><span style="color: #DD0000">'SNMPv2-MIB::sysContact.0'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'s'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Nobody"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="snmp.set.example.multiple">
+   <p><strong>Ejemplo #2 Set multiple values using single <span class="methodname"><strong>SNMP::set()</strong></span>
+   call</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;$session&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SNMP</span><span style="color: #007700">(</span><span style="color: #0000BB">SNMP</span><span style="color: #007700">::</span><span style="color: #0000BB">VERSION_2C</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"127.0.0.1"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"private"</span><span style="color: #007700">);<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$session</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'SNMPv2-MIB::sysContact.0'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'SNMPv2-MIB::sysLocation.0'</span><span style="color: #007700">),&nbsp;array(</span><span style="color: #DD0000">'s'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'s'</span><span style="color: #007700">),&nbsp;array(</span><span style="color: #DD0000">"Nobody"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Nowhere"</span><span style="color: #007700">));<br /></span><span style="color: #FF8000">//&nbsp;or<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$session</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'SNMPv2-MIB::sysContact.0'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'SNMPv2-MIB::sysLocation.0'</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">'s'</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"Nobody"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Nowhere"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+   <div class="example" id="snmp.set.example.bits">
+    <p><strong>Ejemplo #3 Using <span class="methodname"><strong>SNMP::set()</strong></span> for setting BITS <acronym title="Simple Network Management Protocol">SNMP</acronym> object id</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;$session&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SNMP</span><span style="color: #007700">(</span><span style="color: #0000BB">SNMP</span><span style="color: #007700">::</span><span style="color: #0000BB">VERSION_2C</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"127.0.0.1"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"private"</span><span style="color: #007700">);<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$session</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set</span><span style="color: #007700">(</span><span style="color: #DD0000">'FOO-MIB::bar.42'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'b'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'0&nbsp;1&nbsp;2&nbsp;3&nbsp;4'</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;or<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$session</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set</span><span style="color: #007700">(</span><span style="color: #DD0000">'FOO-MIB::bar.42'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'x'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'F0'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-snmp.set-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="snmp.get.html" class="methodname" rel="rdfs-seeAlso">SNMP::get()</a> - Fetch an SNMP object</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="snmp.getnext.html">SNMP::getnext</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="snmp.setsecurity.html">SNMP::setSecurity</a></div>
+ <div class="up"><a href="class.snmp.html">SNMP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

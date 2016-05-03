@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>A&ntilde;ade un par&aacute;metro a un stored procedure (procedimiento almacenado) MSSQL (local o remoto)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.mssql.html">Mssql Funciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mssql-close.html">mssql_close</a></div>
+ <div class="up"><a href="ref.mssql.html">Mssql Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mssql-bind" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mssql_bind</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.7, PHP 5, PECL odbtp &gt;= 1.1.1)</p><p class="refpurpose"><span class="refname">mssql_bind</span> &mdash; <span class="dc-title">Añade un parámetro a un stored procedure (procedimiento almacenado) MSSQL (local o remoto)</span></p>
+
+ </div>
+
+ <div id="function.mssql-bind-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   
+<p class="para">
+ Esta función está <em class="emphasis">OBSOLETA</em> en PHP 7.0.0.
+</p>
+<p class="para">
+ Las alternativas a esta función son:
+</p>
+
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdostatement.bindparam.html" class="function">PDOStatement::bindParam()</a></span></li>
+    <li class="member"><span class="function"><a href="pdostatement.bindvalue.html" class="function">PDOStatement::bindValue()</a></span></li>
+    <li class="member"><span class="function"><a href="function.sqlsrv-prepare.html" class="function">sqlsrv_prepare()</a></span></li>
+    <li class="member"><span class="function"><a href="function.odbc-prepare.html" class="function">odbc_prepare()</a></span></li>
+   </ul>
+  </div>
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.mssql-bind-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>mssql_bind</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$stmt</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$param_name</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter reference">&$var</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$is_output</code><span class="initializer"> = false</span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$is_null</code><span class="initializer"> = false</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$maxlen</code><span class="initializer"> = -1</span></span>
+  ]]] )</div>
+
+  <p class="para rdfs-comment">
+   Vincula un parámetro a un stored procedure MSSQL (local o remoto).
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.mssql-bind-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">stmt</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Recurso de solicitud, obtenido con la función <span class="function"><a href="function.mssql-init.html" class="function">mssql_init()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">param_name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del parámetro, como un string.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Se ha de incluir el carácter <em>@</em>, como en la sintaxis
+        T-SQL. Ver la explicación incluída en
+        <span class="function"><a href="function.mssql-execute.html" class="function">mssql_execute()</a></span>.
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">var</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La variable PHP que se vinculará al parámetro MSSQL. Se pasa por
+       referencia, para obtener los valores OUTPUT y RETVAL una vez el procedimiento
+       ha sido ejecutado.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Uno constante de entre: <strong><code>SQLTEXT</code></strong>,
+       <strong><code>SQLVARCHAR</code></strong>, <strong><code>SQLCHAR</code></strong>,
+       <strong><code>SQLINT1</code></strong>, <strong><code>SQLINT2</code></strong>,
+       <strong><code>SQLINT4</code></strong>, <strong><code>SQLBIT</code></strong>,
+       <strong><code>SQLFLT4</code></strong>, <strong><code>SQLFLT8</code></strong>,
+       <strong><code>SQLFLTN</code></strong>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">is_output</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si el valor es un parámetro OUTPUT o no. Si no es un parámetro OUTPUT
+       y no se menciona, éste será tratado como un parámetro
+       de entrada normal y no se generará un error.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">is_null</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si el valor es <strong><code>NULL</code></strong> o no. Pasar el valor <strong><code>NULL</code></strong> al parámetro
+       <code class="parameter">var</code> no hará nada.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">maxlen</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Utilizado con valores char/varchar. Se ha de indicar la longitud de los
+       datos, por lo que si el parámetro es un varchar(50), el tipo debe ser
+       <strong><code>SQLVARCHAR</code></strong> y su valor <em>50</em>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.mssql-bind-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.mssql-bind-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1741">
+    <p><strong>Ejemplo #1 Ejemplo con <span class="function"><strong>mssql_bind()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Conectar&nbsp;a&nbsp;MSSQL&nbsp;y&nbsp;seleccionar&nbsp;la&nbsp;base&nbsp;de&nbsp;datos<br /></span><span style="color: #0000BB">mssql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'KALLESPC\SQLEXPRESS'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'sa'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'phpfi'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">mssql_select_db</span><span style="color: #007700">(</span><span style="color: #DD0000">'php'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Crear&nbsp;un&nbsp;nuevo&nbsp;stored&nbsp;procedure<br /></span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mssql_init</span><span style="color: #007700">(</span><span style="color: #DD0000">'NewUserRecord'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Vincular&nbsp;los&nbsp;nombres&nbsp;de&nbsp;campos<br /></span><span style="color: #0000BB">mssql_bind</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'@username'</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #DD0000">'Kalle'</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">SQLVARCHAR</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">60</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">mssql_bind</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'@name'</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'Kalle'</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">SQLVARCHAR</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">60</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">mssql_bind</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'@age'</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">19</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">SQLINT1</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ejecutar<br /></span><span style="color: #0000BB">mssql_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Liberar&nbsp;los&nbsp;recursos<br /></span><span style="color: #0000BB">mssql_free_statement</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.mssql-bind-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mssql-execute.html" class="function" rel="rdfs-seeAlso">mssql_execute()</a> - Ejecuta un stored procedure (procedimiento almacenado) en una base de datos del servidor MS SQL</span></li>
+    <li class="member"><span class="function"><a href="function.mssql-free-statement.html" class="function" rel="rdfs-seeAlso">mssql_free_statement()</a> - Liberar la memoria ocupada por la sentencia MS SQL</span></li>
+    <li class="member"><span class="function"><a href="function.mssql-init.html" class="function" rel="rdfs-seeAlso">mssql_init()</a> - Inicializa un stored procedure (procedimiento almacenado) local o remoto</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.mssql.html">Mssql Funciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mssql-close.html">mssql_close</a></div>
+ <div class="up"><a href="ref.mssql.html">Mssql Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

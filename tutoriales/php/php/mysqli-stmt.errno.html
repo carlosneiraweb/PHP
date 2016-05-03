@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve el c&oacute;digo de error de la llamada de la sentencia m&aacute;s reciente</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli-stmt.data-seek.html">mysqli_stmt::data_seek</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli-stmt.error-list.html">mysqli_stmt::$error_list</a></div>
+ <div class="up"><a href="class.mysqli-stmt.html">mysqli_stmt</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqli-stmt.errno" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysqli_stmt::$errno</h1>
+  <h1 class="refname">mysqli_stmt_errno</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">mysqli_stmt::$errno</span> -- <span class="refname">mysqli_stmt_errno</span> &mdash; <span class="dc-title">Devuelve el código de error de la llamada de la sentencia más reciente</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-mysqli-stmt.errno-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo orientado a objetos</p>
+  <div class="fieldsynopsis"><span class="type">int</span> <var class="varname"><a href="mysqli-stmt.errno.html">$mysqli_stmt-&gt;errno</a></var>;</div>
+
+  <p class="para">Estilo por procedimientos</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>mysqli_stmt_errno</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.mysqli-stmt.html" class="type mysqli_stmt">mysqli_stmt</a></span> <code class="parameter">$stmt</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve el código de error de la función de la sentencia invocada más recientemente
+   que tuvo éxito o falló.
+  </p>
+  <p class="para">
+   Los números de los mensajes de error del cliente están listados en el fichero de cabecera
+   <var class="filename">errmsg.h</var> de MySQL,
+   los números de los mensajes de error del servidor están listados en
+   <var class="filename">mysqld_error.h</var>.
+   En la distribución original de MySQL se puede encontrar una lista completa de los mensajes
+   de error y los números de los errores en el fichero
+   <var class="filename">Docs/mysqld_error.txt</var>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-mysqli-stmt.errno-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+stmt</code></dt>
+<dd>
+<p class="para">Sólo estilo por procediminetos: Un identificador de declaraciones
+devuelto por <span class="function"><a href="mysqli.stmt-init.html" class="function">mysqli_stmt_init()</a></span>.</p></dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-mysqli-stmt.errno-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Un valor de código de error. Cero significa que no se encontraron errores.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-mysqli-stmt.errno-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1920">
+   <p><strong>Ejemplo #1 Estilo orientado a objetos</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Abrir&nbsp;una&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"world"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;comprobar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;exit();<br />}<br /><br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;myCountry&nbsp;LIKE&nbsp;Country"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;myCountry&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;Country"</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #0000BB">$consulta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;Name,&nbsp;Code&nbsp;FROM&nbsp;myCountry&nbsp;ORDER&nbsp;BY&nbsp;Name"</span><span style="color: #007700">;<br />if&nbsp;(</span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">))&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;eliminar&nbsp;la&nbsp;tabla&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;myCountry"</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;ejecutar&nbsp;la&nbsp;consulta&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Error:&nbsp;%d.\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;sentencia&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="example-1921">
+   <p><strong>Ejemplo #2 Estilo por procedimientos</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Abrir&nbsp;una&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"world"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;comprobar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;exit();<br />}<br /><br /></span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;myCountry&nbsp;LIKE&nbsp;Country"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;myCountry&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;Country"</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #0000BB">$consulta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;Name,&nbsp;Code&nbsp;FROM&nbsp;myCountry&nbsp;ORDER&nbsp;BY&nbsp;Name"</span><span style="color: #007700">;<br />if&nbsp;(</span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_prepare</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">))&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;eliminar&nbsp;la&nbsp;tabla&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;myCountry"</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;ejecutar&nbsp;la&nbsp;consulta&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">mysqli_stmt_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Error:&nbsp;%d.\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_stmt_errno</span><span style="color: #007700">(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">));<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;sentencia&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">mysqli_stmt_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">mysqli_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado de los ejemplos sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Error: 1146.
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-mysqli-stmt.errno-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli-stmt.error.html" class="function" rel="rdfs-seeAlso">mysqli_stmt_error()</a> - Devuelve una descripci&oacute;n en forma de string del &uacute;ltimo error de una sentencia</span></li>
+    <li class="member"><span class="function"><a href="mysqli-stmt.sqlstate.html" class="function" rel="rdfs-seeAlso">mysqli_stmt_sqlstate()</a> - Devuelve el error SQLSTATE de la operaci&oacute;n de sentencia previa</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli-stmt.data-seek.html">mysqli_stmt::data_seek</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli-stmt.error-list.html">mysqli_stmt::$error_list</a></div>
+ <div class="up"><a href="class.mysqli-stmt.html">mysqli_stmt</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

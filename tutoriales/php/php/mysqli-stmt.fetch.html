@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene los resultados de una sentencia preparadas en las variables vinculadas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli-stmt.execute.html">mysqli_stmt::execute</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli-stmt.field-count.html">mysqli_stmt::$field_count</a></div>
+ <div class="up"><a href="class.mysqli-stmt.html">mysqli_stmt</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqli-stmt.fetch" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysqli_stmt::fetch</h1>
+  <h1 class="refname">mysqli_stmt_fetch</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">mysqli_stmt::fetch</span> -- <span class="refname">mysqli_stmt_fetch</span> &mdash; <span class="dc-title">Obtiene los resultados de una sentencia preparadas en las variables vinculadas</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-mysqli-stmt.fetch-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo orientado a objetos</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>mysqli_stmt::fetch</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">Estilo por procedimientos</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>mysqli_stmt_fetch</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.mysqli-stmt.html" class="type mysqli_stmt">mysqli_stmt</a></span> <code class="parameter">$stmt</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene los resultados de una sentencia preparadas en las variables vinculadas mediante
+   <span class="function"><a href="mysqli-stmt.bind-result.html" class="function">mysqli_stmt_bind_result()</a></span>.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Observe que todas las columnas deben estar vinculadas por la aplicación antes de llamar a
+    <span class="function"><strong>mysqli_stmt_fetch()</strong></span>.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Los datos son transferidos sin almacenarlos en buffer sin llamar a
+    <span class="function"><a href="mysqli-stmt.store-result.html" class="function">mysqli_stmt_store_result()</a></span>, la cual puede disminuir
+    el rendimiento (pero reduce el coste de memoria).
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-mysqli-stmt.fetch-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+stmt</code></dt>
+<dd>
+<p class="para">Sólo estilo por procediminetos: Un identificador de declaraciones
+devuelto por <span class="function"><a href="mysqli.stmt-init.html" class="function">mysqli_stmt_init()</a></span>.</p></dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-mysqli-stmt.fetch-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <table class="doctable table">
+   <caption><strong>Valores devueltos</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Valor</th>
+      <th>Descripción</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><strong><code>TRUE</code></strong></td>
+      <td>Éxito. Los datos se han obtenido</td>
+     </tr>
+
+     <tr>
+      <td><strong><code>FALSE</code></strong></td>
+      <td>Ocurrió un error</td>
+     </tr>
+
+     <tr>
+      <td><strong><code>NULL</code></strong></td>
+      <td>No existen más filas/datos u ocurrió un truncamiento de los datos</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-mysqli-stmt.fetch-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1928">
+   <p><strong>Ejemplo #1 Estilo orientado a objetos</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"world"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;comprobar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;exit();<br />}<br /><br /></span><span style="color: #0000BB">$consulta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;Name,&nbsp;CountryCode&nbsp;FROM&nbsp;City&nbsp;ORDER&nbsp;by&nbsp;ID&nbsp;DESC&nbsp;LIMIT&nbsp;150,5"</span><span style="color: #007700">;<br /><br />if&nbsp;(</span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">))&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;ejecutar&nbsp;la&nbsp;sentencia&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;vincular&nbsp;las&nbsp;variables&nbsp;de&nbsp;resultados&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bind_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$código</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;obtener&nbsp;los&nbsp;valores&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">while&nbsp;(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"%s&nbsp;(%s)\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$código</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;sentencia&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="example-1929">
+   <p><strong>Ejemplo #2 Estilo por procedimientos</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"world"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;comprobar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;exit();<br />}<br /><br /></span><span style="color: #0000BB">$consulta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;Name,&nbsp;CountryCode&nbsp;FROM&nbsp;City&nbsp;ORDER&nbsp;by&nbsp;ID&nbsp;DESC&nbsp;LIMIT&nbsp;150,5"</span><span style="color: #007700">;<br /><br />if&nbsp;(</span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_prepare</span><span style="color: #007700">(</span><span style="color: #0000BB">$link</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">))&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;ejecutar&nbsp;la&nbsp;sentencia&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">mysqli_stmt_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;vincular&nbsp;las&nbsp;variables&nbsp;de&nbsp;resultados&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">mysqli_stmt_bind_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$código</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;obtener&nbsp;los&nbsp;valores&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">while&nbsp;(</span><span style="color: #0000BB">mysqli_stmt_fetch</span><span style="color: #007700">(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"%s&nbsp;(%s)\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$código</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;sentencia&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">mysqli_stmt_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">mysqli_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$link</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado de los ejemplos sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Rockford (USA)
+Tallahassee (USA)
+Salinas (USA)
+Santa Clarita (USA)
+Springfield (USA)
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-mysqli-stmt.fetch-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli.prepare.html" class="function" rel="rdfs-seeAlso">mysqli_prepare()</a> - Prepara una sentencia SQL para su ejecuci&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="mysqli-stmt.errno.html" class="function" rel="rdfs-seeAlso">mysqli_stmt_errno()</a> - Devuelve el c&oacute;digo de error de la llamada de la sentencia m&aacute;s reciente</span></li>
+    <li class="member"><span class="function"><a href="mysqli-stmt.error.html" class="function" rel="rdfs-seeAlso">mysqli_stmt_error()</a> - Devuelve una descripci&oacute;n en forma de string del &uacute;ltimo error de una sentencia</span></li>
+    <li class="member"><span class="function"><a href="mysqli-stmt.bind-result.html" class="function" rel="rdfs-seeAlso">mysqli_stmt_bind_result()</a> - Vincula variables a una sentencia preparada para el almacenamiento de resultados</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli-stmt.execute.html">mysqli_stmt::execute</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli-stmt.field-count.html">mysqli_stmt::$field_count</a></div>
+ <div class="up"><a href="class.mysqli-stmt.html">mysqli_stmt</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

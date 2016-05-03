@@ -1,0 +1,363 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Formatos relativos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="datetime.formats.compound.html">Formatos compuestos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="timezones.html">Listado de zonas horarias admitidas</a></div>
+ <div class="up"><a href="datetime.formats.html">Formatos de fecha y hora admitidos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="datetime.formats.relative" class="sect1">
+  <h2 class="title">Formatos relativos</h2>
+  <p class="para">
+   Esta página describe los diferentes formatos relativos de fecha/hora que entiede el analizador de
+   <span class="function"><a href="function.strtotime.html" class="function">strtotime()</a></span>, <a href="class.datetime.html" class="classname">DateTime</a> y
+   <span class="function"><a href="function.date-create.html" class="function">date_create()</a></span>.
+  </p>
+  
+  <table class="doctable table">
+   <caption><strong>Símbolos empleados</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Descripción</th>
+      <th>Formato</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><em>nombre del día</em></td>
+      <td>&#039;sunday&#039; | &#039;monday&#039; | &#039;tuesday&#039; | &#039;wednesday&#039; | &#039;thursday&#039; |
+       &#039;friday&#039; | &#039;saturday&#039; | &#039;sun&#039; | &#039;mon&#039; | &#039;tue&#039; | &#039;wed&#039; | &#039;thu&#039; | &#039;fri&#039; |
+       &#039;sat&#039;</td>
+     </tr>
+
+     <tr>
+      <td><em>texto de día</em></td>
+      <td>&#039;weekday&#039; | &#039;weekdays&#039;</td>
+     </tr>
+
+     <tr>
+      <td><em>número</em></td>
+      <td>[+-]?[0-9]+</td>
+     </tr>
+
+     <tr>
+      <td><em>ordinal</em></td>
+      <td>&#039;first&#039; | &#039;second&#039; | &#039;third&#039; | &#039;fourth&#039; | &#039;fifth&#039; | &#039;sixth&#039; |
+       &#039;seventh&#039; | &#039;eighth&#039; | &#039;ninth&#039; | &#039;tenth&#039; | &#039;eleventh&#039; | &#039;twelfth&#039; |
+       &#039;next&#039; | &#039;last&#039; | &#039;previous&#039; | &#039;this&#039;</td>
+     </tr>
+
+     <tr>
+      <td><em>texto relativo</em></td>
+      <td>&#039;next&#039; | &#039;last&#039; | &#039;previous&#039; | &#039;this&#039;</td>
+     </tr>
+
+     <tr>
+      <td><em>espacio</em></td>
+      <td>[ \t]+</td>
+     </tr>
+
+     <tr>
+      <td><em>unidad</em></td>
+      <td>((&#039;sec&#039; | &#039;second&#039; | &#039;min&#039; | &#039;minute&#039; | &#039;hour&#039; | &#039;day&#039; |
+       &#039;fortnight&#039; | &#039;forthnight&#039; | &#039;month&#039; | &#039;year&#039;) &#039;s&#039;?) | &#039;weeks&#039; |
+       <em>texto de día</em></td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  
+  <table class="doctable table">
+   <caption><strong>Notaciones basadas en el día</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Formato</th>
+      <th>Descripción</th>
+      <th>Ejemplos</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>&#039;yesterday&#039;</td>
+      <td>Medianoche de ayer</td>
+      <td>&quot;yesterday 14:00&quot;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;midnight&#039;</td>
+      <td>La hora es establecida a 00:00:00</td>
+      <td class="empty">&nbsp;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;today&#039;</td>
+      <td>La hora es establecida a 00:00:00</td>
+      <td class="empty">&nbsp;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;now&#039;</td>
+      <td>Ahora - esto es simplemente ignorado</td>
+      <td class="empty">&nbsp;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;noon&#039;</td>
+      <td>La hora es establecida a 12:00:00</td>
+      <td>&quot;yesterday noon&quot;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;tomorrow&#039;</td>
+      <td>Medianoche de mañana</td>
+      <td class="empty">&nbsp;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;back of&#039; <em>hora</em></td>
+      <td>15 minutos después de la hora especificada</td>
+      <td>&quot;back of 7pm&quot;, &quot;back of 15&quot;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;front of&#039; <em>hora</em></td>
+      <td>15 minutos antes de la hora especificada</td>
+      <td>&quot;front of 5am&quot;, &quot;front of 23&quot;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;first day of&#039;</td>
+      <td>Esteblece el día al primer día del mes en curso. Esta frase se
+       utiliza mejor seguida de un nombre de mes.</td>
+      <td>&quot;first day of January 2008&quot;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;last day of&#039;</td>
+      <td>Esteblece el día al último día del mes en curso. Esta frase se
+       utiliza mejor seguida de un nombre de mes.</td>
+      <td>&quot;last day of next month&quot;</td>
+     </tr>
+
+     <tr>
+      <td><em>ordinal</em> <em>espacio</em> <em>nombre del día</em> <em>espacio</em> &#039;of&#039;</td>
+      <td>Calcula el <em>x</em>-ésimo día de la semana del mes en curso.</td>
+      <td>&quot;first sat of July 2008&quot;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;last&#039; <em>espacio</em> <em>nombre del día</em> <em>espacio</em> &#039;of&#039;</td>
+      <td>Calcula el <em class="emphasis">último</em> día de la semana del mes en curso.</td>
+      <td>&quot;last sat of July 2008&quot;</td>
+     </tr>
+
+     <tr>
+      <td><em>número</em> <em>espacio</em>? (<em>unidad</em> | &#039;week&#039;)</td>
+      <td>Trata elementos de hora relativos donde el valor es un número.</td>
+      <td>&quot;+5 weeks&quot;, &quot;12 day&quot;, &quot;-7 weekdays&quot;</td>
+     </tr>
+
+     <tr>
+      <td><em>ordinal</em> <em>espacio</em> <em>unidad</em></td>
+      <td>Trata elementos de hora relativos donde el valor es texto.</td>
+      <td>&quot;fifth day&quot;, &quot;second month&quot;</td>
+     </tr>
+
+     <tr>
+      <td>&#039;ago&#039;</td>
+      <td>Anula todos los valores de los elementos de hora relativos encontrados anteriormente.</td>
+      <td>&quot;2 days ago&quot;, &quot;8 days ago 14:00&quot;, &quot;2 months 5 days ago&quot;, &quot;2 months ago 5 days&quot;, &quot;2 days ago&quot;</td>
+     </tr>
+
+     <tr>
+      <td><em>nombre del día</em></td>
+      <td>Avanza al siguiente día con este nombre.</td>
+      <td>&quot;Monday&quot;</td>
+     </tr>
+
+     <tr>
+      <td><em>texto relativo</em> <em>espacio</em> &#039;week&#039;</td>
+      <td>Trata el formato especial &quot;weekday + last/this/next week&quot;.</td>
+      <td>&quot;Monday next week&quot;</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Las declaraciones relativas son siempre procesadas <em class="emphasis">después</em>
+    de las declaraciones no relativas. Esto es, &quot;+1 week july 2008&quot; y &quot;july
+    2008 +1 week&quot; son equivalentes.
+   </p>
+   <p class="para">
+    Las excepciones a esta regla son: &quot;yesterday&quot;, &quot;midnight&quot;, &quot;today&quot;, &quot;noon&quot;
+    y &quot;tomorrow&quot;. Téngase en cuenta que &quot;tomorrow 11:00&quot; y &quot;11:00 tomorrow&quot;
+    son diferentes. Considerando la fecha de hoy como &quot;July 23rd, 2008&quot;, el
+    primero produce &quot;2008-07-24 11:00&quot;, mientras que el segundo
+    produce &quot;2008-07-24 00:00&quot;. La razón de esto es que esas
+    cinco declaraciones influyen directamente en el instante actual.
+   </p>
+  </p></blockquote>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Analice las siguiente observaciones cuando el día de la semana actual es el
+    mismo que el día de la semana usado en la cadena de fecha/hora. Sin embargo,
+    el día de la semana actual prodría haber sido (re)calculado mediante partes no relativas de
+    la cadena de fecha/hora.
+   </p>
+   <ol type="1">
+    <li class="listitem">
+     <span class="simpara">
+      &quot;<em>nombre del día</em>&quot; <em class="emphasis">no</em> avanza a
+      otro día. (Ejemplo: &quot;Wed July 23rd, 2008&quot; significa &quot;2008-07-23&quot;).
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      &quot;<em>número</em> <em>nombre del día</em>&quot;
+      <em class="emphasis">no</em> avanza a otro día. (Ejemplo: &quot;1
+      wednesday july 23rd, 2008&quot; significa &quot;2008-07-23&quot;).
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      &quot;<em>número</em> week <em>nombre del día</em>&quot; añadirá
+      primero el número de semanas, pero <em class="emphasis">no</em>
+      avanzará a otro día. En este caso &quot;<em>número</em>
+      week&quot; y &quot;<em>nombre del día</em>&quot; son dos bloques distintos.
+      (Ejemplo: &quot;+1 week wednesday july 23rd, 2008&quot; significa &quot;2008-07-30&quot;).
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      &quot;<em>ordinal</em> <em>nombre del día</em>&quot;
+      <em class="emphasis">sí</em> avanza a otro día. (Ejemplo &quot;first
+      wednesday july 23rd, 2008&quot; significa &quot;2008-07-30&quot;).
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      &quot;<em>número</em> week <em>ordinal</em>
+      <em>nombre del día</em>&quot; primero añadíra el número de
+      semanas, y después <em class="emphasis">avanzará</em> a otro
+      día. En este caso &quot;<em>número</em> week&quot; y
+      &quot;<em>ordinal</em> <em>nombre del día</em>&quot; son dos
+      bloques distintos. (Ejemplo: &quot;+1 week first wednesday july 23rd,
+      2008&quot; significa &quot;2008-08-06&quot;).
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      &quot;<em>ordinal</em> <em>nombre del día</em> &#039;of&#039; &quot;
+      <em class="emphasis">no</em> avanza a otro día. (Ejemplo:
+      &quot;first wednesday of july 23rd, 2008&quot; significa &quot;2008-07-02&quot; ya que
+      la frase específica con &#039;of&#039; restablece el día del mes a &#039;1&#039;, por lo que
+      el &#039;23rd&#039; aquí se ignora).
+     </span>
+    </li>
+   </ol>
+   <p class="para">
+    Observe también que el &quot;of&quot; en &quot;<em>ordinal</em>
+    <em>espacio</em> <em>nombre del día</em>
+    <em>espacio</em> &#039;of&#039; &quot; y &quot;&#039;last&#039; <em>espacio</em>
+    <em>nombre del día</em> <em>espacio</em> &#039;of&#039; &quot; hace
+    algo especial.
+   </p>
+   <ol type="1">
+    <li class="listitem">
+     <span class="simpara">
+      Establece el día del mes a 1.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      &quot;<em>ordinal</em> <em>nombre del día</em> &#039;of&#039; &quot;
+      <em class="emphasis">no</em> avanza a otro día. (Ejemplo: &quot;first
+      tuesday of july 2008&quot; significa &quot;2008-07-01&quot;).
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      &quot;<em>ordinal</em> <em>nombre del día</em> &quot;
+      <em class="emphasis">sí</em> avanza otro día. (Ejemplo: &quot;first
+      tuesday july 2008&quot; significa &quot;2008-07-08&quot;, véase también el punto 4 en la
+      lista de arriba).
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      &quot;&#039;last&#039; <em>nombre del día</em> &#039;of&#039; &quot; toma el último
+      <em>nombre del día</em> del mes en curso. (Ejemplo: &quot;last
+      wed of july 2008&quot; significa &quot;2008-07-30&quot;)
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      &quot;&#039;last&#039; <em>nombre del día</em>&quot; toma el último
+      <em>nombre del día</em> desde el día actual. (Ejemplo: &quot;last
+      wed july 2008&quot; significa &quot;2008-06-25&quot;; &quot;july 2008&quot; primero establece la
+      fecha actual a &quot;2008-07-01&quot; y después &quot;last wed&quot; retrocede al
+      miércoles anterior, que es &quot;2008-06-25&quot;).
+     </span>
+    </li>
+   </ol>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Los valores relativos al mes se calculan basándose en la longitud de los meses por
+    los que pasan. Un ejemplo sería &quot;+2 month 2011-11-30&quot;, el cual
+    produciría &quot;2012-01-30&quot;. Esto es debido a que noviembre tiene 30 días de longitud, y
+    diciembre tiene 31 días de longitud, produciendo un total de 61 días.
+   </p>
+  </p></blockquote>
+  
+  <div class="sect2">
+   <h3 class="title">Historial de cambios</h3>
+   <p class="para">
+    <table class="doctable informaltable">
+     
+      <thead>
+       <tr>
+        <th>Versión</th>
+        <th>Descripción</th>
+       </tr>
+
+      </thead>
+
+      <tbody class="tbody">
+       <tr>
+        <td>5.3.3</td>
+        <td>
+         &quot;first day&quot; y &quot;last day&quot; se cambiaron para que se comporten como &quot;+1 day&quot; y &quot;-1 day&quot;,
+         respectivamente. Anteriormente, el comportamiento era &quot;first day of&quot; y &quot;last day of&quot;.
+        </td>
+       </tr>
+
+      </tbody>
+     
+    </table>
+
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="datetime.formats.compound.html">Formatos compuestos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="timezones.html">Listado de zonas horarias admitidas</a></div>
+ <div class="up"><a href="datetime.formats.html">Formatos de fecha y hora admitidos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

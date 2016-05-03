@@ -1,0 +1,776 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Opciones de la l&iacute;nea de comandos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.commandline.differences.html">Diferencias respecto a otras SAPIs</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.commandline.usage.html">Uso</a></div>
+ <div class="up"><a href="features.commandline.html">Uso de la l&iacute;nea de comandos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="features.commandline.options" class="section">
+  <h2 class="title">Opciones de la línea de comandos</h2>
+  
+  
+  <p class="para">
+   Se puede consultar en cualquier momento la lista de opciones de línea de comandos
+   en el binario de PHP con el modificador <strong class="option unknown">-h</strong>
+:
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Usage: php [opciones] [-f] &lt;fichero&gt; [--] [args...]
+   php [opciones] -r &lt;código&gt; [--] [args...]
+   php [opciones] [-B &lt;código_inicial&gt;] -R &lt;código&gt; [-E &lt;código_final&gt;] [--] [args...]
+   php [opciones] [-B &lt;código_inicial&gt;] -F &lt;fichero&gt; [-E &lt;código_final&gt;] [--] [args...]
+   php [opciones] -- [args...]
+   php [opciones] -a
+
+  -a                      Se ejecuta interactivamente.
+  -c &lt;ruta&gt;|&lt;fichero&gt;     Busca el fichero php.ini en este directorio.
+  -n                      No se usará el fichero php.ini.
+  -d foo[=bar]            Define la entrada INI de foo con el valor &#039;bar&#039;
+  -e                      Generate información extendida para el depurador/perfilador.
+  -f &lt;fichero&gt;            Analiza y ejecuta el &lt;fichero&gt;.
+  -h                      Esta ayuda.
+  -i                      Información de PHP.
+  -l                      Solamente revisa la sintáxis (lint).
+  -m                      Muestra lo compilado en módulos.
+  -r &lt;code&gt;               Ejecuta el &lt;código&gt; PHP sin utilizar las etiquetas del script &lt;?..?&gt;.
+  -B &lt;código_inicial&gt;     Ejecuta el &lt;código_inicial&gt; antes de procesar las líneas de entrada.
+  -R &lt;code&gt;               Ejecuta el &lt;código&gt; PHP por cada línea de entrada.
+  -F &lt;file&gt;               Analiza y ejecuta el &lt;fichero&gt; por cada línea de entrada.
+  -E &lt;código_final&gt;       Ejecuta el &lt;código_final&gt; después de procesar todas las líneas de entrada.
+  -H                      Oculta los argumentos pasados desde cualquier herramienta externa.
+  -S &lt;dirección&gt;:&lt;puerto&gt; Ejecuta con el servidor web interno.
+  -t &lt;raíz_documento&gt;     Especifica la raíz del documento &lt;raíz_documento&gt; para el servidor web interno.
+  -s                      Salida de la fuente en sintáxis HTML resaltada.
+  -v                      Número de versión.
+  -w                      Salida de la fuente con espacios en blanco y comentarios subrayados.
+  -z &lt;fichero&gt;            Carga un &lt;fichero&gt; con extensión de Zend.
+
+  args...                 Argumentos pasados al script. Utilice argumentos con -- cuando el primer argumento
+                          inicie con - o el script sea leído desde la entrada estándar stdin
+
+  --ini                   Muestra los nombres de fichero de configuración.
+
+  --rf &lt;nombre&gt;           Muestra información sobre la función &lt;nombre&gt;.
+  --rc &lt;nombre&gt;           Muestra información acerca de la clase &lt;nombre&gt;.
+  --re &lt;nombre&gt;           Muestra información acerca de la extensión &lt;nombre&gt;.
+  --rz &lt;nombre&gt;           Muestra información acerca de la extensión Zend &lt;nombre&gt;.
+  --ri &lt;nombre&gt;           Muestra la configuración para la extensión &lt;nombre&gt;.
+</pre></div>
+   </div>
+  </p>
+  
+  <p class="para">
+   <table class="doctable table">
+    <caption><strong>Opciones de línea de comandos</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Opción</th>
+       <th>Opción Larga</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>-a</td>
+       <td>--interactive</td>
+       <td>
+        <p class="para">
+         Ejecutar PHP de forma interactiva. Para más información, consúltese
+         la sección <a href="features.commandline.interactive.html" class="link">Consola interactiva</a>.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-b</td>
+       <td>--bindpath</td>
+       <td>
+        <p class="para">
+         Ruta Ligada en modo de servidor FASTCGI externo
+         (sólo en <acronym title="Common Gateway Interface">CGI</acronym>).
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-C</td>
+       <td>--no-chdir</td>
+       <td>
+        <p class="para">
+         No cambiar el directorio del script (sólo en <acronym title="Common Gateway Interface">CGI</acronym>).
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-q</td>
+       <td>--no-header</td>
+       <td>
+        <p class="para">
+         Modo silencioso. Elimina la salida de cabeceras <acronym title="Hypertext Transfer Protocol">HTTP</acronym>
+         (sólo en <acronym title="Common Gateway Interface">CGI</acronym>).
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-T</td>
+       <td>--timing</td>
+       <td>
+        <p class="para">
+         Calcula el tiempo de ejecución del script un <var class="varname"><var class="varname">número</var></var> de veces
+         (sólo en <acronym title="Common Gateway Interface">CGI</acronym>).
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-c</td>
+       <td>--php-ini</td>
+       <td>
+        <p class="para">
+         Especifica ya sea un directorio en el que se busca a
+         <var class="filename">php.ini</var> o bien un fichero <em>INI</em> personalizado
+         (que no tiene porqué llamarse <var class="filename">php.ini</var> necesariamente), p.ej.:
+        </p>
+        <p class="para"><div class="informalexample">
+         <div class="example-contents screen">
+<div class="cdata"><pre>
+$ php -c /directorio/propio/mi_script.php
+
+$ php -c /directorio/propio/fichero-propio.ini mi_script.php
+</pre></div>
+         </div>
+         </div></p>
+        <p class="para">
+         Si no se especifica esta opción, se busca el fichero <var class="filename">php.ini</var> en las
+         <a href="configuration.file.html" class="link">localizaciones predeterminadas</a>.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-n</td>
+       <td>--no-php-ini</td>
+       <td>
+        <p class="para">
+         Ignorar por completo el fichero <var class="filename">php.ini</var>.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-d</td>
+       <td>--define</td>
+       <td>
+        <p class="para">
+         Establecer un valor predeterminado para cualquiera de las directivas
+         de configuración permitidas en <var class="filename">php.ini</var>. Ésta es la sintaxis:
+         <div class="example-contents screen">
+<div class="cdata"><pre>
+ -d directiva_de_configuracion[=valor]
+ </pre></div>
+         </div>
+        </p>
+        <p class="para"><div class="example" id="example-409">
+         <div class="example-contents screen">
+<div class="cdata"><pre>
+# Si se omite el valor, se establecerá un &quot;1&quot; a la directiva
+$ php -d max_execution_time
+        -r &#039;$foo = ini_get(&quot;max_execution_time&quot;); var_dump($foo);&#039;
+string(1) &quot;1&quot;
+
+# Si se pasa un valor vacío, se establecerá &quot;&quot; a la directiva
+php -d max_execution_time=
+        -r &#039;$foo = ini_get(&quot;max_execution_time&quot;); var_dump($foo);&#039;
+string(0) &quot;&quot;
+
+# Se pasará lo que haya tras el caracter &#039;=&#039; a la directiva de configuración
+$  php -d max_execution_time=20
+        -r &#039;$foo = ini_get(&quot;max_execution_time&quot;); var_dump($foo);&#039;
+string(2) &quot;20&quot;
+$  php
+        -d max_execution_time=doesntmakesense
+        -r &#039;$foo = ini_get(&quot;max_execution_time&quot;); var_dump($foo);&#039;
+string(15) &quot;doesntmakesense&quot;
+</pre></div>
+         </div>
+         </div></p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-e</td>
+       <td>--profile-info</td>
+       <td>
+        <p class="para">
+         Activa el modo de información expandida, para usar con un
+         depurador/perfilador.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-f</td>
+       <td>--file</td>
+       <td>
+        <p class="para">
+         Analiza y ejecuta el fichero proporcionado. El
+         modificador <strong class="option unknown">-f</strong>
+ es opcional y puede ser omitido - es suficiente
+         con solo poner el nombre del fichero a ejecutar.
+        </p>
+        <blockquote class="note"><p><strong class="note">Nota</strong>: 
+         <p class="para">
+          Para pasar argumentos a un script, el primer argumento debe ser
+          <em>--</em>, sino PHP los interpretará como opciones
+          de PHP.
+         </p>
+        </p></blockquote>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-h y -?</td>
+       <td>--help y --usage</td>
+       <td>
+        Muestra una lista de
+        opciones de línea de comandos, con descripciones de una línea sobre lo que hace.
+       </td>
+      </tr>
+
+      <tr>
+       <td>-i</td>
+       <td>--info</td>
+       <td>
+        Invoca a <span class="function"><a href="function.phpinfo.html" class="function">phpinfo()</a></span>, y muestra el resultado.
+        Si PHP no funcionara correctamente, es aconsejable utilizar
+        <strong class="command">php -i</strong> para ver donde se muestre cualquier mensaje
+        de error antes o en el lugar de las tablas de información.
+        Tenga en cuenta que al usarse en modo <acronym title="Common Gateway Interface">CGI</acronym>
+        la salida es en <acronym title="Hyper Text Markup Language">HTML</acronym> y por lo tanto muy larga.
+       </td>
+      </tr>
+
+      <tr>
+       <td>-l</td>
+       <td>--syntax-check</td>
+       <td>
+        <p class="para">
+         Provee un método conveniente para realizar solamente una revisión de sintáxis
+         del código proporcionado de PHP. En caso de éxito, se muestra el texto
+         <em>No syntax errors detected in &lt;filename&gt;</em>
+         en la salida estándar y se devuelve un código de retorno
+         <em>0</em>. Si fallara, se mostraría el texto <em>Errors parsing
+         &lt;filename&gt;</em>, además del mensaje de error de análisis
+         correspondiente en la salida estándar, y se retornaría el código
+         <em>-1</em>.
+        </p>
+        <p class="para">
+         Esta opción no encuentra errores fatales (como funciones no definidas). Utilice
+         el modificador <strong class="option unknown">-f</strong>
+ si se desea también comprobar errores fatales.
+        </p>
+        <blockquote class="note"><p><strong class="note">Nota</strong>: 
+         <p class="para">
+          Esta opción no funciona junto con la opción
+          <strong class="option unknown">-r</strong>
+.
+         </p>
+        </p></blockquote>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-m</td>
+       <td>--modules</td>
+       <td>
+        <p class="para"><div class="example" id="example-410">
+         <p><strong>Ejemplo #1 Muestra los módulos PHP y Zend incorporados (y habilitados)</strong></p>
+         <div class="example-contents screen">
+<div class="cdata"><pre>
+$ php -m
+[PHP Modules]
+xml
+tokenizer
+standard
+session
+posix
+pcre
+overload
+mysql
+mbstring
+ctype
+
+[Zend Modules]
+</pre></div>
+         </div>
+         </div></p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-r</td>
+       <td>--run</td>
+       <td>
+        <p class="para">
+         Permite ejecutar PHP desde la línea de comandos.
+         Las etiquetas de inicio y fin (<em>&lt;?php</em> y
+         <em>?&gt;</em>) <em class="emphasis">no son
+         necesarias</em> y provocarán un error sintáctico si estuvieran presentes.
+        </p>
+        <blockquote class="note"><p><strong class="note">Nota</strong>: 
+         <p class="para">
+          Debe tenerse cuidado al usar PHP de esta forma para no 
+          colisionar con sustituciones de variables de línea de comandos
+          hechas por la propia consola.
+         </p>
+         <div class="example" id="example-411">
+          <p><strong>Ejemplo #2 Obteniendo un error sintáctico usando comillas dobles</strong></p>
+          <div class="example-contents screen">
+<div class="cdata"><pre>
+$ php -r &quot;$foo = get_defined_constants();&quot;
+PHP Parse error:  syntax error, unexpected &#039;=&#039; in Command line code on line 1
+
+Parse error: syntax error, unexpected &#039;=&#039; in Command line code on line 1
+</pre></div>
+          </div>
+         </div>
+         <p class="para">
+          El problema aquí es que sh/bash lleva a cabo una sustitución de variables
+          incluso si estamos usando comillas dobles <em>&quot;</em>. Puesto que la
+          variable <var class="varname"><var class="varname">$foo</var></var> no está definida, no se
+          sustituye por nada, haciendo que el código real que se le pasa
+          a la ejecución de PHP sea:
+         </p>
+         <div class="informalexample">
+          <div class="example-contents screen">
+<div class="cdata"><pre>
+$ php -r &quot; = get_defined_constants();&quot;
+</pre></div>
+          </div>
+         </div>
+         
+         <p class="para">
+          La forma correcta sería usar comillas simples <em>&#039;</em>.
+          Las variables de texto en comillas simples no se sustituyen en
+          sh/bash.
+         </p>
+         <div class="example" id="example-412">
+          <p><strong>Ejemplo #3 Usando comillas simples para prevenir la sustitución de
+           variables de la consola</strong></p>
+          <div class="example-contents screen">
+<div class="cdata"><pre>
+$ php -r &#039;$foo = get_defined_constants(); var_dump($foo);&#039;
+array(370) {
+  [&quot;E_ERROR&quot;]=&gt;
+  int(1)
+  [&quot;E_WARNING&quot;]=&gt;
+  int(2)
+  [&quot;E_PARSE&quot;]=&gt;
+  int(4)
+  [&quot;E_NOTICE&quot;]=&gt;
+  int(8)
+  [&quot;E_CORE_ERROR&quot;]=&gt;
+  [...]
+</pre></div>
+          </div>
+         </div>
+         <p class="para">
+          Si se está usando una consola diferente de sh/bash, es posible experimentar
+          otros errores. Le animamos a enviar un informe de error a
+          <a href="http://bugs.php.net/" class="link external">&raquo;&nbsp;http://bugs.php.net/</a>.
+          Tenga en cuenta que es muy fácil verse en problemas al tratar de utilizar variables
+          (de la consola o de PHP) en código de línea de comandos, o al usar el caracter de barra invertida (\)
+          para escapar caracteres, así que tome mucho cuidado haciendo eso. Ha sido advertido!
+         </p>
+        </p></blockquote>
+        <blockquote class="note"><p><strong class="note">Nota</strong>: 
+         <p class="para">
+          <strong class="option unknown">-r</strong>
+ está disponible en SAPI CLI, pero no en
+          <em class="emphasis">CGI</em> <acronym title="Server Application Programming Interface">SAPI</acronym>.
+         </p>
+        </p></blockquote>
+        <blockquote class="note"><p><strong class="note">Nota</strong>: 
+         <p class="para">
+          Esta opción está pensada unicamente para código muy básico, así que algunas
+          directivas de configuración (tales como <a href="ini.core.html#ini.auto-prepend-file" class="link">auto_prepend_file</a> y <a href="ini.core.html#ini.auto-append-file" class="link">auto_append_file</a>) se ignoran
+          en este modo.
+         </p>
+        </p></blockquote>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-B</td>
+       <td>--process-begin</td>
+       <td>
+        <p class="para">
+         Código PHP a ejecutar antes de procesar la entrada. Añadido en PHP 5.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-R</td>
+       <td>--process-code</td>
+       <td>
+        <p class="para">
+         Código PHP a ejecutar por cada línea de entrada. Añadido en PHP 5.
+        </p>
+        <p class="para">
+         Hay dos variables especiales disponibles en este modo:
+         <var class="varname"><var class="varname">$argn</var></var> y <var class="varname"><var class="varname">$argi</var></var>.
+         <var class="varname"><var class="varname">$argn</var></var> contendrá la línea que PHP está procesando en
+         un momento dado, mientras que <var class="varname"><var class="varname">$argi</var></var> contendrá el número de
+         línea.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-F</td>
+       <td>--process-file</td>
+       <td>
+        <p class="para">
+         Fichero PHP a ejecutar por cada línea de entrada. Añadido en PHP 5.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-E</td>
+       <td>--process-end</td>
+       <td>
+        <p class="para">
+         Código PHP a ejecutar tras procesar cada línea. Añadido en PHP 5.
+        </p>
+        <p class="para"><div class="example" id="example-413">
+         <p><strong>Ejemplo #4 Usando las opciones <strong class="option unknown">-B</strong>
+, <strong class="option unknown">-R</strong>
+ y
+          <strong class="option unknown">-E</strong>
+ para contar el número de líneas de un
+          proyecto.
+         </strong></p>
+         <div class="example-contents screen">
+<div class="cdata"><pre>
+$ find my_proj | php -B &#039;$l=0;&#039; -R &#039;$l += count(@file($argn));&#039; -E &#039;echo &quot;Total Lines: $l\n&quot;;&#039;
+Total Lines: 37328
+</pre></div>
+         </div>
+         </div></p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-S</td>
+       <td>--server</td>
+       <td>
+        <p class="para">
+         Inicia el <a href="features.commandline.webserver.html" class="link">servidor web
+         interno</a>. Disponible a partir de PHP 5.4.0.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-t</td>
+       <td>--docroot</td>
+       <td>
+        Especifiva la raíz del documento para el <a href="features.commandline.webserver.html" class="link">servidor web interno</a>.
+        Disponible a partir de PHP 5.4.0.
+       </td>
+      </tr>
+
+      <tr>
+       <td>-s</td>
+       <td>--syntax-highlight y --syntax-highlighting</td>
+       <td>
+        <p class="para">
+         Mostrar el código fuente destacando la sintaxis en color.
+        </p>
+        <p class="para">
+         Esta opción utiliza los mecanismos internos de análisis del ficheros y escribe
+         una versión HTML coloreada y la muestra en la salida estándar.
+         Tenga en cuenta que todo lo que hace es generar un bloque de etiquetas
+         HTML <em>&lt;code&gt; [...] &lt;/code&gt;</em>,
+         sin cabeceras HTML.
+        </p>
+        <blockquote class="note"><p><strong class="note">Nota</strong>: 
+         <p class="para">
+          Esta opción no puede funcionar junto con la opción
+          <strong class="option unknown">-r</strong>
+.
+         </p>
+        </p></blockquote>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-v</td>
+       <td>--version</td>
+       <td>
+        <p class="para"><div class="example" id="example-414">
+         <p><strong>Ejemplo #5 Al usar <strong class="option unknown">-v</strong>
+ obtenemos el nombre de la <acronym title="Server Application Programming Interface">SAPI</acronym>
+          y la versión de PHP y Zend</strong></p>
+         <div class="example-contents screen">
+<div class="cdata"><pre>
+$ php -v
+PHP 5.3.1 (cli) (built: Dec 11 2009 19:55:07) 
+Copyright (c) 1997-2009 The PHP Group
+Zend Engine v2.3.0, Copyright (c) 1998-2009 Zend Technologies
+</pre></div>
+         </div>
+         </div></p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-w</td>
+       <td>--strip</td>
+       <td>
+        <p class="para">
+         Mostrar código fuente sin comentarios ni líneas en blanco.
+        </p>
+        <blockquote class="note"><p><strong class="note">Nota</strong>: 
+         <p class="para">
+          Esta opción no puede usarse junto con la opción <strong class="option unknown">-r</strong>
+.
+         </p>
+        </p></blockquote>
+       </td>
+      </tr>
+
+      <tr>
+       <td>-z</td>
+       <td>--zend-extension</td>
+       <td>
+        <p class="para">
+         Carga una extensión Zend. Si sólo se proporciona un nombre de fichero, PHP
+         trata de cargar la extensión en el directorio de bibliotecas por defecto de
+         su sistema (normalmente se especifica en <var class="filename">/etc/ld.so.conf</var>
+         en sistemas Linux, por ejemplo). Si se proporciona un nombre de fichero con la ruta absoluta
+         no se usarán las rutas de bibliotecas del sistema. Un nombre de fichero relativo
+         que incluya algún directorio le indicará a PHP que sólo trate de cargar
+         la extensión a partir del directorio actual.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td class="empty">&nbsp;</td>
+       <td>--ini</td>
+       <td>
+        <p class="para">
+         Mostrar el nombre del fichero de configuración y de los directorios analizados.
+         Disponible desde PHP 5.2.3.
+         <div class="example" id="example-415">
+          <p><strong>Ejemplo #6 Ejemplo de <em>--ini</em></strong></p>
+          <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ php --ini
+Configuration File (php.ini) Path: /usr/dev/php/5.2/lib
+Loaded Configuration File:         /usr/dev/php/5.2/lib/php.ini
+Scan for additional .ini files in: (none)
+Additional .ini files parsed:      (none)</pre>
+</div>
+          </div>
+
+         </div>
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>--rf</td>
+       <td>--rfunction</td>
+       <td>
+        <p class="para">
+         Mostrar información de la función o método proporcionado (p.ej.
+         número y nombre de los parámetros). Disponible desde PHP 5.1.2.
+        </p>
+        <p class="para">
+         Esta opción sólo está disponible si se compiló PHP con soporte
+         para <a href="book.reflection.html" class="link">Reflection</a>.
+        </p>
+        <p class="para">
+         <div class="example" id="example-416">
+          <p><strong>Ejemplo #7 Uso básico de <em>--rf</em></strong></p>
+          <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ php --rf var_dump
+Function [ &lt;internal&gt; public function var_dump ] {
+
+  - Parameters [2] {
+    Parameter #0 [ &lt;requerido&gt; $var ]
+    Parameter #1 [ &lt;opcional&gt; $... ]
+  }
+}</pre>
+</div>
+          </div>
+
+         </div>
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>--rc</td>
+       <td>--rclass</td>
+       <td>
+        <p class="para">
+         Muestra información de la clase dada (lista de constantes, propiedades
+         y métodos). Disponible desde PHP 5.1.2.
+        </p>
+        <p class="para">
+         Esta opción sólo está disponible si se compiló PHP con soporte para
+         <a href="book.reflection.html" class="link">Reflection</a>.
+        </p>
+        <p class="para">
+         <div class="example" id="example-417">
+          <p><strong>Ejemplo #8 Ejemplo de <em>--rc</em></strong></p>
+          <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ php --rc Directory
+Class [ &lt;internal:standard&gt; class Directory ] {
+
+  - Constants [0] {
+  }
+
+  - Static properties [0] {
+  }
+
+  - Static methods [0] {
+  }
+
+  - Properties [0] {
+  }
+
+  - Methods [3] {
+    Method [ &lt;internal&gt; public method close ] {
+    }
+
+    Method [ &lt;internal&gt; public method rewind ] {
+    }
+
+    Method [ &lt;internal&gt; public method read ] {
+    }
+  }
+}</pre>
+</div>
+          </div>
+
+         </div>
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>--re</td>
+       <td>--rextension</td>
+       <td>
+        <p class="para">
+         Muestra información de la extensión dada (lista de opciones en <var class="filename">php.ini</var>,
+         funciones definidas, constantes y clases). Disponible desde PHP 5.1.2.
+        </p>
+        <p class="para">
+         Esta opción sólo está disponible si se compiló PHP con soporte para
+         <a href="book.reflection.html" class="link">Reflection</a> .
+        </p>
+        <p class="para">
+         <div class="example" id="example-418">
+          <p><strong>Ejemplo #9 Ejemplo de <em>--re</em></strong></p>
+          <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ php --re json
+Extension [ &lt;persistent&gt; extension #19 json version 1.2.1 ] {
+
+  - Functions {
+    Function [ &lt;internal&gt; function json_encode ] {
+    }
+    Function [ &lt;internal&gt; function json_decode ] {
+    }
+  }
+}</pre>
+</div>
+          </div>
+
+         </div>
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>--rz</td>
+       <td>--rzendextension</td>
+       <td>
+        <p class="para">
+         Mostrar la información de configuración para la extensión Zend proporcionada (la
+         misma información que es devuelta por la función <span class="function"><a href="function.phpinfo.html" class="function">phpinfo()</a></span>).
+         Disponible como parte de PHP 5.4.0.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>--ri</td>
+       <td>--rextinfo</td>
+       <td>
+        <p class="para">
+         Mostrar información de configuración de la extensión dada (la misma
+         información que muestra <span class="function"><a href="function.phpinfo.html" class="function">phpinfo()</a></span>).
+         Disponible desde PHP 5.2.2. La información relevante está disponible
+         usando &quot;main&quot; como nombre de extensión.
+        </p>
+        <p class="para">
+         <div class="example" id="example-419">
+          <p><strong>Ejemplo #10 Ejemplo de <em>--ri</em></strong></p>
+          <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ php --ri date
+
+date
+
+date/time support =&gt; enabled
+&quot;Olson&quot; Timezone Database Version =&gt; 2009.20
+Timezone Database =&gt; internal
+Default timezone =&gt; Europe/Oslo
+
+Directive =&gt; Local Value =&gt; Master Value
+date.timezone =&gt; Europe/Oslo =&gt; Europe/Oslo
+date.default_latitude =&gt; 59.930972 =&gt; 59.930972
+date.default_longitude =&gt; 10.776699 =&gt; 10.776699
+date.sunset_zenith =&gt; 90.583333 =&gt; 90.583333
+date.sunrise_zenith =&gt; 90.583333 =&gt; 90.583333</pre>
+</div>
+          </div>
+
+         </div>
+        </p>
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Las opciones <em>-rBRFEH</em>, <em>--ini</em> y
+    <em>--r[fcezi]</em> sólo están disponibles en <acronym title="Command Line Interpreter/Interface">CLI</acronym>.
+   </p>
+  </p></blockquote>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.commandline.differences.html">Diferencias respecto a otras SAPIs</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.commandline.usage.html">Uso</a></div>
+ <div class="up"><a href="features.commandline.html">Uso de la l&iacute;nea de comandos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

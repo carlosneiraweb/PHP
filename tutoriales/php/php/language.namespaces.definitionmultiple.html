@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Definir varios espacios de nombres en un mismo fichero</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.namespaces.nested.html">Declarar subespacios de nombres</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.namespaces.basics.html">Uso de los espacios de nombres: lo b&aacute;sico</a></div>
+ <div class="up"><a href="language.namespaces.html">Espacios de nombres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.namespaces.definitionmultiple" class="sect1">
+  <h2 class="title">Definir varios espacios de nombres en un mismo fichero</h2>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7)</p>
+  <p class="para">
+   También se pueden declarar varios espacios de nombres en un mismo fichero. Se permiten
+   dos tipos de sintaxis. 
+  </p>
+  <p class="para">
+   <div class="example" id="example-269">
+    <p><strong>Ejemplo #1 Declarar varios espacios de nombres, sintaxis de combinación simple</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">namespace&nbsp;</span><span style="color: #0000BB">MiProyecto</span><span style="color: #007700">;<br /><br />const&nbsp;</span><span style="color: #0000BB">CONECTAR_OK&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />class&nbsp;</span><span style="color: #0000BB">Conexión&nbsp;</span><span style="color: #007700">{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;</span><span style="color: #007700">}<br />function&nbsp;</span><span style="color: #0000BB">conectar</span><span style="color: #007700">()&nbsp;{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;&nbsp;</span><span style="color: #007700">}<br /><br />namespace&nbsp;</span><span style="color: #0000BB">OtroProyecto</span><span style="color: #007700">;<br /><br />const&nbsp;</span><span style="color: #0000BB">CONECTAR_OK&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />class&nbsp;</span><span style="color: #0000BB">Conexión&nbsp;</span><span style="color: #007700">{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;</span><span style="color: #007700">}<br />function&nbsp;</span><span style="color: #0000BB">conectar</span><span style="color: #007700">()&nbsp;{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;&nbsp;</span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   No se recomienda esta sintaxis para combinar espacios de nombres en un único fichero.
+   En su lugar, se recomienda emplear la sintaxis de llaves alternativa.
+  </p>
+  <p class="para">
+   <div class="example" id="example-270">
+    <p><strong>Ejemplo #2 Declarar varios espacios de nombres, sintaxis de llaves</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">namespace&nbsp;</span><span style="color: #0000BB">MiProyecto&nbsp;</span><span style="color: #007700">{<br /><br />const&nbsp;</span><span style="color: #0000BB">CONECTAR_OK&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />class&nbsp;</span><span style="color: #0000BB">Conexión&nbsp;</span><span style="color: #007700">{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;</span><span style="color: #007700">}<br />function&nbsp;</span><span style="color: #0000BB">conectar</span><span style="color: #007700">()&nbsp;{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;&nbsp;</span><span style="color: #007700">}<br />}<br /><br />namespace&nbsp;</span><span style="color: #0000BB">OtroProyecto&nbsp;</span><span style="color: #007700">{<br /><br />const&nbsp;</span><span style="color: #0000BB">CONECTAR_OK&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />class&nbsp;</span><span style="color: #0000BB">Conexión&nbsp;</span><span style="color: #007700">{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;</span><span style="color: #007700">}<br />function&nbsp;</span><span style="color: #0000BB">conectar</span><span style="color: #007700">()&nbsp;{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;&nbsp;</span><span style="color: #007700">}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Se desaconseja completamente, como práctica de código, la combinación de varios espacios de nombres en
+   un mismo fichero. El caso de uso principal es combinar varios scripts de PHP en el mismo
+   fichero.
+  </p>
+  <p class="para">
+   Combinar código global que no es de espacio de nombres con código que sí lo es, sólo está
+   soportado mediante la sintaxis de llaves. El código global debería estar
+   encerrado en una declaración de espacio de nombres sin nombre de espacio de nombres:
+   <div class="example" id="example-271">
+    <p><strong>Ejemplo #3 Declarar múltiples espacios de nombres y código que no es de espacio de nombres</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">namespace&nbsp;</span><span style="color: #0000BB">MiProyecto&nbsp;</span><span style="color: #007700">{<br /><br />const&nbsp;</span><span style="color: #0000BB">CONECTAR_OK&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />class&nbsp;</span><span style="color: #0000BB">Conexión&nbsp;</span><span style="color: #007700">{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;</span><span style="color: #007700">}<br />function&nbsp;</span><span style="color: #0000BB">conectar</span><span style="color: #007700">()&nbsp;{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;&nbsp;</span><span style="color: #007700">}<br />}<br /><br />namespace&nbsp;{&nbsp;</span><span style="color: #FF8000">//&nbsp;código&nbsp;global<br /></span><span style="color: #0000BB">session_start</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">MiProyecto</span><span style="color: #007700">\</span><span style="color: #0000BB">conectar</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #0000BB">MiProyecto</span><span style="color: #007700">\</span><span style="color: #0000BB">Conexión</span><span style="color: #007700">::</span><span style="color: #0000BB">iniciar</span><span style="color: #007700">();<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   No puede existir código de PHP fuera de las llaves del espacio de nombres, excepto para
+   una sentencia de apertura &#039;declare&#039;.
+   <div class="example" id="example-272">
+    <p><strong>Ejemplo #4 Declarar varios espacios de nombres y código que no es de espacio de nombres</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">declare(</span><span style="color: #0000BB">encoding</span><span style="color: #007700">=</span><span style="color: #DD0000">'UTF-8'</span><span style="color: #007700">);<br />namespace&nbsp;</span><span style="color: #0000BB">MiProyecto&nbsp;</span><span style="color: #007700">{<br /><br />const&nbsp;</span><span style="color: #0000BB">CONECTAR_OK&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />class&nbsp;</span><span style="color: #0000BB">Conexión&nbsp;</span><span style="color: #007700">{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;</span><span style="color: #007700">}<br />function&nbsp;</span><span style="color: #0000BB">conectar</span><span style="color: #007700">()&nbsp;{&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;*/&nbsp;&nbsp;</span><span style="color: #007700">}<br />}<br /><br />namespace&nbsp;{&nbsp;</span><span style="color: #FF8000">//&nbsp;código&nbsp;global<br /></span><span style="color: #0000BB">session_start</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">MiProyecto</span><span style="color: #007700">\</span><span style="color: #0000BB">conectar</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #0000BB">MiProyecto</span><span style="color: #007700">\</span><span style="color: #0000BB">Conexión</span><span style="color: #007700">::</span><span style="color: #0000BB">iniciar</span><span style="color: #007700">();<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.namespaces.nested.html">Declarar subespacios de nombres</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.namespaces.basics.html">Uso de los espacios de nombres: lo b&aacute;sico</a></div>
+ <div class="up"><a href="language.namespaces.html">Espacios de nombres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

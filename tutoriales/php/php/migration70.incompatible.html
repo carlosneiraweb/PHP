@@ -1,0 +1,1262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambios retroincompatibles</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration70.html">Migrar de PHP 5.6.x a PHP 7.0.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration70.new-features.html">Nuevas caracter&iacute;sticas</a></div>
+ <div class="up"><a href="migration70.html">Migrar de PHP 5.6.x a PHP 7.0.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="migration70.incompatible" class="sect1">
+ <h2 class="title">Cambios retroincompatibles</h2>
+ 
+ 
+
+
+
+
+<div class="sect2" id="migration70.incompatible.error-handling">
+ <h3 class="title">Cambios en el manejo de errores y excepciones</h3>
+ 
+ <p class="para">
+  Muchos errores fatales y errores fatales recuperables han sido convertidos en excepciones en
+  PHP 7. Estas excepciones de error heredean de la clase <a href="class.error.html" class="classname">Error</a>,
+  la cual implementa en sí la interfaz <a href="class.throwable.html" class="classname">Throwable</a>,
+  (la interfaz base que heredan todas las excepciones).
+ </p>
+ 
+ <p class="para">
+  Esto significa que los manejadores de errores personalizados podrían no desencadenarse debido a que
+  podrían lanzarse excepciones en su lugar (causando nuevos errores fatales para excepciones
+  <a href="class.error.html" class="classname">Error</a> no capturadas).
+ </p>
+ 
+ <p class="para">
+  Se puede encontrar una descripción más completa de cómo operan los errores en PHP 7
+  en la <a href="language.errors.php7.html" class="link">página de errores de PHP 7</a>. Esta
+  gúia de migración simplemente enumerará los cambios que afectan a la
+  retrocompatiblidad.
+ </p>
+
+ <div class="sect3" id="migration70.incompatible.error-handling.set-exception-handler">
+  <h4 class="title">
+   Ya no se garantiza que <span class="function"><a href="function.set-exception-handler.html" class="function">set_exception_handler()</a></span>
+   reciba objetos <a href="class.exception.html" class="classname">Exception</a>
+  </h4>
+
+  <p class="para">
+   El código que implemente un manejador de excepciones registrado con
+   <span class="function"><a href="function.set-exception-handler.html" class="function">set_exception_handler()</a></span> empleando una declaración de tipo de
+   <a href="class.exception.html" class="classname">Exception</a> causará un error fatal cuando sea
+   lance un objeto <a href="class.error.html" class="classname">Error</a>.
+  </p>
+
+  <p class="para">
+   Si el manejador necesita funcionar tanto en PHP 5 como en PHP 7, se debería eliminar la
+   declaración de tipo del manejador, mientras que el código que sea migrado para que
+   funcione exclusivamente en PHP 7 puede simplemente reemplazar la
+   declaración de tipo <a href="class.exception.html" class="classname">Exception</a> con
+   <a href="class.throwable.html" class="classname">Throwable</a> en su lugar.
+  </p>
+
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Código&nbsp;de&nbsp;la&nbsp;era&nbsp;de&nbsp;PHP&nbsp;5&nbsp;que&nbsp;no&nbsp;funcionará.<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">handler</span><span style="color: #007700">(</span><span style="color: #0000BB">Exception&nbsp;$e</span><span style="color: #007700">)&nbsp;{&nbsp;...&nbsp;}<br /></span><span style="color: #0000BB">set_exception_handler</span><span style="color: #007700">(</span><span style="color: #DD0000">'handler'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Compatible&nbsp;con&nbsp;PHP&nbsp;5&nbsp;y&nbsp;7.<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">handler</span><span style="color: #007700">(</span><span style="color: #0000BB">$e</span><span style="color: #007700">)&nbsp;{&nbsp;...&nbsp;}<br /><br /></span><span style="color: #FF8000">//&nbsp;Solo&nbsp;PHP&nbsp;7.<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">handler</span><span style="color: #007700">(</span><span style="color: #0000BB">Throwable&nbsp;$e</span><span style="color: #007700">)&nbsp;{&nbsp;...&nbsp;}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.error-handling.constructors">
+  <h4 class="title">Los constructores internos siempre lanzan excepciones en caso de fallo</h4>
+  
+  <p class="para">
+   Previamente, algunas clases internas devolvían <strong><code>NULL</code></strong> o un objeto inutilizable
+   cuando el constructor fallaba. Ahora, todas las clases internas lanzan una
+   <a href="class.exception.html" class="classname">Exception</a> en tal caso, de la misma forma que las clases
+   de usuario ya deben de hacerlo.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.error-handling.parse">
+  <h4 class="title">Los errores de análisis lanzan un objeto <a href="class.parseerror.html" class="classname">ParseError</a></h4>
+  
+  <p class="para">
+   Los errores de análisis ahora lanzan un objeto <a href="class.parseerror.html" class="classname">ParseError</a>. El
+   manejo de errores para <span class="function"><a href="function.eval.html" class="function">eval()</a></span> ahora debería incluir un bloque <a href="language.exceptions.html#language.exceptions.catch" class="link"><em>catch</em></a>
+   que permita manejar dicho error.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.error-reporting.e-strict">
+  <h4 class="title">Cambios en la severidad de avisos E_STRICT</h4>
+  
+  <p class="para">
+   Todos los avisos de <strong><code>E_STRICT</code></strong> han sido reclasificados a
+   otros niveles. Se mantiene la consntante <strong><code>E_STRICT</code></strong>, por lo que llamadas como
+   <em>error_reporting(E_ALL|E_STRICT)</em> no ocasionarán ningún error.
+  </p>
+  <p class="para">
+   <table class="doctable table">
+    <caption><strong>Cambios en la severidad de avisos de <strong><code>E_STRICT</code></strong></strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Situación</th>
+       <th>Nuevo nivel/comportamiento</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>Indexación mediante un recurso</td>
+       <td><strong><code>E_NOTICE</code></strong></td>
+      </tr>
+
+      <tr>
+       <td>Métodos estáticos abstractos</td>
+       <td>Aviso eliminado, no genera un error</td>
+      </tr>
+
+      <tr>
+       <td>&#039;Redefinición&#039; de un constructor</td>
+       <td>Aviso eliminado, no genera un error</td>
+      </tr>
+
+      <tr>
+       <td>Discordancia de la signatura durante la herencia</td>
+       <td><strong><code>E_WARNING</code></strong></td>
+      </tr>
+
+      <tr>
+       <td>Misma propiedad (compatible) en dos rasgos empleados</td>
+       <td>Aviso eliminado, no genera un error</td>
+      </tr>
+
+      <tr>
+       <td>Acceso a una propiedad estática de forma no estática</td>
+       <td><strong><code>E_NOTICE</code></strong></td>
+      </tr>
+
+      <tr>
+       <td>Solamente las variables deberían ser asignadas por referencia</td>
+       <td><strong><code>E_NOTICE</code></strong></td>
+      </tr>
+
+      <tr>
+       <td>Solamente las variables deberían ser pasadas por referencia</td>
+       <td><strong><code>E_NOTICE</code></strong></td>
+      </tr>
+
+      <tr>
+       <td>Llamada a métodos no estáticos de forma estática</td>
+       <td><strong><code>E_DEPRECATED</code></strong></td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+</div>
+
+
+
+ 
+
+
+
+
+<div class="sect2" id="migration70.incompatible.variable-handling">
+ <h3 class="title">Cambios en el manejo de variables</h3>
+ 
+ <p class="para">
+  PHP 7 ahora emplea un árbol sintáctico abstracto al analizar ficheros. Esto
+  ha permitido muchas mejoras en el lenguaje que antes eran
+  imposibles debido a las limitaciones del analizador empleado en versiones previas
+  de PHP, aunque ha resultado en la eliminación de unos pocos casos especiales por
+  razones de consitencia, dando así lugar a roturas de retrocompatibilidad. Dichos casos
+  están detallados a continuación.
+ </p>
+ 
+ <div class="sect3" id="migration70.incompatible.variable-handling.indirect">
+  <h4 class="title">
+   Cambios en el manejo de variables, propiedades y métodos indirectos
+  </h4>
+  
+  <p class="para">
+   El acceso indirecto a variables, propiedades y métodos ahora se
+   evalúa estrictamente de izquierda a derecha, en contraste a la mezcla anterior
+   de casos especiales. La tabla de abajo muestra los cambios en el orden de
+   evaluación.
+  </p>
+  
+  <p class="para">
+   <table class="doctable table">
+    <caption><strong>Antigua y nueva evaluación de expresiones indirectas</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Expresión</th>
+       <th>Interpretación de PHP 5</th>
+       <th>Interpretación de PHP 7</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>
+        <code class="code">$$foo[&#039;bar&#039;][&#039;baz&#039;]</code>
+       </td>
+       <td>
+        <code class="code">${$foo[&#039;bar&#039;][&#039;baz&#039;]}</code>
+       </td>
+       <td>
+        <code class="code">($$foo)[&#039;bar&#039;][&#039;baz&#039;]</code>
+       </td>
+      </tr>
+
+      <tr>
+       <td>
+        <code class="code">$foo-&gt;$bar[&#039;baz&#039;]</code>
+       </td>
+       <td>
+        <code class="code">$foo-&gt;{$bar[&#039;baz&#039;]}</code>
+       </td>
+       <td>
+        <code class="code">($foo-&gt;$bar)[&#039;baz&#039;]</code>
+       </td>
+      </tr>
+
+      <tr>
+       <td>
+        <code class="code">$foo-&gt;$bar[&#039;baz&#039;]()</code>
+       </td>
+       <td>
+        <code class="code">$foo-&gt;{$bar[&#039;baz&#039;]}()</code>
+       </td>
+       <td>
+        <code class="code">($foo-&gt;$bar)[&#039;baz&#039;]()</code>
+       </td>
+      </tr>
+
+      <tr>
+       <td>
+        <code class="code">Foo::$bar[&#039;baz&#039;]()</code>
+       </td>
+       <td>
+        <code class="code">Foo::{$bar[&#039;baz&#039;]}()</code>
+       </td>
+       <td>
+        <code class="code">(Foo::$bar)[&#039;baz&#039;]()</code>
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+  
+  <p class="para">
+   El código que emplee el orden antiguo de evaluación de derecha a izquierda debe ser rescrito
+   para utilizar explícitamente el orden de evaluación con llaves (véase la columna de
+   en medio de arriba). Esto hará al código compatible con PHP 7.x y
+   retrocompatible con PHP 5.x.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.variable-handling.list">
+  <h4 class="title">Cambios al manejo de <span class="function"><a href="function.list.html" class="function">list()</a></span></h4>
+  
+  <div class="sect4" id="migration70.incompatible.variable-handling.list.order">
+   <h5 class="title">
+    <span class="function"><a href="function.list.html" class="function">list()</a></span> ya no asigna variables en orden inverso
+   </h5>
+   
+   <p class="para">
+    <span class="function"><a href="function.list.html" class="function">list()</a></span> ahora asigna valores a variables en el orden
+    en el que estas se definen, en vez de en orden inverso. En general, esto solamente
+    afecta al caso donde <span class="function"><a href="function.list.html" class="function">list()</a></span> se emplea junto
+    con el operador de array <code class="code">[]</code>, como se muestra a continuación:
+   </p>
+   
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">list(</span><span style="color: #0000BB">$a</span><span style="color: #007700">[],&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">[],&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">[])&nbsp;=&nbsp;[</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">];<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <p class="para">Salida del ejemplo de arriba en PHP 5:</p>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(3) {
+  [0]=&gt;
+  int(3)
+  [1]=&gt;
+  int(2)
+  [2]=&gt;
+  int(1)
+}
+</pre></div>
+    </div>
+    <p class="para">Salida del ejemplo de arriba en PHP 7:</p>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(3) {
+  [0]=&gt;
+  int(1)
+  [1]=&gt;
+  int(2)
+  [2]=&gt;
+  int(3)
+}
+</pre></div>
+    </div>
+   </div>
+   
+   <p class="para">
+    En general, se recomienda no depender del orden en el que ocurren
+    las asignaciones de <span class="function"><a href="function.list.html" class="function">list()</a></span>, ya que este es un detalle de
+    implementación que podría cambiar en el futuro.
+   </p>
+  </div>
+  
+  <div class="sect4" id="migration70.incompatible.variable-handling.list.empty">
+   <h5 class="title">Se han eliminado las asignaciones vacías de <span class="function"><a href="function.list.html" class="function">list()</a></span></h5>
+   
+   <p class="para">
+    Las construcciones de <span class="function"><a href="function.list.html" class="function">list()</a></span> ya no pueden estar vacías. Lo siguiente
+    ya no es válido:
+   </p>
+   
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">list()&nbsp;=&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;<br />list(,,)&nbsp;=&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;<br />list(</span><span style="color: #0000BB">$x</span><span style="color: #007700">,&nbsp;list(),&nbsp;</span><span style="color: #0000BB">$y</span><span style="color: #007700">)&nbsp;=&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </div>
+  
+  <div class="sect4" id="migration70.incompatible.variable-handling.list.string">
+   <h5 class="title"><span class="function"><a href="function.list.html" class="function">list()</a></span> no puede desempaquetar <span class="type"><a href="language.types.string.html" class="type string">string</a></span>s</h5>
+   
+   <p class="para">
+    <span class="function"><a href="function.list.html" class="function">list()</a></span> ya no puede desempaquetar variables de tipo
+    <span class="type"><a href="language.types.string.html" class="type string">string</a></span>. Debería usarse <span class="function"><a href="function.str-split.html" class="function">str_split()</a></span> en su lugar.
+   </p>
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.variable-handling.array-order">
+  <h4 class="title">
+   Cambio en el ordenamiento de arrays cuando los elementos se crean automáticamente
+   durante las asignaciones por referencia
+  </h4>
+  
+  <p class="para">
+   El orden de los elementos de un array ha cambiado cuando dichos elementos han
+   sido creados automáticamente haciendo referencia a ellos en una asignación
+   por referencia. Por ejemplo:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$array&nbsp;</span><span style="color: #007700">=&nbsp;[];<br /></span><span style="color: #0000BB">$array</span><span style="color: #007700">[</span><span style="color: #DD0000">"a"</span><span style="color: #007700">]&nbsp;=&amp;&nbsp;</span><span style="color: #0000BB">$array</span><span style="color: #007700">[</span><span style="color: #DD0000">"b"</span><span style="color: #007700">];<br /></span><span style="color: #0000BB">$array</span><span style="color: #007700">[</span><span style="color: #DD0000">"b"</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$array</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">Salida del ejemplo de arriba en PHP 5:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [&quot;b&quot;]=&gt;
+  &amp;int(1)
+  [&quot;a&quot;]=&gt;
+  &amp;int(1)
+}
+</pre></div>
+   </div>
+   <p class="para">Salida del ejemplo de arriba en PHP 7:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [&quot;a&quot;]=&gt;
+  &amp;int(1)
+  [&quot;b&quot;]=&gt;
+  &amp;int(1)
+}
+</pre></div>
+   </div>
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.variable-handling.global">
+  <h4 class="title"><a href="language.variables.scope.html#language.variables.scope.global" class="link"><em>global</em></a> solamente acepta variables simples</h4>
+  
+  <p class="para">
+   Ya no se pueden utilizar <a href="language.variables.variable.html" class="link">variables
+   variables</a> con la palabra reservada <a href="language.variables.scope.html#language.variables.scope.global" class="link"><em>global</em></a>. Se puede emplear la sintaxis
+   de llaves para emular el comportamiento anterior si fuera necesario:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">f</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Válido&nbsp;solamente&nbsp;en&nbsp;PHP&nbsp;5.<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">global&nbsp;$</span><span style="color: #0000BB">$foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bar</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Válido&nbsp;en&nbsp;PHP&nbsp;5&nbsp;y&nbsp;7.<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">global&nbsp;${</span><span style="color: #0000BB">$foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bar</span><span style="color: #007700">};<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Como principio general, se desaconseja el uso de <a href="language.variables.scope.html#language.variables.scope.global" class="link"><em>global</em></a> con algo que no sea
+   una simple variable.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.variable-handling.parentheses">
+  <h4 class="title">
+   Los paréntesis alrededor de parámetros de una función ya no afectan al comportamiento
+  </h4>
+  
+  <p class="para">
+   En PHP 5, el uso de paréntesis redundantes alrededor de un parámetro de una función podía
+   silenciar advertencias del estándar estricto cuando el parámetro de dicha función era pasado por
+   referencia. Estas advertencias ahora se emiten siempre.
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">obtenerArray</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;[</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">];<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">arrayAlCuadrado</span><span style="color: #007700">(array&nbsp;&amp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">as&nbsp;&amp;</span><span style="color: #0000BB">$v</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$v&nbsp;</span><span style="color: #007700">**=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Genera&nbsp;una&nbsp;advertencia&nbsp;en&nbsp;PHP&nbsp;7.<br /></span><span style="color: #0000BB">arrayAlCuadrado</span><span style="color: #007700">((</span><span style="color: #0000BB">obtenerArray</span><span style="color: #007700">()));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">El resultado del ejemplo sería:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Notice: Only variables should be passed by reference in /tmp/test.php on line 13
+</pre></div>
+   </div>
+  </div>
+ </div>
+</div>
+
+
+
+ 
+
+
+
+
+<div class="sect2" id="migration70.incompatible.foreach">
+ <h3 class="title">Cambios en <a href="control-structures.foreach.html" class="link">foreach</a></h3>
+ 
+ <p class="para">
+  Se han realizado cambios menores en el comportamiento de la estructura de control
+  <a href="control-structures.foreach.html" class="link">foreach</a>, principalmente alrededor del manejo del puntero de arrays interno y
+  la modificación del array en su recorrido.
+ </p>
+ 
+ <div class="sect3" id="migration70.incompatible.foreach.array-pointer">
+  <h4 class="title"><a href="control-structures.foreach.html" class="link">foreach</a> ya no cambia el puntero de arrays interno</h4>
+  
+  <p class="para">
+   Antes de PHP 7, el puntero de arrays interno era modificado mientras el array
+   se recorría con <a href="control-structures.foreach.html" class="link">foreach</a>. Este ya no es el caso, como se muestra
+   en el siguiente ejemplo:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$array&nbsp;</span><span style="color: #007700">=&nbsp;[</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">];<br />foreach&nbsp;(</span><span style="color: #0000BB">$array&nbsp;</span><span style="color: #007700">as&nbsp;&amp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">current</span><span style="color: #007700">(</span><span style="color: #0000BB">$array</span><span style="color: #007700">));<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">Salida del ejemplo de arriba en PHP 5:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+int(1)
+int(2)
+bool(false)
+</pre></div>
+   </div>
+   <p class="para">Salida del ejemplo de arriba en PHP 7:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+int(0)
+int(0)
+int(0)
+</pre></div>
+   </div>
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.foreach.by-value">
+  <h4 class="title">La iteración de <a href="control-structures.foreach.html" class="link">foreach</a> por valor opera sobre una copia del array</h4>
+  
+  <p class="para">
+   Al utilizar el modo predeterminado de iteración por valor, <a href="control-structures.foreach.html" class="link">foreach</a> ahora opera sobre una
+   copia del array a recorrer en lugar del array en sí. Esto significa
+   que los cambios realizados a un array durante una iteración no afectarán a los
+   valores que se recorren.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.foreach.by-ref">
+  <h4 class="title">Se ha mejorado el comportamiento de la iteración de <a href="control-structures.foreach.html" class="link">foreach</a> por referencia</h4>
+  
+  <p class="para">
+   Cuando se itera por referencia, <a href="control-structures.foreach.html" class="link">foreach</a> ahora realizará un trabajo mejor realizando
+   un seguimiento de los cambios hechos en el array durante la iteración. Por ejemplo,
+   al añadir valores a un array mientras se recorre dará como resultado también
+   el recorrido de los valores añadidos:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$array&nbsp;</span><span style="color: #007700">=&nbsp;[</span><span style="color: #0000BB">0</span><span style="color: #007700">];<br />foreach&nbsp;(</span><span style="color: #0000BB">$array&nbsp;</span><span style="color: #007700">as&nbsp;&amp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$val</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$array</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">Salida del ejemplo de arriba en PHP 5:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+int(0)
+</pre></div>
+   </div>
+   <p class="para">Salida del ejemplo de arriba en PHP 7:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+int(0)
+int(1)
+</pre></div>
+   </div>
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.foreach.object">
+  <h4 class="title">Iteración de objetos no <a href="class.traversable.html" class="classname">Traversable</a>s</h4>
+  
+  <p class="para">
+   Recorrer un objeto no <a href="class.traversable.html" class="classname">Traversable</a> ahora tendrá
+   el mismo comportamiento que recorrer arrays por referencia. Esto
+   resulta en que la
+   <a href="migration70.incompatible.html#migration70.incompatible.foreach.by-ref" class="link">mejora del comportamiento al modificar un array durante la iteración</a>
+   se aplique también cuando se añaden propiedades a o se eleminan de un
+   objeto.
+  </p>
+ </div>
+</div>
+
+
+
+ 
+
+
+
+
+<div class="sect2" id="migration70.incompatible.integers">
+ <h3 class="title">Cambios en el manejo del tipo <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span></h3>
+ 
+ <div class="sect3" id="migration70.incompatible.integers.invalid-octals">
+  <h4 class="title">Literales de octal inválidos</h4>
+  
+  <p class="para">
+   Previamente, los literales de octal que contenían números inválidos eran truncados
+   silenciosamente (<em>0128</em> era tomado como <em>012</em>).
+   Ahora, un literal de octal inválido causará un error de análisis.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.integers.negative-bitshift">
+  <h4 class="title">Desplazamientos negativos de bit</h4>
+  
+  <p class="para">
+   Los desplazamientos de bit mediante números negativos ahora lanzan un
+   <a href="class.arithmeticerror.html" class="classname">ArithmeticError</a>:
+  </p>
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;-</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">Salida del ejemplo de arriba en PHP 5:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+int(0)
+</pre></div>
+   </div>
+   <p class="para">Salida del ejemplo de arriba en PHP 7:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Fatal error: Uncaught ArithmeticError: Bit shift by negative number in /tmp/test.php:2
+Stack trace:
+#0 {main}
+  thrown in /tmp/test.php on line 2
+</pre></div>
+   </div>
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.integers.out-of-range">
+  <h4 class="title">Desplazamientos de bit fuera de rango</h4>
+  
+  <p class="para">
+   Los desplazamientos de bit (en cualquier dirección) fuera del ancho de bit de un
+   <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span> siempre resultarán en 0. Anteriormente, el comportamiento de
+   dichos desplazamientos dependía de la arquitectura.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.integers.div-by-zero">
+  <h4 class="title">Cambios en la División por Cero</h4>
+  
+  <p class="para">
+   Anteriormente, cuando se empleaba 0 como divisor de los operadores de
+   división (/) o módulo (%), se emitía un error de tipo E_WARNING y
+   se devolvía <strong><code>false</code></strong>. Ahora, el operador de división
+   devuelve los valores +INF, -INF, o NAN de tipo float. El error E_WARNING del
+   operador de módulo ha sido eliminado, lanzando ahora una excepción
+   <a href="class.divisionbyzeroerror.html" class="classname">DivisionByZeroError</a>.
+  </p>
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">3</span><span style="color: #007700">/</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">/</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">%</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">Salida del ejemplo de arriba en PHP 5:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Warning: Division by zero in %s on line %d
+bool(false)
+
+Warning: Division by zero in %s on line %d
+bool(false)
+
+Warning: Division by zero in %s on line %d
+bool(false)
+</pre></div>
+   </div>
+   <p class="para">Salida del ejemplo de arriba en PHP 7:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Warning: Division by zero in %s on line %d
+float(INF)
+
+Warning: Division by zero in %s on line %d
+float(NAN)
+
+PHP Fatal error:  Uncaught DivisionByZeroError: Modulo by zero in %s line %d
+</pre></div>
+   </div>
+  </div>
+ </div>
+</div>
+
+
+
+ 
+
+
+
+
+<div class="sect2" id="migration70.incompatible.strings">
+ <h3 class="title">Cambios en el manejo del tipo <span class="type"><a href="language.types.string.html" class="type string">string</a></span></h3>
+ 
+ <div class="sect3" id="migration70.incompatible.strings.hex">
+  <h4 class="title">Un string hexadecimal ya no se considera numérico</h4>
+  
+  <p class="para">
+   Los string que contienen números hexadecimales ya no se consideran
+   numéricos. Por ejemplo:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #DD0000">"0x123"&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #DD0000">"291"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">is_numeric</span><span style="color: #007700">(</span><span style="color: #DD0000">"0x123"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #DD0000">"0xe"&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #DD0000">"0x1"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">substr</span><span style="color: #007700">(</span><span style="color: #DD0000">"foo"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"0x1"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">Salida del ejemplo de arriba en PHP 5:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+bool(true)
+bool(true)
+int(15)
+string(2) &quot;oo&quot;
+</pre></div>
+   </div>
+   <p class="para">Salida del ejemplo de arriba en PHP 7:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+bool(false)
+bool(false)
+int(0)
+
+Notice: A non well formed numeric value encountered in /tmp/test.php on line 5
+string(3) &quot;foo&quot;
+</pre></div>
+   </div>
+  </div>
+  
+  <p class="para">
+   Se puede emplear <span class="function"><a href="function.filter-var.html" class="function">filter_var()</a></span> para comprobar si un
+   <span class="type"><a href="language.types.string.html" class="type string">string</a></span> contiene un numero hexadecimal, y también para convertir un
+   string de dicho tipo en un <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"0xffff"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$int&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">filter_var</span><span style="color: #007700">(</span><span style="color: #0000BB">$str</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">FILTER_VALIDATE_INT</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">FILTER_FLAG_ALLOW_HEX</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">$int</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;new&nbsp;</span><span style="color: #0000BB">Exception</span><span style="color: #007700">(</span><span style="color: #DD0000">"¡Número&nbsp;entero&nbsp;inválido!"</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$int</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;int(65535)<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.strings.unicode-escapes">
+  <h4 class="title"><em>\u{</em> puede ocasionar errores</h4>
+  
+  <p class="para">
+   Debido a la incorporación de la nueva
+   <a href="migration70.new-features.html#migration70.new-features.unicode-codepoint-escape-syntax" class="link">sintaxis de escape de puntos de código de Unicode</a>,
+   los string que contienen un literal <em>\u{</em> seguido de una secuencia
+   inválida causarán un error fatal. Para evitarlo, se debería escapar la barra
+   inicial.
+  </p>
+ </div>
+</div>
+
+
+
+ 
+
+
+
+
+<div class="sect2" id="migration70.incompatible.removed-functions">
+ <h3 class="title">Funciones eliminadas</h3>
+ 
+ <div class="sect3" id="migration70.incompatible.removed-functions.call-user-method">
+  <h4 class="title">
+   <span class="function"><a href="function.call-user-method.html" class="function">call_user_method()</a></span> y
+   <span class="function"><a href="function.call-user-method-array.html" class="function">call_user_method_array()</a></span>
+  </h4>
+  
+  <p class="para">
+   Estas funciones estaban obsoletas en PHP 4.1.0 en favor de
+   <span class="function"><a href="function.call-user-func.html" class="function">call_user_func()</a></span> y
+   <span class="function"><a href="function.call-user-func-array.html" class="function">call_user_func_array()</a></span>. Se podría también cosiderar
+   el uso de
+   <a href="functions.variable-functions.html" class="link">funciones variables</a>
+   y/o el
+   operador
+   <a href="functions.arguments.html#functions.variable-arg-list.new" class="link"><em>...</em></a>.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.removed-functions.mcrypt">
+  <h4 class="title">Alias de <a href="book.mcrypt.html" class="link">mcrypt</a></h4>
+  
+  <p class="para">
+   Se ha eliminado la función obsoleta <span class="function"><a href="function.mcrypt-generic-end.html" class="function">mcrypt_generic_end()</a></span>
+   en favor de <span class="function"><a href="function.mcrypt-generic-deinit.html" class="function">mcrypt_generic_deinit()</a></span>.
+  </p>
+  
+  <p class="para">
+   También se han eliminado las funciones obsoletas <span class="function"><a href="function.mcrypt-ecb.html" class="function">mcrypt_ecb()</a></span>,
+   <span class="function"><a href="function.mcrypt-cbc.html" class="function">mcrypt_cbc()</a></span>, <span class="function"><a href="function.mcrypt-cfb.html" class="function">mcrypt_cfb()</a></span> y
+   <span class="function"><a href="function.mcrypt-ofb.html" class="function">mcrypt_ofb()</a></span> en favor del
+   uso de <span class="function"><a href="function.mcrypt-decrypt.html" class="function">mcrypt_decrypt()</a></span> con la constante
+   <strong><code>MCRYPT_MODE_*</code></strong> apropiada.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.removed-functions.intl">
+  <h4 class="title">Alias de <a href="book.intl.html" class="link">intl</a></h4>
+  
+  <p class="para">
+   Se han eliminado los alias obsoletos <span class="function"><a href="intldateformatter.settimezoneid.html" class="function">datefmt_set_timezone_id()</a></span> y
+   <span class="methodname"><a href="intldateformatter.settimezoneid.html" class="methodname">IntlDateFormatter::setTimeZoneID()</a></span>
+   en favor de <span class="function"><a href="intldateformatter.settimezone.html" class="function">datefmt_set_timezone()</a></span> y
+   <span class="methodname"><a href="intldateformatter.settimezone.html" class="methodname">IntlDateFormatter::setTimeZone()</a></span>, respectivamente.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.removed-functions.magic-quotes">
+  <h4 class="title"><span class="function"><a href="function.set-magic-quotes-runtime.html" class="function">set_magic_quotes_runtime()</a></span></h4>
+  
+  <p class="para">
+   Se ha eliminado <span class="function"><a href="function.set-magic-quotes-runtime.html" class="function">set_magic_quotes_runtime()</a></span>, junto con su alias
+   <span class="function"><a href="function.magic-quotes-runtime.html" class="function">magic_quotes_runtime()</a></span>. Estaban
+   obsoletos en PHP 5.3.0, y de hecho se quedaron sin funcionalidad con la
+   eliminación de las comillas mágicas
+   <a href="migration54.incompatible.html" class="link">en PHP 5.4.0</a>.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.removed-functions.set-socket-blocking">
+  <h4 class="title"><span class="function"><a href="function.set-socket-blocking.html" class="function">set_socket_blocking()</a></span></h4>
+  
+  <p class="para">
+   Se ha eliminado el alias obsoleto <span class="function"><a href="function.set-socket-blocking.html" class="function">set_socket_blocking()</a></span>
+   en favor de <span class="function"><a href="function.stream-set-blocking.html" class="function">stream_set_blocking()</a></span>.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.removed-functions.dl">
+  <h4 class="title"><span class="function"><a href="function.dl.html" class="function">dl()</a></span> en PHP-FPM</h4>
+  
+  <p class="para">
+   <span class="function"><a href="function.dl.html" class="function">dl()</a></span> ya no se puede utilizar en PHP-FPM. Permanece
+   funcioinal en CLI y en SAPI embebidas.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.removed-functions.gd">
+  <h4 class="title">Funciones de Type1 de <a href="book.image.html" class="link">GD</a></h4>
+  
+  <p class="para">
+   Se ha eliminado el soporte para fuentes Type1 de PostScript de la extensión GD,
+   resultado en la eliminación de las siguientes funciones:
+  </p>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.imagepsbbox.html" class="function">imagepsbbox()</a></span>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.imagepsencodefont.html" class="function">imagepsencodefont()</a></span>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.imagepsextendfont.html" class="function">imagepsextendfont()</a></span>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.imagepsfreefont.html" class="function">imagepsfreefont()</a></span>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.imagepsloadfont.html" class="function">imagepsloadfont()</a></span>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.imagepsslantfont.html" class="function">imagepsslantfont()</a></span>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.imagepstext.html" class="function">imagepstext()</a></span>
+    </span>
+   </li>
+  </ul>
+  
+  <p class="para">
+   Se recomienda utilizar fuentes TrueType y sus asociadas en su lugar.
+  </p>
+ </div>
+</div>
+
+
+
+ 
+
+
+
+
+<div class="sect2" id="migration70.incompatible.removed-ini-directives">
+ <h3 class="title">Directivas INI eliminadas</h3>
+
+ <div class="sect3" id="migration70.incompatible.removed-ini-directives.features">
+  <h4 class="title">Características eliminadas</h4>
+
+  <p class="para">
+   Las siguientes directivas INI han sido eliminadas, así como sus
+   características asociadas:
+  </p>
+
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <a href="ini.core.html#ini.always-populate-raw-post-data" class="link"><code class="parameter">always_populate_raw_post_data</code></a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="ini.core.html#ini.asp-tags" class="link"><code class="parameter">asp_tags</code></a>
+    </span>
+   </li>
+  </ul>
+ </div>
+
+ <div class="sect3" id="migration70.incompatible.removed-ini-directives.xsl">
+  <h4 class="title"><code class="parameter">xsl.security_prefs</code></h4>
+
+  <p class="para">
+   Ha sido eliminada la direcitva <code class="parameter">xsl.security_prefs</code>.
+   En su lugar, debería llamarse al método <span class="methodname"><a href="xsltprocessor.setsecurityprefs.html" class="methodname">XsltProcessor::setSecurityPrefs()</a></span>
+   para controlar las preferencias de seguridad en función de
+   cada procesador.
+  </p>
+ </div>
+</div>
+
+
+
+ 
+
+
+
+
+<div class="sect2" id="migration70.incompatible.other">
+ <h3 class="title">Otros cambios retroincompatibles</h3>
+ 
+ <div class="sect3" id="migration70.incompatible.other.new-by-ref">
+  <h4 class="title">No se pueden asignar nuevos objetos por referencia</h4>
+  
+  <p class="para">
+   El resultado de la sentencia <a href="language.oop5.basic.html#language.oop5.basic.new" class="link"><em>new</em></a> ya no se puede asignar a una variable
+   por referencia:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">C&nbsp;</span><span style="color: #007700">{}<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&amp;&nbsp;new&nbsp;</span><span style="color: #0000BB">C</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">Salida del ejemplo de arriba en PHP 5:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Deprecated: Assigning the return value of new by reference is deprecated in /tmp/test.php on line 3
+</pre></div>
+   </div>
+   <p class="para">Salida del ejemplo de arriba en PHP 7:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Parse error: syntax error, unexpected &#039;new&#039; (T_NEW) in /tmp/test.php on line 3
+</pre></div>
+   </div>
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.classes">
+  <h4 class="title">Nombres de clase, interfaz y rasgo inválidos</h4>
+  
+  <p class="para">
+   Los siguientes nombres no se pueden emplear para nombrar a clases, interfaces o rasgos:
+  </p>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara"><span class="type"><a href="language.types.boolean.html" class="type bool">bool</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara"><span class="type"><a href="language.types.integer.html" class="type int">int</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara"><span class="type"><a href="language.types.float.html" class="type float">float</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara"><span class="type"><a href="language.types.string.html" class="type string">string</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara"><strong><code>NULL</code></strong></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara"><strong><code>TRUE</code></strong></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara"><strong><code>FALSE</code></strong></span>
+   </li>
+  </ul>
+  
+  <p class="para">
+   Tampoco deberían utilizarse los siguientes nombres. Aunque no
+   generan un error en PHP 7.0, están reservados para un uso futuro, por lo que
+   deberían considerarse obsoletos.
+  </p>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara"><span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara"><span class="type"><a href="language.types.object.html" class="type object">object</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara"><span class="type"><span class="type numeric">numeric</span></span></span>
+   </li>
+  </ul>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.php-tags">
+  <h4 class="title">Eliminación de las etiquetas ASP y de script de PHP</h4>
+  
+  <p class="para">
+   Se ha eliminado el soporte para usar etiquetas ASP y de script para delimitar código de PHP.
+   Las etiquetas afectadas son:
+  </p>
+  
+  <table class="doctable table">
+   <caption><strong>Etiquetas ASP y de script eliminadas</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Etiqueta de apertura</th>
+      <th>Etiqueta de cierre</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><code class="code">&lt;%</code></td>
+      <td><code class="code">%&gt;</code></td>
+     </tr>
+
+     <tr>
+      <td><code class="code">&lt;%=</code></td>
+      <td><code class="code">%&gt;</code></td>
+     </tr>
+
+     <tr>
+      <td><code class="code">&lt;script language=&quot;php&quot;&gt;</code></td>
+      <td><code class="code">&lt;/script&gt;</code></td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.incompatible-this">
+  <h4 class="title">Eliminación de llamadas desde contextos incompatibles</h4>
+  
+  <p class="para">
+   <a href="migration56.deprecated.html#migration56.deprecated.incompatible-context" class="link">Ya obsoletas en PHP 5.6</a>,
+   las llamadas estáticas realizadas a un método no estático con un contexto incompatible
+   resultarán ahora en la tenencia del método llamado de una variable
+   <em>$this</em> indefinida y en la emisión de una advertencia de obsolescencia.
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">A&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">prueba</span><span style="color: #007700">()&nbsp;{&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">);&nbsp;}<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Nota:&nbsp;NO&nbsp;extiende&nbsp;a&nbsp;A<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">B&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">llamadaAMétodoNoEstáticoDeA</span><span style="color: #007700">()&nbsp;{&nbsp;</span><span style="color: #0000BB">A</span><span style="color: #007700">::</span><span style="color: #0000BB">prueba</span><span style="color: #007700">();&nbsp;}<br />}<br /><br />(new&nbsp;</span><span style="color: #0000BB">B</span><span style="color: #007700">)-&gt;</span><span style="color: #0000BB">llamadaAMétodoNoEstáticoDeA</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">Salida del ejemplo de arriba en PHP 5:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Deprecated: Non-static method A::prueba() should not be called statically, assuming $this from incompatible context in /tmp/test.php on line 8
+object(B)#1 (0) {
+}
+</pre></div>
+   </div>
+   <p class="para">Salida del ejemplo de arriba en PHP 7:</p>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Deprecated: Non-static method A::prueba() should not be called statically in /tmp/test.php on line 8
+
+Notice: Undefined variable: this in /tmp/test.php on line 3
+NULL
+</pre></div>
+   </div>
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.yield">
+  <h4 class="title"><a href="language.generators.syntax.html#control-structures.yield" class="link">yield</a> ahora es un operador asociativo derecho</h4>
+  
+  <p class="para">
+   El constructor <a href="language.generators.syntax.html#control-structures.yield" class="link">yield</a> ya no requiere paréntesis, ya que ha pasado
+   a ser un operador asociativo derecho con precedencia entre
+   <em>print</em> y <em>=&gt;</em>. Esto puede resultar en un
+   cambio de comportamiento:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">yield&nbsp;</span><span style="color: #007700">-</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #FF8000">//&nbsp;Anteriormente&nbsp;era&nbsp;interpretado&nbsp;como<br /></span><span style="color: #007700">echo&nbsp;(</span><span style="color: #0000BB">yield</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #FF8000">//&nbsp;Y&nbsp;ahora&nbsp;es&nbsp;intrepretado&nbsp;como<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">yield&nbsp;</span><span style="color: #007700">(-</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">yield&nbsp;$foo&nbsp;</span><span style="color: #007700">or&nbsp;die;<br /></span><span style="color: #FF8000">//&nbsp;Anteriormente&nbsp;era&nbsp;interpretado&nbsp;como<br /></span><span style="color: #0000BB">yield&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">or&nbsp;die);<br /></span><span style="color: #FF8000">//&nbsp;Y&nbsp;ahora&nbsp;es&nbsp;intrepretado&nbsp;como<br /></span><span style="color: #007700">(</span><span style="color: #0000BB">yield&nbsp;$foo</span><span style="color: #007700">)&nbsp;or&nbsp;die;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Los paréntesis se pueden emplear para desambiguar estos casos.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.func-parameters">
+  <h4 class="title">Las funciones no pueden tener varios parámetros con el mismo nombre</h4>
+  
+  <p class="para">
+   Ya no es posible definir dos o más parámetros de función con el
+   mismo nombre. Por ejemplo, el siguiente método generará un error
+   <strong><code>E_COMPILE_ERROR</code></strong>:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">(</span><span style="color: #0000BB">$a</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sin_usar</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sin_usar</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.multiple-default">
+  <h4 class="title">Las sentencias switch no pueden tener varios bloques default</h4>
+  
+  <p class="para">
+   Ya no es posible definir dos o más bloques default en una sentencia
+   switch. Por ejemplo, la siguiente senetencia switch generará un error
+   <strong><code>E_COMPILE_ERROR</code></strong>:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">switch&nbsp;(</span><span style="color: #0000BB">1</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;default:<br />&nbsp;&nbsp;&nbsp;&nbsp;break;<br />&nbsp;&nbsp;&nbsp;&nbsp;default:<br />&nbsp;&nbsp;&nbsp;&nbsp;break;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.http-raw-post-data">
+  <h4 class="title">Eliminación de <var class="varname"><var class="varname"><a href="reserved.variables.httprawpostdata.html" class="classname">$HTTP_RAW_POST_DATA</a></var></var></h4>
+  
+  <p class="para">
+   <var class="varname"><var class="varname"><a href="reserved.variables.httprawpostdata.html" class="classname">$HTTP_RAW_POST_DATA</a></var></var> ya no está disponible. Debería usarse el flujo
+   <a href="wrappers.php.html#wrappers.php.input" class="link"><em>php://input</em></a>
+   en su lugar.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.ini-comments">
+  <h4 class="title">Eliminación de los comentarios <em>#</em> en ficheros INI</h4>
+  
+  <p class="para">
+   Se ha eliminado el soporte para los comentarios prefijados con <em>#</em> en los ficheros
+   INI. Se debe emplear en su lugar <em>;</em> (punto y coma). Este cambio
+   se aplica a <var class="filename">php.ini</var>, así como a ficheros manejados por
+   <span class="function"><a href="function.parse-ini-file.html" class="function">parse_ini_file()</a></span> y <span class="function"><a href="function.parse-ini-string.html" class="function">parse_ini_string()</a></span>.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.json-to-jsond">
+  <h4 class="title">JSON extension replaced with JSOND</h4>
+  
+  <p class="para">
+   Se ha reemplazado la extensión JSON por JSOND ocasionando dos roturas de
+   RC (retocompatibilidad). La primera, un número no puede finalizar con un punto decimal (esto es,
+   <em>34.</em> debe cambiarse para que sea o <em>34.0</em> o
+   <em>34</em>). La segunda, al utilizar notación científica, el
+   exponente <em>e</em> no debe seguir inmediatamente a un punto decimal
+   (esto es, <em>3.e3</em> se debe cambiar para que sea o
+   <em>3.0e3</em> o <em>3e3</em>).
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.internal-function-failure-overflow">
+  <h4 class="title">Fallo de funciones internas en un desbordamiento</h4>
+  
+  <p class="para">
+   Anteriormente, las funciones internas truncaban de forma silenciosa números producidos desde
+   coacciones de tipo float a integer cuando el float era demasiado grande de representar como un
+   integer. Ahora, se emitirá un E_WARNING y se devolverá <strong><code>NULL</code></strong>.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.fixes-custom-session-handler">
+  <h4 class="title">Reparaciones en los valores de devolución de gestores de sesión personalizados</h4>
+  
+  <p class="para">
+   Cualquier función declarada implementada por gestores de sesión personalizados que devuelvan
+   o <strong><code>FALSE</code></strong> o <em>-1</em> serán errores fatales. Si desde estas funciones
+   se devuelve cualquier valor distinto de un booleano, <em>-1</em>, o
+   <em>0</em>, fallarán y se emitirá un
+   E_WARNING.
+  </p>
+ </div>
+ 
+ <div class="sect3" id="migration70.incompatible.other.func-get-args-change">
+  <h4 class="title">
+   <span class="function"><a href="function.func-get-arg.html" class="function">func_get_arg()</a></span> y <span class="function"><a href="function.func-get-args.html" class="function">func_get_args()</a></span>
+   ahora devuelven los valores de los argumentos actuales
+  </h4>
+  
+  <p class="para">
+   Las funciones <span class="function"><a href="function.func-get-arg.html" class="function">func_get_arg()</a></span> y <span class="function"><a href="function.func-get-args.html" class="function">func_get_args()</a></span>
+   anterioremente devolvían los valores de los argumentos originales, incluso después de
+   que hubieran sido modificados. Ahora, siempre devuelven los valores de los argumentos actuales.
+  </p>
+ </div>
+</div>
+
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration70.html">Migrar de PHP 5.6.x a PHP 7.0.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration70.new-features.html">Nuevas caracter&iacute;sticas</a></div>
+ <div class="up"><a href="migration70.html">Migrar de PHP 5.6.x a PHP 7.0.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

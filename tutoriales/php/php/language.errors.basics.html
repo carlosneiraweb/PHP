@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Lo b&aacute;sico</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.errors.html">Errores</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.errors.php7.html">Errores en PHP 7</a></div>
+ <div class="up"><a href="language.errors.html">Errores</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.errors.basics" class="sect1">
+ <h2 class="title">Lo básico</h2>
+ 
+ <p class="para">
+  PHP notifica errores en respuesta a varias condiciones de error internas.
+  Estas se pueden utilizar para señalar varias condiciones diferentes,
+  mostrándose y/o registrándose si fuera necesario.
+ </p>
+ 
+ <p class="para">
+  Cada error que genera PHP incluye un tipo. Exsite una
+  <a href="errorfunc.constants.html" class="link">lista de dichos tipos</a>,
+  junto con una breve descripción de su comportamiento y sus posibles
+  causas.
+ </p>
+ 
+ <div class="sect2" id="language.errors.basics.handling">
+  <h3 class="title">Manejo de errores con PHP</h3>
+  
+  <p class="para">
+   Si no se establece un manejador de errores, PHP manejará cada error que ocurra
+   según su configuración. Los errores que se notifican y los que se
+   ignoran se controla mediante la directiva
+   <a href="errorfunc.configuration.html#ini.error-reporting" class="link"><code class="parameter">error_reporting</code></a>
+   de php.ini, o durante la ejecución llamando a
+   <span class="function"><a href="function.error-reporting.html" class="function">error_reporting()</a></span>. Sin embargo, se recomienda encarecidamente
+   establecer la directiva de configuración, ya que algunos errores pueden ocurrir
+   antes de comenzar la ejecución de un script.
+  </p>
+  
+  <p class="para">
+   En un entorno de desarrollo debería establecerse siempre
+   <a href="errorfunc.configuration.html#ini.error-reporting" class="link"><code class="parameter">error_reporting</code></a>
+   a <strong><code>E_ALL</code></strong>, debido a que es necesario reconocer y corregir los
+   problemas generados por PHP. En producción, se podría establecer esta directiva a
+   un nivel de menor verbosidad como
+   <code class="code">E_ALL &amp; ~E_NOTICE &amp; ~E_STRICT &amp; ~E_DEPRECATED</code>, aunque
+   en muchos casos <strong><code>E_ALL</code></strong> también es apropiado, ya que puede
+   proporcionar advertencias precoces de problemas potenciales.
+  </p>
+  
+  <p class="para">
+   Lo que PHP hace con estos errores depende de dos directivas más de php.ini.
+   <a href="errorfunc.configuration.html#ini.display-errors" class="link"><code class="parameter">display_errors</code></a>
+   controla si el error es mostrado como parte de la salida del script. Esta
+   debería estar siempre deshabilitada en un entorno de producción, ya que puede incluir
+   información confidencial tal como contraseñas de bases de datos, aunque a menudo es útil
+   habilitarla en desarrollo debido a que asegura la notificación inmediata de problemas.
+  </p>
+  
+  <p class="para">
+   Además de mostrar errores, PHP puede registrarlos cuando la directiva
+   <a href="errorfunc.configuration.html#ini.log-errors" class="link"><code class="parameter">log_errors</code></a>
+   está habilitada. Esta registrará cualquier error en el fichero o registro del sistema
+   definido por
+   <a href="errorfunc.configuration.html#ini.error-log" class="link"><code class="parameter">error_log</code></a>. Esta directiva
+   puede ser extremadamente útil en un entorno de producción debido a que se pueden registrar
+   los errores que ocurran y generar informes basados en ellos.
+  </p>
+ </div>
+ 
+ <div class="sect2" id="language.errors.basics.user">
+  <h3 class="title">Manejadores de errores de usuario</h3>
+  
+  <p class="para">
+   Si el manejo de errores predeterminado de PHP es inadecuado, también se pueden manejar muchos
+   tipos de error con un manejador de errores propio mediante
+   <span class="function"><a href="function.set-error-handler.html" class="function">set_error_handler()</a></span>. Mientras que algunos tipos de error no se pueden
+   manejar de esta forma, aquellos que sí se pueden lo hacen de la manera
+   en que su script vea apropiada: por ejemplo, se puede emplear para mostrar al usuario
+   una página de error personalizada y luego notificar más directamente mediante un registro,
+   tal como el envío de un correo electrónico.
+  </p>
+ </div>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.errors.html">Errores</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.errors.php7.html">Errores en PHP 7</a></div>
+ <div class="up"><a href="language.errors.html">Errores</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

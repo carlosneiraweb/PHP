@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene informaci&oacute;n de columnas de un resultado y la devuelve como objeto</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fbsql-fetch-assoc.html">fbsql_fetch_assoc</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.fbsql-fetch-lengths.html">fbsql_fetch_lengths</a></div>
+ <div class="up"><a href="ref.fbsql.html">Funciones de FrontBase</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.fbsql-fetch-field" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">fbsql_fetch_field</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.6, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">fbsql_fetch_field</span> &mdash; <span class="dc-title">Obtiene información de columnas de un resultado y la devuelve como objeto</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.fbsql-fetch-field-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">object</span> <span class="methodname"><strong>fbsql_fetch_field</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$field_offset</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Usada para obtener información acerca de los campos en un resultado de consulta determinado.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.fbsql-fetch-field-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+result</code></dt>
+<dd>
+<p class="para">Un identificador de resultado
+devuelto por <span class="function"><a href="function.fbsql-query.html" class="function">fbsql_query()</a></span> o
+<span class="function"><a href="function.fbsql-db-query.html" class="function">fbsql_db_query()</a></span>.</p></dd>
+
+    
+     <dt>
+<code class="parameter">field_offset</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El offset numerico del campo. El índice de campos empieza en 0.
+       Si no se especifica, se obtiene el siguiente campo que todavía
+       no haya sido obtenido <span class="function"><strong>fbsql_fetch_field()</strong></span>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.fbsql-fetch-field-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un objeto conteniendo la información del campo, o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+  <p class="para">
+   Las propiedades de los objetos son:
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      name - nombre de la columna
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      table - nombre de la tabla a la que pertenece la columna
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      max_length - longitud máxima de la columna
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      not_null - 1 si la columna no puede ser <strong><code>NULL</code></strong>
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      type - el tipo de dato de la columna
+     </span>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.fbsql-fetch-field-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1225">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>fbsql_fetch_field()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />fbsql_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$host</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$user</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$password</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;die(</span><span style="color: #DD0000">"No&nbsp;se&nbsp;puede&nbsp;conectar"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fbsql_db_query</span><span style="color: #007700">(</span><span style="color: #DD0000">"database"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"select&nbsp;*&nbsp;from&nbsp;table"</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;die(</span><span style="color: #DD0000">"Consulta&nbsp;fallida"</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;Obtiene&nbsp;los&nbsp;metadatos&nbsp;de&nbsp;la&nbsp;columna<br /></span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;<br />while&nbsp;(</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">fbsql_num_fields</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Información&nbsp;para&nbsp;la&nbsp;columna&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #DD0000">:&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$meta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fbsql_fetch_field</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!</span><span style="color: #0000BB">$meta</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"No&nbsp;hay&nbsp;información&nbsp;disponible&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;pre&gt;<br />max_length:&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$meta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">max_length</span><span style="color: #DD0000"><br />name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$meta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">name</span><span style="color: #DD0000"><br />not_null:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$meta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">not_null</span><span style="color: #DD0000"><br />table:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$meta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">table</span><span style="color: #DD0000"><br />type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$meta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">type</span><span style="color: #DD0000"><br />&lt;/pre&gt;"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++;<br />}<br /></span><span style="color: #0000BB">fbsql_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.fbsql-fetch-field-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.fbsql-field-seek.html" class="function" rel="rdfs-seeAlso">fbsql_field_seek()</a> - Mueve el puntero interno de resultado al campo con la posici&oacute;n especificada</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fbsql-fetch-assoc.html">fbsql_fetch_assoc</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.fbsql-fetch-lengths.html">fbsql_fetch_lengths</a></div>
+ <div class="up"><a href="ref.fbsql.html">Funciones de FrontBase</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

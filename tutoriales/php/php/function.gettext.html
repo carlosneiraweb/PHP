@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Consultar un mensaje en el dominio actual</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.dngettext.html">dngettext</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ngettext.html">ngettext</a></div>
+ <div class="up"><a href="ref.gettext.html">Funciones de Gettext</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.gettext" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">gettext</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">gettext</span> &mdash; <span class="dc-title">Consultar un mensaje en el dominio actual</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.gettext-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>gettext</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$message</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Busca un mensaje en el dominio actual.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.gettext-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">message</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El mensaje se está traduciendo.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.gettext-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un <span class="type"><a href="language.types.string.html" class="type string">string</a></span> traducido si se encuentra en la tabla de traducciones,
+   o envia el mensaje si no es encontrado.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.gettext-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2711">
+    <p><strong>Ejemplo #1 <span class="function"><strong>gettext()</strong></span>-check</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Configurar&nbsp;idioma&nbsp;en&nbsp;Alemán<br /></span><span style="color: #0000BB">putenv</span><span style="color: #007700">(</span><span style="color: #DD0000">'LC_ALL=de_DE'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">setlocale</span><span style="color: #007700">(</span><span style="color: #0000BB">LC_ALL</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'de_DE'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Especifica&nbsp;la&nbsp;ubicación&nbsp;de&nbsp;la&nbsp;tabla&nbsp;de&nbsp;traducciones<br /></span><span style="color: #0000BB">bindtextdomain</span><span style="color: #007700">(</span><span style="color: #DD0000">"myPHPApp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"./locale"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Seleccionar&nbsp;dominio<br /></span><span style="color: #0000BB">textdomain</span><span style="color: #007700">(</span><span style="color: #DD0000">"myPHPApp"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ahora&nbsp;las&nbsp;traducciones&nbsp;se&nbsp;encuentran&nbsp;en&nbsp;./locale/de_DE/LC_MESSAGES/myPHPApp.mo<br /><br />//&nbsp;Imprimir&nbsp;un&nbsp;mensaje&nbsp;de&nbsp;prueba<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">gettext</span><span style="color: #007700">(</span><span style="color: #DD0000">"Bienvenido&nbsp;a&nbsp;mi&nbsp;aplicación&nbsp;en&nbsp;PHP"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;O&nbsp;use&nbsp;un&nbsp;alias&nbsp;_()&nbsp;para&nbsp;gettext()<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">_</span><span style="color: #007700">(</span><span style="color: #DD0000">"¡Qué&nbsp;tenga&nbsp;un&nbsp;buen&nbsp;día!"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.gettext-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Utilice el carácter de subrayado &#039;_&#039; como un alias en esta función.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+ Configurar el idioma no es suficiente en algunos sistema y 
+ <span class="function"><a href="function.putenv.html" class="function">putenv()</a></span> debe ser usado para establecer 
+ el idioma actual.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.gettext-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.setlocale.html" class="function" rel="rdfs-seeAlso">setlocale()</a> - Establecer la informaci&oacute;n del localismo</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.dngettext.html">dngettext</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ngettext.html">ngettext</a></div>
+ <div class="up"><a href="ref.gettext.html">Funciones de Gettext</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

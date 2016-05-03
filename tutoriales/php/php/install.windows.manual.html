@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Pasos para una instalaci&oacute;n manual</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="install.windows.html">Instalaci&oacute;n en sistemas Windows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="install.windows.iis.html">Microsoft IIS</a></div>
+ <div class="up"><a href="install.windows.html">Instalaci&oacute;n en sistemas Windows</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="install.windows.manual" class="sect1">
+ <h2 class="title">Pasos para una instalación manual</h2>
+
+ <p class="para">
+  Esta sección contiene instrucciones para instalar y configurar manualmente
+  PHP en Windows de Microsoft.
+ </p>
+
+ <div class="sect2" id="install.windows.manual.download">
+  <h3 class="title">Selección y descarga de el paquete de distribución PHP</h3>
+  <p class="para">
+   Descarga la distribución binaria desde
+   <a href="http://windows.php.net/download/" class="link external">&raquo;&nbsp;PHP para Windows: Binarios y Fuentes </a>. 
+   Hay varias versiones diferentes del paquete zip. Para seleccionar la versión adecuada,
+   siga la guía detallada en la <a href="http://windows.php.net/download/" class="link external">&raquo;&nbsp;página de descargas</a>.
+  </p>
+ </div>
+ <div class="sect2" id="install.windows.manual.package">
+  <h3 class="title">La estructura del paquete PHP y el contenido</h3>
+  <p class="para">
+   Descomprimir el contenido del archivo zip en un directorio de su elección, por
+   ejemplo C:\PHP\. La estructura de directorios y archivos extraídos de del zip se verá
+   de la siguiente manera:
+   <div class="example" id="example-48">
+    <p><strong>Ejemplo #1 PHP 5 paquete de estructura</strong></p>
+    <div class="example-contents">
+<div class="cdata"><pre>
+
+c:\php
+   |
+   +--dev
+   |  |
+   |  |-php5ts.lib                 -- php5.lib in non thread safe version
+   |
+   +--ext                          -- extension DLLs for PHP
+   |  |
+   |  |-php_bz2.dll
+   |  |
+   |  |-php_cpdf.dll
+   |  |
+   |  |-...
+   |
+   +--extras                       -- empty
+   |
+   +--pear                         -- initial copy of PEAR
+   |
+   |
+   |-go-pear.bat                   -- PEAR setup script
+   |
+   |-...
+   |
+   |-php-cgi.exe                   -- CGI executable
+   |
+   |-php-win.exe                   -- executes scripts without an opened command prompt
+   |
+   |-php.exe                       -- Command line PHP executable (CLI)
+   |
+   |-...
+   |
+   |-php.ini-development           -- default php.ini settings
+   |
+   |-php.ini-production            -- recommended php.ini settings
+   |
+   |-php5apache2_2.dll             -- does not exist in non thread safe version
+   |
+   |-php5apache2_2_filter.dll      -- does not exist in non thread safe version
+   |
+   |-...
+   |
+   |-php5ts.dll                    -- core PHP DLL ( php5.dll in non thread safe version)
+   |
+   |-...
+
+</pre></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   A continuación se muestra la lista de los módulos y archivos ejecutables incluidos en la distribución del archivo zip de PHP:
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      <var class="filename">go-pear.bat</var> - el script de configuración de PEAR. Consulte <a href="http://pear.php.net/manual/en/installation.php" class="link external">&raquo;&nbsp;Instalación (PEAR)</a>
+      para más detalles.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <var class="filename">php-cgi.exe</var> - ejecutable CGI que se puede utilizar cuando se ejecuta PHP en IIS a través de CGI o FastCGI.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <var class="filename">php-win.exe</var> - el ejecutable para la ejecución de scripts en PHP sin necesidad de utilizar una ventana de línea de comandos de PHP
+      (Por ejemplo, las aplicaciones PHP que utilizan Windows GUI).
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <var class="filename">php.exe</var> - el ejecutable para la ejecución de scripts PHP dentro de una interfaz de línea de comandos (CLI) de PHP.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <var class="filename">php5apache2_2.dll</var> - Apache 2.2.X module.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <var class="filename">php5apache2_2_filter.dll</var> - Apache 2.2.X filter.
+     </p>
+    </li>
+   </ul>
+  </p>
+ </div>
+ <div class="sect2" id="install.windows.manual.phpini">
+  <h3 class="title">Cambio el fichero <var class="filename">php.ini</var></h3>
+  <p class="para">
+   Después de que el contenido del paquete de PHP se ha extraído, copie el <var class="filename">php.ini-production</var> en <var class="filename">php.ini</var>
+   en la misma carpeta. Si es necesario, también es posible colocar el <var class="filename">php.ini</var> en cualquier otro lugar.
+   Pero se requieren pasos adicionales de configuración como se describe en <a href="configuration.file.html" class="link">Configuración de PHP</a>.
+  </p>
+
+  <p class="para">
+   El fichero <var class="filename">php.ini</var> le dice a PHP cómo se configura, y cómo trabajar con el ambiente
+   que se ejecuta. Aquí hay una serie de ajustes para el fichero <var class="filename">php.ini</var>
+   PHP que ayudan a trabajar mejor con Windows. Algunos de estos son opcionales. Hay
+   muchas otras directivas que puedan ser relevantes para su ambiente - dirijase
+   <a href="ini.list.html" class="link"> lista de directivas php.ini </a> para más información.
+  </p>
+
+  <p class="para">
+   Las directivas:
+   <ul class="itemizedlist">
+    <li class="listitem">
+
+     <p class="para">
+      <var class="varname"><var class="varname">extension_dir</var></var> = <em>&lt;path to extension directory&gt;</em> - La <var class="varname"><var class="varname">extension_dir</var></var> necesidades
+      para indicar el directorio donde las extensiones de PHP se almacenan los ficheros. La ruta puede ser absoluta
+      (i.e. &quot;C:\PHP\ext&quot;) o (i.e. &quot;.\ext&quot;). Extensiones que se enumeran más baja en el <var class="filename">php.ini</var> ficheros
+      que se encuentra en el <var class="varname"><var class="varname">extension_dir</var></var> .
+     </p>
+
+    </li>
+
+    <li class="listitem">
+     <p class="para">
+      <var class="varname"><var class="varname">extension</var></var> = <em>xxxxx.dll</em> - Para cada extensión que desee habilitar, necesita un correspondiente &quot;extension=&quot;
+      directiva que le dice a PHP que las extensiones en el <var class="varname"><var class="varname">extension_dir</var></var> para cargar en tiempo de inicio.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <var class="varname"><var class="varname">log_errors</var></var> = <em>On</em> - PHP tiene un error de registro de instalación que se puede utilizar para enviar los errores a un fichero,
+      o de un servicio (i.e. syslog) y trabaja en conjunto con el <var class="varname"><var class="varname">error_log</var></var> Directiva a continuación. Cuando se ejecuta bajo IIS,
+      la <var class="varname"><var class="varname">log_errors</var></var> debe estar habilitado, con una validez <var class="varname"><var class="varname">error_log</var></var> .
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <var class="varname"><var class="varname">error_log</var></var> = <em>&lt;path to the error log file&gt;</em> - El error_log tiene que especificar la ruta de acceso absoluta,
+      o en relación con el archivo donde los errores de PHP debe estar registrado. Este archivo debe tener permisos de escritura para el servidor web.
+      Los lugares más comunes para este archivo en varios directorios TEMP, por ejemplo &quot;C:\inetpub\temp\php-errors.log&quot;.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <var class="varname"><var class="varname"> cgi.force_redirect </var></var> = <em> 0 </em> - La presente Directiva se requiere para ejecutar en IIS.
+      Se trata de una protección de la instalación de la guía necesaria por muchos otros servidores web. Sin embargo, lo que permite que en IIS
+      hacer que el motor de PHP a un error en Windows.
+     </p>
+    </li>
+
+    <li class="listitem">
+
+     <p class="para">
+      <var class="varname"><var class="varname">cgi.fix_pathinfo</var></var> = <em>1</em> - Esto le permite acceder a PHP al real path después de la especificación CGI.
+      IIS FastCGI implementa las necesidades de este conjunto.
+     </p>
+
+    </li>
+    <li class="listitem">
+
+     <p class="para">
+      <var class="varname"><var class="varname">fastcgi.impersonate</var></var> = <em>1</em> - FastCGI bajo IIS admite la posibilidad de hacerse pasar por
+      tokens de seguridad del cliente que llama. Esto permite que IIS defina el contexto de seguridad que  solicita ejecutar.
+     </p>
+
+    </li>
+    <li class="listitem">
+
+     <p class="para">
+      <var class="varname"><var class="varname">fastcgi.logging</var></var> = <em>0</em> - FastCGI  debe estar deshabilitado en IIS. Si se deja habilitada,
+      los mensajes de cualquier clase son tratados por FastCGI como las condiciones de error que hará que IIS  genere una excepción HTTP 500.
+     </p>
+
+
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Directivas opcionales
+   <ul class="itemizedlist">
+    <li class="listitem">
+
+     <p class="para">
+      <var class="varname"><var class="varname">max_execution_time</var></var> = <em>##</em> - Esta directiva le dice a PHP, el importe máximo de tiempo que puede
+      ejecutar cualquier script determinado. El defecto es 30 segundos. Aumentar el valor de esta directiva, si la aplicación PHP tomar mucho tiempo para ejecutarse.
+     </p>
+
+    </li>
+    <li class="listitem">
+
+     <p class="para">
+      <var class="varname"><var class="varname">memory_limit</var></var> = <em>###M</em> - La cantidad de memoria disponible para el proceso de PHP, en Megabytes.
+      El valor por defecto es 128, lo cual está bien para la mayoría de las aplicaciones PHP. Algunos de los más complejos puede ser que necesite más.
+     </p>
+
+    </li>
+    <li class="listitem">
+
+     <p class="para">
+      <var class="varname"><var class="varname"> display_errors </var></var> = <em> Off </em> - Esta directiva le dice a PHP si se incluyen los mensajes de error en el
+      corriente que devuelve al servidor web. Si se establece en &quot;On&quot;, entonces PHP enviará lo que las clases de errores
+      que se define con la <var class="varname"><var class="varname">error_reporting</var></var> directiva de nuevo al servidor web como parte de la secuencia de error.
+      Por razones de seguridad, se recomienda &quot;Off&quot; en los servidores de producción con el fin de no revelar ninguna información
+      sensible de la seguridad que a menudo se incluyen en los mensajes de error.
+     </p>
+
+
+    </li>
+    <li class="listitem">
+
+     <p class="para">
+      <var class="varname"><var class="varname">open_basedir</var></var> = <em>&lt;paths a directorios, separados por semicolon&gt;</em>, por ejemplo,
+      openbasedir=&quot;C:\inetpub\wwwroot;C:\inetpub\temp&quot;.  Esta directiva especifica las rutas de directorio en donde PHP
+      se le permite realizar las operaciones del sistema de archivos. Cualquier operación de fichero fuera de las rutas especificadas se producirá un error.
+      Esta directiva es especialmente útil para bloquear la instalación de PHP en entornos de alojamiento compartido para evitar que
+      scripts PHP de acceso a los archivos fuera del directorio raíz del sitio web.
+     </p>
+
+
+    </li>
+    <li class="listitem">
+
+
+     <p class="para">
+      <var class="varname"><var class="varname">upload_max_filesize</var></var> = <em>###M</em> and <var class="varname"><var class="varname">post_max_size</var></var> = <em>###M</em> -
+      El tamaño máximo permitido de un archivo subido y los datos posteriores, respectivamente. Los valores de estas directivas serán
+      aumenta si las aplicaciones PHP necesita realizar grandes cargas, como por ejemplo fotos o archivos de vídeo.
+     </p>
+
+    </li>
+   </ul>
+  </p>
+
+  <p class="para">
+   PHP esta ahora configurado en el sistema. El siguiente paso es elegir un servidor web,
+   a fin de que pueda ejecutar PHP. Elegir un servidor web de la tabla de contenido.
+  </p>
+
+
+  <p class="para">
+   Además de ejecutar PHP a través de un servidor web, PHP puede ejecutar desde la línea de comandos
+   como un script <em>.BAT</em>. Ver
+   <a href="install.windows.commandline.html" class="link"> PHP línea de comandos de Microsoft
+    Windows </a> para más detalles.
+  </p>
+
+
+
+
+ </div>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="install.windows.html">Instalaci&oacute;n en sistemas Windows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="install.windows.iis.html">Microsoft IIS</a></div>
+ <div class="up"><a href="install.windows.html">Instalaci&oacute;n en sistemas Windows</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

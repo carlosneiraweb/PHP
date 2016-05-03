@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Constructores</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="keyword.extends.html">extends</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="keyword.paamayim-nekudotayim.html">Operador de Resoluci&oacute;n de Alcance (::)</a></div>
+ <div class="up"><a href="oop4.html">Clases y Objetos (PHP 4)</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="oop4.constructor" class="sect1">
+   <h2 class="title">Constructores</h2>
+
+   <p class="para">
+    Los constructores son funciones en una clase que son invocadas
+    automáticamente cuando se crea una nueva instancia de una clase con
+    <em>new</em>. Una función se vuelve un constructor, cuando
+    tiene el mismo nombre que la clase. Si una clase
+    no tiene constructor, el constructor de la clase base será
+    invocado, si es que existe.
+   </p>
+ 
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Auto_Cart&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">Cart&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">Auto_Cart</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add_item</span><span style="color: #007700">(</span><span style="color: #DD0000">"10"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+ 
+   <p class="para">
+    Esto define una clase Auto_Cart que es una Cart más un constructor
+    que inicializa el carrito con un elemento del artículo número &quot;10&quot;
+    en cada ocasión que un nuevo Auto_Cart es creado con &quot;<em>new</em>&quot;.
+    Los constructores pueden llevar argumentos y estos argumentos pueden ser opcionales, lo que
+    los hace mucho más útiles. Para poder seguir utilizando la clase
+    sin parámetros, todos los parámetros para los constructores deben hacerse
+    opcionales proporcionando los valores por omisión.
+   </p>
+ 
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Constructor_Cart&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">Cart&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">Constructor_Cart</span><span style="color: #007700">(</span><span style="color: #0000BB">$item&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"10"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$num&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add_item&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$item</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$num</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br />&nbsp;<br /></span><span style="color: #FF8000">//&nbsp;Comprar&nbsp;las&nbsp;mismas&nbsp;cosas&nbsp;aburridas&nbsp;de&nbsp;siempre.<br /></span><span style="color: #0000BB">$default_cart&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Constructor_Cart</span><span style="color: #007700">;<br />&nbsp;<br /></span><span style="color: #FF8000">//&nbsp;Comprar&nbsp;en&nbsp;serio...<br /></span><span style="color: #0000BB">$different_cart&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Constructor_Cart</span><span style="color: #007700">(</span><span style="color: #DD0000">"20"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">17</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+
+   <p class="para">
+    También se puede utilizar el operador <em>@</em> para
+    <em class="emphasis">callar</em> los errores que ocurren en el constructor, para ejemplo
+    <em>@new</em>.
+   </p>
+
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">A<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">A</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"I&nbsp;am&nbsp;the&nbsp;constructor&nbsp;of&nbsp;A.&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">B</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"I&nbsp;am&nbsp;a&nbsp;regular&nbsp;function&nbsp;named&nbsp;B&nbsp;in&nbsp;class&nbsp;A.&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"I&nbsp;am&nbsp;not&nbsp;a&nbsp;constructor&nbsp;in&nbsp;A.&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">B&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">A<br /></span><span style="color: #007700">{<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Esto&nbsp;invocará&nbsp;a&nbsp;B()&nbsp;como&nbsp;un&nbsp;constructor<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">B</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   
+   <p class="para">
+    La función B() en la clase A repentinamente se volverá un
+    constructor en la clase B, aunque nunca fue la intención que lo fuera.
+    A PHP 4 no le importa si la función ha sido definida
+    en la clase B, o si ha sido heredada.
+   </p>
+   
+   <div class="caution"><strong class="caution">Precaución</strong>
+    <p class="simpara">
+     PHP no llama automáticamente a los constructores de la clase base
+     desde un constructor de una clase derivada. Es su responsabilidad
+     propagar la llamada a los constructores en la jerarquía superior 
+     cuando sea apropiado.
+    </p>
+   </div>
+   
+   <p class="para">
+    Los destructores son funciones que son invocadas automáticamente
+    cuando un objeto es destruido, ya sea con <span class="function"><a href="function.unset.html" class="function">unset()</a></span>
+    o simplemente al salir del alcance. No existen destructores
+    en PHP. En cambio, se puede utilizar <span class="function"><a href="function.register-shutdown-function.html" class="function">register_shutdown_function()</a></span>
+    para simular la mayoría de los efectos de los destructores.
+   </p>
+  </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="keyword.extends.html">extends</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="keyword.paamayim-nekudotayim.html">Operador de Resoluci&oacute;n de Alcance (::)</a></div>
+ <div class="up"><a href="oop4.html">Clases y Objetos (PHP 4)</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

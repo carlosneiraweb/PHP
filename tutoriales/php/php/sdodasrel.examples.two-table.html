@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejemplos con dos tablas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sdodasrel.examples.one-table.html">Ejemplos con una tabla</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sdodasrel.examples.three-table.html">Ejemplos con tres tablas</a></div>
+ <div class="up"><a href="sdodasrel.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sdodasrel.examples.two-table" class="section">
+  <h2 class="title">Ejemplos con dos tablas</h2>
+  <p class="para">
+   El siguiente conjunto de ejemplos usa dos tablas de la base de datos
+   compañía: las tables compañía y departamento. Estos ejemplos ejercitan
+   más la función del DAS Relacional.
+  </p>
+  <p class="para">
+   En esta serie de ejemplos se crean, se recuperan, se actualizan y finalmente
+   se borran una compañía y un departamento. Esto ilustra el
+   ciclo de vida de un grafo de datos que contiene más de un objeto. Observe que
+   estos ejemplos limpian las tablas compañía y departamento al inicio
+   por lo que se pueden saber los resultados exactos de las consultas.
+  </p>
+  <p class="para">
+   Se pueden encontrar estos ejemplos combinados en un script llamado
+   <var class="filename">1cd-CRUD</var>
+   en el direcorio
+   <var class="filename">Scenarios</var>
+   del paquete del DAS Relacional.
+  </p>
+
+  <p class="para">
+   <div class="example" id="example-6023">
+    <p><strong>Ejemplo #1 Una compañía, un departamento - Crear</strong></p>
+    <div class="example-contents"><p>
+     Como en el anterior ejemplo de crear solo un objeto de datos compañía,
+     la primera acción después de construir el DAS Relacional es llamar a
+     <span class="function"><strong>createRootDataObject()</strong></span>
+     para obtener el objeto raíz especial del grafo de datos en principio vacío.
+     El objeto compañía se crea entonces como un hijo del objeto raíz,
+     y el objeto departamento como un hijo del objeto compañía.
+    </p></div>
+    <div class="example-contents"><p>
+     Cuando se aplican los cambios, el DAS Relacional tiene que
+     llevar a cabo un procesamiento especial para mantener las claves foráneas que
+     soportan las relaciones de contención, especialmente están involucradas claves
+     primarias autogeneradas. En este ejemplo, la relación entre la
+     clave primaria autogenerada
+     <var class="varname"><var class="varname">id</var></var>
+     de la tabla compañía y la columna
+     <var class="varname"><var class="varname">id_comp</var></var>
+     de la tabla departamento se debe mantener. La primera vez que se inserta
+     una compañía y un departamento, el DAS Relacional tiene que
+     insertar primero la fila de lacompañía, luego llamar al método
+     <span class="function"><strong>getLastInsertId()</strong></span>
+     de PDO para obtener la clave primaria autogenerada, y luego añadir tal
+     valor de la columna
+     <var class="varname"><var class="varname">id_comp</var></var>
+     al insertar la fila del departamento.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">require_once&nbsp;</span><span style="color: #DD0000">'SDO/DAS/Relational.php'</span><span style="color: #007700">;<br />require_once&nbsp;</span><span style="color: #DD0000">'company_metadata.inc.php'</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/*************************************************************************************<br />*&nbsp;Vaciar&nbsp;las&nbsp;dos&nbsp;tablas<br />*************************************************************************************/<br /></span><span style="color: #0000BB">$gbd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #0000BB">PDO_DSN</span><span style="color: #007700">,</span><span style="color: #0000BB">DATABASE_USER</span><span style="color: #007700">,</span><span style="color: #0000BB">DATABASE_PASSWORD</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia_pdo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">'DELETE&nbsp;FROM&nbsp;COMPAÑÍA;'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$filas_afectadas&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$sentencia_pdo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$sentencia_pdo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">'DELETE&nbsp;FROM&nbsp;DEPARTAMENTO;'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$filas_afectadas&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$sentencia_pdo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/**************************************************************<br />*&nbsp;Crear&nbsp;una&nbsp;compañía&nbsp;de&nbsp;nombre&nbsp;Acme&nbsp;y&nbsp;un&nbsp;departamento,&nbsp;el&nbsp;departamento&nbsp;de&nbsp;Zapatos<br />***************************************************************/<br /></span><span style="color: #0000BB">$gbd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #0000BB">PDO_DSN</span><span style="color: #007700">,</span><span style="color: #0000BB">DATABASE_USER</span><span style="color: #007700">,</span><span style="color: #0000BB">DATABASE_PASSWORD</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$das&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SDO_DAS_Relational&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$metadatos_bd</span><span style="color: #007700">,</span><span style="color: #DD0000">'compañía'</span><span style="color: #007700">,</span><span style="color: #0000BB">$metadatos_contenedor_SDO</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$raíz&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$das&nbsp;</span><span style="color: #007700">-&gt;&nbsp;</span><span style="color: #0000BB">createRootDataObject</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">$acme&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$raíz&nbsp;</span><span style="color: #007700">-&gt;&nbsp;</span><span style="color: #0000BB">createDataObject</span><span style="color: #007700">(</span><span style="color: #DD0000">'compañía'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$acme&nbsp;</span><span style="color: #007700">-&gt;&nbsp;</span><span style="color: #0000BB">nombre&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"Acme"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$zapatos&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$acme</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">createDataObject</span><span style="color: #007700">(</span><span style="color: #DD0000">'departamento'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$zapatos</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">nombre&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Zapatos'</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$das&nbsp;</span><span style="color: #007700">-&gt;&nbsp;</span><span style="color: #0000BB">applyChanges</span><span style="color: #007700">(</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$raíz</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+
+  <p class="para">
+   <div class="example" id="example-6024">
+    <p><strong>Ejemplo #2 Una compañía, un departamento - Recuperar y actualizar</strong></p>
+
+    <div class="example-contents"><p>
+     En este caso, la consulta SQL pasada a
+     <span class="function"><strong>executeQuery()</strong></span>
+     realiza una unión interna para unir los datos de las tablas
+     compañía y departamento. Las claves primarias de ambas tablas
+     deben incluirse en la consulta. El conjunto de resultados
+     es renormalizado para formar un grafo de datos normalizado. Observe que se
+     proporciona un especificador de columna como tercer argumento a la llamada a
+     <span class="function"><strong>executeQuery()</strong></span>,
+     habilitando al DAS Relacional para conocer cual es cada columna en
+     el conjunto de resultados.
+    </p></div>
+    <div class="example-contents"><p>
+     Observe que, aunque la columna
+     <var class="varname"><var class="varname">id_comp</var></var>
+     se usa en la consulta, no es necesaria en el conjunto de resultados.
+     Para poder comprender lo que el DAS Relacional hace cuando construye
+     el grafo de datos, puede ser de ayuda visualizar a lo que se asemeja el
+     conjunto de resultados. Aunque los datos de la base de datos estén normalizados, por
+     los que varias filas de departamentos puedan apuntar a través de sus claves foráneas a una
+     fila de compañía, los datos del conjunto de resultados no están normalizados, esto es,
+     si existe una compañía y múltiples departamentos, los valores de la
+     compañía se repiten en cada fila. El DAS Relacional tiene que invertir
+     este proceso y volver a convertir el conjunto de resultados en un grafo de datos normalizado,
+     con sólo un objeto compañía.
+    </p></div>
+    <div class="example-contents"><p>
+     En este ejemplo el DAS Relacional examinará el conjunto de resultados y
+     el especificador de columna, buscará datos para las tablas compañía y
+     departamento, buscará claves primarias para ambas tablas, e interpretará cada fila como
+     contenedora de datos de un departamento y su compañía madre. Si no encontró
+     datos para esa compañía antes (usa la clave primaria para
+     comprobarlo), crea un objeto compañía y luego un objeto departamento
+     bajo él. Si ya encontró datos para esa compañía antes y
+     ya creó el objeto compañía, entonces creará el
+     objeto departamento bajo ella.
+    </p></div>
+
+    <div class="example-contents"><p>
+     De esta forma, el DAS Relacional puede recuperar y renormalizar datos
+     para múltiples compañías y múltiples departamentos bajo ellas.
+    </p></div>
+
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">require_once&nbsp;</span><span style="color: #DD0000">'SDO/DAS/Relational.php'</span><span style="color: #007700">;<br />require_once&nbsp;</span><span style="color: #DD0000">'company_metadata.inc.php'</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/**************************************************************<br />*&nbsp;Recuperar&nbsp;la&nbsp;compañía&nbsp;y&nbsp;el&nbsp;departamento&nbsp;Zapatos,&nbsp;luego&nbsp;borrar&nbsp;Zapatos&nbsp;y&nbsp;añadir&nbsp;TI<br />***************************************************************/<br /></span><span style="color: #0000BB">$gbd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #0000BB">PDO_DSN</span><span style="color: #007700">,</span><span style="color: #0000BB">DATABASE_USER</span><span style="color: #007700">,</span><span style="color: #0000BB">DATABASE_PASSWORD</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$das&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SDO_DAS_Relational&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$metadatos_bd</span><span style="color: #007700">,</span><span style="color: #DD0000">'compañía'</span><span style="color: #007700">,</span><span style="color: #0000BB">$metadatos_contenedor_SDO</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$raíz&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$das</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">executeQuery</span><span style="color: #007700">(</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">,<br /></span><span style="color: #DD0000">'select&nbsp;c.id,&nbsp;c.nombre,&nbsp;d.id,&nbsp;d.nombre&nbsp;from&nbsp;compañía&nbsp;c,&nbsp;departamento&nbsp;d&nbsp;where&nbsp;d.id_comp&nbsp;=&nbsp;c.id'</span><span style="color: #007700">,<br />array(</span><span style="color: #DD0000">'compañía.id'</span><span style="color: #007700">,</span><span style="color: #DD0000">'compañía.nombre'</span><span style="color: #007700">,</span><span style="color: #DD0000">'departamento.id'</span><span style="color: #007700">,</span><span style="color: #DD0000">'departamento.nombre'</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">$acme&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$raíz</span><span style="color: #007700">[</span><span style="color: #DD0000">'compañía'</span><span style="color: #007700">][</span><span style="color: #0000BB">0</span><span style="color: #007700">];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;obtener&nbsp;la&nbsp;primera&nbsp;compañía&nbsp;-&nbsp;será&nbsp;'Acme'<br /></span><span style="color: #0000BB">$zapatos&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$acme</span><span style="color: #007700">[</span><span style="color: #DD0000">'departamento'</span><span style="color: #007700">][</span><span style="color: #0000BB">0</span><span style="color: #007700">];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;obtener&nbsp;el&nbsp;primer&nbsp;departamento&nbsp;bajo&nbsp;ella&nbsp;-&nbsp;será&nbsp;'Zapatos'<br /><br /></span><span style="color: #007700">unset(</span><span style="color: #0000BB">$acme</span><span style="color: #007700">[</span><span style="color: #DD0000">'departamento'</span><span style="color: #007700">][</span><span style="color: #0000BB">0</span><span style="color: #007700">]);<br /><br /></span><span style="color: #0000BB">$ti&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$acme</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">createDataObject</span><span style="color: #007700">(</span><span style="color: #DD0000">'departamento'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$ti</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">nombre&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'TI'</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$das&nbsp;</span><span style="color: #007700">-&gt;&nbsp;</span><span style="color: #0000BB">applyChanges</span><span style="color: #007700">(</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$raíz</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+
+  <p class="para">
+   <div class="example" id="example-6025">
+    <p><strong>Ejemplo #3 Una compañía, dos departamentos - Recuperar y eliminar</strong></p>
+    <div class="example-contents"><p>
+     En este ejemplo la compañía y el departamento son recuperados y
+     luego eliminados. No es necesario eliminarlos individualmente
+     (aunque sería posible) - al eliminar el objeto compañía
+     del grafo de datos también se elimina cualquier departamento bajo él.
+    </p></div>
+    <div class="example-contents"><p>
+     Observe la manera en que el objeto compañía es eliminado realmente usando la
+     llamada a unset de PHP. unset se ha de realizar sobre la propiedad
+     de contención que, en este caso, es
+     la propiedad compañía del objeto
+     raíz especial. Se debe usar:
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">unset(</span><span style="color: #0000BB">$raíz</span><span style="color: #007700">[</span><span style="color: #DD0000">'compañía'</span><span style="color: #007700">][</span><span style="color: #0000BB">0</span><span style="color: #007700">]);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     y no:
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">unset(</span><span style="color: #0000BB">$acme</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//ERRÓNEO<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     Al usar unset con
+     <var class="varname"><var class="varname">$acme</var></var>
+     destruiría la variable, pero dejaría los daos del grafo
+     de datos intactos.
+    </p></div>
+
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">require_once&nbsp;</span><span style="color: #DD0000">'SDO/DAS/Relational.php'</span><span style="color: #007700">;<br />require_once&nbsp;</span><span style="color: #DD0000">'company_metadata.inc.php'</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/**************************************************************<br />*&nbsp;Recuperar&nbsp;la&nbsp;compañía&nbsp;y&nbsp;el&nbsp;departamento&nbsp;TI,&nbsp;luego&nbsp;borrar&nbsp;la&nbsp;compañía&nbsp;completa<br />***************************************************************/<br /></span><span style="color: #0000BB">$gbd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #0000BB">PDO_DSN</span><span style="color: #007700">,</span><span style="color: #0000BB">DATABASE_USER</span><span style="color: #007700">,</span><span style="color: #0000BB">DATABASE_PASSWORD</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$das&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SDO_DAS_Relational&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$metadatos_bd</span><span style="color: #007700">,</span><span style="color: #DD0000">'compañía'</span><span style="color: #007700">,</span><span style="color: #0000BB">$metadatos_contenedor_SDO</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$raíz&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$das</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">executeQuery</span><span style="color: #007700">(</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">,<br /></span><span style="color: #DD0000">'select&nbsp;c.id,&nbsp;c.nombre,&nbsp;d.id,&nbsp;d.nombre&nbsp;from&nbsp;compañía&nbsp;c,&nbsp;departamento&nbsp;d&nbsp;where&nbsp;d.id_comp&nbsp;=&nbsp;c.id'</span><span style="color: #007700">,<br />array(</span><span style="color: #DD0000">'compañía.id'</span><span style="color: #007700">,</span><span style="color: #DD0000">'compañía.nombre'</span><span style="color: #007700">,</span><span style="color: #DD0000">'departamento.id'</span><span style="color: #007700">,</span><span style="color: #DD0000">'departamento.nombre'</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">$acme&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$raíz</span><span style="color: #007700">[</span><span style="color: #DD0000">'compañía'</span><span style="color: #007700">][</span><span style="color: #0000BB">0</span><span style="color: #007700">];<br /></span><span style="color: #0000BB">$ti&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$acme</span><span style="color: #007700">[</span><span style="color: #DD0000">'departamento'</span><span style="color: #007700">][</span><span style="color: #0000BB">0</span><span style="color: #007700">];<br /><br />unset(</span><span style="color: #0000BB">$raíz</span><span style="color: #007700">[</span><span style="color: #DD0000">'compañía'</span><span style="color: #007700">][</span><span style="color: #0000BB">0</span><span style="color: #007700">]);<br /><br /></span><span style="color: #0000BB">$das&nbsp;</span><span style="color: #007700">-&gt;&nbsp;</span><span style="color: #0000BB">applyChanges</span><span style="color: #007700">(</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$raíz</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sdodasrel.examples.one-table.html">Ejemplos con una tabla</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sdodasrel.examples.three-table.html">Ejemplos con tres tablas</a></div>
+ <div class="up"><a href="sdodasrel.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

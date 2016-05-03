@@ -1,0 +1,522 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Estad&iacute;sticas recopiladas por el n&uacute;cleo de la cach&eacute; de consultas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysqlnd-qc-get-cache-info.html">mysqlnd_qc_get_cache_info</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-qc-get-normalized-query-trace-log.html">mysqlnd_qc_get_normalized_query_trace_log</a></div>
+ <div class="up"><a href="ref.mysqlnd-qc.html">Funciones de mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysqlnd-qc-get-core-stats" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysqlnd_qc_get_core_stats</h1>
+  <p class="verinfo">(PECL mysqlnd_qc &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">mysqlnd_qc_get_core_stats</span> &mdash; <span class="dc-title">Estadísticas recopiladas por el núcleo de la caché de consultas</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysqlnd-qc-get-core-stats-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> 
+   <span class="methodname"><strong>mysqlnd_qc_get_core_stats</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve un array con las estadísticas recopiladas por el núcleo del complemento de caché.
+   Se notificarán los mismos campos de datos para cualquier gestor de almacenamiento ya que los
+   datos son recopilados por el núcleo.
+  </p>
+  <p class="para">
+   El ajuste de configuraión de
+   <em>PHP</em>
+   <em>mysqlnd_qc.collect_statistics</em>
+   controla la recopilación de estadísticas. Dicha recopilación
+   está deshabilitada de forma predeterminada por motivos de rendimiento.
+   La deshabilitación de la recopilación de estadísticas también deshabilitará la recopilación
+   de las estadísticas relacionadas con los tiempos.
+  </p>
+  <p class="para">
+   El ajuste de configuración de
+   <em>PHP</em>
+   <em>mysqlnd_qc.collect_time_statistics</em> controla la
+   recopilación de estadísticas relacionadas con los tiempos.
+  </p>
+  <p class="para">
+   El ámbito de las estadísticas del núcleo es el
+   proceso de <em>PHP</em>.
+   Dependiendo del modelo de desarrollo un proceso de
+   <em>PHP</em> podría manejar una o múltiples peticiones.
+  </p>
+  <p class="para">
+   Las estadísticas se acumulan para todas las entradas de la caché y para todos los gestores
+   de almacenamiento. No es posible indicar cuántas consultas originadas desde
+   las llamadas a las APIs de
+   <em>mysqli</em>,
+   <em>PDO_MySQL</em> o
+   <em>mysql</em> han
+   contribuido a los valores de los datos acumulados.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysqlnd-qc-get-core-stats-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">Esta función no tiene parámetros.</p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysqlnd-qc-get-core-stats-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Array de estadísticas del núcleo
+  </p>
+  <table class="doctable informaltable">
+   
+    <col style="width: 10%;" />
+    <col style="width: 70%;" />
+    <col style="width: 20%;" />
+    <thead>
+     <tr>
+      <th>Estadística</th>
+      <th>Descripción</th>
+      <th>Versión</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>
+       <em>cache_hit</em>
+      </td>
+      <td>
+       La sentencia se considera almacenable en caché y los datos almacenados en caché han sido reutilizados.
+       La sentencia se considera almacenable en caché y ocurrió una no coincidencia con la caché, aunque
+       alguien almacenó en caché dicha sentencia mientras se procesaba y por lo tanto
+       se puuede obtener el resultado desde la caché refrescada.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>cache_miss</em>
+      </td>
+      <td>
+       La sentencia es considerada almacenable en caché...
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          ... y se ha añadido a la caché.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          ... pero la directiva de configuración de
+          <em>PHP</em>
+          <em>mysqlnd_qc.cache_no_table = 1</em>
+          ha impedido su almacenamiento.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          ... pero se solicita un conjunto de resultados no almacenado en búfer.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          ... pero un conjunto de resultados almacenado en búfer estaba vacío.
+         </p>
+        </li>
+       </ul>
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>cache_put</em>
+      </td>
+      <td>
+       La sentencia se considera almacenable en caché y ha sido añadida a la caché.
+       Se ha de tener cuidado al calcular las estadísticas derivadas. Los gestores de almacenamiento
+       con un tiempo de vida de almacenamiento más allá del ámbito del proceso podría notificar que
+       <em>cache_put = 0</em> junto con
+       <em>cache_hit &gt; 0</em>, si otro proceso ha rellenado
+       la caché. Se podría usar
+       <em>num_entries</em> desde
+       <span class="function"><a href="function.mysqlnd-qc-get-cache-info.html" class="function">mysqlnd_qc_get_cache_info()</a></span> si el gestor
+       lo admite
+       (<em>default</em>,
+       <em>APC</em>).
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_should_cache</em>
+      </td>
+      <td>
+       La sentencia se considera almacenable en caché basándose en el análisis de la cadena de consulta.
+       La sentencia podría o no añadirse a la caché. Véase también
+       <em>cache_put</em>.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_should_not_cache</em>
+      </td>
+      <td>
+       La sentencia se considera no almacenable en caché basándose en el análisis de la cadena de consulta.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_not_cached</em>
+      </td>
+      <td>
+       La sentencia se considera no almacenable en caché o sí se
+       considera pero el gestor de almacenamiento no ha devuelto una
+       clave hash para ella.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_could_cache</em>
+      </td>
+      <td>
+       La sentencia se considera almacenable en caché...
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          ... y ha sido ejecutada sin errores.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          ... y los metadatos muestras al menos una columna del conjunto de resultados.
+         </p>
+        </li>
+       </ul>
+       La sentencia podría o no estar ya en la caché.
+       Podría ser o no añadida a la caché después.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_found_in_cache</em>
+      </td>
+      <td>
+       La sentencia se considera almacenable en caché y se ha encontrado en la misma,
+       pero no se han reproducido los datos de la caché aún y no se ha enviado
+       el conjunto de resultados al cliente todavía. Esto no se considera una
+       coincidencia con la caché ya que el cliente no habría obtenido el resultado o
+       los datos almacenados en la caché podrían ser defectuosos.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_uncached_other</em>
+      </td>
+      <td>
+       La sentencia es considerada almacenable en caché y podría o no encontrarse ya
+       en la misma, pero la reproducción de los datos almacenados en caché ha fallado,
+       no hay ningún conjunto de resultados disponible, u ocurrió algún otro error.
+      </td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_uncached_no_table</em>
+      </td>
+      <td>
+       Statement has not been cached because the result set has at least
+       one column which has no table name in its meta data. An example of
+       such a query is
+       <em>SELECT SLEEP(1)</em>. To cache those
+       statements you have to change default value of the PHP configuration directive
+       <em>mysqlnd_qc.cache_no_table</em> and set
+       <em>mysqlnd_qc.cache_no_table = 1</em>. Often, it is not
+       desired to cache such statements.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_uncached_use_result</em>
+      </td>
+      <td>
+       La sentencia habría sido almacenada en caché si se hubiera usado un conjunto
+       de resultados almacenado en búfer. La situación se considera también como una no coincidencia con la caché,
+       por lo que <em>cache_miss</em> tambén serán incrementado.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_aggr_run_time_cache_hit</em>
+      </td>
+      <td>
+       Tiempo de ejecución (ms) acumulado de todas las consultas almacenadas en caché.
+       Las consultas almacenadas en caché son aquellas que han incrementado
+       <em>cache_hit</em>.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_aggr_run_time_cache_put</em>
+      </td>
+      <td>
+       Tiempo de ejecución (ms) acumulado de todas las consultas no almacenadas en caché que
+       han sido colocadas en la misma. Véase también
+       <em>cache_put</em>.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_aggr_run_time_total</em>
+      </td>
+      <td>
+       Tiempo de ejecución (ms) acumulado de todas las consultas no almacenadas en caché
+       que han sido inspeccionadas y ejecutadas por la caché de consultas.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_aggr_store_time_cache_hit</em>
+      </td>
+      <td>
+       Tiempo de almacenamiento (ms) acumulado de todas las consultas almacenadas en caché.
+       Las consultas almacenadas en caché son aquellas que han incrementado
+       <em>cache_hit</em>.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_aggr_store_time_cache_put</em>
+      </td>
+      <td>
+       Tiempo de almacenamiento
+       (<em>ms</em>) acumulado de todas las consultas no almacenadas en caché que
+       han sido colocadas en la misma. Véase también
+       <em>cache_put</em>.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>query_aggr_store_time_total</em>
+      </td>
+      <td>
+       Tiempo de almacenamiento (ms) acumulado de todas las consultas no almacenadas en caché
+       que han sido inspeccionadas y ejecutadas por la caché de consultas.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>receive_bytes_recorded</em>
+      </td>
+      <td>
+       El tráfico de red entrante registrado
+       (<em>bytes</em>) enviado desde MySQL a PHP.
+       El tráfico podría o no haber sido añadido a la caché. El
+       tráfico es el total de todas las consultas sin tener en cuenta si se almacenaron o no en caché.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>receive_bytes_replayed</em>
+      </td>
+      <td>
+       El tráfico de red reproducido durante el almacenamiento de la caché. Es la cantidad total de
+       tráfico entrante ahorrado debido al uso del complemento de caché de consultas.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>send_bytes_recorded</em>
+      </td>
+      <td>
+       El tráfico de red saliente registrado
+       (<em>bytes</em>) enviado desde MySQL a PHP.
+       El tráfico podría o no haber sido añadido a la caché. El
+       tráfico es el total de todas las consultas sin tener en cuenta si se almacenaron o no en caché.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>send_bytes_replayed</em>
+      </td>
+      <td>
+       El tráfico de red reproducido durante el almacenamiento de la caché. Es la cantidad total de
+       tráfico saliente ahorrado debido al uso del complemento de caché de consultas.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>slam_stale_refresh</em>
+      </td>
+      <td>
+       El número de no coincidencias con la caché que desencadenaron el servicio de datos antiguos hasta
+       que el cliente ocasionó que la no coincidencia con la caché refrescara la entrada de la caché.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>slam_stale_hit</em>
+      </td>
+      <td>
+       El número de coincidencias con la caché mientras se refrescaba una entrada antigua de la misma.
+      </td>
+      <td>Desde 1.0.0.</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </div>
+
+ 
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysqlnd-qc-get-core-stats-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2099">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysqlnd_qc_get_core_stats()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Habilitar&nbsp;la&nbsp;recopilación&nbsp;de&nbsp;estadísticas&nbsp;-&nbsp;predeterminado:&nbsp;deshabilitada&nbsp;*/<br /></span><span style="color: #0000BB">ini_set</span><span style="color: #007700">(</span><span style="color: #DD0000">"mysqlnd_qc.collect_statistics"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Habilitar&nbsp;la&nbsp;recopilación&nbsp;de&nbsp;todos&nbsp;los&nbsp;tiempos&nbsp;relacionados&nbsp;con&nbsp;estadísticas&nbsp;-<br />predeterminado:&nbsp;habilitado&nbsp;pero&nbsp;invalidado&nbsp;por&nbsp;mysqlnd_qc.collect_statistics&nbsp;=&nbsp;0&nbsp;*/<br /></span><span style="color: #0000BB">ini_set</span><span style="color: #007700">(</span><span style="color: #DD0000">"mysqlnd_qc.collect_time_statistics"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Rellenar&nbsp;la&nbsp;cacé,&nbsp;p.ej.&nbsp;usando&nbsp;mysqli&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">'host'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'usuario'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'esquema'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;No&nbsp;coincide&nbsp;con&nbsp;la&nbsp;caché&nbsp;y&nbsp;se&nbsp;coloca&nbsp;en&nbsp;la&nbsp;misma&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"/*qc=on*/SELECT&nbsp;id&nbsp;FROM&nbsp;test"</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">/*&nbsp;Coincide&nbsp;con&nbsp;la&nbsp;caché&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"/*qc=on*/SELECT&nbsp;id&nbsp;FROM&nbsp;test"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Mostrar&nbsp;las&nbsp;estadísticas&nbsp;del&nbsp;núcleo&nbsp;*/<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">mysqlnd_qc_get_core_stats</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado de los ejemplos sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+array(26) {
+  [&quot;cache_hit&quot;]=&gt;
+  string(1) &quot;1&quot;
+  [&quot;cache_miss&quot;]=&gt;
+  string(1) &quot;1&quot;
+  [&quot;cache_put&quot;]=&gt;
+  string(1) &quot;1&quot;
+  [&quot;query_should_cache&quot;]=&gt;
+  string(1) &quot;2&quot;
+  [&quot;query_should_not_cache&quot;]=&gt;
+  string(1) &quot;0&quot;
+  [&quot;query_not_cached&quot;]=&gt;
+  string(1) &quot;0&quot;
+  [&quot;query_could_cache&quot;]=&gt;
+  string(1) &quot;2&quot;
+  [&quot;query_found_in_cache&quot;]=&gt;
+  string(1) &quot;1&quot;
+  [&quot;query_uncached_other&quot;]=&gt;
+  string(1) &quot;0&quot;
+  [&quot;query_uncached_no_table&quot;]=&gt;
+  string(1) &quot;0&quot;
+  [&quot;query_uncached_no_result&quot;]=&gt;
+  string(1) &quot;0&quot;
+  [&quot;query_uncached_use_result&quot;]=&gt;
+  string(1) &quot;0&quot;
+  [&quot;query_aggr_run_time_cache_hit&quot;]=&gt;
+  string(1) &quot;4&quot;
+  [&quot;query_aggr_run_time_cache_put&quot;]=&gt;
+  string(3) &quot;395&quot;
+  [&quot;query_aggr_run_time_total&quot;]=&gt;
+  string(3) &quot;399&quot;
+  [&quot;query_aggr_store_time_cache_hit&quot;]=&gt;
+  string(1) &quot;2&quot;
+  [&quot;query_aggr_store_time_cache_put&quot;]=&gt;
+  string(1) &quot;8&quot;
+  [&quot;query_aggr_store_time_total&quot;]=&gt;
+  string(2) &quot;10&quot;
+  [&quot;receive_bytes_recorded&quot;]=&gt;
+  string(2) &quot;65&quot;
+  [&quot;receive_bytes_replayed&quot;]=&gt;
+  string(2) &quot;65&quot;
+  [&quot;send_bytes_recorded&quot;]=&gt;
+  string(2) &quot;29&quot;
+  [&quot;send_bytes_replayed&quot;]=&gt;
+  string(2) &quot;29&quot;
+  [&quot;slam_stale_refresh&quot;]=&gt;
+  string(1) &quot;0&quot;
+  [&quot;slam_stale_hit&quot;]=&gt;
+  string(1) &quot;0&quot;
+  [&quot;request_counter&quot;]=&gt;
+  int(1)
+  [&quot;process_hash&quot;]=&gt;
+  int(3547549858)
+}
+
+</pre></div>
+   </div>
+   
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysqlnd-qc-get-core-stats-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member">
+     <a href="mysqlnd-qc.configuration.html" class="link">Configuración en tiempo de ejecución</a>
+    </li>
+    <li class="member">
+     <a href="mysqlnd-qc.configuration.html#ini.mysqlnd-qc.collect-statistics" class="link">mysqlnd_qc.collect_statistics</a>
+    </li>
+    <li class="member">
+     <a href="mysqlnd-qc.configuration.html#ini.mysqlnd-qc.time-statistics" class="link">mysqlnd_qc.time_statistics</a>
+    </li>
+    <li class="member">
+     <span class="function"><a href="function.mysqlnd-qc-get-cache-info.html" class="function" rel="rdfs-seeAlso">mysqlnd_qc_get_cache_info()</a> - Devuelve informaci&oacute;n sobre el gestor en uso, el n&uacute;mero de entradas de la cach&eacute; y sobre las entradas de la cach&eacute;, si est&aacute; disponible</span>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysqlnd-qc-get-cache-info.html">mysqlnd_qc_get_cache_info</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-qc-get-normalized-query-trace-log.html">mysqlnd_qc_get_normalized_query_trace_log</a></div>
+ <div class="up"><a href="ref.mysqlnd-qc.html">Funciones de mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

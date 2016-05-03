@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Enumerar las propiedades de los campos SQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ifx-fetch-row.html">ifx_fetch_row</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ifx-fieldtypes.html">ifx_fieldtypes</a></div>
+ <div class="up"><a href="ref.ifx.html">Informix Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ifx-fieldproperties" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ifx_fieldproperties</h1>
+  <p class="verinfo">(PHP 4, PHP &lt;=5.2.0)</p><p class="refpurpose"><span class="refname">ifx_fieldproperties</span> &mdash; <span class="dc-title">Enumerar las propiedades de los campos SQL</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ifx-fieldproperties-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>ifx_fieldproperties</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result_id</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve un array asociativo con las propiedades de los campos SQL de Informix 
+   de cada columna de la consulta. Las propiedades son codificadas como:
+   &quot;SQLTYPE;longitud;precisión;escala;ISNULLABLE&quot; donde SQLTYPE = el tipo
+   Informix, como &quot;SQLVCHAR&quot;, etc.; e ISNULLABLE = &quot;Y&quot; o &quot;N&quot;.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ifx-fieldproperties-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">result_id</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">result_id</code> es un identificador válido devuelto por 
+       <span class="function"><a href="function.ifx-query.html" class="function">ifx_query()</a></span> o
+       <span class="function"><a href="function.ifx-prepare.html" class="function">ifx_prepare()</a></span> (solamente para consultas de selección).
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ifx-fieldproperties-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array asociativo con los nombres de los campos como clave y las propiedades de  
+   los mismos como datos para una consulta con <code class="parameter">result_id</code>.
+   Devuelve <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ifx-fieldproperties-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1298">
+    <p><strong>Ejemplo #1 Propiedades de los campos SQL de Informix</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$propiedades&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ifx_fieldproperties</span><span style="color: #007700">(</span><span style="color: #0000BB">$id_resultado</span><span style="color: #007700">);<br />if&nbsp;(!isset(</span><span style="color: #0000BB">$propiedades</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;...&nbsp;error&nbsp;...&nbsp;*/<br /></span><span style="color: #007700">}<br />foreach&nbsp;(</span><span style="color: #0000BB">$propiedades&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$nombre_campo&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$valor</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$nombre_campo</span><span style="color: #DD0000">:\t&nbsp;propiedades&nbsp;=&nbsp;</span><span style="color: #0000BB">$valor</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ifx-fieldproperties-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ifx-fieldtypes.html" class="function" rel="rdfs-seeAlso">ifx_fieldtypes()</a> - Listar los tipos de dato de los campos SQL de Informix</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ifx-fetch-row.html">ifx_fetch_row</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ifx-fieldtypes.html">ifx_fieldtypes</a></div>
+ <div class="up"><a href="ref.ifx.html">Informix Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

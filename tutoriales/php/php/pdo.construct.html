@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Crea una instancia de PDO que representa una conexi&oacute;n a una base de datos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.commit.html">PDO::commit</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.errorcode.html">PDO::errorCode</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdo.construct" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDO::__construct</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7, PECL pdo &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">PDO::__construct</span> &mdash; <span class="dc-title">
+   Crea una instancia de PDO que representa una conexión a una base de datos
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-pdo.construct-description">
+  <h3 class="title">Descripción</h3>
+  <div class="constructorsynopsis dc-description">
+   <span class="modifier">public</span> <span class="methodname"><strong>PDO::__construct</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$dsn</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$username</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$password</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$options</code></span>
+  ]]] )</div>
+
+  <p class="para rdfs-comment">
+   Crea una instancia de PDO para representar una conexión a la base de datos
+   solicitada.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-pdo.construct-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+dsn</dt>
+
+     <dd>
+
+      <p class="para">
+       EL Nombre del Origen de Datos (DSN), contiene la información requerida para
+       conectarse a la base de datos.
+      </p>
+      <p class="para">
+       En general, un DSN consiste en el nombre del controlador de PDO, seguido por dos puntos,
+       seguido por la sintaxis específica del controlador de PDO para la conexión. Hay
+       más información disponible en la <a href="pdo.drivers.html" class="link">documentación
+       de controladores específicos de PDO</a>.
+      </p>
+      <p class="para">
+       El parámetro <code class="parameter">dsn</code> admite tres
+       métodos diferentes de especificar los parámetros requeridos para crear
+       la conexión a la base de datos:
+      </p>
+      <p class="para">
+       <dl>
+
+        <dt>
+Invocación del controlador</dt>
+
+         <dd>
+
+          <p class="para">
+           <code class="parameter">dsn</code> contiene el DSN completo.
+          </p>
+         </dd>
+
+        
+        <dt>
+Invocación del URI</dt>
+
+         <dd>
+
+          <p class="para">
+           <code class="parameter">dsn</code> está formado por <strong class="userinput"><code>uri:</code></strong>
+           seguido por un URI que define la ubicación de un fichero que contiene
+           el string del DSN. El URI puede especificar un fichero local o un URL remoto.
+          </p>
+          <p class="para"><strong class="userinput"><code>uri:file:///ruta/al/fichero_dsn</code></strong></p>
+         </dd>
+
+        
+        <dt>
+Mediante un alias</dt>
+
+         <dd>
+
+          <p class="para">
+           <code class="parameter">dsn</code> está formado por un nombre,
+           <code class="parameter">name</code>, que se corresponde con
+           <code class="code">pdo.dsn.<code class="parameter">name</code></code> en <var class="filename">php.ini</var>,
+           definiendo el string del DSN.
+          </p>
+          <blockquote class="note"><p><strong class="note">Nota</strong>: 
+           <p class="para">
+            El alias debe estar definido en <var class="filename">php.ini</var>, y no en <var class="filename">.htaccess</var> o <var class="filename">httpd.conf</var>
+           </p>
+          </p></blockquote>
+         </dd>
+
+        
+       </dl>
+
+      </p>
+     </dd>
+
+    
+    <dt>
+username</dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de usuario para el string del DSN. Este parámetro es opcional
+       para algunos controladores de PDO.
+      </p>
+     </dd>
+
+    
+    <dt>
+password</dt>
+
+     <dd>
+
+      <p class="para">
+       La contraseña para el string del DSN. Este parámetro es opcional para
+       algunos controladores de PDO.
+      </p>
+     </dd>
+
+    
+    <dt>
+options</dt>
+
+     <dd>
+
+      <p class="para">
+       Un array de la forma clave=&gt;valor con opciones de conexión específicas del controlador.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-pdo.construct-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un objeto PDO en caso de éxito.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-pdo.construct-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   <span class="function"><strong>PDO::__construct()</strong></span> lanza una <a href="class.pdoexception.html" class="classname">PDOException</a> si el intento
+   de conexión a la base de datos requerida falla.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-pdo.construct-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1017"><p><strong>Ejemplo #1 Crear una instancia PDO a través de una invocación al controlador</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Conectar&nbsp;a&nbsp;una&nbsp;base&nbsp;de&nbsp;datos&nbsp;ODBC&nbsp;invocando&nbsp;al&nbsp;controlador&nbsp;*/<br /></span><span style="color: #0000BB">$dsn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'mysql:dbname=testdb;host=127.0.0.1'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$usuario&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'usuario_bd'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$contraseña&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'contraseña_bd'</span><span style="color: #007700">;<br /><br />try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$gbd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #0000BB">$dsn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$usuario</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$contraseña</span><span style="color: #007700">);<br />}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">PDOException&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Falló&nbsp;la&nbsp;conexión:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getMessage</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <div class="example" id="example-1018"><p><strong>Ejemplo #2 Crear una instancia PDO a través de una invocación a la URI</strong></p>
+    <div class="example-contents"><p>
+     En el siguiente ejemplo se asume que el fichero
+     <var class="filename">/usr/local/dbconnect</var> existe, con los permisos
+     necesarios para que PHP lo lea. El fichero contiene el DSN de PDO
+     necesario para conectarse a una base de datos de DB2 a través del controlador PDO_ODBC:
+    </p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+odbc:DSN=SAMPLE;UID=john;PWD=mypass
+</pre></div>
+    </div>
+    <div class="example-contents"><p>
+     El script de PHP puede crear una conexión a una base de datos simplemente
+     pasando el parámetro <em>uri:</em> y apuntando al URI
+     del fichero:
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Conectar&nbsp;a&nbsp;una&nbsp;base&nbsp;de&nbsp;datos&nbsp;de&nbsp;ODBC&nbsp;invocando&nbsp;al&nbsp;controlador&nbsp;*/<br /></span><span style="color: #0000BB">$dsn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'uri:file:///usr/local/dbconnect'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$usuario&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$contraseña&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">;<br /><br />try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$gbd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #0000BB">$dsn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$usuario</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$contraseña</span><span style="color: #007700">);<br />}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">PDOException&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Falló&nbsp;la&nbsp;conexión:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getMessage</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <div class="example" id="example-1019"><p><strong>Ejemplo #3 Crear una instancia de PDO usando un alias</strong></p>
+    <div class="example-contents"><p>
+     En el siguiente ejemplo se asume que <var class="filename">php.ini</var> contiene la siguiente
+     entrada para permitir la conexión a una base de datos de MySQL usando
+     solamente el alias <em>mydb</em>:
+    </p></div>
+    <div class="example-contents"><div class="inicode"><pre class="inicode">[PDO]
+     pdo.dsn.mydb=&quot;mysql:dbname=testdb;host=localhost&quot;</pre>
+</div></div>
+
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Conectar&nbsp;auna&nbsp;base&nbsp;de&nbsp;datos&nbsp;de&nbsp;ODBC&nbsp;usando&nbsp;un&nbsp;alias&nbsp;*/<br /></span><span style="color: #0000BB">$dsn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'mydb'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$usuario&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$contraseña&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">;<br /><br />try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$gbd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #0000BB">$dsn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$usuario</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$contraseña</span><span style="color: #007700">);<br />}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">PDOException&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Falló&nbsp;la&nbsp;conexión:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getMessage</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Antes de PHP 5.3, una clase que extiende a PDO e implementa el mágico <em>__call</em> siempre redibe un <code class="parameter">$method</code> en minúsculas.
+   </p>
+  </p></blockquote>
+  
+  
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.commit.html">PDO::commit</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.errorcode.html">PDO::errorCode</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

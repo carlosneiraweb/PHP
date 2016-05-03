@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Acceso a URLs por FTP(s)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="wrappers.http.html">http://</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="wrappers.php.html">php://</a></div>
+ <div class="up"><a href="wrappers.html">Protocolos y Envolturas soportados</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="wrappers.ftp" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ftp://</h1>
+  <h1 class="refname">ftps://</h1>
+  <p class="refpurpose"><span class="refname">ftp://</span> -- <span class="refname">ftps://</span> &mdash; <span class="dc-title">Acceso a URLs por FTP(s)</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-wrappers.ftp-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">
+   Permite tanto lectura de ficheros existentes como la creación de nuevos ficheros
+   vía FTP. La conexión fallará si el servidor no soporta FTP en modo pasivo.
+  </p>
+  <p class="simpara">
+   Se puede tanto leer como escribir ficheros, pero no las dos cosas
+   simultáneamente. Si el fichero remoto ya existiera en el servidor ftp,
+   y se quisiera abrir en modo escritura sin especificar la opción
+   de contexto <em>overwrite</em>, también fallará la conexión.
+   Si fuera necesario sobrescribir un fichero ya existente en ftp,
+   se tendrá que especificar la opción de contexto <em>overwrite</em>
+   antes de abrir el fichero para su escritura. Alternativamente, puede
+   usarse la <a href="ref.ftp.html" class="link">extensión FTP</a>.
+  </p>
+  <p class="simpara">
+   Si se ha establecido la directiva <a href="filesystem.configuration.html#ini.from" class="link">from</a>
+   en <var class="filename">php.ini</var>, se enviará como contraseña para conexiones de FTP anónimo.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 usage" id="refsect1-wrappers.ftp-usage"> 
+  <h3 class="title">Uso</h3>
+  <ul class="itemizedlist">
+   <li class="listitem"><span class="simpara"><var class="filename">ftp://ejemplo.com/pub/fichero.txt</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">ftp://usuario:contraseña@example.com/pub/fichero.txt</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">ftps://ejemplo.com/pub/fichero.txt</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">ftps://usuario:contraseña@ejemplo.com/pub/fichero.txt</var></span></li>  </ul>
+ </div>
+ 
+ 
+ <div class="refsect1 options" id="refsect1-wrappers.ftp-options">
+  <h3 class="title">Opciones</h3>
+  <p class="para">
+   <table class="doctable table">
+    <caption><strong>Resumen de la Envoltura</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Atributos</th>
+       <th>PHP 4</th>
+       <th>PHP 5</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>Restringido por <a href="filesystem.configuration.html#ini.allow-url-fopen" class="link">allow_url_fopen</a></td>
+       <td>Sí</td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite Lecturas</td>
+       <td>Sí</td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite Escrituras</td>
+       <td>Sí (sólo en ficheros nuevos)</td>
+       <td>Sí (ficheros nuevos. En los existentes con <code class="parameter">overwrite</code>)</td>
+      </tr>
+
+      <tr>
+       <td>Permite Añadir contenidos</td>
+       <td>No</td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite Lecturas y Escrituras Simultáneas</td>
+       <td>No</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.stat.html" class="function">stat()</a></span></td>
+       <td>No</td>
+       <td>
+        Desde PHP 5.0.0: sólo los elementos <span class="function"><a href="function.filesize.html" class="function">filesize()</a></span>,
+        <span class="function"><a href="function.filetype.html" class="function">filetype()</a></span>, <span class="function"><a href="function.file-exists.html" class="function">file_exists()</a></span>,
+        <span class="function"><a href="function.is-file.html" class="function">is_file()</a></span>, y <span class="function"><a href="function.is-dir.html" class="function">is_dir()</a></span>.
+        Desde PHP 5.1.0: <span class="function"><a href="function.filemtime.html" class="function">filemtime()</a></span>.
+       </td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.unlink.html" class="function">unlink()</a></span></td>
+       <td>No</td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.rename.html" class="function">rename()</a></span></td>
+       <td>No</td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.mkdir.html" class="function">mkdir()</a></span></td>
+       <td>No</td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.rmdir.html" class="function">rmdir()</a></span></td>
+       <td>No</td>
+       <td>Sí</td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+ 
+ 
+ <div class="refsect1 changelog" id="refsect1-wrappers.ftp-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>4.3.0</td>
+       <td>
+        Added <em>ftps://</em>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-wrappers.ftp-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Hay soporte para FTPS desde PHP 4.3.0, siempre y cuando se
+    haya compilado con soporte para <a href="book.openssl.html" class="link">openssl</a>.
+   </p>
+   <span class="simpara">
+    Si el servidor no soporta SSL, entonces la conexión se restablece
+    a una conexión ftp regular sin encriptación.
+   </span>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Añadiendo contenido</strong><br />
+   <span class="simpara">
+    Desde PHP 5.0.0 se puede añadir contenido a los ficheros mediante la
+    envoltura de URL <em>ftp://</em>. Si se tratara de añadir contenido a un
+    fichero con <em>ftp://</em> en versiones anteriores, se provocaría un fallo.
+   </span>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-wrappers.ftp-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member"><a href="context.ftp.html" class="xref">Opciones de contexto para FTP</a></li>
+  </ul>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="wrappers.http.html">http://</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="wrappers.php.html">php://</a></div>
+ <div class="up"><a href="wrappers.html">Protocolos y Envolturas soportados</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

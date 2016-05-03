@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene un SQLSTATE asociado con la &uacute;ltima operaci&oacute;n en el manejador de la base de datos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.construct.html">PDO::__construct</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.errorinfo.html">PDO::errorInfo</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdo.errorcode" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDO::errorCode</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7, PECL pdo &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">PDO::errorCode</span> &mdash; <span class="dc-title">
+   Obtiene un SQLSTATE asociado con la última operación en el manejador de la base de datos
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-pdo.errorcode-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>PDO::errorCode</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-pdo.errorcode-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un SQLSTATE, un identificador de cinco caracteres definidos en el
+   estándar ANSI SQL-92. Brevemente, un SQLSTATE está formado por dos caracteres 
+   con el valor de la clase seguidos por tres caracteres con el valor de la subclase.
+   Un valor de clase de 01 indica un aviso y se encuentra acompañado por un código
+   de retorno de SQL_SUCCESS_WITH_INFO. Valores de clase distintos del &#039;01&#039;, excepto
+   la clase &#039;IM&#039;, indican un error. La clase &#039;IM&#039; es específica para avisos
+   y errores que derivan de la implementación del PDO (o quizás ODBC,
+   si se está usando el driver ODBC) por sí mismo. El valor de subclase &#039;000&#039; en
+   cualquier clase indica que no hay subclases para ese SQLSTATE.
+  </p>
+  <p class="para">
+   <span class="function"><strong>PDO::errorCode()</strong></span> sólo devuelve códigos de error en operaciones
+   realizadas directamente sobre el manejador de la base de datos. Si se crea un objeto
+   PDOStatement con <span class="function"><a href="pdo.prepare.html" class="function">PDO::prepare()</a></span> o
+   <span class="function"><a href="pdo.query.html" class="function">PDO::query()</a></span> y éstas provocan un error en el manejador
+   de la sentencia, <span class="function"><strong>PDO::errorCode()</strong></span> no reflejará ese error.
+   Se debe llamar a <span class="function"><a href="pdostatement.errorcode.html" class="function">PDOStatement::errorCode()</a></span> para devolver el código
+   de error para una operación realizada por un manejador de sentencia particular.
+  </p>
+  <p class="para">
+   Devuelve <strong><code>NULL</code></strong> si no se ha ejecutado ninguna operación en el manejador de la base de datos.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-pdo.errorcode-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1020"><p><strong>Ejemplo #1 Recuperación de un código SQLSTATE</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Provoca&nbsp;un&nbsp;error&nbsp;--&nbsp;la&nbsp;tabla&nbsp;BONES&nbsp;no&nbsp;existe&nbsp;*/<br /></span><span style="color: #0000BB">$dbh</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;bones(skull)&nbsp;VALUES&nbsp;('lucy')"</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"\nPDO::errorCode():&nbsp;"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$dbh</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errorCode</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+PDO::errorCode(): 42S02
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-pdo.errorcode-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdo.errorinfo.html" class="function" rel="rdfs-seeAlso">PDO::errorInfo()</a> - Obtiene informaci&oacute;n extendida del error asociado con la &uacute;ltima operaci&oacute;n del manejador de la base de datos</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.errorcode.html" class="function" rel="rdfs-seeAlso">PDOStatement::errorCode()</a> - Obtiene el SQLSTATE asociado con la &uacute;ltima operaci&oacute;n del gestor de sentencia</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.errorinfo.html" class="function" rel="rdfs-seeAlso">PDOStatement::errorInfo()</a> - Obtiene informaci&oacute;n ampliada del error asociado con la &uacute;ltima operaci&oacute;n del gestor de sentencia</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.construct.html">PDO::__construct</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.errorinfo.html">PDO::errorInfo</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

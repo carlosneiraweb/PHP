@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cerrar una conexi&oacute;n persistente a la base de datos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.db2-num-rows.html">db2_num_rows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-pconnect.html">db2_pconnect</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.db2-pclose" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">db2_pclose</h1>
+  <p class="verinfo">(PECL ibm_db2 &gt;= 1.8.0)</p><p class="refpurpose"><span class="refname">db2_pclose</span> &mdash; <span class="dc-title">Cerrar una conexión persistente a la base de datos</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.db2-pclose-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>db2_pclose</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$resource</code></span>      
+   )</div>
+
+  <p class="para rdfs-comment">
+   Cierra una conexión cliente de DB2 creada con  
+   <span class="function"><a href="function.db2-pconnect.html" class="function">db2_pconnect()</a></span> y devuelve los recursos correspondientes  
+   al servidor de la base de datos.  
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <p class="para">
+     Esta función solo está disponible en i5/OS es respuesta al 
+     sistema de administración de i5/OS.
+    </p> 
+   </p></blockquote>
+  </p>
+  <p class="para">
+   Si se tiene una conexión persistente a DB2 creda con  
+   <span class="function"><a href="function.db2-pconnect.html" class="function">db2_pconnect()</a></span>, se puede usar esta función para cerrar  
+   la conexión. Para evitar reducciones en el rendimiento de las conexiones, 
+   esta función solo debería usarse en casos especiales donde la conexión 
+   persistente no responda o la conexión no se necesite por mucho tiempo.
+  </p>   
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.db2-pclose-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">connection</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Especifica una conexión cliente activa de DB2.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.db2-pclose-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.db2-pclose-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="db2-pclose.example.basic">
+    <p><strong>Ejemplo #1 Cerrando una conexión persistente</strong></p>
+    <div class="example-contents"><p>
+      El siguiente ejemplo demuestra como cerrar una conexión a una  
+      base de datos en IBM DB2 i5/OS.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_pconnect</span><span style="color: #007700">(</span><span style="color: #DD0000">''</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$rc&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_pclose</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$rc</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Connection&nbsp;was&nbsp;successfully&nbsp;closed."</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Connection was successfully closed.
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.db2-pclose-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.db2-close.html" class="function" rel="rdfs-seeAlso">db2_close()</a> - Cierra una conexi&oacute;n a base de datos</span></li>
+    <li class="member"><span class="function"><a href="function.db2-pconnect.html" class="function" rel="rdfs-seeAlso">db2_pconnect()</a> - Devolver una conexi&oacute;n persistente a la base de datos</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.db2-num-rows.html">db2_num_rows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-pconnect.html">db2_pconnect</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

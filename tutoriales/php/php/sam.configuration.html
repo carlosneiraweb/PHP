@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configuraci&oacute;n en tiempo de ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sam.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sam.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="sam.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sam.configuration" class="section">
+  <h2 class="title">Configuración en tiempo de ejecución</h2>
+  <div class="section" id="sam.configuration.mapping">
+   <h2 class="title">Soporte del protocolo y mapeado</h2>
+   <p class="para">
+    La framework SAM puede ser extendida para soportar otros protocolos de mensajería y mecanismos de conexión. Para añadir
+    el soporte para una nueva librería de protocolo o conexión se debe definir una clase de soporte, ya sea como una extensión C
+    o como un script PHP, y un script &quot;factory&quot; debe ser creado. La clase de soporte debe implementar todos los
+    métodos de la clase SAMConnection aunque ésta no debe heredarlos de SAMConnection. El script de factory
+    debe ser llamado por la framework SAM para crear una instancia de la clase implementada. La manera que SAM elige
+    que factory llamar está basada en el protocolo especificado como el primer parámetro del método &quot;connect&quot;.
+   </p>
+   <p class="para">
+    Por defecto el soporte interno MQTT será utilizado si una llamada connect especifica un protocolo de SAM_MQTT (&quot;mqtt&quot;), para
+    cualquier otro protocolo SAM intentará utilizar la extensión de soporte XMS. Para añadir soporte 
+    para protocolos adicionales o para modificar el comportamiento por defecto, las entradas deben añadirse a <var class="filename">php.ini</var> en la sección [sam]. El
+    mapeado por defecto es equivalente a las siguientes entradas:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+[sam]
+sam.factory.mqtt=mqtt
+sam.factory.wmq=xms
+sam.factory.wmq:client=xms
+sam.factory.wmq:bindings=xms
+sam.factory.wpm=xms
+sam.factory.rtt=xms
+</pre></div>
+    </div>
+    Como se puede ver en estos ejemplos las entradas toman la forma  &quot;sam.factory.pppp=xxx&quot; donde pppp es el string con el protocolo
+    especificado en el método connect y xxx es un sufijo de factory.  Nota: SAM define constantes para ese string con el protocolo
+    como <em>SAM_WMQ=wmq</em>,
+    <em>SAM_WPM=wpm</em>, <em>SAM_RTT=rtt</em>,
+    <em>SAM_MQTT=mqtt</em>, etc.
+   </p>
+   <p class="para">
+    Cuando se identifique el código de soporte a utilizar en un método connect SAM busca el nombre del protocolo en la entradas del fichero <var class="filename">php.ini</var>
+    y entonces invoca un script de factory llamado <var class="filename">sam_factory_xxx.php</var>.  Si no se encuentra la entrada, el soporte será por defecto XMS.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sam.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sam.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="sam.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

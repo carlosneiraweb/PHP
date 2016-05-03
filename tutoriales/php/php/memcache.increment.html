@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Incrementa num&eacute;ricamente un valor</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="memcache.getversion.html">Memcache::getVersion</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="memcache.pconnect.html">Memcache::pconnect</a></div>
+ <div class="up"><a href="class.memcache.html">Memcache</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="memcache.increment" class="refentry"> 
+ <div class="refnamediv">
+  <h1 class="refname">Memcache::increment</h1>
+  <p class="verinfo">(PECL memcache &gt;= 0.2.0)</p><p class="refpurpose"><span class="refname">Memcache::increment</span> &mdash; <span class="dc-title">Incrementa numéricamente un valor</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-memcache.increment-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>Memcache::increment</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$key</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$value</code><span class="initializer"> = 1</span></span>
+  ] )</div>
+
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>Memcache::increment()</strong></span> incrementa el valor
+   según el <code class="parameter">value</code>. Si el valor con la
+   <code class="parameter">key</code> no es numérico y no se puede convertir a 
+   número, cambiará su valor a <code class="parameter">value</code>.
+   <span class="function"><strong>Memcache::increment()</strong></span> <em class="emphasis">no creará</em>
+   el valor si no existe.
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <p class="para">
+     No use <span class="function"><strong>Memcache::increment()</strong></span> en un valor, que fué guardado con
+     compresión, porque en este caso <span class="function"><a href="memcache.get.html" class="function">Memcache::get()</a></span> no funcionará.
+    </p>
+   </p></blockquote>
+   También se puede usar la función <span class="function"><strong>memcache_increment()</strong></span>.
+  </p>
+
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-memcache.increment-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">key</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Clave del valor a incrementar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">value</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Incrementar el valor por <code class="parameter">value</code>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-memcache.increment-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el nuevo valor en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-memcache.increment-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4928">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>Memcache::increment()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">/*&nbsp;procedural&nbsp;API&nbsp;*/<br /></span><span style="color: #0000BB">$memcache_obj&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">memcache_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'memcache_host'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">11211</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">/*&nbsp;increment&nbsp;counter&nbsp;by&nbsp;2&nbsp;*/<br /></span><span style="color: #0000BB">$current_value&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">memcache_increment</span><span style="color: #007700">(</span><span style="color: #0000BB">$memcache_obj</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'counter'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;OO&nbsp;API&nbsp;*/<br /></span><span style="color: #0000BB">$memcache_obj&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Memcache</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$memcache_obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'memcache_host'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">11211</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">/*&nbsp;increment&nbsp;counter&nbsp;by&nbsp;3&nbsp;*/<br /></span><span style="color: #0000BB">$current_value&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$memcache_obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">increment</span><span style="color: #007700">(</span><span style="color: #DD0000">'counter'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-memcache.increment-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="memcache.decrement.html" class="function" rel="rdfs-seeAlso">Memcache::decrement()</a> - Decrementa num&eacute;ricamente un valor</span></li>
+    <li class="member"><span class="function"><a href="memcache.replace.html" class="function" rel="rdfs-seeAlso">Memcache::replace()</a> - Reemplaza el valor de un valor existente</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="memcache.getversion.html">Memcache::getVersion</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="memcache.pconnect.html">Memcache::pconnect</a></div>
+ <div class="up"><a href="class.memcache.html">Memcache</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

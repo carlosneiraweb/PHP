@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Averiguar la longitud del segmento inicial que no coincida con una m&aacute;scara</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.strcoll.html">strcoll</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.strip-tags.html">strip_tags</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.strcspn" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">strcspn</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">strcspn</span> &mdash; <span class="dc-title">Averiguar la longitud del segmento inicial que no coincida con una máscara</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.strcspn-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>strcspn</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$subject</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$mask</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$start</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$length</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve la longitud del segmento inicial de
+   <code class="parameter">subject</code>, el cual <em class="emphasis">no</em>
+   contiene ningún caracter de <code class="parameter">mask</code>. 
+  </p>
+  <p class="para">
+   Si se omiten <code class="parameter">start</code> y <code class="parameter">length</code>,
+   se examinará <code class="parameter">subject</code> al
+   completo. Si se incluyen, el efecto será el mismo que
+   una llamada a <em>strcspn(substr($subject, $start, $length),
+   $mask)</em> (véase <a href="function.substr.html" class="xref">substr</a>
+   para más información).
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.strcspn-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">subject</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El string a examinar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mask</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El string que contiene cada caracter no permitido.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">start</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La posición en <code class="parameter">subject</code> donde
+       comenzar la búsqueda.
+      </p>
+      <p class="para">
+       Si se proporciona <code class="parameter">start</code> y no es negativo,
+       <span class="function"><strong>strcspn()</strong></span> comenzará a
+       examinar <code class="parameter">subject</code> en
+       la posición <code class="parameter">start</code>-ésima. Por ejemplo, en
+       el &#039;<em>abcdef</em>&#039;, el caracter en la
+       posición <em>0</em> es &#039;<em>a</em>&#039;, el
+       caracter en la posición <em>2</em> es
+       &#039;<em>c</em>&#039;, etc.
+      </p>
+      <p class="para">
+       Si se proporciona <code class="parameter">start</code> y es negativo,
+       <span class="function"><strong>strcspn()</strong></span> comenzará a
+       examinar <code class="parameter">subject</code> en
+       la <code class="parameter">start</code>-ésima a partir del final
+       de <code class="parameter">subject</code>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">length</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La longitud del segmento de <code class="parameter">subject</code>
+       a examinar. 
+      </p>
+      <p class="para">
+       Si se proporcina <code class="parameter">length</code> y no es negativo,
+       <code class="parameter">subject</code> será examinado
+       desde <code class="parameter">length</code> caracteres después de la
+       posición inicial.
+      </p>
+      <p class="para">
+       Si se proporcina <code class="parameter">length</code> y es negativo,
+       <code class="parameter">subject</code> será examinado desde la
+       posición inicial hasta <code class="parameter">length</code>
+       caracteres a partir del final de <code class="parameter">subject</code>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.strcspn-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la longitud del segmento inicial de <code class="parameter">subject</code>,
+   el cual consiste en todos los caracteres <em class="emphasis">no</em> presentes en <code class="parameter">mask</code>.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Cuando se establece el parámetro <code class="parameter">start</code>, la longitud devuelta
+    se cuenta a partir de esta posición, no desde el comienzo de
+    <code class="parameter">subject</code>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.strcspn-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="strcspn.example">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>strcspn()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strcspn</span><span style="color: #007700">(</span><span style="color: #DD0000">'abcd'</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #DD0000">'apple'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strcspn</span><span style="color: #007700">(</span><span style="color: #DD0000">'abcd'</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #DD0000">'banana'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strcspn</span><span style="color: #007700">(</span><span style="color: #DD0000">'hello'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'l'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strcspn</span><span style="color: #007700">(</span><span style="color: #DD0000">'hello'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'world'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$e&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strcspn</span><span style="color: #007700">(</span><span style="color: #DD0000">'abcdhelloabcd'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'abcd'</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">9</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strcspn</span><span style="color: #007700">(</span><span style="color: #DD0000">'abcdhelloabcd'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'abcd'</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">9</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">5</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$b</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$c</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$d</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$e</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$f</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+int(0)
+int(0)
+int(2)
+int(2)
+int(5)
+int(4)
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.strcspn-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Esta función es
+segura binariamente.</span></p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.strcspn-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.strspn.html" class="function" rel="rdfs-seeAlso">strspn()</a> - Averigua la longitud del segmento inicial de un string que consista
+   &uacute;nicamente en caracteres contenidos dentro de una m&aacute;scara dada.</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.strcoll.html">strcoll</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.strip-tags.html">strip_tags</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

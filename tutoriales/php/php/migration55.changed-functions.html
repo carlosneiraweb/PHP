@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambios en funciones</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration55.deprecated.html">Caracter&iacute;sticas obsoletas en PHP 5.5.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration55.new-functions.html">Nuevas funciones</a></div>
+ <div class="up"><a href="migration55.html">Migrar de PHP 5.4.x a PHP 5.5.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="migration55.changed-functions" class="sect1">
+  <h2 class="title">Cambios en funciones</h2>
+  
+  <div class="sect2" id="migration55.changed-functions.core">
+   <h3 class="title">Núcleo de PHP</h3>
+   
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><a href="function.set-error-handler.html" class="function">set_error_handler()</a></span> se puede invocar con <strong><code>NULL</code></strong> como
+      un argumento para reiniciar el gestor de errores.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Cuando se invoca con <strong><code>NULL</code></strong>, <span class="function"><a href="function.set-error-handler.html" class="function">set_error_handler()</a></span> y
+      <span class="function"><a href="function.set-exception-handler.html" class="function">set_exception_handler()</a></span> ahora devuelven el error anterior
+      o el gestor de excepciones, respectivamente.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><a href="function.json-encode.html" class="function">json_encode()</a></span> ahora acepta el parámetro
+      <code class="parameter">depth</code>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      El comportamiento de <span class="function"><a href="function.pack.html" class="function">pack()</a></span> y
+      <span class="function"><a href="function.unpack.html" class="function">unpack()</a></span> con los códigos de formato &quot;a&quot; y &quot;A&quot; ha
+      cambiado.
+      <a href="migration55.incompatible.html#migration55.incompatible.pack" class="link">Hay disponibles notas detalladas sobres estos cambios.</a>
+     </span>
+    </li>
+   </ul>
+  </div>
+  
+  <div class="sect2" id="migration55.changed-functions.intl">
+   <h3 class="title"><a href="book.intl.html" class="link">intl</a></h3>
+   
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      <span class="methodname"><a href="messageformatter.format.html" class="methodname">MessageFormatter::format()</a></span> y las funciones relacionadas
+      ahora aceptan argumentos con nombre y argumentos mixtos numéricos y con conmbre cuando PHP
+      está vinculado a ICU 4.8 o posterior.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="methodname"><a href="messageformatter.format.html" class="methodname">MessageFormatter::format()</a></span> y las funciones relacionadas
+      ya no provocan un error cuando se proporciona un número insfuciente de
+      argumentos. En su lubar, no serán reemplazadas las variables de sustitución.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="methodname"><a href="messageformatter.format.html" class="methodname">MessageFormatter::format()</a></span> y
+      <span class="methodname"><a href="messageformatter.parse.html" class="methodname">MessageFormatter::parse()</a></span> ya no están limitados a
+      una segunda precisión al tratar con horas.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="methodname"><a href="intldateformatter.create.html" class="methodname">IntlDateFormatter::__construct()</a></span> y
+      <span class="function"><a href="intldateformatter.create.html" class="function">datefmt_create()</a></span> ahora aceptan objetos
+      <a href="class.intltimezone.html" class="classname">IntlTimeZone</a> y
+      <a href="class.datetimezone.html" class="classname">DateTimeZone</a> para el argumento
+      <code class="parameter">timezone</code>, y objetos
+      <a href="class.intlcalendar.html" class="classname">IntlCalendar</a> para el argumento
+      <code class="parameter">calendar</code>. Además, si se omite la zona
+      horaria y <code class="parameter">calendar</code> no especifica una,
+      ahora se usa la zona horaria predeterminada de PHP de 
+      <span class="function"><a href="function.date-default-timezone-get.html" class="function">date_default_timezone_get()</a></span> en lugar de la
+      zona horaria predeterminada de ICU.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="methodname"><a href="intldateformatter.getcalendar.html" class="methodname">IntlDateFormatter::getCalendar()</a></span> y
+      <span class="function"><a href="intldateformatter.getcalendar.html" class="function">datefmt_get_calendar()</a></span> devuelven false si el objeto
+      <a href="class.intldateformatter.html" class="classname">IntlDateFormatter</a> fue creado con una instancia de
+      <a href="class.intlcalendar.html" class="classname">IntlCalendar</a> en lugar de con una de las constantes de
+      <a href="class.intldateformatter.html" class="classname">IntlDateFormatter</a>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="methodname"><a href="intldateformatter.setcalendar.html" class="methodname">IntlDateFormatter::setCalendar()</a></span> y
+      <span class="function"><a href="intldateformatter.setcalendar.html" class="function">datefmt_set_calendar()</a></span> ahora aceptan objetos
+      <a href="class.intlcalendar.html" class="classname">IntlCalendar</a> además de constantes de
+      <a href="class.intldateformatter.html" class="classname">IntlDateFormatter</a>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="methodname"><a href="intldateformatter.format.html" class="methodname">IntlDateFormatter::format()</a></span> y
+      <span class="function"><a href="intldateformatter.format.html" class="function">datefmt_format()</a></span> ahora aceptan objetos
+      <a href="class.intlcalendar.html" class="classname">IntlCalendar</a>.
+     </span>
+    </li>
+   </ul>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration55.deprecated.html">Caracter&iacute;sticas obsoletas en PHP 5.5.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration55.new-functions.html">Nuevas funciones</a></div>
+ <div class="up"><a href="migration55.html">Migrar de PHP 5.4.x a PHP 5.5.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

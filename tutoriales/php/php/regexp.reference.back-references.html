@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Retroreferencias</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.repetition.html">Repetici&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.assertions.html">Declaraciones</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="regexp.reference.back-references" class="section">
+  <h2 class="title">Retroreferencias</h2>
+  <p class="para">
+   Fuera de una clase carácter, una barra invertida seguida por un dígito
+   mayor que 0 (y posiblemente más dígitos) es una retroreferencia
+   a un sub-patrón de captura anterior (esto es a su izquierda)
+   del patrón, siempre que hayan habido tantas capturas entre
+   paréntesis previas a la izquierda.
+  </p>
+  <p class="para">
+   Sin embargo, si el número decimal que sigue a la barra invertida es
+   menor que 10, siempre es tomado como una retroreferencia, y
+   produce un error sólo si no hay tantas capturas
+   anteriores entre paréntesis en el patrón completo. En otras palabras, los
+   paréntesis que son referenciados no necesitan estar a la izquierda de
+   la referencia para números menores que 10.
+   Una &quot;retroreferencia hacia adelante&quot; puede tener sentido cuando está involucrada
+   una repetición y el sub-patrón de la derecha ha participado
+   en una iteración anterior. Véase la sección anterior
+   titulada &quot;Barra invertida&quot; para más detalles acerca del manejo de
+   los dígitos que siguen a una barra invertida.
+  </p>
+  <p class="para">
+   Una retroreferencia coincide con cualquier cosa que en realidad haya coincidido
+   con el sub-patrón de captura en la cadena objetivo actual, más que con
+   cualquier cosa que coincida en el sub-patrón mismo. Así, el patrón
+   
+   <em>(abraz|apreci)o de un \1ador</em>
+   
+   coindice con &quot;abrazo de un abrazador&quot; y con &quot;aprecio de un apreciador&quot;,
+   pero no con &quot;abrazo de un apreciador&quot;. Si la coincidencia sensible a
+   mayúsculas-minúsculas está en vigor en el momento de la retroreferencia,
+   la distinción de letras es relevante. Por ejemplo,
+   
+   <em>((?i)bla)\s+\1</em>
+   
+   coincide con &quot;bla bla&quot; y &quot;BLA BLA&quot;, pero no con &quot;BLA bla&quot;, incluso
+   si el patrón de captura original es comparado de forma insensible a
+   mayúsculas-minúsculas.
+  </p>
+  <p class="para">
+   Puede haber más de una retroreferencia hacia el mismo sub-patrón.
+   Si un sub-patrón no ha sido usado en realidad en una
+   coincidencia en particular, cualquier retroreferencia a él siempre
+   falla. Por ejemplo, el patrón
+   
+   <em>(a|(bc))\2</em>
+   
+   siempre falla si comienza coincidiendo con &quot;a&quot; en vez de con &quot;bc&quot;.
+   Ya que puede haber hasta 99 retroreferencias, todos los dígitos
+   que siguen a la barra invertida se toman como parte de un número
+   posible de retroreferencias. Si el patrón continúa con un carácter
+   dígito, entonces se deben usar algunos delimitadores para finalizar la
+   retroreferencia. Si la opción <a href="reference.pcre.pattern.modifiers.html" class="link">PCRE_EXTENDED</a> está
+   establecida, éste puede ser un espacio en blanco. De otra manera se puede usar un comentario vacío.
+  </p>
+  <p class="para">
+   Una retroreferencia que sucede dentro de los paréntesis a los cuales
+   se refiere, falla cuando el sub-patrón se usa primero, así, por
+   ejemplo, (a\1) nunca coincide. Sin embargo, tales referencias pueden
+   ser útiles dentro de sub-patrones repetidos. Por ejemplo, el patrón
+   
+   <em>(a|b\1)+</em>
+   
+   coincide con cualquier número de &quot;a&quot;es y tambíen con &quot;aba&quot;, &quot;ababba&quot;, etc. En
+   cada iteración del subpatrón, la retroreferencia coincide con
+   el cadena correspondiente a la iteración anterior.
+   Para que esto funcione, el patrón debe ser tal
+   que la primera iteración no necesite coincidir con la retroreferencia.
+   Esto se puede lograr usando alternancia, como en el
+   ejemplo anterior, o mediante un cuantificador con un mínimo de cero.
+  </p>
+  <p class="para">
+   A partir de PHP 5.2.2, la secuencia de escape <em>\g</em> se puede
+   usar para referenciar subpatrones de forma absoluta y relativa.
+   Esta secuencia de escape debe estar seguida por un número sin signo o un número
+   negativo, opcionalmente encerrado entre llaves. Las secuencias <em>\1</em>,
+   <em>\g1</em> y <em>\g{1}</em> son sinónimas
+   unas de otras. El uso de este patrón con un número sin signo puede
+   ayudar a eliminar la ambigüedad inherente al usar dígitos seguidos de una
+   barra invertida. La secuencia ayuda a distinguir retroreferencias de caracteres
+   octales y también hace más fácil tener una retroreferencia seguida
+   por un número literal, p.ej. <em>\g{2}1</em>.
+  </p>
+  <p class="para">
+   El uso de la secuencia <em>\g</em> con un número negativo
+   significa una referencia relativa. Por ejemplo, <em>(foo)(bar)\g{-1}</em>
+   coincidiría con la secuencia &quot;foobarbar&quot; y <em>(foo)(bar)\g{-2}</em>
+   coincidiría con &quot;foobarfoo&quot;. Esto puede ser útil en patrones largos como una alternativa
+   de seguir la pista del número de subpatrones para referenciar
+   un subpatrón previo específico.
+  </p>
+  <p class="para">
+   Las retroreferencias a sub-patrones nominados se pueden lograr mediante
+   <em>(?P=nombre)</em> o, desde PHP 5.2.2, también mediante
+   <em>\k&lt;nombre&gt;</em> o <em>\k&#039;nombre&#039;</em>.
+   Además, PHP 5.2.4 añadió soporte para <em>\k{nombre}</em>
+   y <em>\g{nombre}</em>, y PHP 5.2.7 para
+   <em>\g&lt;name&gt;</em> y <em>\g&#039;name&#039;</em>.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.repetition.html">Repetici&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.assertions.html">Declaraciones</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

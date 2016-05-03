@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Iniciar una nueva plantilla</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-begin-pattern.html">ps_begin_pattern</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-circle.html">ps_circle</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ps-begin-template" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ps_begin_template</h1>
+  <p class="verinfo">(PECL ps &gt;= 1.2.0)</p><p class="refpurpose"><span class="refname">ps_begin_template</span> &mdash; <span class="dc-title">Iniciar una nueva plantilla</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ps-begin-template-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>ps_begin_template</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$psdoc</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$width</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$height</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Inicia una nueva plantilla. A una plantilla se le conoce como forma en el lenguaje
+   postscript. Se crea de forma similar a un patrón pero se utiliza como una imagen.
+   Las plantilla a menudo se usan para dibujar algo que se coloca varias veces
+   a lo largo de un documento, p.ej. el logotipo de una compañía. Se puede usar
+   todas las funciones de dibujo dentro de una plantilla. La plantilla no será dibujada hasta
+   que sea colocada medianta la función <span class="function"><a href="function.ps-place-image.html" class="function">ps_place_image()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ps-begin-template-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">psdoc</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de recursos del fichero postscript,
+       como el devuelto por la función <span class="function"><a href="function.ps-new.html" class="function">ps_new()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">width</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El ancho de la plantilla en píxeles.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">height</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El alto de la plantilla en píxeles.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ps-begin-template-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ps-begin-template-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4078">
+    <p><strong>Ejemplo #1 Crear y utilizar una plantilla</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$ps&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ps_new</span><span style="color: #007700">();<br /><br />if&nbsp;(!</span><span style="color: #0000BB">ps_open_file</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"plantilla.ps"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"No&nbsp;se&nbsp;puede&nbsp;abrir&nbsp;el&nbsp;fichero&nbsp;PostScript\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;exit;<br />}<br /><br /></span><span style="color: #0000BB">ps_set_parameter</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"warning"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"true"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Creator"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"plantilla.php"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Author"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Uwe&nbsp;Steinmann"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Title"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Ejemplo&nbsp;de&nbsp;plantilla"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$plantilla_ps&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ps_begin_template</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30.0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_moveto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_lineto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_moveto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_lineto</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_stroke</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_end_template</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">ps_begin_page</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">596</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">842</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_place_image</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$plantilla_ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">20.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">20.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1.0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_place_image</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$plantilla_ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.5</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_place_image</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$plantilla_ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">70.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">70.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0.6</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_place_image</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$plantilla_ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50.0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1.3</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_end_page</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">ps_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_delete</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ps-begin-template-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ps-end-template.html" class="function" rel="rdfs-seeAlso">ps_end_template()</a> - Finalizar una plantilla</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-begin-pattern.html">ps_begin_pattern</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-circle.html">ps_circle</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener el nombre de un car&aacute;cter Unicode</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlchar.charmirror.html">IntlChar::charMirror</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.chartype.html">IntlChar::charType</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intlchar.charname" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">IntlChar::charName</h1>
+  <p class="verinfo">(PHP 7)</p><p class="refpurpose"><span class="refname">IntlChar::charName</span> &mdash; <span class="dc-title">Obtener el nombre de un carácter Unicode</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-intlchar.charname-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">string</span> <span class="methodname"><strong>IntlChar::charName</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$codepoint</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$nameChoice</code><span class="initializer"> = <strong><code>IntlChar::UNICODE_CHAR_NAME</code></strong></span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene el nombre de un carácter unicode Unicode.
+  </p>
+  <p class="para">
+   Dependiendo de <code class="parameter">nameChoice</code>, el nombre del carácter resultante es el nombre «moderno» o el nombre que
+   se definió en la versión 1.0 de Unicode. El nombre contiene solo caracteres «invariantes» como A-Z, 0-9, espacio y &#039;-&#039;.
+   Solamente se obtiene un nombre de Unicode 1.0 si es diferente del nombre moderno y si ICU contiene datos sobre él.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-intlchar.charname-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">codepoint</code></dt>
+
+    <dd>
+
+     <p class="para">El valor de tipo <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span> del punto de código (p.ej. <em>0x2603</em> para <em class="emphasis">U+2603 SNOWMAN</em>), o el carácter codificado como un <span class="type"><a href="language.types.string.html" class="type string">string</a></span> UTF-8 (p.ej. <em>&quot;\u{2603}&quot;</em>)</p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">nameChoice</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El conjunto de nombres a utilizar para la consulta. Puede ser una de estas constantes:
+      <ul class="simplelist">
+       <li class="member"><strong><code>IntlChar::UNICODE_CHAR_NAME</code></strong> (predeterminado)</li>
+       <li class="member"><strong><code>IntlChar::UNICODE_10_CHAR_NAME</code></strong></li>
+       <li class="member"><strong><code>IntlChar::EXTENDED_CHAR_NAME</code></strong></li>
+       <li class="member"><strong><code>IntlChar::CHAR_NAME_ALIAS</code></strong></li>
+       <li class="member"><strong><code>IntlChar::CHAR_NAME_CHOICE_COUNT</code></strong></li>
+      </ul>
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-intlchar.charname-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El nombre correspondiente, o una cadena vacía si no existe un nombre para este carácter.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-intlchar.charname-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2932">
+   <p><strong>Ejemplo #1 Probar diferentes puntos de código</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">charName</span><span style="color: #007700">(</span><span style="color: #DD0000">"."</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">charName</span><span style="color: #007700">(</span><span style="color: #DD0000">"."</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">UNICODE_CHAR_NAME</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">charName</span><span style="color: #007700">(</span><span style="color: #DD0000">"\u{2603}"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">charName</span><span style="color: #007700">(</span><span style="color: #DD0000">"\u{0000}"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+string(9) &quot;FULL STOP&quot;
+string(9) &quot;FULL STOP&quot;
+string(7) &quot;SNOWMAN&quot;
+string(0) &quot;&quot;
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-intlchar.charname-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="intlchar.charfromname.html" class="function" rel="rdfs-seeAlso">IntlChar::charFromName()</a> - Buscar un car&aacute;cter Unicode por su nombre y devolver su valor de punto de c&oacute;digo</span></li>
+    <li class="member"><span class="function"><a href="intlchar.enumcharnames.html" class="function" rel="rdfs-seeAlso">IntlChar::enumCharNames()</a> - Enumerar todos los caracteres de Unicode con asignaci&oacute;n dentro de un rango</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlchar.charmirror.html">IntlChar::charMirror</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.chartype.html">IntlChar::charType</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

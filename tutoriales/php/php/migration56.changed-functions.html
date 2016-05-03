@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambios en funciones</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration56.deprecated.html">Caracter&iacute;sticas obsoletas en PHP 5.6.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration56.new-functions.html">Nuevas funciones</a></div>
+ <div class="up"><a href="migration56.html">Migrar de PHP 5.5.x a PHP 5.6.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="migration56.changed-functions" class="sect1">
+ <h2 class="title">Cambios en funciones</h2>
+ 
+ <div class="sect2" id="migration56.changed-functions.core">
+  <h3 class="title">Núcleo de PHP</h3>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.crypt.html" class="function">crypt()</a></span> ahora emitirá un error
+     <strong><code>E_NOTICE</code></strong> si se omite el parámetro
+     <code class="parameter">salt</code>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.substr-compare.html" class="function">substr_compare()</a></span> ahora aceptará <em>0</em>
+     para su parámetro <code class="parameter">length</code>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.unserialize.html" class="function">unserialize()</a></span> ahora fallará si se proporcionan datos serializados
+     que hayan sido manipulados para intentar instanciar un objeto sin
+     llamar a su constructor.
+    </span>
+   </li>
+  </ul>
+ </div>
+ 
+ <div class="sect2" id="migration56.changed-functions.curl">
+  <h3 class="title"><a href="book.curl.html" class="link">cURL</a></h3>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     Las subidas empleando la sintaxis <em>@file</em> ahora únicamente están
+     soportadas si la opción <strong><code>CURLOPT_SAFE_UPLOAD</code></strong> está establecida a
+     <strong><code>FALSE</code></strong>. Debería utilizarse en su lugar <a href="class.curlfile.html" class="classname">CURLFile</a>.
+    </span>
+   </li>
+  </ul>
+ </div>
+ 
+ <div class="sect2" id="migration56.changed-functions.mcrypt">
+  <h3 class="title"><a href="book.mcrypt.html" class="link">Mcrypt</a></h3>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     El valor predeterminado del parámetro <code class="parameter">source</code>
+     de <span class="function"><a href="function.mcrypt-create-iv.html" class="function">mcrypt_create_iv()</a></span> ahora es
+     <strong><code>MCRYPT_DEV_URANDOM</code></strong> en vez de
+     <strong><code>MCRYPT_DEV_RANDOM</code></strong>.
+    </span>
+   </li>
+  </ul>
+ </div>
+ 
+ <div class="sect2" id="migration56.changed-functions.openssl">
+  <h3 class="title"><a href="book.openssl.html" class="link">OpenSSL</a></h3>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.stream-socket-enable-crypto.html" class="function">stream_socket_enable_crypto()</a></span> ahora permite que el
+     parámetro <code class="parameter">crypto_type</code> sea opcional si el
+     contexto SSL del flujo incluye la nueva opción
+     <code class="parameter">crypto_type</code>.
+    </span>
+   </li>
+  </ul>
+ </div>
+ 
+ <div class="sect2" id="migration56.changed-functions.pgsql">
+  <h3 class="title"><a href="book.pgsql.html" class="link">PostgreSQL</a></h3>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.pg-insert.html" class="function">pg_insert()</a></span>, <span class="function"><a href="function.pg-select.html" class="function">pg_select()</a></span>,
+     <span class="function"><a href="function.pg-update.html" class="function">pg_update()</a></span> y <span class="function"><a href="function.pg-delete.html" class="function">pg_delete()</a></span> ya no
+     son experimentales.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <span class="function"><a href="function.pg-send-execute.html" class="function">pg_send_execute()</a></span>,
+     <span class="function"><a href="function.pg-send-prepare.html" class="function">pg_send_prepare()</a></span>, <span class="function"><a href="function.pg-send-query.html" class="function">pg_send_query()</a></span>
+     y <span class="function"><a href="function.pg-send-query-params.html" class="function">pg_send_query_params()</a></span> ya no bloquearán hasta
+     que termine la escritura de la consulta si el flujo de socket subyacente para
+     la conexión a la base de datos está establecido al modo de no bloqueo.
+    </span>
+   </li>
+  </ul>
+ </div>
+ 
+ <div class="sect2" id="migration56.changed-functions.reflection">
+  <h3 class="title"><a href="book.reflection.html" class="link">Reflection</a></h3>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <span class="methodname"><a href="reflectionclass.newinstancewithoutconstructor.html" class="methodname">ReflectionClass::newInstanceWithoutConstructor()</a></span>
+     ahora permite que se instancien clases internas
+     no finales.
+    </span>
+   </li>
+  </ul>
+ </div>
+ <div class="sect2" id="migration56.changed-functions.xmlreader">
+  <h3 class="title"><a href="book.xmlreader.html" class="link">XMLReader</a></h3>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <span class="methodname"><a href="xmlreader.getattributens.html" class="methodname">XMLReader::getAttributeNs()</a></span> y
+     <span class="methodname"><a href="xmlreader.getattributeno.html" class="methodname">XMLReader::getAttributeNo()</a></span> ahora devuelven <strong><code>NULL</code></strong> si
+     no se pudo encontrar el atributo, al igual que
+     <span class="methodname"><a href="xmlreader.getattribute.html" class="methodname">XMLReader::getAttribute()</a></span>.
+    </span>
+   </li>
+  </ul>
+ </div>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration56.deprecated.html">Caracter&iacute;sticas obsoletas en PHP 5.6.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration56.new-functions.html">Nuevas funciones</a></div>
+ <div class="up"><a href="migration56.html">Migrar de PHP 5.5.x a PHP 5.6.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

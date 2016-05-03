@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Constructor para el objeto SolrClient</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="solrclient.commit.html">SolrClient::commit</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="solrclient.deletebyid.html">SolrClient::deleteById</a></div>
+ <div class="up"><a href="class.solrclient.html">SolrClient</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="solrclient.construct" class="refentry">
+ <div class="refnamediv"> 
+  <h1 class="refname">SolrClient::__construct</h1>
+  <p class="verinfo">(PECL solr &gt;= 0.9.2)</p><p class="refpurpose"><span class="refname">SolrClient::__construct</span> &mdash; <span class="dc-title">Constructor para el objeto SolrClient</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-solrclient.construct-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="methodname"><strong>SolrClient::__construct</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$clientOptions</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Constructor para el objeto SolrClient
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-solrclient.construct-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">clientOptions</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Esto es una matriz que contiene una de las siguientes claves:
+      </p>
+      <p class="para">
+       
+<div class="parameterscode"><pre class="parameterscode">- secure          (Valor booleano que indica si conectarse o no en modo seguro)
+ - hostname        (El nombre del host para el servidor Solr)
+ - port            (El número de puerto)
+ - path            (La ruta del servidor solr)
+ - wt              (El nombre del autor de la respuesta p.ej. xml, json)
+ - login           (EL nombre de usuario para la Autenticación HTTP, si la hubiera)
+ - password        (La contraseña de la Autenticación HTTP)
+ - proxy_host      (El nombre del host para el servidor proxy, si lo hubiera)
+ - proxy_port      (El puerto del servidor proxy)
+ - proxy_login     (El nombre de usuario del proxy)
+ - proxy_password  (La contraseña del proxy)
+ - timeout         (El tiempo máximo en segundos permitido para la operación de transferencia de datos http. Por defecto es 30 segundos)
+ - ssl_cert        (Nombre de fichero a un archvio con formato PEM que contiene la clave + certificado privados (concatenado en ese orden) )
+ - ssl_key         (Nombre de fichero a un fichero de clave privada con formato PEM)
+ - ssl_keypassword (Contraseña para la clave privada)
+ - ssl_cainfo      (Nombre del fichero que mantiene uno o más certificados CA para ser verificados con su par)
+ - ssl_capath      (Nombre del directorio que mantiene múltiples certificados CA para ser verificados con su par)
+ 
+ Por favor, observe que si el fichero ssl_cert solamente contiene el certificado privado, se tiene que especificar un fichero ssl_key distinto
+ 
+ La opción ssl_keypassword es necesaria si las opciones ssl_cert o ssl_key están establecidas.</pre>
+</div>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-solrclient.construct-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Lanza una <a href="class.solrillegalargumentexception.html" class="classname">SolrIllegalArgumentException</a> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-solrclient.construct-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5237">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="methodname"><strong>SolrClient::__construct()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$opciones&nbsp;</span><span style="color: #007700">=&nbsp;array<br />(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'hostname'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">SOLR_SERVER_HOSTNAME</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'login'&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">SOLR_SERVER_USERNAME</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'password'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">SOLR_SERVER_PASSWORD</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'port'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">SOLR_SERVER_PORT</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'path'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">SOLR_PATH_TO_SOLR</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'wt'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'xml'</span><span style="color: #007700">,<br />);<br /><br /></span><span style="color: #0000BB">$cliente&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SolrClient</span><span style="color: #007700">(</span><span style="color: #0000BB">$opciones</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$doc&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SolrInputDocument</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">$doc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addField</span><span style="color: #007700">(</span><span style="color: #DD0000">'id'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">334455</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$doc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addField</span><span style="color: #007700">(</span><span style="color: #DD0000">'cat'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Software'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$doc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addField</span><span style="color: #007700">(</span><span style="color: #DD0000">'cat'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Lucene'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$respuestaActualización&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$cliente</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addDocument</span><span style="color: #007700">(</span><span style="color: #0000BB">$doc</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-solrclient.construct-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="solrclient.getoptions.html" class="methodname" rel="rdfs-seeAlso">SolrClient::getOptions()</a> - Devuelve las opciones de cliente establecidas internamente</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="solrclient.commit.html">SolrClient::commit</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="solrclient.deletebyid.html">SolrClient::deleteById</a></div>
+ <div class="up"><a href="class.solrclient.html">SolrClient</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

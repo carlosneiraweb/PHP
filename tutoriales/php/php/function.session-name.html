@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener y/o establecer el nombre de la sesi&oacute;n actual</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.session-module-name.html">session_module_name</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.session-regenerate-id.html">session_regenerate_id</a></div>
+ <div class="up"><a href="ref.session.html">Funciones de sesi&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.session-name" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">session_name</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">session_name</span> &mdash; <span class="dc-title">Obtener y/o establecer el nombre de la sesión actual</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.session-name-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>session_name</strong></span>
+    ([ <span class="methodparam"><span class="type">string</span> <code class="parameter">$name</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>session_name()</strong></span> devuelve el nombre de la sesión
+   actual. Si se da el nombre <code class="parameter">name</code>,
+   <span class="function"><strong>session_name()</strong></span> actualizará el nombre de la sesión y devolverá
+   el nombre <em class="emphasis">antiguo</em> de la sesión.
+  </p>
+  <p class="para">
+   El nombre de la sesión se reinicia al valor predeterminado almacenado en
+   <em>session.name</em> en el momento de iniciar una petición. Por lo tanto, se necesita
+   llamar a <span class="function"><strong>session_name()</strong></span> por cada petición (y antes de llamar a
+   <span class="function"><a href="function.session-start.html" class="function">session_start()</a></span> o <span class="function"><a href="function.session-register.html" class="function">session_register()</a></span>).
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.session-name-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de la sesión hace referencia al nombre de la sesión  
+       usado cookies y URLs (p.ej. <em>PHPSESSID</em>). Debería
+       contener sólo caracteres alfanuméricos; debería ser corto y
+       descriptivo (esto es, para usuarios con las advertencias de cookies habilitadas).
+       Si se especifica <code class="parameter">name</code>, el nombre de la sesión
+       actual se cambia por su valor.
+      </p>
+      <p class="para">
+       <div class="warning"><strong class="warning">Advertencia</strong>
+        <p class="para">
+         El nombre de la sesión no puede consistir en dígitos solamente, debe de estar presente
+         al menos una letra. De otro modo se genera un nuevo id de sesión cada vez.
+        </p>
+       </div>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.session-name-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el nombre de la sesión actual. Si se proporciona <code class="parameter">name</code>
+   y una función actualiza el nombre de la sesión, se devolverá el nombre
+   <em class="emphasis">antiguo</em> de la sesión.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.session-name-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5319">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>session_name()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">/*&nbsp;establecer&nbsp;el&nbsp;nombre&nbsp;de&nbsp;la&nbsp;sesión&nbsp;a&nbsp;WebsiteID&nbsp;*/<br /><br /></span><span style="color: #0000BB">$nombre_anterior&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">session_name</span><span style="color: #007700">(</span><span style="color: #DD0000">"WebsiteID"</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"El&nbsp;nombre&nbsp;anterior&nbsp;de&nbsp;la&nbsp;sesión&nbsp;era&nbsp;</span><span style="color: #0000BB">$nombre_anterior</span><span style="color: #DD0000">&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.session-name-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member">
+     La directiva de configuración <a href="session.configuration.html#ini.session.name" class="link">session.name</a>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.session-module-name.html">session_module_name</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.session-regenerate-id.html">session_regenerate_id</a></div>
+ <div class="up"><a href="ref.session.html">Funciones de sesi&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Descodifica un string codificado de URL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-strerror.html">curl_strerror</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.curl-version.html">curl_version</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.curl-unescape" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">curl_unescape</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.5.0, PHP 7)</p><p class="refpurpose"><span class="refname">curl_unescape</span> &mdash; <span class="dc-title">Descodifica un string codificado de URL</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.curl-unescape-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>curl_unescape</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$ch</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$str</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Esta función descodifica un string codificado de URL.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.curl-unescape-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   <dt>
+<code class="parameter">ch</code>
+</dt>
+<dd>
+<p class="para">El recurso cURL devuelto por 
+<span class="function"><a href="function.curl-init.html" class="function">curl_init()</a></span>.</p></dd>
+
+   
+    <dt>
+<code class="parameter">str</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El string de URL codificado a ser descodificado.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.curl-unescape-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el string descodificado o  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.curl-unescape-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4769">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><a href="function.curl-escape.html" class="function">curl_escape()</a></span> </strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Crea&nbsp;un&nbsp;gestor&nbsp;cURL<br /></span><span style="color: #0000BB">$ch&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_init</span><span style="color: #007700">(</span><span style="color: #DD0000">'http://example.com/redirect.php'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Envia&nbsp;una&nbsp;solicitud&nbsp;HTTP&nbsp;y&nbsp;sigue&nbsp;las&nbsp;redirecciones<br /></span><span style="color: #0000BB">curl_setopt</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURLOPT_FOLLOWLOCATION</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">curl_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Obtiene&nbsp;la&nbsp;última&nbsp;URL&nbsp;efectiva<br /></span><span style="color: #0000BB">$effective_url&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_getinfo</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURLINFO_EFFECTIVE_URL</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;ie.&nbsp;"http://example.com/show_location.php?loc=M%C3%BCnchen"<br /><br />//&nbsp;Descodifica&nbsp;la&nbsp;URL<br /></span><span style="color: #0000BB">$effective_url_decoded&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_unescape</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$effective_url</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;"http://example.com/show_location.php?loc=München"<br /><br />//&nbsp;Cierra&nbsp;el&nbsp;gestor<br /></span><span style="color: #0000BB">curl_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.curl-unescape-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    <span class="function"><strong>curl_unescape()</strong></span> no descodifica los símbolos de suma (+)en espacios, este es el comportamiento de la función <span class="function"><a href="function.urldecode.html" class="function">urldecode()</a></span> .
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.curl-unescape-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.curl-escape.html" class="function" rel="rdfs-seeAlso">curl_escape()</a> - Funci&oacute;n URL que codifica el string dado</span></li>
+    <li class="member"><span class="function"><a href="function.urlencode.html" class="function" rel="rdfs-seeAlso">urlencode()</a> - Codifica como URL una cadena</span></li>
+    <li class="member"><span class="function"><a href="function.urldecode.html" class="function" rel="rdfs-seeAlso">urldecode()</a> - Decodifica una cadena cifrada como URL</span></li>
+    <li class="member"><span class="function"><a href="function.rawurlencode.html" class="function" rel="rdfs-seeAlso">rawurlencode()</a> - Codificar estilo URL de acuerdo al RFC 3986</span></li>
+    <li class="member"><span class="function"><a href="function.rawurldecode.html" class="function" rel="rdfs-seeAlso">rawurldecode()</a> - Decodificar cadenas codificadas estilo URL</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-strerror.html">curl_strerror</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.curl-version.html">curl_version</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

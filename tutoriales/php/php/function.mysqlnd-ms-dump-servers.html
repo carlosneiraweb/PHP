@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve una lista con los servidores actualmente configurados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.mysqlnd-ms.html">Funciones de mysqlnd_ms</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-ms-fabric-select-global.html">mysqlnd_ms_fabric_select_global</a></div>
+ <div class="up"><a href="ref.mysqlnd-ms.html">Funciones de mysqlnd_ms</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysqlnd-ms-dump-servers" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysqlnd_ms_dump_servers</h1>
+  <p class="verinfo">(No hay información de versión disponible, podría estar únicamente en SVN)</p><p class="refpurpose"><span class="refname">mysqlnd_ms_dump_servers</span> &mdash; <span class="dc-title">Devuelve una lista con los servidores actualmente configurados</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysqlnd-ms-dump-servers-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> 
+   <span class="methodname"><strong>mysqlnd_ms_dump_servers</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$connection</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve una lista con los servidores actualmente configurados.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysqlnd-ms-dump-servers-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">connection</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Un gestor de conexión de MySQL obtenido de cualquier función de
+      conexión de las extensiones <a href="ref.mysqli.html" class="link">mysqli</a>,
+      <a href="ref.mysql.html" class="link">mysql</a> o
+      <a href="ref.pdo-mysql.html" class="link">PDO_MYSQL</a>.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysqlnd-ms-dump-servers-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <strong><code>FALSE</code></strong> en caso de error. De lo contrario, devuelve un array con dos entradas,
+   <em>masters</em> y <em>slaves</em>, conteniendo cada una
+   un array que enumera todos los servidores correspondientes.
+  </p>
+  <p class="para">
+   La función se puede usar para comprobar y depurar la lista de servidores actualmente
+   usados por el complemento. Es generalmente útil cuando la lista de serviodores cambia en
+   tiempo de ejecución, por ejemplo, al usar MySQL Fabric.
+  </p>
+  <p class="para">
+   Entradas de los servidores <em>masters</em> y <em>slaves</em>
+  </p>
+  <table class="doctable informaltable">
+   
+    <col width="1*" />
+    <col width="7*" />
+    <col width="2*" />
+    <thead>
+     <tr>
+      <th>Clave</th>
+      <th>Descripción</th>
+      <th>Versión</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>
+       <em>name_from_config</em>
+      </td>
+      <td>
+       <p class="para">
+        El nombre de la entrada de servidor desde config, si fuera aplicable. NULL si no
+        está disponible un nombre de configuración.
+       </p>
+      </td>
+      <td>Desde 1.6.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>hostname</em>
+      </td>
+      <td>
+       <p class="para">
+        Nombre de host del servidor.
+       </p>
+      </td>
+      <td>Desde 1.6.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>user</em>
+      </td>
+      <td>
+       <p class="para">
+        Usuario de la base de datos usado para la autenticación en el servidor.
+       </p>
+      </td>
+      <td>Desde 1.6.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>port</em>
+      </td>
+      <td>
+       <p class="para">
+        Puerto TCP/IP del servidor.
+       </p>
+      </td>
+      <td>Desde 1.6.0.</td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>socket</em>
+        </td>
+        <td>
+         <p class="para">
+          Socket de domino Unix del server.
+         </p>
+        </td>
+        <td>Desde 1.6.0.</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </div>
+
+ 
+ <div class="refsect1 unknown-returnvaluet" id="refsect1-function.mysqlnd-ms-dump-servers-unknown-returnvaluet">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    <span class="function"><strong>mysqlnd_ms_dump_servers()</strong></span> requiere
+    mysqlnd_ms &gt;&gt; 1.6.0 de PECL.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysqlnd-ms-dump-servers-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2072">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysqlnd_ms_dump_servers()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">{
+    &quot;myapp&quot;: {
+        &quot;master&quot;: {
+            &quot;master1&quot;: {
+                &quot;host&quot;:&quot;master1_host&quot;,
+                &quot;port&quot;:&quot;master1_port&quot;,
+                &quot;socket&quot;:&quot;master1_socket&quot;,
+                &quot;db&quot;:&quot;master1_db&quot;,
+                &quot;user&quot;:&quot;master1_user&quot;,
+                &quot;password&quot;:&quot;master1_pw&quot;
+            }
+        },
+        &quot;slave&quot;: {
+             &quot;slave_0&quot;: {
+                 &quot;host&quot;:&quot;slave0_host&quot;,
+                 &quot;port&quot;:&quot;slave0_port&quot;,
+                 &quot;socket&quot;:&quot;slave0_socket&quot;,
+                 &quot;db&quot;:&quot;slave0_db&quot;,
+                 &quot;user&quot;:&quot;slave0_user&quot;,
+                 &quot;password&quot;:&quot;slave0_pw&quot;
+             },
+             &quot;slave_1&quot;: {
+                 &quot;host&quot;:&quot;slave1_host&quot;
+             }
+        }
+    }
+}</pre>
+</div>
+    </div>
+
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$link&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"global_user"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"global_pass"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"global_db"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1234</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"global_socket"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">mysqlnd_ms_dump_servers</span><span style="color: #007700">(</span><span style="color: #0000BB">$link</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [&quot;masters&quot;]=&gt;
+  array(1) {
+    [0]=&gt;
+    array(5) {
+      [&quot;name_from_config&quot;]=&gt;
+      string(7) &quot;master1&quot;
+      [&quot;hostname&quot;]=&gt;
+      string(12) &quot;master1_host&quot;
+      [&quot;user&quot;]=&gt;
+      string(12) &quot;master1_user&quot;
+      [&quot;port&quot;]=&gt;
+      int(3306)
+      [&quot;socket&quot;]=&gt;
+      string(14) &quot;master1_socket&quot;
+    }
+  }
+  [&quot;slaves&quot;]=&gt;
+  array(2) {
+    [0]=&gt;
+    array(5) {
+      [&quot;name_from_config&quot;]=&gt;
+      string(7) &quot;slave_0&quot;
+      [&quot;hostname&quot;]=&gt;
+      string(11) &quot;slave0_host&quot;
+      [&quot;user&quot;]=&gt;
+      string(11) &quot;slave0_user&quot;
+      [&quot;port&quot;]=&gt;
+      int(3306)
+      [&quot;socket&quot;]=&gt;
+      string(13) &quot;slave0_socket&quot;
+    }
+    [1]=&gt;
+    array(5) {
+      [&quot;name_from_config&quot;]=&gt;
+      string(7) &quot;slave_1&quot;
+      [&quot;hostname&quot;]=&gt;
+      string(11) &quot;slave1_host&quot;
+      [&quot;user&quot;]=&gt;
+      string(12) &quot;gloabal_user&quot;
+      [&quot;port&quot;]=&gt;
+      int(1234)
+      [&quot;socket&quot;]=&gt;
+      string(13) &quot;global_socket&quot;
+    }
+  }
+}
+</pre></div>
+    </div>
+   </div>
+   </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.mysqlnd-ms.html">Funciones de mysqlnd_ms</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-ms-fabric-select-global.html">mysqlnd_ms_fabric_select_global</a></div>
+ <div class="up"><a href="ref.mysqlnd-ms.html">Funciones de mysqlnd_ms</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

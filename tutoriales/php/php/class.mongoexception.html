@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Clase MongoException</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.exceptions.html">Excepciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongoresultexception.html">MongoResultException</a></div>
+ <div class="up"><a href="mongo.exceptions.html">Excepciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="class.mongoexception" class="reference">
+ 
+ <h1 class="title">Clase MongoException</h1>
+ 
+ 
+ <div class="partintro"><p class="verinfo">(PECL mongo &gt;= 1.0.0)</p>
+  
+  
+  <div class="section" id="mongoexception.intro">
+   <h2 class="title">Introducción</h2>
+   <p class="para">
+    Excepción Mongo predeterminada.
+   </p>
+   
+   <p class="para">
+    Abarca un gran número de condiciones de error que, eventualmente, podrán moverse
+    a excepciones más específicas, pero que en cualquier caso siempre extenderán
+    <strong class="classname">MongoException</strong>.
+   </p>
+   
+   <ul class="itemizedlist">
+    
+    <li class="listitem">
+     <p class="para">
+      <em>The MongoSomething object has not been correctly initialized by its constructor</em>
+     </p>
+     <p class="para">
+      Código: 0
+     </p>
+     <p class="para">
+      Probablemente tu objeto Mongo no esté conectado al servidor de bases de datos.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>zero-length keys are not allowed, did you use $ with double quotes?</em>
+     </p>
+     <p class="para">
+      Código: 1
+     </p>
+     <p class="para">
+      Se ha intentado guardar el valor &quot;&quot; como clave. En general, no se debe hacer esto. &quot;&quot;
+      podría provocar errores al acceder a subobjetos, además de que es usado internamente por MongoDB. Sin embargo,
+      si realmente quiere, puede asignar en su fichero php.ini el valor true a
+      <a href="mongo.configuration.html#ini.mongo.allow-empty-keys" class="link">mongo.allow_empty_keys</a> 
+      para sobrescribir esta comprobación. Si se sobrescribe,
+      se recomienda encarecidamente establecer la comprobación estricta de errores
+      para evitar errores de interpolación de textos.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>&#039;.&#039; not allowed in key: &lt;key&gt;</em>
+     </p>
+     <p class="para">
+      Código: 2
+     </p>
+     <p class="para">
+      Se ha intentado escribir una clave que contiene un &quot;.&quot;, lo cual está prohibido.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>insert too large: &lt;size&gt;, max: &lt;max&gt;</em>
+     </p>
+     <p class="para">
+      Código: 3
+     </p>
+     <p class="para">
+      Se ha intentado enviar demasiada información de una vez a la base de datos: la
+      base de datos sólo acepta inserciones de hasta un determinado tamaño (actualmente 16 MB).
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>no elements in doc</em>
+     </p>
+     <p class="para">
+      Código: 4
+     </p>
+     <p class="para">
+      Se ha intentado guardar un documento que no contiene ningún campo.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>size of BSON doc is &lt;size&gt; bytes, max &lt;max&gt;MB</em>
+     </p>
+     <p class="para">
+      Código: 5
+     </p>
+     <p class="para">
+      Se ha intentado guardar un documento con un tamaño superior al que MongoDB puede guardar.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>no documents given</em>
+     </p>
+     <p class="para">
+      Código: 6
+     </p>
+     <p class="para">
+      Se ha intentado insertar por lotes un array vacío de documentos.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>MongoCollection::group takes an array, object, or MongoCode key</em>
+     </p>
+     <p class="para">
+      Código: 7
+     </p>
+     <p class="para">
+      Se han enviado a <span class="function"><a href="mongocollection.group.html" class="function">MongoCollection::group()</a></span> parámetros del tipo equivocado
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>field names must be strings</em>
+     </p>
+     <p class="para">
+      Código: 8
+     </p>
+     <p class="para">
+      Deben formatearse los selectores de la siguiente forma:
+      <em>array(&quot;field1&quot; =&gt; 1, &quot;field2&quot; =&gt; 1, ..., &quot;fieldN&quot; =&gt; 1)</em>.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>invalid regex</em>
+     </p>
+     <p class="para">
+      Código: 9
+     </p>
+     <p class="para">
+      La expresión regular pasada a <a href="class.mongoregex.html" class="classname">MongoRegex</a> no cumple la
+      forma correcta.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>MongoDBRef::get: $ref field must be a string</em>
+     </p>
+     <p class="para">
+      Código: 10
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>MongoDBRef::get: $db field must be a string</em>
+     </p>
+     <p class="para">
+      Código: 11
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>non-utf8 string: &lt;str&gt;</em>
+     </p>
+     <p class="para">
+      Código: 12
+     </p>
+     <p class="para">
+      Sucede cuando se intenta enviar un texto que no es utf8 a la base
+      de datos. Todos los textos que se envíen a la base de datos deben estar en UTF8. Revise las
+      opciones de php.ini para conocer la opción de transición que evita esta excepción.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>mutex error: &lt;err&gt;</em>
+     </p>
+     <p class="para">
+      Código: 13
+     </p>
+     <p class="para">
+      En entornos multihebra, el driver utiliza mutex para sincronizar las
+      peticiones y las respuestas. Este es un error crítico que no se puede
+      trazar. Es poco usual y debe notificarse a los mantenedores junto con cualquier
+      información del sistema y los pasos que se han seguido para reproducir el error.
+     </p>
+    </li>
+    
+    <li class="listitem">
+     <p class="para">
+      <em>index name too long: &lt;len&gt;, max &lt;max&gt; characters</em>
+     </p>
+     <p class="para">
+      Código: 14
+     </p>
+     <p class="para">
+      No se crearán índices con nombres superiores a 128 caracteres. Si se
+      obtuviera este error, se debería usar la opción &quot;name&quot; de
+      <span class="function"><a href="mongocollection.ensureindex.html" class="function">MongoCollection::ensureIndex()</a></span> para
+      crear un nombre más corto para el índice.
+     </p>
+    </li>
+    
+   </ul>
+  </div>
+  
+  
+  <div class="section" id="mongoexception.synopsis">
+   <h2 class="title">Sinopsis de la Clase</h2>
+   
+   
+   <div class="classsynopsis">
+    <div class="ooclass"></div>
+    
+    
+    <div class="classsynopsisinfo">
+     <span class="ooclass">
+      <strong class="classname">MongoException</strong>
+     </span>
+     <span class="ooclass">
+      <span class="modifier">extends</span>
+      <a href="class.exception.html" class="classname">Exception</a>
+     </span>
+     {</div>
+    
+    
+   }</div>
+   
+   
+  </div>
+  
+ </div>
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.exceptions.html">Excepciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongoresultexception.html">MongoResultException</a></div>
+ <div class="up"><a href="mongo.exceptions.html">Excepciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

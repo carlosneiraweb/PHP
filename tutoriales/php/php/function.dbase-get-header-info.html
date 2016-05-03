@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene la informaci&oacute;n de cabecera de una base de datos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.dbase-delete-record.html">dbase_delete_record</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.dbase-get-record-with-names.html">dbase_get_record_with_names</a></div>
+ <div class="up"><a href="ref.dbase.html">Funciones de dBase</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.dbase-get-header-info" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">dbase_get_header_info</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">dbase_get_header_info</span> &mdash; <span class="dc-title">Obtiene la información de cabecera de una base de datos</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.dbase-get-header-info-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>dbase_get_header_info</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$dbase_identifier</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve la informaicón de la estructura de columna del identificador de enlace de la
+   base de datos dada.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.dbase-get-header-info-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">dbase_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de enlace de la base de datos, devuelto por <span class="function"><a href="function.dbase-open.html" class="function">dbase_open()</a></span>
+       o <span class="function"><a href="function.dbase-create.html" class="function">dbase_create()</a></span>..
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.dbase-get-header-info-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Una matriz indexada con una entrada para cada columna de la base de datos. El índice de la matriz
+   comienza en 0.
+  </p>
+  <p class="para">
+   Cada elemento de la matriz contiene una matriz asociativa de información de columna, como
+   se describe a continuación:
+   <dl>
+
+    
+     <dt>
+name</dt>
+
+     <dd>
+
+      <span class="simpara">
+       El nombre de la columna
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+type</dt>
+
+     <dd>
+
+      <span class="simpara">
+       El nombre legible por humanos del tipo de dbase de la columna (p.ej. date,
+       boolean, etc.)
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+length</dt>
+
+     <dd>
+
+      <span class="simpara">
+       El número de bytes que puede soportar esta columna
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+precision</dt>
+
+     <dd>
+
+      <span class="simpara">
+       El número de dígitos de precisión decimal de la columna
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+format</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Un especificador de formato de <span class="function"><a href="function.printf.html" class="function">printf()</a></span> sugerido para la columna
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+offset</dt>
+
+     <dd>
+
+      <span class="simpara">
+       El índice de byte de la columna desde el inicio de la fila
+      </span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  <p class="para">
+   Si no se puede leer la información de la cabecera de la base de datos, se devuleve <strong><code>FALSE</code></strong>.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.dbase-get-header-info-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1197">
+    <p><strong>Ejemplo #1 Mostrar la información de cabecera de un archivo de base de datos dBase</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Ruta&nbsp;al&nbsp;archivo&nbsp;dbase<br /></span><span style="color: #0000BB">$ruta_db&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"/tmp/test.dbf"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Abrir&nbsp;un&nbsp;el&nbsp;archivo&nbsp;dbase<br /></span><span style="color: #0000BB">$dbh&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">dbase_open</span><span style="color: #007700">(</span><span style="color: #0000BB">$ruta_db</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)<br />&nbsp;&nbsp;or&nbsp;die(</span><span style="color: #DD0000">"¡Error!&nbsp;No&nbsp;se&nbsp;pudo&nbsp;abrir&nbsp;el&nbsp;archivo&nbsp;de&nbsp;base&nbsp;de&nbsp;datos&nbsp;dbase&nbsp;'</span><span style="color: #0000BB">$ruta_db</span><span style="color: #DD0000">'."</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Obtener&nbsp;la&nbsp;información&nbsp;de&nbsp;columna<br /></span><span style="color: #0000BB">$info_columna&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">dbase_get_header_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$dbh</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Mostrar&nbsp;la&nbsp;información<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$info_columna</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.dbase-delete-record.html">dbase_delete_record</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.dbase-get-record-with-names.html">dbase_get_record_with_names</a></div>
+ <div class="up"><a href="ref.dbase.html">Funciones de dBase</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

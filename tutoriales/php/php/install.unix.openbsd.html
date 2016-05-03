@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Notas de instalaci&oacute;n para OpenBSD</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="install.unix.hpux.html">Notas de instalaci&oacute;n espec&iacute;ficas para HP-UX</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="install.unix.solaris.html">Solaris sugerencias espec&iacute;ficas de instalaci&oacute;n</a></div>
+ <div class="up"><a href="install.unix.html">Instalaci&oacute;n sobre sistemas Unix</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="install.unix.openbsd" class="sect1">
+ <h2 class="title">Notas de instalación para OpenBSD</h2>
+ <p class="para">
+ Esta sección contiene notas y consejos específicos a la instalación de
+ PHP sobre <a href="http://www.openbsd.org/" class="link external">&raquo;&nbsp;OpenBSD 3.6</a>.
+ </p>
+ <div class="sect2" id="install.unix.openbsd.packages">
+  <h3 class="title">Utilizando paquetes binarios</h3>
+   <p class="simpara">
+    Utilizar paquetes binarios para instalar PHP sobre OpenBSD es el método más
+    simple y recomendado.  El paquete principal ha sido separado de los distintos
+    módulos, y cada uno puede ser instalado removido independientemente de los otros.
+    Los ficheros que se necesitan pueden ser encontrados en el CD de OpenBSD o en el sitio FTP.
+   </p>
+   <p class="simpara">
+    El paquete principal que se necesita instalar es <var class="filename">php4-core-4.3.8.tgz</var>,
+    que contiene el motor básico (además de gettext e iconv).  Seguido, tómese un vistazo
+    a los paquetes de módulos, tales como <var class="filename">php4-mysql-4.3.8.tgz</var>
+    o <var class="filename">php4-imap-4.3.8.tgz</var>.  Se necesita emplear el comando <strong class="command">phpxs</strong>
+    para activar y desactivar estos módulos en el fichero <var class="filename">php.ini</var>.
+   </p>
+   <div class="example" id="install.unix.openbsd.ports.example">
+    <p><strong>Ejemplo #1 Ejemplo de instalación de paquete de OpenBSD</strong></p>
+    <div class="example-contents">
+<div class="shellcode"><pre class="shellcode"># pkg_add php4-core-4.3.8.tgz
+# /usr/local/sbin/phpxs -s
+# cp /usr/local/share/doc/php4/php.ini-recommended /var/www/conf/php.ini
+  (agregar mysql)
+# pkg_add php4-mysql-4.3.8.tgz
+# /usr/local/sbin/phpxs -a mysql
+  (agregar imap)
+# pkg_add php4-imap-4.3.8.tgz
+# /usr/local/sbin/phpxs -a imap
+  (quitar mysql a manera de prueba)
+# pkg_delete php4-mysql-4.3.8
+# /usr/local/sbin/phpxs -r mysql
+  (instalar las librerías de PEAR)
+# pkg_add php4-pear-4.3.8.tgz</pre>
+</div>
+    </div>
+
+   </div>
+   <p class="simpara">
+   Leer la página del manual <a href="http://www.openbsd.org/cgi-bin/man.cgi?query=packages" class="link external">&raquo;&nbsp;packages(7)</a>
+   para mas información sobre paquetes binarios en OpenBSD.
+   </p>
+ </div>
+ <div class="sect2" id="install.unix.openbsd.ports">
+  <h3 class="title">Utilizando portes</h3>
+  <p class="simpara">
+   También se puede compilar PHP a partir de fuentes utilizando el <a href="http://www.openbsd.org/faq/ports/ports.html" class="link external">&raquo;&nbsp;árbol de portes</a>.
+   Sin embargo, esto sólo se recomienda para usuarios familiarizados con OpenBSD.  El porte de PHP 4
+   está dividido en dos subdirectorios: core y extensions.  El
+   directorio extensions genera subpaquetes para todos los módulos
+   soportados de PHP.  Si se encuentra que no se desea crear alguno de estos módulos,
+   utilice el sabor o FLAVOR <strong class="command">no_*</strong>.  Por ejemplo, para evitar compilar
+   el módulo imap, fijar el sabor o FLAVOR a <strong class="command">no_imap</strong>.
+  </p>
+ </div>
+ <div class="sect2" id="install.unix.openbsd.faq">
+  <h3 class="title">Problemas comunes</h3>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">La instalación por omisión de Apache se ejecuta dentro de una
+    <a href="http://www.openbsd.org/cgi-bin/man.cgi?query=chroot" class="link external">&raquo;&nbsp;jaula chroot(2)</a>, que habrá de restringir a los script PHP
+    el acceso a ficheros debajo de <var class="filename">/var/www</var>.  Por lo tanto se requiere crear un directorio
+    <var class="filename">/var/www/tmp</var> para que los ficheros de sesión de PHP sean almacenados, o utilizar un
+    medio alternativo de almacenamiento de sesiones.  Además, los sockets de base de datos necesitan colocarse dentro de
+    la jaula o escuchar en la interfaz de <var class="filename">localhost</var>.  Se se hace uso de funciones de red,
+    algunos ficheros de <var class="filename">/etc</var> tales como <var class="filename">/etc/resolv.conf</var> y
+    <var class="filename">/etc/services</var> tendrán que ser movidos a <var class="filename">/var/www/etc</var>.
+    El paquete PEAR de OpenBSD automáticamente se instala dentro de los directorios correctos del chroot, así que
+    no hace falta ninguna modificación especial ahí.  Más información sobre el Apache de OpenBSD está disponible
+    en las <a href="http://www.openbsd.org/faq/faq10.html#httpdchroot" class="link external">&raquo;&nbsp;preguntas frecuentes OpenBSD</a>.
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+    El paquete de OpenBSD 3.6 para la extensión <a href="http://www.libgd.org/" class="link external">&raquo;&nbsp;gd</a> requiere que
+    XFree86 sea instalado.  Si no se desea utilizar algunas de las características de fuentes tipográficas que
+    requieren de X11, es mejor instalar el paquete <var class="filename">php4-gd-4.3.8-no_x11.tgz</var>.
+    </span>
+   </li>
+  </ul>
+ </div>
+   
+ <div class="sect2" id="install.unix.openbsd.older">
+  <h3 class="title">Ediciones antiguas</h3>
+  <p class="simpara">
+   Ediciones antiguas de OpenBSD utilizaban el sistema FLAVORS para compilar
+   un PHP enlazado estáticamente.  Dado que es difícil generar paquetes binarios utilizando
+   este método, ahora es depreciado.  Aún es posible utilizar los viejos árboles
+   estables de ports si así se desea, pero carecen de soporte por parte del equipo de OpenBSD.
+   Si se tiene algún comentario al respecto, el responsable actual del port
+   es Anil Madhavapeddy (avsm arroba openbsd punto org).
+  </p>
+ </div>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="install.unix.hpux.html">Notas de instalaci&oacute;n espec&iacute;ficas para HP-UX</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="install.unix.solaris.html">Solaris sugerencias espec&iacute;ficas de instalaci&oacute;n</a></div>
+ <div class="up"><a href="install.unix.html">Instalaci&oacute;n sobre sistemas Unix</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Introducci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.phar.html">Phar</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="up"><a href="book.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intro.phar" class="preface">
+  <h1 class="title">Introducción</h1>
+  <p class="para">
+   La extensión phar proporciona una manera de colocar aplicaciones PHP enteras dentro de un único fichero
+   llamado &quot;phar&quot; (PHP Archive) para una distribución e instalación sencillas.
+   Además de proporcionar este servicio, la extensión phar también provee de un método de abstracción
+   de formato de fichero para crear y manipular ficheros tar y zip a través de la
+   clase <a href="class.phardata.html" class="classname">PharData</a>, tal como
+   PDO proporciona una interfaz unificada para acceder a diferentes bases de datos. A diferencia de PDO,
+   la cual no puede realizar conversiones entre bases de datos diferentes, Phar también realiza conversiones entre los
+   formatos de ficheros tar, zip phar con una sencilla línea de código. Véase
+   <span class="function"><a href="phar.converttoexecutable.html" class="function">Phar::convertToExecutable()</a></span> para un ejemplo.
+  </p>
+  <p class="para">
+   ¿Qué es phar? Lo archivos Phar están mejor caracterizados como una forma conveniente de agrupar
+   varios ficheros en un único fichero. Como tal, un archvo phar proporciona una forma para
+   distribuir una aplicación PHP completa en un único fichero y ejecutarla desde ese mismo fichero
+   sin necesidad de extraerlo en el disco. Además, los archivos phar pueden ser
+   ejecutados por PHP fácilmente al igual que cualquier otro fichero, tanto desde la línea de comandos como desde
+   un servidor web. Phar a web server.  Phar es como una memoria USB para aplicaciones PHP.
+  </p>
+  <p class="para">
+   Phar implementa esta funcionalidad a través de una <a href="book.stream.html" class="link">Envoltura
+   de Flujo</a>. Normalmente, para utilizar un fichero externo dentro de un script de PHP, se
+   debería usar <span class="function"><a href="function.include.html" class="function">include</a></span>
+  </p>
+  <p class="para">
+   <div class="example" id="example-731">
+    <p><strong>Ejemplo #1 Utilizar un fichero externo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;</span><span style="color: #007700">include&nbsp;</span><span style="color: #DD0000">'/ruta/al/fichero/externo.php'</span><span style="color: #007700">;<br />&nbsp;</span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Puede considerarse que PHP traduce realemte
+   <em>/ruta/al/fichero/externo.php</em> a una
+   envoltura de flujo como <em>file:///ruta/al/fichero/externo.php</em>, y bajo 
+   la cubierta de hecho hace uso de funciones de flujo de envolturas de flujo de ficheros para
+   acceder a todos los ficheros locales.
+  </p>
+  <p class="para">
+   Para utilizar un fichero llamado <em>fichero.php</em> contenido en un archivo phar
+   <em>/ruta/a/miphar.phar</em>,
+   la sintaxis es muy similar a la sintaxis <em>file://</em> de arriba.
+  </p>
+  <p class="para">
+   <div class="example" id="example-732">
+    <p><strong>Ejemplo #2 Utilizar un fichero dentro de un archivo phar</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;</span><span style="color: #007700">include&nbsp;</span><span style="color: #DD0000">'phar:///ruta/a/miphar.phar/fichero.php'</span><span style="color: #007700">;<br />&nbsp;</span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   De hecho, se puede tratar un archivo phar exactamente como si fuera un disco externo, usando
+   cualquiera de las funciones relacionadas con <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span>, <span class="function"><a href="function.opendir.html" class="function">opendir()</a></span> y
+   funciones relacionadas con <span class="function"><a href="function.mkdir.html" class="function">mkdir()</a></span> para leer, cambiar, o crear nuevos ficheros
+   y directorios dentro del archivo phar. Esto permite que aplicaciones de PHP completas
+   sean distribuidas en un único fichero y ejecutarlas directamente desde ese fichero.
+  </p>
+  <p class="para">
+   El uso más común de un archivo phar es distribuir una aplicación completa
+   en un único fichero. Por ejemplo, el Instalador de PEAR que se incluye con las versiones
+   de PHP está distribuido como un archivo phar. Para usar un archivo phar distribuido
+   de esta forma, se puede ejecutar en línea de comandos o mediante un servidor web.
+  </p>
+  <p class="para">
+   Los archivos phar pueden ser distribuidos como archivos <em>tar</em>,
+   <em>zip</em>, o como formato de fichero <em>phar</em> personalizado
+   diseñado específicamente por la extensión phar. Cada formato de fichero tiene sus ventajas
+   y desventajas. Los formatos de fichero tar y zip se pueden leer o extraer mediante cualquier
+   herramienta de terceros que pueda leer el formato, pero necesia la extensión phar para ejecutarlo
+   con PHP. El formato de fichero phar es personalizado y único para la extensión phar,
+   y sólo puede ser creado por la extensión phar o el paquete de PEAR
+   <a href="http://pear.php.net/package/PHP_Archive" class="link external">&raquo;&nbsp;PHP_Archive</a>, pero tiene la
+   ventaja de que las apliaciones creadas en este formato se ejecutarán incluso si la extensión
+   phar no está habilitada.
+  </p>
+  <p class="para">
+   En otras palabra, incluso con la extensión phar deshabilitada, se puede ejecutar o incluir
+   un archivo basado en phar. El acceso a ficheros dentro de un archivo phar solamente es
+   posible con la extesnión phar a menos que el archivo phar fuese creado por PHP_Archive.
+  </p>
+  <p class="para">
+   La extensión phar también es capaz de convertir un archivo phar desde los formatos de fichero tar a zip o
+   a phar en un único comando:
+  </p>
+  <p class="para">
+   <div class="example" id="example-733">
+    <p><strong>Ejemplo #3 Convertir un archivo phar, desde phar al formato de fichero tar</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;$phar&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Phar</span><span style="color: #007700">(</span><span style="color: #DD0000">'miphar.phar'</span><span style="color: #007700">);<br />&nbsp;</span><span style="color: #0000BB">$pgz&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$phar</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">convertToExecutable</span><span style="color: #007700">(</span><span style="color: #0000BB">Phar</span><span style="color: #007700">::</span><span style="color: #0000BB">TAR</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">Phar</span><span style="color: #007700">::</span><span style="color: #0000BB">GZ</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;crea&nbsp;miphar.phar.tar.gz<br />&nbsp;</span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Phar puede comprimir ficheros individuales o un archivo entero
+   usando la compresión <a href="book.zlib.html" class="link">gzip</a> o
+   la <a href="book.bzip2.html" class="link">bzip2</a>, y puede verificar la integridad
+   del archivo automáticamente a través del uso de las signaturas
+   MD5, SHA-1, SHA-256 o SHA-512.
+  </p>
+  <p class="para">
+   Por último, la extensión Phar se preocupa de la seguridad, y deshabilita el acceso a la escritura
+   de archivos phar ejecutables de manera predeterminada, y requiere la deshabilitación a nivel de sistema del ajuste
+   <em>phar.readonly</em> de php.ini para crear o
+   modificar archivos phar. Los archivos tar y zip normales sin una rutina de interoperabilidad ejecutable
+   siempre pueden ser creador o modificados utilizando la clase <a href="class.phardata.html" class="classname">PharData</a>.
+  </p>
+  <p class="para">
+   Si está creando aplicaciones para su distribución, le interesará leer
+   <a href="phar.creating.html" class="link">Cómo crear Archivos Phar</a>. Si desea
+   más información de las diferencias entre los tres formatos de ficheros que soporta phar,
+   debería leer <a href="phar.fileformat.html" class="link">Phar, Tar y Zip</a>.
+  </p>
+  <p class="para">
+   Si usa aplicaciones phar, existen consejos útiles en
+   <a href="phar.using.html" class="link">Cómo utilizar archivos Phar</a>
+  </p>
+  <p class="para">
+   La palabra <em>phar</em> es una composición de <em>PHP</em> y
+   <em>Archive</em> y está basada indirectamente
+   en el familiar <em>jar</em> (Java Archive) para los desarrolladores Java.
+  </p>
+  <p class="para">
+   La implementación de archivos Phar está basada en el paquete de PEAR
+   <a href="http://pear.php.net/package/PHP_Archive" class="link external">&raquo;&nbsp;PHP_Archive</a>, y
+   los detalles de implementación son similares, aunque la extensión Phar
+   es mucho más potente. Además, la extensión Phar permite a la mayoría de las aplicaciones
+   de PHP ejecutarse sin modificaciones, mientras que los archivos phar basados en PHP_Archive
+   a menudo requieren una extensa modificiación para que funcionen.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.phar.html">Phar</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="up"><a href="book.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

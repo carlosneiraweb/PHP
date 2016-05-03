@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establecer la fuerza (strength) de un cotejo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="collator.setattribute.html">Collator::setAttribute</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="collator.sortwithsortkeys.html">Collator::sortWithSortKeys</a></div>
+ <div class="up"><a href="class.collator.html">Collator</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="collator.setstrength" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Collator::setStrength</h1>
+  <h1 class="refname">collator_set_strength</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7, PECL intl &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">Collator::setStrength</span> -- <span class="refname">collator_set_strength</span> &mdash; <span class="dc-title">Establecer la fuerza (strength) de un cotejo</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-collator.setstrength-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">
+   Estilo orientado a objetos
+  </p>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">bool</span> 
+   <span class="methodname"><strong>Collator::setStrength</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$strength</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Estilo por procedimientos
+  </p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> 
+   <span class="methodname"><strong>collator_set_strength</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.collator.html" class="type Collator">Collator</a></span> <code class="parameter">$coll</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$strength</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   El Servicio de Cotejo de
+   <a href="http://www.icu-project.org/" class="link external">&raquo;&nbsp;ICU</a>
+   soporta muchos niveles de comparación (llamados &quot;Levels&quot;, pero
+   también conocidos como &quot;Strengths&quot;). Tener estas categorías habilita a ICU para ordenar
+   cadenas de manera precisa según las convenciones regionales. Sin embargo, al permitir que
+   los niveles sean empleados selectivamente, la búsqueda de una cadena en un texto se podrá
+   realizar con varias condiciones de coincidencia.
+  </p>
+  <p class="para">
+   <ol type="1">
+    <li class="listitem">
+     <p class="para"> 
+      <em class="emphasis"> Nivel Primario (Primary)</em>:
+      Se utiliza normalmente para denotar diferencias entre caracteres base
+      (por ejemplo, &quot;a&quot; &lt; &quot;b&quot;). Es la diferencia más fuerte. Por
+      ejemplo, los diccionarios están divididos en diferentes secciones mediante
+      caracteres base. También se le llama fuerza de nivel 1.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para"> 
+      <em class="emphasis"> Nivel Secundario (Secondary)</em>:
+      Los acentos de los caracteres se consideran diferencias secundarias (por
+      ejemplo, &quot;as&quot; &lt; &quot;às&quot; &lt; &quot;at&quot;). También se pueden considerar
+      como secundarias otras diferencias entre letras, dependiendo del lenguaje.
+      Una diferencia secundaria es ignorada cuando existe una diferencia primaria
+      en cualquier lugar de las cadenas. También se le llama fuerza de nivel 2.
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Nota: En algunos lenguajes (como en el danés), algunas letras acentuadas están
+        consideradas como caracteres base por separado. Sin embargo, en la mayoría de los lenguajes,
+        una letra acentuada solamente tiene una diferencia secundaria con su versión
+        no acentuada de esa misma letra.
+       </p>
+      </p></blockquote>
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para"> 
+      <em class="emphasis"> Nivel Terciario (Tertiary)</em>:
+      Las diferencias entre caracteres mayúsculas y minúsculas se distinguen en
+      el nivel terciario (por ejemplo, &quot;ao&quot; &lt; &quot;Ao&quot; &lt; &quot;aò&quot;). Además,
+      una variante de una letra difiere de su forma base en este nivel
+      (como &quot;A&quot; y &quot; &quot;). Otro ejemplo es la diferencia entre un Kana grande
+      y uno pequeño. Una diferencia terciaria es ignorada cuando existe una diferencia
+      primaria o secundaria en cualquier lugar de las cadenas. También se le llama fuerza de
+      nivel 3.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para"> 
+      <em class="emphasis"> Nivel Cuaternario (Quaternary)</em>:
+      Cuando se ignora la puntuación (véase Ignorar la Puntuación) en el nivel 13,
+      se puede usar un nivel adicional para distinguir entre palabra con y sin
+      puntuación (por ejemplo, &quot;ab&quot; &lt; &quot;a-b&quot; &lt; &quot;aB&quot;). Esta diferencia es
+      ignorada cuando existe una diferencia primaria, secundaria o terciaria. También
+      se le llama fuerza de nivel 4. El nivel cuaternario sólo debería usarse
+      si es necesario ignorar la puntuación o al procesar texto japonés
+      (véase el procesamiento de Hiragana).
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para"> 
+      <em class="emphasis"> Nivel Idéntico (Identical)</em>:
+      Cuando todos los demás niveles son iguales, el nivel idéntico se usa como
+      &quot;desempate&quot;. Los valores de los caracteres Unicode de la forma NFD de cada cadena
+      se comparan en este nivel, como en el caso de que no existan diferencias en
+      los niveles 14. Por ejemplo, las marcas de cantilación hebreas sólo son distinguibles
+      en este nivel. Este nivel debería usarse poco, ya que las diferencias de los valores
+      de los caracteres entre dos cadenas ocurre en raras ocasiones.
+      Usar este nivel disminuye sustancialmente el rendimiento de la
+      comparación incremental y la generación de claves de ordenación (así como también aumenta
+      la longitud de las claves de ordenación). También es conocido como fuerza de nivel 5
+     </p>
+    </li>
+   </ol>
+  </p>
+  <p class="para">
+   Por ejemplo, se puede escoger ignorar los acentos o ignorara los acentos y si son mayúsculas/minúsculas
+   en la búsqueda de un texto. La mayoría de los caracteres son distinguibles por los
+   tres primeros niveles, y en la mayoría de las configuraciones regionales el valor predeterminado es por lo tanto Tertiary.
+   Sin embargo, si Alternate se establece a Shifted, la fuerza Quaternary
+   se podría usar para romper &quot;empates&quot; entre espacios en blanco, puntiaciones y símbolos que
+   de otra manera serían ignorados. Si se necesita distinguir de manera precisa entre
+   caracteres, se puede usar la fuerza Identical (por ejemplo, la Fuerza
+   Identical distinque entre la A Matemática Pequeña Negrita y la
+   A Matemática Pequeña Itálica). Sin embargo, al usar niveles mayores que el terciario
+   la fuerza Identical resulta en claves de ordenación significativamente más grandes, y un
+   rendimiento más lento en la comparación de cadenas iguales.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-collator.setstrength-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">coll</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Uh objeto <a href="class.collator.html" class="classname">Collator</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">strength</code></dt>
+
+     <dd>
+
+      <p class="para">La fuerza a establecer.</p>
+      <p class="para">
+       Los valores posibles son:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          <strong><code>Collator::PRIMARY</code></strong>
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          <strong><code>Collator::SECONDARY</code></strong>
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          <strong><code>Collator::TERTIARY</code></strong>
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          <strong><code>Collator::QUATERNARY</code></strong>
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          <strong><code>Collator::IDENTICAL</code></strong>
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          <strong><code>Collator::DEFAULT_STRENGTH</code></strong>
+         </p>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-collator.setstrength-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-collator.setstrength-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2737">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>collator_set_strength()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$arr&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">'aò'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Ao'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ao'&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$coll&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">collator_create</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">'en_US'&nbsp;</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ordenar&nbsp;el&nbsp;array&nbsp;usando&nbsp;la&nbsp;fuerza&nbsp;predeterminada.<br /></span><span style="color: #0000BB">collator_sort</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$coll</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$arr&nbsp;</span><span style="color: #007700">);&nbsp;<br /></span><span style="color: #0000BB">var_export</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$arr&nbsp;</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ordenar&nbsp;el&nbsp;array&nbsp;usando&nbsp;la&nbsp;fuerza&nbsp;primaria.<br /></span><span style="color: #0000BB">collator_set_strength</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$coll</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">Collator</span><span style="color: #007700">::</span><span style="color: #0000BB">PRIMARY&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">collator_sort</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$coll</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$arr&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_export</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$arr&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array (
+  0 =&gt; &#039;ao&#039;,
+  1 =&gt; &#039;Ao&#039;,
+  2 =&gt; &#039;aò&#039;,
+)
+array (
+  0 =&gt; &#039;aò&#039;,
+  1 =&gt; &#039;Ao&#039;,
+  2 =&gt; &#039;ao&#039;,
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-collator.setstrength-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member">Las constantes de <a href="class.collator.html#intl.collator-constants" class="link"><a href="class.collator.html" class="classname">Collator</a></a></li>
+    <li class="member"><span class="function"><a href="collator.getstrength.html" class="function" rel="rdfs-seeAlso">collator_get_strength()</a> - Obtener la fuerza de cotejo actual</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="collator.setattribute.html">Collator::setAttribute</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="collator.sortwithsortkeys.html">Collator::sortWithSortKeys</a></div>
+ <div class="up"><a href="class.collator.html">Collator</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

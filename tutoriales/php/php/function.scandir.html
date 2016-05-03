@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Enumera los ficheros y directorios ubicados en la ruta especificada</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.rewinddir.html">rewinddir</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.fileinfo.html">Fileinfo</a></div>
+ <div class="up"><a href="ref.dir.html">Funciones de directorio</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.scandir" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">scandir</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">scandir</span> &mdash; <span class="dc-title">Enumera los ficheros y directorios ubicados en la ruta especificada</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.scandir-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>scandir</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$directory</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$sorting_order</code><span class="initializer"> = SCANDIR_SORT_ASCENDING</span></span>
+   [, <span class="methodparam"><span class="type">resource</span> <code class="parameter">$context</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve un <span class="type"><a href="language.types.array.html" class="type array">array</a></span> con los ficheros y los directorios que se encuentran bajo
+   <code class="parameter">directory</code>.
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.scandir-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">directory</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El directorio que será examinado.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">sorting_order</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Por omisión, se ordena alfabéticamente en sentido ascendente. Si se utiliza
+       el parámetro opcional <code class="parameter">sorgin_order</code> con el valor
+       <strong><code>SCANDIR_SORT_DESCENDING</code></strong>, entonces se ordenará alfabéticamente en
+       sentido descendente. Si se asigna
+       <strong><code>SCANDIR_SORT_NONE</code></strong> entonces el resultado no se ordena.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">context</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Para una descripción del parámetro <code class="parameter">context</code>, 
+       consulte la <a href="ref.stream.html" class="link">sección de flujos</a>
+       del manual.
+      </p> 
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.scandir-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un <span class="type"><a href="language.types.array.html" class="type array">array</a></span> con los nombres de los ficheros en caso de éxito, o <strong><code>FALSE</code></strong> en
+   caso de error. Si <code class="parameter">directory</code> no es un directorio, entonces
+   se devuelve <strong><code>FALSE</code></strong>, y se genera un error de nivel 
+   <strong><code>E_WARNING</code></strong>.
+  </p> 
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.scandir-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.4.0</td>
+       <td>
+        Se añadieron las <a href="dir.constants.html" class="link">constantes</a> de <code class="parameter">sorting_order</code>.
+        En versiones anteriores, cualquir valor distinto de cero ocasionaba un ordenamiento descendente. Por lo tanto,
+        para todas las versiones de PHP, use <em>0</em> para el orden ascendente, y <em>1</em>
+        para el orden descendente. No existía una opción para el comportamiento de <strong><code>SCANDIR_SORT_NONE</code></strong>
+        antes de PHP 5.4.0.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.scandir-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2578">
+    <p><strong>Ejemplo #1 Un simple ejemplo de <span class="function"><strong>scandir()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$directorio&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'/tmp'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$ficheros1&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">scandir</span><span style="color: #007700">(</span><span style="color: #0000BB">$directorio</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$ficheros2&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">scandir</span><span style="color: #007700">(</span><span style="color: #0000BB">$directorio</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br />&nbsp;<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$ficheros1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$ficheros2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [0] =&gt; .
+    [1] =&gt; ..
+    [2] =&gt; bar.php
+    [3] =&gt; foo.txt
+    [4] =&gt; somedir
+)
+Array
+(
+    [0] =&gt; somedir
+    [1] =&gt; foo.txt
+    [2] =&gt; bar.php
+    [3] =&gt; ..
+    [4] =&gt; .
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2579">
+    <p><strong>Ejemplo #2 Alternativas a <span class="function"><strong>scandir()</strong></span> para PHP 4</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$directorio&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"/tmp"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$gestor_dir&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">opendir</span><span style="color: #007700">(</span><span style="color: #0000BB">$directorio</span><span style="color: #007700">);<br />while&nbsp;(</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">!==&nbsp;(</span><span style="color: #0000BB">$nombre_fichero&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">readdir</span><span style="color: #007700">(</span><span style="color: #0000BB">$gestor_dir</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$ficheros</span><span style="color: #007700">[]&nbsp;=&nbsp;</span><span style="color: #0000BB">$nombre_fichero</span><span style="color: #007700">;<br />}<br />&nbsp;<br /></span><span style="color: #0000BB">sort</span><span style="color: #007700">(</span><span style="color: #0000BB">$ficheros</span><span style="color: #007700">);<br />&nbsp;<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$ficheros</span><span style="color: #007700">);<br />&nbsp;<br /></span><span style="color: #0000BB">rsort</span><span style="color: #007700">(</span><span style="color: #0000BB">$ficheros</span><span style="color: #007700">);<br />&nbsp;<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$ficheros</span><span style="color: #007700">);<br />&nbsp;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [0] =&gt; .
+    [1] =&gt; ..
+    [2] =&gt; bar.php
+    [3] =&gt; foo.txt
+    [4] =&gt; somedir
+)
+Array
+(
+    [0] =&gt; somedir
+    [1] =&gt; foo.txt
+    [2] =&gt; bar.php
+    [3] =&gt; ..
+    [4] =&gt; .
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.scandir-notes">
+  <h3 class="title">Notas</h3>
+  <div class="tip"><strong class="tip">Sugerencia</strong><p class="simpara">Se puede emplear un URL como
+nombre de fichero con esta función si las <a href="filesystem.configuration.html#ini.allow-url-fopen" class="link">envolturas de fopen</a> han sido activadas.
+Véase <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span> para más información de cómo especificar el nombre
+de fichero. Véanse las <a href="wrappers.html" class="xref">Protocolos y Envolturas soportados</a>; continen enlaces con información
+sobre las diferentes capacidades que tienen las envolturas, notas sobre su empleo,
+e información de cualquier variable predefinida que podría
+proporcionarse.</p></div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.scandir-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.opendir.html" class="function" rel="rdfs-seeAlso">opendir()</a> - Abre un gestor de directorio</span></li>
+    <li class="member"><span class="function"><a href="function.readdir.html" class="function" rel="rdfs-seeAlso">readdir()</a> - Lee una entrada desde un gestor de directorio</span></li>
+    <li class="member"><span class="function"><a href="function.glob.html" class="function" rel="rdfs-seeAlso">glob()</a> - Buscar coincidencias de nombres de ruta con un patr&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="function.is-dir.html" class="function" rel="rdfs-seeAlso">is_dir()</a> - Indica si el nombre de archivo es un directorio</span></li>
+    <li class="member"><span class="function"><a href="function.sort.html" class="function" rel="rdfs-seeAlso">sort()</a> - Ordena un array</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.rewinddir.html">rewinddir</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.fileinfo.html">Fileinfo</a></div>
+ <div class="up"><a href="ref.dir.html">Funciones de directorio</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

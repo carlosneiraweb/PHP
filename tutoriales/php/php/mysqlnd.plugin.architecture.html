@@ -1,0 +1,581 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Arquitectura de los Complementos del Controlador Nativo de MySQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd.plugin.obtaining.html">Obtener la API de complementos de mysqlnd</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd.plugin.api.html">La API de complementos de mysqlnd</a></div>
+ <div class="up"><a href="mysqlnd.plugin.html">API de Complementos del Controlador Nativo de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd.plugin.architecture" class="section">
+  <h2 class="title">Arquitectura de los Complementos del Controlador Nativo de MySQL</h2>
+  <p class="para">
+   Esta sección proporciona información general de la arquitectura de los
+   complementos de <em>mysqlnd</em>.
+  </p>
+  <p class="para">
+   <em class="emphasis">Información general del Controlador Nativo de MySQL</em>
+  </p>
+  <p class="para">
+   Antes de desarrollar complementos de <em>mysqlnd</em>, es útil
+   conocer un poco cómo <em>mysqlnd</em> está organizado.
+   <em>Mysqlnd</em> consiste en los siguientes módulos:
+  </p>
+  <table class="doctable table">
+   <caption><strong>La gráfica de organización de mysqlnd, por módulo</strong></caption>
+   
+    <tbody class="tbody">
+     <tr>
+      <td>Módulos de estadísticas</td>
+      <td>mysqlnd_statistics.c</td>
+     </tr>
+
+     <tr>
+      <td>Conexión</td>
+      <td>mysqlnd.c</td>
+     </tr>
+
+     <tr>
+      <td>Conjunto de resultados</td>
+      <td>mysqlnd_result.c</td>
+     </tr>
+
+     <tr>
+      <td>Metadatos de conjuntos de resultados</td>
+      <td>mysqlnd_result_meta.c</td>
+     </tr>
+
+     <tr>
+      <td>Sentencia</td>
+      <td>mysqlnd_ps.c</td>
+     </tr>
+
+     <tr>
+      <td>Red</td>
+      <td>mysqlnd_net.c</td>
+     </tr>
+
+     <tr>
+      <td>Protocolo de cable</td>
+      <td>mysqlnd_wireprotocol.c</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  <p class="para">
+   <em class="emphasis">Paradigma de la orientación a objetos de C</em>
+  </p>
+  <p class="para">
+   A nivel de código, <em>mysqlnd</em> utiliza un patrón de C para
+   implementar la orientación a objetos.
+  </p>
+  <p class="para">
+   En C se utiliza una estrucutra (<em>struct</em>) para representar un objeto.
+   Los miembros de la estructura representan las propiedades del objeto. Los miembros de la estrucutra
+   que apuntan a funciones representan los métodos.
+  </p>
+  <p class="para">
+   A diferencia de otros lenguajes como C++ o Java, no existen reglas fijas
+   sobre herencia en el paradigma de la orientación a objetos de C. Sin embargo,
+   existen algunas convenciones que se han de seguir y serán discutidas
+   más tarde.
+  </p>
+  <p class="para">
+   <em class="emphasis">El ciclo de vida de PHP</em>
+  </p>
+  <p class="para">
+   Al considerar el ciclo de vida de PHP existen dos ciclos básicos:
+  </p>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <p class="para">
+     El ciclo de inicio y cierre del motor de PHP
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     El ciclo de peticiones
+    </p>
+   </li>
+  </ul>
+  <p class="para">
+   Cuando se inicia el motor de PHP, éste llamará a la función de inicialización de
+   módulos (MINIT) para cada extensión registrada. Esto permite a cada
+   módulo establecer variables y asignar recursos que existirán durante
+   el tiempo de vida del proceso del motor de PHP. Al cerrar el motor de PHP,
+   éste llamará a las funciones de cierre de módulos (MSHUTDOWN) para cada
+   extensión.
+  </p>
+  <p class="para">
+   Durante el tiempo de vida del motor de PHP, éste recibirá varias
+   peticiones. Cada petición constituye otro ciclo de vida. En cada
+   petición, el motor de PHP llamará a la función de inicialización de peticiones
+   para cada extensión. La extensión puede realizar cualquier establecimiento de variables y
+   asignación de recursos necesarios para el proceso de petición. Al finalizar el ciclo
+   de peticiones, el motor llama a la función de cierre de peticiones (RSHUTDOWN)
+   de cada extensión, por lo que la extensión puede realizar cualquier limpieza necesaria.
+  </p>
+  <p class="para">
+   <em class="emphasis">Cómo funciona un complemento</em>
+  </p>
+  <p class="para">
+   Un complemento de <em>mysqlnd</em> funciona interceptando llamada realizadas
+   a <em>mysqlnd</em> por extensiones que utilizan
+   <em>mysqlnd</em>. Esto se lleva a cabo obteniendo la
+   tabla de funciones de <em>mysqlnd</em>, haciendo una copia de seguridad de ella, y
+   reemplazándola por una tabla de funciones personalizada, la cual llamará a las funciones del
+   complemento cuando sea necesario.
+  </p>
+  <p class="para">
+   El siguiente código muestra cómo se reemplaza la tabla de
+   funciones de <em>mysqlnd</em>:
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+/* un lugar para almacenar la tabla de funciones original */
+struct st_mysqlnd_conn_methods org_methods;
+
+void minit_register_hooks(TSRMLS_D) {
+  /* activar la tabla de funciones */
+  struct st_mysqlnd_conn_methods * current_methods
+    = mysqlnd_conn_get_methods();
+
+  /* copiar la tabla de funciones original */
+  memcpy(&amp;org_methods, current_methods,
+    sizeof(struct st_mysqlnd_conn_methods);
+
+  /* instalar nuevos métodos */
+  current_methods-&gt;query = MYSQLND_METHOD(my_conn_class, query);
+}
+</pre></div>
+  </div>
+
+  <p class="para">
+   La manipulación de la tabla de funciones de conexión debe hacerse durante la
+   Inicialización de Módulos (MINIT). La tabla de funciones es un recurso global
+   compartido. En un entorno multihilo, con un TSRM construido, la
+   manipulación de un recurso global compartido durante el proceso de
+   peticiones resultará en conflictos casi con toda seguridad.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    No utilice cualquier lógica de tamaña fijo al manipular la
+    tablas de funciones de <em>mysqlnd</em>: los métodos nuevos se pueden añadir
+    al final de la tabla de funciones. La tabla de funciones puede cambiar en
+    cualquier momento en el futuro.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   <em class="emphasis">Llamar a métodos padre</em>
+  </p>
+  <p class="para">
+   Si las entradas de la tabla de funciones original está copiada, aún es
+   posible llamar a las entradas de la tabla de funciones original - los métodos
+   padre.
+  </p>
+  <p class="para">
+   En algunos casos, como en
+   <em>Connection::stmt_init()</em>, es vital llamar al
+   método padre antes de realizar cualquier otra actividad en el método derivado.
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+MYSQLND_METHOD(my_conn_class, query)(MYSQLND *conn,
+  const char *query, unsigned int query_len TSRMLS_DC) {
+
+  php_printf(&quot;my_conn_class::query(query = %s)\n&quot;, query);
+
+  query = &quot;SELECT &#039;query rewritten&#039; FROM DUAL&quot;;
+  query_len = strlen(query);
+
+  return org_methods.query(conn, query, query_len); /* retorno con llamada al padre */
+}
+</pre></div>
+  </div>
+
+  <p class="para">
+   <em class="emphasis">Extender propiedades</em>
+  </p>
+  <p class="para">
+   Un objeto <em>mysqlnd</em> está representado por una estrucutra de C.
+   No es posible añadir un miembro a una estructura de C en tiempo de ejecución. Los usuarios de
+   objetos <em>mysqlnd</em> no pueden simplemente añadir propiedades a
+   los objetos.
+  </p>
+  <p class="para">
+   Se pueden añadir datos arbitrarios (propiedades) a
+   objetos <em>mysqlnd</em> usando la función apropiada
+   de la familia de
+   <em>mysqlnd_plugin_get_plugin_&lt;object&gt;_data()</em>.
+   Cuando se asigna un objeto, <em>mysqlnd</em> reserva
+   espacio al final del objeto para que contenga un puntero
+   <em>void *</em> a datos arbitrarios. <em>mysqlnd</em> reserva espacio
+   para un puntero <em>void *</em> por complemento.
+  </p>
+  <p class="para">
+   La siguiente tabla muestra cómo calcular la posición del
+   puntero para un complemento específico:
+  </p>
+  <table class="doctable table">
+   <caption><strong>Cálculos de puntero para mysqlnd</strong></caption>
+   
+    <tbody class="tbody">
+     <tr>
+      <td>Dirección de memoria</td>
+      <td>Contenido</td>
+     </tr>
+
+     <tr>
+      <td>0</td>
+      <td>Inicio de la estructura de C del objeto mysqlnd</td>
+     </tr>
+
+     <tr>
+      <td>n</td>
+      <td>Fin de la estructura de C del objeto mysqlnd</td>
+     </tr>
+
+     <tr>
+      <td>n + (m x sizeof(void*))</td>
+      <td>void* a los datos del objeot del complemento m-ésimo</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  <p class="para">
+   Si se planea usar cualquier constructor de objetos <em>mysqlnd</em>
+   en subclases, lo cual está permitido, ¡se debe tener esto en cuenta!
+  </p>
+  <p class="para">
+   El siguiente código muestra la extensión de propiedades:
+  </p>
+  <div class="example-contents">
+<div class="cdata"><pre>
+/* cualquier dato que queramos asociar */
+typedef struct my_conn_properties {
+  unsigned long query_counter;
+} MY_CONN_PROPERTIES;
+
+/* id del complemento */
+unsigned int my_plugin_id;
+
+void minit_register_hooks(TSRMLS_D) {
+  /* obtener un ID único para el complemento */
+  my_plugin_id = mysqlnd_plugin_register();
+  /* recorte - véase Extender conexiones: métodos */
+}
+
+static MY_CONN_PROPERTIES** get_conn_properties(const MYSQLND *conn TSRMLS_DC) {
+  MY_CONN_PROPERTIES** props;
+  props = (MY_CONN_PROPERTIES**)mysqlnd_plugin_get_plugin_connection_data(
+    conn, my_plugin_id);
+  if (!props || !(*props)) {
+    *props = mnd_pecalloc(1, sizeof(MY_CONN_PROPERTIES), conn-&gt;persistent);
+    (*props)-&gt;query_counter = 0;
+  }
+  return props;
+}
+</pre></div>
+  </div>
+
+  <p class="para">
+   El desarrollador del complemento es responsable de la gestión de memoria de lo datos
+   del complemento.
+  </p>
+  <p class="para">
+   Se recomienda el uso del asignador de memoria de <em>mysqlnd</em>
+   para los datos del complemento. Estas funciones son nombradas usando la convención:
+   <em>mnd_*loc()</em>. El asignador de <em>mysqlnd</em>
+   tiene algunas características útiles, como la capacidad de usar un
+   asignador de depuración en una construcción de no depuración.
+  </p>
+  <table class="doctable table">
+   <caption><strong>Cuándo y cómo usar subclases</strong></caption>
+   
+    <tbody class="tbody">
+     <tr>
+      <td class="empty">&nbsp;</td>
+      <td>¿Cuándo usar subclases?</td>
+      <td>¿Cada instancia tiene su propia tabla de funciones privada?</td>
+      <td>¿Cómo usar subclases?</td>
+     </tr>
+
+     <tr>
+      <td>Conexión (MYSQLND)</td>
+      <td>MINIT</td>
+      <td>No</td>
+      <td>mysqlnd_conn_get_methods()</td>
+     </tr>
+
+     <tr>
+      <td>Conjunto de resultados (MYSQLND_RES)</td>
+      <td>MINIT o después</td>
+      <td>Sí</td>
+      <td>mysqlnd_result_get_methods() o manipulación de la tabla de funciones
+       de métodos de objetos</td>
+     </tr>
+
+     <tr>
+      <td>Metadatos de conjunto de resultados (MYSQLND_RES_METADATA)</td>
+      <td>MINIT</td>
+      <td>No</td>
+      <td>mysqlnd_result_metadata_get_methods()</td>
+     </tr>
+
+     <tr>
+      <td>Sentencia (MYSQLND_STMT)</td>
+      <td>MINIT</td>
+      <td>No</td>
+      <td>mysqlnd_stmt_get_methods()</td>
+     </tr>
+
+     <tr>
+      <td>Red (MYSQLND_NET)</td>
+      <td>MINIT o después</td>
+      <td>Sí</td>
+      <td>mysqlnd_net_get_methods() o manipulación de la tabla de funciones de métodos de objetos</td>
+     </tr>
+
+     <tr>
+      <td>Protocolo de cable (MYSQLND_PROTOCOL)</td>
+      <td>MINIT o después</td>
+      <td>Sí</td>
+      <td>mysqlnd_protocol_get_methods() o manipulación de la tabla de funciones
+       de métodos de objetos</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  <p class="para">
+   No se deben manipular las tablas de funciones en ningún momento posterior a MINIT
+   si no está permitido según la tabla de arriba.
+  </p>
+  <p class="para">
+   Algunas clases contienen un puntero a la tabla de funciones de métodos. Todas
+   las instancias de esas clases compartirán la misma tabla de funciones. Para
+   evitar el caos, en particular en entornos de hilos, tales tablas de
+   funciones deben ser manipuladas solamente durante MINIT.
+  </p>
+  <p class="para">
+   Otras clases usan copias de una tabla de funciones compartida globalmente. La
+   copia de la tabla de funciones de la clase se crea junto con el objeto. Cada
+   objeto usa su propia tabla de funciones. Esto proporciona dos opciones:
+   se puede manipular la tabla de funciones predetermiada de un objeto durante MINIT, y
+   además se pueden perfeccionar métodos de un objeto sin impactar
+   otras instancias de la misma clase.
+  </p>
+  <p class="para">
+   La ventaja del enfoque de la tabla de funciones compartida es el rendimiento.
+   No hay necesidad de copiar una tabla de funciones para cada objeto.
+  </p>
+  <table class="doctable table">
+   <caption><strong>Estado del constructor</strong></caption>
+   
+    <tbody class="tbody">
+     <tr>
+      <td class="empty">&nbsp;</td>
+      <td>Asignación, construcción, reinicio</td>
+      <td>¿Se puede modificar?</td>
+      <td>Llamador</td>
+     </tr>
+
+     <tr>
+      <td>Conexión (MYSQLND)</td>
+      <td>mysqlnd_init()</td>
+      <td>No</td>
+      <td>mysqlnd_connect()</td>
+     </tr>
+
+     <tr>
+      <td>Conjunto de resultados (MYSQLND_RES)</td>
+      <td><p class="para">
+       Asignación:
+       </p>
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Connection::result_init()
+         </p>
+        </li>
+       </ul>
+       <p class="para">
+        Reinicio y reinicialización durante:
+       </p>
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Result::use_result()
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Result::store_result
+         </p>
+        </li>
+       </ul></td>
+      <td>Sí, ¡pero se ha de llamar al padre!</td>
+      <td><ul class="itemizedlist">
+       <li class="listitem">
+        <p class="para">
+         Connection::list_fields()
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         Statement::get_result()
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         Statement::prepare() (Solamente metadatos)
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         Statement::resultMetaData()
+        </p>
+       </li>
+       </ul></td>
+     </tr>
+
+     <tr>
+      <td>Metadatos de conjunto de resultados (MYSQLND_RES_METADATA)</td>
+      <td>Connection::result_meta_init()</td>
+      <td>Sí, ¡pero se ha de llamar al padre!</td>
+      <td>Result::read_result_metadata()</td>
+     </tr>
+
+     <tr>
+      <td>Sentecia (MYSQLND_STMT)</td>
+      <td>Connection::stmt_init()</td>
+      <td>Sí, ¡pero se ha de llamar al padre!</td>
+      <td>Connection::stmt_init()</td>
+     </tr>
+
+     <tr>
+      <td>Red (MYSQLND_NET)</td>
+      <td>mysqlnd_net_init()</td>
+      <td>No</td>
+      <td>Connection::init()</td>
+     </tr>
+
+     <tr>
+      <td>Protocolo de cable (MYSQLND_PROTOCOL)</td>
+      <td>mysqlnd_protocol_init()</td>
+      <td>No</td>
+      <td>Connection::init()</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  <p class="para">
+   Se recomienda encarecidamente que no se reemplace completamente un
+   constructor. Los constructores realizan asignaciones de memoria. Las asignaciones
+   de memoria son vitales para la API de complementos de <em>mysqlnd</em>
+   y la lógida de objetos de <em>mysqlnd</em>. Si no se tiene
+   cuidado con las advertencias y se insiste en enganchar los constructores, se
+   debería, al menos, llamar al constructor padre antes de hacer nada en el
+   constructor derivado.
+  </p>
+  <p class="para">
+   A pesar de todas las advertencias, puede ser útil usar subclases para
+   los constructores. Éstos son el lugar perfecto para modificar las
+   tablas de funciones de objetos con tablas de objetos no compartidas, como
+   Conjunto de resultados, Red, Protocolo de cable.
+  </p>
+  <table class="doctable table">
+   <caption><strong>Estado de la destrucción</strong></caption>
+   
+    <tbody class="tbody">
+     <tr>
+      <td class="empty">&nbsp;</td>
+      <td>¿Debe el método derivado llamar al padre?</td>
+      <td>Destructor</td>
+     </tr>
+
+     <tr>
+      <td>Conexión</td>
+      <td>sí, después de la ejecución del método</td>
+      <td>free_contents(), end_psession()</td>
+     </tr>
+
+     <tr>
+      <td>Conjunto de resultados</td>
+      <td>sí, después de la ejecución del método</td>
+      <td>free_result()</td>
+     </tr>
+
+     <tr>
+      <td>Metadatos del conjunto de resultados</td>
+      <td>sí, después de la ejecución del método</td>
+      <td>free()</td>
+     </tr>
+
+     <tr>
+      <td>Sentencia</td>
+      <td>sí, después de la ejecución del método</td>
+      <td>dtor(), free_stmt_content()</td>
+     </tr>
+
+     <tr>
+      <td>Red</td>
+      <td>sí, después de la ejecución del método</td>
+      <td>free()</td>
+     </tr>
+
+     <tr>
+      <td>Protocolo de cable</td>
+      <td>sí, después de la ejecución del método</td>
+      <td>free()</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  <p class="para">
+   Los destructores son los lugares apropiados para liberar propiedades
+   <em>mysqlnd_plugin_get_plugin_<span class="replaceable">&lt;objeto&gt;</span>_data()</em>.
+  </p>
+  <p class="para">
+   Los destructores listados podrían no ser equivalentes a los métodos reales de
+   <em>mysqlnd</em> que liberan el objeto en sí. Sin embargo,
+   son el mejor lugar posible para enganchar y liberar los datos
+   de los complementos. Como sucede con los constructores se pueden reemplazar los
+   métodos completamente, pero no se recomienda. Si se listan múltiles métodos
+   en la tabla de arriba, se necesitará enganchar todos esos métodos
+   y liberar los datos del complemento en el método correspondiente que sea llamado primero por
+   <em>mysqlnd</em>.
+  </p>
+  <p class="para">
+   El método recomendado para los complementos es simplemente enganchar los métodos,
+   liberar la memoria y llamar a la implementación padre inmediatamente
+   después de esto.
+  </p>
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <p class="para">
+    Debido a un error en las versiones de PHP 5.3.0 hasta 5.3.3, los complementos no
+    asocian los datos de los complementos con una conexión persistente. Esto es debido a que
+    <em>ext/mysql</em> y <em>ext/mysqli</em>
+    no desencadenan las llamadas necesarias al método <em>end_psession()</em>
+    de <em>mysqlnd</em>, y el complemento podría,
+    por lo tanto, perder memoria. Esto ha sido corregido en PHP 5.3.4.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd.plugin.obtaining.html">Obtener la API de complementos de mysqlnd</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd.plugin.api.html">La API de complementos de mysqlnd</a></div>
+ <div class="up"><a href="mysqlnd.plugin.html">API de Complementos del Controlador Nativo de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

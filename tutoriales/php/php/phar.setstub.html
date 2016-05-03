@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establecer el cargador de PHP o la rutina de interoperabilidad de un archivo Phar</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.setsignaturealgorithm.html">Phar::setSignatureAlgorithm</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.startbuffering.html">Phar::startBuffering</a></div>
+ <div class="up"><a href="class.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="phar.setstub" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Phar::setStub</h1>
+  <p class="verinfo">(PHP &gt;= 5.3.0, PECL phar &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">Phar::setStub</span> &mdash; <span class="dc-title">Establecer el cargador de PHP o la rutina de interoperabilidad de un archivo Phar</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-phar.setstub-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>Phar::setStub</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$stub</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$len</code><span class="initializer"> = -1</span></span>
+  ] )</div>
+
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <p class="para">Este
+método requiere que la opción de <var class="filename">php.ini</var> <em>phar.readonly</em> esté establecida
+a <em>0</em> para que trabaje con objetos <a href="class.phar.html" class="classname">Phar</a>.
+De otra manera, se lanzará una excepción de tipo <a href="class.pharexception.html" class="classname">PharException</a>.</p></p></blockquote>
+  
+  
+  <p class="para">
+   Este método se utiliza para añadir una rutina de interoperabilidad cargadora a un nuevo archivo Phar, o
+   reemlazar la rutina de interoperabilidad de un archivo Phar existente.
+  </p>
+  <p class="para">
+   La rutina de interoperabilidad cargadora de un archivo Phar se utiliza siempre que un archivo esté incluido directamente
+   como en este ejemplo:
+  </p>
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">include&nbsp;</span><span style="color: #DD0000">'miphar.phar'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+  <p class="para">
+   Al cargador no se accede cuando se incluye un archivo a través de la envoltura
+   de flujos <em>phar</em> como aquí:
+  </p>
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">include&nbsp;</span><span style="color: #DD0000">'phar://miphar.phar/un_fichero.php'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-phar.setstub-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">stub</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Una cadena o un gestor de flujo abierto para usarlo como la rutina de interoperabilidad ejecutable de este
+       archivo phar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">len</code></dt>
+
+     <dd>
+
+      <p class="para">
+       
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-phar.setstub-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-phar.setstub-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Se lanza una excepción de tipo <a href="class.unexpectedvalueexception.html" class="classname">UnexpectedValueException</a> si
+   <a href="phar.configuration.html#ini.phar.readonly" class="link">phar.readonly</a> está habilitado
+   en php.ini.
+   Se lanza una excepción de tipo <a href="class.pharexception.html" class="classname">PharException</a> si se encuentra cualquier problema
+   al volcar los cambios al disco.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-phar.setstub-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-779">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>Phar::setStub()</strong></span></strong></p>
+    <div class="example-contents"><p>
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$p&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Phar</span><span style="color: #007700">(</span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #0000BB">__FILE__</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">'/nuevo_phar.phar'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'nuevo_phar.phar'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$p</span><span style="color: #007700">[</span><span style="color: #DD0000">'a.php'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'&lt;?php&nbsp;var_dump("Hola");'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setStub</span><span style="color: #007700">(</span><span style="color: #DD0000">'&lt;?php&nbsp;var_dump("Primero");&nbsp;Phar::mapPhar("nuevo_phar.phar");&nbsp;__HALT_COMPILER();&nbsp;?&gt;'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;</span><span style="color: #DD0000">'phar://nuevo_phar.phar/a.php'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getStub</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$p</span><span style="color: #007700">[</span><span style="color: #DD0000">'b.php'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'&lt;?php&nbsp;var_dump("Mundo");'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setStub</span><span style="color: #007700">(</span><span style="color: #DD0000">'&lt;?php&nbsp;var_dump("Segundo");&nbsp;Phar::mapPhar("nuevo_phar.phar");&nbsp;__HALT_COMPILER();&nbsp;?&gt;'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;</span><span style="color: #DD0000">'phar://nuevo_phar.phar/b.php'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getStub</span><span style="color: #007700">());<br />}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">Exception&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Las&nbsp;operaciones&nbsp;de&nbsp;escritura&nbsp;sobre&nbsp;nuevo_phar.phar&nbsp;fallaron:&nbsp;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+string(4) &quot;Hola&quot;
+string(84) &quot;&lt;?php var_dump(&quot;Primero&quot;); Phar::mapPhar(&quot;nuevo_phar.phar&quot;); __HALT_COMPILER(); ?&gt;&quot;
+string(5) &quot;Mundo&quot;
+string(84) &quot;&lt;?php var_dump(&quot;Segundo&quot;); Phar::mapPhar(&quot;nuevo_phar.phar&quot;); __HALT_COMPILER(); ?&gt;&quot;
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-phar.setstub-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.4.0</td>
+       <td>
+        Se añadió el parámetro <code class="parameter">len</code>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-phar.setstub-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="phar.getstub.html" class="function" rel="rdfs-seeAlso">Phar::getStub()</a> - Devolver el cargador de PHP o la rutina de interoperabilidad de un archivo Phar</span></li>
+    <li class="member"><span class="function"><a href="phar.createdefaultstub.html" class="function" rel="rdfs-seeAlso">Phar::createDefaultStub()</a> - Crear una rutina de interoperabilidad espec&iacute;fica del formato de fichero phar</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.setsignaturealgorithm.html">Phar::setSignatureAlgorithm</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.startbuffering.html">Phar::startBuffering</a></div>
+ <div class="up"><a href="class.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

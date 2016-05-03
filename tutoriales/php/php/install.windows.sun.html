@@ -1,0 +1,327 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Servidores Sun, iPlanet y Netscape en Microsoft Windows</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="install.windows.apache2.html">Apache 2.x en Microsoft Windows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="install.windows.sambar.html">Sambar Server en Microsoft Windows</a></div>
+ <div class="up"><a href="install.windows.html">Instalaci&oacute;n en sistemas Windows</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="install.windows.sun" class="sect1">
+ <h2 class="title">Servidores Sun, iPlanet y Netscape en Microsoft Windows</h2>
+ <p class="para">
+  Esta sección contiene anotaciones y consejos específicos de servidores Sun Java System Web
+  Server, Sun ONE Web Server, iPlanet y Netscape en sistemas Windows.
+ </p>
+ <p class="para">
+  Desde PHP 4.3.3 pueden usarse scripts PHP con el
+  <a href="ref.nsapi.html" class="link">módulo NSAPI</a> para 
+  <a href="install.windows.sun.html#install.windows.sun.specialpages" class="link">generar listados de
+   directorios y páginas de error personalizadas</a>. También hay funciones
+  adicionales para la compatibilidad con Apache. Para tener soporte con los
+  servidores web actuales consulte las <a href="install.windows.sun.html#install.windows.sun.notes" class="link">anotaciones
+  sobre subpeticiones</a>.
+ </p>
+ 
+ <div class="sect2" id="install.windows.sun.cgi">
+  <h3 class="title">Instalación CGI en servidores Sun, iPlanet y Netscape</h3> 
+  <p class="para">
+   Para instalar PHP como un manejador CGI, haga lo siguiente:
+  </p>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     Copie <var class="filename">php4ts.dll</var> al raíz del sistema
+     (directorio en el que instaló Windows)
+    </span>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     Realice la asociación de ficheros en la línea de comandos.
+     Introduzca las siguientes líneas:
+     <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">assoc .php=PHPScript
+ftype PHPScript=c:\php\php.exe %1 %*</pre>
+</div>
+     </div>
+
+    </p>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     En Netscape Enterprise Administration Server cree un directorio
+     shellcgi temporal y bórrelo después (este paso añadirá 5 líneas
+     importantes a obj.conf y permitirá que el servidor web maneje
+     scripts shellcgi).
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     En Netscape Enterprise Administration Server cree
+     un nuevo tipo mime (Category: type,
+     Content-Type: magnus-internal/shellcgi, File Suffix:php).
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Realícelo para cada instancia de servidor web en que desee ejecutar PHP
+    </span>
+   </li>
+  </ul>
+  <p class="para">
+   Se pueden encontrar más detalles sobre cómo configurar
+   PHP como ejecutable CGI en 
+   <a href="http://benoit.noss.free.fr/php/install-php.html" class="link external">&raquo;&nbsp;http://benoit.noss.free.fr/php/install-php.html</a>
+  </p>
+ </div>
+ 
+ <div class="sect2" id="install.windows.sun.nsapi">
+  <h3 class="title">Configuración de NSAPI en servidores Sun, iPlanet y Netscape</h3> 
+  <p class="para">
+   Para instalar PHP con NSAPI, haga lo siguiente:
+  </p>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     Copie <var class="filename">php4ts.dll</var> al raíz de su sistema
+     (directorio en que instaló Windows)
+    </span>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     Haga la asociación de ficheros en la línea de comandos.
+     Introduzca las siguientes líneas:
+     <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">assoc .php=PHPScript
+ftype PHPScript=c:\php\php.exe %1 %*</pre>
+</div>
+     </div>
+
+    </p>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     En Netscape Enterprise Administration Server cree
+     un nuevo tipo mime (Category: type,
+     Content-Type: magnus-internal/x-httpd-php, File Suffix: php).
+    </span>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     Edite <var class="filename">magnus.conf</var> (para servidores &gt;= 6) o
+     <var class="filename">obj.conf</var> (para servidores &lt; 6) e introduzca lo siguiente:
+     Debe ubicar estas líneas tras <em>mime types init</em>.
+     <div class="example-contents">
+<div class="cdata"><pre>
+Init fn=&quot;load-modules&quot; funcs=&quot;php4_init,php4_execute,php4_auth_trans&quot; shlib=&quot;c:/php/sapi/php4nsapi.dll&quot;
+Init fn=&quot;php4_init&quot; LateInit=&quot;yes&quot; errorString=&quot;Failed to initialise PHP!&quot; [php_ini=&quot;c:/path/to/php.ini&quot;]
+</pre></div>
+     </div>
+
+     (PHP &gt;= 4.3.3) El parámetro <em>php_ini</em> es
+     opcional, pero usándolo se puede reubicar el fichero
+     <var class="filename">php.ini</var> al directorio de configuración del servidor web.
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     Configure el objeto por omisión en <var class="filename">obj.conf</var>
+     (para clases de servidores virtuales [Sun Web Server 6.0+] en su fichero
+     <var class="filename">vserver.obj.conf</var>):
+     En la sección <em>&lt;Object name=&quot;default&quot;&gt;</em>,
+     añada esta línea tras los &#039;ObjectType&#039;
+     y antes de las líneas &#039;AddLog&#039;:
+     <div class="example-contents">
+<div class="cdata"><pre>
+Service fn=&quot;php4_execute&quot; type=&quot;magnus-internal/x-httpd-php&quot; [inikey=value inikey=value ...]
+</pre></div>
+     </div>
+
+     (PHP &gt;= 4.3.3) Se pueden añadir parámetros adicionales del tipo
+     <var class="filename">php.ini</var>-values, por ejemplo, se puede especificar el
+     <em>docroot=&quot;/path/to/docroot&quot;</em>
+     específico para el contexto en que se invoca a <em>php4_execute</em>.
+     En las claves ini booleanas, debe usarse 0 o 1 como valor,
+     y nunca <em>&quot;On&quot;,&quot;Off&quot;,...</em>
+     (no funcionará correctamente), p.ej.
+     <em>zlib.output_compression=1</em> en lugar de
+     <em>zlib.output_compression=&quot;On&quot;</em>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     Esto sólo es necesario si se desea configurar un directorio que consista
+     únicamente en scripts PHP (como en los directorios cgi-bin):
+     <div class="example-contents">
+<div class="cdata"><pre>
+&lt;Object name=&quot;x-httpd-php&quot;&gt;
+ObjectType fn=&quot;force-type&quot; type=&quot;magnus-internal/x-httpd-php&quot;
+Service fn=php4_execute [inikey=value inikey=value ...]
+&lt;/Object&gt;
+</pre></div>
+     </div>
+
+     Tras eso, se puede configurar un directorio en la administración del servidor para asignarle
+     el estilo <em>x-httpd-php</em>. Todos los ficheros que contenga se ejecutarán con
+     PHP. Es útil para ocultar el uso de PHP, renombrando los ficheros a <var class="filename">.html</var>.
+    </p>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Reinicie el servidor web y aplique los cambios
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     Realícelo para cada instancia del servidor web en que desee ejecutar PHP
+    </span>
+   </li>
+  </ul>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Puede consultar más detalles sobre cómo configurar
+    PHP como filtro NSAPI aquí:
+    <a href="http://benoit.noss.free.fr/php/install-php4.html" class="link external">&raquo;&nbsp;http://benoit.noss.free.fr/php/install-php4.html</a>
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El tamaño de pila de PHP depende de la configuración del servidor web. Si la ejecución de
+    scripts extensos de PHP se detiene, se recomienda que lo propague con Admin Server
+    (en la sección &quot;MAGNUS EDITOR&quot;).
+   </p>
+  </p></blockquote>
+ </div>
+ 
+ <div class="sect2" id="install.windows.sun.phpini">
+  <h3 class="title">entornos CGI y modificaciones recomendadas en <var class="filename">php.ini</var></h3>
+  <p class="para">
+   Al escribir scripts PHP es importante tener en cuenta que Sun JSWS/Sun ONE
+   WS/iPlanet/Netscape es un servidor web multihebra, ya que todas las peticiones
+   se ejecutan en el espacio del mismo proceso (el espacio del propio servidor web)
+   y este espacio sólo contiene un entorno de ejecución. Si se desea conocer variables CGI
+   como <em>PATH_INFO</em>, <em>HTTP_HOST</em>, etc.
+   no se debe hacer de la forma convencional con
+   <span class="function"><a href="function.getenv.html" class="function">getenv()</a></span> o similares (register globals del entorno,
+   <em>$_ENV</em>). Sólo se obtendrá el entorno del servidor
+   web en ejecución sin ninguna variable CGI válida.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    ¿Pero por qué hay variables CGI (inválidas) en el entorno?
+   </p>
+   <p class="para">
+    Respuesta: Se debe a que se inició el proceso del servidor web desde el servidor de administración
+    que lanza el script de inicio del servidor web como un script CGI (¡un
+    script CGI dentro del servidor de administración!). Ésta es la razón por la que el
+    entorno del servidor web contiene algunas variables de entorno CGI. Puede comprobarlo
+    iniciando el servidor web de otra forma. Acceda al terminal como administrador y
+    arránquelo a mano - verá que ya no hay variables de entorno CGI.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   Deben actualizarse los scripts, para que consulten variables CGI de la forma
+   correcta para PHP 4.X, usando la superglobal <var class="varname"><var class="varname"><a href="reserved.variables.server.html" class="classname">$_SERVER</a></var></var>. Si se tuvieran
+   scripts antiguos que usaran <var class="varname"><var class="varname">$HTTP_HOST</var></var>, etc., debería habilitarse
+   <em>register_globals</em> en <var class="filename">php.ini</var>, así como cambiar la variable
+   de orden (importante: elimine la <em>&quot;E&quot;</em>, ya que
+   aquí no se necesitan variables de entorno):
+   <div class="example-contents">
+<div class="cdata"><pre>
+variables_order = &quot;GPCS&quot;
+register_globals = On
+</pre></div>
+   </div>
+
+  </p>
+ </div>
+ 
+ <div class="sect2" id="install.windows.sun.specialpages">
+  <h3 class="title">Uso especial de páginas de error y listados de directorios personalizados (PHP &gt;= 4.3.3)</h3>
+  <p class="para">
+   Se puede utilizar PHP para generar páginas de error para <em>&quot;404 Not Found&quot;</em>
+   o similar. Debe añadirse la siguiente línea al objeto en <var class="filename">obj.conf</var> para
+   cada página de error que se desee redefinir:
+   <div class="example-contents">
+<div class="cdata"><pre>
+Error fn=&quot;php4_execute&quot; code=XXX script=&quot;/path/to/script.php&quot; [inikey=value inikey=value...]
+</pre></div>
+   </div>
+
+   donde <em>XXX</em> es el código de error HTTP. Debe eliminarse
+   todas las directivas <em>Error</em> que puedan colisionar con las nuevas.
+   Si se desea crear una página genérica para todos los errores, debe omitirse
+   el parámetro <em>code</em>. El script podrá consultar el código de estado HTTP
+   en <var class="varname"><var class="varname"><a href="reserved.variables.server.html" class="classname">$_SERVER['ERROR_TYPE']</a></var></var>.
+  </p>
+  <p class="para">
+   Otra posibilidad es generar listados de directorios personalizados.
+   Debe crearse un script PHP que liste el contenido de un directorio y
+   reemplace la línea del servicio correspondiente para
+   <em>type=&quot;magnus-internal/directory&quot;</em>
+   en <var class="filename">obj.conf</var> por lo siguiente:
+   <div class="example-contents">
+<div class="cdata"><pre>
+Service fn=&quot;php4_execute&quot; type=&quot;magnus-internal/directory&quot; script=&quot;/path/to/script.php&quot; [inikey=value inikey=value...]
+</pre></div>
+   </div>
+
+   Tanto para la página de error como de listado de directorios, la URI original
+   y la traducida están disponibles en las variables <var class="varname"><var class="varname"><a href="reserved.variables.server.html" class="classname">$_SERVER['PATH_INFO']</a></var></var> y
+   <var class="varname"><var class="varname"><a href="reserved.variables.server.html" class="classname">$_SERVER['PATH_TRANSLATED']</a></var></var>.
+  </p>
+ </div>
+ 
+ <div class="sect2" id="install.windows.sun.notes">
+  <h3 class="title">Anotaciones sobre <span class="function"><a href="function.nsapi-virtual.html" class="function">nsapi_virtual()</a></span> y subpeticioness (PHP &gt;= 4.3.3)</h3>
+  <p class="para">
+   El módulo NSAPI ahora soporta la función <span class="function"><a href="function.nsapi-virtual.html" class="function">nsapi_virtual()</a></span>
+   (alias: <span class="function"><a href="function.virtual.html" class="function">virtual()</a></span>)
+   para hacer subpeticiones al sevidor web e insertar el resultado en la página web.
+   El problema es que esta función utiliza algunas funcionalidades no documentadas
+   de la biblioteca NSAPI.
+  </p>
+  <p class="para">
+   En Unix esto no es un problema, porque el módulo automáticamente busca las
+   funciones necesarias y las usa si estuvieran disponibles.
+   Si no, <span class="function"><a href="function.nsapi-virtual.html" class="function">nsapi_virtual()</a></span> queda deshabilitado.
+  </p>
+  <p class="para">
+   En Windows, las limitaciones del manejo de DLL necesitan emplear detección
+   automática del fichero <var class="filename">ns-httpdXX.dll</var> más reciente.
+   Se ha probado hasta en servidores versión 6.1. Si se utiliza una versión más
+   reciente del servidor Sun, la detección falla y <span class="function"><a href="function.nsapi-virtual.html" class="function">nsapi_virtual()</a></span>
+   se deshabilita.
+  </p>
+  <p class="para">
+   Si este fuera el caso, debe probarse lo siguiente:
+   Añada el siguiente parámetro a <em>php4_init</em> en
+   <var class="filename">magnus.conf</var>/<var class="filename">obj.conf</var>:
+   <div class="example-contents">
+<div class="cdata"><pre>
+Init fn=php4_init ... server_lib=&quot;ns-httpdXX.dll&quot;
+</pre></div>
+   </div>
+
+   donde <em>XX</em> es el número de versión correcto de la DLL.
+   Para conocerlo, busca en el raíz del servidor el nombre correcto de la DLL. La
+   DLL de mayor tamaño es la adecuada.
+  </p>
+  <p class="para">
+   Puede comprobar el estado usando la función <span class="function"><a href="function.phpinfo.html" class="function">phpinfo()</a></span>.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Pero tenga en cuenta: El soporte para <span class="function"><a href="function.nsapi-virtual.html" class="function">nsapi_virtual()</a></span> es EXPERIMENTAL.
+   </p>
+  </p></blockquote>
+ </div>   
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="install.windows.apache2.html">Apache 2.x en Microsoft Windows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="install.windows.sambar.html">Sambar Server en Microsoft Windows</a></div>
+ <div class="up"><a href="install.windows.html">Instalaci&oacute;n en sistemas Windows</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

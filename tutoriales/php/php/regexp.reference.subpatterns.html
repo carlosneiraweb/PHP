@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Sub-patrones</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.internal-options.html">Ajuste de opciones internas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.repetition.html">Repetici&oacute;n</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="regexp.reference.subpatterns" class="section">
+  <h2 class="title">Sub-patrones</h2>
+  <p class="para">
+   Los sub-patrones están delimitados por paréntesis,
+   los cuales pueden estar anidados. Marcar parte de un patrón como un sub-patrón
+   hace dos cosas:
+  </p>
+  <ol type="1">
+   <li class="listitem">
+    <p class="para">
+     Localiza un conjunto de alternativas. Por ejemplo, el
+     patrón <em>cata(rata|pulta|)</em> coincide con una de las palabras &quot;cata&quot;,
+     &quot;catarata&quot;, o &quot;catapulta&quot;. Sin los paréntesis, coincidiría con &quot;catarata&quot;,
+     &quot;pulta&quot; o la cadena vacía.
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     Establece el sub-patrón como un sub-patrón de captura (como se definió antes).
+     Cuando el patrón completo coincide, esa porción de la cadena objetivo
+     que coincidió con el sub-patrón es devuelta la llamador mediante
+     el argumento <em class="emphasis">ovector</em> de <span class="function"><strong>pcre_exec()</strong></span>.
+     Los paréntesis de apertura se cuentan de izquierda a derecha (comenzando por 1) para
+     obtener el número de los sub-patrones de captura.
+    </p>
+   </li>
+  </ol>
+  <p class="para">
+   Por ejemplo, si la cadena &quot;el rojo amanecer&quot; se compara con
+   el patrón
+   
+   <em>el ((rojo|oscuro) (amanecer|atarceder))</em>
+   
+   las cadenas capturadas son &quot;rojo amanecer&quot;, &quot;rojo&quot;, y &quot;amanecer&quot;,
+   y son numeradas como 1, 2, y 3.
+  </p>
+  <p class="para">
+   El hecho de que los simples paréntesis lleven a cabo dos funciones no es
+   siempre útil. Con frecuencia se presenta el caso en el que un
+   sub-patrón de agrupamiento se requiere sin la necesidad de una captura. Si un
+   paréntesis de apertura es seguido por &quot;?:&quot;, el sub-patrón no
+   realiza ninguna captura, y no es contado cuando se computa el
+   número de cualquier sub-patrón de captura subsiguiente. Por ejemplo,
+   si la cadena &quot;el oscuro atardecer&quot; se compara con el
+   patrón
+   
+   <em>the ((?:rojo|oscuro) (amanecer|atarceder))</em>
+   
+   las subcadenas capturadas son &quot;oscuro atardecer&quot; y &quot;atarceder&quot;, y
+   son numeradas como 1 y 2. El número máximo de subcadenas capturadas
+   es de 65535. Sin embargo, podría no ser posible compilar patrones tan grandes,
+   dependiendo de las opciones de configuración de libpcre.
+  </p>
+  <p class="para">
+   Como abreviación conveniente, si se necesita cualquier establecimiento
+   de opciones al inicio de un sub-patrón que no sea de captura, las
+   letras de opciones pueden aparecen entre el &quot;?&quot; y &quot;:&quot;. Así
+   lo dos patrones
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="cdata"><pre>
+(?i(?i:lunes|martes)
+(?:(?i)lunes|martes)
+</pre></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   coinciden exactamente con el mismo conjunto de cadenas. Dado que las ramas
+   alternativas son probadas de izquierda a derecha, y las opciones no
+   se reinician hasta que se alcance el final del sub-patrón, el establecimiento
+   de una opción en una rama afecta a las ramas siguientes, por lo que
+   los patrones de arriba coinciden tanto con &quot;MARTES&quot; como con &quot;Lunes&quot;.
+  </p>
+  
+  <p class="para">
+   Es posible nombrar un sub-patrón usando la sintaxis
+   <em>(?P&lt;nombre&gt;patrón)</em>. Este sub-patrón será entonces
+   indexado en el array de coincidencias mediante su posición numérica normal y
+   mediante su nombre también. PHP 5.2.2 introdujo dos sintaxis alternativas
+   <em>(?&lt;nombre&gt;patrón)</em> y <em>(?&#039;nombre&#039;patrón)</em>.
+  </p>
+  
+  <p class="para">
+   A veces es necesario tener múltiples coincidencias, pero alternando
+   subgrupos en una expresión regular. Normalmente, a cada subgrupo se le asignaría
+   su propio número de retroreferencia incluso si sólo uno de ellos coincidiera.
+   Para superar esto, la sintaxis <em>(?|</em> permite
+   tener números duplicados. Considere la siguiente expresión regular comparada con la
+   cadena <em>Sunday</em>:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="cdata"><pre>(?:(Sat)ur|(Sun))day</pre></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Aquí <em>Sun</em> se guarda en la retroreferencia 2, mientras
+   que la retroreferencia 1 está vacía. La comparación cede <em>Sat</em> a la
+   retroreferncia 1 mientras que la retroreferncia 2 no existe. Cambiar el patrón
+   para usar <em>(?|</em> corrige este problema:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="cdata"><pre>(?|(Sat)ur|(Sun))day</pre></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Al usar este patrón, tanto <em>Sun</em> como <em>Sat</em>
+   serían almacenados en la retroreferencia 1.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.internal-options.html">Ajuste de opciones internas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.repetition.html">Repetici&oacute;n</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

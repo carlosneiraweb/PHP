@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambios en el soporte a base de datos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration51.datetime.html">Soporte de fecha/hora</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration51.errorcheck.html">Comprobaci&oacute;n de E_STRICT</a></div>
+ <div class="up"><a href="migration51.html">Migrar de PHP 5.0.x a PHP 5.1.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="migration51.databases" class="section">
+  <h2 class="title">Cambios en el soporte a base de datos</h2>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.databases.html#migration51.databases-pdo" class="link">Sobre PDO</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.databases.html#migration51.databases-mysql" class="link">Cambios de soporte en MySQL</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.databases.html#migration51.databases-sqlite" class="link">Cambios de soporte en SQLite</a>
+    </p>
+   </li>
+  </ul>
+  
+  <div class="section" id="migration51.databases-pdo">
+   <h2 class="title">Sobre PDO</h2>
+   <p class="para">
+    Los <a href="intro.pdo.html" class="link">Objetos de Datos PHP (PDO)</a> se introdujeron como
+    extensión PECL en PHP 5.0, y comenzó a formar parte del núcleo de PHP
+    en PHP 5.1.x. La extensión PDO ofrece una interfaz consistente de acceso a bases de datos,
+    y funciona en conjunción con drivers PDO específicos a cada bases de datos. Cada driver
+    puede además tener funciones específicas de su propia base de datos, pero las funcionalidades
+    básicas de acceso, tal como hacer consultas o capturar dato, se realizan por las funciones
+    de PDO, usando el driver que se haya indicado al llamar a
+    <span class="function"><a href="pdo.construct.html" class="function">PDO::__construct()</a></span>.
+   </p>
+   <p class="para">
+    Tenga en cuenta que la extensión PDO y sus drivers están pensados para construirse como
+    extensiones compartidas. Esto permite facilitar el proceso de actualización
+    desde PECL, sin tener que reconstruir todo PHP.
+   </p>
+   <p class="para">
+    Desde el punto de vista de la versión de PHP 5.1.x, PDO está completamente preparado
+    para probarlo y puede utilizarse en la mayoría de escenarios. Sin embargo, es importante
+    entender que tanto PDO como sus drivers no son una herramienta madura y pueden
+    carecer de funcionalidades específicas de un motor de bases de datos; se debe analizar
+    cuidadosamente PDO antes de usarse en nuevos proyectos.
+   </p>
+   <p class="para">
+    Por norma general, el código fuente de versiones anteriores dependerá de las
+    extensiones de base de datos preexistentes, las cuales seguirán siendo mantenidas.
+   </p>
+  </div>
+  
+  <div class="section" id="migration51.databases-mysql">
+   <h2 class="title">Cambios de soporte en MySQL</h2>
+   <p class="para">
+    En PHP 4, había soporte incorporado para MySQL 3. Con la llegada de PHP 5.0 había
+    dos extensiones de MySQL, &#039;mysql&#039; y &#039;mysqli&#039;, diseñadas para funcionar
+    con MySQL &lt; 4.1 y MySQL 4.1 o superior, respectivamente. Con la llegada
+    de PDO, que proporciona una interfaz muy rápida a las APIs de las bases de datos
+    soportadas por PHP, el driver PDO_MYSQL puede funcionar con cualquiera de las
+    versiones (MySQL 3, 4 or 5) en códigos escritos para PDO,
+    dependiendo de la versión de la biblioteca MySQL usada al compilarlo. La extensión
+    de MySQL anterior continua disponible por retrocompatibilidad, pero no
+    viene habilitada por omisión.
+   </p>
+  </div>
+  
+  <div class="section" id="migration51.databases-sqlite">
+   <h2 class="title">Cambios de soporte en SQLite</h2>
+   <p class="para">
+    En PHP 5.0.x, el soporte para SQLite 2 venía incorporado por omisión con la
+    extensión sqlite, también disponible como extensión PECL para PHP 4.3 y para
+    PHP 4.4. Con la llegada de PDO, la extensión sqlite
+    pasa a actuar como driver &#039;sqlite2&#039; de PDO; es por esto que la extensión
+    sql de PHP 5.1.x depende de la extensión PDO.
+   </p>
+   <p class="para">
+    PHP 5.1.x incorpora numerosas interfaces alternativas para sqlite:
+   </p>
+   <p class="para">
+    La extensión sqlite ofrece la &quot;clásica&quot; API procedural/OO a sqlite que se
+    usaba en versiones anteriores de PHP. También contiene el driver PDO
+    &#039;sqlite2&#039;, que permite acceder a bases de datos SQLite 2 usando la
+    API de PDO.
+   </p>
+   <p class="para">
+    PDO_SQLITE ofrece la versión 3 del driver &#039;sqlite&#039;. La versión 3 de
+    SQLite es muy superior a la 2, y el formato de ficheros de estas dos
+    versiones no son compatibles.
+   </p>
+   <p class="para">
+    Si un proyecto basado en SQLite estuviera escrito y funcionando con una
+    versión de PHP anterior, se podrá seguir usando ext/sqlite sin ningún
+    problema, pero se deberá habilitar explícitamente tanto PDO como sqlite.
+    Los nuevos proyectos deben usar PDO y el driver (versión 3) de &#039;sqlite&#039;, ya que
+    es más rápido que SQLite 2, mejora la concurrencia, y soporta tanto
+    sentencias preparadas, como columnas binarias, de forma nativa.
+   </p>
+   <p class="para">
+    Se puede habilitar PDO usando la extensión SQLite. Si se deseara construir la
+    extensión PDO como extensión compartida, se deberá construir SQLite también
+    compartido, tal y como sucede con cualquier extensión que contenga un driver
+    PDO.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration51.datetime.html">Soporte de fecha/hora</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration51.errorcheck.html">Comprobaci&oacute;n de E_STRICT</a></div>
+ <div class="up"><a href="migration51.html">Migrar de PHP 5.0.x a PHP 5.1.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

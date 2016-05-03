@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Operaciones de mensajer&iacute;a</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sam.messages.html">Mensajes</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sam.pubsub.html">Publicar/Suscribir y suscripci&oacute;n a temas (topics)</a></div>
+ <div class="up"><a href="sam.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sam.operations" class="section">
+  <h2 class="title">Operaciones de mensajería</h2>
+  <p class="para">
+   Todas las operaciones de mensajería se realizan a través de llamadas a métodos sobre el
+   objeto de conexión.
+   Para añadir un mensaje a una cola se utiliza en método &quot;send&quot; , para obtener un
+   mensaje de una cola se utiliza el método &quot;receive&quot;. Otros métodos
+   proporcionan otras funcionalidades como la publicación, suscripción o el control
+   sobre las transacciones.
+  </p>
+  <p class="para">
+   <div class="example" id="example-5019">
+    <p><strong>Ejemplo #1 Añadir un mensaje a una cola y recibir una respuesta</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$msg&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SAMMessage</span><span style="color: #007700">(</span><span style="color: #DD0000">'Este&nbsp;es&nbsp;un&nbsp;mensaje&nbsp;simple&nbsp;de&nbsp;texto'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$msg</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">header</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">SAM_REPLY_TO&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'queue://receive/test'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$correlid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">send</span><span style="color: #007700">(</span><span style="color: #DD0000">'queue://send/test'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$msg</span><span style="color: #007700">);<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$correlid</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;El&nbsp;Send&nbsp;falló!<br />&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"Send&nbsp;fallido&nbsp;(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #DD0000">)&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #DD0000">"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$resp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">receive</span><span style="color: #007700">(</span><span style="color: #DD0000">'queue://receive/test'</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #0000BB">SAM_CORRELID&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$correlid</span><span style="color: #007700">));<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sam.messages.html">Mensajes</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sam.pubsub.html">Publicar/Suscribir y suscripci&oacute;n a temas (topics)</a></div>
+ <div class="up"><a href="sam.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

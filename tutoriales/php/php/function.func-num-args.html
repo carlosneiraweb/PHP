@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve el n&uacute;mero de argumentos pasados a la funci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.func-get-args.html">func_get_args</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.function-exists.html">function_exists</a></div>
+ <div class="up"><a href="ref.funchand.html">Funciones de Manejo de Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.func-num-args" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">func_num_args</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">func_num_args</span> &mdash; <span class="dc-title">Devuelve el número de argumentos pasados a la función</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.func-num-args-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>func_num_args</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene el número de argumentos pasados a la función.
+  </p>
+  <p class="para">
+   Esta función se puede usar junto con
+   <span class="function"><a href="function.func-get-arg.html" class="function">func_get_arg()</a></span> y <span class="function"><a href="function.func-get-args.html" class="function">func_get_args()</a></span> para permitir
+   a las funciones definidas por el usuario aceptar listas de argumentos de longitud variable.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.func-num-args-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el número de argumentos pasados a la función actual definida por el
+   usuario.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.func-num-args-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Esta función ahora se puede usar en listas de parámetros.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Si esta función es llamada desde el ámbito último de un fichero
+        que ha sido incluido mediante una llamada a <span class="function"><a href="function.include.html" class="function">include</a></span>
+        o <span class="function"><a href="function.require.html" class="function">require</a></span> desde dentro de una función en el
+        fichero de llamada, ahora genera una advertencia y devuelve -1.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.func-num-args-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Genera una advertencia si se llama desde fuera de una función definida por el usuario.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.func-num-args-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5675">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>func_num_args()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$númargs&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">func_num_args</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Número&nbsp;de&nbsp;argumentos:&nbsp;</span><span style="color: #0000BB">$númargs</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">foo</span><span style="color: #007700">(</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Número de argumentos: 3
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5676">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>func_num_args()</strong></span> antes y después de
+     PHP 5.3</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+prueba.php<br /><span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;</span><span style="color: #DD0000">'./fna.php'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">foo</span><span style="color: #007700">(</span><span style="color: #DD0000">'Primer&nbsp;argumento'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Segundo&nbsp;argumento'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;<br /></span><br />fna.php<br /><span style="color: #0000BB">&lt;?php<br /><br />$núm_args&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">func_num_args</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">var_export</span><span style="color: #007700">(</span><span style="color: #0000BB">$núm_args</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>
+     Salida antes de PHP 5.3:
+    </p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+2
+</pre></div>
+    </div>
+    <div class="example-contents"><p>
+     La salida en PHP 5.3 y posterior será algo similar a:
+    </p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Warning: func_num_args():  Called from the global scope - no function
+context in /home/torben/Desktop/code/ml/fna.inc on line 3
+-1
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.func-num-args-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <p class="para"> Como esta función depende del ámbito
+actual para determinar los detalles del parámetro, no puede ser usada
+como parámetro de función en versiones anteriores a 5.3.0. Si se require pasar el valor, los resultados deben ser asignados
+a una variable y esta variable debería pasarse como parámetro.</p></p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.func-num-args-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+        <li class="member"><a href="functions.arguments.html#functions.variable-arg-list.new" class="link">La sintaxis <em>...</em> en PHP 5.6+</a></li>
+    <li class="member"><span class="function"><a href="function.func-get-arg.html" class="function">func_get_arg()</a></span></li>
+    <li class="member"><span class="function"><a href="function.func-get-args.html" class="function">func_get_args()</a></span></li>
+    <li class="member"><span class="methodname"><a href="reflectionfunctionabstract.getnumberofparameters.html" class="methodname">ReflectionFunctionAbstract::getNumberOfParameters()</a></span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.func-get-args.html">func_get_args</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.function-exists.html">function_exists</a></div>
+ <div class="up"><a href="ref.funchand.html">Funciones de Manejo de Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

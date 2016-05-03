@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Patrones recursivos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.comments.html">Comentarios</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.performance.html">Rendimiento</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="regexp.reference.recursive" class="section">
+  <h2 class="title">Patrones recursivos</h2>
+  <p class="para">
+   Considere el problema de comparar una cadena entre paréntesis,
+   permitiendo paréntesis anidados ilimitados. Sin el uso de
+   la recursividad, lo mejor que se puede hacer es usar un patrón
+   que compare hasta alguna profundidad fija de anidamiento. No es
+   posible manejar una profundidad de anidamiento arbitraria. Perl 5.6 ha
+   proporcionado una herramienta experimental que permite a las expresiones
+   regulares actuar recursivamente (entre otras cosas). El elemento
+   especial (?R) es proporcionado para el caso específico de la recursividad. 
+   Este patrón de PCRE soluciona el problema de los paréntesis (se asume que la
+   opción <a href="reference.pcre.pattern.modifiers.html" class="link">PCRE_EXTENDED</a>
+   está establecida por lo que los espacios en blanco se
+   ignoran):
+   
+   <em>\( ( (?&gt;[^()]+) | (?R) )* \)</em>
+  </p>
+  <p class="para">
+   Primero se compara un paréntesis de apertura. Después compara cualquier
+   número de subcadenas que pueden ser tanto una secuencia de algo que no sean
+   paréntesis como una comparación recursiva del patrón mismo
+   (esto es, una subcadena con los paréntesis correctos). Finalmente hay
+   un paréntesis de cierre.
+  </p>
+  <p class="para">
+   Este patrón de ejemplo en particular contiene repeticiones anidadas
+   ilimitadas, y así, el uso de un sub-patrón de una sóla aplicación para comparar
+   cadenas que no contengan paréntesis es importante cuando se aplica
+   el patrón a cadenas que no coinciden. Por ejemplo, cuando
+   se aplica a
+   
+   <em>(aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa()</em>
+   
+   produce &quot;no hay conicidencias&quot; rápidamente. Sin embargo, si no se usa un sub-patrón 
+   de una sóla aplicación, la comparación se ejecuta realmente durante
+   mucho tiempo ya que hay muchas maneras diferentes de que las repeticiones + y *
+   se puedan repartir el sujeto, y todas tienen que ser comprobadas
+   antes de que se informe del fallo.
+  </p>
+  <p class="para">
+   El conjunto de valores para cualquier sub-patrón de captura son aquellos del
+   nivel último de la recursión en el cual el valor del sub-patrón
+   es establecido. Si el patrón anterior se compara con
+   
+   <em>(ab(cd)ef)</em>
+   
+   el valor del paréntesis de captura es &quot;ef&quot;, el cual es
+   el último valor tomado en el nivel superior. Si se añaden
+   paréntesis adicionales, dando lugar a
+   
+   <em>\( ( ( (?&gt;[^()]+) | (?R) )* ) \)</em>
+   entonces la cadena que capturan
+   es &quot;ab(cd)ef&quot;, el contenido de los paréntesis del nivel superior. Si
+   hay más de 15 paréntesis de captura en un patrón,
+   PCRE ha de obtener memoria extra para almacenar la información durante una
+   recursión, lo cual hace usando pcre_malloc, liberándola
+   mediante pcre_free después. Si no se puede obtener memoria, se
+   guarda la información para los primeros 15 paréntesis de captura sólamente, ya que
+   no hay manera de otorgar un error &quot;out-of-memory&quot; desde dentro de una
+   recursión.
+  </p>
+  
+  <p class="para">
+   Se puede usar también <em>(?1)</em>, <em>(?2)</em>
+   y así sucesivamente, para los sub-patrones recursivos. Tamién es posible usar sub-patrones
+   nominados: <em>(?P&gt;nombre)</em> o 
+   <em>(?&amp;nombre)</em>.
+  </p>
+  <p class="para">
+   Si la sintaxis para la referencia de un sub-patrón recursivo (tanto como número o
+   como nombre) se usa fuera de los paréntesis a los que hace referencia, opera
+   como una sub-rutina de un lenguaje de programación. Un ejemplo mostrado
+   anteriormente, tal que el patrón
+   <em>(abraz|apreci)o de un \1ador</em>
+   coincide con &quot;abrazo de un abrazador&quot; y con &quot;aprecio de un apreciador&quot;, pero
+   no con &quot;abrazo de un apreciador&quot;. Si en su lugar se usa
+   <em>(abraz|apreci)o de un (?1)ador</em>,
+   coincide con &quot;abrazo de un apreciador&quot; así como con las otras
+   dos cadenas. Tales referencias deben, sin embargo, seguir al sub-patrón al
+   que hacen referencia.
+  </p>
+  
+  <p class="para">
+   La longitud máxima de una cadena objetivo es el número positivo más grande
+   que una variable tipo integer pueda tener. Sin embargo, PCRE usa la recursividad para
+   tratar sub-patrones y repetición indefinida. Esto significa que el espacio
+   de pila disponible puede limitar el tamaño de una cadena objetivo que puede ser
+   procesada por ciertos patrones.
+  </p>
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.comments.html">Comentarios</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.performance.html">Rendimiento</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

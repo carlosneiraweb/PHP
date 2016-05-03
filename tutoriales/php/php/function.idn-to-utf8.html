@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Convierte un nombre de dominio de IDNA ASCII a Unicode</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.idn-to-ascii.html">idn_to_ascii</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="up"><a href="ref.intl.idn.html">Funciones de IDN</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.idn-to-utf8" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">idn_to_utf8</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7, PECL intl &gt;= 1.0.2, PHP 7, PECL idn &gt;= 0.1)</p><p class="refpurpose"><span class="refname">idn_to_utf8</span> &mdash; <span class="dc-title">Convierte un nombre de dominio de IDNA ASCII a Unicode</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.idn-to-utf8-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo por procedimientos</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>idn_to_utf8</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$domain</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$options</code><span class="initializer"> = 0</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$variant</code><span class="initializer"> = INTL_IDNA_VARIANT_2003</span></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$idna_info</code></span>
+  ]]] )</div>
+
+  <p class="para rdfs-comment">
+   Esta función convierte un nombre de dominio Unicode de un formato compatible con IDNA ASCII a Unicode plano, codificado en UTF.8.
+  </p> 
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.idn-to-utf8-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">domain</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Dominio a convertir en formato IDNA ASCII-compatible.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">options</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Opciones de conversión - combinación de constantes IDNA_*
+       (excepto las constantes IDNA_ERROR_*).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">variant</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <strong><code>INTL_IDNA_VARIANT_2003</code></strong> para IDNA 2003 o
+       <strong><code>INTL_IDNA_VARIANT_UTS46</code></strong> para UTS #46.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">idna_info</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Este parámetro sólo se puede usar si
+       <strong><code>INTL_IDNA_VARIANT_UTS46</code></strong> se utilizó para
+       <code class="parameter">variant</code>. En este caso, será llenado con un
+       array con las claves <em>&#039;result&#039;</em>, la posibilidad de
+       un resultado ilegal de la transformación,
+       <em>&#039;isTransitionalDifferent&#039;</em>, un  booleano indicando
+       si el uso de los mecanismos de transición de UTS #46 ha cambiado
+       o debería haber cambiado el resulado, y <em>&#039;errors&#039;</em>,
+       que es de tipo <span class="type"><a href="language.types.integer.html" class="type int">int</a></span> y representa un conjunto de bits de las
+       constantes de error IDNA_ERROR_*.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.idn-to-utf8-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Un nombre de dominio en Uniconde, codificado en UTF-8.  o <strong><code>FALSE</code></strong> en caso de error
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.idn-to-utf8-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.4.0/PECL 2.0.0b1</td>
+       <td>
+        Se añadieron los parámetros <code class="parameter">variant</code> y
+        <code class="parameter">idna_info</code>; y el soporte para UTS #46.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.idn-to-utf8-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2926">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>idn_to_utf8()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">idn_to_utf8</span><span style="color: #007700">(</span><span style="color: #DD0000">'xn--tst-qla.de'</span><span style="color: #007700">);&nbsp;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <p class="para">El resultado del ejemplo sería:</p>
+  <div class="example-contents screen">
+<div class="cdata"><pre>
+täst.de
+</pre></div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.idn-to-utf8-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><strong>idn_to_unicode()</strong></span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.idn-to-ascii.html">idn_to_ascii</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="up"><a href="ref.intl.idn.html">Funciones de IDN</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

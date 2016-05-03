@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Manipulaci&oacute;n de tipos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.pseudo-types.html">Seudotipos y variables usadas en esta documentaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.variables.html">Variables</a></div>
+ <div class="up"><a href="language.types.html">Tipos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.types.type-juggling" class="sect1">
+ <h2 class="title">Manipulación de tipos</h2>
+ 
+ <p class="simpara">
+  PHP no requiere (ni soporta) la definición explicita de tipos en la declaración
+  de variables; el tipo de la variable se determina por el contexto en el cual
+  se emplea la variable. Es decir, si se asigna un valor <span class="type"><a href="language.types.string.html" class="type string">string</a></span> a una
+  variable <var class="varname"><var class="varname">$var</var></var>, entonces <var class="varname"><var class="varname">$var</var></var> se convierte en un
+  <span class="type"><a href="language.types.string.html" class="type string">string</a></span>. Si un valor <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span> es entonces asignado a la misma
+  variable <var class="varname"><var class="varname">$var</var></var>, ésta se convierte en <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>.
+ </p>
+ 
+ <p class="para">
+  Un ejemplo de la conversión de tipos automática de PHP es el operador suma &#039;+&#039;.
+  Si ambos operandos son <span class="type"><a href="language.types.float.html" class="type float">float</a></span>, entonces ambos operandos son evaluados
+  como <span class="type"><a href="language.types.float.html" class="type float">float</a></span>s y el resultado será un <span class="type"><a href="language.types.float.html" class="type float">float</a></span>. De otra manera,
+  los operandos seran interpretados como <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>s, y el resultado será
+  entonces <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>. Tenga en cuenta que esto <em class="emphasis">no</em>
+  implica que se cambien los tipos de los propios operandos; el único cambio es en
+  como se evalúan los operandos y en el tipo de expresión en sí mismo.
+ </p>
+ 
+ <div class="informalexample">
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"0"</span><span style="color: #007700">;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$foo&nbsp;es&nbsp;string&nbsp;(ASCII&nbsp;48)<br /></span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$foo&nbsp;es&nbsp;ahora&nbsp;un&nbsp;integer&nbsp;(2)<br /></span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">1.3</span><span style="color: #007700">;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$foo&nbsp;es&nbsp;ahora&nbsp;un&nbsp;float&nbsp;(3.3)<br /></span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">5&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #DD0000">"10&nbsp;Cerditos&nbsp;pequeñitos"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;$foo&nbsp;es&nbsp;integer&nbsp;(15)<br /></span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">5&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #DD0000">"10&nbsp;Cerdos&nbsp;pequeños"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$foo&nbsp;es&nbsp;integer&nbsp;(15)<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   
+  </div>
+
+ </div>
+ 
+ <p class="simpara">
+  Si considera confusos los últimos dos ejemplos anteriores, consulte 
+  <a href="language.types.string.html#language.types.string.conversion" class="link">Conversión de cadenas a 
+   números</a>.
+ </p>
+ 
+ <p class="simpara">
+  Para forzar a que una variable sea evaluada como un determinado tipo, consulte la sección
+  <a href="language.types.type-juggling.html#language.types.typecasting" class="link">Forzado de tipos</a>. Para cambiar el tipo
+  de variable, consulte la función <span class="function"><a href="function.settype.html" class="function">settype()</a></span>.
+ </p>
+ 
+ <p class="para">
+  Para probar cualquiera de los ejemplos de esta sección, utilice la función
+  <span class="function"><a href="function.var-dump.html" class="function">var_dump()</a></span>.
+ </p>
+ 
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   El comportamiento de la conversión automática en <span class="type"><a href="language.types.array.html" class="type array">array</a></span> está actualmente
+   sin definir.
+  </p>
+  
+  <p class="para">
+   Tambien, debido a que PHP soporta el indexado de <span class="type"><a href="language.types.string.html" class="type string">string</a></span> mediante 
+   compensaciones mediante la misma sintaxis empleada en el indexado de <span class="type"><a href="language.types.array.html" class="type array">array</a></span>s,
+   los siguientes ejemplos son válidos para todas las versiones de PHP:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'car'</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;$a&nbsp;es&nbsp;un&nbsp;string<br /></span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'b'</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$a&nbsp;sigue&nbsp;siendo&nbsp;un&nbsp;string<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;bar<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Consulte la sección <a href="language.types.string.html#language.types.string.substr" class="link">Acceso a cadenas mediante
+   caracteres</a> para más información.
+  </p>
+ </p></blockquote>
+ 
+ <div class="sect2" id="language.types.typecasting">
+  <h3 class="title">Forzado de tipos</h3>
+  
+  <p class="para">
+   El forzado de tipos en PHP funciona de la misma manera que en C:, donde el nombre del
+   tipo deseado se escribe entre paréntesis antes de la variable que se quiera forzar.
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$foo&nbsp;es&nbsp;un&nbsp;integer<br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;(boolean)&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$bar&nbsp;es&nbsp;un&nbsp;boolean<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Los siguientes forzados de tipos están permitidos:
+  </p>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">(int), (integer) - forzado a <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">(bool), (boolean) - forzado a <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">(float), (double), (real) - forzado a <span class="type"><a href="language.types.float.html" class="type float">float</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">(string) - forzado a <span class="type"><a href="language.types.string.html" class="type string">string</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">(array) - forzado a <span class="type"><a href="language.types.array.html" class="type array">array</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">(object) - forzado a <span class="type"><a href="language.types.object.html" class="type object">object</a></span></span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">(unset) - forzado a <span class="type"><a href="language.types.null.html" class="type NULL">NULL</a></span> (PHP 5)</span>
+   </li>
+  </ul>
+  
+  <p class="para">
+   El forzado (binary) y el soporte del prefijo b fueron añadidos en PHP 5.2.1
+  </p>
+  
+  <p class="para">
+   Fíjese que se permiten las tabulaciones y espacios dentro de los paréntesis,
+   por lo que los siguientes ejemplos son funcionalmente equivalentes:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$foo&nbsp;</span><span style="color: #007700">=&nbsp;(int)&nbsp;</span><span style="color: #0000BB">$bar</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">=&nbsp;(&nbsp;int&nbsp;)&nbsp;</span><span style="color: #0000BB">$bar</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   
+   <p class="para">
+    Forzado literal de <span class="type"><a href="language.types.string.html" class="type string">string</a></span>s y variables a <span class="type"><a href="language.types.string.html" class="type string">string</a></span>s
+    binarios:
+   </p>
+   
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$binary&nbsp;</span><span style="color: #007700">=&nbsp;(binary)&nbsp;</span><span style="color: #0000BB">$string</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$binary&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">b"binary&nbsp;string"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El lugar de forzar una variable a <span class="type"><a href="language.types.string.html" class="type string">string</a></span>, tambien se puede
+    encerrar la variable entre comillas dobles.
+   </p>
+   
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$foo&nbsp;es&nbsp;un&nbsp;integer<br /></span><span style="color: #0000BB">$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$foo</span><span style="color: #DD0000">"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$str&nbsp;es&nbsp;un&nbsp;string<br /></span><span style="color: #0000BB">$fst&nbsp;</span><span style="color: #007700">=&nbsp;(string)&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;$fst&nbsp;es&nbsp;tambien&nbsp;un&nbsp;string<br /><br />//&nbsp;Esto&nbsp;muestra&nbsp;que&nbsp;"son&nbsp;lo&nbsp;mismo"<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">$fst&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">$str</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"son&nbsp;lo&nbsp;mismo"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p></blockquote>
+  
+  <p class="para">
+   Puede que no sea obvio que sucede exactamente cuando se fuerzan ciertos tipos.
+   Para más información, consulte estas secciones:
+  </p>
+  
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.types.boolean.html#language.types.boolean.casting" class="link">Conversión a booleano</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.types.integer.html#language.types.integer.casting" class="link">Conversión a entero</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.types.float.html#language.types.float.casting" class="link">Conversión a número de punto flotante</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.types.string.html#language.types.string.casting" class="link">Conversión a cadena</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.types.array.html#language.types.array.casting" class="link">Conversión a array</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.types.object.html#language.types.object.casting" class="link">Conversión a objecto</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.types.resource.html#language.types.resource.casting" class="link">Conversión a
+      recurso</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="language.types.null.html#language.types.null.casting" class="link">Conversión a NULL</a>
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     <a href="types.comparisons.html" class="link">Tablas de comparación de tipos</a>
+    </span>
+   </li>
+  </ul>
+  
+ </div>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.pseudo-types.html">Seudotipos y variables usadas en esta documentaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.variables.html">Variables</a></div>
+ <div class="up"><a href="language.types.html">Tipos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

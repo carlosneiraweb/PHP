@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene una columna de la fila actual de un conjunto de resultados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlite-close.html">sqlite_close</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-create-aggregate.html">sqlite_create_aggregate</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.sqlite-column" class="refentry">
+ <div class="refnamediv"> 
+  <h1 class="refname">sqlite_column</h1>
+  <h1 class="refname">SQLiteResult::column</h1>
+  <h1 class="refname">SQLiteUnbuffered::column</h1>
+  <p class="verinfo">(PHP 5 &lt; 5.4.0, PECL sqlite &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">sqlite_column</span> -- <span class="refname">SQLiteResult::column</span> -- <span class="refname">SQLiteUnbuffered::column</span> &mdash; <span class="dc-title">
+   Obtiene una columna de la fila actual de un conjunto de resultados</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.sqlite-column-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>sqlite_column</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$index_or_name</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$decode_binary</code><span class="initializer"> = true</span></span>
+  ] )</div>
+
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>SQLiteResult::column</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$index_or_name</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$decode_binary</code><span class="initializer"> = true</span></span>
+  ] )</div>
+
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>SQLiteUnbuffered::column</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$index_or_name</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$decode_binary</code><span class="initializer"> = true</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene el valor de una columna llamada <code class="parameter">index_or_name</code>
+   (si es un string), o del número ordinal de columna
+   <code class="parameter">index_or_name</code> (si es un integer) de la fila actual del manejador del resultado <code class="parameter">result</code> de una consulta.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.sqlite-column-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">result</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El recurso del resultado de SQLite. Este parámetro no es requerido cuando se usa el método orientado a objetos.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">index_or_name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El índice o nombre de la columna a obtener.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">decode_binary</code></dt>
+
+     <dd>
+
+      <p class="para">Cuando el parámetro <code class="parameter">decode_binary</code>
+es seteado a <strong><code>TRUE</code></strong> (el valor por defecto), PHP decodificará la codificación binaria
+que se aplicó a los datos si éstos fueron codificados usando la función
+<span class="function"><a href="function.sqlite-escape-string.html" class="function">sqlite_escape_string()</a></span>.  Normalmente debería dejar este valor
+por defecto, a menos que esté interoperando con bases de datos creadas por otras
+aplicaciones sqlite.</p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.sqlite-column-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el valor de la columna.
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.sqlite-column-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Usar esta función cuando se esté iterando un conjunto de resultado grande con muchas columnas, o con columnas que contengan una gran cantidad de datos.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.sqlite-column-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.sqlite-fetch-string.html" class="function" rel="rdfs-seeAlso">sqlite_fetch_string()</a> - Alias de sqlite_fetch_single</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlite-close.html">sqlite_close</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-create-aggregate.html">sqlite_create_aggregate</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

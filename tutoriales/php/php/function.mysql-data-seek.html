@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Mueve el puntero de resultados interno</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-create-db.html">mysql_create_db</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-db-name.html">mysql_db_name</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-data-seek" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_data_seek</h1>
+  <p class="verinfo">(PHP 4, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_data_seek</span> &mdash; <span class="dc-title">Mueve el puntero de resultados interno</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-data-seek-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta extensión fue declarada obsoleta en PHP 5.5.0 y eliminada en PHP 7.0.0.
+En su lugar debería utilzarse las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a>.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Alternatives to this function include:</p>
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli-result.data-seek.html" class="function">mysqli_data_seek()</a></span></li>
+    <li class="member"><strong><code>PDO::FETCH_ORI_ABS</code></strong></li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-data-seek-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>mysql_data_seek</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$row_number</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>mysql_data_seek()</strong></span> mueve el puntero de filas interno
+   del resultado de MySQL asociado con el identificador de resultado especificado
+   para apuntar al número de fila especificada. La siguiente llamada
+   a una función de obtención de MySQL, tal como <span class="function"><a href="function.mysql-fetch-assoc.html" class="function">mysql_fetch_assoc()</a></span>,
+   devolverá esa fila.
+  </p>
+  <p class="para">
+   <code class="parameter">row_number</code> empieza en 0.  
+   <code class="parameter">row_number</code> debería ser un valor en el rango de 0 a
+   <span class="function"><a href="function.mysql-num-rows.html" class="function">mysql_num_rows()</a></span> -1. Sin embargo, si el conjunto de resultados 
+   esta vacío (<span class="function"><a href="function.mysql-num-rows.html" class="function">mysql_num_rows()</a></span> == 0), una búsqueda a 0 
+   fallará con un <a href="" class="link">E_WARNING</a> y
+   <span class="function"><strong>mysql_data_seek()</strong></span> devolverá <strong><code>FALSE</code></strong>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-data-seek-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+result</code></dt>
+<dd>
+<p class="para">El resultado <span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> que está
+siendo evaluado. Este resultado proviene de una llamada a
+<span class="function"><a href="function.mysql-query.html" class="function">mysql_query()</a></span>.</p></dd>
+
+    
+     <dt>
+<code class="parameter">row_number</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Número de la fila deseada del puntero de resultados nuevo.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-data-seek-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysql-data-seek-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1791">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysql_data_seek()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'usuario_mysql'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña_mysql'</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'No&nbsp;pudo&nbsp;conectarse:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">());<br />}<br /></span><span style="color: #0000BB">$bd_seleccionada&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_select_db</span><span style="color: #007700">(</span><span style="color: #DD0000">'bd_muestra'</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$bd_seleccionada</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'La&nbsp;base&nbsp;de&nbsp;datos&nbsp;no&nbsp;pudo&nbsp;seleccionarse:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">());<br />}<br /></span><span style="color: #0000BB">$consulta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'SELECT&nbsp;apellido,&nbsp;nombre&nbsp;FROM&nbsp;amigos'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'La&nbsp;consulta&nbsp;falló:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">());<br />}<br /></span><span style="color: #FF8000">/*&nbsp;obtención&nbsp;de&nbsp;filas&nbsp;en&nbsp;orden&nbsp;inverso&nbsp;*/<br /></span><span style="color: #007700">for&nbsp;(</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_num_rows</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&gt;=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">--)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!</span><span style="color: #0000BB">mysql_data_seek</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"No&nbsp;se&nbsp;encuenta&nbsp;la&nbsp;fila&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #DD0000">:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">()&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!(</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_fetch_assoc</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'apellido'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">'&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'nombre'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">mysql_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.mysql-data-seek-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    La función <span class="function"><strong>mysql_data_seek()</strong></span> puede ser usada
+    solamente junto con <span class="function"><a href="function.mysql-query.html" class="function">mysql_query()</a></span>, y no con
+    <span class="function"><a href="function.mysql-unbuffered-query.html" class="function">mysql_unbuffered_query()</a></span>. 
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-data-seek-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-query.html" class="function" rel="rdfs-seeAlso">mysql_query()</a> - Enviar una consulta MySQL</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-num-rows.html" class="function" rel="rdfs-seeAlso">mysql_num_rows()</a> - Obtener el n&uacute;mero de filas de un conjunto de resultados</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-fetch-row.html" class="function" rel="rdfs-seeAlso">mysql_fetch_row()</a> - Obtiene una fila de resultados como un array num&eacute;rico</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-fetch-assoc.html" class="function" rel="rdfs-seeAlso">mysql_fetch_assoc()</a> - Recupera una fila de resultados como un array asociativo</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-fetch-array.html" class="function" rel="rdfs-seeAlso">mysql_fetch_array()</a> - Recupera una fila de resultados como un array asociativo, un array num&eacute;rico o como ambos</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-fetch-object.html" class="function" rel="rdfs-seeAlso">mysql_fetch_object()</a> - Recupera una fila de resultados como un objeto</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-create-db.html">mysql_create_db</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-db-name.html">mysql_db_name</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

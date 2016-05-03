@@ -1,0 +1,566 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>La clase SWFAction</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ming-useswfversion.html">ming_useswfversion</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="swfaction.construct.html">SWFAction::__construct</a></div>
+ <div class="up"><a href="book.ming.html">Ming</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="class.swfaction" class="reference">
+ <h1 class="title">La clase SWFAction</h1>
+ 
+ 
+ <div class="partintro"><p class="verinfo">(PHP 5 &lt;= 5.3.0, PECL ming SVN)</p>
+ 
+
+  <div class="section" id="swfaction.intro">
+   <h2 class="title">Introducción</h2>
+   <p class="para">
+    SWFAction.
+   </p>
+  </div>
+
+ 
+  <div class="section" id="swfaction.synopsis">
+   <h2 class="title">Sinopsis de la Clase</h2>
+ 
+
+   <div class="classsynopsis">
+    <div class="ooclass"></div>
+ 
+
+    <div class="classsynopsisinfo">
+     <span class="ooclass">
+      <strong class="classname">SWFAction</strong>
+     </span>
+     {</div>
+
+ 
+    <div class="classsynopsisinfo classsynopsisinfo_comment">/* Métodos */</div>
+    <div class="methodsynopsis dc-description">
+   <span class="methodname"><a href="swfaction.construct.html" class="methodname">__construct</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$script</code></span>
+   )</div>
+
+ 
+   }</div>
+
+ 
+  </div>
+ 
+ <div class="section">
+  <h2 class="title">Descripción</h2>
+  <p class="para">
+   La sintaxis de script está basada en el lenguaje C, pero con mucho extraído- la
+   máquina de código de bytes de SWF es demasiado ingenua para hacer muchas cosas que nos gustaría.
+   Por ejemplo, no podemos implementar llamadas a funciones sin una enorme
+   cantidad de hackery ya que el código de bytes de salot tiene un valor de índice fuertemente
+   codificado. No se puede introducir sus direcciones de llamada a la pila y devolver- 
+   cada función tendría que saber exactamente dónode devolver.
+  </p>
+  <p class="para">
+   Entonces, ¿qué falta? El compilador reconoce los siguientes tokens: 
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      break
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      for
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      continue
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      if
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      else
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      do
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      while
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   No existe información de tipo; todos los valores de la máquina de acciones de SWF están almacenados
+   como cadenas. Las siguientes funciones se pueden usar en expresiones:
+   <dl>
+
+    
+     <dt>
+time()</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Devuelve el número de milisegundos (?) transcurridos desde el incio de la película. 
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+random(seed)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Devuelve un número seudo-aleatorio en el rango de semilla 0.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+length(expr)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Devuelve la longitud de la expresión dada.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+int(number)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Devuelve el número dado redondeado hacia abajo al entero más cercano. 
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+concat(expr, expr)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Devuelve la concatenación de las expresiones dadas.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+ord(expr)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Devuelve el código ASCII del carácter dado
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+chr(num)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Devuelve el caráctar del código ASCII dado
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+substr(string, location, length)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Devuelve la subcadena de longitud <code class="parameter">length</code> en la ubicación <code class="parameter">location</code> del
+       la cadena <code class="parameter">string</code> dada.
+      </span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  <p class="para">
+   Además, se pueden usar los siguientes comandos:
+   <dl>
+
+    
+     <dt>
+duplicateClip(clip, name, depth)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Duplica el <code class="parameter">clip</code> de película nominado (también conocido como sprite). El nuevo clip de película tiene el nombre de <code class="parameter">name</code> 
+       y profundidad de <code class="parameter">depth</code>. 
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+removeClip(expr)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Elimina el clip de película nominado.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+trace(expr)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Escribe la expresión dad la registro de rastreo.  the given expression to the trace log. Dudoso ya
+       que el plugin del navegador no hace nada con esto. 
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+startDrag(target, lock, [left, top, right, bottom])</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Empieza a dibujar el clip de película <code class="parameter">target</code>. El argumento
+       <code class="parameter">lock</code> indica si
+       bloquear el ratón (?)- use 0 (<strong><code>FALSE</code></strong>) o 1 (<strong><code>TRUE</code></strong>). Los parámetros opcionales
+       definen un área circundante para el dibujo.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+stopDrag()</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Deja de arrastrar mi corazón. Y este clip de película, también.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+callFrame(expr)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Llama al fotograma nominado como una función.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+getURL(url, target, [method])</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Carga la URL dada en el objetivo nominado. El argumento <code class="parameter">target</code>
+       se corresponde con los objetivos del documento HTML (como &quot;_top&quot; or &quot;_blank&quot;).
+       El argumento opcional <code class="parameter">method</code> puede ser POST o GET si se quieren enviar
+       variables al servidor.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+loadMovie(url, target)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Carga la URL dada en el objetivo nominado. El argumento <code class="parameter">target</code> puede ser un
+       nombre de fotograma (creo), o uno de los valores mágicos &quot;_level0&quot; (reemplaza
+       la película actual) o &quot;_level1&quot; (carga la nueva película encima de la película actual). 
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+nextFrame()</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Va al siguiente fotograma.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+prevFrame()</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Va al último (o, mejor dicho, al previo) fotograma.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+play()</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Inicia la reproducción de la película.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+stop()</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Detiene la reproducción de la película.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+toggleQuality()</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Conmuta entre alta y baja calidad.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+stopSounds()</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Detiene la reproducción de todos los sonidos.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+gotoFrame(num)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Va al fotograma número <code class="parameter">num</code>. Los números de fotograma empiezan en 0.  
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+gotoFrame(name)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Va al fotograma llamado <code class="parameter">name</code>. Que lo hace muy bien, ya que yo
+       no he añadido etiquetas de fotogramas todavía.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+setTarget(expr)</dt>
+
+     <dd>
+
+      <span class="simpara">
+       Establece el contexto para la acción. O como se diga- No tengo ni idea
+       de los que hace.
+      </span>
+     </dd>
+   
+    
+   </dl>
+
+   Y hay una cosa rara extra. La expresión frameLoaded(num) se puede usar
+   en sentencias if y bucles while para verificar se el número de fotograma dado ya
+   ha sido cargado. Bien, se supone que sí, de todos modos, nunca lo he probado y
+   dudo seriamente que realmente funcione. En su lugar puede usar /:framesLoaded instead.
+  </p>
+  <p class="para">
+    Los clips de película (ahora todos juntos- también llamados sprites) tienen propiedades. Se pueden
+    leer todos, establecer algunos de ellos, y aquí
+    están:
+    <ul class="itemizedlist">
+     <li class="listitem">
+      <span class="simpara">
+       x
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       y 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       xScale 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       yScale 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       currentFrame - (solo lectura) 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       totalFrames - (solo lectura)
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       alpha - nivel de transparencia
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       visible - 1=on, 0=off (?) 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       width - (solo lectura)
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       height - (solo lectura)
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       rotation 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       target - (solo lectura) (???) 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       framesLoaded - (solo lectura)
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       name 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       dropTarget - (solo lectura) (???) 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       url - (solo lectura) (???) 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       highQuality - 1=high, 0=low (?) 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       focusRect - (???) 
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       soundBufTime - (???) 
+      </span>
+     </li>
+    </ul>
+    Así, establecer la posición de un sprite es tan sencillo como <em>/box.x = 100;</em>. 
+    Aunque ¿por qué la barra al inicio de box? Así es como flash sigue
+    la pista de los sprites en la película, como un sistema de archivos Unix- 
+    aquí muestra que box está en el nivel superior. Si el sprite llamado
+    box tiene otro sprite llamado biff dentro de él, se debería establecer su
+    position x con /box/biff.x = 100;. Al menos eso creo; corríjame
+    si me equivoco.
+  </p>
+ </div>
+ 
+ </div>
+ 
+ 
+
+
+
+
+
+
+
+ 
+<h2>Tabla de contenidos</h2><ul class="chunklist chunklist_reference"><li><a href="swfaction.construct.html">SWFAction::__construct</a> — Crea un nuevo SWFAction</li></ul>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ming-useswfversion.html">ming_useswfversion</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="swfaction.construct.html">SWFAction::__construct</a></div>
+ <div class="up"><a href="book.ming.html">Ming</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

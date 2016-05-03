@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Convierte una codificaci&oacute;n de caracteres</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mb-convert-case.html">mb_convert_case</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mb-convert-kana.html">mb_convert_kana</a></div>
+ <div class="up"><a href="ref.mbstring.html">Funciones de cadenas de caracteres multibyte</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mb-convert-encoding" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mb_convert_encoding</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.6, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">mb_convert_encoding</span> &mdash; <span class="dc-title">Convierte una codificación de caracteres</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mb-convert-encoding-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>mb_convert_encoding</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$str</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$to_encoding</code></span>
+   [, <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$from_encoding</code><span class="initializer"> = mb_internal_encoding()</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Convierte la codificación de caracteres del <span class="type"><a href="language.types.string.html" class="type string">string</a></span> <code class="parameter">str</code>
+   a la especificada por <code class="parameter">to_encoding</code>,
+   indicando opcionalmente la codificación de caracteres inicial en <code class="parameter">from_encoding</code>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mb-convert-encoding-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">str</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El <span class="type"><a href="language.types.string.html" class="type string">string</a></span> a codificar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">to_encoding</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El tipo de codificación a la que convertir <code class="parameter">str</code>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">from_encoding</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Se especifica por los nombres de los códigos de caracteres previos a la conversión. Se trata de,
+       o bien un <span class="type"><a href="language.types.array.html" class="type array">array</a></span>, o bien de una lista separada por comas.
+       Si no se especificara ningún valor para <code class="parameter">from_encoding</code>,
+       se utilizará la codificación interna.
+       
+      </p>
+      <p class="para">
+       Revise las <a href="mbstring.supported-encodings.html" class="link">codificaciones
+       admitidas</a>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mb-convert-encoding-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El <span class="type"><a href="language.types.string.html" class="type string">string</a></span> codificado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mb-convert-encoding-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2997">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mb_convert_encoding()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Convierte&nbsp;de&nbsp;la&nbsp;codificación&nbsp;interna&nbsp;a&nbsp;SJIS&nbsp;*/<br /></span><span style="color: #0000BB">$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mb_convert_encoding</span><span style="color: #007700">(</span><span style="color: #0000BB">$str</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"SJIS"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Convierte&nbsp;EUC-JP&nbsp;a&nbsp;UTF-7&nbsp;*/<br /></span><span style="color: #0000BB">$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mb_convert_encoding</span><span style="color: #007700">(</span><span style="color: #0000BB">$str</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"UTF-7"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"EUC-JP"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Autodetecta&nbsp;la&nbsp;codificación,&nbsp;desde&nbsp;JIS,&nbsp;eucjp-win&nbsp;o&nbsp;sjis-win,&nbsp;y&nbsp;después&nbsp;convierte&nbsp;str&nbsp;a&nbsp;UCS-2LE&nbsp;*/<br /></span><span style="color: #0000BB">$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mb_convert_encoding</span><span style="color: #007700">(</span><span style="color: #0000BB">$str</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"UCS-2LE"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"JIS,&nbsp;eucjp-win,&nbsp;sjis-win"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;"auto"&nbsp;es&nbsp;un&nbsp;alias&nbsp;de&nbsp;"ASCII,JIS,UTF-8,EUC-JP,SJIS"&nbsp;*/<br /></span><span style="color: #0000BB">$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mb_convert_encoding</span><span style="color: #007700">(</span><span style="color: #0000BB">$str</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"EUC-JP"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"auto"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mb-convert-encoding-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mb-detect-order.html" class="function" rel="rdfs-seeAlso">mb_detect_order()</a> - Establece/obtiene el orden de detecci&oacute;n de codificaciones de caracteres</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mb-convert-case.html">mb_convert_case</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mb-convert-kana.html">mb_convert_kana</a></div>
+ <div class="up"><a href="ref.mbstring.html">Funciones de cadenas de caracteres multibyte</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

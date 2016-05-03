@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Serie PECL/mysqlnd_ms 1.1</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes-one-two.html">Serie PECL/mysqlnd_ms 1.2</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-o.html">Serie PECL/mysqlnd_ms 1.0</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.changes-one-one" class="section">
+  <h2 class="title">Serie PECL/mysqlnd_ms 1.1</h2>
+  <p class="para">
+   1.1.0
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Fecha de publicación: 09/2011
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Motivo/tema: Cubrir lo básico de la replicación con calidad de producción
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Las series 1.1 y 1.0 exponen un conjunto de características similar. Internamente,
+   la serie 1.1 ha sido reestructurada para planificar la incorporación de futuras
+   características. Se ha introducido un nuevo formato del fichero de configuración,
+   y se han eliminado las limitaciones. Además, se ha mejorado la calidad del código y
+   la seguridad de la calidad.
+  </p>
+  <p class="para">
+   Cambios en las características
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Se añadió el (encadenable) <a href="mysqlnd-ms.filter.html" class="link">concepto de filtro</a>:
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <span class="simpara">
+         Rotura RC:
+         La función <span class="function"><a href="function.mysqlnd-ms-set-user-pick-server.html" class="function">mysqlnd_ms_set_user_pick_server()</a></span>
+         ha sido eliminada. Se ha introducido el filtro
+         <a href="mysqlnd-ms.filter.html" class="link"><em>user</em></a>
+         para reemplazarla.
+         El filtro ofrece una funcionalidad similar, aunque existen diferencias que se
+         explican más abajo.
+        </span>
+       </li>
+      </ul>
+     </p>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Nueva sintaxis de configuración más potente basada en <acronym title="JavaScript Object Notation">JSON</acronym>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <a href="mysqlnd-ms.pooling.html" class="link">Merjora de conexiones retardadas</a>:
+      está cubierta la seguridad relevante y los comandos de cambio de estado.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Soporte para sentencias preparadas (nativo).
+     </span>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Nuevas estadísticas: <em>use_master_guess</em>,
+      <em>use_slave_guess</em>.
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <span class="simpara">
+         Rotura RC: Cambio en la semántica de las estadísticas
+         <em>use_slave</em>, <em>use_master</em>.
+         Son posibles cambios futuros. Véase
+         <span class="function"><a href="function.mysqlnd-ms-get-stats.html" class="function">mysqlnd_ms_get_stats()</a></span>.
+        </span>
+       </li>
+      </ul>
+     </p>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      La lista de mensajes de difusión está extendida por <em>ssl_set</em>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Ahora, las llamadas a la biblioteca se monitorizan para recordar los ajustes de conexiones retaradadas:
+      <em>change_user</em>, <em>select_db</em>,
+      <em>set_charset</em>, <em>set_autocommit</em>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Se introdujo <a href="mysqlnd-ms.configuration.html#ini.mysqlnd-ms.disable-rw-split" class="link"><em>mysqlnd_ms.disable_rw_split</em></a>.
+      Este ajuste de configuración permite el uso de la funcionalidad del equilibrado de carga y
+      de las conexiones retardadas independientemente de la división de lecutra-escritura.
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Corrección de errores
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Corregido PECL #22724 - Intercambio de servidor (mysqlnd_ms_query_is_select() sensible a mayúsculas/minúsculas)
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Corregido PECL #22784 - No funcionaba mysql_connect y mysql_select_db
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Corregido PECL #59982 - Extensión inusable con with --enable-mysqlnd-ms-table-filter.
+      El uso de la opción NO está soportado. No se debe usar. Se añadió una nota a m4.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Corregido el error #60119 - host=&quot;localhost&quot; se perdía en mysqlnd_ms_get_last_used_connection()
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Se ha eliminado la función <span class="function"><a href="function.mysqlnd-ms-set-user-pick-server.html" class="function">mysqlnd_ms_set_user_pick_server()</a></span>, y ha sido
+   reemplazada por el nuevo filtro <em>user</em>. Ya no se puede establecer una
+   función de llamada de retorno usando <span class="function"><a href="function.mysqlnd-ms-set-user-pick-server.html" class="function">mysqlnd_ms_set_user_pick_server()</a></span> en
+   tiempo de ejecución, sino que se ha de configurarla en su lugar en el fichero de configuración del complemento.
+   El filtro <em>user</em> pasará los mismos argumentos que antes a la llamada de retorno.
+   Por lo tanto, se puede seguir usando la misma función procedimental como una llamada de retorno.
+   Ya no es posible usar métodos estáticos de clases, o métodos de clases de
+   una instancia, como una llamada de retorno. Hacerlo supondrá que la función
+   ejecutará una sentencia manejada por el complemento para emitir un
+   error de nivel <strong><code>E_RECOVERABLE_ERROR</code></strong>, el cual podría ser: &quot;<em>(mysqlnd_ms) Specified callback (picker) is not a valid callback</em>.&quot;
+   ((mysqlnd_ms) La llamada de retorno (picker) especificada no es una llamada de retorno válida).
+   Nota: esto podría detener la aplicación.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes-one-two.html">Serie PECL/mysqlnd_ms 1.2</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-o.html">Serie PECL/mysqlnd_ms 1.0</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

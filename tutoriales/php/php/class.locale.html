@@ -1,0 +1,555 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>La clase Locale</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="numberformatter.settextattribute.html">NumberFormatter::setTextAttribute</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="locale.acceptfromhttp.html">Locale::acceptFromHttp</a></div>
+ <div class="up"><a href="book.intl.html">intl</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="class.locale" class="reference">
+ <h1 class="title">La clase Locale</h1>
+ 
+ 
+ <div class="partintro"><p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7, PECL intl &gt;= 1.0.0)</p>
+  
+  
+  <div class="section" id="locale.intro">
+   <h2 class="title">Introducción</h2>
+   <p class="simpara">
+    Un &quot;Locale&quot; (Configuración Regional) es un identificador utilizado para obtener el lenguaje, la cultura o
+    el comportamiento de una región específica desde una API. Las configuraciones regionales de PHP están organizadas e
+    identificadas de la misma manera que las conficuraciones regionales CLDR usadas por ICU (y que muchos
+    vendedores de sistemas operativos similares a Unix, el Mac, Java, etc., usan).
+    Las configuraciones regionales son identificadores que usan las etiquetas de lenguaje RFC 4646 (que usan guiones, no
+    guiones de subrayado) además de los identificadores más tradiciones que usan guiones
+    de subrayada. A menos que se indique lo contrario, las funciones de esta clase son
+    tolerante con ambos formatos.
+   </p>
+   <p class="para">
+    Algunos ejemplos de identificadores:
+    <ul class="simplelist">
+     <li class="member">en-US (Inglés, Estados Unidos)</li>
+     <li class="member">zh-Hant-TW (Chino, Tradicional, Taiwán)</li>
+     <li class="member">fr-CA, fr-FR (Francés para Canadá y Francia respectivamente)</li>
+    </ul>
+   </p>
+   <p class="simpara">
+    La clase Locale (y sus funciones procedimentales relacionadas) se usa para interactuar
+    con los identificadores regionales (para verificar que un ID está bien formado, que es válido, etc.).
+    Las extensiones usadas por CLDR en UAX #35 (y heredadas por ICU) son válidas
+    y se utilizan dondequiera que estuvieran normalmente en ICU.
+   </p>
+   <p class="simpara">
+    Las configuraciones regionales (&quot;locale&quot;) no pueden ser instanciadas como objetos. Todas las funciones y los métodos
+    proporcionados son estáticos.
+   </p>
+   <p class="simpara">
+    La cadena nula o vacía obtiene la configuración regional &quot;root&quot;. Ésta es
+    equivalente a &quot;en_US_POSIX&quot; en CLDR. Las etiquetas de lenguaje (y por lo tanto los identificadores
+    regionales) no son sensibles a mayúsculas-minúsculas. Existe una función
+    de canonización para hacer que las mayúsculas-minúsculas coincidan con la especificación.
+   </p>
+  </div>
+  
+  
+  <div class="section" id="locale.synopsis">
+   <h2 class="title">Sinopsis de la Clase</h2>
+   
+   
+   <div class="classsynopsis">
+    <div class="ooclass">
+     
+    </div>
+    
+    
+    <div class="classsynopsisinfo">
+     <span class="ooclass">
+      <strong class="classname">Locale</strong>
+     </span>
+     {</div>
+    
+    
+    
+    
+    <div class="classsynopsisinfo classsynopsisinfo_comment">/* Métodos */</div>
+    <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.acceptfromhttp.html" class="methodname">acceptFromHttp</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$header</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">string</span> <span class="methodname"><a href="locale.canonicalize.html" class="methodname">canonicalize</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.composelocale.html" class="methodname">composeLocale</a></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$subtags</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">bool</span> 
+   <span class="methodname"><a href="locale.filtermatches.html" class="methodname">filterMatches</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$langtag</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$canonicalize</code><span class="initializer"> = false</span></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">array</span> 
+   <span class="methodname"><a href="locale.getallvariants.html" class="methodname">getAllVariants</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.getdefault.html" class="methodname">getDefault</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.getdisplaylanguage.html" class="methodname">getDisplayLanguage</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$in_locale</code></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.getdisplayname.html" class="methodname">getDisplayName</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$in_locale</code></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.getdisplayregion.html" class="methodname">getDisplayRegion</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$in_locale</code></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.getdisplayscript.html" class="methodname">getDisplayScript</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$in_locale</code></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.getdisplayvariant.html" class="methodname">getDisplayVariant</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$in_locale</code></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">array</span> 
+   <span class="methodname"><a href="locale.getkeywords.html" class="methodname">getKeywords</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.getprimarylanguage.html" class="methodname">getPrimaryLanguage</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.getregion.html" class="methodname">getRegion</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.getscript.html" class="methodname">getScript</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="locale.lookup.html" class="methodname">lookup</a></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$langtag</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$canonicalize</code><span class="initializer"> = false</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$default</code></span>
+  ]] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">array</span> 
+   <span class="methodname"><a href="locale.parselocale.html" class="methodname">parseLocale</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">bool</span> 
+   <span class="methodname"><a href="locale.setdefault.html" class="methodname">setDefault</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   )</div>
+
+   }</div>
+   
+   
+  </div>
+  
+  
+  
+  
+
+
+
+<div class="section" id="intl.locale-constants">
+ <h2 class="title">Constantes predefinidas</h2>
+ <p class="para">
+  <dl>
+
+   
+    <dt id="locale.constants.default-locale">
+     <strong><code>Locale::DEFAULT_LOCALE</code></strong>
+     (<span class="type"><a href="language.types.null.html" class="type null">null</a></span>)
+    </dt>
+
+    <dd>
+
+     <span class="simpara">
+      Usada como parámetro regional con los métodos de varias clases de configuración regional afectadas,
+      como NumberFormatter. Esta constante hace que los métodos usen la configuración regional
+      predeterminada.
+     </span>
+    </dd>
+
+   
+  </dl>
+
+ </p>
+ 
+ <p class="para">
+  Estas constantes describen la elección de la configuración regional para el método getLocalte method de
+  diferentes clases.
+  <dl>
+
+   
+    <dt id="locale.constants.actual-locale">
+     <strong><code>Locale::ACTUAL_LOCALE</code></strong>
+     (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+    </dt>
+
+    <dd>
+
+     <span class="simpara">Esta es la configuración regional de donde realmente proviene la información.</span>
+    </dd>
+
+   
+   
+   
+    <dt id="locale.constants.valid-locale">
+     <strong><code>Locale::VALID_LOCALE</code></strong>
+     (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+    </dt>
+
+    <dd>
+
+     <span class="simpara">Esta es la configuración regional más específica soportada por ICU.</span>
+    </dd>
+
+   
+  </dl>
+
+ </p>
+ 
+ <div class="section" id="intl.locale-constants.subtags">
+  <p class="para">
+   Estas constantes definen cómo se procesan o componen las Configuraciones Regionales. Deberían
+   usarse como claves en el array de argumentos para <span class="function"><a href="locale.composelocale.html" class="function">locale_compose()</a></span>
+   y son devueltas por <span class="function"><a href="locale.parselocale.html" class="function">locale_parse()</a></span>
+   como claves del <span class="type"><a href="language.types.array.html" class="type array">array</a></span> asociativo devuelto.
+   <dl>
+
+    
+     <dt id="locale.constants.lang-tag">
+      <strong><code>Locale::LANG_TAG</code></strong>
+      (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Subetiqueta de lenguaje</span>
+     </dd>
+
+    
+    
+    
+     <dt id="locale.constants.extlang-tag">
+      <strong><code>Locale::EXTLANG_TAG</code></strong>
+      (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Subetiqueta de lenguaje extendido</span>
+     </dd>
+
+    
+    
+    
+     <dt id="locale.constants.script-tag">
+      <strong><code>Locale::SCRIPT_TAG</code></strong>
+      (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Subetiqueta de script</span>
+     </dd>
+
+    
+    
+     <dt id="locale.constants.region-tag">
+      <strong><code>Locale::REGION_TAG</code></strong>
+      (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Subetiqueta de región</span>
+     </dd>
+
+    
+    
+    
+     <dt id="locale.constants.variant-tag">
+      <strong><code>Locale::VARIANT_TAG</code></strong>
+      (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Subetiqueta de variente</span>
+     </dd>
+
+    
+    
+    
+     <dt id="locale.constants.grandfathered-lang-tag">
+      <strong><code>Locale::GRANDFATHERED_LANG_TAG</code></strong>
+      (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Subetiqueta de lenguaje exento</span>
+     </dd>
+
+    
+    
+    
+     <dt id="locale.constants.private-tag">
+      <strong><code>Locale::PRIVATE_TAG</code></strong>
+      (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Subetiqueta privada</span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+</div>
+
+
+
+  <div class="section" id="locale.seealso">
+   <h2 class="title">Ver también</h2>
+   <p class="para">
+    <ul class="simplelist">
+     <li class="member">
+      <a href="http://www.faqs.org/rfcs/rfc4646" class="link external">&raquo;&nbsp;RFC 4646 - Etiquetas para la Identificación de Lenguajes</a>
+     </li>
+     <li class="member">
+      <a href="http://www.faqs.org/rfcs/rfc4647" class="link external">&raquo;&nbsp;RFC 4647 - Concordancia de Etiquetas de Lenguaje</a>
+     </li>
+     <li class="member">
+      <a href="http://www.unicode.org/cldr/" class="link external">&raquo;&nbsp;Proyecto CLDR Unicode: Repositorio de Información de Configuraciones Regionales Común</a>
+     </li>
+     <li class="member">
+      <a href="http://www.iana.org/assignments/language-subtag-registry" class="link external">&raquo;&nbsp;Registro de Subetiquetas de Lenguaje IANA</a>
+     </li>
+     <li class="member">
+      <a href="http://www.icu-project.org/userguide/locale.html" class="link external">&raquo;&nbsp;Guía de Usuario ICU - Configuración Regional</a>
+     </li>
+     <li class="member">
+      <a href="http://www.icu-project.org/apiref/icu4c/uloc_8h.html#details" class="link external">&raquo;&nbsp;La API Locale de ICU</a>
+     </li>
+    </ul>
+   </p>
+  </div>
+ </div>
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+<h2>Tabla de contenidos</h2><ul class="chunklist chunklist_reference"><li><a href="locale.acceptfromhttp.html">Locale::acceptFromHttp</a> — Intentar encontrar la mejor configuraci&oacute;n regional basada en la cabecera &quot;Accept-Language&quot; de HTTP</li><li><a href="locale.canonicalize.html">Locale::canonicalize</a> — Canonizar el string de configuraci&oacute;n regional</li><li><a href="locale.composelocale.html">Locale::composeLocale</a> — Devolver un ID regional correctamente ordenado y delimitado</li><li><a href="locale.filtermatches.html">Locale::filterMatches</a> — Comprobar si unfiltro de etiquetas de lenguaje coincide con una configuraci&oacute;n regional</li><li><a href="locale.getallvariants.html">Locale::getAllVariants</a> — Obtener las variantes de la configuraci&oacute;n regional de entrada</li><li><a href="locale.getdefault.html">Locale::getDefault</a> — Obtener el valor de la configuraci&oacute;n regional predeterminada del identificador global 'default_locale' de INTL</li><li><a href="locale.getdisplaylanguage.html">Locale::getDisplayLanguage</a> — Devolver un nombre manifiesto debidamente localizado del lenguaje de la configuraci&oacute;n regional de entrada</li><li><a href="locale.getdisplayname.html">Locale::getDisplayName</a> — Devolver un nombre manifiesto debidamente localizado de la configuraci&oacute;n regional de entrada</li><li><a href="locale.getdisplayregion.html">Locale::getDisplayRegion</a> — Devolver un nombre manifiesto debidamente localizado de la regi&oacute;n de la configuraci&oacute;n regional de entrada</li><li><a href="locale.getdisplayscript.html">Locale::getDisplayScript</a> — Devolver un nombre manifiesto debidamente localizado de la escritura de la configuraci&oacute;n regional de entrada</li><li><a href="locale.getdisplayvariant.html">Locale::getDisplayVariant</a> — Devolver un nombre manifiesto debidamente localizado de las variantes de la configuraci&oacute;n regional de entrada</li><li><a href="locale.getkeywords.html">Locale::getKeywords</a> — Obtener las palabras clave de la configuraci&oacute;n regional de entrada</li><li><a href="locale.getprimarylanguage.html">Locale::getPrimaryLanguage</a> — Obtener el lenguaje principal de la configuraci&oacute;n regional de entrada</li><li><a href="locale.getregion.html">Locale::getRegion</a> — Obtener la regi&oacute;n de la configuraci&oacute;n local de entrada</li><li><a href="locale.getscript.html">Locale::getScript</a> — Obtener la escritura de la configuraci&oacute;n regional de entrada</li><li><a href="locale.lookup.html">Locale::lookup</a> — Busca en la lista de etiquetas de lenguaje la mejor coincidencia para el lenguaje</li><li><a href="locale.parselocale.html">Locale::parseLocale</a> — Devolver un array de claves-valores de los elementos de las subetiquetas del ID regional</li><li><a href="locale.setdefault.html">Locale::setDefault</a> — Establecer la configuraci&oacute;n regional predeterminada en tiempo de ejecuci&oacute;n</li></ul>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="numberformatter.settextattribute.html">NumberFormatter::setTextAttribute</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="locale.acceptfromhttp.html">Locale::acceptFromHttp</a></div>
+ <div class="up"><a href="book.intl.html">intl</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

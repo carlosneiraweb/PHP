@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Instalaci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="fann.requirements.html">Requerimientos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="fann.configuration.html">Configuraci&oacute;n en tiempo de ejecuci&oacute;n</a></div>
+ <div class="up"><a href="fann.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="fann.installation" class="section">
+  <h2 class="title">Instalación</h2>
+  <p class="para">
+   La extensión FANN para PHP debería funcionar en todos los sistemas Linux.
+  </p>
+  
+  <ul class="simplelist">
+   <li class="member">
+    <a href="fann.installation.html#fann.installation.lib" class="xref">Instalaci&oacute;n de la biblioteca FANN</a>
+   </li>
+   <li class="member">
+    <a href="fann.installation.html#fann.installation.pecl" class="xref">Instalaci&oacute;n desde PECL</a>
+   </li>
+   <li class="member">
+    <a href="fann.installation.html#fann.installation.manual" class="xref">Instalaci&oacute;n manual</a>
+   </li>
+  </ul>
+  
+  <div class="section" id="fann.installation.lib">
+   
+   <h2 class="title">Instalación de la biblioteca FANN</h2>
+   
+   <p class="para">
+    Antes de iniciar la instalación asegúrese de que <em class="emphasis">libfann</em> está instalada
+    en su sistema. Es parte del repositorio principal en la mayoría de las distribuciones de Linux
+    (busque por `fann`). Es necesaria una versión de desarrollo.
+   </p>
+   <p class="para">
+    Si no está instalada, es necesario instalarla primero. Descárguela desde el
+    <a href="http://leenissen.dk/fann/wp/" class="link external">&raquo;&nbsp;sitio oficial</a> u obténgala desde el
+    repositorio de su distribución. Por ejemplo, en Fedora:
+    <div class="example-contents">
+<div class="cdata"><pre>
+
+$ sudo yum install fann-devel
+
+</pre></div>
+    </div>
+
+    o Ubuntu:
+    <div class="example-contents">
+<div class="cdata"><pre>
+
+$ sudo apt-get install libfann-dev
+
+</pre></div>
+    </div>
+
+   </p>
+  </div>
+  
+  <div class="section" id="fann.installation.pecl">
+   
+   <h2 class="title">Instalación desde PECL</h2>
+   
+   <p class="para">
+    Esta extensión está disponible en PECL. La instalación es muy sencilla. Simplemente ejecute:
+    <div class="example-contents">
+<div class="cdata"><pre>
+
+$ sudo pecl install fann
+
+</pre></div>
+    </div>
+
+   </p>
+  </div>
+  
+  <div class="section" id="fann.installation.manual">
+   
+   <h2 class="title">Instalación manual</h2>
+   
+   <p class="para">
+    Para desarrolladores y gente interesada en los últimos cambios, se
+    puede compilar el controlador desde el último código fuente en
+    <a href="https://github.com/bukka/php-fann" class="link external">&raquo;&nbsp;Github</a>.
+    Diríjase a Github y haga clic en el botón &quot;Download ZIP&quot;. Después ejecute:
+    
+    <div class="example-contents">
+<div class="cdata"><pre>
+
+$ unzip php-fann-master.zip
+$ cd php-fann-master
+$ phpize
+$ ./configure
+$ make all
+$ sudo make install
+
+</pre></div>
+    </div>
+
+   </p>
+   
+   <p class="para">
+    Realice los siguientes cambios en php.ini:
+   </p>
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Asugúrese de que la variable <em class="emphasis">extension_dir</em> apunta al
+      directorio que contiene <em class="emphasis">fann.so</em>. El proceso de construcción mostrará dónde
+      está instalando el controlador de PHP con una salida parecida a esta:
+      <div class="example-contents">
+<div class="cdata"><pre>
+
+Installing &#039;/usr/lib/php/extensions/no-debug-non-zts-20060613/fann.so&#039;
+
+</pre></div>
+      </div>
+
+      
+      Asegúrese de que es el mismo que el del directorio de extensiones de PHP ejecutando:
+      
+      <div class="example-contents">
+<div class="cdata"><pre>
+
+$ php -i | grep extension_dir
+  extension_dir =&gt; /usr/lib/php/extensions/no-debug-non-zts-20060613 =&gt;
+                   /usr/lib/php/extensions/no-debug-non-zts-20060613
+
+</pre></div>
+      </div>
+
+      
+      Si no lo fuera, cambie <em class="emphasis">extension_dir</em> en php.ini o
+      mueva <em class="emphasis">fann.so</em>.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Para cargar la extensión al inicio de PHP, añada la línea:
+      
+      <div class="example-contents">
+<div class="cdata"><pre>
+
+extension=fann.so
+
+</pre></div>
+      </div>
+
+      
+     </p>
+    </li>
+    
+   </ul>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="fann.requirements.html">Requerimientos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="fann.configuration.html">Configuraci&oacute;n en tiempo de ejecuci&oacute;n</a></div>
+ <div class="up"><a href="fann.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

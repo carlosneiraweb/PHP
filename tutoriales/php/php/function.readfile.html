@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Realizar la salida de un fichero</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.popen.html">popen</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.readlink.html">readlink</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.readfile" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">readfile</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">readfile</span> &mdash; <span class="dc-title">Realizar la salida de un fichero</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.readfile-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>readfile</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$filename</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$use_include_path</code><span class="initializer"> = false</span></span>
+   [, <span class="methodparam"><span class="type">resource</span> <code class="parameter">$context</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Lee un fichero y lo escribe en el búfer de salida.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.readfile-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">filename</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del fichero a leer.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">use_include_path</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Se puede emplear el segundo parámetro opcional y establecerlo a <strong><code>TRUE</code></strong> si se
+       desea buscar también el fichero en <a href="ini.core.html#ini.include-path" class="link">include_path</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">context</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un <span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> de flujos de contexto.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.readfile-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el número de bytes leídos del fichero. Si se produjo un
+   error, devuelve <strong><code>FALSE</code></strong> y, a menos que la función fuese llamada como
+   @<span class="function"><strong>readfile()</strong></span>, se imprime un mensaje de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.readfile-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2659">
+    <p><strong>Ejemplo #1 Forzar un descarga empleando <span class="function"><strong>readfile()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$fichero&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'mono.gif'</span><span style="color: #007700">;<br /><br />if&nbsp;(</span><span style="color: #0000BB">file_exists</span><span style="color: #007700">(</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-Description:&nbsp;File&nbsp;Transfer'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-Type:&nbsp;application/octet-stream'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-Disposition:&nbsp;attachment;&nbsp;filename="'</span><span style="color: #007700">.</span><span style="color: #0000BB">basename</span><span style="color: #007700">(</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">).</span><span style="color: #DD0000">'"'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Expires:&nbsp;0'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Cache-Control:&nbsp;must-revalidate'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Pragma:&nbsp;public'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-Length:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">filesize</span><span style="color: #007700">(</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">));<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">readfile</span><span style="color: #007700">(</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;exit;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="mediaobject">
+     
+     <div class="imageobject">
+      <img src="images/e88cefb5c3fca5060e2490b9763c4433-readfile.png" alt="Diálogo de Abrir / Guardar" width="319" height="245" />
+     </div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.readfile-notes">
+  <h3 class="title">Notas</h3>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    <span class="function"><strong>readfile()</strong></span> no presentará problemas de memoria,
+    incluso al enviar ficheros grandes, por sí sola. Si se encuentra un
+    error de memoria insuficiente asegúrese que el búfer de salida está desactivado con
+    <span class="function"><a href="function.ob-get-level.html" class="function">ob_get_level()</a></span>.
+   </p>
+  </p></blockquote>
+  
+  <div class="tip"><strong class="tip">Sugerencia</strong><p class="simpara">Se puede emplear un URL como
+nombre de fichero con esta función si las <a href="filesystem.configuration.html#ini.allow-url-fopen" class="link">envolturas de fopen</a> han sido activadas.
+Véase <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span> para más información de cómo especificar el nombre
+de fichero. Véanse las <a href="wrappers.html" class="xref">Protocolos y Envolturas soportados</a>; continen enlaces con información
+sobre las diferentes capacidades que tienen las envolturas, notas sobre su empleo,
+e información de cualquier variable predefinida que podría
+proporcionarse.</p></div>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Soporte para context fue
+añadido en PHP 5.0.0. Para una descripción de <em>contexts</em>, refiérase a
+<a href="book.stream.html" class="xref">Flujos</a>.</span></p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.readfile-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.fpassthru.html" class="function" rel="rdfs-seeAlso">fpassthru()</a> - Escribe toda la informaci&oacute;n restante de un puntero a un archivo</span></li>
+    <li class="member"><span class="function"><a href="function.file.html" class="function" rel="rdfs-seeAlso">file()</a> - Transfiere un fichero completo a un array</span></li>
+    <li class="member"><span class="function"><a href="function.fopen.html" class="function" rel="rdfs-seeAlso">fopen()</a> - Abre un fichero o un URL</span></li>
+    <li class="member"><span class="function"><a href="function.include.html" class="function" rel="rdfs-seeAlso">include</a> - include</span></li>
+    <li class="member"><span class="function"><a href="function.require.html" class="function" rel="rdfs-seeAlso">require</a> - require</span></li>
+    <li class="member"><span class="function"><a href="function.virtual.html" class="function" rel="rdfs-seeAlso">virtual()</a> - Realiza una sub-petici&oacute;n de Apache</span></li>
+    <li class="member"><span class="function"><a href="function.file-get-contents.html" class="function" rel="rdfs-seeAlso">file_get_contents()</a> - Transmite un fichero entero a una cadena</span></li>
+    <li class="member"><a href="wrappers.html" class="xref">Protocolos y Envolturas soportados</a></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.popen.html">popen</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.readlink.html">readlink</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

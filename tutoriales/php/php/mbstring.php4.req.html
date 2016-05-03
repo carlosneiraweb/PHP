@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Requerimientos para la codificaci&oacute;n de caracteres en PHP</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mbstring.overload.html">Sobrecarga de Funciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.mbstring.html">Funciones de cadenas de caracteres multibyte</a></div>
+ <div class="up"><a href="book.mbstring.html">Cadenas de caracteres multibyte</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mbstring.php4.req" class="chapter">
+ <h1>Requerimientos para la codificación de caracteres en PHP</h1>
+
+ <p class="para">
+  Las codificaciones de los siguientes tipos se pueden utilizar con PHP de forma segura.
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <p class="para">
+     Codificaciones de un solo byte,
+     <ul class="itemizedlist">
+      <li class="listitem">
+       <span class="simpara">
+        que tienen mapas de referencia compatibles con ASCII (ISO646) para los
+        caracteres en el rango de <em>00h</em> a
+        <em>7fh</em>.
+       </span>
+      </li>
+     </ul>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     Codificación multibyte,
+     <ul class="itemizedlist">
+      <li class="listitem">
+       <span class="simpara">
+        que tienen mapas de referencia compatibles con ASCII para los caracteres en el rango de
+        <em>00h</em> a <em>7fh</em>.
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        que no utilizan secuencias de escape ISO2022.
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        que no utilizan un valor en el rango de <em>00h</em> a
+        <em>7fh</em> en cualquiera de los bytes compuestos
+        que representan un carácter sencillo.
+       </span>
+      </li>
+     </ul>  
+    </p>
+   </li>
+  </ul>
+ </p>
+ <p class="para">
+  Estos son ejemplos de codificaciones de caracteres que es poco probable que funcionen
+  con PHP.
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="cdata"><pre>
+JIS, SJIS, ISO-2022-JP, BIG-5
+</pre></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  Aunque algunos scripts de PHP escritos en estas codificaciones podrían no funcionar,
+  especialmente en el caso donde los strings codificados aparecen como identificadores
+  o como literales en el propio script, se puede evitar el uso de estas codificaciones 
+  configurando la función de filtro de codificación transparente de
+  <em>mbstring</em> para las consultas HTTP entrantes.
+ </p>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   Se desaconseja energicamente el uso de SJIS, BIG5, CP936, CP949 y GB18030 para
+   la codificación interna, a menos que se esté familiarizado con el analizador,
+   el explorador y la codificación de caracteres.
+  </p>
+ </p></blockquote>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   Si se va a conectar a una base de datos con PHP, se recomienda
+   utilizar la misma codificación de caracteres para la base de datos y la
+   <em>codificación interna</em> para un uso más sencillo y un mejor
+   rendimiento.
+  </p>
+  <p class="para">
+   Si se utiliza PostgreSQL, la codificación utilizada en la base de datos y la utilizada
+   en PHP puede ser distinta debido a que se admite la conversión automática del conjunto
+   de caracteres entre la parte final y la inicial del proceso.
+  </p>
+ </p></blockquote>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mbstring.overload.html">Sobrecarga de Funciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.mbstring.html">Funciones de cadenas de caracteres multibyte</a></div>
+ <div class="up"><a href="book.mbstring.html">Cadenas de caracteres multibyte</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

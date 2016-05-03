@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Hacer ping en una conexi&oacute;n al servidor o reconectar si no hay conexi&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.cubrid-num-fields.html">cubrid_num_fields</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.cubrid-query.html">cubrid_query</a></div>
+ <div class="up"><a href="cubridmysql.cubrid.html">Funciones de compatibilidad CUBRID MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.cubrid-ping" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">cubrid_ping</h1>
+  <p class="verinfo">(PECL CUBRID &gt;= 8.3.1)</p><p class="refpurpose"><span class="refname">cubrid_ping</span> &mdash; <span class="dc-title">Hacer ping en una conexión al servidor o reconectar si no hay conexión</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.cubrid-ping-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>cubrid_ping</strong></span>
+    ([ <span class="methodparam"><span class="type">resource</span> <code class="parameter">$conn_identifier</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Verifica si la conexión al servidor está funcionando..
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.cubrid-ping-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">conn_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de conexión de CUBRID. Si el identificador de conexión no se
+       especifica, se asume la última conexión abierta por
+       <span class="function"><a href="function.cubrid-connect.html" class="function">cubrid_connect()</a></span>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.cubrid-ping-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> si la conexión al servidor CUBRID está funcionando, si no <strong><code>FALSE</code></strong>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.cubrid-ping-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1184">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>cubrid_ping()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />set_time_limit</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$con&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">33000</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'demodb'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Se&nbsp;asume&nbsp;que&nbsp;esta&nbsp;consulta&nbsp;tomará&nbsp;mucho&nbsp;tiempo&nbsp;*/<br /></span><span style="color: #0000BB">$sql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"select&nbsp;*&nbsp;from&nbsp;athlete"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$sql</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$result</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'La&nbsp;consulta&nbsp;#1&nbsp;falló,&nbsp;saliendo.'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;exit;<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Asegurarse&nbsp;de&nbsp;que&nbsp;la&nbsp;conexión&nbsp;todavía&nbsp;perdura,&nbsp;si&nbsp;no,&nbsp;intentar&nbsp;reconectar&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">cubrid_ping</span><span style="color: #007700">(</span><span style="color: #0000BB">$con</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Conexión&nbsp;perdida,&nbsp;saliendo&nbsp;después&nbsp;de&nbsp;la&nbsp;consulta&nbsp;#1'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;exit;<br />}<br /></span><span style="color: #0000BB">cubrid_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Ya&nbsp;que&nbsp;la&nbsp;conexión&nbsp;aún&nbsp;perdura,&nbsp;vamos&nbsp;a&nbsp;ejecutar&nbsp;otra&nbsp;consulta&nbsp;*/<br /></span><span style="color: #0000BB">$sql2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"select&nbsp;*&nbsp;from&nbsp;code"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$result2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cubrid_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$sql2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.cubrid-num-fields.html">cubrid_num_fields</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.cubrid-query.html">cubrid_query</a></div>
+ <div class="up"><a href="cubridmysql.cubrid.html">Funciones de compatibilidad CUBRID MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

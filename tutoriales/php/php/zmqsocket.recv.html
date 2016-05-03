@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Recibir un mensaje</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="zmqsocket.ispersistent.html">ZMQSocket::isPersistent</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="zmqsocket.recvmulti.html">ZMQSocket::recvMulti</a></div>
+ <div class="up"><a href="class.zmqsocket.html">ZMQSocket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="zmqsocket.recv" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ZMQSocket::recv</h1>
+  <p class="verinfo">(PECL zmq &gt;= 0.5.0)</p><p class="refpurpose"><span class="refname">ZMQSocket::recv</span> &mdash; <span class="dc-title">Recibir un mensaje</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-zmqsocket.recv-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">string</span> <span class="methodname"><strong>ZMQSocket::recv</strong></span>
+    ([ <span class="methodparam"><span class="type">integer</span> <code class="parameter">$mode</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Recibe un mensaje de un socket. Por defecto, la recepción quedará en espera hasta que haya disponible un mensaje, a menos
+   que se emplee la bandera <strong><code>ZMQ::MODE_NOBLOCK</code></strong>. Se puede emplear la opción de socket
+   <strong><code>ZMQ::SOCKOPT_RCVMORE</code></strong> para recibir mensajes multiparte. Véase <span class="function"><a href="zmqsocket.setsockopt.html" class="function">ZMQSocket::setSockOpt()</a></span>
+   para más información.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-zmqsocket.recv-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Proporcionar banderas de modo para recibir mensajes multiparte o hacer que la operación no quede en espera. 
+       Véanse las constantes <strong><code>ZMQ::MODE_*</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-zmqsocket.recv-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5209">
+    <p><strong>Ejemplo #1 Un ejemplo de send/recv</strong></p>
+    <div class="example-contents"><p>
+     Envío / respuesta sin esperas
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">/*&nbsp;Crear&nbsp;un&nbsp;nuevo&nbsp;objeto&nbsp;cola,&nbsp;debe&nbsp;existir&nbsp;un&nbsp;servidor&nbsp;en&nbsp;el&nbsp;otro&nbsp;extremo&nbsp;*/<br /></span><span style="color: #0000BB">$cola&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">ZMQSocket</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">ZMQContext</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">ZMQ</span><span style="color: #007700">::</span><span style="color: #0000BB">SOCKET_REQ</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$cola</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"tcp://127.0.0.1:5555"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Asginar&nbsp;el&nbsp;socket&nbsp;1&nbsp;a&nbsp;la&nbsp;cola,&nbsp;enviar&nbsp;y&nbsp;recibir&nbsp;*/<br /></span><span style="color: #0000BB">$reintentos&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$sending&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/*&nbsp;Iniciar&nbsp;y&nbsp;recorrer&nbsp;*/<br /></span><span style="color: #007700">do&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Intentar&nbsp;enviar&nbsp;/&nbsp;recibir&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">$sending</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Enviando&nbsp;el&nbsp;mensaje\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$cola</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">send</span><span style="color: #007700">(</span><span style="color: #DD0000">"Este&nbsp;es&nbsp;un&nbsp;mensaje"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">ZMQ</span><span style="color: #007700">::</span><span style="color: #0000BB">MODE_NOBLOCK</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$sending&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Respuesta&nbsp;obtenida:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$cola</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">recv</span><span style="color: #007700">(</span><span style="color: #0000BB">ZMQ</span><span style="color: #007700">::</span><span style="color: #0000BB">MODE_NOBLOCK</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">ZMQSocketException&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;EAGAIN&nbsp;significa&nbsp;que&nbsp;la&nbsp;operación&nbsp;tendrá&nbsp;que&nbsp;esperar,&nbsp;reintentar&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">$e</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getCode</span><span style="color: #007700">()&nbsp;===&nbsp;</span><span style="color: #0000BB">ZMQ</span><span style="color: #007700">::</span><span style="color: #0000BB">ERR_EAGAIN</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;-&nbsp;EAGAIN,&nbsp;reintentando&nbsp;(</span><span style="color: #0000BB">$reintentos</span><span style="color: #DD0000">)\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">"&nbsp;-&nbsp;Error:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getMessage</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Dormir&nbsp;un&nbsp;poco&nbsp;entre&nbsp;operaciones&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">usleep</span><span style="color: #007700">(</span><span style="color: #0000BB">5</span><span style="color: #007700">);<br />}&nbsp;while&nbsp;(--</span><span style="color: #0000BB">$reintentos</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Enviando el mensaje
+ - Unable to execute operation, retrying (4)
+Respuesta obtenida: Este es un mensaje
+</pre></div>
+    </div>    
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-zmqsocket.recv-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el mensaje. Lanza una ZMQSocketException en caso de error. 
+   Si se emplea <strong><code>ZMQ::MODE_NOBLOCK</code></strong> y la operación debería quedar
+   en espera, se devolverá el <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span> false.
+  </p>
+ </div>
+
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="zmqsocket.ispersistent.html">ZMQSocket::isPersistent</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="zmqsocket.recvmulti.html">ZMQSocket::recvMulti</a></div>
+ <div class="up"><a href="class.zmqsocket.html">ZMQSocket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

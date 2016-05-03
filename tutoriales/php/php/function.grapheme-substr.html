@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devolver parte de una cadena</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.grapheme-strstr.html">grapheme_strstr</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.intl.idn.html">Funciones de IDN</a></div>
+ <div class="up"><a href="ref.intl.grapheme.html">Funciones de Grapheme</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.grapheme-substr" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">grapheme_substr</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7, PECL intl &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">grapheme_substr</span> &mdash; <span class="dc-title">Devolver parte de una cadena</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.grapheme-substr-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo por procedimientos</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>grapheme_substr</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$string</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$start</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$length</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve parte de una cadena
+  </p> 
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.grapheme-substr-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">string</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La cadena de entrada. Debe ser válida en UTF-8. 
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">start</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Posición de inicio en unidades predeterminadas de grafema.
+       Si $start es no negativo, la cadena devuelta comenzara en la
+       posición $start-ésima de $string, contando desde cero. Si $start is negativo,
+       la cadena devuelta comenzará en la unidad de grafema $start-ésima desde el
+       final de la cadena.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">length</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La longitud en unidades de grafema.
+       Si se propoiciona $length y es positivo, la cadena devuelta contendrá
+       como máximo $length unidades de grafema comenzando desde $start (dependiendo de la
+       longitud de la cadena). Si se proporciona $length y es negativo,
+       esas tantas unidades de grafema serán omitidas desde el final de la cadena (después de que
+       la posición inicial haya sido calculada cuando un inicio es negativo). Si $start
+       denota una posición más allá de este truncamiento, se devolverá <strong><code>FALSE</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.grapheme-substr-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la parte extraída de $string.   
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.grapheme-substr-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.4</td>
+       <td>
+        Si se proporciona <code class="parameter">length</code> y es positivo, y el
+        argumento string es más corto que la longitud especificada, se devuelve
+        el resto de la cadena de acuerdo al parámetro
+        <code class="parameter">start</code>. Anteriormente devolvía <strong><code>FALSE</code></strong>. 
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ 
+ <div class="refsect1 examples" id="refsect1-function.grapheme-substr-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2924">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>grapheme_substr()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$carácter_a_anillo_nfd&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"a\xCC\x8A"</span><span style="color: #007700">;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;'LETRA&nbsp;MINÚSCULA&nbsp;LATINA&nbsp;A&nbsp;CON&nbsp;ANILLO&nbsp;SUPERIOR'&nbsp;(U+00E5)&nbsp;forma&nbsp;de&nbsp;normalización&nbsp;"D"<br /></span><span style="color: #0000BB">$carácter_o_diéresis_nfd&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"o\xCC\x88"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;'LETRA&nbsp;MINÚSCULA&nbsp;LATINA&nbsp;O&nbsp;CON&nbsp;DIÉRESIS'&nbsp;(U+00F6)&nbsp;forma&nbsp;de&nbsp;normalización&nbsp;"D"<br /><br /></span><span style="color: #007700">print&nbsp;</span><span style="color: #0000BB">urlencode</span><span style="color: #007700">(</span><span style="color: #0000BB">grapheme_substr</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">"ao"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$carácter_a_anillo_nfd&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"bc"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$carácter_o_diéresis_nfd&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"O"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <p class="para">El resultado del ejemplo sería:</p>
+  <div class="example-contents screen">
+<div class="cdata"><pre>
+a%CC%8Abco%CC%88
+</pre></div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.grapheme-substr-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.grapheme-extract.html" class="function" rel="rdfs-seeAlso">grapheme_extract()</a> - Funci&oacute;n para extraer una secuencia de un cl&uacute;ster de grafemas predeterminados desde un buffer de texto, que puede estar codificado en UTF-8</span></li>
+    <li class="member">
+     <a href="http://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries" class="link external">&raquo;&nbsp;
+      Segementación de Texto Unicode: Límites de Grupos de Grafemas
+     </a>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.grapheme-strstr.html">grapheme_strstr</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.intl.idn.html">Funciones de IDN</a></div>
+ <div class="up"><a href="ref.intl.grapheme.html">Funciones de Grapheme</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

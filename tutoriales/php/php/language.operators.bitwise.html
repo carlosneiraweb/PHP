@@ -1,0 +1,533 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Operadores bit a bit</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.operators.assignment.html">Operadores de asignaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.operators.comparison.html">Operadores de comparaci&oacute;n</a></div>
+ <div class="up"><a href="language.operators.html">Operadores</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.operators.bitwise" class="sect1">
+  <h2 class="title">Operadores bit a bit</h2>
+  <p class="simpara">
+   Los operadores bit a bit permiten la evaluación y la manipulación de bits
+   específicos dentro de un integer.
+  </p>
+  <table class="doctable table">
+   <caption><strong>Operadores bit a bit</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Ejemplo</th>
+      <th>Nombre</th>
+      <th>Resultado</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><strong class="userinput"><code>$a &amp; $b</code></strong></td>
+      <td>And (y)</td>
+      <td>Los bits que están activos en ambos <var class="varname"><var class="varname">$a</var></var> y <var class="varname"><var class="varname">$b</var></var> son activados.</td>
+     </tr>
+
+     <tr>
+      <td><strong class="userinput"><code>$a | $b</code></strong></td>
+      <td>Or (o inclusivo)</td>
+      <td>Los bits que están activos ya sea en <var class="varname"><var class="varname">$a</var></var> o en <var class="varname"><var class="varname">$b</var></var> son activados.</td>
+     </tr>
+
+     <tr>
+      <td><strong class="userinput"><code>$a ^ $b</code></strong></td>
+      <td>Xor (o exclusivo)</td>
+      <td>
+       Los bits que están activos en <var class="varname"><var class="varname">$a</var></var> o en <var class="varname"><var class="varname">$b</var></var>, pero no en ambos, son activados.
+      </td>
+     </tr>
+
+     <tr>
+      <td><strong class="userinput"><code>~ $a</code></strong></td>
+      <td>Not (no)</td>
+      <td>
+       Los bits que están activos en <var class="varname"><var class="varname">$a</var></var> son desactivados, y viceversa.
+      </td>
+     </tr>
+
+     <tr>
+      <td><strong class="userinput"><code>$a &lt;&lt; $b</code></strong></td>
+      <td>Shift left(desplazamiento a izquierda)</td>
+      <td>
+       Desplaza los bits de <var class="varname"><var class="varname">$a</var></var>, <var class="varname"><var class="varname">$b</var></var> pasos a la izquierda (cada paso
+       quiere decir &quot;multiplicar por dos&quot;).
+      </td>
+     </tr>
+
+     <tr>
+      <td><strong class="userinput"><code>$a &gt;&gt; $b</code></strong></td>
+      <td>Shift right (desplazamiento a derecha)</td>
+      <td>
+       Desplaza los bits de <var class="varname"><var class="varname">$a</var></var>, <var class="varname"><var class="varname">$b</var></var> pasos a la derecha (cada paso
+       quiere decir &quot;dividir por dos&quot;).
+      </td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  <p class="para">
+   El desplazamiento de bits en PHP es aritmético.
+   Los bits desplazados por fuera de cualquiera de los extremos son descartados.
+   Desplazamientos de izquierda tienen ceros desplazados a la derecha mientras que el
+   bit de signo es desplazado fuera a la izquierda, es decir que no se conserva el
+   signo de un operando.
+   Desplazamientos a la derecha tienen copias del bit de signo desplazado a la izquierda,
+   es decir que se conserva el signo de un operando.
+  </p>
+  <p class="para">
+   Utilice paréntesis para garantizar la
+   <a href="language.operators.precedence.html" class="link">precedencia</a> deseada.
+   Por ejemplo, <em>$a &amp; $b == true</em> evalúa
+   la equivalencia y luego el bit a bit, mientras que
+   <em>($a &amp; $b) == true</em> evalúa el bit a bit y
+   luego la equivalencia.
+  </p>
+  <p class="para">
+   Si los operandos para los operadores <em>&amp;</em>, <em>|</em> y
+   <em>^</em> son string, la operación se realizará
+   con los valores ASCII de los caracteres que componen dichos string, y el
+   resultado será también un string. En todos los demás casos, ambos operandos serán
+   <a href="language.types.integer.html#language.types.integer.casting" class="link">convertidos a valores de tipo integer</a>
+   y el resultado será también un integer.
+  </p>
+  <p class="para">
+   Si el operando del operados <em>~</em> es un string, la
+   operación se realizará con valores los ASCII de los caracteres que componen
+   dicho string, y el resultado también será un string; en caso contrario, el operando y
+   el resultado serán tratados como valores de tipo integer.
+  </p>
+  <p class="para">
+   Ambos operandos y el resultado de lo operadores <em>&lt;&lt;</em> y
+   <em>&gt;&gt;</em> siempre son tratados como valores de tipo integer.
+  </p>
+  <p class="para">
+   <div class="informalexample">
+    <p class="para">
+     <pre class="literallayout">
+      El ajuste ini error_reporting utiliza valores a nivel de bit,
+      lo que ofrece una demostración del mundo real de desactivar
+      bits. Para mostrar todos los errores, a excepción de los avisos,
+      las instrucciones del archivo php.ini dicen utilizar:
+      <strong class="userinput"><code>E_ALL &amp; ~E_NOTICE</code></strong>
+     </pre>
+    </p>
+    <p class="para">
+     <pre class="literallayout">
+      Esto funciona iniciando con E_ALL:
+      <span class="computeroutput">00000000000000000111011111111111</span>
+      Luego se toma el valor de E_NOTICE ...
+      <span class="computeroutput">00000000000000000000000000001000</span>
+      ... y se invierte por medio de <em>~</em>:
+      <span class="computeroutput">11111111111111111111111111110111</span>
+      Finalmente, se utiliza AND (&amp;) para encontrar los bits que se
+      activaron en ambos valores:
+      <span class="computeroutput">00000000000000000111011111110111</span>
+     </pre>
+    </p>
+    <p class="para">
+     <pre class="literallayout">
+      Otra forma de lograrlo es mediante XOR (<em>^</em>)
+      para encontrar los bits que están activados en sólo el primer valor o en el otro:
+      <strong class="userinput"><code>E_ALL ^ E_NOTICE</code></strong>
+     </pre>
+    </p>
+   </div>
+  </p>
+  <p class="para">
+   <div class="informalexample">
+    <p class="para">
+     <pre class="literallayout">
+      error_reporting también se puede utilizar para demostrar la activación de bits.
+      La forma para mostrar sólo los errores y los errores recuperables es:
+      <strong class="userinput"><code>E_ERROR | E_RECOVERABLE_ERROR</code></strong>
+     </pre>
+    </p>
+    <p class="para">
+     <pre class="literallayout">
+      Este proceso combina E_ERROR
+      <span class="computeroutput">00000000000000000000000000000001</span>
+      y
+      <span class="computeroutput">00000000000000000001000000000000</span>
+      usando el operador OR (<em>|</em>)
+      para obtener los bits activados en cualquiera de estos valores:
+      <span class="computeroutput">00000000000000000001000000000001</span>
+     </pre>
+    </p>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-131">
+    <p><strong>Ejemplo #1 Operaciones AND, OR y XOR bit a bit sobre integers</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Ignore&nbsp;la&nbsp;sección&nbsp;superior,<br />&nbsp;*&nbsp;es&nbsp;sólo&nbsp;el&nbsp;formateado&nbsp;para&nbsp;hacer&nbsp;la&nbsp;salida&nbsp;más&nbsp;clara.<br />&nbsp;*/<br /><br /></span><span style="color: #0000BB">$format&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'(%1$2d&nbsp;=&nbsp;%1$04b)&nbsp;=&nbsp;(%2$2d&nbsp;=&nbsp;%2$04b)'<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">'&nbsp;%3$s&nbsp;(%4$2d&nbsp;=&nbsp;%4$04b)'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br />echo&nbsp;&lt;&lt;&lt;EOH<br /></span><span style="color: #DD0000">&nbsp;---------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---------&nbsp;&nbsp;--&nbsp;---------<br />&nbsp;resultado&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op&nbsp;prueba<br />&nbsp;---------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---------&nbsp;&nbsp;--&nbsp;---------<br /></span><span style="color: #007700">EOH;<br /><br /><br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Aquí&nbsp;están&nbsp;los&nbsp;ejemplos.<br />&nbsp;*/<br /><br /></span><span style="color: #0000BB">$values&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$test&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n&nbsp;AND&nbsp;bit&nbsp;a&nbsp;bit&nbsp;\n"</span><span style="color: #007700">;<br />foreach&nbsp;(</span><span style="color: #0000BB">$values&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$value&nbsp;</span><span style="color: #007700">&amp;&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&amp;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">);<br />}<br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n&nbsp;OR&nbsp;inclusivo&nbsp;bit&nbsp;a&nbsp;bit&nbsp;\n"</span><span style="color: #007700">;<br />foreach&nbsp;(</span><span style="color: #0000BB">$values&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$value&nbsp;</span><span style="color: #007700">|&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'|'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">);<br />}<br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n&nbsp;OR&nbsp;exclusivo&nbsp;(XOR)&nbsp;bit&nbsp;a&nbsp;bit&nbsp;\n"</span><span style="color: #007700">;<br />foreach&nbsp;(</span><span style="color: #0000BB">$values&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$value&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'^'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+ ---------     ---------  -- ---------
+ resultado     valor      op prueba
+ ---------     ---------  -- ---------
+ AND bit a bit
+( 0 = 0000) = ( 0 = 0000) &amp; ( 5 = 0101)
+( 1 = 0001) = ( 1 = 0001) &amp; ( 5 = 0101)
+( 0 = 0000) = ( 2 = 0010) &amp; ( 5 = 0101)
+( 4 = 0100) = ( 4 = 0100) &amp; ( 5 = 0101)
+( 0 = 0000) = ( 8 = 1000) &amp; ( 5 = 0101)
+
+ OR inclusivo bit a bit
+( 5 = 0101) = ( 0 = 0000) | ( 5 = 0101)
+( 5 = 0101) = ( 1 = 0001) | ( 5 = 0101)
+( 7 = 0111) = ( 2 = 0010) | ( 5 = 0101)
+( 5 = 0101) = ( 4 = 0100) | ( 5 = 0101)
+(13 = 1101) = ( 8 = 1000) | ( 5 = 0101)
+
+ OR exclusivo (XOR) bit a bit
+( 5 = 0101) = ( 0 = 0000) ^ ( 5 = 0101)
+( 4 = 0100) = ( 1 = 0001) ^ ( 5 = 0101)
+( 7 = 0111) = ( 2 = 0010) ^ ( 5 = 0101)
+( 1 = 0001) = ( 4 = 0100) ^ ( 5 = 0101)
+(13 = 1101) = ( 8 = 1000) ^ ( 5 = 0101)
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-132">
+    <p><strong>Ejemplo #2 Operaciones XOR bit a bit sobre strings</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">12&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #0000BB">9</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Sale&nbsp;'5'<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"12"&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #DD0000">"9"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Sale&nbsp;el&nbsp;caracter&nbsp;de&nbsp;retroceso&nbsp;(ascii&nbsp;8)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;('1'&nbsp;(ascii&nbsp;49))&nbsp;^&nbsp;('9'&nbsp;(ascii&nbsp;57))&nbsp;=&nbsp;#8<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"hallo"&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #DD0000">"hello"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Salen&nbsp;los&nbsp;valores&nbsp;ascii&nbsp;#0&nbsp;#4&nbsp;#0&nbsp;#0&nbsp;#0<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;'a'&nbsp;^&nbsp;'e'&nbsp;=&nbsp;#4<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">2&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #DD0000">"3"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Sale&nbsp;1<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;2&nbsp;^&nbsp;((int)"3")&nbsp;==&nbsp;1<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"2"&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Sale&nbsp;1<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;((int)"2")&nbsp;^&nbsp;3&nbsp;==&nbsp;1<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-133">
+    <p><strong>Ejemplo #3 Desplazamiento de bits sobre integers</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Aquí&nbsp;están&nbsp;los&nbsp;ejemplos.<br />&nbsp;*/<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"\n---&nbsp;DESPLAZAMIENTO&nbsp;DE&nbsp;BITS&nbsp;A&nbsp;LA&nbsp;DERECHA&nbsp;SOBRE&nbsp;ENTEROS&nbsp;POSITIVOS&nbsp;---\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'copia&nbsp;del&nbsp;bit&nbsp;de&nbsp;signo&nbsp;desplazado&nbsp;hacia&nbsp;el&nbsp;lado&nbsp;izquierdo'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bits&nbsp;desplazados&nbsp;fuera&nbsp;del&nbsp;lado&nbsp;derecho'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'mismo&nbsp;resultado&nbsp;que&nbsp;arriba;&nbsp;no&nbsp;se&nbsp;puede&nbsp;desplazar&nbsp;más&nbsp;allá&nbsp;del&nbsp;0'</span><span style="color: #007700">);<br /><br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n---&nbsp;DESPLAZAMIENTO&nbsp;DE&nbsp;BITS&nbsp;A&nbsp;LA&nbsp;DERECHA&nbsp;SOBRE&nbsp;ENTEROS&nbsp;NEGATIVOS&nbsp;---\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'copia&nbsp;del&nbsp;bit&nbsp;de&nbsp;signo&nbsp;desplazado&nbsp;al&nbsp;lado&nbsp;izquierdo'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bits&nbsp;desplazados&nbsp;fuera&nbsp;del&nbsp;lado&nbsp;derecho'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'mismo&nbsp;resultado&nbsp;que&nbsp;arriba;&nbsp;no&nbsp;se&nbsp;puede&nbsp;desplazar&nbsp;más&nbsp;allá&nbsp;del&nbsp;-1'</span><span style="color: #007700">);<br /><br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n---&nbsp;DESPLAZAMIENTO&nbsp;DE&nbsp;BITS&nbsp;A&nbsp;LA&nbsp;IZQUIERDA&nbsp;SOBRE&nbsp;ENTEROS&nbsp;POSITIVOS&nbsp;---\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ceros&nbsp;rellenan&nbsp;en&nbsp;el&nbsp;lado&nbsp;derecho'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bit&nbsp;de&nbsp;signo&nbsp;resulta&nbsp;desplazado&nbsp;fuera'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bit&nbsp;de&nbsp;signo&nbsp;desplazado&nbsp;fuera&nbsp;del&nbsp;lado&nbsp;izquierdo'</span><span style="color: #007700">);<br /><br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n---&nbsp;DESPLAZAMIENTO&nbsp;DE&nbsp;BITS&nbsp;A&nbsp;LA&nbsp;IZQUIERDA&nbsp;SOBRE&nbsp;ENTEROS&nbsp;NEGATIVOS&nbsp;---\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ceros&nbsp;rellenan&nbsp;en&nbsp;el&nbsp;lado&nbsp;derecho'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bits&nbsp;desplazados&nbsp;fuera&nbsp;del&nbsp;lado&nbsp;izquierdo,&nbsp;incluyendo&nbsp;el&nbsp;bit&nbsp;de&nbsp;signo'</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Ignore&nbsp;this&nbsp;bottom&nbsp;section,<br />&nbsp;*&nbsp;it&nbsp;is&nbsp;just&nbsp;formatting&nbsp;to&nbsp;make&nbsp;output&nbsp;clearer.<br />&nbsp;*/<br /><br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$op</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$note&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$format&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'%0'&nbsp;</span><span style="color: #007700">.&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"b\n"</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Expression:&nbsp;%d&nbsp;=&nbsp;%d&nbsp;%s&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$op</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;Decimal:\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"&nbsp;&nbsp;val=%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"&nbsp;&nbsp;res=%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;Binary:\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">'&nbsp;&nbsp;val='&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">'&nbsp;&nbsp;res='&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">$note</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;NOTE:&nbsp;</span><span style="color: #0000BB">$note</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo en equipos de 32 bit sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+
+--- DESPLAZAMIENTO DE BITS A LA DERECHA SOBRE ENTEROS POSITIVOS ---
+Expression: 2 = 4 &gt;&gt; 1
+ Decimal:
+  val=4
+  res=2
+ Binary:
+  val=00000000000000000000000000000100
+  res=00000000000000000000000000000010
+ NOTE: copia del bit de signo desplazado hacia el lado izquierdo
+
+Expression: 1 = 4 &gt;&gt; 2
+ Decimal:
+  val=4
+  res=1
+ Binary:
+  val=00000000000000000000000000000100
+  res=00000000000000000000000000000001
+
+Expression: 0 = 4 &gt;&gt; 3
+ Decimal:
+  val=4
+  res=0
+ Binary:
+  val=00000000000000000000000000000100
+  res=00000000000000000000000000000000
+ NOTE: bits desplazados fuera del lado derecho
+
+Expression: 0 = 4 &gt;&gt; 4
+ Decimal:
+  val=4
+  res=0
+ Binary:
+  val=00000000000000000000000000000100
+  res=00000000000000000000000000000000
+ NOTE: mismo resultado que arriba; no se puede desplazar más allá del 0
+
+
+--- DESPLAZAMIENTO DE BITS A LA DERECHA SOBRE ENTEROS NEGATIVOS ---
+Expression: -2 = -4 &gt;&gt; 1
+ Decimal:
+  val=-4
+  res=-2
+ Binary:
+  val=11111111111111111111111111111100
+  res=11111111111111111111111111111110
+ NOTE: copia del bit de signo desplazado al lado izquierdo
+
+Expression: -1 = -4 &gt;&gt; 2
+ Decimal:
+  val=-4
+  res=-1
+ Binary:
+  val=11111111111111111111111111111100
+  res=11111111111111111111111111111111
+ NOTE: bits desplazados fuera del lado derecho
+
+Expression: -1 = -4 &gt;&gt; 3
+ Decimal:
+  val=-4
+  res=-1
+ Binary:
+  val=11111111111111111111111111111100
+  res=11111111111111111111111111111111
+ NOTE: mismo resultado que arriba; no se puede desplazar más allá del -1
+
+
+--- DESPLAZAMIENTO DE BITS A LA IZQUIERDA SOBRE ENTEROS POSITIVOS ---
+Expression: 8 = 4 &lt;&lt; 1
+ Decimal:
+  val=4
+  res=8
+ Binary:
+  val=00000000000000000000000000000100
+  res=00000000000000000000000000001000
+ NOTE: ceros rellenan en el lado derecho
+
+Expression: 1073741824 = 4 &lt;&lt; 28
+ Decimal:
+  val=4
+  res=1073741824
+ Binary:
+  val=00000000000000000000000000000100
+  res=01000000000000000000000000000000
+
+Expression: -2147483648 = 4 &lt;&lt; 29
+ Decimal:
+  val=4
+  res=-2147483648
+ Binary:
+  val=00000000000000000000000000000100
+  res=10000000000000000000000000000000
+ NOTE: bit de signo resulta desplazado fuera
+
+Expression: 0 = 4 &lt;&lt; 30
+ Decimal:
+  val=4
+  res=0
+ Binary:
+  val=00000000000000000000000000000100
+  res=00000000000000000000000000000000
+ NOTE: bit de signo desplazado fuera del lado izquierdo
+
+
+--- DESPLAZAMIENTO DE BITS A LA IZQUIERDA SOBRE ENTEROS NEGATIVOS ---
+Expression: -8 = -4 &lt;&lt; 1
+ Decimal:
+  val=-4
+  res=-8
+ Binary:
+  val=11111111111111111111111111111100
+  res=11111111111111111111111111111000
+ NOTE: ceros rellenan en el lado derecho
+
+Expression: -2147483648 = -4 &lt;&lt; 29
+ Decimal:
+  val=-4
+  res=-2147483648
+ Binary:
+  val=11111111111111111111111111111100
+  res=10000000000000000000000000000000
+
+Expression: 0 = -4 &lt;&lt; 30
+ Decimal:
+  val=-4
+  res=0
+ Binary:
+  val=11111111111111111111111111111100
+  res=00000000000000000000000000000000
+ NOTE: bits desplazados fuera del lado izquierdo, incluyendo el bit de signo
+</pre></div>
+    </div>
+    <div class="example-contents"><p>El resultado del ejemplo en equipos de 64 bit sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+
+--- DESPLAZAMIENTO DE BITS A LA DERECHA SOBRE ENTEROS POSITIVOS ---
+Expression: 2 = 4 &gt;&gt; 1
+ Decimal:
+  val=4
+  res=2
+ Binary:
+  val=0000000000000000000000000000000000000000000000000000000000000100
+  res=0000000000000000000000000000000000000000000000000000000000000010
+ NOTE: copia del bit de signo desplazado hacia el lado izquierdo
+
+Expression: 1 = 4 &gt;&gt; 2
+ Decimal:
+  val=4
+  res=1
+ Binary:
+  val=0000000000000000000000000000000000000000000000000000000000000100
+  res=0000000000000000000000000000000000000000000000000000000000000001
+
+Expression: 0 = 4 &gt;&gt; 3
+ Decimal:
+  val=4
+  res=0
+ Binary:
+  val=0000000000000000000000000000000000000000000000000000000000000100
+  res=0000000000000000000000000000000000000000000000000000000000000000
+ NOTE: bits desplazados fuera del lado derecho
+
+Expression: 0 = 4 &gt;&gt; 4
+ Decimal:
+  val=4
+  res=0
+ Binary:
+  val=0000000000000000000000000000000000000000000000000000000000000100
+  res=0000000000000000000000000000000000000000000000000000000000000000
+ NOTE: mismo resultado que arriba; no se puede desplazar más allá del 0
+
+
+--- DESPLAZAMIENTO DE BITS A LA DERECHA SOBRE ENTEROS NEGATIVOS ---
+Expression: -2 = -4 &gt;&gt; 1
+ Decimal:
+  val=-4
+  res=-2
+ Binary:
+  val=1111111111111111111111111111111111111111111111111111111111111100
+  res=1111111111111111111111111111111111111111111111111111111111111110
+ NOTE: copia del bit de signo desplazado al lado izquierdo
+
+Expression: -1 = -4 &gt;&gt; 2
+ Decimal:
+  val=-4
+  res=-1
+ Binary:
+  val=1111111111111111111111111111111111111111111111111111111111111100
+  res=1111111111111111111111111111111111111111111111111111111111111111
+ NOTE: bits desplazados fuera del lado derecho
+
+Expression: -1 = -4 &gt;&gt; 3
+ Decimal:
+  val=-4
+  res=-1
+ Binary:
+  val=1111111111111111111111111111111111111111111111111111111111111100
+  res=1111111111111111111111111111111111111111111111111111111111111111
+ NOTE: mismo resultado que arriba; no se puede desplazar más allá del -1
+
+
+--- DESPLAZAMIENTO DE BITS A LA IZQUIERDA SOBRE ENTEROS POSITIVOS ---
+Expression: 8 = 4 &lt;&lt; 1
+ Decimal:
+  val=4
+  res=8
+ Binary:
+  val=0000000000000000000000000000000000000000000000000000000000000100
+  res=0000000000000000000000000000000000000000000000000000000000001000
+ NOTE: ceros rellenan en el lado derecho
+
+Expression: 4611686018427387904 = 4 &lt;&lt; 60
+ Decimal:
+  val=4
+  res=4611686018427387904
+ Binary:
+  val=0000000000000000000000000000000000000000000000000000000000000100
+  res=0100000000000000000000000000000000000000000000000000000000000000
+
+Expression: -9223372036854775808 = 4 &lt;&lt; 61
+ Decimal:
+  val=4
+  res=-9223372036854775808
+ Binary:
+  val=0000000000000000000000000000000000000000000000000000000000000100
+  res=1000000000000000000000000000000000000000000000000000000000000000
+ NOTE: bit de signo resulta desplazado fuera
+
+Expression: 0 = 4 &lt;&lt; 62
+ Decimal:
+  val=4
+  res=0
+ Binary:
+  val=0000000000000000000000000000000000000000000000000000000000000100
+  res=0000000000000000000000000000000000000000000000000000000000000000
+ NOTE: bit de signo desplazado fuera del lado izquierdo
+
+
+--- DESPLAZAMIENTO DE BITS A LA IZQUIERDA SOBRE ENTEROS NEGATIVOS ---
+Expression: -8 = -4 &lt;&lt; 1
+ Decimal:
+  val=-4
+  res=-8
+ Binary:
+  val=1111111111111111111111111111111111111111111111111111111111111100
+  res=1111111111111111111111111111111111111111111111111111111111111000
+ NOTE: ceros rellenan en el lado derecho
+
+Expression: -9223372036854775808 = -4 &lt;&lt; 61
+ Decimal:
+  val=-4
+  res=-9223372036854775808
+ Binary:
+  val=1111111111111111111111111111111111111111111111111111111111111100
+  res=1000000000000000000000000000000000000000000000000000000000000000
+
+Expression: 0 = -4 &lt;&lt; 62
+ Decimal:
+  val=-4
+  res=0
+ Binary:
+  val=1111111111111111111111111111111111111111111111111111111111111100
+  res=0000000000000000000000000000000000000000000000000000000000000000
+ NOTE: bits desplazados fuera del lado izquierdo, incluyendo el bit de signo
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    Desplazar un integer por valores mayores o iguales al ancho del tipo long integer
+    del sistema resultará en un comportamiento indefinido. En otras palabras, no desplace
+    más de 31 bit en sistemas de 32 bit, y no desplace más de 63 bit en sistemas
+    de 64 bit.
+   </p>
+   <p class="para">
+    Use funciones de la extensión <a href="book.gmp.html" class="link">gmp</a> para
+    manipular a nivel de bit números mayores que <em>PHP_INT_MAX</em>.
+   </p>
+  </div>
+  <p class="para">
+   Ver también
+   <span class="function"><a href="function.pack.html" class="function">pack()</a></span>,
+   <span class="function"><a href="function.unpack.html" class="function">unpack()</a></span>,
+   <span class="function"><a href="function.gmp-and.html" class="function">gmp_and()</a></span>,
+   <span class="function"><a href="function.gmp-or.html" class="function">gmp_or()</a></span>,
+   <span class="function"><a href="function.gmp-xor.html" class="function">gmp_xor()</a></span>,
+   <span class="function"><a href="function.gmp-testbit.html" class="function">gmp_testbit()</a></span>,
+   <span class="function"><a href="function.gmp-clrbit.html" class="function">gmp_clrbit()</a></span>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.operators.assignment.html">Operadores de asignaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.operators.comparison.html">Operadores de comparaci&oacute;n</a></div>
+ <div class="up"><a href="language.operators.html">Operadores</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

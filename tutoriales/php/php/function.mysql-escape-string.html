@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Escapa una cadena para ser usada en mysql_query</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-error.html">mysql_error</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-fetch-array.html">mysql_fetch_array</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-escape-string" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_escape_string</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.3, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_escape_string</span> &mdash; <span class="dc-title">Escapa una cadena para ser usada en mysql_query</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-escape-string-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta función está obsoleta en PHP 4.3.0, por lo que ha sido
+eliminada, junto a la totalidad de la <a href="book.mysql.html" class="link">extensión original de MySQL</a>, en PHP 7.0.0.
+En su lugar, utilice las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a> activamente desarrolladas.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Las alternativas a esta función son:</p>
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysqli-escape-string.html" class="function">mysqli_escape_string()</a></span></li>
+    <li class="member"><span class="methodname"><a href="pdo.quote.html" class="methodname">PDO::quote()</a></span></li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-escape-string-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>mysql_escape_string</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$unescaped_string</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Esta función escapará <code class="parameter">unescaped_string</code>,
+   para que sea segura ponerla en una <span class="function"><a href="function.mysql-query.html" class="function">mysql_query()</a></span>.
+   Esta función está obsoleta.
+  </p>
+  <p class="para">
+   Esta función es idéntica a <span class="function"><a href="function.mysql-real-escape-string.html" class="function">mysql_real_escape_string()</a></span>
+   excepto que <span class="function"><a href="function.mysql-real-escape-string.html" class="function">mysql_real_escape_string()</a></span> toma un
+   gestor de conexión y escapa la cadena de acuerdo con el juego de carácteres
+   actual. <span class="function"><strong>mysql_escape_string()</strong></span> no toma un
+   argumento de conexión y no respeta la configuración del juego de caracteres actual.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-escape-string-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">unescaped_string</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La cadena que va a ser escapada.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-escape-string-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la cadena escapada.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.mysql-escape-string-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Ahora, esta función lanza un aviso E_DEPRECATED.
+       </td>
+      </tr>
+
+      <tr>
+       <td>4.3.0</td>
+       <td>
+        Esta función será eliminada, no la utilice. En su lugar utilice
+        <span class="function"><a href="function.mysql-real-escape-string.html" class="function">mysql_real_escape_string()</a></span>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysql-escape-string-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1797">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysql_escape_string()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$elemento&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"Zak's&nbsp;Laptop"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$elemento_escapado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_escape_string</span><span style="color: #007700">(</span><span style="color: #0000BB">$elemento</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Cadena&nbsp;escapada:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$elemento_escapado</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Cadena escapada: Zak\&#039;s Laptop
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.mysql-escape-string-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    <span class="function"><strong>mysql_escape_string()</strong></span> no escapa los caracteres
+    <em>%</em> y <em>_</em>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-escape-string-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-real-escape-string.html" class="function" rel="rdfs-seeAlso">mysql_real_escape_string()</a> - Escapa caracteres especiales en una cadena para su uso en una sentencia SQL</span></li>
+    <li class="member"><span class="function"><a href="function.addslashes.html" class="function" rel="rdfs-seeAlso">addslashes()</a> - Escapa un string con barras invertidas</span></li>
+    <li class="member">La directiva <a href="info.configuration.html#ini.magic-quotes-gpc" class="link">magic_quotes_gpc</a>.</li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-error.html">mysql_error</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-fetch-array.html">mysql_fetch_array</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

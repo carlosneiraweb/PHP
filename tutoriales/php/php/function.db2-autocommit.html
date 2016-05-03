@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve o establece el estado de AUTOCOMMIT en una conexi&oacute;n de bases de datos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-bind-param.html">db2_bind_param</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.db2-autocommit" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">db2_autocommit</h1>
+  <p class="verinfo">(PECL ibm_db2 &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">db2_autocommit</span> &mdash; <span class="dc-title">
+   Devuelve o establece el estado de AUTOCOMMIT en una conexión de bases de datos
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.db2-autocommit-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>db2_autocommit</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$connection</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$value</code></span>
+  ] )</div>
+
+
+  <p class="para rdfs-comment">
+   Devuelve o establece el comportamiento de AUTOCOMMIT del recurso de conexión especificado.
+  </p>
+
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.db2-autocommit-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">connection</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Variable válida de tipo recurso de conexión a base de datos, devuelta por
+       <span class="function"><a href="function.db2-connect.html" class="function">db2_connect()</a></span> o por <span class="function"><a href="function.db2-pconnect.html" class="function">db2_pconnect()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">value</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Una de las siguientes constantes: 
+       <dl>
+
+        
+         <dt>
+<em>DB2_AUTOCOMMIT_OFF</em></dt>
+
+         <dd>
+
+          <p class="para">
+           Desactiva AUTOCOMMIT.
+          </p>
+         </dd>
+
+        
+        
+         <dt>
+<em>DB2_AUTOCOMMIT_ON</em></dt>
+
+         <dd>
+
+          <p class="para">
+           Activa AUTOCOMMIT.
+          </p>
+         </dd>
+
+        
+       </dl>
+
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.db2-autocommit-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Cuando a <span class="function"><strong>db2_autocommit()</strong></span> sólo se le proporciona el parámetro
+   <code class="parameter">connection</code>, devuelve en forma de integer el valor actual de
+   AUTOCOMMIT para la conexión solicitada. Un valor de 0 indica que AUTOCOMMIT está
+   deshabilitado, mientras que un valor de 1 indica que AUTOCOMMIT está
+   habibilitado.
+  </p>
+  <p class="para">
+   Cuando <span class="function"><strong>db2_autocommit()</strong></span> recibe tanto el parámetro
+   <code class="parameter">connection</code> como
+   <code class="parameter">autocommit</code>, establece el valor correspondiente
+   en el estado de AUTOCOMMIT de la conexión solicitada.
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.db2-autocommit-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1238">
+    <p><strong>Ejemplo #1 Consultando el valor de AUTOCOMMIT de una conexión</strong></p>
+    <div class="example-contents"><p>
+     En el siguiente ejemplo, se comprueba con la función
+     <span class="function"><strong>db2_autocommit()</strong></span> una conexión creada con
+     AUTOCOMMIT deshabilitado.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$options&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'autocommit'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">DB2_AUTOCOMMIT_OFF</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$database</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$user</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$password</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$options</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$ac&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_autocommit</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$ac&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$ac</span><span style="color: #DD0000">&nbsp;--&nbsp;AUTOCOMMIT&nbsp;está&nbsp;a&nbsp;off."</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$ac</span><span style="color: #DD0000">&nbsp;--&nbsp;AUTOCOMMIT&nbsp;está&nbsp;a&nbsp;on."</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+0 -- AUTOCOMMIT está a off.
+</pre></div>
+    </div>
+   </div>
+   <div class="example" id="example-1239">
+    <p><strong>Ejemplo #2 Asignando el valor de AUTOCOMMIT en una conexión</strong></p>
+    <div class="example-contents"><p>
+     En el siguiente ejemplo, sobre una conexión inicialmente creada con
+     AUTOCOMMIT dehasbilitado, se cambia su comportamiento a AUTOCOMMIT on.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$options&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'autocommit'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">DB2_AUTOCOMMIT_OFF</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$database</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$user</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$password</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$options</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Activación&nbsp;de&nbsp;AUTOCOMMIT<br /></span><span style="color: #0000BB">$rc&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_autocommit</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">DB2_AUTOCOMMIT_ON</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$rc</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"Activación&nbsp;de&nbsp;AUTOCOMMIT&nbsp;con&nbsp;éxito.\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Comprobar&nbsp;estado&nbsp;de&nbsp;AUTOCOMMIT<br /></span><span style="color: #0000BB">$ac&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_autocommit</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$ac&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$ac</span><span style="color: #DD0000">&nbsp;--&nbsp;AUTOCOMMIT&nbsp;está&nbsp;a&nbsp;off."</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$ac</span><span style="color: #DD0000">&nbsp;--&nbsp;AUTOCOMMIT&nbsp;está&nbsp;a&nbsp;on."</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Activación de AUTOCOMMIT con éxito.
+1 -- AUTOCOMMIT está a on.
+</pre></div>
+    </div>
+   </div>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.db2-autocommit-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.db2-connect.html" class="function" rel="rdfs-seeAlso">db2_connect()</a> - Devolver una conexi&oacute;n a la base de datos</span></li>
+    <li class="member"><span class="function"><a href="function.db2-pconnect.html" class="function" rel="rdfs-seeAlso">db2_pconnect()</a> - Devolver una conexi&oacute;n persistente a la base de datos</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-bind-param.html">db2_bind_param</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

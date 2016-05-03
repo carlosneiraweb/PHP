@@ -1,0 +1,637 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Formatea una fecha/hora local seg&uacute;n una configuraci&oacute;n local</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mktime.html">mktime</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.strptime.html">strptime</a></div>
+ <div class="up"><a href="ref.datetime.html">Funciones de Fecha/Hora</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.strftime" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">strftime</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">strftime</span> &mdash; <span class="dc-title">Formatea una fecha/hora local según una configuración local</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.strftime-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>strftime</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$format</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$timestamp</code><span class="initializer"> = time()</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Formatea una fecha/hora local según la configuración local. Los nombres del mes y del día
+   de la semana y otras cadenas dependientes del lenguaje respetan el localismo establecido
+   con <span class="function"><a href="function.setlocale.html" class="function">setlocale()</a></span>.
+  </p>
+  <p class="para">
+   No todos los especificadores de conversión pueden estar soportados por su biblioteca C, en cuyo
+   caso no estarán soportados por la función <span class="function"><strong>strftime()</strong></span> de PHP.
+   Además, no todas las plataformas soportan marcas temporales negativas, por lo que el
+   rango de fechas puede estar limitado a fechas que no sean anteriores a la época Unix.
+   Eso significa que %e, %T, %R y, %D (y posiblemente otros), así como las fechas anteriores al
+   <em>1 de enero de 1970</em>, no funcionarán en Windows, en algunas distribucioes de Linux,
+   y en otros pocos sistemas operativos. Para los sistemas Windows, se puede encontrar un resumen
+   de los especificadores de conversión soportados en
+   <a href="http://msdn.microsoft.com/en-us/library/fe06s4ak.aspx" class="link external">&raquo;&nbsp;<acronym title="Microsoft Developer Network">MSDN</acronym></a>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.strftime-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">format</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <table class="doctable table">
+        <caption><strong>Los siguientes caracteres están reconocidos en el
+         parámetro de cadena <code class="parameter">format</code></strong></caption>
+        
+         <thead>
+          <tr>
+           <th><code class="parameter">format</code></th>
+           <th>Descripción</th>
+           <th>Ejemplo de valores devueltos</th>
+          </tr>
+
+         </thead>
+
+         <tbody class="tbody">
+          <tr>
+           <td style="text-align: center;"><em class="emphasis">Día</em></td>
+           <td>---</td>
+           <td>---</td>
+          </tr>
+
+          <tr>
+           <td><em>%a</em></td>
+           <td>Una representación textual abreviada del día</td>
+           <td><em>dom</em> hasta <em>sáb</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%A</em></td>
+           <td>Una representación textual completa del día</td>
+           <td><em>domingo</em> hasta <em>sábado</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%d</em></td>
+           <td>El día del mes con dos dígitos (con ceros iniciales)</td>
+           <td><em>01</em> a <em>31</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%e</em></td>
+           <td>
+            El día del mes, con un espacio precediendo a los dígitos simples. No
+            está implementado como está descrito en Windows. Véase más abajo para más información.
+           </td>
+           <td><em> 1</em> a <em>31</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%j</em></td>
+           <td>Día del año, tres dígitos con ceros iniciales</td>
+           <td><em>001</em> a <em>366</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%u</em></td>
+           <td>Representación numérica del día de la semana del ISO-8601</td>
+           <td><em>1</em> (para lunes) hasta <em>7</em> (para domingo)</td>
+          </tr>
+
+          <tr>
+           <td><em>%w</em></td>
+           <td>Representación numérica del día de la semana</td>
+           <td><em>0</em> (para domingo) hasta <em>6</em> (para sábado)</td>
+          </tr>
+
+          <tr>
+           <td style="text-align: center;"><em class="emphasis">Semana</em></td>
+           <td>---</td>
+           <td>---</td>
+          </tr>
+
+          <tr>
+           <td><em>%U</em></td>
+           <td>Número de semana del año dado, comenzando con el primer
+            domingo como la primera semana</td>
+           <td><em>13</em> (para la 13ª semana completa del año)</td>
+          </tr>
+
+          <tr>
+           <td><em>%V</em></td>
+           <td>Número de semana del año dado del ISO-8601:1988, comenzando con
+            la primera semana del año con al menos 4 días de semana, con el lunes
+            como principio de la semana</td>
+           <td><em>01</em> hasta <em>53</em> (donde 53
+            cuenta para una semana traslapada)</td>
+          </tr>
+
+          <tr>
+           <td><em>%W</em></td>
+           <td>Una representación numérica de la semana del año, comenzando
+            con el primer domingo como la primera semana</td>
+           <td><em>46</em> (para la 46ª semana del año comenzando
+            con un lunes)</td>
+          </tr>
+
+          <tr>
+           <td style="text-align: center;"><em class="emphasis">Mes</em></td>
+           <td>---</td>
+           <td>---</td>
+          </tr>
+
+          <tr>
+           <td><em>%b</em></td>
+           <td>Nombre del mes abreviado, basado en el localismo</td>
+           <td><em>ene</em> hasta <em>dic</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%B</em></td>
+           <td>Nombre del mes completo, basado en el localismo</td>
+           <td><em>enero</em> hasta <em>diciembre</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%h</em></td>
+           <td>Nombre del mes abreviado, basado en el localismo (un alias de %b)</td>
+           <td><em>ene</em> hasta <em>dic</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%m</em></td>
+           <td>Representación de dos dígitos del mes</td>
+           <td><em>01</em> (para enero) hasta <em>12</em> (para diciembre)</td>
+          </tr>
+
+          <tr>
+           <td style="text-align: center;"><em class="emphasis">Año</em></td>
+           <td>---</td>
+           <td>---</td>
+          </tr>
+
+          <tr>
+           <td><em>%C</em></td>
+           <td>Representación de dos dígitos del siglo (año dividido entre 100, truncado a un entero)</td>
+           <td><em>19</em> para el Siglo XX</td>
+          </tr>
+
+          <tr>
+           <td><em>%g</em></td>
+           <td>Representación de dos dígitos del año por el estándar ISO-8601:1988 (véase %V)</td>
+           <td>Ejemplo: <em>09</em> para la semana del 6 de enero de 2009</td>
+          </tr>
+
+          <tr>
+           <td><em>%G</em></td>
+           <td>La versión completa de cuatro dígitos de %g</td>
+           <td>Ejemplo: <em>2008</em> para la semana del 3 de Enero de 2009</td>
+          </tr>
+
+          <tr>
+           <td><em>%y</em></td>
+           <td>Representación de dos dígitos del año</td>
+           <td>Ejemplo: <em>09</em> para 2009, <em>79</em> para 1979</td>
+          </tr>
+
+          <tr>
+           <td><em>%Y</em></td>
+           <td>Representación de cuatro dígitos del año</td>
+           <td>Ejemplo: <em>2038</em></td>
+          </tr>
+
+          <tr>
+           <td style="text-align: center;"><em class="emphasis">Hora</em></td>
+           <td>---</td>
+           <td>---</td>
+          </tr>
+
+          <tr>
+           <td><em>%H</em></td>
+           <td>Representación de dos dígitos de la hora en formato de 24 horas</td>
+           <td><em>00</em> hasta <em>23</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%k</em></td>
+           <td>Representación de dos dígitos de la hora en formato de 24 horas, con
+            un espacio precediendo a los dígitos simples</td>
+           <td><em> 0</em> hasta <em>23</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%I</em></td>
+           <td>Representación de dos dígitos de la hora en formato de 12 horas</td>
+           <td><em>01</em> hasta <em>12</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%l (&#039;L&#039; minúscula)</em></td>
+           <td>La hora en formato de 12 horas, con un espacio precediendo a los dígitos simples</td>
+           <td><em> 1</em> hasta <em>12</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%M</em></td>
+           <td>Representación de dos dígitos de los minutos</td>
+           <td><em>00</em> hasta <em>59</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%p</em></td>
+           <td>&quot;AM&quot; o &quot;PM&quot; en MAYÚSCULAS basados en la hora dada</td>
+           <td>Ejemplo: <em>AM</em> para 00:31, <em>PM</em> para 22:23</td>
+          </tr>
+
+          <tr>
+           <td><em>%P</em></td>
+           <td>&quot;am&quot; o &quot;pm&quot; en minúsculas basados en la hora dada</td>
+           <td>Ejemplo: <em>am</em> para 00:31, <em>pm</em> para 22:23</td>
+          </tr>
+
+          <tr>
+           <td><em>%r</em></td>
+           <td>Lo mismo que &quot;%I:%M:%S %p&quot;</td>
+           <td>Ejemplo: <em>09:34:17 PM</em> para 21:34:17</td>
+          </tr>
+
+          <tr>
+           <td><em>%R</em></td>
+           <td>Lo mismo que &quot;%H:%M&quot;</td>
+           <td>Ejemplo: <em>00:35</em> para 12:35 AM, <em>16:44</em> para 4:44 PM</td>
+          </tr>
+
+          <tr>
+           <td><em>%S</em></td>
+           <td>Representación de dos dígitos de los segundos</td>
+           <td><em>00</em> hasta <em>59</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%T</em></td>
+           <td>Lo mismo que &quot;%H:%M:%S&quot;</td>
+           <td>Ejemplo: <em>21:34:17</em> para 09:34:17 PM</td>
+          </tr>
+
+          <tr>
+           <td><em>%X</em></td>
+           <td>Representación preferida de la hora basda en el localismo, sin la fecha</td>
+           <td>Ejemplo: <em>03:59:16</em> o <em>15:59:16</em></td>
+          </tr>
+
+          <tr>
+           <td><em>%z</em></td>
+           <td>El índice de la zona horaria. No implementado como está descrito en
+            Windows. Véase más abajo para más información.</td>
+           <td>Ejemplo: <em>-0500</em> para Hora del Este de EEUU</td>
+          </tr>
+
+          <tr>
+           <td><em>%Z</em></td>
+           <td>La abreviatura de la zona horaria No implementado como está descrito en
+            Windows. Véase más abajo para más información.</td>
+           <td>Ejemplo: <em>EST</em> para Hora del Este</td>
+          </tr>
+
+          <tr>
+           <td style="text-align: center;"><em class="emphasis">Marcas de fecha y hora</em></td>
+           <td>---</td>
+           <td>---</td>
+          </tr>
+
+          <tr>
+           <td><em>%c</em></td>
+           <td>Marca preferida de la fecha y hora basadas en el localismo</td>
+           <td>Ejemplo: <em>Tue Feb  5 00:45:10 2009</em> para
+            el 5 de febrero de 2009 a las 12:45:10 AM</td>
+          </tr>
+
+          <tr>
+           <td><em>%D</em></td>
+           <td>Lo mismo que &quot;%m/%d/%y&quot;</td>
+           <td>Ejemplo: <em>02/05/09</em> para el 5 de febrero de 2009</td>
+          </tr>
+
+          <tr>
+           <td><em>%F</em></td>
+           <td>Lo mismo que &quot;%Y-%m-%d&quot; (normalmente usado en las marcas de fecha de bases de datos)</td>
+           <td>Ejemplo: <em>2009-02-05</em> para el 5 de febrero de 2009</td>
+          </tr>
+
+          <tr>
+           <td><em>%s</em></td>
+           <td>Marca temporal del instante de la Época Unix (lo mismo que la función
+            <span class="function"><a href="function.time.html" class="function">time()</a></span>)</td>
+           <td>Ejemplo: <em>305815200</em> para el 10 de septiembre de 1979 08:40:00 AM</td>
+          </tr>
+
+          <tr>
+           <td><em>%x</em></td>
+           <td>Representación preferida de la fecha basda en la configuración local, sin la hora</td>
+           <td>Ejemplo: <em>02/05/09</em> para el 5 de febrero de 2009</td>
+          </tr>
+
+          <tr>
+           <td style="text-align: center;"><em class="emphasis">Miscelánea</em></td>
+           <td>---</td>
+           <td>---</td>
+          </tr>
+
+          <tr>
+           <td><em>%n</em></td>
+           <td>Un carácter de nueva línea (&quot;\n&quot;)</td>
+           <td>---</td>
+          </tr>
+
+          <tr>
+           <td><em>%t</em></td>
+           <td>Un carácter de tabulación (&quot;\t&quot;)</td>
+           <td>---</td>
+          </tr>
+
+          <tr>
+           <td><em>%%</em></td>
+           <td>Un carácter de porcentaje literal (&quot;%&quot;)</td>
+           <td>---</td>
+          </tr>
+
+         </tbody>
+        
+       </table>
+
+      </p>
+      <p class="para">
+       La longitud máxima de este parámetro es de 1023 caracteres.
+      </p>
+      <div class="warning"><strong class="warning">Advertencia</strong>
+       <p class="simpara">
+        A diferencia del ISO-9899:1999, Solaris de Sun comienza con el domingo como 1. Como
+        resultado, <em>%u</em> podría no funcionar como está descrito en este
+        manual.
+       </p>
+      </div>
+      <div class="warning"><strong class="warning">Advertencia</strong>
+       <p class="para">
+        <em class="emphasis">Solamente para Windows:</em>
+       </p>
+       <p class="para">
+        El modificador <em>%e</em> no está soportado en la implementación
+        para Windows de esta función. Para obtener este valor se puede usar
+        en su lugar el modificador <em>%#d</em>. El ejemplo de abajo
+        ilustra cómo escribir una función multiplataforma compatible.
+       </p>
+       <p class="para">
+        Los modificadores <em>%z</em> y <em>%Z</em>
+        devuelven el nombre de la zona horaria en lugar del índice o de la abreviatura.
+       </p>
+      </div>
+      <div class="warning"><strong class="warning">Advertencia</strong>
+       <p class="simpara">
+        <em class="emphasis">Solamente para Mac OS X:</em> El modificador <em>%P</em> 
+        no está soportado en la implementación para Mac OS X de esta función.
+       </p>
+      </div>   
+     </dd>
+
+    
+    
+    
+<dt>
+<code class="parameter">timestamp</code></dt>
+<dd>
+<p class="para">
+ El parámetro opcional <code class="parameter">timestamp</code> es una marca temporal de Unix de tipo
+ <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span> que por defecto es la hora local si no se proporciona 
+ ningún valor a <code class="parameter">timestamp</code>. En otras palabras, 
+ es de forma predeterminada el valor de la función <span class="function"><a href="function.time.html" class="function">time()</a></span>.
+ </p></dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.strftime-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve una cadena formateada según <code class="parameter">format</code>
+   empleando el parámetro <code class="parameter">timestamp</code> dado o el instante
+   local actual si no se da una marca temporal. Los nombres del mes y del día de la semana y
+   otras cadenas dependientes del lenguaje respetan el localismo establecido
+   con <span class="function"><a href="function.setlocale.html" class="function">setlocale()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.strftime-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+Cada vez que se llame a una función de fecha/hora se generará un <strong><code>E_NOTICE</code></strong>
+si la zona horaria no es válida, y/o un mensaje <strong><code>E_STRICT</code></strong>
+o <strong><code>E_WARNING</code></strong>
+si se emplea la configuración del sistema o la variable global
+<var class="varname"><var class="varname">TZ</var></var>. Véase también <span class="function"><a href="function.date-default-timezone-set.html" class="function">date_default_timezone_set()</a></span></p>
+  <p class="para">
+   Ya que la salida depende de la biblioteca C subyacente, algunos especificadores
+   de conversión no están soportados. En Windows, proporcionar especificadores de
+   conversión desconocidos resultará en 5 mensajes <strong><code>E_WARNING</code></strong> y
+   devolverá <strong><code>FALSE</code></strong>. En otros sistemas operativos podría no obtenerse ningún
+   mensaje <strong><code>E_WARNING</code></strong> y la salida podría contener los
+   especificadores de conversión no convertidos.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.strftime-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      
+      <tr><td>5.1.0</td><td><p class="para">
+Ahora muestra un error <strong><code>E_STRICT</code></strong> y <strong><code>E_NOTICE</code></strong>
+cuando ocurren errores con zonas horarias.</p></td></tr>
+
+      
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.strftime-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   Este ejemplo funcionará si se tienen instalados los localismos respectivos
+   en el sistema.
+   <div class="example" id="example-2554">
+    <p><strong>Ejemplo #1 Ejemplos de localismos con <span class="function"><strong>strftime()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />setlocale</span><span style="color: #007700">(</span><span style="color: #0000BB">LC_TIME</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"C"</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%A"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">setlocale</span><span style="color: #007700">(</span><span style="color: #0000BB">LC_TIME</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"fi_FI"</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"&nbsp;en&nbsp;finlandés&nbsp;es&nbsp;%A,"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">setlocale</span><span style="color: #007700">(</span><span style="color: #0000BB">LC_TIME</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"fr_FR"</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"&nbsp;en&nbsp;francés&nbsp;%A&nbsp;y"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">setlocale</span><span style="color: #007700">(</span><span style="color: #0000BB">LC_TIME</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"de_DE"</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"&nbsp;en&nbsp;alemán&nbsp;%A.\n"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2555">
+    <p><strong>Ejemplo #2 Ejemplo de número de semana del ISO 8601:1988</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diciembre&nbsp;2002&nbsp;/&nbsp;Enero&nbsp;2003<br />SemISO&nbsp;L&nbsp;&nbsp;&nbsp;M&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;J&nbsp;&nbsp;&nbsp;V&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;&nbsp;D<br />------&nbsp;----------------------------<br />51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16&nbsp;&nbsp;17&nbsp;&nbsp;18&nbsp;&nbsp;19&nbsp;&nbsp;20&nbsp;&nbsp;21&nbsp;&nbsp;22<br />52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;24&nbsp;&nbsp;25&nbsp;&nbsp;26&nbsp;&nbsp;27&nbsp;&nbsp;28&nbsp;&nbsp;29<br />1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;31&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;5<br />2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;10&nbsp;&nbsp;11&nbsp;&nbsp;12<br />3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13&nbsp;&nbsp;14&nbsp;&nbsp;15&nbsp;&nbsp;16&nbsp;&nbsp;17&nbsp;&nbsp;18&nbsp;&nbsp;19&nbsp;&nbsp;&nbsp;*/<br /><br />//&nbsp;Muestra:&nbsp;12/28/2002&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;52,2002,2002<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"12/28/2002&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%V,%G,%Y"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"12/28/2002"</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Muestra:&nbsp;12/30/2002&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;1,2003,2002<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"12/30/2002&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%V,%G,%Y"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"12/30/2002"</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Muestra:&nbsp;1/3/2003&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;1,2003,2003<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"1/3/2003&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%V,%G,%Y"</span><span style="color: #007700">,</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"1/3/2003"</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Muestra:&nbsp;1/10/2003&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;2,2003,2003<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"1/10/2003&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%V,%G,%Y"</span><span style="color: #007700">,</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"1/10/2003"</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /><br /><br /></span><span style="color: #FF8000">/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diciembre&nbsp;2004&nbsp;/&nbsp;Enero&nbsp;2005<br />SemISO&nbsp;L&nbsp;&nbsp;&nbsp;M&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;J&nbsp;&nbsp;&nbsp;V&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;&nbsp;D<br />------&nbsp;----------------------------<br />51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13&nbsp;&nbsp;14&nbsp;&nbsp;15&nbsp;&nbsp;16&nbsp;&nbsp;17&nbsp;&nbsp;18&nbsp;&nbsp;19<br />52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;21&nbsp;&nbsp;22&nbsp;&nbsp;23&nbsp;&nbsp;24&nbsp;&nbsp;25&nbsp;&nbsp;26<br />53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;27&nbsp;&nbsp;28&nbsp;&nbsp;29&nbsp;&nbsp;30&nbsp;&nbsp;31&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;2<br />1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;9<br />2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;11&nbsp;&nbsp;12&nbsp;&nbsp;13&nbsp;&nbsp;14&nbsp;&nbsp;15&nbsp;&nbsp;16&nbsp;&nbsp;&nbsp;*/<br /><br />//&nbsp;Muestra:&nbsp;12/23/2004&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;52,2004,2004<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"12/23/2004&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%V,%G,%Y"</span><span style="color: #007700">,</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"12/23/2004"</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Muestra:&nbsp;12/31/2004&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;53,2004,2004<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"12/31/2004&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%V,%G,%Y"</span><span style="color: #007700">,</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"12/31/2004"</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Muestra:&nbsp;1/2/2005&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;53,2004,2005<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"1/2/2005&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%V,%G,%Y"</span><span style="color: #007700">,</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"1/2/2005"</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Muestra:&nbsp;1/3/2005&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;1,2005,2005<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"1/3/2005&nbsp;-&nbsp;%V,%G,%Y&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%V,%G,%Y"</span><span style="color: #007700">,</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"1/3/2005"</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2556">
+    <p><strong>Ejemplo #3 Ejemplo multiplataforma compatible del modificador <em>%e</em></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Jan&nbsp;1:&nbsp;resulta&nbsp;en:&nbsp;'%e%1%'&nbsp;(%%,&nbsp;e,&nbsp;%%,&nbsp;%e,&nbsp;%%)<br /></span><span style="color: #0000BB">$formato&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'%%e%%%e%%'</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Comprobación&nbsp;para&nbsp;Windows&nbsp;para&nbsp;hallar&nbsp;y&nbsp;remplazar&nbsp;el&nbsp;<br />//&nbsp;modificador&nbsp;%e&nbsp;adecuadamente<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">strtoupper</span><span style="color: #007700">(</span><span style="color: #0000BB">substr</span><span style="color: #007700">(</span><span style="color: #0000BB">PHP_OS</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">))&nbsp;==&nbsp;</span><span style="color: #DD0000">'WIN'</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$formato&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">preg_replace</span><span style="color: #007700">(</span><span style="color: #DD0000">'#(?&lt;!%)((?:%%)*)%e#'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'\1%#d'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$formato</span><span style="color: #007700">);<br />}<br /><br />echo&nbsp;</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #0000BB">$formato</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2557">
+    <p><strong>Ejemplo #4 Mostrar todos los formatos conocidos y desconocidos.</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Describir&nbsp;los&nbsp;formatos.<br /></span><span style="color: #0000BB">$formatos_strftime&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'A'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Una&nbsp;representación&nbsp;textual&nbsp;completa&nbsp;del&nbsp;día'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'B'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Nombre&nbsp;del&nbsp;mes&nbsp;completo,&nbsp;basado&nbsp;en&nbsp;el&nbsp;localismo'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'C'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;de&nbsp;dos&nbsp;dígitos&nbsp;del&nbsp;siglo&nbsp;(año&nbsp;dividido&nbsp;entre&nbsp;100,&nbsp;truncado&nbsp;a&nbsp;un&nbsp;entero)'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'D'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Lo&nbsp;mismo&nbsp;que&nbsp;"%m/%d/%y"'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'E'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'F'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Lo&nbsp;mismo&nbsp;que&nbsp;"%Y-%m-%d"'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'G'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'La&nbsp;versión&nbsp;completa&nbsp;de&nbsp;cuatro&nbsp;dígitos&nbsp;de&nbsp;%g'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'H'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;de&nbsp;dos&nbsp;dígitos&nbsp;de&nbsp;la&nbsp;hora&nbsp;en&nbsp;formato&nbsp;de&nbsp;24&nbsp;horas'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'I'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;de&nbsp;dos&nbsp;dígitos&nbsp;de&nbsp;la&nbsp;hora&nbsp;en&nbsp;formato&nbsp;de&nbsp;12&nbsp;horas'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'J'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'K'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'L'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'M'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;de&nbsp;dos&nbsp;dígitos&nbsp;de&nbsp;los&nbsp;minutos'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'N'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'O'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'P'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'"am"&nbsp;o&nbsp;"pm"&nbsp;en&nbsp;minúsculas&nbsp;basados&nbsp;en&nbsp;la&nbsp;hora&nbsp;dada'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'Q'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'R'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Lo&nbsp;mismo&nbsp;que&nbsp;"%H:%M"'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'S'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;de&nbsp;dos&nbsp;dígitos&nbsp;de&nbsp;los&nbsp;segundos'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'T'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Lo&nbsp;mismo&nbsp;que&nbsp;"%H:%M:%S"'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'U'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Número&nbsp;de&nbsp;semana&nbsp;del&nbsp;año&nbsp;dado,&nbsp;comenzando&nbsp;con&nbsp;el&nbsp;primer&nbsp;domingo&nbsp;como&nbsp;la&nbsp;primera&nbsp;semana'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'V'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Número&nbsp;de&nbsp;semana&nbsp;del&nbsp;año&nbsp;dado&nbsp;del&nbsp;ISO-8601:1988,&nbsp;comenzando&nbsp;con&nbsp;la&nbsp;primera&nbsp;semana&nbsp;del&nbsp;año&nbsp;con&nbsp;al&nbsp;menos&nbsp;4&nbsp;días&nbsp;de&nbsp;semana,&nbsp;con&nbsp;el&nbsp;lunes&nbsp;como&nbsp;principio&nbsp;de&nbsp;la&nbsp;semana'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'W'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Una&nbsp;representación&nbsp;numérica&nbsp;de&nbsp;la&nbsp;semana&nbsp;del&nbsp;año,&nbsp;comenzando&nbsp;con&nbsp;el&nbsp;primer&nbsp;domingo&nbsp;como&nbsp;la&nbsp;primera&nbsp;semana'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'X'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;preferida&nbsp;de&nbsp;la&nbsp;hora&nbsp;basda&nbsp;en&nbsp;el&nbsp;localismo,&nbsp;sin&nbsp;la&nbsp;fecha'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'Y'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;de&nbsp;cuatro&nbsp;dígitos&nbsp;del&nbsp;año'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'Z'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'La&nbsp;opción&nbsp;de&nbsp;índice/abreviatura&nbsp;de&nbsp;la&nbsp;zona&nbsp;horaria&nbsp;NO&nbsp;dada&nbsp;por&nbsp;%z&nbsp;(depende&nbsp;del&nbsp;sistema&nbsp;operativo)'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'a'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Una&nbsp;representación&nbsp;textual&nbsp;abreviada&nbsp;del&nbsp;día'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'b'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Nombre&nbsp;del&nbsp;mes&nbsp;abreviado,&nbsp;basado&nbsp;en&nbsp;el&nbsp;localismo'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'c'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Marca&nbsp;preferida&nbsp;de&nbsp;la&nbsp;fecha&nbsp;y&nbsp;hora&nbsp;basadas&nbsp;en&nbsp;el&nbsp;localismo'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'d'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'El&nbsp;día&nbsp;del&nbsp;mes&nbsp;con&nbsp;dos&nbsp;dígitos&nbsp;(con&nbsp;ceros&nbsp;iniciales)'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'e'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'El&nbsp;día&nbsp;del&nbsp;mes,&nbsp;con&nbsp;un&nbsp;espacio&nbsp;precediendo&nbsp;a&nbsp;los&nbsp;dígitos&nbsp;simples'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'f'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'g'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;de&nbsp;dos&nbsp;dígitos&nbsp;del&nbsp;año&nbsp;por&nbsp;el&nbsp;estándar&nbsp;ISO-8601:1988&nbsp;(véase&nbsp;%V)'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'h'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Nombre&nbsp;del&nbsp;mes&nbsp;abreviado,&nbsp;basado&nbsp;en&nbsp;el&nbsp;localismo&nbsp;(un&nbsp;alias&nbsp;de&nbsp;%b)'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'i'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'j'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Día&nbsp;del&nbsp;año,&nbsp;tres&nbsp;dígitos&nbsp;con&nbsp;ceros&nbsp;iniciales'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'k'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'La&nbsp;hora&nbsp;en&nbsp;formato&nbsp;de&nbsp;24&nbsp;horas,&nbsp;con&nbsp;un&nbsp;espacio&nbsp;precediendo&nbsp;a&nbsp;los&nbsp;dígitos&nbsp;simples'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'l'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'La&nbsp;hora&nbsp;en&nbsp;formato&nbsp;de&nbsp;12&nbsp;horas,&nbsp;con&nbsp;un&nbsp;espacio&nbsp;precediendo&nbsp;a&nbsp;los&nbsp;dígitos&nbsp;simples'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'m'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;de&nbsp;dos&nbsp;dígitos&nbsp;del&nbsp;mes'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'n'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Un&nbsp;carácter&nbsp;de&nbsp;nueva&nbsp;línea&nbsp;("\n")'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'o'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'p'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'"AM"&nbsp;o&nbsp;"PM"&nbsp;en&nbsp;MAYÚSCULAS&nbsp;basados&nbsp;en&nbsp;la&nbsp;hora&nbsp;dada'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'q'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'r'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Lo&nbsp;mismo&nbsp;que&nbsp;"%I:%M:%S&nbsp;%p"'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'s'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Marca&nbsp;temporal&nbsp;del&nbsp;instante&nbsp;de&nbsp;la&nbsp;Época&nbsp;Unix'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'t'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Un&nbsp;carácter&nbsp;de&nbsp;tabulación&nbsp;("\t")'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'u'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;numérica&nbsp;del&nbsp;día&nbsp;de&nbsp;la&nbsp;semana&nbsp;del&nbsp;ISO-8601'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'v'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'w'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;numérica&nbsp;del&nbsp;día&nbsp;de&nbsp;la&nbsp;semana'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'x'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;preferida&nbsp;de&nbsp;la&nbsp;fecha&nbsp;basda&nbsp;en&nbsp;la&nbsp;configuración&nbsp;local,&nbsp;sin&nbsp;la&nbsp;hora'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'y'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Representación&nbsp;de&nbsp;dos&nbsp;dígitos&nbsp;del&nbsp;año'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'z'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'El&nbsp;índice&nbsp;de&nbsp;la&nbsp;zona&nbsp;horaria&nbsp;UTC&nbsp;o&nbsp;la&nbsp;abreviatura&nbsp;(depende&nbsp;del&nbsp;sistema&nbsp;operativo)'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'%'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Un&nbsp;carácter&nbsp;de&nbsp;porcentaje&nbsp;literal&nbsp;("%")'</span><span style="color: #007700">,<br />);<br /><br /></span><span style="color: #FF8000">//&nbsp;Resultados.<br /></span><span style="color: #0000BB">$valores_strftime&nbsp;</span><span style="color: #007700">=&nbsp;array();<br /><br /></span><span style="color: #FF8000">//&nbsp;Evaluar&nbsp;los&nbsp;formatos,&nbsp;mientras&nbsp;suprime&nbsp;cualquier&nbsp;error.<br /></span><span style="color: #007700">foreach(</span><span style="color: #0000BB">$formatos_strftime&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$formato&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$descripción</span><span style="color: #007700">){<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">False&nbsp;</span><span style="color: #007700">!==&nbsp;(</span><span style="color: #0000BB">$valor&nbsp;</span><span style="color: #007700">=&nbsp;@</span><span style="color: #0000BB">strftime</span><span style="color: #007700">(</span><span style="color: #DD0000">"%</span><span style="color: #007700">{</span><span style="color: #0000BB">$formato</span><span style="color: #007700">}</span><span style="color: #DD0000">"</span><span style="color: #007700">))){<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$valores_strftime</span><span style="color: #007700">[</span><span style="color: #0000BB">$formato</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">$valor</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Encontrar&nbsp;el&nbsp;valor&nbsp;más&nbsp;largo.<br /></span><span style="color: #0000BB">$longitudValorMáx&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">max</span><span style="color: #007700">(</span><span style="color: #0000BB">array_map</span><span style="color: #007700">(</span><span style="color: #DD0000">'strlen'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$valores_strftime</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Notificar&nbsp;los&nbsp;formatos&nbsp;conocidos.<br /></span><span style="color: #007700">foreach(</span><span style="color: #0000BB">$valores_strftime&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$formato&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$valor</span><span style="color: #007700">){<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Formato&nbsp;conocido&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;'</span><span style="color: #007700">{</span><span style="color: #0000BB">$formato</span><span style="color: #007700">}</span><span style="color: #DD0000">'&nbsp;=&nbsp;"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">str_pad</span><span style="color: #007700">(</span><span style="color: #DD0000">"'</span><span style="color: #007700">{</span><span style="color: #0000BB">$valor</span><span style="color: #007700">}</span><span style="color: #DD0000">'"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$longitudValorMáx</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">"&nbsp;(&nbsp;</span><span style="color: #007700">{</span><span style="color: #0000BB">$formatos_strftime</span><span style="color: #007700">[</span><span style="color: #0000BB">$formato</span><span style="color: #007700">]}</span><span style="color: #DD0000">&nbsp;)\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Notificar&nbsp;los&nbsp;formatos&nbsp;desconocidos.<br /></span><span style="color: #007700">foreach(</span><span style="color: #0000BB">array_diff_key</span><span style="color: #007700">(</span><span style="color: #0000BB">$formatos_strftime</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$valores_strftime</span><span style="color: #007700">)&nbsp;as&nbsp;</span><span style="color: #0000BB">$formato&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$descripción</span><span style="color: #007700">){<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Formato&nbsp;desconocido&nbsp;:&nbsp;'</span><span style="color: #007700">{</span><span style="color: #0000BB">$formato</span><span style="color: #007700">}</span><span style="color: #DD0000">'&nbsp;&nbsp;&nbsp;"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">str_pad</span><span style="color: #007700">(</span><span style="color: #DD0000">'&nbsp;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$longitudValorMáx</span><span style="color: #007700">),&nbsp;(</span><span style="color: #0000BB">$descripción&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #DD0000">"&nbsp;(&nbsp;</span><span style="color: #007700">{</span><span style="color: #0000BB">$descripción</span><span style="color: #007700">}</span><span style="color: #DD0000">&nbsp;)"&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Formato conocido    : &#039;A&#039; = &#039;Friday&#039;            ( Una representación textual completa del día )
+Formato conocido    : &#039;B&#039; = &#039;December&#039;          ( Nombre del mes completo, basado en el localismo )
+Formato conocido    : &#039;H&#039; = &#039;11&#039;                ( Representación de dos dígitos de la hora en formato de 24 horas )
+Formato conocido    : &#039;I&#039; = &#039;11&#039;                ( Representación de dos dígitos de la hora en formato de 12 horas )
+Formato conocido    : &#039;M&#039; = &#039;24&#039;                ( Representación de dos dígitos de los minutos )
+Formato conocido    : &#039;S&#039; = &#039;44&#039;                ( Representación de dos dígitos de los segundos )
+Formato conocido    : &#039;U&#039; = &#039;48&#039;                ( Número de semana del año dado, comenzando con el primer domingo como la primera semana )
+Formato conocido    : &#039;W&#039; = &#039;48&#039;                ( Una representación numérica de la semana del año, comenzando con el primer domingo como la primera semana )
+Formato conocido    : &#039;X&#039; = &#039;11:24:44&#039;          ( Representación preferida de la hora basda en el localismo, sin la fecha )
+Formato conocido    : &#039;Y&#039; = &#039;2010&#039;              ( Representación de cuatro dígitos del año )
+Formato conocido    : &#039;Z&#039; = &#039;GMT Standard Time&#039; ( La opción de índice/abreviatura de la zona horaria NO dada por %z (depende del sistema operativo) )
+Formato conocido    : &#039;a&#039; = &#039;Fri&#039;               ( Una representación textual abreviada del día )
+Formato conocido    : &#039;b&#039; = &#039;Dec&#039;               ( Nombre del mes abreviado, basado en el localismo )
+Formato conocido    : &#039;c&#039; = &#039;12/03/10 11:24:44&#039; ( Marca preferida de la fecha y hora basadas en el localismo )
+Formato conocido    : &#039;d&#039; = &#039;03&#039;                ( El día del mes con dos dígitos (con ceros iniciales) )
+Formato conocido    : &#039;j&#039; = &#039;337&#039;               ( Día del año, tres dígitos con ceros iniciales )
+Formato conocido    : &#039;m&#039; = &#039;12&#039;                ( Representación de dos dígitos del mes )
+Formato conocido    : &#039;p&#039; = &#039;AM&#039;                ( &quot;AM&quot; o &quot;PM&quot; en MAYÚSCULAS basados en la hora dada )
+Formato conocido    : &#039;w&#039; = &#039;5&#039;                 ( Representación numérica del día de la semana )
+Formato conocido    : &#039;x&#039; = &#039;12/03/10&#039;          ( Representación preferida de la fecha basda en la configuración local, sin la hora )
+Formato conocido    : &#039;y&#039; = &#039;10&#039;                ( Representación de dos dígitos del año )
+Formato conocido    : &#039;z&#039; = &#039;GMT Standard Time&#039; ( El índice de la zona horaria UTC o la abreviatura (depende del sistema operativo) )
+Formato conocido    : &#039;%&#039; = &#039;%&#039;                 ( Un carácter de porcentaje literal (&quot;%&quot;) )
+Formato desconocido : &#039;C&#039;                       ( Representación de dos dígitos del siglo (año dividido entre 100, truncado a un entero) )
+Formato desconocido : &#039;D&#039;                       ( Lo mismo que &quot;%m/%d/%y&quot; )
+Formato desconocido : &#039;E&#039;
+Formato desconocido : &#039;F&#039;                       ( Lo mismo que &quot;%Y-%m-%d&quot; )
+Formato desconocido : &#039;G&#039;                       ( La versión completa de cuatro dígitos de %g )
+Formato desconocido : &#039;J&#039;
+Formato desconocido : &#039;K&#039;
+Formato desconocido : &#039;L&#039;
+Formato desconocido : &#039;N&#039;
+Formato desconocido : &#039;O&#039;
+Formato desconocido : &#039;P&#039;                       ( &quot;am&quot; o &quot;pm&quot; en minúsculas basados en la hora dada )
+Formato desconocido : &#039;Q&#039;
+Formato desconocido : &#039;R&#039;                       ( Lo mismo que &quot;%H:%M&quot; )
+Formato desconocido : &#039;T&#039;                       ( Lo mismo que &quot;%H:%M:%S&quot; )
+Formato desconocido : &#039;V&#039;                       ( Número de semana del año dado del ISO-8601:1988, comenzando con la primera semana del año con al menos 4 días de semana, con el lunes como principio de la semana )
+Formato desconocido : &#039;e&#039;                       ( El día del mes, con un espacio precediendo a los dígitos simples )
+Formato desconocido : &#039;f&#039;
+Formato desconocido : &#039;g&#039;                       ( Representación de dos dígitos del año por el estándar ISO-8601:1988 (véase %V) )
+Formato desconocido : &#039;h&#039;                       ( Nombre del mes abreviado, basado en el localismo (un alias de %b) )
+Formato desconocido : &#039;i&#039;
+Formato desconocido : &#039;k&#039;                       ( La hora en formato de 24 horas, con un espacio precediendo a los dígitos simples )
+Formato desconocido : &#039;l&#039;                       ( La hora en formato de 12 horas, con un espacio precediendo a los dígitos simples )
+Formato desconocido : &#039;n&#039;                       ( Un carácter de nueva línea (&quot;\n&quot;) )
+Formato desconocido : &#039;o&#039;
+Formato desconocido : &#039;q&#039;
+Formato desconocido : &#039;r&#039;                       ( Lo mismo que &quot;%I:%M:%S %p&quot; )
+Formato desconocido : &#039;s&#039;                       ( Marca temporal del instante de la Época Unix )
+Formato desconocido : &#039;t&#039;                       ( Un carácter de tabulación (&quot;\t&quot;) )
+Formato desconocido : &#039;u&#039;                       ( Representación numérica del día de la semana del ISO-8601 )
+Formato desconocido : &#039;v&#039;
+</pre></div>
+    </div>
+   </div>
+  </p>  
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.strftime-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    %G y %V, los cuales están basados en el número de semana del ISO 8601:1988, pueden
+    dar resultados inesperados (aunque correctos) si el sistema numérico
+    no se entendió perfectamente. Véanse los ejemplos de %V en esta página del manual.
+   </span>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.strftime-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><a href="http://strftime.net/" class="link external">&raquo;&nbsp;Herramienta de diseño del formato de strftime() en línea</a></li>
+    <li class="member"><span class="function"><a href="function.setlocale.html" class="function" rel="rdfs-seeAlso">setlocale()</a> - Establecer la informaci&oacute;n del localismo</span></li>
+    <li class="member"><span class="function"><a href="function.mktime.html" class="function" rel="rdfs-seeAlso">mktime()</a> - Obtener la marca de tiempo Unix de una fecha</span></li>
+    <li class="member"><span class="function"><a href="function.strptime.html" class="function" rel="rdfs-seeAlso">strptime()</a> - Analiza una fecha/hora generada con strftime</span></li>
+    <li class="member"><span class="function"><a href="function.gmstrftime.html" class="function" rel="rdfs-seeAlso">gmstrftime()</a> - Formatear una fecha/hora GMT/UTC seg&uacute;n la configuraci&oacute;n local</span></li>
+    <li class="member"><a href="http://www.opengroup.org/onlinepubs/007908799/xsh/strftime.html" class="link external">&raquo;&nbsp;Especificación de <span class="function"><strong>strftime()</strong></span> del Open Group</a></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mktime.html">mktime</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.strptime.html">strptime</a></div>
+ <div class="up"><a href="ref.datetime.html">Funciones de Fecha/Hora</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

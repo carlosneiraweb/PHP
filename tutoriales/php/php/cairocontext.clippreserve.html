@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establce una nueva regi&oacute;n de recorte desde el recorte actual</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="cairocontext.clipextents.html">CairoContext::clipExtents</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="cairocontext.cliprectanglelist.html">CairoContext::clipRectangleList</a></div>
+ <div class="up"><a href="class.cairocontext.html">CairoContext</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="cairocontext.clippreserve" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">CairoContext::clipPreserve</h1>
+  <h1 class="refname">cairo_clip_preserve</h1>
+  <p class="verinfo">(PECL cairo &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">CairoContext::clipPreserve</span> -- <span class="refname">cairo_clip_preserve</span> &mdash; <span class="dc-title">Establce una nueva región de recorte desde el recorte actual</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-cairocontext.clippreserve-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo orientado a objetos (método):</p>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>CairoContext::clipPreserve</strong></span>
+     ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">Estilo por procedimientos:</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>cairo_clip_preserve</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.cairocontext.html" class="type CairoContext">CairoContext</a></span> <code class="parameter">$context</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Establece una nueva región de recorte intersectando la región de recorte actual con el trazado actual como
+   si fuese rellenada por <span class="methodname"><strong>Context.fill()</strong></span> y según la acutual
+   FILL RULE (véase <span class="methodname"><a href="cairocontext.setfillrule.html" class="methodname">CairoContext::setFillRule()</a></span> o
+   <span class="function"><a href="cairocontext.setfillrule.html" class="function">cairo_set_fill_rule()</a></span>).
+  </p>
+  <p class="para">
+   A diferencia de <span class="methodname"><a href="cairocontext.clip.html" class="methodname">CairoContext::clip()</a></span>, <span class="methodname"><strong>CairoContext::clipPreserve()</strong></span>
+   preserva el trazado dentro de Context.
+   La región de recorte actual afecta a todas las operaciones de dibujo enmascarando cualquier cambio
+   hecho a la superficie que esté fuera de la región de recorte actual.
+  </p>
+  <p class="para">
+   Llamar a <span class="methodname"><strong>CairoContext::clipPreserve()</strong></span> sólo puede hacer la región de recorte más pequeña,
+   nunca más grande. Pero el recorte actual es parte del estado de gráficos, por lo que se puede llevar a cabo una
+   restricción temporal de la región de recorte llamando a <span class="methodname"><strong>CairoContext::clipPreserve()</strong></span> dentro de una
+   pareja <span class="methodname"><a href="cairocontext.save.html" class="methodname">CairoContext::save()</a></span>/<span class="methodname"><a href="cairocontext.restore.html" class="methodname">CairoContext::restore()</a></span>.
+   El otro medio para incrementar el tamaño de la región de recorte es <span class="methodname"><a href="cairocontext.resetclip.html" class="methodname">CairoContext::resetClip()</a></span>.
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-cairocontext.clippreserve-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">context</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un objeto CairoContext válido
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-cairocontext.clippreserve-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-cairocontext.clippreserve-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3153">
+    <p><strong>Ejemplo #1 Estilo orientado a objetos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$superficie&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">CairoImageSurface</span><span style="color: #007700">(</span><span style="color: #0000BB">CairoFormat</span><span style="color: #007700">::</span><span style="color: #0000BB">ARGB32</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$contexto&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">CairoContext</span><span style="color: #007700">(</span><span style="color: #0000BB">$superficie</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$contexto</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">clipPreserve</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-3154">
+    <p><strong>Ejemplo #2 Estilo por procedimientos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$superficie&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cairo_image_surface_create</span><span style="color: #007700">(</span><span style="color: #0000BB">CAIRO_FORMAT_ARGB32</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$contexto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cairo_create</span><span style="color: #007700">(</span><span style="color: #0000BB">$superficie</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">cairo_clip_preserve</span><span style="color: #007700">(</span><span style="color: #0000BB">$contexto</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-cairocontext.clippreserve-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="cairocontext.save.html" class="methodname" rel="rdfs-seeAlso">CairoContext::save()</a> - El prop&oacute;sito de save</span></li>
+    <li class="member"><span class="methodname"><a href="cairocontext.restore.html" class="methodname" rel="rdfs-seeAlso">CairoContext::restore()</a> - El prop&oacute;sito de restore</span></li>
+    <li class="member"><span class="methodname"><a href="cairocontext.resetclip.html" class="methodname" rel="rdfs-seeAlso">CairoContext::resetClip()</a> - El prop&oacute;sito de resetClip</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="cairocontext.clipextents.html">CairoContext::clipExtents</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="cairocontext.cliprectanglelist.html">CairoContext::clipRectangleList</a></div>
+ <div class="up"><a href="class.cairocontext.html">CairoContext</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

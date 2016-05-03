@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecuta el comando y reinicia el cursor al comienzo del conjunto de resultados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongocommandcursor.next.html">MongoCommandCursor::next</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongocommandcursor.setreadpreference.html">MongoCommandCursor::setReadPreference</a></div>
+ <div class="up"><a href="class.mongocommandcursor.html">MongoCommandCursor</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongocommandcursor.rewind" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">MongoCommandCursor::rewind</h1>
+  <p class="verinfo">(PECL mongo &gt;=1.5.0)</p><p class="refpurpose"><span class="refname">MongoCommandCursor::rewind</span> &mdash; <span class="dc-title">Ejecuta el comando y reinicia el cursor al comienzo del conjunto de resultados</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-mongocommandcursor.rewind-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">array</span> <span class="methodname"><strong>MongoCommandCursor::rewind</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Si el cursor ya a empezado a iterar, el comando será reejecutado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-mongocommandcursor.rewind-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">Esta función no tiene parámetros.</p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-mongocommandcursor.rewind-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El documento resultante sin tratar.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-mongocommandcursor.rewind-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Lanza una <a href="class.mongoconnectionexception.html" class="classname">MongoConnectionException</a> si no puede conectar a la
+   base de datos, y una <a href="class.mongocursortimeoutexception.html" class="classname">MongoCursorTimeoutException</a> si se
+   excede el tiempo de espera.
+  </p>
+  <p class="para">
+   Lanza una <a href="class.mongocursorexception.html" class="classname">MongoCursorException</a> si el cursor se creó
+   con <span class="function"><a href="mongocommandcursor.createfromdocument.html" class="function">MongoCommandCursor::createFromDocument()</a></span> y ya se ha
+   iniciado la iteración. Tales cursores no se pueden iterar varias veces, ya que
+   carecen del comando original necesario para la reejecución.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-mongocommandcursor.rewind-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1615">
+   <p><strong>Ejemplo #1 <span class="function"><strong>MongoCommandCursor::rewind()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$rawResult&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$commandCursor</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">rewind</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;El&nbsp;cursor&nbsp;del&nbsp;comando&nbsp;ahora&nbsp;se&nbsp;reinicia&nbsp;al&nbsp;principio&nbsp;del&nbsp;conjunto&nbsp;de&nbsp;resultados<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$rawResult</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [&quot;cursor&quot;]=&gt;
+  array(3) {
+    [&quot;id&quot;]=&gt;
+    object(MongoInt64)#5 (1) {
+      [&quot;value&quot;]=&gt;
+      string(12) &quot;310050110216&quot;
+    }
+    [&quot;ns&quot;]=&gt;
+    string(9) &quot;demo.test&quot;
+    [&quot;firstBatch&quot;]=&gt;
+    array(1) {
+      [0]=&gt;
+      array(2) {
+        [&quot;_id&quot;]=&gt;
+        object(MongoId)#6 (1) {
+          [&quot;$id&quot;]=&gt;
+          string(24) &quot;52f5691544670a8077b0dc51&quot;
+        }
+        [&quot;value&quot;]=&gt;
+        string(2) &quot;42&quot;
+      }
+    }
+  }
+  [&quot;ok&quot;]=&gt;
+  float(1)
+}
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-mongocommandcursor.rewind-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member"><span class="methodname"><a href="iterator.rewind.html" class="methodname" rel="rdfs-seeAlso">Iterator::rewind()</a> - Rebobine la Iterator al primer elemento</span></li>
+  </ul>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongocommandcursor.next.html">MongoCommandCursor::next</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongocommandcursor.setreadpreference.html">MongoCommandCursor::setReadPreference</a></div>
+ <div class="up"><a href="class.mongocommandcursor.html">MongoCommandCursor</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

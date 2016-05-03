@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Indica de lo que es capaz el navegador del usuario</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.exit.html">exit</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.halt-compiler.html">__halt_compiler</a></div>
+ <div class="up"><a href="ref.misc.html">Funciones Varias</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.get-browser" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">get_browser</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">get_browser</span> &mdash; <span class="dc-title">Indica de lo que es capaz el navegador del usuario</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.get-browser-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>get_browser</strong></span>
+    ([ <span class="methodparam"><span class="type">string</span> <code class="parameter">$user_agent</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$return_array</code><span class="initializer"> = false</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Intenta determinar las capacidades del navegador de usuario, buscando
+   la información del navegador en el archivo
+   <var class="filename">browscap.ini</var>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.get-browser-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">user_agent</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El Agente de Usuario a ser analizado. Por defecto, se usa el valor de la cabecera
+       HTTP del Agente de Usuario; sin embargo, se puede modificar esto (es decir, buscar
+       otra información del navegador) pasando este parámetro.
+      </p>
+      <p class="para">
+       Se puede saltar este parámetro con un valor <strong><code>NULL</code></strong>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">return_array</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si está establecido a <strong><code>TRUE</code></strong>, esta función devolverá un <span class="type"><a href="language.types.array.html" class="type array">array</a></span>
+       en vez de un <span class="type"><a href="language.types.object.html" class="type object">object</a></span>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.get-browser-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   La información es devuelta en un objeto o en un array que contendrán
+   varios elementos de información que representan, por ejemplo, una cadena con los números de la
+   versión mayor y menor del navegador y el ID; valores <strong><code>TRUE</code></strong>/<strong><code>FALSE</code></strong> para características
+   tales como marcos, JavaScript, y cookies; etc.
+  </p>
+  <p class="para">
+   El valor <em>cookies</em> simplemente significa que el navegador
+   mismo es capaz de aceptar cookies y no significa si el usuario ha
+   habilitado el navagador para que acepte cookies. La única forma de probar si
+   las cookies son aceptadas es establecer una con <span class="function"><a href="function.setcookie.html" class="function">setcookie()</a></span>,
+   recargar, y comprobar su valor.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.get-browser-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4323">
+    <p><strong>Ejemplo #1 Listar toda la información sobre el navegador del usuario</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'HTTP_USER_AGENT'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$navegador&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">get_browser</span><span style="color: #007700">(</span><span style="color: #0000BB">null</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$navegador</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7) Gecko/20040803 Firefox/0.9.3
+
+Array
+(
+    [browser_name_regex] =&gt; ^mozilla/5\.0 (windows; .; windows nt 5\.1; .*rv:.*) gecko/.* firefox/0\.9.*$
+    [browser_name_pattern] =&gt; Mozilla/5.0 (Windows; ?; Windows NT 5.1; *rv:*) Gecko/* Firefox/0.9*
+    [parent] =&gt; Firefox 0.9
+    [platform] =&gt; WinXP
+    [browser] =&gt; Firefox
+    [version] =&gt; 0.9
+    [majorver] =&gt; 0
+    [minorver] =&gt; 9
+    [cssversion] =&gt; 2
+    [frames] =&gt; 1
+    [iframes] =&gt; 1
+    [tables] =&gt; 1
+    [cookies] =&gt; 1
+    [backgroundsounds] =&gt;
+    [vbscript] =&gt;
+    [javascript] =&gt; 1
+    [javaapplets] =&gt; 1
+    [activexcontrols] =&gt;
+    [cdf] =&gt;
+    [aol] =&gt;
+    [beta] =&gt; 1
+    [win16] =&gt;
+    [crawler] =&gt;
+    [stripper] =&gt;
+    [wap] =&gt;
+    [netclr] =&gt;
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.get-browser-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Para que esto funcione, la configuración de <a href="misc.configuration.html#ini.browscap" class="link">browscap</a> en 
+    <var class="filename">php.ini</var> debe apuntar a la ubicación correcta del
+    archivo <var class="filename">browscap.ini</var> en su sistema.
+   </p>
+   <p class="para">
+    <var class="filename">browscap.ini</var> no está incluido con PHP, pero se pude
+    encontrar un archivo actualizado aquí <a href="http://browscap.org/" class="link external">&raquo;&nbsp;php_browscap.ini</a>.
+   </p>
+   <p class="para">
+    Mientras que <var class="filename">browscap.ini</var> contiene información sobre
+    muchos navegadores, recae en el usuario la actualización para mantener la bases de datos
+    vigente. El formato del archivo se explica por sí solo.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.exit.html">exit</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.halt-compiler.html">__halt_compiler</a></div>
+ <div class="up"><a href="ref.misc.html">Funciones Varias</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

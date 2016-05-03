@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Renombra un archivo o directorio</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.realpath.html">realpath</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.rewind.html">rewind</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.rename" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">rename</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">rename</span> &mdash; <span class="dc-title">Renombra un archivo o directorio</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.rename-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>rename</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$oldname</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$newname</code></span>
+   [, <span class="methodparam"><span class="type">resource</span> <code class="parameter">$context</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Intenta renombrar <code class="parameter">oldname</code> a
+   <code class="parameter">newname</code>, moviéndolo a otro directorio si fuera necesario.
+   Si <code class="parameter">newname</code> existe, lo sobrescribirá.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.rename-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">oldname</code></dt>
+
+     <dd>
+
+      <p class="para">
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        El nombre anterior. La envoltura usada en <code class="parameter">oldname</code>
+        <em class="emphasis">debe</em> coincidir con la envoltura usada en
+        <code class="parameter">newname</code>.
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">newname</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nuevo nombre.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">context</code></dt>
+
+     <dd>
+
+      <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Soporte para context fue
+añadido en PHP 5.0.0. Para una descripción de <em>contexts</em>, refiérase a
+<a href="book.stream.html" class="xref">Flujos</a>.</span></p></blockquote>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.rename-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.rename-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.3.1</td>
+       <td>
+        <span class="function"><strong>rename()</strong></span> ahora puede renombrar archivos a través de controladores de
+        Windows.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.0.0</td>
+       <td>
+        <span class="function"><strong>rename()</strong></span> ahora también puede ser usado con
+        <em class="emphasis">algunas</em> envolturas URL. Consulte <a href="wrappers.html" class="xref">Protocolos y Envolturas soportados</a> para un listado de las envolturas
+        que soporta <span class="function"><strong>rename()</strong></span>.
+       </td>
+      </tr>
+
+      <tr>
+       <td>4.3.3</td>
+       <td>
+        <span class="function"><strong>rename()</strong></span> ahora es capaz de renombrar ficheros a través de
+        particiones en sistemas basados en *nix, proporcinando los permisos apropiados.
+        Se pueden generar advertencias si el sistema de ficheros destino
+        no permite llamadas al sistema de <em>chown()</em> o
+        <em>chmod()</em> hechas sobre archivos —
+        por ejemplo, si el sistema de ficheros destino en un sistema de ficheros FAT.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.rename-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2665">
+    <p><strong>Ejemplo #1 Ejemplo con <span class="function"><strong>rename()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />rename</span><span style="color: #007700">(</span><span style="color: #DD0000">"/tmp/archivo_tmp.txt"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"/home/user/login/docs/mi_archivo.txt"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.rename-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.copy.html" class="function" rel="rdfs-seeAlso">copy()</a> - Copia un fichero</span></li>
+    <li class="member"><span class="function"><a href="function.unlink.html" class="function" rel="rdfs-seeAlso">unlink()</a> - Borra un fichero</span></li>
+    <li class="member"><span class="function"><a href="function.move-uploaded-file.html" class="function" rel="rdfs-seeAlso">move_uploaded_file()</a> - Mueve un archivo subido a una nueva ubicaci&oacute;n</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.realpath.html">realpath</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.rewind.html">rewind</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

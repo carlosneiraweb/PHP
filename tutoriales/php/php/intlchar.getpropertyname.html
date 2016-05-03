@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener el nombre Unicode de una propiedad</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlchar.getpropertyenum.html">IntlChar::getPropertyEnum</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.getpropertyvalueenum.html">IntlChar::getPropertyValueEnum</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intlchar.getpropertyname" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">IntlChar::getPropertyName</h1>
+  <p class="verinfo">(PHP 7)</p><p class="refpurpose"><span class="refname">IntlChar::getPropertyName</span> &mdash; <span class="dc-title">Obtener el nombre Unicode de una propiedad</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-intlchar.getpropertyname-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">string</span> <span class="methodname"><strong>IntlChar::getPropertyName</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$property</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$nameChoice</code><span class="initializer"> = <strong><code>IntlChar::LONG_PROPERTY_NAME</code></strong></span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve el nombre Unicode de una propiedad dada, tal como se da en el fichero de base de datos de Unicode PropertyAliases.txt.
+  </p>
+  <p class="para">
+   Además, esta función hace corresponder la propiedad <strong><code>IntlChar::PROPERTY_GENERAL_CATEGORY_MASK</code></strong> con los
+   nombres sintéticos &quot;gcm&quot; / &quot;General_Category_Mask&quot;. Estos nombres no se encuentran en PropertyAliases.txt.
+  </p>
+  <p class="para">
+   Esta función complementa a <span class="function"><a href="intlchar.getpropertyenum.html" class="function">IntlChar::getPropertyEnum()</a></span>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-intlchar.getpropertyname-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">property</code></dt>
+
+    <dd>
+
+     <p class="para">La propiedad de Unicode a consultar (véanse las constantes <em>IntlChar::PROPERTY_*</em>).</p>
+     <p class="para">
+      No se debería utilizar <strong><code>IntlChar::PROPERTY_INVALID_CODE</code></strong>.
+      Tambíen, si <code class="parameter">property</code> está fuera de rango, devuelve <strong><code>FALSE</code></strong>.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">nameChoice</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El selector a obtener por su nombre. Si está fuera de rango, devuelve <strong><code>FALSE</code></strong>.
+     </p>
+     <p class="para">
+      Todas las propiedades tienen un nombre largo. La mayoría tienen un nombre corto, otras no. Unicode tiene en cuenta nombres adicionales;
+      si están presentes, serán devueltos añadiendo 1, 2, etc., a <strong><code>IntlChar::LONG_PROPERTY_NAME</code></strong>.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-intlchar.getpropertyname-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el nombre, o <strong><code>FALSE</code></strong> si <code class="parameter">property</code> o <code class="parameter">nameChoice</code>
+   están fuera de rango.
+  </p>
+  <p class="para">
+   Si un <code class="parameter">nameChoice</code> dado devuelve <strong><code>FALSE</code></strong>, todos los valores mayores que
+   <code class="parameter">nameChoice</code> devolverán <strong><code>FALSE</code></strong>, con una excepción: si se devuelve <strong><code>FALSE</code></strong> para
+   <strong><code>IntlChar::SHORT_PROPERTY_NAME</code></strong>, entonces <strong><code>IntlChar::LONG_PROPERTY_NAME</code></strong>
+   (y mayores) podrían aún devolver un valor distinto de <strong><code>FALSE</code></strong>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-intlchar.getpropertyname-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2948">
+   <p><strong>Ejemplo #1 Probar diferentes propiedades</strong></p>
+   <div class="example-contents">
+    <div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">getPropertyName</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">PROPERTY_BIDI_CLASS</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">getPropertyName</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">PROPERTY_BIDI_CLASS</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">SHORT_PROPERTY_NAME</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">getPropertyName</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">PROPERTY_BIDI_CLASS</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">LONG_PROPERTY_NAME</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">getPropertyName</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">PROPERTY_BIDI_CLASS</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">LONG_PROPERTY_NAME&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+    <div class="cdata"><pre>
+string(10) &quot;Bidi_Class&quot;
+string(2) &quot;bc&quot;
+string(10) &quot;Bidi_Class&quot;
+bool(false)
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-intlchar.getpropertyname-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="intlchar.getpropertyenum.html" class="function" rel="rdfs-seeAlso">IntlChar::getPropertyEnum()</a> - Obtener el valor de la constante de una propiedad para un nombre de propiedad dado</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlchar.getpropertyenum.html">IntlChar::getPropertyEnum</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.getpropertyvalueenum.html">IntlChar::getPropertyValueEnum</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

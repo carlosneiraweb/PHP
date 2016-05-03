@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Caso 4: El analizador de PHP fuera del &aacute;rbol de la web</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.cgi-bin.doc-root.html">Caso 3: Configurando doc_root o user_dir</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.apache.html">Instalado como m&oacute;dulo de Apache</a></div>
+ <div class="up"><a href="security.cgi-bin.html">Instalado como CGI binario</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="security.cgi-bin.shell" class="sect1">
+    <h2 class="title">Caso 4: El analizador de PHP fuera del árbol de la web</h2>
+    <p class="para">
+     Una opción muy segura es poner el binario analizador de PHP en algún lugar
+     fuera del árbol de ficheros de la web.  En <var class="filename">/usr/local/bin</var>, por ejemplo.  El único inconveniente
+     real con esta opción es que ahora tendrá que poner una línea similar a:
+     <div class="informalexample">
+      <div class="example-contents">
+<div class="cdata"><pre>
+#!/usr/local/bin/php
+</pre></div>
+      </div>
+
+     </div>
+     como la primera línea de cualquier fichero que contenga etiquetas de PHP.  También
+     necesitará hacer que el fichero sea ejecutable.  Eso significa, tratarlo exactamente
+     como trataría cualquier otro script de CGI escrito en Perl, sh, bash, o cualquier
+     otro lenguaje común de script el cual utilice <em>#!</em> como mecanismo
+     de ejecución de si mismo.
+    </p>
+    <p class="para">
+     Para que PHP maneje la información correctamente de <span class="envar">PATH_INFO</span> y
+     <span class="envar">PATH_TRANSLATED</span> con esta configuración, el analizador de PHP debería ser
+     compilado con la opción de configuración <a href="configure.about.html#configure.enable-discard-path" class="link">--enable-discard-path</a>.
+    </p>
+   </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.cgi-bin.doc-root.html">Caso 3: Configurando doc_root o user_dir</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.apache.html">Instalado como m&oacute;dulo de Apache</a></div>
+ <div class="up"><a href="security.cgi-bin.html">Instalado como CGI binario</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

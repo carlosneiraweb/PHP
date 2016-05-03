@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Buscar candidatas a la cach&eacute;</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-qc.slam-defense.html">Defensa de cierre</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-qc.cache-efficiency.html">Medir la eficiencia de la cach&eacute;</a></div>
+ <div class="up"><a href="mysqlnd-qc.quickstart.html">Guia r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-qc.cache-candidates" class="section">
+  <h2 class="title">Buscar candidatas a la caché</h2>
+  <p class="para">
+   Una sentencia debería ser considerada para ser almacenada en la caché si se ejecuta a menudo y tiene
+   un tiempo de ejecución largo. Las candidatas se buscan creando una lista de sentencias
+   ordenadas por el producto del número de ejecuciones multiplicado por el
+   tiempo de ejecución de la sentencia. La función
+   <span class="function"><a href="function.mysqlnd-qc-get-query-trace-log.html" class="function">mysqlnd_qc_get_query_trace_log()</a></span>
+   devuelve un registro de consultas que ayudan con la tarea.
+  </p>
+  <p class="para">
+   Recopilar el rastreo de una consulta es una operación lenta. Por lo tanto, está deshabilitada de forma predeterminada.
+   La directiva de configuración de PHP
+   <a href="mysqlnd-qc.configuration.html#ini.mysqlnd-qc.collect-query-trace" class="link"><em>mysqlnd_qc.collect_query_trace</em></a>
+   se usa para habilitarla. El rastreo de la función contiene una entrada para cada
+   consulta emitida antes de llamar a la función.
+  </p>
+  <p class="para">
+   <div class="example" id="example-2089">
+    <p><strong>Ejemplo #1 Recopilar un rastreo de consulta</strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">mysqlnd_qc.enable_qc=1
+mysqlnd_qc.collect_query_trace=1</pre>
+</div>
+    </div>
+
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;conectarse&nbsp;a&nbsp;MySQL&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"host"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"esquema"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"puerto"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"socket"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;consultas&nbsp;varias&nbsp;para&nbsp;rellenar&nbsp;el&nbsp;rastreo&nbsp;de&nbsp;consultas&nbsp;*/<br /></span><span style="color: #007700">for&nbsp;(</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;1&nbsp;AS&nbsp;_one&nbsp;FROM&nbsp;DUAL"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">free</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;volcar&nbsp;el&nbsp;rastreo&nbsp;*/<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">mysqlnd_qc_get_query_trace_log</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado de los ejemplos sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [0]=&gt;
+  array(8) {
+    [&quot;query&quot;]=&gt;
+    string(26) &quot;SELECT 1 AS _one FROM DUAL&quot;
+    [&quot;origin&quot;]=&gt;
+    string(102) &quot;#0 qc.php(7): mysqli-&gt;query(&#039;SELECT 1 AS _on...&#039;)
+#1 {main}&quot;
+    [&quot;run_time&quot;]=&gt;
+    int(0)
+    [&quot;store_time&quot;]=&gt;
+    int(25)
+    [&quot;eligible_for_caching&quot;]=&gt;
+    bool(false)
+    [&quot;no_table&quot;]=&gt;
+    bool(false)
+    [&quot;was_added&quot;]=&gt;
+    bool(false)
+    [&quot;was_already_in_cache&quot;]=&gt;
+    bool(false)
+  }
+  [1]=&gt;
+  array(8) {
+    [&quot;query&quot;]=&gt;
+    string(26) &quot;SELECT 1 AS _one FROM DUAL&quot;
+    [&quot;origin&quot;]=&gt;
+    string(102) &quot;#0 qc.php(7): mysqli-&gt;query(&#039;SELECT 1 AS _on...&#039;)
+#1 {main}&quot;
+    [&quot;run_time&quot;]=&gt;
+    int(0)
+    [&quot;store_time&quot;]=&gt;
+    int(8)
+    [&quot;eligible_for_caching&quot;]=&gt;
+    bool(false)
+    [&quot;no_table&quot;]=&gt;
+    bool(false)
+    [&quot;was_added&quot;]=&gt;
+    bool(false)
+    [&quot;was_already_in_cache&quot;]=&gt;
+    bool(false)
+  }
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   El rastreo se da con información desordenada. También se dan
+   los tiempos y el origen de la llamada de la consulta. La propiedad &#039;origin&#039;
+   contiene un código de búsqueda de rastros para identificar el origen de la consulta.
+   La profundidad de la búsqueda de rastros se puede limitar con
+   la directiva de configuración de PHP
+   <a href="mysqlnd-qc.configuration.html#ini.mysqlnd-qc.query-trace-bt-depth" class="link"><em>mysqlnd_qc.query_trace_bt_depth</em></a>.
+   La profundidad predeterminada es <em>3</em>.
+  </p>
+  <p class="para">
+   <div class="example" id="example-2090">
+    <p><strong>Ejemplo #2 Establecer la profundidad de la búsqueda de rastros con el ajuste ini <em>mysqlnd_qc.query_trace_bt_depth</em></strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">mysqlnd_qc.enable_qc=1
+mysqlnd_qc.collect_query_trace=1</pre>
+</div>
+    </div>
+
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;conectarse&nbsp;a&nbsp;MySQL&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"host"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"esquema"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"puerto"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"socket"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT)"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id)&nbsp;VALUES&nbsp;(1),&nbsp;(2),&nbsp;(3)"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;consultas&nbsp;varias&nbsp;para&nbsp;rellenar&nbsp;el&nbsp;rastreo&nbsp;de&nbsp;consultas&nbsp;*/<br /></span><span style="color: #007700">for&nbsp;(</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id&nbsp;FROM&nbsp;test&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">real_escape_string</span><span style="color: #007700">(</span><span style="color: #0000BB">$i</span><span style="color: #007700">));<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">free</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #0000BB">$rastreo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqlnd_qc_get_query_trace_log</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$resumen&nbsp;</span><span style="color: #007700">=&nbsp;array();<br />foreach&nbsp;(</span><span style="color: #0000BB">$rastreo&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!isset(</span><span style="color: #0000BB">$resumen</span><span style="color: #007700">[</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'query'</span><span style="color: #007700">]]))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$resumen</span><span style="color: #007700">[</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'query'</span><span style="color: #007700">]]&nbsp;=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"executions"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"time"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'run_time'</span><span style="color: #007700">]&nbsp;+&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'store_time'</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$resumen</span><span style="color: #007700">[</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'query'</span><span style="color: #007700">]][</span><span style="color: #DD0000">'executions'</span><span style="color: #007700">]++;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$resumen</span><span style="color: #007700">[</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'query'</span><span style="color: #007700">]][</span><span style="color: #DD0000">'time'</span><span style="color: #007700">]&nbsp;+=&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'run_time'</span><span style="color: #007700">]&nbsp;+&nbsp;</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">[</span><span style="color: #DD0000">'store_time'</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />foreach&nbsp;(</span><span style="color: #0000BB">$resumen&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$consulta&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$detalles</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%45s:&nbsp;%5dms&nbsp;(%dx)\n"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$detalles</span><span style="color: #007700">[</span><span style="color: #DD0000">'time'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$detalles</span><span style="color: #007700">[</span><span style="color: #DD0000">'executions'</span><span style="color: #007700">]);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado de los ejemplos
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+                    DROP TABLE IF EXISTS test:     0ms (1x)
+                    CREATE TABLE test(id INT):     0ms (1x)
+    INSERT INTO test(id) VALUES (1), (2), (3):     0ms (1x)
+             SELECT id FROM test WHERE id = 0:    25ms (1x)
+             SELECT id FROM test WHERE id = 1:    10ms (1x)
+             SELECT id FROM test WHERE id = 2:     9ms (1x)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-qc.slam-defense.html">Defensa de cierre</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-qc.cache-efficiency.html">Medir la eficiencia de la cach&eacute;</a></div>
+ <div class="up"><a href="mysqlnd-qc.quickstart.html">Guia r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

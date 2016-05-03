@@ -1,0 +1,515 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configuraci&oacute;n en tiempo de ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd.install.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd.incompatibilities.html">Incompatibilidades</a></div>
+ <div class="up"><a href="book.mysqlnd.html">Mysqlnd</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd.config" class="chapter">
+ 
+ <h1>Configuración en tiempo de ejecución</h1>
+
+ <p class="simpara">
+El comportamiento de estas funciones se ve afectado por la configuración de <var class="filename">php.ini</var>.
+</p>
+ 
+ <p class="para">
+  <table class="doctable table">
+   <caption><strong>Opciones de configuración del Controlador Nativo de MySQL</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Nombre</th>
+      <th>Por defecto</th>
+      <th>Cambiable</th>
+      <th>Historial de cambios</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.mysqlnd.collect-statistics" class="link">mysqlnd.collect_statistics</a></td>
+      <td>&quot;1&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde PHP 5.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.mysqlnd.collect-memory-statistics" class="link">mysqlnd.collect_memory_statistics</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Available since PHP 5.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.mysqlnd.debug" class="link">mysqlnd.debug</a></td>
+      <td>&quot;&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde PHP 5.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.ini.mysqlnd.log-mask" class="link">mysqlnd.log_mask</a></td>
+      <td>0</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 5.3.0</td>
+     </tr>
+
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.ini.mysqlnd.mempool-default-size" class="link">mysqlnd.mempool_default_size</a></td>
+      <td>16000</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 5.3.3</td>
+     </tr>
+
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.mysqlnd.net-read-timeout" class="link">mysqlnd.net_read_timeout</a></td>
+      <td>&quot;31536000&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde PHP 5.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.mysqlnd.net-cmd-buffer-size" class="link">mysqlnd.net_cmd_buffer_size</a></td>
+      <td>5.3.0 - &quot;2048&quot;, 5.3.1 - &quot;4096&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde PHP 5.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.mysqlnd.net-read-buffer-size" class="link">mysqlnd.net_read_buffer_size</a></td>
+      <td>&quot;32768&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde PHP 5.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.mysqlnd.sha256-server-public-key" class="link">mysqlnd.sha256_server_public_key</a></td>
+      <td>&quot;&quot;</td>
+      <td>PHP_INI_PERDIR</td>
+      <td>Disponible desde PHP 5.5.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mysqlnd.config.html#ini.mysqlnd.fetch_data_copy" class="link">mysqlnd.fetch_data_copy</a></td>
+      <td>0</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 5.6.0.</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  Para más detalles y definiciones de los modos de
+PHP_INI_*, vea <a href="configuration.changes.modes.html" class="xref">D&oacute;nde se puede realizar un ajuste de configuraci&oacute;n</a>.
+ </p>
+ 
+ <p class="para">He aquí una breve explicación de
+las directivas de configuración.</p>
+ 
+ <p class="para">
+  <dl>
+
+   
+    <dt id="ini.mysqlnd.collect-statistics">
+     <code class="parameter">mysqlnd.collect_statistics</code>
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Habilita la recopilación de estadísticas de diversos clientes a las cuales se puede
+      acceder a través de <span class="function"><a href="mysqli.get-client-stats.html" class="function">mysqli_get_client_stats()</a></span>,
+      <span class="function"><a href="mysqli.get-connection-stats.html" class="function">mysqli_get_connection_stats()</a></span>,
+      <span class="function"><a href="function.mysqli-get-cache-stats.html" class="function">mysqli_get_cache_stats()</a></span>, y que también se muestran en la
+      sección <em>mysqlnd</em> de la salida de la
+      función <span class="function"><a href="function.phpinfo.html" class="function">phpinfo()</a></span>.
+     </p>
+     <p class="para">
+      Este ajuste de configuración habilita todas las
+      <a href="mysqlnd.stats.html" class="link">estadísticas del Controlador Nativo
+       de MySQL</a> excepto aquellas relacionadas con la gestión de memoria.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mysqlnd.collect-memory-statistics">
+     <code class="parameter">mysqlnd.collect_memory_statistics</code>
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Habilita la recopilación de diversas estadísticas de memoria a las que se puede
+      acceder a través de <span class="function"><a href="mysqli.get-client-stats.html" class="function">mysqli_get_client_stats()</a></span>,
+      <span class="function"><a href="mysqli.get-connection-stats.html" class="function">mysqli_get_connection_stats()</a></span>,
+      <span class="function"><a href="function.mysqli-get-cache-stats.html" class="function">mysqli_get_cache_stats()</a></span>, y que también se muestran en la
+      sección <em>mysqlnd</em> de la salida de la
+      función <span class="function"><a href="function.phpinfo.html" class="function">phpinfo()</a></span>.
+     </p>
+     <p class="para">
+      Este ajuste de configuración habilita las estadísticas de gestión de
+      memoria dentro del conjunto total de
+      <a href="mysqlnd.stats.html" class="link">estadísticas del Controlador Nativo
+       de MySQL</a>.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mysqlnd.debug">
+     <code class="parameter">mysqlnd.debug</code> <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Registra las comunicaciones de todas las extensiones que usan
+      <em>mysqlnd</em> al fichero de registros especificado.
+     </p>
+     <p class="para">
+      El formato de la directiva es <em>mysqlnd.debug =
+      &quot;opción1[,parámetro_opción1][:opción2[,parámetro_opción2]]&quot;</em>.
+     </p>
+     <p class="para">
+      Las opciones para la cadena de formato son las siguientes:
+     </p>
+     <ul class="itemizedlist">
+      <li class="listitem">
+       <p class="para">
+        A[,fichero] - Añade salidas de seguimiento al fichero especificado. También se asegura
+        de que los datos son escritos después de cada escritura. Esto se lleva a cabo cerrando
+        y reabriento el fichero de seguimiento (esto es lento). Ayuda a asegurarse de tener
+        un fichero de seguimiento completo cuando la aplicación falla.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        a[,fichero] - Añade salidas de seguimiento al fichero especificado.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        d - Habilita la salida desde las macros DBUG_&lt;N&gt; para el estado
+        actual. Se le puede añadir una lista de palabras clave las cuales seleccionarán
+        la salida solamente para las macros DBUG con esa palabra clave. Una lista vacía
+        de palabras clave implica la salida de todas las macros.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        f[,funciones] - Limita las acciones del depurador para la lista especificada de
+        funciones. Una lista de funciones vacía implica que se seleccionarán todas
+        las funciones.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        F - Marca cada línea de salida del depurador con el nombre del fichero
+        fuente que contiene la macro que causa la salida.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        i - Marca cada línea de salida del depurador con el PID del proceso
+        actual.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        L - Marca cada línea de salida de depurador con el número de línea del fichero
+        fuente de la macro que causa la salida.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        n - Marca caa línea de salida del depurador con el nivel de anidamiento de la
+        función actual
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        o[,fichero] - Similar a a[,fichero] excepto que sobrescribe el fichero antiguo, por lo que no
+        realiza la agregación.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        O[,fichero] - Similar a A[,fichero] excepto que sobrescribe el fichero antiguo, por lo que no
+        realiza la agregación.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        t[,N] - Habilita el seguimiento del flujo de control de la función. El nivel de anidamiento
+        máximo está especificado por N, y el valor predeterminado es 200.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        x - Esta opción activa el perfilamiento.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        m - Seguimiento de llamadas relacionadas con la asignación y desasignación de memoria.
+       </p>
+      </li>
+     </ul>
+     <p class="para">
+      Ejemplo:
+     </p>
+     <div class="example-contents">
+<div class="cdata"><pre>
+d:t:x:O,/tmp/mysqlnd.trace
+</pre></div>
+     </div>
+
+     <blockquote class="note"><p><strong class="note">Nota</strong>: 
+      <p class="para">
+       Esta característica solamente está disponible con una construcción de depuración de PHP. Funciona
+       en Microsoft Windows si se utiliza una construcción de depuración de PHP y PHP se ha
+       construido usando la verseión 9 de Microsoft Visual C o superior.
+      </p>
+     </p></blockquote>
+     <p class="para"/>
+    </dd>
+
+   
+   
+    <dt id="ini.ini.mysqlnd.log-mask">
+     <code class="parameter">mysqlnd.log_mask</code>
+     <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Define qué consultas serán registradas. El valor predeterminado es 0, el cual deshabilita el registro.
+      Se define usando un entero, y no una constante de PHP. Por ejemplo, un valor de
+      48 (16 + 32) registrará las consultas lentas que usan un &#039;índice no bueno&#039; 
+      (SERVER_QUERY_NO_GOOD_INDEX_USED = 16) o no usan ningún índice en absoluto (SERVER_QUERY_NO_INDEX_USED = 32). 
+      Un valor de 2043 (1 + 2 + 8 + ... + 1024) registrará todos los tipos de consultas lentas.
+     </p>
+     <p class="para">
+      Los tipos son los siguientes: SERVER_STATUS_IN_TRANS=1, SERVER_STATUS_AUTOCOMMIT=2,
+      SERVER_MORE_RESULTS_EXISTS=8, SERVER_QUERY_NO_GOOD_INDEX_USED=16, SERVER_QUERY_NO_INDEX_USED=32,
+      SERVER_STATUS_CURSOR_EXISTS=64, SERVER_STATUS_LAST_ROW_SENT=128, SERVER_STATUS_DB_DROPPED=256,
+      SERVER_STATUS_NO_BACKSLASH_ESCAPES=512, and SERVER_QUERY_WAS_SLOW=1024.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.ini.mysqlnd.mempool-default-size">
+     <code class="parameter">mysqlnd.mempool_default_size</code>
+     <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Tamaño predeterminado de la caché de memoria de mysqlnd, el cual es usado por los conjuntos de resultados.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mysqlnd.net-read-timeout">
+     <code class="parameter">mysqlnd.net_read_timeout</code>
+     <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      <em>mysqlnd</em> y la Biblioteca Cliente de MySQL,
+      <em>libmysqlclient</em>, utilizan diferentes APIs de red.
+      <em>mysqlnd</em> utiliza flujos de PHP, mientras que
+      <em>libmysqlclient</em> utiliza su propia envoltura sobre las
+      llamadas a la red a nivel de operación. PHP, por defecto, establece un tiempo de
+      espera de lectura de 60s para los flujos. Esto se establece mediante
+      <var class="filename">php.ini</var>,
+      <em>default_socket_timeout</em>. Este valor predeterminado se aplica a
+      todos los flujos que no establecen otro valor de tiempo de espera.
+      <em>mysqlnd</em> no establece ningún otro valor y
+      por lo tanto las conexiones de consultas que se ejecutan durante mucho tiempo pueden ser desconectadas
+      después de <em>default_socket_timeout</em> segundos, resultando
+      en un mensaje de error "<span class="quote">2006 - MySQL Server has gone
+      away</span>". La Biblioteca Cliente de MySQL establece un tiempo de espera predeterminado de
+      365 * 24 * 3600 segundos (1 año) y espera a que sucedan otros tiempos de
+      espera, como los tiempos de espera de TCP/IP. Ahora <em>mysqlnd</em>
+      utiliza el mismo tiempo de espera. El valor se puede configurar a través de
+      un nuevo ajuste de <var class="filename">php.ini</var>:
+      <em>mysqlnd.net_read_timeout</em>.
+      <em>mysqlnd.net_read_timeout</em> es utilizado por cualquier
+      extensión (<em>ext/mysql</em>,
+      <em>ext/mysqli</em>, <em>PDO_MySQL</em>) que
+      use <em>mysqlnd</em>. <em>mysqlnd</em> le indica
+      a los flujos de PHP que utilicen <em>mysqlnd.net_read_timeout</em>.
+      Observe que puede haber sútiles diferencias entre
+      <em>MYSQL_OPT_READ_TIMEOUT</em> de la Biblioteca Cliente
+      de MySQL y los flujos de PHP, por ejemplo
+      <em>MYSQL_OPT_READ_TIMEOUT</em> está documentado para funcionar
+      sólo con conexiones TCP/IP y, antes de MySQL 5.1.2, sólo con
+      Windows. Los flujos de PHP pueden no tener esta limitación. Compruebe
+      la documentación sobre los flujos si tiene alguna duda.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mysqlnd.net-cmd-buffer-size">
+     <code class="parameter">mysqlnd.net_cmd_buffer_size</code>
+     <span class="type"><span class="type long">long</span></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      <em>mysqlnd</em> asigna un buffer de comandos/red interno de
+      <em>mysqlnd.net_cmd_buffer_size</em> (en
+      <var class="filename">php.ini</var>) bytes para cada conexión. Si un
+      comando del protocolo Cliente Servidor de MySQL, por ejemplo,
+      <em>COM_QUERY</em> (consulta "<span class="quote">normal</span>"), no
+      se ajusta al buffer, <em>mysqlnd</em> aumentará el
+      buffer lo que sea necesario para enviar el comando. Siempre que el
+      buffer se extienda para una conexión,
+      <em>command_buffer_too_small</em> será incrementado en
+      uno.
+     </p>
+     <p class="para">
+      Si <em>mysqlnd</em> tiene que aumentar el buffer más allá de su
+      tamaño inicial de <em>mysqlnd.net_cmd_buffer_size</em>
+      bytes para casi todas las conexiones, se debería considerar aumentar
+      el tamaño predeterminado para evitar reasignaciones.
+     </p>
+     <p class="para">
+      El tamaño predeterminado del buffer es de 2048 bytes en PHP 5.3.0. En versiones
+      posteriores, el tamaño predeterminado es de 4096.
+     </p>
+     <p class="para">
+      Se recomienda establecer el tamaño de buffer a no menos de 4096
+      bytes debido a que <em>mysqlnd</em> también lo utiliza al leer
+      ciertos paquetes de comunicación desde MySQL. En PHP 5.3.0,
+      <em>mysqlnd</em> no aumentará el buffer si MySQL envía
+      un paquete que es más grande que el tamaño actual del buffer. Como
+      consecuencia, <em>mysqlnd</em> no es capaz de decodificar el
+      paquete y la aplicación cliente obtendrá un error. Solamente hay
+      dos situacioines en las que un paquete es más grande que los 2048
+      bytes predeterminados de <em>mysqlnd.net_cmd_buffer_size</em> en
+      PHP 5.3.0: el paquete transporta un mensaje de error muy grande, o el
+      paquete contiene los metadatos de columnas de
+      <em>COM_LIST_FIELD</em>
+      (<em>mysql_list_fields()</em>) y los metadatos provienen
+      de una columna de cadena con un valor predeterminado muy grande (&gt;1900 bytes).
+     </p>
+     <p class="para">
+      A partir de PHP 5.3.2, mysqlnd no permite establecer buffers menores
+      que 4096 bytes.
+     </p>
+     <p class="para">
+      El valor también se puede establecer usando <em>mysqli_options(enlace,
+      MYSQLI_OPT_NET_CMD_BUFFER_SIZE, tamaño)</em>.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mysqlnd.net-read-buffer-size">
+     <code class="parameter">mysqlnd.net_read_buffer_size</code>
+     <span class="type"><span class="type long">long</span></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Tamaño máximo del trozo de lectura en bytes cuando se lee el cuerpo de un paqute de
+      comando de MySQL. El protocolo cliente servidor de MySQL encapsulta todos
+      sus comandos en paquetes. Los paquetes consisten en una pequeña cabecera y
+      un cuerpo con la carga útil real. El tamaño del cuerpo es codificado en
+      la cabecera. <em>mysqlnd</em> lee el cuerpo en trozos de
+      <em>MIN(tamaño.cabecera, mysqlnd.net_read_buffer_size)</em>
+      bytes. Si un cuerpo de un paquete es mayor que
+      <em>mysqlnd.net_read_buffer_size</em> bytes,
+      <em>mysqlnd</em> tiene que llamar a <em>read()</em>
+      varias veces.
+     </p>
+     <p class="para">
+      El valor también se puede establecer usando <em>mysqli_options(enlace,
+      MYSQLI_OPT_NET_READ_BUFFER_SIZE, tamaño)</em>.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mysqlnd.sha256-server-public-key">
+     <code class="parameter">mysqlnd.sha256_server_public_key</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Relacionada con el Complemento de Autenticación SHA-256. El fichero con la clave
+      pública RSA del servidor de MySQL.
+     </p>
+     <p class="para">
+      Los clientes pueden omitir la configuración de una clave pública RSA, especificar la clave a través
+      de este ajuste de configuración de PHP, o establecer la clave en tiempo de ejecución usando
+      <span class="function"><a href="mysqli.options.html" class="function">mysqli_options()</a></span>. Si el cliente no proporciona un fichero de clave
+      pública RSA, entonces la clave será intercambiada como parte del
+      procedimiento de autenticación del Complemento de Autenticación SHA-256.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mysqlnd.fetch_data_copy">
+     <code class="parameter">mysqlnd.fetch_data_copy</code>
+     <span class="type"><span class="type long">long</span></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Fuerza la copia de conjuntos de resultados desde los búferes de conjuntos de
+      resultados interno a variables de PHP en lugar de usar la referencia
+      predeterminada y la lógica de Copiar al escribir. Vea las
+      <a href="mysqlnd.memory.html" class="link">notas de implementación de gestión de memoria</a>
+      para más detalles.
+     </p>
+     <p class="para">
+      Copiar conjuntos de resultados en lugar de tener variables de PHP que hagan referencia
+      a ellos permite la liberación de la memoria ocupada anteriomente por las variables de PHP.
+      Dependiendo del código de la API de usuario, de las consultas reales de la base de datos y del
+      tamaño de sus conjuntos de resultados, se podría reducir la huella de memoria
+      de mysqlnd.
+     </p>
+     <p class="para">
+      No se ha de establecer si se usa PDO_MySQL. PDO_MySQL aún no ha sido actualizado para
+      tener soporte par el nuevo modo de obtención.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </p>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd.install.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd.incompatibilities.html">Incompatibilidades</a></div>
+ <div class="up"><a href="book.mysqlnd.html">Mysqlnd</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

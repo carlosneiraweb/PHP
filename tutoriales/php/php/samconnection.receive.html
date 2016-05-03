@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Recibir un mensaje de una cola o de una suscripci&oacute;n.</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="samconnection.peekall.html">SAMConnection::peekAll</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="samconnection.remove.html">SAMConnection::remove</a></div>
+ <div class="up"><a href="ref.sam.html">Funciones SAM</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="samconnection.receive" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SAMConnection::receive</h1>
+  <p class="verinfo">(PECL sam &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">SAMConnection::receive</span> &mdash; <span class="dc-title">
+   Recibir un mensaje de una cola o de una suscripción.
+  </span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-samconnection.receive-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="ref.sam.html" class="type SAMMessage">SAMMessage</a></span> <span class="methodname"><strong>SAMConnection::receive</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$target</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$properties</code></span>
+  ] )</div>
+
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-samconnection.receive-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">target</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La identidad de la cola, asunto o suscripción de la que se recibe
+       el mensaje.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">properties</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un array asociativo opcional de propiedades, que describen otros
+       parámetros para controlar la operación de recepción.
+       <table class="doctable informaltable">
+        
+         <thead>
+          <tr>
+           <th>Nombre de la propiedad</th>
+           <th>Valores posibles</th>
+          </tr>
+
+         </thead>
+
+         <tbody class="tbody">
+          <tr>
+           <td>SAM_CORRELID</td>
+           <td>
+            Utilizado para solicitar la recepción de un mensaje, basado en
+            el identificador de correlación del mensaje.
+           </td>
+          </tr>
+
+          <tr>
+           <td>SAM_MESSAGEID</td>
+           <td>
+            Utilizado para solicitar la recepción de un mensaje, basado en
+            el identificador del mensaje.
+           </td>
+          </tr>
+
+          <tr>
+           <td>SAM_WAIT</td>
+           <td>
+            Tiempo límite en milisegundos para controlar el tiempo de espera
+            de recepción del mensaje, antes de devolver un error
+            si no hay ningún mensaje disponible en la cola o asunto. El
+            valor por defecto es 0, que significa esperar indefinidamente y debe ser usado
+            con precaución puesto que la petición esperará hasta el tiempo límite de ejecución del script PHP
+            si ningún mensaje está disponible.
+           </td>
+          </tr>
+
+         </tbody>
+        
+       </table>
+
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-samconnection.receive-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Este método devuelve un objeto SAMMessage o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-samconnection.receive-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5039">
+    <p><strong>Ejemplo #1 Recepción de un mensaje de una cola</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$msg&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">receive</span><span style="color: #007700">(</span><span style="color: #DD0000">'queue://receive/test'</span><span style="color: #007700">);<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$msg</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;The&nbsp;receive&nbsp;failed!<br />&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"Receive&nbsp;failed&nbsp;(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #DD0000">)&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #DD0000">"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5040">
+    <p><strong>Ejemplo #2 Recepción de un mensaje de una cola con opciones</strong></p>
+    <div class="example-contents"><p>
+     En este ejemplo, la opción SAM_CORRELID se utiliza para especificar un
+     identificador de correlación, que se utilizará para identificar el mensaje a recibir. También se especifica un tiempo límite de espera
+     de 10 segundos.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$msg&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">receive</span><span style="color: #007700">(</span><span style="color: #DD0000">'queue://receive/test'</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #0000BB">SAM_CORRELID&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$token</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SAM_WAIT&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">10000</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5041">
+    <p><strong>Ejemplo #3 Recepción de un mensaje de una suscripción</strong></p>
+    <div class="example-contents"><p>
+     En este ejemplo se muestra cómo recibir un mensaje desde un identificador de suscripción.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$msg&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">receive</span><span style="color: #007700">(</span><span style="color: #0000BB">$subscriptionName</span><span style="color: #007700">);<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$msg</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;La&nbsp;recepción&nbsp;falló!<br />&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"Recepción&nbsp;fallida&nbsp;(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #DD0000">)&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #DD0000">"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>
+     Observe que $subscriptionName es un identificador de suscripción devuelto desde una llamada  
+     anterior a una suscripción.
+    </p></div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-samconnection.receive-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><a href="samconnection.send.html" class="xref">SAMConnection::send</a></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="samconnection.peekall.html">SAMConnection::peekAll</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="samconnection.remove.html">SAMConnection::remove</a></div>
+ <div class="up"><a href="ref.sam.html">Funciones SAM</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

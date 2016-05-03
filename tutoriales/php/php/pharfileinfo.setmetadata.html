@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establecer la metainformaci&oacute;n espec&iacute;fica de un fichero almacenda con un fichero</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pharfileinfo.setcompressedgz.html">PharFileInfo::setCompressedGZ</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pharfileinfo.setuncompressed.html">PharFileInfo::setUncompressed</a></div>
+ <div class="up"><a href="class.pharfileinfo.html">PharFileInfo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pharfileinfo.setmetadata" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PharFileInfo::setMetadata</h1>
+  <p class="verinfo">(PHP &gt;= 5.3.0, PECL phar &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">PharFileInfo::setMetadata</span> &mdash; <span class="dc-title">Establecer la metainformación específica de un fichero almacenda con un fichero</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-pharfileinfo.setmetadata-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>PharFileInfo::setMetadata</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$metadata</code></span>
+   )</div>
+
+  
+  <p class="para rdfs-comment">
+   <span class="function"><strong>PharFileInfo::setMetadata()</strong></span> solamente debería usarse para almacenar información personalizada en un fichero
+   que con pueda ser representado con la información almacenada existente con un fichero.
+   La metainformación puede ralentizar significativamente la velocidad de carga de un archivo
+   phar si la información es grande, o si existen muchos ficheros que contienen metainformación.
+   Es importante observar que esos permisos de fichero están soportados nativamente dentro de un
+   phar; es posible establecerlo con el
+   método <span class="function"><a href="pharfileinfo.chmod.html" class="function">PharFileInfo::chmod()</a></span>. Al igual que con toda la funcionalidad que modifica el contenido de
+   un Phar, la variable INI <a href="phar.configuration.html#ini.phar.readonly" class="link">phar.readonly</a>
+   debe estar desactivada para poder realizar esto si el fichero está dentro de un archivo
+   <a href="class.phar.html" class="classname">Phar</a>. Los ficheros dentro de archivos <a href="class.phardata.html" class="classname">PharData</a> no tienen
+   esta restricción.
+  </p>
+  <p class="para">
+   Algunos posibles usos para la metainformación incluten pasar un usuario/grupo que debería establecerse
+   al extraer el fichero desde el phar al disco. Otros usos podrían incluir
+   explicitamente especificar un tipo MIME a devolver. Sin embargo, cualquier información útil que
+   describa un fichero, excepto la que no debería estar contenida dentro del mismo, puede ser almacenada.
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-pharfileinfo.setmetadata-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">metadata</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Cualquier variable de PHP que contenga información a almacenar junto a un fichero
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-pharfileinfo.setmetadata-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-pharfileinfo.setmetadata-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-820">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>PharFileInfo::setMetadata()</strong></span></strong></p>
+    <div class="example-contents"><p>
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;asegurarse&nbsp;de&nbsp;que&nbsp;no&nbsp;existe<br /></span><span style="color: #007700">@</span><span style="color: #0000BB">unlink</span><span style="color: #007700">(</span><span style="color: #DD0000">'nuevo_phar.phar'</span><span style="color: #007700">);<br />try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$p&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Phar</span><span style="color: #007700">(</span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #0000BB">__FILE__</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">'/nuevo_phar.phar'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'nuevo_phar.phar'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$p</span><span style="color: #007700">[</span><span style="color: #DD0000">'fichero.txt'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'hola'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$p</span><span style="color: #007700">[</span><span style="color: #DD0000">'fichero.txt'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">setMetadata</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'usuario'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'bill'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'tipo-mime'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'text/plain'</span><span style="color: #007700">));<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$p</span><span style="color: #007700">[</span><span style="color: #DD0000">'fichero.txt'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">getMetadata</span><span style="color: #007700">());<br />}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">Exception&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'No&nbsp;se&nbsp;pudo&nbsp;crear&nbsp;y/o&nbsp;modificar&nbsp;el&nbsp;phar:'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [&quot;usuario&quot;]=&gt;
+  string(4) &quot;bill&quot;
+  [&quot;tipo-mime&quot;]=&gt;
+  string(10) &quot;text/plain&quot;
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-pharfileinfo.setmetadata-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pharfileinfo.hasmetadata.html" class="function" rel="rdfs-seeAlso">PharFileInfo::hasMetadata()</a> - Devolver la metainformaci&oacute;n de una entrada</span></li>
+    <li class="member"><span class="function"><a href="pharfileinfo.getmetadata.html" class="function" rel="rdfs-seeAlso">PharFileInfo::getMetadata()</a> - Devolver la metainformaci&oacute;n espec&iacute;fica de un fichero almacenada con un fichero</span></li>
+    <li class="member"><span class="function"><a href="pharfileinfo.delmetadata.html" class="function" rel="rdfs-seeAlso">PharFileInfo::delMetadata()</a> - Eliminar la metainformaci&oacute;n de una entrada</span></li>
+    <li class="member"><span class="function"><a href="phardata.setmetadata.html" class="function" rel="rdfs-seeAlso">Phar::setMetadata()</a> - Establecer la metainformaci&oacute;n de un archivo phar</span></li>
+    <li class="member"><span class="function"><a href="phar.hasmetadata.html" class="function" rel="rdfs-seeAlso">Phar::hasMetadata()</a> - Devolver si el phar tiene metainformaci&oacute;n global</span></li>
+    <li class="member"><span class="function"><a href="phar.getmetadata.html" class="function" rel="rdfs-seeAlso">Phar::getMetadata()</a> - Devolver la metainformaci&oacute;n de un archivo phar</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pharfileinfo.setcompressedgz.html">PharFileInfo::setCompressedGZ</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pharfileinfo.setuncompressed.html">PharFileInfo::setUncompressed</a></div>
+ <div class="up"><a href="class.pharfileinfo.html">PharFileInfo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

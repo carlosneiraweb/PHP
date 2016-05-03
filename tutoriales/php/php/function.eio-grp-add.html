@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>A&ntilde;adir una petici&oacute;n al grupo de peticiones</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.eio-get-last-error.html">eio_get_last_error</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.eio-grp-cancel.html">eio_grp_cancel</a></div>
+ <div class="up"><a href="ref.eio.html">Funciones Eio</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.eio-grp-add" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">eio_grp_add</h1>
+  <p class="verinfo">(PECL eio &gt;= 0.0.1dev)</p><p class="refpurpose"><span class="refname">eio_grp_add</span> &mdash; <span class="dc-title">Añadir una petición al grupo de peticiones</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.eio-grp-add-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>eio_grp_add</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$grp</code></span>
+   , <span class="methodparam"><span class="type">resource</span> <code class="parameter">$req</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>eio_grp_add()</strong></span> añade una petición al grupo de peticiones.
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.eio-grp-add-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">grp</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El recurso de grupo de peticiones devuelto por <span class="function"><a href="function.eio-grp.html" class="function">eio_grp()</a></span>
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">req</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El recurso de petición
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.eio-grp-add-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <span class="function"><strong>eio_grp_add()</strong></span> no devuelve ningún valor.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.eio-grp-add-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-4107">
+   <p><strong>Ejemplo #1 Agrupar peticiones</strong></p>
+   <div class="example-contents"><div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Crear&nbsp;un&nbsp;grupo&nbsp;de&nbsp;peticiones&nbsp;para&nbsp;abrir,&nbsp;leer&nbsp;y&nbsp;cerrar&nbsp;un&nbsp;fichero<br />&nbsp;*/<br /><br />//&nbsp;Crear&nbsp;un&nbsp;fichero&nbsp;temporal&nbsp;y&nbsp;escribir&nbsp;algunos&nbsp;bytes&nbsp;en&nbsp;él<br /></span><span style="color: #0000BB">$nombre_fichero_temp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #0000BB">__FILE__</span><span style="color: #007700">)&nbsp;.</span><span style="color: #DD0000">"/fichero-eio.tmp"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_fichero_temp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"w"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fwrite</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"algunos&nbsp;datos"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fclose</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Es&nbsp;llamada&nbsp;cuando&nbsp;el&nbsp;grupo&nbsp;de&nbsp;peticiones&nbsp;está&nbsp;hecho&nbsp;*/<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">mi_grupo_hecho</span><span style="color: #007700">(</span><span style="color: #0000BB">$datos</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">)&nbsp;{<br />&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br />&nbsp;@</span><span style="color: #0000BB">unlink</span><span style="color: #007700">(</span><span style="color: #0000BB">$datos</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Es&nbsp;llamada&nbsp;cuando&nbsp;eio_open()&nbsp;termina&nbsp;*/<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">mi_llamada_retorno_fichero_abierto</span><span style="color: #007700">(</span><span style="color: #0000BB">$datos</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">)&nbsp;{<br />&nbsp;global&nbsp;</span><span style="color: #0000BB">$grupo</span><span style="color: #007700">;<br /><br />&nbsp;</span><span style="color: #FF8000">//&nbsp;$resultado&nbsp;debería&nbsp;contener&nbsp;el&nbsp;descriptor&nbsp;del&nbsp;fichero<br />&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /><br />&nbsp;</span><span style="color: #FF8000">//&nbsp;Crear&nbsp;una&nbsp;petición&nbsp;eio_read()&nbsp;y&nbsp;añadirla&nbsp;al&nbsp;grupo<br />&nbsp;//&nbsp;Pasar&nbsp;el&nbsp;descriptor&nbsp;del&nbsp;fichero&nbsp;a&nbsp;la&nbsp;llamada&nbsp;de&nbsp;retorno<br />&nbsp;</span><span style="color: #0000BB">$petición&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">eio_read</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">EIO_PRI_DEFAULT</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_llamada_retorno_grupo_fichero_leído"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br />&nbsp;</span><span style="color: #0000BB">eio_grp_add</span><span style="color: #007700">(</span><span style="color: #0000BB">$grupo</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$petición</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Es&nbsp;llamada&nbsp;cuando&nbsp;eio_read()&nbsp;termina&nbsp;*/<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">mi_llamada_retorno_grupo_fichero_leído</span><span style="color: #007700">(</span><span style="color: #0000BB">$datos</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">)&nbsp;{<br />&nbsp;global&nbsp;</span><span style="color: #0000BB">$grupo</span><span style="color: #007700">;<br /><br />&nbsp;</span><span style="color: #FF8000">//&nbsp;Leer&nbsp;bytes<br />&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /><br />&nbsp;</span><span style="color: #FF8000">//&nbsp;Crear&nbsp;una&nbsp;petición&nbsp;eio_close()&nbsp;y&nbsp;añadirla&nbsp;al&nbsp;grupo<br />&nbsp;//&nbsp;$datos&nbsp;debería&nbsp;contener&nbsp;el&nbsp;descriptor&nbsp;del&nbsp;fichero<br />&nbsp;</span><span style="color: #0000BB">$petición&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">eio_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$datos</span><span style="color: #007700">);<br />&nbsp;</span><span style="color: #0000BB">eio_grp_add</span><span style="color: #007700">(</span><span style="color: #0000BB">$grupo</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$petición</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Crear&nbsp;un&nbsp;grupo&nbsp;de&nbsp;peticiones<br /></span><span style="color: #0000BB">$grupo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">eio_grp</span><span style="color: #007700">(</span><span style="color: #DD0000">"mi_grupo_hecho"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$nombre_fichero_temp</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$grupo</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Crear&nbsp;una&nbsp;petición&nbsp;eio_open()&nbsp;y&nbsp;añadirla&nbsp;al&nbsp;grupo<br /></span><span style="color: #0000BB">$petición&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">eio_open</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_fichero_temp</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">EIO_O_RDWR&nbsp;</span><span style="color: #007700">|&nbsp;</span><span style="color: #0000BB">EIO_O_APPEND&nbsp;</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">,<br />&nbsp;&nbsp;</span><span style="color: #0000BB">EIO_PRI_DEFAULT</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_llamada_retorno_fichero_abierto"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">eio_grp_add</span><span style="color: #007700">(</span><span style="color: #0000BB">$grupo</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$petición</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Procesar&nbsp;las&nbsp;peticiones<br /></span><span style="color: #0000BB">eio_event_loop</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div></div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen"><div class="cdata"><pre>
+resource(6) of type (EIO Group Descriptor)
+bool(true)
+string(7) &quot;algunos&quot;
+bool(true)
+</pre></div></div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.eio-grp-add-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member">eio_grp</li>
+   <li class="member">eio_grp_cancel</li>
+   <li class="member">eio_grp_limit</li>
+  </ul>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.eio-get-last-error.html">eio_get_last_error</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.eio-grp-cancel.html">eio_grp_cancel</a></div>
+ <div class="up"><a href="ref.eio.html">Funciones Eio</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

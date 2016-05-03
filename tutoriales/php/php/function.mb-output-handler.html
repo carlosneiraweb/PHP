@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Funci&oacute;n de llamada de retorno que convierte la codificaci&oacute;n de caracteres en b&uacute;fer de salida</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mb-list-encodings.html">mb_list_encodings</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mb-parse-str.html">mb_parse_str</a></div>
+ <div class="up"><a href="ref.mbstring.html">Funciones de cadenas de caracteres multibyte</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mb-output-handler" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mb_output_handler</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.6, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">mb_output_handler</span> &mdash; <span class="dc-title">Función de llamada de retorno que convierte la codificación de caracteres en búfer de salida</span></p>
+ 
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mb-output-handler-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>mb_output_handler</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$contents</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$status</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>mb_output_handler()</strong></span> es una función de llamada
+   de retorno de <span class="function"><a href="function.ob-start.html" class="function">ob_start()</a></span>.
+   <span class="function"><strong>mb_output_handler()</strong></span> convierte
+   los carateres en el búfer de salida de la condificación de caracteres interna a
+   la codificación de caracteres de salida HTTP. 
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mb-output-handler-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">contents</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El contenido del búfer de salida.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">status</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El estado del búfer de salida.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mb-output-handler-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El <span class="type"><a href="language.types.string.html" class="type string">string</a></span> convertido.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.mb-output-handler-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>4.1.0</td>
+       <td>
+        <p class="para">
+         Este gestor ahora añade la cabecera HTTP del conjunto de caracteres cuando se dan las siguientes condiciones:
+        </p>
+        <p class="para">
+         <ul class="itemizedlist">
+          <li class="listitem">
+           <span class="simpara">
+            <em>Content-Type</em> no está establecido, usando <span class="function"><a href="function.header.html" class="function">header()</a></span>.
+           </span>
+          </li>
+          <li class="listitem">
+           <span class="simpara">
+            El tipo MIME predeterminado comienza con <em>text/</em>.
+           </span>
+          </li>
+          <li class="listitem">
+           <span class="simpara">
+            El ajuste <a href="mbstring.configuration.html#ini.mbstring.http-input" class="link">mbstring.http_input</a> 
+            es distinto a <em>pass</em>.
+           </span>
+          </li>
+         </ul>
+        </p>
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mb-output-handler-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3013">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mb_output_handler()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />mb_http_output</span><span style="color: #007700">(</span><span style="color: #DD0000">"UTF-8"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ob_start</span><span style="color: #007700">(</span><span style="color: #DD0000">"mb_output_handler"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.mb-output-handler-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Si se quiere que la salida sean datos binarios, como una imagen, con PHP 4.3.0 o posterior,
+    la cabecera Content-Type: debe enviarse  usando <span class="function"><a href="function.header.html" class="function">header()</a></span>
+    antes de enviar cualquier dato binario al cliente (p.ej. header(&quot;Content-Type: image/png&quot;)).
+    Si se envió la cabecera Content-Type:, la conversión de la codificación de caracteres de salida no se realizará.
+   </p>
+   <p class="para">
+    Observe que si se envía &#039;Content-Type: text/*&#039; los datos enviados son considerados como texto; la conversión de la codificación se realizará.
+   </p>
+   <p class="para">
+    Si se quiere que la salida sean datos binarios, como una imagen, con PHP 4.2.x o anterior,
+    se debe establecer la codificación de salida a &quot;pass&quot; usando <span class="function"><a href="function.mb-http-output.html" class="function">mb_http_output()</a></span>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mb-output-handler-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ob-start.html" class="function" rel="rdfs-seeAlso">ob_start()</a> - Activa el almacenamiento en b&uacute;fer de la salida</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mb-list-encodings.html">mb_list_encodings</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mb-parse-str.html">mb_parse_str</a></div>
+ <div class="up"><a href="ref.mbstring.html">Funciones de cadenas de caracteres multibyte</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Escribe toda la informaci&oacute;n restante de un puntero a un archivo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fopen.html">fopen</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.fputcsv.html">fputcsv</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.fpassthru" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">fpassthru</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">fpassthru</span> &mdash; <span class="dc-title">Escribe toda la información restante de un puntero a un archivo</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.fpassthru-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>fpassthru</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$handle</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Lee hasta EOF en el puntero al archivo dado desde la posición actual y
+   escribe los resultados en el buffer de salida.
+  </p>
+  <p class="para">
+   Puede necesitar llamar a <span class="function"><a href="function.rewind.html" class="function">rewind()</a></span> para reiniciar el puntero
+   al archivo al principio del archivo si ya se ha escrito información
+   en el archivo.
+  </p>
+  <p class="para">
+   Si sólo quiere verter los contenidos de un archivo en el buffer de salida,
+   sin modificarlo primero o buscar un índice en particular, puede
+   usar la función <span class="function"><a href="function.readfile.html" class="function">readfile()</a></span>, la cual le libera de
+   llamar a <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.fpassthru-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">handle</code></dt>
+
+     <dd>
+
+      <p class="para">El fichero al que se apunta debe ser válido, y debe apuntar a
+un fichero abierto por <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span> o
+<span class="function"><a href="function.fsockopen.html" class="function">fsockopen()</a></span> (y que todavía no esté cerrado por
+<span class="function"><a href="function.fclose.html" class="function">fclose()</a></span>).</p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.fpassthru-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Si se produjo un error, <span class="function"><strong>fpassthru()</strong></span> devuelve
+   <strong><code>FALSE</code></strong>. De otro modo, <span class="function"><strong>fpassthru()</strong></span> devuelve
+   el número de caracteres leídos desde <code class="parameter">handle</code>
+   y pasados hacia la salida.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.fpassthru-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2623">
+    <p><strong>Ejemplo #1 Usar <span class="function"><strong>fpassthru()</strong></span> con archivos binarios</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;abre&nbsp;el&nbsp;archivo&nbsp;en&nbsp;modo&nbsp;binario<br /></span><span style="color: #0000BB">$nombre&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'./img/ok.png'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'rb'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;envía&nbsp;las&nbsp;cabeceras&nbsp;correctas<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Content-Type:&nbsp;image/png"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Content-Length:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">filesize</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;vuelca&nbsp;la&nbsp;imagen&nbsp;y&nbsp;detiene&nbsp;el&nbsp;script<br /></span><span style="color: #0000BB">fpassthru</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br />exit;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.fpassthru-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Cuando se usa <span class="function"><strong>fpassthru()</strong></span> sobre un archivo binario en sistemas
+    Windows, debería asegurarse de abrir el archivo en modo binario
+    añadiendo <em>b</em> al modo usado en la llamada a
+    <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span>.
+   </p>
+   <p class="para">
+    Se le anima a usar la bandera <em>b</em> cuando trata
+    con archivos binarios, incluso si su sistema no lo requiere, por lo que
+    sus scripts serán más portables.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.fpassthru-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.readfile.html" class="function" rel="rdfs-seeAlso">readfile()</a> - Realizar la salida de un fichero</span></li>
+    <li class="member"><span class="function"><a href="function.fopen.html" class="function" rel="rdfs-seeAlso">fopen()</a> - Abre un fichero o un URL</span></li>
+    <li class="member"><span class="function"><a href="function.popen.html" class="function" rel="rdfs-seeAlso">popen()</a> - Abre un proceso de un puntero a un fichero</span></li>
+    <li class="member"><span class="function"><a href="function.fsockopen.html" class="function" rel="rdfs-seeAlso">fsockopen()</a> - Abre una conexi&oacute;n v&iacute;a sockets a Internet o a un dominio Unix</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fopen.html">fopen</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.fputcsv.html">fputcsv</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

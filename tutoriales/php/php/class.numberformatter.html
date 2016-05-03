@@ -1,0 +1,1432 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>La clase NumberFormatter</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="collator.sort.html">Collator::sort</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="numberformatter.create.html">NumberFormatter::create</a></div>
+ <div class="up"><a href="book.intl.html">intl</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="class.numberformatter" class="reference">
+ <h1 class="title">La clase NumberFormatter</h1>
+ 
+ 
+ <div class="partintro"><p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7, PECL intl &gt;= 1.0.0)</p>
+  
+  
+  <div class="section" id="numberformatter.intro">
+   <h2 class="title">Introducción</h2>
+   <p class="simpara">
+    Los programas almacenan y operan sobre números utilizando una representación binaria independiente de
+    la configuración regional. Cuando se muestra o imprime un número, éste es convertido a
+    una cadena específica regional. Por ejemplo, el número 12345.67 es &quot;12,345.67&quot; en
+    los Estados Unidos, &quot;12 345,67&quot; en Francia y &quot;12.345,67&quot; en Alemania.
+   </p>
+   <p class="simpara">
+    Al invocar a los métodos proporcionados por la clase NumberFormatter, se pueden
+    formatear números, valores monetarios y porcentajes de acuerdo a la configuración regional
+    especificada o predeterminada. NumberFormatter es sensible a la configuración regional, por lo que se necesita crear
+    un nuevo objeto NumberFormatter para cada región. Los métodos de NumberFormatter dan formato
+    a números de tipo primitivo, tales como los de tipo double, e imprimien el número como una
+    cadena específica según la región.
+   </p>
+   <p class="para">
+    Para los valores monetarios se puede utilizar el tipo de formato de moneda para crear un formateador que
+    devuelva una cadena con el número formateado y el símbolo de moneda
+    apropiada. Por supuesto, la clase NumberFormatter ignora los tipos de cambio monetarios,
+    por lo que el número impreso es el mismo sin tener en cuenta la moneda especificada.
+    Esto significa que el mismo número tiene diferentes valores monetarios dependiendo de
+    la moneda regional. Si el numero fuese el 9988776.65, los resultados serían:
+    <ul class="simplelist">
+     <li class="member">9 988 776,65 € en Francia</li>
+     <li class="member">9.988.776,65 € en Alemania</li>
+     <li class="member">$9,988,776.65 en los Estados Unidos</li>
+    </ul>
+   </p>
+   <p class="simpara">
+    Para dar formato a los porcentajes, se debe crear un formateador específico de la región con
+    el tipo de formato de porcentaje. Con este formateador, una fracción decimal como
+    0.75 será mostrada como 75%.
+   </p>
+   <p class="simpara">
+    Para un formateo más complejo, como los números escritos con palabras, se usan los
+    formateadores de números basados en reglas.
+   </p>
+  </div>
+  
+  
+  <div class="section" id="numberformatter.synopsis">
+   <h2 class="title">Sinopsis de la Clase</h2>
+   
+   
+   <div class="classsynopsis">
+    <div class="ooclass">
+     
+    </div>
+    
+    
+    <div class="classsynopsisinfo">
+     <span class="ooclass">
+      <strong class="classname">NumberFormatter</strong>
+     </span>
+     {</div>
+    
+    
+    
+    
+    <div class="classsynopsisinfo classsynopsisinfo_comment">/* Métodos */</div>
+    <div class="constructorsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="methodname"><a href="numberformatter.create.html" class="methodname">__construct</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$style</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$pattern</code></span>
+  ] )</div>
+
+    <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="modifier">static</span>
+   <span class="type">NumberFormatter</span> 
+   <span class="methodname"><a href="numberformatter.create.html" class="methodname">create</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$locale</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$style</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$pattern</code></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="numberformatter.formatcurrency.html" class="methodname">formatCurrency</a></span>
+    ( <span class="methodparam"><span class="type">float</span> <code class="parameter">$value</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$currency</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="numberformatter.format.html" class="methodname">format</a></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.number" class="type number">number</a></span> <code class="parameter">$value</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">int</span> 
+   <span class="methodname"><a href="numberformatter.getattribute.html" class="methodname">getAttribute</a></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$attr</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">int</span> 
+   <span class="methodname"><a href="numberformatter.geterrorcode.html" class="methodname">getErrorCode</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="numberformatter.geterrormessage.html" class="methodname">getErrorMessage</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="numberformatter.getlocale.html" class="methodname">getLocale</a></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="numberformatter.getpattern.html" class="methodname">getPattern</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="numberformatter.getsymbol.html" class="methodname">getSymbol</a></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$attr</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">string</span> 
+   <span class="methodname"><a href="numberformatter.gettextattribute.html" class="methodname">getTextAttribute</a></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$attr</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">float</span> 
+   <span class="methodname"><a href="numberformatter.parsecurrency.html" class="methodname">parseCurrency</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$value</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter reference">&$currency</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter reference">&$position</code></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">mixed</span> 
+   <span class="methodname"><a href="numberformatter.parse.html" class="methodname">parse</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$value</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter reference">&$position</code></span>
+  ]] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">bool</span> 
+   <span class="methodname"><a href="numberformatter.setattribute.html" class="methodname">setAttribute</a></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$attr</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$value</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">bool</span> 
+   <span class="methodname"><a href="numberformatter.setpattern.html" class="methodname">setPattern</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$pattern</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">bool</span> 
+   <span class="methodname"><a href="numberformatter.setsymbol.html" class="methodname">setSymbol</a></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$attr</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$value</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span>
+   <span class="type">bool</span> 
+   <span class="methodname"><a href="numberformatter.settextattribute.html" class="methodname">setTextAttribute</a></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$attr</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$value</code></span>
+   )</div>
+
+    
+   }</div>
+   
+   
+  </div>
+  
+  
+  
+  
+
+
+
+<div class="section" id="intl.numberformatter-constants">
+ <h2 class="title">Constantes predefinidas</h2>
+ 
+ <div class="section" id="intl.numberformatter-constants.unumberformatstyle">
+  <p class="para">
+   Estos estilos son utilzados por la función <span class="function"><a href="numberformatter.create.html" class="function">numfmt_create()</a></span>
+   para definir el tipo del formateador.
+   <dl>
+
+    
+     <dt id="numberformatter.constants.pattern-decimal">
+      <strong><code>NumberFormatter::PATTERN_DECIMAL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato decimal definido por un patrón</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.decimal">
+      <strong><code>NumberFormatter::DECIMAL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato decimal</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.currency">
+      <strong><code>NumberFormatter::CURRENCY</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato de moneda</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.percent">
+      <strong><code>NumberFormatter::PERCENT</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato de porcentaje</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.scientific">
+      <strong><code>NumberFormatter::SCIENTIFIC</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato científico</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.spellout">
+      <strong><code>NumberFormatter::SPELLOUT</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato basado en reglas de números escritos con palabras</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.ordinal">
+      <strong><code>NumberFormatter::ORDINAL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato basado en reglas de números ordinales</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.duration">
+      <strong><code>NumberFormatter::DURATION</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato basado en reglas de duración</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.pattern-rulebased">
+      <strong><code>NumberFormatter::PATTERN_RULEBASED</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato basado en reglas definido por un patrón</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.default-style">
+      <strong><code>NumberFormatter::DEFAULT_STYLE</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formato predeterminado para la configuración regional</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.ignore">
+      <strong><code>NumberFormatter::IGNORE</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Alias de PATTERN_DECIMAL</span>
+     </dd>
+
+    
+   </dl>
+
+   
+   
+   
+   
+   
+  </p>
+ </div>
+ 
+ <div class="section" id="intl.numberformatter-constants.types">
+  <p class="para">
+   Estas constantes definen cómo se procesan o formatean los números. Deberían
+   usarse como argumentos de <span class="function"><a href="numberformatter.format.html" class="function">numfmt_format()</a></span>
+   y <span class="function"><a href="numberformatter.parse.html" class="function">numfmt_parse()</a></span>.
+   <dl>
+
+    
+     <dt id="numberformatter.constants.type-default">
+      <strong><code>NumberFormatter::TYPE_DEFAULT</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Deriva el tipo de número del tipo de la variable</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.type-int32">
+      <strong><code>NumberFormatter::TYPE_INT32</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formatear/procesar como un valor integer de 32 bits</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.type-int64">
+      <strong><code>NumberFormatter::TYPE_INT64</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formatear/procesar como un valor integer de 64 bits</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.type-double">
+      <strong><code>NumberFormatter::TYPE_DOUBLE</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Formatear/procesar como un valor de coma flotante</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.type-currency">
+      <strong><code>NumberFormatter::TYPE_CURRENCY</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">FFormatear/procesar como un valor de moneda</span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+ 
+ <div class="section" id="intl.numberformatter-constants.unumberformatattribute">
+  <p class="para">
+   Atributos de formato numérico usados por
+   <span class="function"><a href="numberformatter.getattribute.html" class="function">numfmt_get_attribute()</a></span>
+   y
+   <span class="function"><a href="numberformatter.setattribute.html" class="function">numfmt_set_attribute()</a></span>.
+   <dl>
+
+    
+     <dt id="numberformatter.constants.parse-int-only">
+      <strong><code>NumberFormatter::PARSE_INT_ONLY</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Procesar sólo los enteros.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.grouping-used">
+      <strong><code>NumberFormatter::GROUPING_USED</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Usar un separador de agrupación.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.decimal-always-shown">
+      <strong><code>NumberFormatter::DECIMAL_ALWAYS_SHOWN</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Mostrar siempre la coma (punto) decimal.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.max-integer-digits">
+      <strong><code>NumberFormatter::MAX_INTEGER_DIGITS</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Número máximo de dígitos enteros.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.min-integer-digits">
+      <strong><code>NumberFormatter::MIN_INTEGER_DIGITS</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Número mínimo de dígitos enteros.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.integer-digits">
+      <strong><code>NumberFormatter::INTEGER_DIGITS</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Dígitos enteros.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.max-fraction-digits">
+      <strong><code>NumberFormatter::MAX_FRACTION_DIGITS</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Número máximo de dígitos fraccionarios.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.min-fraction-digits">
+      <strong><code>NumberFormatter::MIN_FRACTION_DIGITS</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Número mínimo de dígitos fraccionarios.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.fraction-digits">
+      <strong><code>NumberFormatter::FRACTION_DIGITS</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Dígitos fraccionarios.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.multiplier">
+      <strong><code>NumberFormatter::MULTIPLIER</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Multiplicador.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.grouping-size">
+      <strong><code>NumberFormatter::GROUPING_SIZE</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Tamaño de la agrupación.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.rounding-mode">
+      <strong><code>NumberFormatter::ROUNDING_MODE</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Modo de redondeo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.rounding-increment">
+      <strong><code>NumberFormatter::ROUNDING_INCREMENT</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Incremento del redondeo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.format-width">
+      <strong><code>NumberFormatter::FORMAT_WIDTH</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El ancho al que se ajusta la salida de format().</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.padding-position">
+      <strong><code>NumberFormatter::PADDING_POSITION</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">
+       La posición en la que el relleno tendrá lugar. Véase las constantes de
+       posición de relleno para los posibles valores de los argumentos.
+      </span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.secondary-grouping-size">
+      <strong><code>NumberFormatter::SECONDARY_GROUPING_SIZE</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Tamaño de agrupación secundario.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.significant-digits-used">
+      <strong><code>NumberFormatter::SIGNIFICANT_DIGITS_USED</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Utilizar dígitos significativos.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.min-significant-digits">
+      <strong><code>NumberFormatter::MIN_SIGNIFICANT_DIGITS</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Número mínimo de dígitos significativos.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.max-significant-digits">
+      <strong><code>NumberFormatter::MAX_SIGNIFICANT_DIGITS</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Número máximo de dígitos significativos.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.lenient-parse">
+      <strong><code>NumberFormatter::LENIENT_PARSE</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Modo de proceso poco riguroso usado por los formatos basados en reglas.</span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+ 
+ <div class="section" id="intl.numberformatter-constants.unumberformattextattribute">
+  <p class="para">
+   Atributos de texto de formato numérico utilizados por
+   <span class="function"><a href="numberformatter.gettextattribute.html" class="function">numfmt_get_text_attribute()</a></span> y
+   <span class="function"><a href="numberformatter.settextattribute.html" class="function">numfmt_set_text_attribute()</a></span>.
+   <dl>
+
+    
+     <dt id="numberformatter.constants.positive-prefix">
+      <strong><code>NumberFormatter::POSITIVE_PREFIX</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Prefijo positivo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.positive-suffix">
+      <strong><code>NumberFormatter::POSITIVE_SUFFIX</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Sufijo positivo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.negative-prefix">
+      <strong><code>NumberFormatter::NEGATIVE_PREFIX</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Prefijo negativo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.negative-suffix">
+      <strong><code>NumberFormatter::NEGATIVE_SUFFIX</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Sufijo negativo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.padding-character">
+      <strong><code>NumberFormatter::PADDING_CHARACTER</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El carácter usado para rellenar el ancho del formato.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.currency-code">
+      <strong><code>NumberFormatter::CURRENCY_CODE</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El código ISO de la moneda.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.default-ruleset">
+      <strong><code>NumberFormatter::DEFAULT_RULESET</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">
+       El conjunto de reglas predeterminadas. Sólo está disponible con formateadores
+       basados en reglas.
+      </span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.public-rulesets">
+      <strong><code>NumberFormatter::PUBLIC_RULESETS</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">
+       Los conjuntos de reglas públicas. Sólo está disponible con formateadores
+       basados en reglas. Este atributo es de sólo lectura. Los conjuntos de reglas públicas son
+       devueltos como una cadena simple, con cada conjunto de reglas deliminado por &#039;;&#039;
+       (semicolon).
+      </span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+ 
+ <div class="section" id="intl.numberformatter-constants.unumberformatsymbol">
+  <p class="para">
+   Símbolos de formato numérico utilizados por <span class="function"><a href="numberformatter.getsymbol.html" class="function">numfmt_get_symbol()</a></span>
+   y <span class="function"><a href="numberformatter.setsymbol.html" class="function">numfmt_set_symbol()</a></span>.
+   <dl>
+
+    
+     <dt id="numberformatter.constants.decimal-separator-symbol">
+      <strong><code>NumberFormatter::DECIMAL_SEPARATOR_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El separador decimal.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.grouping-separator-symbol">
+      <strong><code>NumberFormatter::GROUPING_SEPARATOR_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El separador de agrupación.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.pattern-separator-symbol">
+      <strong><code>NumberFormatter::PATTERN_SEPARATOR_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El separador de patrones.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.percent-symbol">
+      <strong><code>NumberFormatter::PERCENT_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El signo de porcentaje.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.zero-digit-symbol">
+      <strong><code>NumberFormatter::ZERO_DIGIT_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Cero.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.digit-symbol">
+      <strong><code>NumberFormatter::DIGIT_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Carácter que representa un dígito en el patrón.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.minus-sign-symbol">
+      <strong><code>NumberFormatter::MINUS_SIGN_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El símbolo menos.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.plus-sign-symbol">
+      <strong><code>NumberFormatter::PLUS_SIGN_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El símbolo más.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.currency-symbol">
+      <strong><code>NumberFormatter::CURRENCY_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El símbolo de moneda.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.intl-currency-symbol">
+      <strong><code>NumberFormatter::INTL_CURRENCY_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El símbolo internacional de moneda.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.monetary-separator-symbol">
+      <strong><code>NumberFormatter::MONETARY_SEPARATOR_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El separador monetario.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.exponential-symbol">
+      <strong><code>NumberFormatter::EXPONENTIAL_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El símbolo exponencial.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.permill-symbol">
+      <strong><code>NumberFormatter::PERMILL_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El símbolo por millón.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.pad-escape-symbol">
+      <strong><code>NumberFormatter::PAD_ESCAPE_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El carácter de relleno de escape.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.infinity-symbol">
+      <strong><code>NumberFormatter::INFINITY_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Símbolo de infinito.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.nan-symbol">
+      <strong><code>NumberFormatter::NAN_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Símbolo de no-es-un-número (NaN).</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.significant-digit-symbol">
+      <strong><code>NumberFormatter::SIGNIFICANT_DIGIT_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Símbolo de dígito significativo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.monetary-grouping-separator-symbol">
+      <strong><code>NumberFormatter::MONETARY_GROUPING_SEPARATOR_SYMBOL</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">El separador de agrupación monetaria.</span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+ 
+ <div class="section" id="intl.numberformatter-constants.unumberformatroundingmode">
+  <p class="para">
+   Los valores del modo de redondeo utilizados por <span class="function"><a href="numberformatter.getattribute.html" class="function">numfmt_get_attribute()</a></span>
+   y <span class="function"><a href="numberformatter.setattribute.html" class="function">numfmt_set_attribute()</a></span> con el
+   atributo <strong><code>NumberFormatter::ROUNDING_MODE</code></strong>.
+   <dl>
+
+    
+     <dt id="numberformatter.constants.round-ceiling">
+      <strong><code>NumberFormatter::ROUND_CEILING</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Modo de redondeo para redondear hacia el infinito positivo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.round-down">
+      <strong><code>NumberFormatter::ROUND_DOWN</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Modo de redondeo para redondear hacia cero.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.round-floor">
+      <strong><code>NumberFormatter::ROUND_FLOOR</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Modo de redondeo para redondear hacia el infinito negativo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.round-halfdown">
+      <strong><code>NumberFormatter::ROUND_HALFDOWN</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">
+       Modo de redondeo para redondear hacia el &quot;vecino más cercano&quot; a menos que ambos vecinos
+       sean equidistantes, en cuyo caso se redondea hacia abajo.
+      </span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.round-halfeven">
+      <strong><code>NumberFormatter::ROUND_HALFEVEN</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">
+       Modo de redondeo para redondear hacia el &quot;vecino más cercano&quot; a menos que ambos
+       vecinos sean equidistantes, en cuyo caso se redondea hacia el vecino
+       par.
+      </span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.round-halfup">
+      <strong><code>NumberFormatter::ROUND_HALFUP</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">
+       Modo de redondeo para redondear hacia el &quot;vecino más cercano&quot; a menos que ambos vecinos
+       sean equidistantes, en cuyo caso se redondea hacia arriba.
+      </span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.round-up">
+      <strong><code>NumberFormatter::ROUND_UP</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Modo de redondeo para redondear lejos del cero.</span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+ 
+ <div class="section" id="intl.numberformatter-constants.unumberformatpadposition">
+  <p class="para">
+   Valores de posición de relleno utilizados por <span class="function"><a href="numberformatter.getattribute.html" class="function">numfmt_get_attribute()</a></span>
+   y <span class="function"><a href="numberformatter.setattribute.html" class="function">numfmt_set_attribute()</a></span> con el
+   atributo <strong><code>NumberFormatter::PADDING_POSITION</code></strong>.
+   <dl>
+
+    
+     <dt id="numberformatter.constants.pad-after-prefix">
+      <strong><code>NumberFormatter::PAD_AFTER_PREFIX</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Los caracteres de relleno se insertan después del prefijo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.pad-after-suffix">
+      <strong><code>NumberFormatter::PAD_AFTER_SUFFIX</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Los caracteres de relleno se insertan después del sufijo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.pad-before-prefix">
+      <strong><code>NumberFormatter::PAD_BEFORE_PREFIX</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Los caracteres de relleno se insertan antes del prefijo.</span>
+     </dd>
+
+    
+    
+    
+     <dt id="numberformatter.constants.pad-before-suffix">
+      <strong><code>NumberFormatter::PAD_BEFORE_SUFFIX</code></strong>
+      (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>)
+     </dt>
+
+     <dd>
+
+      <span class="simpara">Los caracteres de relleno se insertan antes del sufijo.</span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+ 
+</div>
+
+
+
+
+  
+  <div class="section" id="numberformatter.seealso">
+   <h2 class="title">Ver también</h2>
+   <p class="para">
+    <ul class="simplelist">
+     <li class="member">
+      <a href="http://icu-project.org/userguide/formatParse.html" class="link external">&raquo;&nbsp;
+       Documentación de formateo de ICU
+      </a>
+     </li>
+     <li class="member">
+      <a href="http://icu-project.org/userguide/formatNumbers.html" class="link external">&raquo;&nbsp;Formateadores de números de ICU</a>
+     </li>
+     <li class="member">
+      <a href="http://www.icu-project.org/apiref/icu4c/classDecimalFormat.html#details" class="link external">&raquo;&nbsp;Formateadores decimales de ICU</a>
+     </li>
+     <li class="member">
+      <a href="http://www.icu-project.org/apiref/icu4c/classRuleBasedNumberFormat.html#details" class="link external">&raquo;&nbsp;
+       Formateadores de números basados en reglas de ICU
+      </a>
+     </li>
+    </ul>
+   </p>
+  </div>
+ </div>
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+<h2>Tabla de contenidos</h2><ul class="chunklist chunklist_reference"><li><a href="numberformatter.create.html">NumberFormatter::create</a> — Crear un formateador de n&uacute;meros</li><li><a href="numberformatter.formatcurrency.html">NumberFormatter::formatCurrency</a> — Dar formato a un valor monetario</li><li><a href="numberformatter.format.html">NumberFormatter::format</a> — Dar formato a un n&uacute;mero</li><li><a href="numberformatter.getattribute.html">NumberFormatter::getAttribute</a> — Obtener un atributo</li><li><a href="numberformatter.geterrorcode.html">NumberFormatter::getErrorCode</a> — Obtener el &uacute;ltimo c&oacute;digo de error del formateador</li><li><a href="numberformatter.geterrormessage.html">NumberFormatter::getErrorMessage</a> — Obtener el &uacute;ltimo mensaje de error del formateador</li><li><a href="numberformatter.getlocale.html">NumberFormatter::getLocale</a> — Obtener la configuraci&oacute;n regional de un formateador</li><li><a href="numberformatter.getpattern.html">NumberFormatter::getPattern</a> — Obtener el patr&oacute;n del formateador</li><li><a href="numberformatter.getsymbol.html">NumberFormatter::getSymbol</a> — Obtener el valor de un s&iacute;mbolo</li><li><a href="numberformatter.gettextattribute.html">NumberFormatter::getTextAttribute</a> — Obtiene un atributo de texto</li><li><a href="numberformatter.parsecurrency.html">NumberFormatter::parseCurrency</a> — Procesa un n&uacute;mero monetario</li><li><a href="numberformatter.parse.html">NumberFormatter::parse</a> — Analiza un n&uacute;mero</li><li><a href="numberformatter.setattribute.html">NumberFormatter::setAttribute</a> — Establecer un atributo</li><li><a href="numberformatter.setpattern.html">NumberFormatter::setPattern</a> — Establecer el patr&oacute;n de un formateador</li><li><a href="numberformatter.setsymbol.html">NumberFormatter::setSymbol</a> — Establecer un valor de s&iacute;mbolo</li><li><a href="numberformatter.settextattribute.html">NumberFormatter::setTextAttribute</a> — Set a text attribute</li></ul>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="collator.sort.html">Collator::sort</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="numberformatter.create.html">NumberFormatter::create</a></div>
+ <div class="up"><a href="book.intl.html">intl</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

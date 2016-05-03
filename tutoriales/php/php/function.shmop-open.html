@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Crea o abre un segmento de memoria compartida</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.shmop-delete.html">shmop_delete</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.shmop-read.html">shmop_read</a></div>
+ <div class="up"><a href="ref.shmop.html">Funciones de memoria compartida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.shmop-open" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">shmop_open</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">shmop_open</span> &mdash; <span class="dc-title">Crea o abre un segmento de memoria compartida</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.shmop-open-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>shmop_open</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$key</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$flags</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$mode</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$size</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>shmop_open()</strong></span> puede crear o abrir un segmento de memoria compartida.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.shmop-open-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">key</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Identificador que el sistema utilizará para ese segmento de memoria compartida.
+       Puede ser indicado tanto en formato decimal como hexadecimal.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">flags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los indicadores que puede usar son:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          &quot;a&quot; para acceder (establece SHM_RDONLY para shmat)
+          utilice este indicador cuando necesite abrir un segmento de memoria compartida 
+          de sólo lectura
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          &quot;c&quot; para crear (establece IPC_CREATE)
+          utilice este indicador cuando necesite crear un nuevo segmento de memoria compartida
+          o para intentar abrir en modo de lectura y escritura un segmento que ya existe
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          &quot;w&quot; para acceder en modo de lectura y escritura
+          utilice este indicador cuando necesite leer un segmento de memoria compartida y además
+          poder escribir en él, se trata de la opción más habitual en la mayoría de los casos.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          &quot;n&quot; crea un nuevo segmento de memoria compartida (establece IPC_CREATE|IPC_EXCL)
+          utilice este indicador cuando necesite crear un nuevo segmento de memoria compartida, 
+          pero si existe otro segmento de memoria compartida con la misma clave, fallará. Esta opción 
+          es útil para propósitos de seguridad que evitan  por ejemplo los exploit conocidos como 
+          &quot;condiciones de carrera&quot; (en inglés &quot;race conditions&quot;). 
+         </span>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Permisos que se van a asignar al segmento de memoria compartida, estos
+       son similares a los que se asignan a los archivos. Los permisos deben pasarse
+       en formato octal, como por ejemplo <em>0644</em>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">size</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El tamaño en bytes del segmento de memoria compartida que quiere crear
+      </p>
+     </dd>
+
+    
+   </dl>
+
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <p class="para">
+     Nota: El tercer y cuarto parámetro deberán ser igual a 0 (cero) 
+     si está abriendo un segmento de memoria compartida existente.
+    </p>
+   </p></blockquote>
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.shmop-open-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   En caso de éxito <span class="function"><strong>shmop_open()</strong></span> devolverá un identificador que puede
+   utilizar para acceder al segmento de memoria compartida que ha creado. <strong><code>FALSE</code></strong> es
+   devuelto en caso de fallo.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.shmop-open-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4247">
+    <p><strong>Ejemplo #1 Crear un nuevo segmento de memoria compartida</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$shm_key&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ftok</span><span style="color: #007700">(</span><span style="color: #0000BB">__FILE__</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'t'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$shm_id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">shmop_open</span><span style="color: #007700">(</span><span style="color: #0000BB">$shm_key</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"c"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0644</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   En este ejemplo se abre un segmento de memoria compartida con un identificador de sistema devuelto por
+   <span class="function"><a href="function.ftok.html" class="function">ftok()</a></span>.
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.shmop-open-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.shmop-close.html" class="function" rel="rdfs-seeAlso">shmop_close()</a> - Cerrar un segmento de memoria compartida</span></li>
+    <li class="member"><span class="function"><a href="function.shmop-delete.html" class="function" rel="rdfs-seeAlso">shmop_delete()</a> - Borrar segmento de memoria compartida</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.shmop-delete.html">shmop_delete</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.shmop-read.html">shmop_read</a></div>
+ <div class="up"><a href="ref.shmop.html">Funciones de memoria compartida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

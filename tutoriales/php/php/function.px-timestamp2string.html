@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Convertir la fecha y la hora en una cadena.</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.px-set-value.html">px_set_value</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.px-update-record.html">px_update_record</a></div>
+ <div class="up"><a href="ref.paradox.html">Funciones de Paradox</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.px-timestamp2string" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">px_timestamp2string</h1>
+  <p class="verinfo">(PECL paradox &gt;= 1.4.0)</p><p class="refpurpose"><span class="refname">px_timestamp2string</span> &mdash; <span class="dc-title">
+   Convertir la fecha y la hora en una cadena.
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.px-timestamp2string-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>px_timestamp2string</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$pxdoc</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$value</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$format</code></span>
+   )</div>
+
+
+  <p class="para rdfs-comment">
+   Convierte una fecha y hora tal como fué almenacenada en el archivo paradox, en un formato legible
+   por humanos. Las marcas de tiempo paradox son el número de milisegundos transcurridos desde el 0001-01-02.
+   Esta función es sólo por conveniencia. Esta puede ser fácilmente reemplazada por algunas
+   funciones matemáticas y de calendario como se demuestra en el siguiente ejemplo.
+  </p>
+
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.px-timestamp2string-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">pxdoc</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Identificador de recursos de la base de datos paradox.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">value</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Valor almacenado en la base de datos paradox de tipo de campo
+       PX_FIELD_TIME, o PX_FIELD_TIMESTAMP.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">format</code></dt>
+
+     <dd>
+
+      <p class="para">
+        Formato de cadena similar al formato utilizado por la función <span class="function"><a href="function.date.html" class="function">date()</a></span>.
+        Los marcadores de posición soportados por esta función es un subconjunto de los
+        soportados por la función <span class="function"><a href="function.date.html" class="function">date()</a></span> (Y, y, m, n, d, j, H, h, G, g,
+        i, s, A, a, L).
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.px-timestamp2string-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ 
+
+
+ 
+
+
+ <div class="refsect1 examples" id="refsect1-function.px-timestamp2string-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2276">
+    <p><strong>Ejemplo #1 Conversión de una fecha y hora paradox en un formato legible por humanos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$px&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">px_new</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;componer&nbsp;una&nbsp;fecha&nbsp;tal&nbsp;y&nbsp;como&nbsp;podría&nbsp;ser&nbsp;almacenada&nbsp;en&nbsp;*/<br />/*&nbsp;un&nbsp;campo&nbsp;de&nbsp;fecha&nbsp;de&nbsp;una&nbsp;base&nbsp;de&nbsp;datos&nbsp;paradox&nbsp;*/<br />/*&nbsp;700000&nbsp;días&nbsp;desde&nbsp;el&nbsp;1.1.0000.&nbsp;*/<br /></span><span style="color: #0000BB">$days&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">700000</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/*&nbsp;Utilización&nbsp;de&nbsp;las&nbsp;funciones&nbsp;de&nbsp;calendario&nbsp;para&nbsp;imprimir&nbsp;una&nbsp;*/<br />/*&nbsp;fecha&nbsp;en&nbsp;un&nbsp;formato&nbsp;legible&nbsp;por&nbsp;humanos&nbsp;*/<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">jdtogregorian</span><span style="color: #007700">(</span><span style="color: #0000BB">$days</span><span style="color: #007700">+</span><span style="color: #0000BB">1721425</span><span style="color: #007700">).</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/*&nbsp;Convertirla&nbsp;en&nbsp;una&nbsp;marca&nbsp;de&nbsp;tiempo&nbsp;tal&nbsp;y&nbsp;como&nbsp;fue&nbsp;almacenada&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;paradox&nbsp;*/<br />/*&nbsp;Las&nbsp;marcas&nbsp;de&nbsp;tiempo&nbsp;se&nbsp;almacenan&nbsp;en&nbsp;milisegundos&nbsp;desde&nbsp;el&nbsp;0001-01-02&nbsp;*/<br /></span><span style="color: #0000BB">$stamp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$days&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">86400.0&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">1000.0</span><span style="color: #007700">;<br /></span><span style="color: #FF8000">/*&nbsp;Añadir&nbsp;una&nbsp;hora&nbsp;*/<br /></span><span style="color: #0000BB">$stamp&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">3600000.0</span><span style="color: #007700">;<br /></span><span style="color: #FF8000">/*&nbsp;La&nbsp;salida&nbsp;será&nbsp;la&nbsp;siguiente&nbsp;'7/15/1917&nbsp;01:00:00'.&nbsp;*/<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">px_timestamp2string</span><span style="color: #007700">(</span><span style="color: #0000BB">$px</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$stamp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"n/d/Y&nbsp;H:i:s"</span><span style="color: #007700">).</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">px_delete</span><span style="color: #007700">(</span><span style="color: #0000BB">$px</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+7/15/1917
+7/15/1917 01:00:00
+</pre></div>
+    </div>
+   </div>
+  </p>
+
+  <p class="para">
+    La cuenta de la fecha juliana pasada a la función <span class="function"><a href="function.jdtogregorian.html" class="function">jdtogregorian()</a></span>
+    tiene una base diferente de 1.1.4714 a. C. y por lo tanto debe calcularse
+    añadiendo 1721425 a la cuenta de días utilizados en el archivo paradox. En cuanto 
+    el número de días en una fecha y hora se hace fácilmente multiplicando por
+    86400000.0 para obtener milisegundos.
+  </p>
+ </div>
+
+
+
+ <div class="refsect1 seealso" id="refsect1-function.px-timestamp2string-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.px-date2string.html" class="function" rel="rdfs-seeAlso">px_date2string()</a> - Convierte una fecha en una cadena.</span></li>
+    <li class="member"><span class="function"><a href="function.jdtogregorian.html" class="function" rel="rdfs-seeAlso">jdtogregorian()</a> - Convierte una Fecha Juliana en una fecha Gregoriana</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.px-set-value.html">px_set_value</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.px-update-record.html">px_update_record</a></div>
+ <div class="up"><a href="ref.paradox.html">Funciones de Paradox</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

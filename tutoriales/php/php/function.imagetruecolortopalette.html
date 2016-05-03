@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Convertir una imagen de color verdadero en una imagen de paleta</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imagesy.html">imagesy</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagettfbbox.html">imagettfbbox</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imagetruecolortopalette" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imagetruecolortopalette</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.6, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">imagetruecolortopalette</span> &mdash; <span class="dc-title">Convertir una imagen de color verdadero en una imagen de paleta</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imagetruecolortopalette-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>imagetruecolortopalette</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$image</code></span>
+   , <span class="methodparam"><span class="type">bool</span> <code class="parameter">$dither</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$ncolors</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>imagetruecolortopalette()</strong></span> convierte una imagen de color verdadero
+   en una imagen de paleta. El código para esta función fue sacado originalmente del
+   código de la biblioteca de Independent JPEG Group, el cual es excelente. El código
+   ha sido modificado para preservar tanta información alfa como sea
+   posible en la paleta resultante, además de preservar colores tanto
+   como sea posible. Esto no funciona tan bien como se podría esperar. Normalmente
+   es mejor simplemente producir una imagen de salida de color verdadero en su lugar, lo que
+   garantiza la calidad más alta de salida.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imagetruecolortopalette-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+image</code></dt>
+<dd>
+<p class="para">Un recurso image, es devuelto por una de las funciones de creación de imágenes,
+como <span class="function"><a href="function.imagecreatetruecolor.html" class="function">imagecreatetruecolor()</a></span>.</p></dd>
+
+    
+     <dt>
+<code class="parameter">dither</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Indica si la imagen debería ser entramada - si es <strong><code>TRUE</code></strong>
+       se usará el entramado, lo que resultará en una imágen más moteada pero
+       con una aproximación de color mejor.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">ncolors</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Establece el número máximo de colores que se deberían retener en la paleta.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imagetruecolortopalette-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.imagetruecolortopalette-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3581">
+    <p><strong>Ejemplo #1 Convertir una imagen de color verdadero en una imagen de paleta</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Crear&nbsp;una&nbsp;nueva&nbsp;imagen&nbsp;de&nbsp;color&nbsp;verdadero<br /></span><span style="color: #0000BB">$im&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagecreatetruecolor</span><span style="color: #007700">(</span><span style="color: #0000BB">100</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Convertirla&nbsp;a&nbsp;paleta&nbsp;sin&nbsp;entramado&nbsp;y&nbsp;255&nbsp;colores<br /></span><span style="color: #0000BB">imagetruecolortopalette</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">255</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Guardar&nbsp;la&nbsp;imagen<br /></span><span style="color: #0000BB">imagepng</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'./paletteimage.png'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">imagedestroy</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.imagetruecolortopalette-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Esta función require GD 2.0.1 o superior (se recomienda 2.0.28 o superior).</span></p></blockquote>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imagesy.html">imagesy</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagettfbbox.html">imagettfbbox</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

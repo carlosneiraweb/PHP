@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establecer la posici&oacute;n de la salida de texto</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-set-parameter.html">ps_set_parameter</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-set-value.html">ps_set_value</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ps-set-text-pos" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ps_set_text_pos</h1>
+  <p class="verinfo">(PECL ps &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">ps_set_text_pos</span> &mdash; <span class="dc-title">Establecer la posición de la salida de texto</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ps-set-text-pos-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>ps_set_text_pos</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$psdoc</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$x</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$y</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Establece la posición de la siguiente salida de texto. Alternativamente se puede establecer los
+   valores x e y por serparado llamando a la función <span class="function"><a href="function.ps-set-value.html" class="function">ps_set_value()</a></span> y
+   eligiendo <em>textx</em> y <em>texty</em> respectivamente como
+   el nombre del valor.
+  </p>
+  <p class="para">
+   Si se ha de imprimir el texto en una cierta posición es más conveniente
+   utilizar la función <span class="function"><a href="function.ps-show-xy.html" class="function">ps_show_xy()</a></span> en lugar de establecer la posición del texto
+   y llamar a la función <span class="function"><a href="function.ps-show.html" class="function">ps_show()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ps-set-text-pos-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">psdoc</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de recursos del fichero postscript,
+       como el devuelto por la función <span class="function"><a href="function.ps-new.html" class="function">ps_new()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">x</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La coordenada x de la nueva posición del texto.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">y</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La coordenada y de la nueva posición del texto.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ps-set-text-pos-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ps-set-text-pos-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4083">
+    <p><strong>Ejemplo #1 Colocar texto en una posición dada</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$ps&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ps_new</span><span style="color: #007700">();<br />if&nbsp;(!</span><span style="color: #0000BB">ps_open_file</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"texto.ps"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"No&nbsp;se&nbsp;pudo&nbsp;abrir&nbsp;el&nbsp;fichero&nbsp;PostScript\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;exit;<br />}<br /><br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Creator"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"rectángulo.php"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Author"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Uwe&nbsp;Steinmann"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Title"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Ejemplo&nbsp;de&nbsp;colocación&nbsp;de&nbsp;texto"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">ps_begin_page</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">596</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">842</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$psfont&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ps_findfont</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Helvetica"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_setfont</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$psfont</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">8.0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_show_xy</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Algún&nbsp;texto&nbsp;en&nbsp;(100,&nbsp;100)"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">ps_set_value</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"textx"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_set_value</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"texty"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">120</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_show</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Algún&nbsp;texto&nbsp;en&nbsp;(100,&nbsp;120)"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ps_end_page</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">ps_delete</span><span style="color: #007700">(</span><span style="color: #0000BB">$ps</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ps-set-text-pos-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ps-set-value.html" class="function" rel="rdfs-seeAlso">ps_set_value()</a> - Establecer ciertos valores</span></li>
+    <li class="member"><span class="function"><a href="function.ps-show.html" class="function" rel="rdfs-seeAlso">ps_show()</a> - Imprimir texto</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-set-parameter.html">ps_set_parameter</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-set-value.html">ps_set_value</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Redimensiona una imagen adaptativamente con informaci&oacute;n dependiente de la triangulaci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="imagick.adaptiveblurimage.html">Imagick::adaptiveBlurImage</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="imagick.adaptivesharpenimage.html">Imagick::adaptiveSharpenImage</a></div>
+ <div class="up"><a href="class.imagick.html">Imagick</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="imagick.adaptiveresizeimage" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Imagick::adaptiveResizeImage</h1>
+  <p class="verinfo">(PECL imagick 2.0.0)</p><p class="refpurpose"><span class="refname">Imagick::adaptiveResizeImage</span> &mdash; <span class="dc-title">Redimensiona una imagen adaptativamente con información dependiente de la triangulación</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-imagick.adaptiveresizeimage-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>Imagick::adaptiveResizeImage</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$columns</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$rows</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$bestfit</code><span class="initializer"> = false</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Redimensiona una imagen adaptativamente con información dependiente de la triangulación.
+   Evita la borrosidad a través de cambios de color bruscos. Muy útil cuando se usa para encoger
+   ligeramente imágenes a un &quot;tamaño web&quot; ligeramente más pequeño; puede que no tenga una
+   buena apariencia cuando una imagen a tamaño completo se redimensiona adaptativamente a una miniatura.
+   Este método está disponible si Imagick ha sido compilado con la versión 6.2.9 o superior de ImageMagick.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+<span class="simpara">
+ La conducta del parámetro <code class="parameter">bestfit</code> cambió en Imagick 3.0.0.
+ Antes de esta versión dar la dimensión de 400x400 a una imagen de 200x150 debería no
+ tener efecto. En Imagick 3.0.0 y superiores la imagen sería llevada al tamaño de 400x300 ya que
+ este es el &quot;mejor ajuste&quot; para las dimensiones dadas. Si el parámetro <code class="parameter">bestfit</code>
+ es utilizado, se debe indicar tanto el ancho como el alto.
+</span>
+</p></blockquote>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-imagick.adaptiveresizeimage-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">columns</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número de columnas en la imagen escalada.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">rows</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número de filas en la imagen escalada.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">bestfit</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si ajustar la imagen dentro de una caja limitada.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-imagick.adaptiveresizeimage-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito.
+  </p>
+ </div>
+
+
+ <div class="refsect1 errors" id="refsect1-imagick.adaptiveresizeimage-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Lanza ImagickException en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 changelog" id="refsect1-imagick.adaptiveresizeimage-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>2.1.0</td>
+       <td>Añadido el parámetro opcional de ajuste.</td>
+      </tr>
+
+      <tr>
+       <td>2.1.0</td>
+       <td>
+        Este método ahora soporta escalas proporcionales.
+        Pase cero como parámetro para escalar proporcionalmente.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-imagick.adaptiveresizeimage-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3605">
+    <p><strong>Ejemplo #1 Usar <span class="function"><strong>Imagick::adaptiveResizeImage()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Redimensiona una imagen al tamaño estándar para la web. Este método trabaja mejor
+     cuando se redimensiona a un tamaño sólo ligeramente menor que el tamaño de la imagen
+     previa.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-type:&nbsp;image/jpeg'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$imagen&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Imagick</span><span style="color: #007700">(</span><span style="color: #DD0000">'image.jpg'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$image</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">adaptiveResizeImage</span><span style="color: #007700">(</span><span style="color: #0000BB">1024</span><span style="color: #007700">,</span><span style="color: #0000BB">768</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #0000BB">$imagen</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-imagick.adaptiveresizeimage-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="imagick.chopimage.html" class="function" rel="rdfs-seeAlso">Imagick::chopImage()</a> - Borra una regi&oacute;n de una imagen y la recorta</span></li>
+    <li class="member"><span class="function"><a href="imagick.cropimage.html" class="function" rel="rdfs-seeAlso">Imagick::cropImage()</a> - Extrae una regi&oacute;n de la imagen</span></li>
+    <li class="member"><span class="function"><a href="imagick.magnifyimage.html" class="function" rel="rdfs-seeAlso">Imagick::magnifyImage()</a> - Escala una imagen x2 proporcionalmente</span></li>
+    <li class="member"><span class="function"><a href="imagick.minifyimage.html" class="function" rel="rdfs-seeAlso">Imagick::minifyImage()</a> - Escala una imagen proporcionalmente a la mitad de su tama&ntilde;o</span></li>
+    <li class="member"><span class="function"><a href="imagick.resizeimage.html" class="function" rel="rdfs-seeAlso">Imagick::resizeImage()</a> - Escala una imagen</span></li>
+    <li class="member"><span class="function"><a href="imagick.scaleimage.html" class="function" rel="rdfs-seeAlso">Imagick::scaleImage()</a> - Escala el tama&ntilde;o de una imagen</span></li>
+    <li class="member"><span class="function"><a href="imagick.shaveimage.html" class="function" rel="rdfs-seeAlso">Imagick::shaveImage()</a> - Recorta p&iacute;xeles de los extremos de la imagen</span></li>
+    <li class="member"><span class="function"><a href="imagick.thumbnailimage.html" class="function" rel="rdfs-seeAlso">Imagick::thumbnailImage()</a> - Cambia el tama&ntilde;o de una imagen</span></li>
+    <li class="member"><span class="function"><a href="imagick.trimimage.html" class="function" rel="rdfs-seeAlso">Imagick::trimImage()</a> - Elimina los extremos de la imagen</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="imagick.adaptiveblurimage.html">Imagick::adaptiveBlurImage</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="imagick.adaptivesharpenimage.html">Imagick::adaptiveSharpenImage</a></div>
+ <div class="up"><a href="class.imagick.html">Imagick</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

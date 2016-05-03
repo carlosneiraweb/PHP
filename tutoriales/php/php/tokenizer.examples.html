@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejemplos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="tokenizer.constants.html">Constantes predefinidas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.tokenizer.html">Funciones Tokenizer</a></div>
+ <div class="up"><a href="book.tokenizer.html">Tokenizer</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="tokenizer.examples" class="appendix">
+ <h1>Ejemplos</h1>
+
+ <p class="para">
+  Aquí hay un simple ejemplo de scripts PHP donde se usa el tokenizer
+  para leer en un archivo PHP, quitar todo los comentarios del archivo
+  original y mostrar solamente el código puro.
+ </p>
+ <div class="example" id="example-4625">
+  <p><strong>Ejemplo #1 Quitar comentarios con el tokenizer</strong></p>
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*<br />*&nbsp;T_ML_COMMENT&nbsp;no&nbsp;existe&nbsp;en&nbsp;PHP&nbsp;5.<br />*&nbsp;Las&nbsp;siguientes&nbsp;tres&nbsp;líneas&nbsp;lo&nbsp;definen&nbsp;para<br />*&nbsp;preservar&nbsp;compatibilidades&nbsp;anteriores.<br />*<br />*&nbsp;Las&nbsp;siguientes&nbsp;dos&nbsp;líneas&nbsp;definen&nbsp;el&nbsp;T_DOC_COMMENT&nbsp;de&nbsp;PHP&nbsp;5,<br />*&nbsp;el&nbsp;cual&nbsp;será&nbsp;sobreescrito&nbsp;como&nbsp;T_ML_COMMENT&nbsp;para&nbsp;PHP&nbsp;4.<br />*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">defined</span><span style="color: #007700">(</span><span style="color: #DD0000">'T_ML_COMMENT'</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">'T_ML_COMMENT'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">T_COMMENT</span><span style="color: #007700">);<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">'T_DOC_COMMENT'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">T_ML_COMMENT</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #0000BB">$source&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">file_get_contents</span><span style="color: #007700">(</span><span style="color: #DD0000">'example.php'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$tokens&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">token_get_all</span><span style="color: #007700">(</span><span style="color: #0000BB">$source</span><span style="color: #007700">);<br /><br />foreach&nbsp;(</span><span style="color: #0000BB">$tokens&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$token</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">is_string</span><span style="color: #007700">(</span><span style="color: #0000BB">$token</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;simple&nbsp;1-character&nbsp;token<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$token</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;token&nbsp;array<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">list(</span><span style="color: #0000BB">$id</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$text</span><span style="color: #007700">)&nbsp;=&nbsp;</span><span style="color: #0000BB">$token</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch&nbsp;(</span><span style="color: #0000BB">$id</span><span style="color: #007700">)&nbsp;{&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case&nbsp;</span><span style="color: #0000BB">T_COMMENT</span><span style="color: #007700">:&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case&nbsp;</span><span style="color: #0000BB">T_ML_COMMENT</span><span style="color: #007700">:&nbsp;</span><span style="color: #FF8000">//&nbsp;hemos&nbsp;definido&nbsp;esto<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">case&nbsp;</span><span style="color: #0000BB">T_DOC_COMMENT</span><span style="color: #007700">:&nbsp;</span><span style="color: #FF8000">//&nbsp;y&nbsp;esto<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;ninguna&nbsp;acción&nbsp;en&nbsp;comentarios<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">break;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;cualquier&nbsp;otra&nbsp;cosa&nbsp;-&gt;&nbsp;salida&nbsp;"tal&nbsp;cual"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$text</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+ </div>    
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="tokenizer.constants.html">Constantes predefinidas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.tokenizer.html">Funciones Tokenizer</a></div>
+ <div class="up"><a href="book.tokenizer.html">Tokenizer</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

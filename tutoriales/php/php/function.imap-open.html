@@ -1,0 +1,413 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Abrir un flujo IMAP a un buz&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imap-num-recent.html">imap_num_recent</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imap-ping.html">imap_ping</a></div>
+ <div class="up"><a href="ref.imap.html">Funciones de IMAP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imap-open" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imap_open</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">imap_open</span> &mdash; <span class="dc-title">Abrir un flujo <acronym title="Internet Message Access Protocol">IMAP</acronym> a un buzón</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imap-open-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>imap_open</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$mailbox</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$username</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$password</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$options</code><span class="initializer"> = 0</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$n_retries</code><span class="initializer"> = 0</span></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$params</code><span class="initializer"> = <strong><code>NULL</code></strong></span></span>
+  ]]] )</div>
+
+  <p class="para rdfs-comment">
+   Abre un flujo <acronym title="Internet Message Access Protocol">IMAP</acronym> a un buzón dado por <code class="parameter">mailbox</code>.
+  </p>
+  <p class="para">
+   Esta función también se puede usar para abrir flujos a servidores <acronym title="Post Office Protocol version 3">POP3</acronym> y
+   <acronym title="Network News Transfer Protocol">NNTP</acronym>, pero sólo algunas funciones y características están
+   disponibles en servidores <acronym title="Internet Message Access Protocol">IMAP</acronym>.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imap-open-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">mailbox</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un nombre de buzón consiste en una ruta de servidor y una de buzón para este servidor.
+       El nombre especial <em>INBOX</em> permanece para los buzones personales
+       de ususarios actuales. Los nombres de buzón que contienen caracteres internacionales
+       además de aquellos imprimibles del espacio ASCII tienen que ser codificados con
+       <span class="function"><a href="function.imap-utf7-encode.html" class="function">imap_utf7_encode()</a></span>.
+      </p>
+      <p class="para">
+       La ruta del servidor, que está encerrada entre &#039;{&#039; y &#039;}&#039;, consiste en los nombres de los
+       servidores o direcciones ip, y el puerto opcional (prefijado por &#039;:&#039;), y una especificación
+       de protocolo opcional (prefijada por &#039;/&#039;). 
+      </p>
+      <p class="para">
+       La parte del servidor el obligatoria en todos los parámetros
+       del buzón.
+      </p>
+      <p class="para">
+       Todos los nombres que empiezan con <em>{</em> son nombres remotos, y están
+       en la forma <em>&quot;{&quot; nombre_sistema_remoto [&quot;:&quot; puerto] [banderas] &quot;}&quot;
+       [nombre_buzón]</em> donde:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          <em>nombre_sistema_remoto</em> - -Nombre de dominio de internet o
+          dirección IP del servidor entre corchetes.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <em>port</em> - número de puerto TCP opcional, por omisión es el
+          puerto por defecto para ese servicio
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <em>flags</em> - banderas opcionales, véase la siguiente tabla.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <em>mailbox_name</em> - nombre del buzón remoto, por defecto es INBOX
+         </span>
+        </li>
+       </ul>
+      </p>
+      <p class="para">
+       <table class="doctable table">
+        <caption><strong>Banderas opcionales para los nombres</strong></caption>
+        
+         <thead>
+          <tr>
+           <th>Bandera</th>
+           <th>Descricpción</th>
+          </tr>
+
+         </thead>
+
+         <tbody class="tbody">
+          <tr>
+           <td><em>/service=</em><em class="emphasis">servicio</em></td>
+           <td>servicio de acceso al buzón, por defecto es &quot;imap&quot;</td>
+          </tr>
+
+          <tr>
+           <td><em>/user=</em><em class="emphasis">usuario</em></td>
+           <td>nombre de usuario remoto para identificar en el servidor</td>
+          </tr>
+
+          <tr>
+           <td><em>/authuser=</em><em class="emphasis">usuario</em></td>
+           <td>usuario de autentificación remoto; si se especifica es el nombre de usuario
+            cuya contraseña es usada (p.ej. administrador)</td>
+          </tr>
+
+          <tr>
+           <td><em>/anonymous</em></td>
+           <td>acceso remoto como usuario anónimo</td>
+          </tr>
+
+          <tr>
+           <td><em>/debug</em></td>
+           <td>grabar la telemetría de protocolo en el registro de depuración de la aplicación</td>
+          </tr>
+
+          <tr>
+           <td><em>/secure</em></td>
+           <td>no transmitir una contraseña en texto plano en la red</td>
+          </tr>
+
+          <tr>
+           <td><em>/imap</em>, <em>/imap2</em>,
+            <em>/imap2bis</em>, <em>/imap4</em>,
+            <em>/imap4rev1</em></td>
+           <td>equivalente a <em>/service=imap</em></td>
+          </tr>
+
+          <tr>
+           <td><em>/pop3</em></td>
+           <td>equivalente a <em>/service=pop3</em></td>
+          </tr>
+
+          <tr>
+           <td><em>/nntp</em></td>
+           <td>equivalente a <em>/service=nntp</em></td>
+          </tr>
+
+          <tr>
+           <td><em>/norsh</em></td>
+           <td>no usar rsh o ssh para establecer una sesión de IMAP
+            preautenticada</td>
+          </tr>
+
+          <tr>
+           <td><em>/ssl</em></td>
+           <td>usar <em>Secure Socket Layer</em> (Capa de Conexión Segura) para encriptar la sesión</td>
+          </tr>
+
+          <tr>
+           <td><em>/validate-cert</em></td>
+           <td>validar certificados desde el servidor TLS/SSL (este es el comportamiento
+            predeterminado)</td>
+          </tr>
+
+          <tr>
+           <td><em>/novalidate-cert</em></td>
+           <td>no validar certificador desde el servidor TLS/SSL, necesario si
+            el servidor usa certificados autofirmados</td>
+          </tr>
+
+          <tr>
+           <td><em>/tls</em></td>
+           <td>forzar el uso de <em>start-TLS</em> para encriptar la sesión, y rechazar
+            la conexión a servidores que no la soportan</td>
+          </tr>
+
+          <tr>
+           <td><em>/notls</em></td>
+           <td>no realizar <em>start-TLS</em> para encriptar la sesión, incluso con los
+            servidores que la soportan</td>
+          </tr>
+
+          <tr>
+           <td><em>/readonly</em></td>
+           <td>petición de apertura de un buzón de sólo lectura (sólo IMAP; ignorado en NNTP, y
+            un error con SMTP y POP3)</td>
+          </tr>
+
+         </tbody>
+        
+       </table>
+
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">username</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de usuario
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">password</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La contraseña asociada con <code class="parameter">username</code>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">options</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">options</code> es una máscara de bits con uno o más de lo
+       siguiente:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>OP_READONLY</code></strong> - Abrir un buzón de sólo lectura
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>OP_ANONYMOUS</code></strong> - No usar o actualizar un
+          <var class="filename">.newsrc</var> para noticias (sólo NNTP)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>OP_HALFOPEN</code></strong> - Para nombres <acronym title="Internet Message Access Protocol">IMAP</acronym>
+          y <acronym title="Network News Transfer Protocol">NNTP</acronym>, abrir una conexión pero
+          no abrir el buzón.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>CL_EXPUNGE</code></strong> - Expurgar el buzón automáticamente al cierre del mismo
+          (véase también <span class="function"><a href="function.imap-delete.html" class="function">imap_delete()</a></span> y
+          <span class="function"><a href="function.imap-expunge.html" class="function">imap_expunge()</a></span>)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>OP_DEBUG</code></strong> - Depurar negociaciones de protocolo
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>OP_SHORTCACHE</code></strong> - Almacenamiento en caché corto (sólo <em>elt</em>)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>OP_SILENT</code></strong> - No dejar pasar eventos (uso interno)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>OP_PROTOTYPE</code></strong> - Devolver el prototipo de controlador
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>OP_SECURE</code></strong> - No realizar autenticación no segura
+         </span>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">n_retries</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Número máximo de intentos de conexión
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">params</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Parámetros de conexión, las siguientes claves (cadena) pueden usarse
+       para establecer uno o más parámetros de conexión:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          <em>DISABLE_AUTHENTICATOR</em> - Deshabilitar las propieades de autenticación
+         </span>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imap-open-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un flujo IMAP en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.imap-open-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.3.2</td>
+       <td>Se añadió <code class="parameter">params</code></td>
+      </tr>
+
+      <tr>
+       <td>5.2.0</td>
+       <td>Se añadió <code class="parameter">n_retries</code></td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.imap-open-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3881">
+    <p><strong>Ejemplo #1 Diferentes usos de <span class="function"><strong>imap_open()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Para&nbsp;conectarse&nbsp;a&nbsp;un&nbsp;servidor&nbsp;IMAP&nbsp;que&nbsp;se&nbsp;ejecuta&nbsp;en&nbsp;el&nbsp;puerto&nbsp;142&nbsp;de&nbsp;la&nbsp;máquina&nbsp;local,<br />//&nbsp;haga&nbsp;lo&nbsp;siguiente:<br /></span><span style="color: #0000BB">$mbox&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_open</span><span style="color: #007700">(</span><span style="color: #DD0000">"{localhost:143}INBOX"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"user_id"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Para&nbsp;conectarse&nbsp;a&nbsp;un&nbsp;servidor&nbsp;POP3&nbsp;en&nbsp;el&nbsp;puerto&nbsp;110&nbsp;del&nbsp;servidor&nbsp;local,&nbsp;use:<br /></span><span style="color: #0000BB">$mbox&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_open&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"{localhost:110/pop3}INBOX"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"user_id"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Para&nbsp;conectarse&nbsp;a&nbsp;un&nbsp;servidor&nbsp;SSL,&nbsp;IMAP&nbsp;o&nbsp;POP3,&nbsp;añada&nbsp;/ssl&nbsp;después&nbsp;de&nbsp;la&nbsp;especificación<br />//&nbsp;del&nbsp;protocolo:<br /></span><span style="color: #0000BB">$mbox&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_open&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"{localhost:993/imap/ssl}INBOX"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"user_id"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Para&nbsp;conectarse&nbsp;a&nbsp;un&nbsp;servidor&nbsp;SSL,&nbsp;IMAP&nbsp;o&nbsp;POP3,&nbsp;con&nbsp;un&nbsp;certificado&nbsp;autofirmado,<br />//&nbsp;añada&nbsp;/ssl/novalidate-cert&nbsp;después&nbsp;de&nbsp;la&nbsp;especificación&nbsp;del&nbsp;protocolo:<br /></span><span style="color: #0000BB">$mbox&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_open&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"{localhost:995/pop3/ssl/novalidate-cert}"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"user_id"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Para&nbsp;conectarse&nbsp;a&nbsp;un&nbsp;servidor&nbsp;NNTP&nbsp;en&nbsp;el&nbsp;puerto&nbsp;119&nbsp;en&nbsp;el&nbsp;servidor&nbsp;local,&nbsp;use:<br /></span><span style="color: #0000BB">$nntp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_open&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"{localhost:119/nntp}comp.test"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;Para&nbsp;conectarse&nbsp;a&nbsp;un&nbsp;servidor&nbsp;remoto&nbsp;reemplace&nbsp;"localhost"&nbsp;con&nbsp;el&nbsp;nombre&nbsp;o&nbsp;la<br />//&nbsp;dirección&nbsp;IP&nbsp;del&nbsp;servidor&nbsp;al&nbsp;que&nbsp;se&nbsp;quiere&nbsp;conectar.<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <div class="example" id="example-3882">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>imap_open()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mbox&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_open</span><span style="color: #007700">(</span><span style="color: #DD0000">"{imap.example.org:143}"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"username"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"&lt;h1&gt;Buzones&lt;/h1&gt;\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$carpetas&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_listmailbox</span><span style="color: #007700">(</span><span style="color: #0000BB">$mbox</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"{imap.example.org:143}"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"*"</span><span style="color: #007700">);<br /><br />if&nbsp;(</span><span style="color: #0000BB">$carpetas&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Llamada&nbsp;fallida&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">$carpetas&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />echo&nbsp;</span><span style="color: #DD0000">"&lt;h1&gt;Cabeceras&nbsp;en&nbsp;INBOX&lt;/h1&gt;\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$cabeceras&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imap_headers</span><span style="color: #007700">(</span><span style="color: #0000BB">$mbox</span><span style="color: #007700">);<br /><br />if&nbsp;(</span><span style="color: #0000BB">$cabeceras&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Llamada&nbsp;fallida&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">$cabeceras&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">imap_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$mbox</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.imap-open-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.imap-close.html" class="function" rel="rdfs-seeAlso">imap_close()</a> - Cerrar una secuencia IMAP</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imap-num-recent.html">imap_num_recent</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imap-ping.html">imap_ping</a></div>
+ <div class="up"><a href="ref.imap.html">Funciones de IMAP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

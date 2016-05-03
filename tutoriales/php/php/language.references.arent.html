@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>&iquest;Qu&eacute; NO son las Referencias?</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.references.whatdo.html">&iquest;Qu&eacute; hacen las referencias?</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.references.pass.html">Pasar por Referencia</a></div>
+ <div class="up"><a href="language.references.html">Referencias Explicadas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.references.arent" class="sect1">
+  <h2 class="title">¿Qué NO son las Referencias?</h2>
+  <p class="para">
+   Como se dijo antes, las referencias no son punteros. Es decir, la
+   siguiente construcción no hará lo que se esperaba:
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">(&amp;</span><span style="color: #0000BB">$var</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$var&nbsp;</span><span style="color: #007700">=&amp;&nbsp;</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">[</span><span style="color: #DD0000">"baz"</span><span style="color: #007700">];<br />}<br /></span><span style="color: #0000BB">foo</span><span style="color: #007700">(</span><span style="color: #0000BB">$bar</span><span style="color: #007700">);&nbsp;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="simpara">
+   Lo que sucede es que <var class="varname"><var class="varname">$var</var></var> en
+   <var class="varname"><var class="varname">foo</var></var> será ligada con
+   <var class="varname"><var class="varname">$bar</var></var> en la llamada, pero entonces
+   será religada con <var class="varname"><var class="varname"><a href="reserved.variables.globals.html" class="classname">$GLOBALS["baz"]</a></var></var>. No hay forma
+   de ligar <var class="varname"><var class="varname">$bar</var></var> en el ámbito de la llamada a otra cosa
+   usando el mecanismo de referencia, ya que <var class="varname"><var class="varname">$bar</var></var> no está
+   disponible en la función <var class="varname"><var class="varname">foo</var></var> (está representada por
+   <var class="varname"><var class="varname">$var</var></var>, pero <var class="varname"><var class="varname">$var</var></var> sólo tiene
+   el contenido de la variable y no la vinculación nombre-a-valor en la tabla
+   de símbolos de llamada).
+   Se puede usar <a href="language.references.return.html" class="link">devolver
+   referencias</a> para referencias variables seleccionadas por la función.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.references.whatdo.html">&iquest;Qu&eacute; hacen las referencias?</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.references.pass.html">Pasar por Referencia</a></div>
+ <div class="up"><a href="language.references.html">Referencias Explicadas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,416 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configuraci&oacute;n en tiempo de ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mbstring.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mbstring.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="mbstring.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mbstring.configuration" class="section">
+ <h2 class="title">Configuración en tiempo de ejecución</h2>
+ <p class="simpara">
+El comportamiento de estas funciones se ve afectado por la configuración de <var class="filename">php.ini</var>.
+</p>
+ <p class="para">
+  <table class="doctable table">
+   <caption><strong>Opciones de configuración de mbstring</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Nombre</th>
+      <th>Por defecto</th>
+      <th>Cambiable</th>
+      <th>Historial de cambios</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><a href="mbstring.configuration.html#ini.mbstring.language" class="link">mbstring.language</a></td>
+      <td>&quot;neutral&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>
+       Disponible desde PHP 4.3.0. PHP_INI_PERDIR en PHP &lt;= 5.2.6
+      </td>
+     </tr>
+
+     <tr>
+      <td><a href="mbstring.configuration.html#ini.mbstring.detect-order" class="link">mbstring.detect_order</a></td>
+      <td>NULL</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 4.0.6.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mbstring.configuration.html#ini.mbstring.http-input" class="link">mbstring.http_input</a></td>
+      <td>&quot;pass&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 4.0.6. Obsoleta en PHP 5.6.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mbstring.configuration.html#ini.mbstring.http-output" class="link">mbstring.http_output</a></td>
+      <td>&quot;pass&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 4.0.6. Obsoleta en PHP 5.6.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mbstring.configuration.html#ini.mbstring.internal-encoding" class="link">mbstring.internal_encoding</a></td>
+      <td>NULL</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 4.0.6. Obsoleta en PHP 5.6.0.</td>
+     </tr>
+
+     <tr>
+      <td>mbstring.script_encoding</td>
+      <td>NULL</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 4.3.0. Eliminado en PHP 5.4.0. Use <a href="ini.core.html#ini.zend.script-encoding" class="link">zend.script_encoding</a> en su lugar.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mbstring.configuration.html#ini.mbstring.substitute-character" class="link">mbstring.substitute_character</a></td>
+      <td>NULL</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 4.0.6.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mbstring.configuration.html#ini.mbstring.func-overload" class="link">mbstring.func_overload</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>
+       PHP_INI_PERDIR desde PHP 4.3 a 5.2.6, en versiones distintas PHP_INI_SYSTEM.
+       Disponible desde PHP 4.2.0.
+      </td>
+     </tr>
+
+     <tr>
+      <td><a href="mbstring.configuration.html#ini.mbstring.encoding-translation" class="link">mbstring.encoding_translation</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_PERDIR</td>
+      <td>Disponible desde PHP 4.3.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="mbstring.configuration.html#ini.mbstring.strict-detection" class="link">mbstring.strict_detection</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>Disponible desde PHP 5.1.2.</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  Para más detalles y definiciones de los modos de
+PHP_INI_*, vea <a href="configuration.changes.modes.html" class="xref">D&oacute;nde se puede realizar un ajuste de configuraci&oacute;n</a>.
+ </p>
+ 
+ <p class="para">He aquí una breve explicación de
+las directivas de configuración.</p>
+ 
+ <p class="para">
+  <dl>
+
+   
+    <dt id="ini.mbstring.language">
+     <code class="parameter">mbstring.language</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      El ajuste de lenguaje nacional predeterminado (NLS) usado en mbstring. Se ha de observar que esta opción
+      define automágicamente <em>mbstring.internal_encoding</em>, por lo que
+      se debe colocar <em>mbstring.internal_encoding</em>
+      tras <em>mbstring.language</em> en <var class="filename">php.ini</var>
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mbstring.encoding-translation">
+     <code class="parameter">mbstring.encoding_translation</code>
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Habilita el filtro de codificación de caracteres transparente para las consultas HTTP entrantes,
+      la cual lleva a cabo la detección y la conversión de la codificación de entrada
+      a la codificación de caracteres interna.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mbstring.internal-encoding">
+     <code class="parameter">mbstring.internal_encoding</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta característica ha sido declarada
+<em class="emphasis">OBSOLETA</em> desde PHP 5.6.0. Su uso está
+totalmente desaconsejado.</p></div>
+     <p class="para">
+      Define la codificación de caracteres interna.
+     </p>
+     <p class="para">
+      Los usuarios de PHP 5.6 y posterior deberían dejarla vacía y establecer
+      <a href="ini.core.html#ini.default-charset" class="link"><code class="parameter">default_charset</code></a>
+      en su lugar.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mbstring.http-input">
+     <code class="parameter">mbstring.http_input</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta característica ha sido declarada
+<em class="emphasis">OBSOLETA</em> desde PHP 5.6.0. Su uso está
+totalmente desaconsejado.</p></div>
+     <p class="para">
+      Define la codificación de caracteres predeterminada de entrada de HTTP.
+     </p>
+     <p class="para">
+      Los usuarios de PHP 5.6 y posterior deberían dejarla vacía y establecer
+      <a href="ini.core.html#ini.default-charset" class="link"><code class="parameter">default_charset</code></a>
+      en su lugar.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mbstring.http-output">
+     <code class="parameter">mbstring.http_output</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta característica ha sido declarada
+<em class="emphasis">OBSOLETA</em> desde PHP 5.6.0. Su uso está
+totalmente desaconsejado.</p></div>
+     <p class="para">
+      Define la codificación de caracteres predeterminada de salida de HTTP (la salida será convertida de la codificación interna a la codificación de salida de HTTP).
+     </p>
+     <p class="para">
+      Los usuarios de PHP 5.6 y posterior deberían dejarla vacía y establecer
+      <a href="ini.core.html#ini.default-charset" class="link"><code class="parameter">default_charset</code></a>
+      en su lugar.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mbstring.detect-order">
+     <code class="parameter">mbstring.detect_order</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Define el orden de detección de códigos de caracteres predeterminado. Véase también
+      <span class="function"><a href="function.mb-detect-order.html" class="function">mb_detect_order()</a></span>. 
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mbstring.substitute-character">
+     <code class="parameter">mbstring.substitute_character</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Define el caracter de sustitución para juegos de caracteres inválidos.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mbstring.func-overload">
+     <code class="parameter">mbstring.func_overload</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Reemplaza determinadas funciones de único byte por sus equivalentes en mbstring. Véase
+      la sección <a href="mbstring.overload.html" class="link">Sobrecarga de funciones</a> para más
+      información.
+     </p>
+     <p class="para">
+      Este ajuste sólo puede ser cambiado en el archivo <var class="filename">php.ini</var>
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.mbstring.strict-detection">
+     <code class="parameter">mbstring.strict_detection</code>
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Habilita la detección estricta de codificaciones.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </p>
+ 
+ <p class="para">
+  De acuerdo a la <a href="http://www.w3.org/TR/REC-html40/interact/forms.html#adef-accept-charset" class="link external">&raquo;&nbsp;especificación de HTML 4.01</a>,
+  se permite que los navegadores envíen un formulario con una codificación
+  diferente a la utilizada por la página.
+  Véase <span class="function"><a href="function.mb-http-input.html" class="function">mb_http_input()</a></span> para consultar los juegos de caracteres
+  utilizados por los navegadores.
+ </p>
+ <p class="para">
+  Pese a que la mayoría de navegadores son capaces de averiguar la codificación
+  de un determinado documento HTML, es aconsejable utilizar el
+  parámetro <em>charset</em> en la cabecera
+  <em>Content-Type</em> de HTTP con un valor apropiado, mediante
+  <span class="function"><a href="function.header.html" class="function">header()</a></span> o mediante el ajuste ini
+  <a href="ini.core.html#ini.sect.data-handling" class="link">default_charset</a>.
+ </p>
+ <p class="para">
+  <div class="example" id="example-2989">
+   <p><strong>Ejemplo #1 Ejemplos de ajustes de <var class="filename">php.ini</var></strong></p>
+   <div class="example-contents">
+<div class="cdata"><pre>
+; Establecer el lenguaje predeterminado
+mbstring.language        = Neutral; Establecer el lenguaje neutral(UTF-8) (predeterminado)
+mbstring.language        = English; Establecer como lenguaje el inglés
+mbstring.language        = Japanese; Establecer como lenguaje el japonés
+
+;; Establecer la codificación interna predeterminada
+;; Nota: Asegúrese de usar una codificación que funcione con PHP
+mbstring.internal_encoding    = UTF-8  ; Establecer la codificación interna a UTF-8
+
+;; Traducción de codificación HTTP entrante habilitada
+mbstring.encoding_translation = On
+
+;; Establecer la codificación de caracteres predeterminada de HTTP entrante
+;; Nota: Un script no podrá cambiar el ajuste http_input.
+mbstring.http_input           = pass    ; Sin conversión.
+mbstring.http_input           = auto    ; Establecer la entrada HTTP en automático
+                                ; &quot;auto&quot; se expande de acuerdo a mbstring.language
+mbstring.http_input           = SJIS    ; Establecer la entrada HTTP a SJIS
+mbstring.http_input           = UTF-8,SJIS,EUC-JP ; Especificar el orden
+
+;; Establecer la codificación de caracteres predeterminada de HTTP saliente
+mbstring.http_output          = pass    ; Sin conversión
+mbstring.http_output          = UTF-8   ; Establecer la codificación de salida HTTP a UTF-8
+
+;; Establecer el orden predeterminado de la detección de juegos de caracteres
+mbstring.detect_order         = auto    ; Orden de detección automático
+mbstring.detect_order         = ASCII,JIS,UTF-8,SJIS,EUC-JP ; Especificar el orden
+
+;; Establecer el carácter de sustitución predeterminado
+mbstring.substitute_character = 12307   ; Especificar un valor Unicode
+mbstring.substitute_character = none    ; No imprimir el carácter
+mbstring.substitute_character = long    ; Ejemplo de long: U+3000,JIS+7E7E
+</pre></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  <div class="example" id="example-2990">
+   <p><strong>Ejemplo #2 Ajustes de <var class="filename">php.ini</var> para usuarios de <em>EUC-JP</em></strong></p>
+   <div class="example-contents">
+<div class="cdata"><pre>
+;; Deshabilitar el almacenamiento en el búfer de salida
+output_buffering      = Off
+
+;; Establecer el juego de caracteres de las cabeceras HTTP
+default_charset       = EUC-JP    
+
+;; Establecer como lenguaje predeterminado el japonés
+mbstring.language = Japanese
+
+;; Habilitar la traducción de la codificación del HTTP entrante.
+mbstring.encoding_translation = On
+
+;; Establecer en automática la conversión de la codificación de HTTP entrante
+mbstring.http_input   = auto 
+
+;; Convertir la salida de HTTP a EUC-JP
+mbstring.http_output  = EUC-JP    
+
+;; Establecer EUC-JP como codificación interna
+mbstring.internal_encoding = EUC-JP    
+
+;; No imprimir caracteres inválidos
+mbstring.substitute_character = none   
+</pre></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  <div class="example" id="example-2991">
+   <p><strong>Ejemplo #3 Ajustes de <var class="filename">php.ini</var> para usuarios de <em>SJIS</em></strong></p>
+   <div class="example-contents">
+<div class="cdata"><pre>
+;; Habilitar el almacenamiento en el búfer de salida
+output_buffering     = On
+
+;; Establecer mb_output_handler para habilitar la conversión de los datos de salida
+output_handler       = mb_output_handler
+
+;; Establecer el juego de caracteres de las cabeceras HTTP
+default_charset      = Shift_JIS
+
+;; Establecer como lenguaje predeterminado el japonés
+mbstring.language = Japanese
+
+;; Establecer en automático la conversión del juego de caracteres http entrante
+mbstring.http_input  = auto 
+
+;; Convertir a SJIS
+mbstring.http_output = SJIS    
+
+;; Establecer EUC-JP como codificación interna
+mbstring.internal_encoding = EUC-JP    
+
+;; No imprimir caracteres inválidos
+mbstring.substitute_character = none   
+</pre></div>
+   </div>
+
+  </div>
+ </p>
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mbstring.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mbstring.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="mbstring.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

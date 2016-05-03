@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Prepara una sentencia de Oracle para su ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.oci-num-rows.html">oci_num_rows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.oci-password-change.html">oci_password_change</a></div>
+ <div class="up"><a href="ref.oci8.html">Funciones de OCI8</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.oci-parse" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">oci_parse</h1>
+  <p class="verinfo">(PHP 5, PHP 7, PECL OCI8 &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">oci_parse</span> &mdash; <span class="dc-title">Prepara una sentencia de Oracle para su ejecución</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.oci-parse-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>oci_parse</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$connection</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$sql_text</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Prepara la sentencia dada por <code class="parameter">sql_text</code> usando la conexión
+   <code class="parameter">connection</code> y devuelve el identificador de sentencia,
+   el cual puede usarse con <span class="function"><a href="function.oci-bind-by-name.html" class="function">oci_bind_by_name()</a></span>, 
+   <span class="function"><a href="function.oci-execute.html" class="function">oci_execute()</a></span> y demás funciones.
+  </p>
+  <p class="para">
+   Los identificadores de sentencia pueden liberarse
+   con <span class="function"><a href="function.oci-free-statement.html" class="function">oci_free_statement()</a></span> o estableciendo la
+   variable a <strong><code>NULL</code></strong>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.oci-parse-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">connection</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un identificador de conexión de Oracle devuelto por
+       <span class="function"><a href="function.oci-connect.html" class="function">oci_connect()</a></span>, <span class="function"><a href="function.oci-pconnect.html" class="function">oci_pconnect()</a></span>, o <span class="function"><a href="function.oci-new-connect.html" class="function">oci_new_connect()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">sql_text</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La sentencia SQL o PL/SQL.
+      </p>
+      <p class="para">
+       Las sentencias SQL <em class="emphasis">no deberían</em> finalizar con un
+       punto y coma (&quot;;&quot;). Las sentencias
+       PL/SQL <em class="emphasis">sí deberían</em> finalizar con un punto y coma
+       (&quot;;&quot;).
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.oci-parse-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el gestor de sentencia en caso de éxito, o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.oci-parse-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2253">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>oci_parse()</strong></span> para sentencias SQL</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'hr'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'welcome'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'localhost/XE'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Analizar&nbsp;la&nbsp;sentencia.&nbsp;Observe&nbsp;que&nbsp;no&nbsp;hay&nbsp;punto&nbsp;y&nbsp;coma&nbsp;final&nbsp;en&nbsp;la&nbsp;sentencia&nbsp;SQL<br /></span><span style="color: #0000BB">$stid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'SELECT&nbsp;*&nbsp;FROM&nbsp;employees'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"&lt;table&nbsp;border='1'&gt;\n"</span><span style="color: #007700">;<br />while&nbsp;(</span><span style="color: #0000BB">$row&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_fetch_array</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">OCI_ASSOC</span><span style="color: #007700">+</span><span style="color: #0000BB">OCI_RETURN_NULLS</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;tr&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">$row&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$item</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;"&nbsp;</span><span style="color: #007700">.&nbsp;(</span><span style="color: #0000BB">$item&nbsp;</span><span style="color: #007700">!==&nbsp;</span><span style="color: #0000BB">null&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #0000BB">htmlentities</span><span style="color: #007700">(</span><span style="color: #0000BB">$item</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">ENT_QUOTES</span><span style="color: #007700">)&nbsp;:&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"&lt;/td&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;/tr&gt;\n"</span><span style="color: #007700">;<br />}<br />echo&nbsp;</span><span style="color: #DD0000">"&lt;/table&gt;\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2254">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>oci_parse()</strong></span> para sentencias PL/SQL</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">/*<br />&nbsp;&nbsp;Antes&nbsp;de&nbsp;ejecutar&nbsp;el&nbsp;programa&nbsp;de&nbsp;PHP,&nbsp;cree&nbsp;un&nbsp;procedimiento&nbsp;almacenado&nbsp;en<br />&nbsp;&nbsp;SQL*Plus&nbsp;o&nbsp;SQL&nbsp;Developer:<br /><br />&nbsp;&nbsp;CREATE&nbsp;OR&nbsp;REPLACE&nbsp;PROCEDURE&nbsp;myproc(p1&nbsp;IN&nbsp;NUMBER,&nbsp;p2&nbsp;OUT&nbsp;NUMBER)&nbsp;AS<br />&nbsp;&nbsp;BEGIN<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2&nbsp;:=&nbsp;p1&nbsp;*&nbsp;2;<br />&nbsp;&nbsp;END;<br /><br />*/<br /><br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'hr'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'welcome'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'localhost/XE'</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$conn</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$e&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_error</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">trigger_error</span><span style="color: #007700">(</span><span style="color: #0000BB">htmlentities</span><span style="color: #007700">(</span><span style="color: #0000BB">$e</span><span style="color: #007700">[</span><span style="color: #DD0000">'message'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">ENT_QUOTES</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">E_USER_ERROR</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #0000BB">$p1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Cuando&nbsp;se&nbsp;analizan&nbsp;programas&nbsp;PL/SQL,&nbsp;debería&nbsp;existir&nbsp;un&nbsp;punto&nbsp;y&nbsp;coma&nbsp;final&nbsp;de&nbsp;la&nbsp;cadena<br /></span><span style="color: #0000BB">$stid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">oci_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'begin&nbsp;myproc(:p1,&nbsp;:p2);&nbsp;end;'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_bind_by_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">':p1'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$p1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_bind_by_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">':p2'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$p2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">40</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">oci_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">);<br /><br />print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$p2</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;imprime&nbsp;16<br /><br /></span><span style="color: #0000BB">oci_free_statement</span><span style="color: #007700">(</span><span style="color: #0000BB">$stid</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">oci_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.oci-parse-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Esta función <em class="emphasis">no</em> valida 
+    <code class="parameter">sql_text</code>. La única manera de averiguar si
+    <code class="parameter">sql_text</code> es una sentencia SQL o PL/SQL válida
+    es ejecutarla.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.oci-parse-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.oci-execute.html" class="function" rel="rdfs-seeAlso">oci_execute()</a> - Ejecuta una sentencia</span></li>
+    <li class="member"><span class="function"><a href="function.oci-free-statement.html" class="function" rel="rdfs-seeAlso">oci_free_statement()</a> - Libera todos los recursos asociados con una sentencia o cursor</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.oci-num-rows.html">oci_num_rows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.oci-password-change.html">oci_password_change</a></div>
+ <div class="up"><a href="ref.oci8.html">Funciones de OCI8</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene el valor entero de una variable</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.import-request-variables.html">import_request_variables</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.is-array.html">is_array</a></div>
+ <div class="up"><a href="ref.var.html">Funciones de manejo de variables</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.intval" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">intval</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">intval</span> &mdash; <span class="dc-title">Obtiene el valor entero de una variable</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.intval-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>intval</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$var</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$base</code><span class="initializer"> = 10</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve el valor <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span> de una <code class="parameter">var</code>,
+   con la especificada <code class="parameter">base</code> para la conversión
+   (por defecto es base 10). No debería ser usado en objetos, si es usado
+   emitirá un error de nivel <strong><code>E_NOTICE</code></strong>
+   y devolverá 1.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.intval-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">var</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El valor escalar a convertir a un entero
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">base</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La base para la conversión
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Si <code class="parameter">base</code> es 0, la base usada estará determinada
+        por el formato de <code class="parameter">var</code>:
+        <ul class="itemizedlist">
+         <li class="listitem">
+          <span class="simpara">
+           si el string incuye el prefijo &quot;0x&quot; (o &quot;0X&quot;), la base se tomará
+           como 16 (hex); si no,
+          </span>
+         </li>
+         <li class="listitem">
+          <span class="simpara">
+           si el string comienza con &quot;0&quot;, la base se tomará como 8 (octal);
+           si no,
+          </span>
+         </li>
+         <li class="listitem">
+          <span class="simpara">
+           la base se toma como 10 (decimal).
+          </span>
+         </li>
+        </ul>
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.intval-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El valor entero de <code class="parameter">var</code> en caso de éxito, o 0 en
+   caso de error. Arrays vacíos devuelven 0, arrays no vacíos devuelven 1.
+  </p>
+  <p class="para">
+   El valor máximo depende del sistema. Los sistemas de 32 bits tienen un 
+   rango máximo para un entero con signo que va desde -2147483648 a 2147483647. Así, por ejemplo, 
+   en tal sistema, <em>intval(&#039;1000000000000&#039;)</em> devolverá 
+   2147483647. El valor máximo para un entero con signo en sistemas de 64 bits es
+   9223372036854775807.
+  </p>
+  <p class="para">
+   Las cadenas muy probablemente devolverán 0, aunque esto depende de los 
+   carácteres del extremo izquierdo de la cadena. Aplican las reglas comunes para 
+   <a href="language.types.integer.html#language.types.integer.casting" class="link">moldeado de enteros</a>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.intval-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5832">
+    <p><strong>Ejemplo #1 Ejemplos de <span class="function"><strong>intval()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Los siguientes ejemplos se basan en un sistema de 32 bits.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #0000BB">42</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;42<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #0000BB">4.2</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;4<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #DD0000">'42'</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;42<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #DD0000">'+42'</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;42<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #DD0000">'-42'</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;-42<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #0000BB">042</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;34<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #DD0000">'042'</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;42<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #0000BB">1e10</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;1410065408<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #DD0000">'1e10'</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #0000BB">0x1A</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;26<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #0000BB">42000000</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;42000000<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #0000BB">420000000000000000000</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;0<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #DD0000">'420000000000000000000'</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;2147483647<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #0000BB">42</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;42<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(</span><span style="color: #DD0000">'42'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;34<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(array());&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;0<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">intval</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'foo'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bar'</span><span style="color: #007700">));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.intval-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El parámetro <code class="parameter">base</code> no tiene ningún efecto a menos que el
+    parámetro <code class="parameter">var</code> sea una cadena.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.intval-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.1.0</td>
+       <td>
+        Lanza <strong><code>E_NOTICE</code></strong> y
+        devuelve 1, cuando se pasa un objecto a
+        <code class="parameter">var</code>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.intval-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.boolval.html" class="function" rel="rdfs-seeAlso">boolval()</a> - Obtener el valor booleano de una variable</span></li>
+    <li class="member"><span class="function"><a href="function.floatval.html" class="function" rel="rdfs-seeAlso">floatval()</a> - Obtener el valor flotante de una variable</span></li>
+    <li class="member"><span class="function"><a href="function.strval.html" class="function" rel="rdfs-seeAlso">strval()</a> - Obtiene el valor de cadena de una variable</span></li>
+    <li class="member"><span class="function"><a href="function.settype.html" class="function" rel="rdfs-seeAlso">settype()</a> - Establece el tipo de una variable</span></li>
+    <li class="member"><span class="function"><a href="function.is-numeric.html" class="function" rel="rdfs-seeAlso">is_numeric()</a> - Comprueba si una variable es un n&uacute;mero o un string num&eacute;rico</span></li>
+    <li class="member"><a href="language.types.type-juggling.html" class="link">Manipulación de tipos</a></li>
+    <li class="member"><a href="ref.bc.html" class="link">Funciones matemáticas de precisión arbitraria de BCMath</a></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.import-request-variables.html">import_request_variables</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.is-array.html">is_array</a></div>
+ <div class="up"><a href="ref.var.html">Funciones de manejo de variables</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Registra y a&ntilde;ade una funci&oacute;n de retorno</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.gearmanworker.html">GearmanWorker</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="gearmanworker.addoptions.html">GearmanWorker::addOptions</a></div>
+ <div class="up"><a href="class.gearmanworker.html">GearmanWorker</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="gearmanworker.addfunction" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">GearmanWorker::addFunction</h1>
+  <p class="verinfo">(PECL gearman &gt;= 0.5.0)</p><p class="refpurpose"><span class="refname">GearmanWorker::addFunction</span> &mdash; <span class="dc-title">Registra y añade una función de retorno</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-gearmanworker.addfunction-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>GearmanWorker::addFunction</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$function_name</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$function</code></span>
+   [, <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter reference">&$context</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$timeout</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Registra el nombre de una función en el servidor de trabajos y especifica la llamada de retorno
+   quer corresponde a esa función. Opcionalmente se puede especificar datos extra del contexto 
+   de aplicación para que sean usados cuando se realiza la llamada a la función de retorno o expira
+   el tiempo máximo permitido.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-gearmanworker.addfunction-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">function_name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Nombre de la función a registrar en el servidor de trabajos
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">function</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Función de retorno a llamar cuando el trabajo para el nombre de función registrado es enviado
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">context</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Referencia a datos de contexto de la aplicación que pueden ser modificados por la
+       la función del trabajador
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">timeout</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Intervalo de tiempo en segundos
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-gearmanworker.addfunction-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-gearmanworker.addfunction-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4868">
+    <p><strong>Ejemplo #1 Sencillo trabajador que usa los datos de contexto de aplicación</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">#&nbsp;obtiene&nbsp;un&nbsp;trabajador&nbsp;gearman<br /></span><span style="color: #0000BB">$worker</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">GearmanWorker</span><span style="color: #007700">();&nbsp;<br /><br /></span><span style="color: #FF8000">#&nbsp;añade&nbsp;el&nbsp;servidor&nbsp;por&nbsp;defecto&nbsp;(localhost)<br /></span><span style="color: #0000BB">$worker</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addServer</span><span style="color: #007700">();&nbsp;<br /><br /></span><span style="color: #FF8000">#&nbsp;define&nbsp;una&nbsp;variable&nbsp;en&nbsp;la&nbsp;que&nbsp;mantener&nbsp;los&nbsp;datos&nbsp;de&nbsp;aplicación<br /></span><span style="color: #0000BB">$count</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;<br /><br /></span><span style="color: #FF8000">#&nbsp;añade&nbsp;la&nbsp;función&nbsp;"reverse"<br /></span><span style="color: #0000BB">$worker</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addFunction</span><span style="color: #007700">(</span><span style="color: #DD0000">"reverse"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"reverse_cb"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$count</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">#&nbsp;inicia&nbsp;el&nbsp;trabajador<br /></span><span style="color: #007700">while&nbsp;(</span><span style="color: #0000BB">$worker</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">work</span><span style="color: #007700">());<br /><br />function&nbsp;</span><span style="color: #0000BB">reverse_cb</span><span style="color: #007700">(</span><span style="color: #0000BB">$job</span><span style="color: #007700">,&nbsp;&amp;</span><span style="color: #0000BB">$count</span><span style="color: #007700">)&nbsp;<br />{&nbsp;<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$count</span><span style="color: #007700">++;&nbsp;<br />&nbsp;&nbsp;return&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$count</span><span style="color: #DD0000">:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">strrev</span><span style="color: #007700">(</span><span style="color: #0000BB">$job</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">workload</span><span style="color: #007700">());&nbsp;<br />}&nbsp;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>
+     Ejecutando un cliente que envía dos trabajos para la función &quot;reverse&quot;, tendrá
+     un resultado similar a este:
+    </p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+1: olleh
+2: dlrow
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-gearmanworker.addfunction-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="gearmanclient.do.html" class="methodname" rel="rdfs-seeAlso">GearmanClient::do()</a> - Ejecuta una sola tarea y retorna el resultado [obsoleto]</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.gearmanworker.html">GearmanWorker</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="gearmanworker.addoptions.html">GearmanWorker::addOptions</a></div>
+ <div class="up"><a href="class.gearmanworker.html">GearmanWorker</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

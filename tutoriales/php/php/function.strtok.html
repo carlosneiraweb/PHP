@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Tokeniza string</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.strstr.html">strstr</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.strtolower.html">strtolower</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.strtok" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">strtok</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">strtok</span> &mdash; <span class="dc-title">Tokeniza string</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.strtok-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>strtok</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$str</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$token</code></span>
+   )</div>
+
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>strtok</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$token</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>strtok()</strong></span> divide un string (<code class="parameter">str</code>)
+   en strings más pequeños (tokens), con cada token delimitado por cualquier
+   caracter de <code class="parameter">token</code>.
+   Es decir, si se tiene un string como &quot;Este es un string de ejemplo&quot;, se
+   puede tokenizar en sus palabras individuales utilizando el
+   caracter de espacio como el token.
+  </p>
+  <p class="para">
+   Nótese que sólo la primera llamada a strtok utiliza el argumento string.
+   Cada llamada subsecuente a strtok sólo necesita el token a utilizar, ya
+   que realiza un seguimiento del lugar en que se encuentra en el string actual. Para
+   volver a empezar, o para dividir una cadena nueva, simplemente se llama a strtok de nuevo 
+   con el argumento string para inicializarlo. Tener en cuenta que se pueden poner
+   tokens múltiples como parámetro. El string será
+   tokenizado cuando cualquiera de los caracteres en el argumento sea
+   encontrado.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.strtok-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">str</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El <span class="type"><a href="language.types.string.html" class="type string">string</a></span> a ser dividido en strings más pequeños (tokens).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">token</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El delimitador usado cuando se divide <code class="parameter">str</code>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.strtok-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Un token de <span class="type"><a href="language.types.string.html" class="type string">string</a></span>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.strtok-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5461">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>strtok()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$string&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"This&nbsp;is\tan&nbsp;example\nstring"</span><span style="color: #007700">;<br /></span><span style="color: #FF8000">/*&nbsp;Utiliza&nbsp;tabulador&nbsp;y&nbsp;nueva&nbsp;línea&nbsp;como&nbsp;caracteres&nbsp;de&nbsp;tokenización,&nbsp;así&nbsp;&nbsp;*/<br /></span><span style="color: #0000BB">$tok&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strtok</span><span style="color: #007700">(</span><span style="color: #0000BB">$string</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"&nbsp;\n\t"</span><span style="color: #007700">);<br /><br />while&nbsp;(</span><span style="color: #0000BB">$tok&nbsp;</span><span style="color: #007700">!==&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Word=</span><span style="color: #0000BB">$tok</span><span style="color: #DD0000">&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$tok&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strtok</span><span style="color: #007700">(</span><span style="color: #DD0000">"&nbsp;\n\t"</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   El comportamiento cuando se encuentra una parte vacía, cambió con PHP 4.1.0. El comportamiento
+   anterior devolvía una cadena vacía, mientras que el comportamiento nuevo y correcto
+   simplemente se salta esa parte del string:
+  </p>
+  <p class="para">
+   <div class="example" id="example-5462">
+    <p><strong>Ejemplo #2 Comportamiento anterior de <span class="function"><strong>strtok()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$first_token&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strtok</span><span style="color: #007700">(</span><span style="color: #DD0000">'/something'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'/'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$second_token&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strtok</span><span style="color: #007700">(</span><span style="color: #DD0000">'/'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$first_token</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$second_token</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+    string(0) &quot;&quot;
+    string(9) &quot;something&quot;
+</pre></div>
+    </div>
+   </div>
+   <div class="example" id="example-5463">
+    <p><strong>Ejemplo #3 Comportamiento nuevo de <span class="function"><strong>strtok()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$first_token&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strtok</span><span style="color: #007700">(</span><span style="color: #DD0000">'/something'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'/'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$second_token&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strtok</span><span style="color: #007700">(</span><span style="color: #DD0000">'/'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$first_token</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$second_token</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+    string(9) &quot;something&quot;
+    bool(false)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.strtok-notes">
+  <h3 class="title">Notas</h3>
+  
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función puede
+devolver el valor booleano <strong><code>FALSE</code></strong>, pero también puede devolver un valor no booleano que se
+evalúa como <strong><code>FALSE</code></strong>. Por favor lea la sección sobre <a href="language.types.boolean.html" class="link">Booleanos</a> para más
+información. Use <a href="language.operators.comparison.html" class="link">el operador
+===</a> para comprobar el valor devuelto por esta
+función.</p></div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.strtok-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.split.html" class="function" rel="rdfs-seeAlso">split()</a> - Divide una cadena en una matriz mediante una expresi&oacute;n regular</span></li>
+    <li class="member"><span class="function"><a href="function.explode.html" class="function" rel="rdfs-seeAlso">explode()</a> - Divide un string en varios string</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.strstr.html">strstr</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.strtolower.html">strtolower</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

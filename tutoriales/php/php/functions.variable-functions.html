@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Funciones variables</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="functions.returning-values.html">Devolver valores</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="functions.internal.html">Funciones internas (incluidas)</a></div>
+ <div class="up"><a href="language.functions.html">Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="functions.variable-functions" class="sect1">
+  <h2 class="title">Funciones variables</h2>
+  
+  <p class="para">
+   PHP admite el concepto de funciones variables. Esto significa que si
+   un nombre de variable tiene paréntesis anexos a él, PHP buscará
+   una función con el mismo nombre que lo evaluado por la variable,
+   e intentará ejecutarla. Entre otras cosas, esto se puede
+   usar para implementar llamadas de retorno, tablas de funciones, y así sucesivamente.
+  </p>
+  <p class="para">
+   Las funciones variables no funcionarán con constructores de lenguaje como
+   <span class="function"><a href="function.echo.html" class="function">echo</a></span>, <span class="function"><a href="function.print.html" class="function">print</a></span>,
+   <span class="function"><a href="function.unset.html" class="function">unset()</a></span>, <span class="function"><a href="function.isset.html" class="function">isset()</a></span>,
+   <span class="function"><a href="function.empty.html" class="function">empty()</a></span>, <span class="function"><a href="function.include.html" class="function">include</a></span>,
+   <span class="function"><a href="function.require.html" class="function">require</a></span> y similares. Utilice funciones de envoltura para hacer
+   uso de cualquiera de estos constructores como funciones variables.
+  </p>
+  <p class="para">
+   <div class="example" id="example-190">
+    <p><strong>Ejemplo #1 Ejemplo de función variable</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"En&nbsp;foo()&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">bar</span><span style="color: #007700">(</span><span style="color: #0000BB">$arg&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"En&nbsp;bar();&nbsp;el&nbsp;argumento&nbsp;era&nbsp;'</span><span style="color: #0000BB">$arg</span><span style="color: #DD0000">'.&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Esta&nbsp;es&nbsp;una&nbsp;función&nbsp;de&nbsp;envoltura&nbsp;alrededor&nbsp;de&nbsp;echo<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">hacerecho</span><span style="color: #007700">(</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$func&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'foo'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$func</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Esto&nbsp;llama&nbsp;a&nbsp;foo()<br /><br /></span><span style="color: #0000BB">$func&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'bar'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$func</span><span style="color: #007700">(</span><span style="color: #DD0000">'prueba'</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Esto&nbsp;llama&nbsp;a&nbsp;bar()<br /><br /></span><span style="color: #0000BB">$func&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'hacerecho'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$func</span><span style="color: #007700">(</span><span style="color: #DD0000">'prueba'</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Esto&nbsp;llama&nbsp;a&nbsp;hacerecho()<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Los métodos de objetos también puede ser llamados con la sintaxis de funciones variables.
+   <div class="example" id="example-191">
+    <p><strong>Ejemplo #2 Ejemplo de método variable</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Foo<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">Variable</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$nombre&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Bar'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">//&nbsp;Esto&nbsp;llama&nbsp;al&nbsp;método&nbsp;Bar()<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">Bar</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Esto&nbsp;es&nbsp;Bar"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Foo</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$nombrefunc&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"Variable"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">$nombrefunc</span><span style="color: #007700">();&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Esto&nbsp;llama&nbsp;a&nbsp;$foo-&gt;Variable()<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Cuando se llaman a métodos estáticos, la llamada a la función es más fuerte que el operador de
+   propiedad static:
+   <div class="example" id="example-192">
+    <p><strong>Ejemplo #3 Ejemplo de método variable con propiedades estáticas</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Foo<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;</span><span style="color: #0000BB">$variable&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'propiedad&nbsp;estática'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;function&nbsp;</span><span style="color: #0000BB">Variable</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Método&nbsp;Variable&nbsp;llamado'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />echo&nbsp;</span><span style="color: #0000BB">Foo</span><span style="color: #007700">::</span><span style="color: #0000BB">$variable</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Esto&nbsp;imprime&nbsp;'propiedad&nbsp;estática'.&nbsp;No&nbsp;necesita&nbsp;una&nbsp;$variable&nbsp;en&nbsp;este&nbsp;ámbito.<br /></span><span style="color: #0000BB">$variable&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"Variable"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">Foo</span><span style="color: #007700">::</span><span style="color: #0000BB">$variable</span><span style="color: #007700">();&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Esto&nbsp;llama&nbsp;a&nbsp;$foo-&gt;Variable()&nbsp;leyendo&nbsp;$variable&nbsp;en&nbsp;este&nbsp;ámbito.<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   A partir de PHP 5.4.0, se puede llamar a cualquier <span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> almacenado en una variable.
+   <div class="example" id="example-193">
+    <p><strong>Ejemplo #4 Llamables complejos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+class&nbsp;Foo<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;function&nbsp;bar()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;"bar\n";<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;baz()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;"baz\n";<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />$func&nbsp;=&nbsp;array("Foo",&nbsp;"bar");<br />$func();&nbsp;//&nbsp;imprime&nbsp;"bar"<br />$f&nbsp;=&nbsp;array(new&nbsp;Foo,&nbsp;"baz");<br />$func();&nbsp;//&nbsp;imprime&nbsp;"baz"<br />$f&nbsp;=&nbsp;"Foo::bar";<br />$func();&nbsp;//&nbsp;imprime&nbsp;"bar"&nbsp;a&nbsp;partrid&nbsp;de&nbsp;PHP&nbsp;7.0.0;&nbsp;antes,&nbsp;emitía&nbsp;un&nbsp;error&nbsp;fatal</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  
+  <p class="para">
+   Véase también <span class="function"><a href="function.is-callable.html" class="function">is_callable()</a></span>, <span class="function"><a href="function.call-user-func.html" class="function">call_user_func()</a></span>,
+   <a href="language.variables.variable.html" class="link">
+    variables variables</a> y <span class="function"><a href="function.function-exists.html" class="function">function_exists()</a></span>.
+  </p>
+  
+  <div class="sect2">
+   <h3 class="title">Historial de cambios</h3>
+   <p class="para">
+    <table class="doctable informaltable">
+     
+      <thead>
+       <tr>
+        <th>Versión</th>
+        <th>Descripción</th>
+       </tr>
+
+      </thead>
+
+      <tbody class="tbody">
+       <tr>
+        <td>7.0.0</td>
+        <td>
+         &#039;NombreDeClase::NombreDeMétodo&#039; se permite como función variable.
+        </td>
+       </tr>
+
+       <tr>
+        <td>5.4.0</td>
+        <td>
+         Los arrays, que son llamables válidos, están permitidos como funciones variables.
+        </td>
+       </tr>
+
+      </tbody>
+     
+    </table>
+
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="functions.returning-values.html">Devolver valores</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="functions.internal.html">Funciones internas (incluidas)</a></div>
+ <div class="up"><a href="language.functions.html">Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Clase MongoConnectionException</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mongocursortimeoutexception.html">MongoCursorTimeoutException</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongogridfsexception.html">MongoGridFSException</a></div>
+ <div class="up"><a href="mongo.exceptions.html">Excepciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="class.mongoconnectionexception" class="reference">
+ 
+ <h1 class="title">Clase MongoConnectionException</h1>
+ 
+ 
+ <div class="partintro"><p class="verinfo">(PECL mongo &gt;= 1.0.0)</p>
+  
+  
+  <div class="section" id="mongoconnectionexception.intro">
+   <h2 class="title">Introducción</h2>
+   <p class="para">
+    Lanzado cuando falla el driver al conectar a la base de datos.
+   </p>
+   
+   <p class="para">
+    Existen varios mensajes de error posibles para ayudar a diagnosticar el
+    problema de conexión:
+   </p>
+   
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      <em>No candidate servers found</em>
+     </p>
+     <p class="para">
+      Lanzado cuando el controlador no puede establecer una conexión con MongoDB
+      (satisfaciendo las ReadPreferences, si se especifican).
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>No server name given.</em>
+     </p>
+     <p class="para">
+      Este error ocurre al pasar &quot;&quot; como nombre de servidor,
+      probablemente por error tipográfico con interpolación de strings,
+      p.ej., &quot;$servr&quot; en lugar de &quot;$server&quot;.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>
+       failed to get host [hostname] or port [portnum] 
+       from [server].
+      </em>
+     </p>
+     <p class="para">
+      Indica que el nombre del servidor está malformado.
+      &quot;[hostname&quot;] y &quot;[portnum]&quot; serán lo que el driver haya
+      descifrado que sean.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>Operation in progress</em>
+     </p>
+     <p class="para">
+      Superado el tiempo de espera de conexión a la base de datos.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>Transport endpoint is not connected</em>
+     </p>
+     <p class="para">
+      Generalmente indica que la cadena de conexión no es correcta. De hecho,
+      el driver no puede ni encontrar el servidor de bases de datos.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>couldn&#039;t determine master</em>
+     </p>
+     <p class="para">
+      Ningún servidor de una conexión a un conjunto de réplicas fue identificado como el primario.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>couldn&#039;t get host info for [server]</em>
+     </p>
+     <p class="para">
+      Indica que el DNS no puede resolver la dirección de servidor
+      proporcionada. Posiblemente se trate de un error tipográfico, por ejemplo,
+      &quot;server&quot; en lugar de &quot;$server&quot;.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>Invalid Argument</em>
+     </p>
+     <p class="para">
+      Puede provocarse al intentar conectar a una máquina que está funcionando
+      pero la base de datos no está funcionando. Asegúrese de que ha iniciado
+      la base de datos antes de conectar.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      <em>Permission denied</em>
+     </p>
+     <p class="para">
+      Significa que el socket no pudo ser abierto debido a los permisos.
+      En las variantes de Red hat, puede ser debido a que la configuración por
+      defecto no permite a Apache crear conexiones de red. Puede modificarse
+      esto ejecutando:
+      <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ /usr/sbin/setsebool -P httpd_can_network_connect 1</pre>
+</div>
+      </div>
+
+      y reiniciando Apache.
+     </p>
+    </li>
+   </ul>
+   
+   <p class="para">
+    Si el mensaje de error no se encuentra en la lista de arriba, probablemente sea un error
+    del socket C, y podrá buscar en la web la causa del mismo.
+   </p>
+  </div>
+  
+  
+  <div class="section" id="mongoconnectionexception.synopsis">
+   <h2 class="title">Sinopsis de la Clase</h2>
+   
+   
+   <div class="classsynopsis">
+    <div class="ooclass"></div>
+    
+    
+    <div class="classsynopsisinfo">
+     <span class="ooclass">
+      <strong class="classname">MongoConnectionException</strong>
+     </span>
+     <span class="ooclass">
+      <span class="modifier">extends</span>
+      <a href="class.mongoexception.html" class="classname">MongoException</a>
+     </span>
+     {</div>
+    
+    
+   }</div>
+   
+   
+  </div>
+  
+ </div>
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mongocursortimeoutexception.html">MongoCursorTimeoutException</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongogridfsexception.html">MongoGridFSException</a></div>
+ <div class="up"><a href="mongo.exceptions.html">Excepciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

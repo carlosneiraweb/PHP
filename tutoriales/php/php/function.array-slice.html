@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Extrae una parte de un array</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.array-shift.html">array_shift</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.array-splice.html">array_splice</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.array-slice" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">array_slice</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">array_slice</span> &mdash; <span class="dc-title">Extrae una parte de un array</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.array-slice-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>array_slice</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$array</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$offset</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$length</code><span class="initializer"> = <strong><code>NULL</code></strong></span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$preserve_keys</code><span class="initializer"> = false</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>array_slice()</strong></span> devuelve la secuencia de elementos
+   del array <code class="parameter">array</code> tal y como se especifica en
+   los parámetros <code class="parameter">offset</code> y
+   <code class="parameter">length</code>.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.array-slice-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">array</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El array de entrada.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">offset</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si el índice dado por <code class="parameter">offset</code> no es negativo, la secuencia
+       empezará en esa posición del <code class="parameter">array</code>. Si el
+       <code class="parameter">offset</code> es negativo, la secuencia 
+       empezará en esa posición empezando por el final del <code class="parameter">array</code>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">length</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si la longitud dada por <code class="parameter">length</code> es positiva,
+       la secuencia tendrá hasta tantos elementos como indique el valor. Si el array
+       es más corto que <code class="parameter">length</code>, solamente estarán
+       presentes los elementos disponibles del array. Si se proporciona
+       <code class="parameter">length</code> y es negativo, la
+       secuencia finalizará en tantos elementos empezando por el final del
+       array. Si se omite, entonces la secuencia contendrá todo el contenido
+       desde <code class="parameter">offset</code> hasta el final del
+       <code class="parameter">array</code>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">preserve_keys</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Observe que <span class="function"><strong>array_slice()</strong></span> reordenará y reinicializará los
+       índices numéricos del array de forma predeterminada. Se puede cambiar esta comportamiento
+       estableciendo el parámetro <code class="parameter">preserve_keys</code> a <strong><code>TRUE</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.array-slice-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la parte del array.
+  </p>
+ </div>
+
+ <div class="refsect1 changelog" id="refsect1-function.array-slice-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.2.4</td>
+       <td>
+        El valor predeterminado del parámetro <code class="parameter">length</code> se cambió a <em>NULL</em>. Una  <code class="parameter">length</code> <em>NULL</em> ahora indica a la función que use la longitud de <code class="parameter">array</code>. Antes de esta versión, una <code class="parameter">length</code> <em>NULL</em>  se tomaba como de longitud cero (no se devolvía nada).
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.0.2</td>
+       <td>
+        Se añadió el parámetro opcional <code class="parameter">preserve_keys</code>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.array-slice-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5543">
+    <p><strong>Ejemplo #1 Ejemplos de <span class="function"><strong>array_slice()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$entrada&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"a"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"b"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"c"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"d"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"e"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$salida&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_slice</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;devuelve&nbsp;"c",&nbsp;"d",&nbsp;y&nbsp;"e"<br /></span><span style="color: #0000BB">$salida&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_slice</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;devuelve&nbsp;"d"<br /></span><span style="color: #0000BB">$salida&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_slice</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;devuelve&nbsp;"a",&nbsp;"b",&nbsp;y&nbsp;"c"<br /><br />//&nbsp;observe&nbsp;las&nbsp;diferencias&nbsp;en&nbsp;las&nbsp;claves&nbsp;de&nbsp;los&nbsp;arrays<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">array_slice</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">array_slice</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [0] =&gt; c
+    [1] =&gt; d
+)
+Array
+(
+    [2] =&gt; c
+    [3] =&gt; d
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.array-slice-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.array-splice.html" class="function" rel="rdfs-seeAlso">array_splice()</a> - Elimina una porci&oacute;n del array y la reemplaza con algo</span></li>
+    <li class="member"><span class="function"><a href="function.unset.html" class="function" rel="rdfs-seeAlso">unset()</a> - Destruye una variable especificada</span></li>
+    <li class="member"><span class="function"><a href="function.array-chunk.html" class="function" rel="rdfs-seeAlso">array_chunk()</a> - Divide un array en fragmentos</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.array-shift.html">array_shift</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.array-splice.html">array_splice</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

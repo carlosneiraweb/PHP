@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configura una opci&oacute;n para un manejador cURL compartido</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-share-init.html">curl_share_init</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.curl-strerror.html">curl_strerror</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.curl-share-setopt" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">curl_share_setopt</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.5.0, PHP 7)</p><p class="refpurpose"><span class="refname">curl_share_setopt</span> &mdash; <span class="dc-title">Configura una opción para un manejador cURL compartido </span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.curl-share-setopt-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>curl_share_setopt</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$sh</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$option</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$value</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Configura una opción en el manejador cURL compartido dado.
+  </p>
+
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.curl-share-setopt-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">sh</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Un manejador cURL compartido devuelto por <span class="function"><a href="function.curl-share-init.html" class="function">curl_share_init()</a></span>.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">option</code></dt>
+
+    <dd>
+
+     <p class="para">
+      <table class="doctable informaltable">
+        
+         <thead>
+          <tr>
+           <th>Opción</th>
+           <th>Descripción</th>
+          </tr>
+
+         </thead>
+
+         <tbody class="tbody">
+          <tr>
+           <td style="vertical-align: top;"><strong><code>CURLSHOPT_SHARE</code></strong></td>
+           <td style="vertical-align: top;">
+               Especifica un tipo de datos que debe ser compartido.
+           </td>
+          </tr>
+
+          <tr>
+           <td style="vertical-align: top;"><strong><code>CURLSHOPT_UNSHARE</code></strong></td>
+           <td style="vertical-align: top;">
+               Especifica un tipo de datos que no debe ser compartido.
+           </td>
+          </tr>
+
+         </tbody>
+        
+       </table>
+
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">value</code></dt>
+
+    <dd>
+
+     <p class="para">
+      <table class="doctable informaltable">
+        
+         <thead>
+          <tr>
+           <th>Valor</th>
+           <th>Descripción</th>
+          </tr>
+
+         </thead>
+
+         <tbody class="tbody">
+          <tr>
+           <td style="vertical-align: top;"><strong><code>CURL_LOCK_DATA_COOKIE</code></strong></td>
+           <td style="vertical-align: top;">
+               Comparte cookies.
+           </td>
+          </tr>
+
+          <tr>
+           <td style="vertical-align: top;"><strong><code>CURL_LOCK_DATA_DNS</code></strong></td>
+           <td style="vertical-align: top;">
+               Comparte la caché DNS. Tener en cuenta que cuando se usan multimanejadores cURL ,
+               todos los manejadores añadidos al mismo multimanejador compartirán la caché DNS
+               por defecto.
+           </td>
+          </tr>
+
+          <tr>
+           <td style="vertical-align: top;"><strong><code>CURL_LOCK_DATA_SSL_SESSION</code></strong></td>
+           <td style="vertical-align: top;">
+               Comparte IDs de sesiones SSL session, reduciendo el tiempo gastado en la negociación SSL
+               cuando se reconecta al mismo servidor. Notar que los IDs de sesión
+               SSL se reutilizan por defecto dentro del mismo manejador.
+           </td>
+          </tr>
+
+         </tbody>
+        
+       </table>
+
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.curl-share-setopt-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+<div class="refsect1 examples" id="refsect1-function.curl-share-setopt-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4767">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>curl_share_setopt()</strong></span> </strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo creará un manejador cURL compartido, añade dos manejadores cURL en él,
+     y los ejecuta con compartición de datos con cookie.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Crea&nbsp;un&nbsp;manejador&nbsp;cURL&nbsp;compartido&nbsp;y&nbsp;lo&nbsp;configura&nbsp;para&nbsp;compartir&nbsp;cookies<br /></span><span style="color: #0000BB">$sh&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_share_init</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">curl_share_setopt</span><span style="color: #007700">(</span><span style="color: #0000BB">$sh</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURLSHOPT_SHARE</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURL_LOCK_DATA_COOKIE</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Inicializa&nbsp;el&nbsp;primer&nbsp;manejador&nbsp;cURL&nbsp;y&nbsp;lo&nbsp;asigna&nbsp;el&nbsp;manejador&nbsp;compartido<br /></span><span style="color: #0000BB">$ch1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_init</span><span style="color: #007700">(</span><span style="color: #DD0000">"http://example.com/"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">curl_setopt</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURLOPT_SHARE</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sh</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ejecuta&nbsp;el&nbsp;primer&nbsp;manejador&nbsp;cURL<br /></span><span style="color: #0000BB">curl_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch1</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Inicializa&nbsp;el&nbsp;segundo&nbsp;manejador&nbsp;cURL&nbsp;y&nbsp;lo&nbsp;asigna&nbsp;al&nbsp;manejador&nbsp;compartido<br /></span><span style="color: #0000BB">$ch2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_init</span><span style="color: #007700">(</span><span style="color: #DD0000">"http://php.net/"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">curl_setopt</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURLOPT_SHARE</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sh</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ejecuta&nbsp;el&nbsp;segundo&nbsp;manejador&nbsp;cURL<br />//&nbsp;todas&nbsp;las&nbsp;cookies&nbsp;del&nbsp;manejador&nbsp;$ch1&nbsp;se&nbsp;comparten&nbsp;con&nbsp;el&nbsp;manejador&nbsp;$ch2<br /></span><span style="color: #0000BB">curl_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch2</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Cierra&nbsp;el&nbsp;manejador&nbsp;compartido&nbsp;cURL<br /></span><span style="color: #0000BB">curl_share_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$sh</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Cierra&nbsp;los&nbsp;manejadores&nbsp;cURL<br /></span><span style="color: #0000BB">curl_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">curl_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-share-init.html">curl_share_init</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.curl-strerror.html">curl_strerror</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

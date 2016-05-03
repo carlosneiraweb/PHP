@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>A&ntilde;adir un nuevo tipo a un modelo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sdo-das-datafactory.addpropertytotype.html">SDO_DAS_DataFactory::addPropertyToType</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sdo-das-datafactory.getdatafactory.html">SDO_DAS_DataFactory::getDataFactory</a></div>
+ <div class="up"><a href="ref.sdo.html">Funciones de SDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sdo-das-datafactory.addtype" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SDO_DAS_DataFactory::addType</h1>
+  <p class="verinfo">(^)</p><p class="refpurpose"><span class="refname">SDO_DAS_DataFactory::addType</span> &mdash; <span class="dc-title">
+   Añadir un nuevo tipo a un modelo
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-sdo-das-datafactory.addtype-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>SDO_DAS_DataFactory::addType</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$type_namespace_uri</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$type_name</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$options</code></span>
+  ] )</div>
+
+  
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función ha sido declarada
+<em class="emphasis">EXPERIMENTAL</em>. Su funcionamiento, nombre y 
+la documentación que le acompaña puede cambiar sin previo aviso en futuras versiones de PHP.
+Utilícela bajo su propia responsabilidad.
+</p></div>
+  
+  <p class="para">
+   Añade un nuevo tipo al SDO_DAS_DataFactory, 
+   definido por su espacio de nombres y nombre de tipo.
+   El tipo se convierte en parte del modelo de los objetos de datos
+   que la fábriva de datos puede crear.
+  </p>
+  
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-sdo-das-datafactory.addtype-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+
+      <code class="parameter">type_namespace_uri</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       El espacio de nombres del tipo
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+
+      <code class="parameter">type_name</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del tipo.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+
+      <code class="parameter">options</code>
+     </dt>
+
+     <dd>
+<p class="para"> Este array contiene un o más pares clave=&gt;valor para establecer valores de
+      atributos del tipo. Las palabras clave opcionales son:</p>
+      <dl>
+
+       
+        <dt>
+<code class="parameter">open</code></dt>
+
+        <dd>
+
+         <p class="para">Una bandera para indicar si el tipo es abierto.
+          Un objeto SDO_DataObject cuyo tipo es abierto puede tener propiedades añadidas a
+          ellas que no están descritas por el tipo. Este capacidad se usa para
+          el soporte para trabajar con documentos XML documents cuyo esquema soporta contenido abierto
+          como el descrito por un elemento &lt;xsd:any&gt;.
+          El valor por defecto es &#039;false&#039;.
+         </p>
+        </dd>
+
+       
+       
+        <dt>
+
+         <code class="parameter">sequenced</code>
+        </dt>
+
+        <dd>
+
+         <p class="para"> Una bandera para indicar si el tipo es secuenciado.
+          Los tipos secuenciados tienen el orden de las propiedades preservado
+          y pueden contener texto no estructurado.
+          El valor por defecto es &#039;false&#039;.
+          Para más información sobre tipos secuenciados véase la sección sobre
+          <a href="sdo.sample.sequence.html" class="link">Trabajar con Objetos de Datos
+           Secuenciados</a>.
+         </p>
+        </dd>
+
+       
+       
+        <dt>
+
+         <code class="parameter">basetype</code>
+        </dt>
+
+        <dd>
+
+         <p class="para"> Si se especifica, un array de URIs de espacios de nombres y cadenas de nombres de tipo del
+          tipo desde el cual deriva este tipo.
+          Un ejemplo del uso de tipos básicos es cuando un tipo deriva de un esquema
+          XML que hereda de otro tipo usando &lt;extension base=&quot;...&quot;&gt;.
+         </p>
+        </dd>
+
+       
+      </dl>
+
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-sdo-das-datafactory.addtype-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   None.
+  </p>
+ </div>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <div class="refsect1 examples" id="refsect1-sdo-das-datafactory.addtype-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-6018">
+    <p><strong>Ejemplo #1 Un ejemplo de
+     <span class="function"><strong>SDO_DAS_DataFactory::addType()</strong></span>
+    </strong></p>
+    <div class="example-contents"><p>
+     Lo siguiente añade un nuevo tipo de objeto de datos &#039;CompanyType&#039;
+     donde ese tipo pertenece al espacio de nombres &#039;CompanyNS&#039;.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;$df</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addType</span><span style="color: #007700">(</span><span style="color: #DD0000">'CompanyNS'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'CompanyType'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ 
+ 
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sdo-das-datafactory.addpropertytotype.html">SDO_DAS_DataFactory::addPropertyToType</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sdo-das-datafactory.getdatafactory.html">SDO_DAS_DataFactory::getDataFactory</a></div>
+ <div class="up"><a href="ref.sdo.html">Funciones de SDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

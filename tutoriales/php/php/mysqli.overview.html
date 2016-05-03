@@ -1,0 +1,508 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Informaci&oacute;n general</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intro.mysqli.html">Introducci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli.quickstart.html">Gu&iacute;a r&aacute;pida</a></div>
+ <div class="up"><a href="book.mysqli.html">MySQLi</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqli.overview" class="chapter">
+ 
+ <h1>Información general</h1>
+
+ 
+ <p class="para">
+  Esta sección proporciona una introducción de las opciones disponibles
+  a la hora de desarrollar una aplicación PHP que necesite interactuar
+  con una base de datos MySQL.
+ </p>
+ 
+ <p class="para">
+  <em class="emphasis">¿Qué es una API?</em>
+ </p>
+ 
+ <p class="para">
+  Una Interfaz de Programación de Aplicaciones, o API, define las clases,
+  métodos, funciones y variables que necesitará llamar una aplicación para
+  llevar a cabo una tarea determinada. En el caso de las aplicaciones
+  de PHP que necesitan comunicarse con un servidor de bases de datos, las APIs
+  necesarias se ofrecen generalmente en forma de extensiones de PHP.
+ </p>
+ 
+ <p class="para">
+  Las APIs pueden ser procedimentales u orientadas a objetos. Con una API procedimental
+  invocan funciones para llevar a cabo las tareas, mientras con con una API orientada a
+  objetos se instancian clases, y entonces se invocan a métodos de los objetos creados.
+  Entre ambas opciones, la segunda es generalmente la vía recomendada, puesto que está
+  más actualizada y conlleva una mejor organización de código.
+ </p>
+ 
+ <p class="para">
+  Cuando se escriben aplicaciones PHP que necesitan conectar a
+  un servidor MySQL, existen varias opciones disponibles respecto a API.
+  Este documento abarca esas opciones, y ayuda a elegir la mejor
+  solución para cada aplicación.
+ </p>
+ 
+ <p class="para">
+  <em class="emphasis">¿Qué es un Conector?</em>
+ </p>
+ 
+ <p class="para">
+  En la documentación de MySQL, el término <em class="emphasis">conector</em>
+  hace referencia al software que permite a una aplicación
+  conectarse a un servidor de bases de datos MySQL. MySQL proporciona
+  conectores para ciertos lenguajes, entre ellos PHP.
+ </p>
+ 
+ <p class="para">
+  Si una aplicación de PHP necesita comunicarse con un servidor de bases de datos,
+  necesitará escribir el código PHP que realice tareas tales como
+  conectar al servidor de bases de datos, realizar consultas y otras
+  funciones relacionadas con bases de datos. Es necesario tener un software instalado
+  en el sistema que proporcione a la aplicación en PHP la API, que manejará la
+  comunicación entre el servidor de bases de datos y la aplicación,
+  posiblemente empleando en caso necesario otras bibliotecas. A este software
+  generalmente se le conoce como conector, dado que permite a una
+  aplicación <em class="emphasis">conectar</em> con un servidor de bases de datos.
+ </p>
+ 
+ <p class="para">
+  <em class="emphasis">¿Qué es un Driver?</em>
+ </p>
+ 
+ <p class="para">
+  Un driver es un software diseñado para comunicarse con un
+  tipo específico de servidor de bases de datos. Podría también invocar a una
+  biblioteca, como por ejemplo la Biblioteca Cliente de MySQL o el Driver Nativo de
+  MySQL. Estas bibliotecas implementan el protocolo de bajo nivel que se utiliza para
+  comunicarse con el servidor de bases de datos.
+ </p>
+ 
+ <p class="para">
+  A modo de ejemplo, la capa de abstracción de bases de datos
+  <a href="mysqli.overview.html#mysqli.overview.pdo" class="link">Objetos de Datos de PHP (PDO)</a>
+  utilizará alguno de los drivers para bases de datos disponibles.
+  Uno de ellos es el driver PDO MYSQL, que permite comunicarse con
+  un servidor MySQL.
+ </p>
+ 
+ <p class="para">
+  A menudo la gente utiliza los términos conector y driver indistintamente.
+  Esto puede dar lugar a confusión. En la documentación de MySQL, el término
+  "<span class="quote">driver</span>" queda reservado para el software que proporciona
+  la parte específica de una base de datos dentro de un conector.
+ </p>
+ 
+ <p class="para">
+  <em class="emphasis">¿Qué es una Extensión?</em>
+ </p>
+ 
+ <p class="para">
+  En la documentación de PHP aparece otro término -
+  <em class="emphasis">extensión</em>. El código fuente de PHP consiste
+  por un lado de un núcleo, y por otro de extensiones opcionales
+  para el núcleo. Las extensiones de PHP relacionadas con MySQL,
+  tales como <em>mysqli</em>, y
+  <em>mysql</em>, están implementadas utilizando
+  el framework de extensiones de PHP.
+ </p>
+ 
+ <p class="para">
+  Típicamente, una extensión ofrece una API al programador de PHP para
+  permitirle hacer uso de sus utilidades mediante código. Sin embargo, algunas
+  de las extensiones que utilizan el framework de extensiones de PHP no ofrecen
+  ninguna API al programador.
+ </p>
+ 
+ <p class="para">
+  La extensión del driver PDO MySQL, por ejemplo, no proporciona ninguna
+  API al programador PHP, pero en su lugar ofrece una interfaz a la
+  capa de PDO que tiene por encima.
+ </p>
+ 
+ <p class="para">
+  No deben confundirse los términos API y extensión, dado que una
+  extensión no debe necesariamente proporcionar una API al programador.
+ </p>
+ 
+ <p class="para">
+  <em class="emphasis">¿Cuáles son las principales APIs que PHP ofrece
+   para utilizar MySQL?</em>
+ </p>
+ 
+ <p class="para">
+  Hay tres APIs principales a la hora de considerar conectar a un
+  servidor de bases de datos MySQL:
+ </p>
+ 
+ <ul class="itemizedlist">
+  
+  <li class="listitem">
+   <p class="para">
+    Extensión MySQL de PHP
+   </p>
+  </li>
+  
+  <li class="listitem">
+   <p class="para">
+    Extensión mysqli de PHP
+   </p>
+  </li>
+  
+  <li class="listitem">
+   <p class="para">
+    Objetos de Datos de PHP (PDO)
+   </p>
+  </li>
+  
+ </ul>
+ 
+ <p class="para">
+  Cada una tiene sus ventajas e inconvenientes. El siguiente
+  apartado trata de dar una breve introducción a los aspectos clave
+  de cada API.
+ </p>
+ 
+ <p class="para">
+  <em class="emphasis">¿Qué es la Extensión MySQL de PHP?</em>
+ </p>
+ 
+ <p class="para">
+  Esta es la extensión original diseñada que permite desarrollar aplicaciones
+  PHP que interactúan con bases de datos MySQL. La extensión
+  <em>mysql</em> proporciona una interfaz procedural,
+  y está pensada para usar sólo con versiones de MySQL anteriores a la 4.1.3.
+  Si bien esta extensión se puede utilizar con versiones de MySQL 4.1.3 o posteriores,
+  no estarán disponibles todas las nuevas funcionalidades del servidor MySQL.
+ </p>
+ 
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   Si se utiliza una versión de MySQL 4.1.3 o posterior, se recomienda
+   <em class="emphasis">encarecidamente</em> utilizar la extensión
+   <em>mysqli</em> en su lugar.
+  </p>
+ </p></blockquote>
+ 
+ <p class="para">
+  El código fuente de la extensión <em>mysql</em> se encuentra
+  en el directorio de extensiones de PHP <var class="filename">ext/mysql</var>.
+ </p>
+ 
+ <p class="para">
+  Para más información sobre la extensión<em>mysql</em>,
+  revise <a href="book.mysql.html" class="xref">MySQL (Original)</a>.
+ </p>
+ 
+ <p class="para">
+  <em class="emphasis">¿Qué es la extensión mysqli de PHP?</em>
+ </p>
+ 
+ <p class="para">
+  La extensión <em>mysqli</em>, o como a veces se le conoce,
+  la extensión de MySQL <em class="emphasis">mejorada</em>, se desarrolló
+  para aprovechar las nuevas funcionalidades encontradas en los sistemas
+  MySQL con versión 4.1.3 o posterior. La extensión <em>mysqli</em>
+  viene incluida en las versiones PHP 5 y posteriores.
+ </p>
+ 
+ <p class="para">
+  La extensión <em>mysqli</em> contiene numerosos beneficios,
+  siendo estas las mejoras principales respecto a la extensión
+  <em>mysql</em>:
+  
+  <ul class="itemizedlist">
+   
+   <li class="listitem">
+    <p class="para">
+     Interfaz orientada a objetos
+    </p>
+   </li>
+   
+   <li class="listitem">
+    <p class="para">
+     Soporte para Declaraciones Preparadas
+    </p>
+   </li>
+   
+   <li class="listitem">
+    <p class="para">
+     Soporte para Múltiples Declaraciones
+    </p>
+   </li>
+   
+   <li class="listitem">
+    <p class="para">
+     Soporte para Transacciones
+    </p>
+   </li>
+   
+   <li class="listitem">
+    <p class="para">
+     Mejoradas las opciones de depuración
+    </p>
+   </li>
+   
+   <li class="listitem">
+    <p class="para">
+     Soporte para servidor empotrado
+    </p>
+   </li>
+   
+  </ul>
+ </p>
+ 
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   Si utiliza MySQL versión 4.1.3 o superior, se recomienda
+   <em class="emphasis">encarecidamente</em> utilizar esta
+   extensión.
+  </p>
+ </p></blockquote>
+ 
+ <p class="para">
+  Además de la interfaz orientada a objetos, esta extensión también
+  proporciona una interfaz procedural.
+ </p>
+ 
+ <p class="para">
+  La extensión <em>mysqli</em> está desarrollada mediante el
+  framework de extensiones de PHP. Su código fuente se ubica en el
+  directorio <var class="filename">ext/mysqli</var>.
+ </p>
+ 
+ <p class="para">
+  Para más información sobre la extensión <em>mysqli</em>,
+  revise <a href="book.mysqli.html" class="xref">MySQLi</a>.
+ </p>
+ 
+ <p class="para" id="mysqli.overview.pdo">
+  <em class="emphasis">¿Qué es PDO?</em>
+ </p>
+ 
+ <p class="para">
+  Los Objetos de Datos de PHP, o PDO, son una capa de abstracción de
+  bases de datos específicas para aplicaciones PHP. PDO ofrece una API
+  homogénea para las aplicaciones PHP, independientemente del tipo de
+  servidor de bases de datos con el que se vaya a conectar la aplicación.
+  En teoría, si se utiliza la API PDO, se podría cambiar el servidor
+  de bases de datos en uso, por ejemplo de Firebird a MySQL, y sólo
+  se necesitarían algunos cambios menores en el código PHP.
+ </p>
+ 
+ <p class="para">
+  Otros ejemplos de capas de abstracción de bases de datos son JDBC para
+  aplicaciones Java o DBI para Perl.
+ </p>
+ 
+ <p class="para">
+  A pesar de que PDO tiene sus ventajas, tales como una API limpia,
+  sencilla y portable, su mayor inconveniente es que no permite utilizar
+  todas las funcionalidades avanzadas en la última versión del servidor
+  MySQL. Por ejemplo, PDO no permite hacer uso de las Declaraciones
+  Múltiples de MySQL.
+ </p>
+ 
+ <p class="para">
+  PDO está desarrollado utilizando el framework de extensiones de PHP.
+  Su código fuente se ubica en el directorio <var class="filename">ext/pdo</var>.
+ </p>
+ 
+ <p class="para">
+  Para más información de PDO, revise
+  <a href="book.pdo.html" class="xref">PDO</a>.
+ </p>
+ 
+ <p class="para">
+  <em class="emphasis">¿Qué es el driver PDO MYSQL?</em>
+ </p>
+ 
+ <p class="para">
+  El driver PDO MYSQL no es una API en sí, al menos desde el punto de
+  vista del programador de PHP. En realidad, el driver PDO MYSQL
+  se encuentra una capa por debajo del propio PDO, y ofrece funcionalidades
+  específicas de MySQL. Si bien el programador realiza las llamadas a la
+  API de PDO, PDO utiliza el driver PDO MYSQL para llevara a cabo
+  la comunicación con el servidor MySQL.
+ </p>
+ 
+ <p class="para">
+  El driver PDO MYSQL es uno de los muchos drivers PDO disponibles. Otros
+  de los drivers disponibles son los de los servidores de bases de datos
+  Firebird y PostgreSQL.
+ </p>
+ 
+ <p class="para">
+  El driver MYSQL PDO está desarrollado utilizando el framework de extensiones
+  de PHP. Su código fuente está ubicado en el directorio
+  <var class="filename">ext/pdo_mysql</var>. No ofrece ninguna API al programador PHP.
+ </p>
+ 
+ <p class="para">
+  Para más información sobre el driver PDO MYSQL, revise
+  <a href="ref.pdo-mysql.html" class="xref">MySQL (PDO)</a>.
+ </p>
+ 
+ <p class="para" id="mysqli.overview.mysqlnd">
+  <em class="emphasis">¿Qué es el Driver Nativo de MySQL?</em>
+ </p>
+ 
+ <p class="para">
+  Tanto la extensión <em>mysql</em>, como
+  <em>mysqli</em>, y el driver PDO MYSQL,
+  utilizan para llevar a cabo las comunicaciones con el servidor de bases de
+  datos MySQL una biblioteca de bajo nivel que genera el protocolo
+  necesario. Hace un tiempo, la única biblioteca disponible
+  era <em>libmysqlclient</em>.
+ </p>
+ 
+ <p class="para">
+  Sin embargo, la interfaz que ofrece  <em>libmysqlclient</em> no estaba
+  optimizada para comunicarse con aplicaciones PHP, dado que
+  <em>libmysqlclient</em> se desarrolló originalmente teniendo en mente
+  aplicaciónes hechas en C. Por esta razón, se desarrolló el Driver Nativo de MySQL,
+  <em>mysqlnd</em>, como una alternativa a
+  <em>libmysqlclient</em> para las aplicaciones en PHP.
+ </p>
+ 
+ <p class="para">
+  Tanto la extensión <em>mysql</em>, como la extensión
+  <em>mysqli</em> y el driver PDO MySQL, se pueden
+  configurar por separado para utilizar o bien
+  <em>libmysqlclient</em> o bien <em>mysqlnd</em>.
+  Dado que <em>mysqlnd</em> fue desarrollado específicamente
+  para ser utilizado en sistemas PHP, tiene numerosas mejoras en cuanto
+  a uso de memoria y velocidad respecto a <em>libmysqlclient</em>.
+  Se recomienda encarecidamente hacer uso de dichas mejoras.
+ </p>
+ 
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   El Controlador Nativo de MySQL sólo puede usarse con servidores
+   de MySQL versiones 4.1.3 y posteriores.
+  </p>
+ </p></blockquote>
+ 
+ <p class="para">
+  El Driver Nativo de MySQL está desarrollado utilizando el framework
+  de extensiones de PHP. El código fuente se ubica en
+  <var class="filename">ext/mysqlnd</var>. No ofrece ninguna API al programador
+  de PHP.
+ </p>
+ 
+ 
+ 
+ <p class="para">
+  <em class="emphasis">Comparación de Funcionalidades</em>
+ </p>
+ 
+ <p class="para">
+  La siguiente tabla compara las funcionalidades de los tres
+  principales métodos para conectar a MySQL desde PHP:
+ </p>
+ 
+ <table class="doctable table">
+  <caption><strong>Comparación de las opciones de la API de MySQL para PHP</strong></caption>
+  
+   <col width="25*" />
+   <col width="25*" />
+   <col width="25*" />
+   <col width="25*" />
+   <thead>
+    <tr>
+     <th class="empty">&nbsp;</th>
+     <th>Extensión mysqli de PHP</th>
+     <th>PDO (Usando el driver PDO MySQL y el Driver Nativo MySQL)</th>
+     <th>Extensión MySQL de PHP</th>
+    </tr>
+
+   </thead>
+
+   <tbody class="tbody">
+    <tr>
+     <td>Versión de PHP en que se introdujo</td>
+     <td>5.0</td>
+     <td>5.0</td>
+     <td>Antes de 3.0</td>
+    </tr>
+
+    <tr>
+     <td>Incluído con PHP 5.x</td>
+     <td>Sí</td>
+     <td>Sí</td>
+     <td>Sí</td>
+    </tr>
+
+    <tr>
+     <td>Estado de desarrollo de MySQL</td>
+     <td>Desarrollo activo</td>
+     <td>Desarrollo activo, desde PHP 5.3</td>
+     <td>Sólo se le mantiene</td>
+    </tr>
+
+    <tr>
+     <td>Recomendado por MySQL para nuevos proyectos</td>
+     <td>Sí - opción recomendada</td>
+     <td>Sí</td>
+     <td>No</td>
+    </tr>
+
+    <tr>
+     <td>Soporte para juegos de caracteres</td>
+     <td>Sí</td>
+     <td>Sí</td>
+     <td>No</td>
+    </tr>
+
+    <tr>
+     <td>Soporte para Declaraciones Preparadas en el lado del servidor</td>
+     <td>Sí</td>
+     <td>Sí</td>
+     <td>No</td>
+    </tr>
+
+    <tr>
+     <td>Soporte para Declaraciones Preparadas en el lado del cliente</td>
+     <td>No</td>
+     <td>Sí</td>
+     <td>No</td>
+    </tr>
+
+    <tr>
+     <td>Soporte para Procedimientos Almacenados</td>
+     <td>Sí</td>
+     <td>Sí</td>
+     <td>No</td>
+    </tr>
+
+    <tr>
+     <td>Soporte para Declaraciones Múltiples</td>
+     <td>Sí</td>
+     <td>Mayormente</td>
+     <td>No</td>
+    </tr>
+
+    <tr>
+     <td>Soporte para todas las funcionalidades de MySQL 4.1+</td>
+     <td>Sí</td>
+     <td>Mayormente</td>
+     <td>No</td>
+    </tr>
+
+   </tbody>
+  
+ </table>
+
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intro.mysqli.html">Introducci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli.quickstart.html">Gu&iacute;a r&aacute;pida</a></div>
+ <div class="up"><a href="book.mysqli.html">MySQLi</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

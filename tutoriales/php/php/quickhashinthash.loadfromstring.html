@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Este m&eacute;todo de fabricaci&oacute;n crea un hash dedsde una cadena de caracteres</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="quickhashinthash.loadfromfile.html">QuickHashIntHash::loadFromFile</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="quickhashinthash.savetofile.html">QuickHashIntHash::saveToFile</a></div>
+ <div class="up"><a href="class.quickhashinthash.html">QuickHashIntHash</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="quickhashinthash.loadfromstring" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">QuickHashIntHash::loadFromString</h1>
+  <p class="verinfo">(PECL quickhash &gt;= Unknown)</p><p class="refpurpose"><span class="refname">QuickHashIntHash::loadFromString</span> &mdash; <span class="dc-title">Este método de fabricación crea un hash dedsde una cadena de caracteres</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-quickhashinthash.loadfromstring-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type"><a href="class.quickhashinthash.html" class="type QuickHashIntHash">QuickHashIntHash</a></span> <span class="methodname"><strong>QuickHashIntHash::loadFromString</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$contents</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$options</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Este método crea un nuevo hash desde una definición de una cadena de caracteres. El
+   formato del fichero consiste en números enteros de 32 con signo empaquetados juntos en el
+   Endianness que use el sistema donde se ejecuta el código. Por cada elemento
+   existen dos números enteros de 32 bits con signo almacenados. El primero de cada elemento es
+   la clave, y el segundo es el valor al que pertenece la clave.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-quickhashinthash.loadfromstring-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">contents</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El string que contiene un formato serializado del hash.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">options</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Las mismas opciones que toma el constructor de la clase; excepto que se
+       ignora la opción &#039;size&#039;. Ésta se calcula automáticamente para que sea el mismo que el
+       número de entradas del hash, redondeado hacia arriba a la potencia de dos más próxima
+       con un límite máximo de 4194304.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-quickhashinthash.loadfromstring-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un nuevo objeto QuickHashIntHash.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-quickhashinthash.loadfromstring-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5703">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>QuickHashIntHash::loadFromString()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$contenido&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">file_get_contents</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">dirname</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">__FILE__&nbsp;</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"/simple.hash"&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$hash&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">QuickHashIntHash</span><span style="color: #007700">::</span><span style="color: #0000BB">loadFromString</span><span style="color: #007700">(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$contenido</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">QuickHashIntHash</span><span style="color: #007700">::</span><span style="color: #0000BB">DO_NOT_USE_ZEND_ALLOC<br /></span><span style="color: #007700">);<br />foreach(&nbsp;</span><span style="color: #0000BB">range</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0x0f&nbsp;</span><span style="color: #007700">)&nbsp;as&nbsp;</span><span style="color: #0000BB">$clave&nbsp;</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">"La&nbsp;clave&nbsp;%3d&nbsp;(%2x)&nbsp;%s\n"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$clave</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$clave</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$hash</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exists</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$clave&nbsp;</span><span style="color: #007700">)&nbsp;?&nbsp;</span><span style="color: #DD0000">'está&nbsp;establecida'&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #DD0000">'no&nbsp;está&nbsp;establecida'<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+La clave   0 ( 0) no está establecida
+La clave   1 ( 1) está establecida
+La clave   2 ( 2) está establecida
+La clave   3 ( 3) está establecida
+La clave   4 ( 4) no está establecida
+La clave   5 ( 5) está establecida
+La clave   6 ( 6) no está establecida
+La clave   7 ( 7) está establecida
+La clave   8 ( 8) no está establecida
+La clave   9 ( 9) no está establecida
+La clave  10 ( a) no está establecida
+La clave  11 ( b) está establecida
+La clave  12 ( c) no está establecida
+La clave  13 ( d) está establecida
+La clave  14 ( e) no está establecida
+La clave  15 ( f) no está establecida
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="quickhashinthash.loadfromfile.html">QuickHashIntHash::loadFromFile</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="quickhashinthash.savetofile.html">QuickHashIntHash::saveToFile</a></div>
+ <div class="up"><a href="class.quickhashinthash.html">QuickHashIntHash</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Llamadas de retorno (Callbacks / Callables)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.types.null.html">NULO</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.pseudo-types.html">Seudotipos y variables usadas en esta documentaci&oacute;n</a></div>
+ <div class="up"><a href="language.types.html">Tipos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.types.callable" class="sect1">
+ <h2 class="title">Llamadas de retorno (Callbacks / Callables)</h2>
+ 
+ <p class="para">
+  Las llamadas de retorno, o retrollamadas, se pueden indicar con la declaración de tipo <span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> a partir de PHP 5.4.
+  Esta documentación utilizó la información del tipo <span class="type"><a href="language.pseudo-types.html#language.types.callback" class="type callback">callback</a></span> con el mismo propósito.
+ </p>
+ 
+ <p class="para">
+  Algunas funciones como <span class="function"><a href="function.call-user-func.html" class="function">call_user_func()</a></span> o
+  <span class="function"><a href="function.usort.html" class="function">usort()</a></span> aceptan como parámetro funciones de llamada de retorno definidas por
+  el usuario. Las funciones de llamadas de retorno no sólo pueden ser funciones simples, sino también
+  métodos de un <span class="type"><a href="language.types.object.html" class="type object">object</a></span>, incluyendo métodos de clase estáticos.
+ </p>
+ 
+ <div class="sect2" id="language.types.callable.passing">
+  <h3 class="title">Pasar una función de llamada de retorno</h3>
+  
+  <p class="para">
+   Una función de PHP se pasa por su nombre como un <span class="type"><a href="language.types.string.html" class="type string">string</a></span>. Se puede utilizar
+   cualquier función nativa o definida por el usuario, exceptuando contrucciones del lenguaje, tales como:
+   <span class="function"><a href="function.array.html" class="function">array()</a></span>, <span class="function"><a href="function.echo.html" class="function">echo</a></span>,
+   <span class="function"><a href="function.empty.html" class="function">empty()</a></span>, <span class="function"><a href="function.eval.html" class="function">eval()</a></span>,
+   <span class="function"><a href="function.exit.html" class="function">exit()</a></span>, <span class="function"><a href="function.isset.html" class="function">isset()</a></span>,
+   <span class="function"><a href="function.list.html" class="function">list()</a></span>, <span class="function"><a href="function.print.html" class="function">print</a></span> o
+   <span class="function"><a href="function.unset.html" class="function">unset()</a></span>.
+  </p>
+  
+  <p class="para">
+   Un método de un <span class="type"><a href="language.types.object.html" class="type object">object</a></span> instanciado se pasa como un
+   <span class="type"><a href="language.types.array.html" class="type array">array</a></span> que contiene un <span class="type"><a href="language.types.object.html" class="type object">object</a></span> en el índice 0 y el
+   nombre del método en el índice 1. Está permitido el acceso a métodos protegidos
+   y privados desde dentro de una clase.
+  </p>
+  
+  <p class="para">
+   Los métodos de clase estáticos también se pueden pasar sin instanciar un
+   <span class="type"><a href="language.types.object.html" class="type object">object</a></span> de dicha clase, pasando el nombre de la clase en lugar de un
+   <span class="type"><a href="language.types.object.html" class="type object">object</a></span> en el índice 0.
+   A partir de PHP 5.2.3, también es posible pasar
+   <em>&#039;NombreDeClase::nombreDeMetodo&#039;</em>.
+  </p>
+  
+  <p class="para">
+   A parte de las funciones comunes definidas por el usuario,
+   las <a href="functions.anonymous.html" class="link">funciones anónimas</a> también se pueden
+   pasar a un parámetro de llamada de retorno.
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-109">
+    <p><strong>Ejemplo #1 
+     Ejemplos de funciones de llamadas de retorno
+    </strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Un&nbsp;ejemplo&nbsp;de&nbsp;función&nbsp;de&nbsp;llamada&nbsp;de&nbsp;retorno<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">mi_función_de_llamada_de_retorno</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'¡hola&nbsp;mundo!'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Un&nbsp;ejemplo&nbsp;de&nbsp;método&nbsp;de&nbsp;llamada&nbsp;de&nbsp;retorno<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">MiClase&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;function&nbsp;</span><span style="color: #0000BB">miMétodoDeLlamadaDeRetorno</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'¡Hola&nbsp;Mundo!'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Tipo&nbsp;1:&nbsp;Llamada&nbsp;de&nbsp;retorno&nbsp;simple<br /></span><span style="color: #0000BB">call_user_func</span><span style="color: #007700">(</span><span style="color: #DD0000">'mi_función_de_llamada_de_retorno'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Tipo&nbsp;2:&nbsp;Llamada&nbsp;a&nbsp;un&nbsp;método&nbsp;de&nbsp;clase&nbsp;estático<br /></span><span style="color: #0000BB">call_user_func</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'MiClase'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'miMétodoDeLlamadaDeRetorno'</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Tipo&nbsp;3:&nbsp;Llamada&nbsp;al&nbsp;método&nbsp;de&nbsp;un&nbsp;objeto<br /></span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MiClase</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">call_user_func</span><span style="color: #007700">(array(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'miMétodoDeLlamadaDeRetorno'</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Tipo&nbsp;4:&nbsp;Llamada&nbsp;a&nbsp;un&nbsp;método&nbsp;de&nbsp;clase&nbsp;estático&nbsp;(A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.2.3)<br /></span><span style="color: #0000BB">call_user_func</span><span style="color: #007700">(</span><span style="color: #DD0000">'MiClase::miMétodoDeLlamadaDeRetorno'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Tipo&nbsp;5:&nbsp;Llamada&nbsp;a&nbsp;un&nbsp;método&nbsp;de&nbsp;clase&nbsp;estático&nbsp;relativo&nbsp;(A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.3.0)<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">A&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;static&nbsp;function&nbsp;</span><span style="color: #0000BB">quién</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"A\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">B&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">A&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;static&nbsp;function&nbsp;</span><span style="color: #0000BB">quién</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"B\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">call_user_func</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'B'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'parent::quién'</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;A<br /><br />//&nbsp;Tipe&nbsp;6:&nbsp;Los&nbsp;objetos&nbsp;que&nbsp;implementan&nbsp;__invoke&nbsp;se&nbsp;pueden&nbsp;emplear&nbsp;como&nbsp;retrollamadas&nbsp;(desde&nbsp;PHP&nbsp;5.3)<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">C&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">__invoke</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Hola&nbsp;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$nombre</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">C</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">call_user_func</span><span style="color: #007700">(</span><span style="color: #0000BB">$c</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'PHP!'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-110">
+    <p><strong>Ejemplo #2 
+     Ejemplo de retrollamada utilizando una clausura
+    </strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Nuestra&nbsp;clausura<br /></span><span style="color: #0000BB">$doble&nbsp;</span><span style="color: #007700">=&nbsp;function(</span><span style="color: #0000BB">$a</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br />};<br /><br /></span><span style="color: #FF8000">//&nbsp;Este&nbsp;es&nbsp;nuestro&nbsp;rango&nbsp;de&nbsp;números<br /></span><span style="color: #0000BB">$números&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">range</span><span style="color: #007700">(</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Usar&nbsp;la&nbsp;clausura&nbsp;como&nbsp;llamada&nbsp;de&nbsp;retorno&nbsp;para<br />//&nbsp;doblar&nbsp;el&nbsp;valor&nbsp;de&nbsp;cada&nbsp;elemento&nbsp;de&nbsp;nuestro<br />//&nbsp;rango<br /></span><span style="color: #0000BB">$números_nuevos&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_map</span><span style="color: #007700">(</span><span style="color: #0000BB">$doble</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$números</span><span style="color: #007700">);<br /><br />print&nbsp;</span><span style="color: #0000BB">implode</span><span style="color: #007700">(</span><span style="color: #DD0000">'&nbsp;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$números_nuevos</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+2 4 6 8 10
+</pre></div>
+    </div>
+   </div>
+  </p>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    En PHP 4 era necesario usar una referencia para crear una llamada de retorno que
+    apuntara al <span class="type"><a href="language.types.object.html" class="type object">object</a></span> real, y no a una copia del mismo. Para más
+    detalles, véase la
+    <a href="language.references.html" class="link">Explicación de las referencias</a>.
+   </span>
+  </p></blockquote>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <p class="para">Las funciones de retorno
+de llamada que se registran con funciones como <span class="function"><a href="function.call-user-func.html" class="function">call_user_func()</a></span> y <span class="function"><a href="function.call-user-func-array.html" class="function">call_user_func_array()</a></span> 
+no se llamarán si se produce una excepción en la función de retorno previa.</p></p></blockquote>
+ </div>
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.types.null.html">NULO</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.pseudo-types.html">Seudotipos y variables usadas en esta documentaci&oacute;n</a></div>
+ <div class="up"><a href="language.types.html">Tipos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

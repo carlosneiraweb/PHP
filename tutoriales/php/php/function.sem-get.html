@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener el id de un sem&aacute;foro</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sem-acquire.html">sem_acquire</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sem-release.html">sem_release</a></div>
+ <div class="up"><a href="ref.sem.html">Funciones de Sem&aacute;foro</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.sem-get" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">sem_get</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">sem_get</span> &mdash; <span class="dc-title">Obtener el id de un semáforo</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.sem-get-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>sem_get</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$key</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$max_acquire</code><span class="initializer"> = 1</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$perm</code><span class="initializer"> = 0666</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$auto_release</code><span class="initializer"> = 1</span></span>
+  ]]] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>sem_get()</strong></span> devuelve un id que se puede usar para
+   acceder al semáforo de System V con la clave dada por <code class="parameter">key</code>.
+  </p>
+  <p class="para">
+   Una segunda llamada a <span class="function"><strong>sem_get()</strong></span> para la misma clave
+   devolverá un identificador de semáforo diferente, pero ambos
+   identificadores accederán al mismo semáforo subyacente.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.sem-get-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">key</code></dt>
+
+     <dd>
+
+      <p class="para">
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">max_acquire</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número de procesos que puede adquirir el semáforo simultáneamente
+       está establecido por <code class="parameter">max_acquire</code>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">perm</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los permisos del semáforo. En realidad este valor se
+       establece sólo si el proceso que lo encuentra es el único proceso actualmente
+       adjunto al semáforo.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">auto_release</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Especifica si el semáforo debería ser liberado automáticamente al cierre
+       de la petición.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.sem-get-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un identificador de semáforo positivo en caso de éxito, o <strong><code>FALSE</code></strong> en caso de
+   error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.sem-get-notes">
+  <h3 class="title">Notas</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="simpara">
+    Al usar <span class="function"><strong>sem_get()</strong></span> para acceder a un semáforo creado
+    fuera de PHP, se ha de observar que el semáforo debe haber sido creado como un conjunto de 3
+    semáforos (por ejemplo, especificando 3 en el parámetro <em>nsems</em>,
+    al llamar a la función <em>semget()</em> de C),
+    de lo contrario, PHP no podrá acceder al semáforo.
+   </p>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.sem-get-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.sem-acquire.html" class="function" rel="rdfs-seeAlso">sem_acquire()</a> - Adquirir un sem&aacute;foro</span></li>
+    <li class="member"><span class="function"><a href="function.sem-release.html" class="function" rel="rdfs-seeAlso">sem_release()</a> - Liberar un sem&aacute;foro</span></li>
+    <li class="member"><span class="function"><a href="function.ftok.html" class="function" rel="rdfs-seeAlso">ftok()</a> - Convertir un nombre de ruta y un identificador de proyecto a una clave IPC de System V</span></li>
+   </ul>
+  </p>
+ </div>
+  
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sem-acquire.html">sem_acquire</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sem-release.html">sem_release</a></div>
+ <div class="up"><a href="ref.sem.html">Funciones de Sem&aacute;foro</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

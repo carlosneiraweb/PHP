@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Arquitectura</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.pooling.html">Agrupaci&oacute;n e intercambio de conexiones</a></div>
+ <div class="up"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.architecture" class="section">
+  <h2 class="title">Arquitectura</h2>
+  <p class="para">
+   El complemento de replicación y equilibrado de carga de mysqlnd está
+   implementado como una extensión de PHP.
+   Está escrito en C y opera bajo PHP. Durante el
+   arranque del intérprete de PHP, en la fase de inicialización de módulos del
+   motor de PHP, es registrado como un complemento de
+   <a href="book.mysqlnd.html" class="link">mysqlnd</a> para reemplazar los métodos en C
+   de mysqlnd seleccionados.
+  </p>
+  <p class="para">
+   Durante la ejecución de PHP, inspecciona las consultas enviadas desde
+   mysqlnd (PHP) al servidor MySQL. Si una consulta se reconoce como de solo lectura,
+   será enviada a uno de los servidores esclavos configurados. Una sentencia es
+   considerada de solo lectura si comienza con <em>SELECT</em>, con
+   la sugerencia SQL <em>/*ms=slave*/</em>, o se ha elegido un esclavo para
+   ejecutar la consulta anterior y la consulta comienza con la sugerencia SQL
+   <em>/*ms=last_used*/</em>. En los demás casos, la consulta será
+   enviada al servidor maestro de replicación MySQL.
+  </p>
+  <p class="para">
+   Para una mejor portabilidad, las aplicacioines deberían usar las
+   <a href="mysqlnd-ms.constants.html" class="link">constantes predefinidas de mysqlnd_ms</a>
+   <strong><code>MYSQLND_MS_MASTER_SWITCH</code></strong>,
+   <strong><code>MYSQLND_MS_SLAVE_SWITCH</code></strong>, y
+   <strong><code>MYSQLND_MS_LAST_USED_SWITCH</code></strong>
+   en lugar de sus valores literales, tales como <em>/*ms=slave*/</em>.
+  </p>
+  <p class="para">
+   El complemento maneja la apertura y el cerre de conexiones de bases de datos
+   a los servidores maestros y esclavos. Desde el punto de vista de
+   la aplicación, continua existiendo solamente un gestor de conexión. Sin embargo,
+   internamente, este gestor de conexión público representa una agrupación de
+   conexiones de red que son gestionadas por el complemento. Éste delega las consultas
+   al sevidor maestro y a los esclavos usando múltiples conexiones.
+  </p>
+  <p class="para">
+   Las conexiones a la bases de datos tienen un estado que consiste en, por ejemplo, el estado
+   de las transacciones, configuración de las transacciones, configuración del conjunto de caracters, y tablas temporales.
+   El complemento intentará mantener el mismo estado entre todas las conexiones
+   internas, siempre que se pueda realizar de una forma automática y transparente.
+   En los casos donde sencillamente no es posible mantener el estado entre
+   conexiones, como al usar <em>BEGIN TRANSACTION</em>, el
+   complemento lo deja en manos del usuario.
+  </p>
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.pooling.html">Agrupaci&oacute;n e intercambio de conexiones</a></div>
+ <div class="up"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Equilibrado de carga</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.failover.html">Tolerancia a fallos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.rwsplit.html">Divisi&oacute;n de lectura-escritura</a></div>
+ <div class="up"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.loadbalancing" class="section">
+  <h2 class="title">Equilibrado de carga</h2>
+  <p class="para">
+   Se admiten cuatro estrategias de equilibrado de carga para distribuir
+   sentencias sobre los servidores esclavos de MySQL configurados:
+  </p>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+aleatorio</dt>
+
+     <dd>
+
+      <p class="para">
+       Se elige un servidor aleatorio cada vez que se ejecute una sentencia.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+aleatorio una vez (predeterminado)</dt>
+
+     <dd>
+
+      <p class="para">
+       Se elige un servidor aleatorio después de ejecutar la primera sentencia,
+       y se utiliza la decisión tomada para el resto de las peticiones de PHP.
+      </p>
+      <p class="para">
+       Es lo predeterminado, y de menor impacto para el estado de conexión.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+rotación</dt>
+
+     <dd>
+
+      <p class="para">
+       Se itera sobre la lista de servidores configurados.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+definido por el usuario mediante una llamada de retorno</dt>
+
+     <dd>
+
+      <p class="para">
+       Se utiliza para implementar cualquier otra estrategia.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  <p class="para">
+   La política del equilibrado de carga se configura en el fichero de cofiguración
+   de los complementos usando
+   <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filter-random" class="link">random</a>,
+   <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filter-roundrobin" class="link">roundrobin</a>,
+   y <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filter-user" class="link">user</a>
+   como <a href="mysqlnd-ms.filter.html" class="link">filtro</a>.
+  </p>
+  <p class="para">
+   Los servidores se pueden priorizar asignándoles un peso. Un servidor al que se le haya dado
+   un peso de dos obtendrá el doble de peticiones que un servidor que se le haya dado el
+   peso predeterminado de uno. La prioridad puede ser muy útil en entornos
+   heterogéneos. Por ejemplo, si se quiere asignar más peticiones a
+   una máquina potente que una menos potente. O se pueden tener configurados
+   servidores que están cerca o lejos del cliente, y así exponer diferentes latencias.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.failover.html">Tolerancia a fallos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.rwsplit.html">Divisi&oacute;n de lectura-escritura</a></div>
+ <div class="up"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

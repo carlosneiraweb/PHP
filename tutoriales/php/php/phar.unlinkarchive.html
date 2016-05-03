@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Elimiar completamente un archivo phar del disco y de la memoria</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.uncompressallfiles.html">Phar::uncompressAllFiles</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.webphar.html">Phar::webPhar</a></div>
+ <div class="up"><a href="class.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="phar.unlinkarchive" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Phar::unlinkArchive</h1>
+  <p class="verinfo">(PHP &gt;= 5.3.0, PECL phar &gt;= 2.0.0)</p><p class="refpurpose"><span class="refname">Phar::unlinkArchive</span> &mdash; <span class="dc-title">Elimiar completamente un archivo phar del disco y de la memoria</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-phar.unlinkarchive-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">final</span> <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">bool</span> <span class="methodname"><strong>Phar::unlinkArchive</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$archive</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Elimina un archivo phar del disco y de la memoria.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-phar.unlinkarchive-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">archive</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La ruta en el disco al archivo phar.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-phar.unlinkarchive-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-phar.unlinkarchive-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Se lanza una excepción de tipo <a href="class.pharexception.html" class="classname">PharException</a> si existe cualquier fichero abierto que apunte al
+   archivo phar, o cualquier objeto existente de las clases <a href="class.phar.html" class="classname">Phar</a>, <a href="class.phardata.html" class="classname">PharData</a>,
+   o <a href="class.pharfileinfo.html" class="classname">PharFileInfo</a> que haga referencia al archivo phar.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-phar.unlinkarchive-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-783">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>Phar::unlinkArchive()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;uso&nbsp;simple<br /></span><span style="color: #0000BB">Phar</span><span style="color: #007700">::</span><span style="color: #0000BB">unlinkArchive</span><span style="color: #007700">(</span><span style="color: #DD0000">'/ruta/a/mi.phar'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;ejemplo&nbsp;más&nbsp;común:<br /></span><span style="color: #0000BB">$p&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Phar</span><span style="color: #007700">(</span><span style="color: #DD0000">'mi.phar'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #DD0000">'phar://mi.phar/fichero.txt'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'r'</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;esto&nbsp;crea&nbsp;'mi.phar.gz'<br /></span><span style="color: #0000BB">$gp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$p</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">compress</span><span style="color: #007700">(</span><span style="color: #0000BB">Phar</span><span style="color: #007700">::</span><span style="color: #0000BB">GZ</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;eliminar&nbsp;todas&nbsp;las&nbsp;referencias&nbsp;al&nbsp;archivo<br /></span><span style="color: #007700">unset(</span><span style="color: #0000BB">$p</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fclose</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;ahora,&nbsp;eliminar&nbsp;todas&nbsp;los&nbsp;indicions&nbsp;del&nbsp;archivo<br /></span><span style="color: #0000BB">Phar</span><span style="color: #007700">::</span><span style="color: #0000BB">unlinkArchive</span><span style="color: #007700">(</span><span style="color: #DD0000">'mi.phar'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-phar.unlinkarchive-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="phar.delete.html" class="function" rel="rdfs-seeAlso">Phar::delete()</a> - Borrar un fichero dentro de un archivo phar</span></li>
+    <li class="member"><span class="function"><a href="phar.offsetunset.html" class="function" rel="rdfs-seeAlso">Phar::offsetUnset()</a> - Eliminar un fichero de un phar</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.uncompressallfiles.html">Phar::uncompressAllFiles</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.webphar.html">Phar::webPhar</a></div>
+ <div class="up"><a href="class.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

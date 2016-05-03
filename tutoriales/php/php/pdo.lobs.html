@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Objetos grandes (LOB)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.error-handling.html">Errores y su manejo</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.pdo.html">PDO</a></div>
+ <div class="up"><a href="book.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdo.lobs" class="chapter">
+ <h1>Objetos grandes (LOB)</h1>
+
+ <p class="para">
+  En algún momento, una aplicación podría necesitar almacenar
+  datos &quot;grandes&quot; en la base de datos. Grande típicamente significa &quot;alrededor de 4kb o
+  más&quot;, aunque algunas bases de datos pueden manejar fácilmente hasta 32kb antes de que
+  los datos se consideren &quot;grandes&quot;. Los objetos grandes, o LOB (acrónimo en inglés de &#039;Large OBjects&#039;), pueden ser de texto o binarios.
+  PDO permite trabajar con este tipo de datos grandes utilizando el código del tipo
+  <strong><code>PDO::PARAM_LOB</code></strong>
+  en llamadas a <span class="function"><a href="pdostatement.bindparam.html" class="function">PDOStatement::bindParam()</a></span> o
+  <span class="function"><a href="pdostatement.bindcolumn.html" class="function">PDOStatement::bindColumn()</a></span>.
+  <strong><code>PDO::PARAM_LOB</code></strong> indica a
+  PDO que haga corresponder los datos como un flujo, pudiendo manipularlos así utilizando la
+  <a href="ref.stream.html" class="link">API de flujos de PHP</a>.
+ </p>
+ <p class="para">
+  <div class="example" id="example-1011">
+   <p><strong>Ejemplo #1 Mostrar una imagen desde una base de datos</strong></p>
+   <div class="example-contents"><p>
+    Este ejemplo vincula un LOB a una variable llamada $lob, y luego lo envía
+    al navegador usando <span class="function"><a href="function.fpassthru.html" class="function">fpassthru()</a></span>. Ya que el LOB
+    está representado como un flujo, se pueden emplear funciones tales como
+    <span class="function"><a href="function.fgets.html" class="function">fgets()</a></span>, <span class="function"><a href="function.fread.html" class="function">fread()</a></span> y
+    <span class="function"><a href="function.stream-get-contents.html" class="function">stream_get_contents()</a></span> para manejarlo.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$bd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'odbc:SAMPLE'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'db2inst1'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ibmdb2'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"select&nbsp;contenttype,&nbsp;imagedata&nbsp;from&nbsp;images&nbsp;where&nbsp;id=?"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(array(</span><span style="color: #0000BB">$_GET</span><span style="color: #007700">[</span><span style="color: #DD0000">'id'</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindColumn</span><span style="color: #007700">(</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$tipo</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">PARAM_STR</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">256</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindColumn</span><span style="color: #007700">(</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$lob</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">PARAM_LOB</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch</span><span style="color: #007700">(</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">FETCH_BOUND</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Content-Type:&nbsp;</span><span style="color: #0000BB">$tipo</span><span style="color: #DD0000">"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fpassthru</span><span style="color: #007700">(</span><span style="color: #0000BB">$lob</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  <div class="example" id="example-1012">
+   <p><strong>Ejemplo #2 Insertar una imagen en una base de datos</strong></p>
+   <div class="example-contents"><p>
+    Este ejemplo abre un fichero y pasa el manejador del fichero a PDO para insertarlo
+    como un LOB. PDO hará todo lo posible para enviar el contenido del fichero
+    a la base de datos de la manera más eficiente.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$bd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'odbc:SAMPLE'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'db2inst1'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ibmdb2'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"insert&nbsp;into&nbsp;images&nbsp;(id,&nbsp;contenttype,&nbsp;imagedata)&nbsp;values&nbsp;(?,&nbsp;?,&nbsp;?)"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">get_new_id</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">//&nbsp;alguna&nbsp;función&nbsp;para&nbsp;asignar&nbsp;un&nbsp;nuevo&nbsp;ID<br /><br />//&nbsp;Se&nbsp;asume&nbsp;que&nbsp;se&nbsp;está&nbsp;ejecutando&nbsp;como&nbsp;parte&nbsp;de&nbsp;un&nbsp;formulario&nbsp;de&nbsp;subida&nbsp;de&nbsp;ficheros<br />//&nbsp;Se&nbsp;puede&nbsp;encontrar&nbsp;más&nbsp;información&nbsp;en&nbsp;la&nbsp;documentación&nbsp;de&nbsp;PHP<br /><br /></span><span style="color: #0000BB">$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">[</span><span style="color: #DD0000">'file'</span><span style="color: #007700">][</span><span style="color: #DD0000">'tmp_name'</span><span style="color: #007700">],&nbsp;</span><span style="color: #DD0000">'rb'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindParam</span><span style="color: #007700">(</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$id</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindParam</span><span style="color: #007700">(</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">[</span><span style="color: #DD0000">'file'</span><span style="color: #007700">][</span><span style="color: #DD0000">'type'</span><span style="color: #007700">]);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindParam</span><span style="color: #007700">(</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">PARAM_LOB</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">beginTransaction</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">commit</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  <div class="example" id="example-1013">
+   <p><strong>Ejemplo #3 Insertar una imagen en una base de datos: Oracle</strong></p>
+   <div class="example-contents"><p>
+    Oracle requiere una sintaxis ligeramente diferente para insertar un LOB desde un
+    fichero. También es esencial que se realice la inserción bajo una
+    transacción, si no, el LOB recién insertado será consignado con una
+    longitud cero como parte de la consigna implícita que ocurre cuando la consulta
+    se ejecuta:
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$bd&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'oci:'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'scott'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'tiger'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"insert&nbsp;into&nbsp;images&nbsp;(id,&nbsp;contenttype,&nbsp;imagedata)&nbsp;"&nbsp;</span><span style="color: #007700">.<br /></span><span style="color: #DD0000">"VALUES&nbsp;(?,&nbsp;?,&nbsp;EMPTY_BLOB())&nbsp;RETURNING&nbsp;imagedata&nbsp;INTO&nbsp;?"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">get_new_id</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">//&nbsp;alguna&nbsp;función&nbsp;para&nbsp;asignar&nbsp;un&nbsp;nuevo&nbsp;ID<br /><br />//&nbsp;Se&nbsp;asume&nbsp;que&nbsp;se&nbsp;está&nbsp;ejecutando&nbsp;como&nbsp;parte&nbsp;de&nbsp;un&nbsp;formulario&nbsp;de&nbsp;subida&nbsp;de&nbsp;ficheros<br />//&nbsp;Se&nbsp;puede&nbsp;encontrar&nbsp;más&nbsp;información&nbsp;en&nbsp;la&nbsp;documentación&nbsp;de&nbsp;PHP<br /><br /></span><span style="color: #0000BB">$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">[</span><span style="color: #DD0000">'file'</span><span style="color: #007700">][</span><span style="color: #DD0000">'tmp_name'</span><span style="color: #007700">],&nbsp;</span><span style="color: #DD0000">'rb'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindParam</span><span style="color: #007700">(</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$id</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindParam</span><span style="color: #007700">(</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$_FILES</span><span style="color: #007700">[</span><span style="color: #DD0000">'file'</span><span style="color: #007700">][</span><span style="color: #DD0000">'type'</span><span style="color: #007700">]);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindParam</span><span style="color: #007700">(</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">PARAM_LOB</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">beginTransaction</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">commit</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.error-handling.html">Errores y su manejo</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.pdo.html">PDO</a></div>
+ <div class="up"><a href="book.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

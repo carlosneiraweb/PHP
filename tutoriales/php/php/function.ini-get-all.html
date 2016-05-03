@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene todas las opciones de configuraci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ini-alter.html">ini_alter</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ini-get.html">ini_get</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ini-get-all" class="refentry">
+ <div class="refnamediv"> 
+  <h1 class="refname">ini_get_all</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.2.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">ini_get_all</span> &mdash; <span class="dc-title">Obtiene todas las opciones de configuración</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ini-get-all-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>ini_get_all</strong></span>
+    ([ <span class="methodparam"><span class="type">string</span> <code class="parameter">$extension</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$details</code><span class="initializer"> = true</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve todas las opciones de configuración registradas.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ini-get-all-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">extension</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un nombre de extensión opcional. Si se establece, la función de retornará únicamente 
+       opciones específicas para esa extensión.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">details</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Recupera los detalles de configuración o sólo el valor actual de cada configuración.
+       Por omisión es <strong><code>TRUE</code></strong> (recuperar detalles).
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ini-get-all-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array asociativo con el nombre de la directiva como la clave del array.
+  </p>
+  <p class="para">
+   Cuando el parámetro <code class="parameter">details</code> es <strong><code>TRUE</code></strong> (por omisión) el array 
+   contendrá <em>global_value</em> (establecido en <var class="filename">php.ini</var>), <em>local_value</em> 
+   (tal vez establecido con <span class="function"><a href="function.ini-set.html" class="function">ini_set()</a></span> o <var class="filename">.htaccess</var>), y <em>access</em> 
+   (el nivel de acceso).
+  </p>
+  <p class="para">
+   Cuando el parámetro <code class="parameter">details</code> es <strong><code>FALSE</code></strong> el valor será el 
+   valor actual de la opción.
+  </p>
+  <p class="para">
+   Vea la <a href="configuration.changes.modes.html" class="link">sección del manual</a> 
+   para obtener información sobre lo que significan los niveles de acceso.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Es posible que una directiva tenga múltiples niveles de acceso, 
+    por lo que el <em>access</em> muestra los valores de máscara de bits adecuado.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.ini-get-all-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    <span class="function"><strong>ini_get_all()</strong></span> ignora las opciones ini de &quot;array&quot; como
+    pdo.dsn.*.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.ini-get-all-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Se añadió <code class="parameter">details</code>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ini-get-all-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-562">
+    <p><strong>Ejemplo #1 <span class="function"><strong>ini_get_all()</strong></span> ejemplos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">ini_get_all</span><span style="color: #007700">(</span><span style="color: #DD0000">"pcre"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">ini_get_all</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [pcre.backtrack_limit] =&gt; Array
+        (
+            [global_value] =&gt; 100000
+            [local_value] =&gt; 100000
+            [access] =&gt; 7
+        )
+
+    [pcre.recursion_limit] =&gt; Array
+        (
+            [global_value] =&gt; 100000
+            [local_value] =&gt; 100000
+            [access] =&gt; 7
+        )
+
+)
+Array
+(
+    [allow_call_time_pass_reference] =&gt; Array
+        (
+            [global_value] =&gt; 0
+            [local_value] =&gt; 0
+            [access] =&gt; 6
+        )
+
+    [allow_url_fopen] =&gt; Array
+        (
+            [global_value] =&gt; 1
+            [local_value] =&gt; 1
+            [access] =&gt; 4
+        )
+
+    ...
+
+)
+</pre></div>
+    </div>
+   </div>
+   <div class="example" id="example-563">
+    <p><strong>Ejemplo #2 Disabling <code class="parameter">details</code></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">ini_get_all</span><span style="color: #007700">(</span><span style="color: #DD0000">"pcre"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;Se&nbsp;añadió&nbsp;en&nbsp;PHP&nbsp;5.3.0<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">ini_get_all</span><span style="color: #007700">(</span><span style="color: #0000BB">null</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;Se&nbsp;añadió&nbsp;en&nbsp;PHP&nbsp;5.3.0<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [pcre.backtrack_limit] =&gt; 100000
+    [pcre.recursion_limit] =&gt; 100000
+)
+Array
+(
+    [allow_call_time_pass_reference] =&gt; 0
+    [allow_url_fopen] =&gt; 1
+    ...
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ini-get-all-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><a href="configuration.changes.html" class="xref">C&oacute;mo cambiar los ajustes de configuraci&oacute;n</a></li>
+    <li class="member"><span class="function"><a href="function.ini-get.html" class="function" rel="rdfs-seeAlso">ini_get()</a> - Devuelve el valor de una directiva de configuraci&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="function.ini-restore.html" class="function" rel="rdfs-seeAlso">ini_restore()</a> - Restablece el valor de una opci&oacute;n de configuraci&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="function.ini-set.html" class="function" rel="rdfs-seeAlso">ini_set()</a> - Establece el valor de una directiva de configuraci&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="function.get-loaded-extensions.html" class="function" rel="rdfs-seeAlso">get_loaded_extensions()</a> - Devuelve un array con los nombres de todos los m&oacute;dulos compilados y cargados</span></li>
+    <li class="member"><span class="function"><a href="function.phpinfo.html" class="function" rel="rdfs-seeAlso">phpinfo()</a> - Muestra informaci&oacute;n sobre la configuraci&oacute;n de PHP</span></li>
+    <li class="member"><span class="methodname"><a href="reflectionextension.getinientries.html" class="methodname" rel="rdfs-seeAlso">ReflectionExtension::getINIEntries()</a> - Obtiene las entradas INI de la extensi&oacute;n</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ini-alter.html">ini_alter</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ini-get.html">ini_get</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

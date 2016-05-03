@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Como usar PHP-APD en los scripts</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="apd.examples.html">Ejemplos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.apd.html">Funciones de APD</a></div>
+ <div class="up"><a href="apd.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="apd.examples.usage" class="section">
+  <h2 class="title">Como usar PHP-APD en los scripts</h2>
+  <div class="procedure">
+   <ol type="1"><li>
+    <p class="para">
+     Como primera línea del script PHP, llamar la función apd_set_pprof_trace() 
+     para iniciar el rastreo.
+    </p>
+    <p class="para">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />apd_set_pprof_trace</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </p>
+    <p class="para">
+     Se puede insertar la línea en cualquier parte del script, pero si no se 
+     inicia el rastreo al comienzo, se descartarán los datos de depurado que pudieran 
+     llevar a determinar un cuello de botella del desempeño.
+    </p>
+   </li>
+   <li>
+    <p class="para">
+     Ahora se corre el script. La salida será escrita a 
+     <var class="filename">apd.dumpdir/pprof_pid.ext</var>.
+     <div class="tip"><strong class="tip">Sugerencia</strong>
+     <p class="para">
+       Si está corriendo la versión CGI de PHP, es necesario agregar la opción 
+       &#039;-e&#039; para activar la información extendida que APD requiere para trabajar 
+       apropiadamente. Por ejemplo:
+       <strong class="userinput"><code>php -e -f script.php</code></strong>
+     </p>
+     </div>
+    </p>
+   </li>
+   <li>
+    <p class="para">
+     Para mostrar formateados los datos de performance, se envía el comando 
+     <strong class="command">pprofp</strong> con las opciones de ordenado y presentación. 
+     La salida formateada se verá algo como esto: 
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+bash-2.05b$ pprofp -R /tmp/pprof.22141.0
+
+Trace for /home/dan/testapd.php
+Total Elapsed Time = 0.00
+Total System Time  = 0.00
+Total User Time    = 0.00
+
+
+Real         User        System             secs/    cumm
+%Time (excl/cumm)  (excl/cumm)  (excl/cumm) Calls    call    s/call  Memory Usage Name
+--------------------------------------------------------------------------------------
+100.0 0.00 0.00  0.00 0.00  0.00 0.00     1  0.0000   0.0009            0 main
+56.9 0.00 0.00  0.00 0.00  0.00 0.00     1  0.0005   0.0005            0 apd_set_pprof_trace
+28.0 0.00 0.00  0.00 0.00  0.00 0.00    10  0.0000   0.0000            0 preg_replace
+14.3 0.00 0.00  0.00 0.00  0.00 0.00    10  0.0000   0.0000            0 str_replace
+</pre></div>
+     </div>
+    </p>
+    <p class="para">
+     La opción –R usada en este ejemplo, ordena la tabla del performance por la 
+     cantidad de tiempo real que el script gasta ejecutando una función dada. 
+     La columna &quot;cumm call&quot; revela cuantas veces cada función es llamada y la 
+     columna &quot;s/call&quot; muestra cuantos segundos requiere en promedio cada llamada a la 
+     función.
+    </p>
+   </li>
+   <li>
+    <p class="para">
+    Para generar un archivo de árbol de llamados que se pueda importar 
+    en la aplicación de análisis de perfil KCacheGrind, enviar el 
+    comando <strong class="command">pprof2calltree</strong>.
+    </p>
+   </li>
+  </ol></div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="apd.examples.html">Ejemplos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.apd.html">Funciones de APD</a></div>
+ <div class="up"><a href="apd.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

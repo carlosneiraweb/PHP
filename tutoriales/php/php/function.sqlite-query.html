@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecutar una consulta en una base de datos dada y devolver un gestor de resultados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlite-prev.html">sqlite_prev</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-rewind.html">sqlite_rewind</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.sqlite-query" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">sqlite_query</h1>
+  <h1 class="refname">SQLiteDatabase::query</h1>
+  <p class="verinfo">(PHP 5 &lt; 5.4.0, PECL sqlite &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">sqlite_query</span> -- <span class="refname">SQLiteDatabase::query</span> &mdash; <span class="dc-title">Ejecutar una consulta en una base de datos dada y devolver un gestor de resultados</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.sqlite-query-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>sqlite_query</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$dbhandle</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$query</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$result_type</code><span class="initializer"> = SQLITE_BOTH</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter reference">&$error_msg</code></span>
+  ]] )</div>
+
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>sqlite_query</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$query</code></span>
+   , <span class="methodparam"><span class="type">resource</span> <code class="parameter">$dbhandle</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$result_type</code><span class="initializer"> = SQLITE_BOTH</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter reference">&$error_msg</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">Estilo orientado a objetos (método):</p>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><span class="type SQLiteResult">SQLiteResult</span></span> <span class="methodname"><strong>SQLiteDatabase::query</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$query</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$result_type</code><span class="initializer"> = SQLITE_BOTH</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter reference">&$error_msg</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Ejecuta una sentencia SQL dada por <code class="parameter">query</code> en
+   un gestor de base de datos daod.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.sqlite-query-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">dbhandle</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El recurso de Base de datos de SQLite; devuelto por <span class="function"><a href="function.sqlite-open.html" class="function">sqlite_open()</a></span>
+       cuando se usa procedimentalmente. Este parámetro no es necesario
+       cuando se usa el método orientado a objetos.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">query</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La consulta a ejectuar.
+      </p>
+      <p class="para">
+       Los datos dentro de la consulta deberían ser <a href="function.sqlite-escape-string.html" class="link">apropiadamente escapados</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">result_type</code></dt>
+
+     <dd>
+
+      <p class="para">El parámetro opcional <code class="parameter">result_type</code>
+acepta una constante y determina cómo se indexará el array devuelto.
+Usar <strong><code>SQLITE_ASSOC</code></strong> devolverá índices asociativos
+(los nombres de los campos) mientras que <strong><code>SQLITE_NUM</code></strong> devolverá
+sólo índices numéricos (los campos en números ordinales). <strong><code>SQLITE_BOTH</code></strong>
+devolverá índices tanto asociativos como numéricos.
+<strong><code>SQLITE_BOTH</code></strong> es el valor por defecto para esta función.</p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">error_msg</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La variable especificada será rellenada si ocurre un error. Esto es
+       especialmente importante ya que los errores de sintaxis de SQL no se pueden recoger usando
+       la función <span class="function"><a href="function.sqlite-last-error.html" class="function">sqlite_last_error()</a></span>.
+      </p>
+     </dd>
+
+    
+
+   </dl>
+
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Dos sintaxis alternativas son
+soportadas para la compatibilidad con otras extensiones de base de datos (tal como MySQL).
+La forma preferida es la primera, donde el parámetro <code class="parameter">dbhandle</code>
+es el primero de la función.</span></p></blockquote>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.sqlite-query-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Esta función devolverá un gestor de resultados  o <strong><code>FALSE</code></strong> en caso de error.
+   Para consultas que devuelven filas, el gestor de resultados se puede usar con
+   funciones como <span class="function"><a href="function.sqlite-fetch-array.html" class="function">sqlite_fetch_array()</a></span> y
+   <span class="function"><a href="function.sqlite-seek.html" class="function">sqlite_seek()</a></span>.
+  </p>
+  <p class="para">
+   Sin tener en cuenta el tipo de consulta, esta función devolverá <strong><code>FALSE</code></strong> si la
+   consulta falla.
+  </p>
+  <p class="para">
+   <span class="function"><strong>sqlite_query()</strong></span> devuelve un gestor de resultados almacenado en buffer y
+   rasteable. Esto es útil para consultas razonablemente pequeñas donde se necesite
+   la capacidad de acceso a filas aleatorio. Los gestores de resultados almacenados en buffer
+   asignarán memoria para contener el resultado completo y no devolverán hasta que se
+   haya recuperado. Si sólo se necesita acceso secuencial a los datos, se
+   recomienda usar la función con más alto rendimiento
+   <span class="function"><a href="function.sqlite-unbuffered-query.html" class="function">sqlite_unbuffered_query()</a></span> en su lugar.
+  </p>
+ </div>
+
+
+<div class="refsect1 changelog" id="refsect1-function.sqlite-query-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.1.0</td>
+       <td>
+        Se añadió el parámetro <code class="parameter">error_msg</code>
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.sqlite-query-notes">
+  <h3 class="title">Notas</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="simpara">
+    SQLite <em class="emphasis">ejecutará</em> múltiples consultas separadas por
+    puntos y comas, por lo que se puede usar esta función para ejecutar un lote de SQL que se haya
+    cargado desde un fichero o embebido en un script. Sin embargo, esto sólo funcionará
+    cuando el resultado de la función no se use - si se usara,
+    se ejecutaría solamente la primera sentencia SQL. La función
+    <span class="function"><a href="function.sqlite-exec.html" class="function">sqlite_exec()</a></span> siempre ejecutará múltiple sentencias
+    SQL.
+   </p>
+   <p class="simpara">
+    Cuando se ejecutan múltiples consultas, el valor devuleto por esta función
+    será <strong><code>FALSE</code></strong> si hubiera un error, pero será indefinido de otro modo (podría
+    ser <strong><code>TRUE</code></strong> en caso de éxito o podría devolver un gestor de resultados).
+   </p>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.sqlite-query-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.sqlite-unbuffered-query.html" class="function" rel="rdfs-seeAlso">sqlite_unbuffered_query()</a> - Ejecutar una consulta que no precargue ni almacene en buffer toda la informaci&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="function.sqlite-array-query.html" class="function" rel="rdfs-seeAlso">sqlite_array_query()</a> - Ejecutar una consulta en una base de datos dada y devolver un array</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlite-prev.html">sqlite_prev</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-rewind.html">sqlite_rewind</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

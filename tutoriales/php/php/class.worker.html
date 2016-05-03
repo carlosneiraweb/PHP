@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>La clase Worker</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="thread.start.html">Thread::start</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="worker.getstacked.html">Worker::getStacked</a></div>
+ <div class="up"><a href="book.pthreads.html">pthreads</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="class.worker" class="reference">
+ 
+ <h1 class="title">La clase Worker</h1>
+ 
+ 
+ <div class="partintro"><p class="verinfo">(PECL pthreads &gt;= 2.0.0)</p>
+  
+  
+  <div class="section" id="worker.intro">
+   <h2 class="title">Introducción</h2>
+   <p class="para">
+    Los hilos Worker poseen un contexto persistente, por lo que, en la mayoría de los casos, deberían emplearse sobre objetos Threads.
+   </p>
+   <p class="para">
+    Cuando un Worker se inicia, se ejecutará el método run, pero el Thread no abandonará hasta que se dé una de las siguientes condiciones:
+   </p>
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">el Worker sale del ámbito (ya no quedan más referencias)</p>
+    </li>
+    <li class="listitem">
+     <p class="para">el programador llama al apagado</p>
+    </li>
+    <li class="listitem">
+     <p class="para">el script finaliza</p>
+    </li>
+   </ul>
+   <p class="para">
+    Esto significa que el programador puede reutilizar el contexto durante toda la ejecución; la colocación de objetos en la pila del Worker ocasionará que el Worker
+    ejecute los objetos apilados del método run.
+   </p>
+   <div class="warning"><strong class="warning">Advertencia</strong>
+    <p class="para">
+     El programador debe conservar referencias a los objetos apilados hasta que hayan sido ejecutados o desapilados; la clase Pool proporciona una abstracción de más alto nivel
+     de la funcionalidad del Worker, administrando las referencias para el programador.
+    </p>
+   </div>
+  </div>
+  
+  
+  <div class="section" id="worker.synopsis">
+   <h2 class="title">Sinopsis de la Clase</h2>
+   
+   
+   <div class="classsynopsis">
+    <div class="ooclass"></div>
+    
+    
+    <div class="classsynopsisinfo">
+     <span class="ooclass">
+      <strong class="classname">Worker</strong>
+     </span>
+     
+     <span class="ooclass">
+      <span class="modifier">extends</span>
+      <a href="class.thread.html" class="classname">Thread</a>
+     </span>
+     
+     <span class="oointerface">implements 
+      <span class="interfacename"><a href="class.traversable.html" class="interfacename">Traversable</a></span>
+     </span>
+     
+     <span class="oointerface">, 
+      <span class="interfacename"><a href="class.countable.html" class="interfacename">Countable</a></span>
+     </span>
+     
+     <span class="oointerface">, 
+      <span class="interfacename"><a href="class.arrayaccess.html" class="interfacename">ArrayAccess</a></span>
+     </span>
+     {</div>
+    
+    
+    <div class="classsynopsisinfo classsynopsisinfo_comment">/* Métodos */</div>
+    <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">integer</span> <span class="methodname"><a href="worker.getstacked.html" class="methodname">getStacked</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">boolean</span> <span class="methodname"><a href="worker.isshutdown.html" class="methodname">isShutdown</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">boolean</span> <span class="methodname"><a href="worker.isworking.html" class="methodname">isWorking</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">boolean</span> <span class="methodname"><a href="worker.shutdown.html" class="methodname">shutdown</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">integer</span> <span class="methodname"><a href="worker.stack.html" class="methodname">stack</a></span>
+    ( <span class="methodparam"><span class="type"><a href="class.threaded.html" class="type Threaded">Threaded</a></span> <code class="parameter reference">&$work</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">integer</span> <span class="methodname"><a href="worker.unstack.html" class="methodname">unstack</a></span>
+    ([ <span class="methodparam"><span class="type"><a href="class.threaded.html" class="type Threaded">Threaded</a></span> <code class="parameter reference">&$work</code></span>
+  ] )</div>
+
+    
+    <div class="classsynopsisinfo classsynopsisinfo_comment">/* Métodos heredados */</div>
+    <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">void</span> <span class="methodname"><a href="thread.detach.html" class="methodname">Thread::detach</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">integer</span> <span class="methodname"><a href="thread.getcreatorid.html" class="methodname">Thread::getCreatorId</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">Thread</span> <span class="methodname"><a href="thread.getcurrentthread.html" class="methodname">Thread::getCurrentThread</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">integer</span> <span class="methodname"><a href="thread.getcurrentthreadid.html" class="methodname">Thread::getCurrentThreadId</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">integer</span> <span class="methodname"><a href="thread.getthreadid.html" class="methodname">Thread::getThreadId</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">mixed</span> <span class="methodname"><a href="thread.globally.html" class="methodname">Thread::globally</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">boolean</span> <span class="methodname"><a href="thread.isjoined.html" class="methodname">Thread::isJoined</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">boolean</span> <span class="methodname"><a href="thread.isstarted.html" class="methodname">Thread::isStarted</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">boolean</span> <span class="methodname"><a href="thread.join.html" class="methodname">Thread::join</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">void</span> <span class="methodname"><a href="thread.kill.html" class="methodname">Thread::kill</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">boolean</span> <span class="methodname"><a href="thread.start.html" class="methodname">Thread::start</a></span>
+    ([ <span class="methodparam"><span class="type">integer</span> <code class="parameter">$options</code></span>
+  ] )</div>
+
+    
+   }</div>
+   
+   
+  </div>
+  
+ </div>
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+<h2>Tabla de contenidos</h2><ul class="chunklist chunklist_reference"><li><a href="worker.getstacked.html">Worker::getStacked</a> — Stack Analysis</li><li><a href="worker.isshutdown.html">Worker::isShutdown</a> — State Detection</li><li><a href="worker.isworking.html">Worker::isWorking</a> — State Detection</li><li><a href="worker.shutdown.html">Worker::shutdown</a> — Synchronization</li><li><a href="worker.stack.html">Worker::stack</a> — Stacking</li><li><a href="worker.unstack.html">Worker::unstack</a> — Stacking</li></ul>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="thread.start.html">Thread::start</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="worker.getstacked.html">Worker::getStacked</a></div>
+ <div class="up"><a href="book.pthreads.html">pthreads</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Instalaci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sam.requirements.html">Requerimientos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sam.configuration.html">Configuraci&oacute;n en tiempo de ejecuci&oacute;n</a></div>
+ <div class="up"><a href="sam.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sam.installation" class="section">
+  <h2 class="title">Instalación</h2>
+  <p class="para">
+   Se puede encontrar información para la instalación de esta extensión PECL
+en el capítulo del manual titulado <a href="install.pecl.html" class="link">Instalación
+de extensiones PECL</a>. Se puede encontrar información adicional, tal como nuevos lanzamientos,
+descargas, ficheros fuente, información de mantenimiento, y un CHANGELOG,
+aquí: 
+   <a href="http://pecl.php.net/package/sam" class="link external">&raquo;&nbsp;http://pecl.php.net/package/sam</a>.
+  </p>
+  <p class="para">
+   El soporte de la framework SAM y MQTT puede ser construído y utilizado sin ningún otro requisito previo.
+   El soporte para otros protocolos a parte de MQTT se proporciona en un conjunto de librerías y un código
+   cliente denominado XMS.
+  </p>
+  <p class="para">
+   Si únicamente se desea utilizar el soporte interno MQTT entonces se puede
+   configurar SAM como una extensión o simplemente referir a
+   <var class="filename">php_sam.php</var> con una cláusula <span class="function"><a href="function.require.html" class="function">require</a></span> o
+   <span class="function"><a href="function.require-once.html" class="function">require_once</a></span> en su script PHP. En este caso
+   únicamente es necesario instalar el código sin construir la extensión utilizando el instalador
+   PEAR:
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+pecl install -B SAM
+</pre></div>
+   </div>
+  </p>
+  
+  
+  <div class="section" id="sam.installation.linux">
+   <h2 class="title">Pasos de la instalación Linux</h2>
+   <p class="para">
+    La extensión SAM se proporciona como un módulo PECL module, el cual
+    se puede descargar e instalar en un solo paso como se muestra a continuación:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+pecl install sam
+</pre></div>
+    </div>
+    (Dependiendo de su entorno PHP, probablemente será necesario ser &quot;root&quot;
+    para hacer esto.)
+   </p>
+   <p class="para">
+    Asegurar que el módulo es cargado por PHP, añadiendo la siguiente línea 
+    a <var class="filename">php.ini</var>:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+extension=sam.so
+</pre></div>
+    </div>
+    Si se desea utilizar el soporte XMS para acceder a la familia IBM Messaging and Queuing
+    se debe también activar la extensión SAM XMS.
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+extension=sam_xms.so
+</pre></div>
+    </div>
+   </p>
+   <p class="para">
+    Si no puede utilizar el instalador PEAR, puede recargar la extensión 
+    y la construcción manualmente:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+pear download sam          #downloads sam-&lt;version&gt;.tgz
+tar -xzf sam-&lt;version&gt;.tgz
+cd sam-&lt;version&gt;
+phpize
+./configure
+make
+make install               #debería ser &quot;root&quot; para ejecutar este paso
+</pre></div>
+    </div>
+   </p>
+   <p class="para">
+    Para trabajar con el código más reciente, necesitará extraerlo de
+    SVN y construirlo manualmente como en el paso anterior.
+   </p>
+  </div>
+  
+  
+  <div class="section" id="sam.installation.windows">
+   <h2 class="title">Pasos de instalación Windows</h2>
+   <p class="para">
+    Probablemente será necesario construir la extensión SAM para Windows puesto que
+    sólo hay un rango liminado de ficheros binarios precompilados disponibles en la web de SAM.
+    La extensión puede construirse utilizando los procedimientos estándares de construcción de las extensiones Windows.
+   </p>
+   <p class="para">
+    Necesitará las fuentes de PHP para la versión de PHP para la que se quiere construir
+    la extensión SAM, las cuales se pueden obtener de php.net.
+    Se debe desempaquetar en un directorio de trabajo cualquiera.
+   </p>
+   <p class="para">
+    También serán necesarias las librerías y cabeceras utilizadas por las extensiones PHP
+    disponibles de http://www.php.net/extra/win32build.zip y éstas
+    deben ser descomprimidas de tal forma que se sitúen en el directorio de trabajo.
+   </p>
+   <p class="para">
+    Se ha de tener algo parecido a:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+c:\php-build\-
+              |
+              |---php-5.0.5--|---build
+              |              |---ext
+              |              |--- ...
+              |
+              |---win32build--|---bin
+                              |---include
+                              |---lib
+</pre></div>
+    </div>
+   </p>
+   <p class="para">
+    Será necesario un compilador como la versión gratuíta de Visual Studio C++
+    Express de la web de Microsoft. También será necesario el
+    <em>SDK Microsoft Windows Platform</em> que también puede
+    descargarse de la web de Microsoft.
+   </p>
+   <p class="para">
+    Obtener el código de la extensión SAM utilizando PEAR (pecl download sam) o
+    SVN y copiar los ficheros a un nuevo directorio &quot;sam&quot; bajo el directorio &quot;ext&quot;
+    en su árbol de código PHP.
+   </p>
+   <p class="para">
+    Para construir la extensión, abrir una ventana con un entorno de construcción yendo a 
+    Inicio <div class="example-contents screen">menu-&gt;Todos los programas-&gt;microsoft platform SDK for windows-&gt;<br />
+    open build environment window-&gt;windows 200 build environment-&gt;<br />
+    set windows 2000 build environment (retail)</div>
+   </p>
+   <p class="para">
+    Esto debe abrir una ventana de comandos con todas las variables de entorno
+    configuradas para acceder a la plataforma SDK etc. Entonces será necesario definir
+    las variables de entorno de Visual Studio mediante el comando
+    <strong class="command">vcvars32.bat</strong> en la ventana.
+   </p>
+   <p class="para">
+    Cambiar el directorio a nuestro directorio de trabajo que hemos elegido p.e.
+    cd <var class="filename">c:\php-build</var>. Entonces
+    asegurar que las herramientas win32build son accesibles añadiéndolas a la 
+    variable de entorno <span class="envar">PATH</span>:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+set PATH=..\win32build\bin;%PATH%
+</pre></div>
+    </div>
+   </p>
+   <p class="para">
+    Ejecutar el comando <strong class="command">buildconf.bat</strong>. Esto debe reconstruir el fichero 
+    <var class="filename">configure.js</var>.
+   </p>
+   <p class="para">
+    Ejecutar el comando <strong class="command">cscript</strong> con las opciones apropiadas. Para construir únicamente la
+    extensión SAM framework y el soporte MQTT utilizar:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+cscript /nologo configure.js --with-sam
+</pre></div>
+    </div>
+    Para construir la framework SAM y el soporte XMS support utilizar:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+cscript /nologo configure.js --with-sam --with-sam_xms=&quot;c:\program files\ibm\xms&quot;
+</pre></div>
+    </div>
+   </p>
+   <p class="para">
+    El parámetro adicional pasado para sam_xms es el path de instalación a las
+    librerias XMS y el runtime que fue instalado tal y como se describió en el apartado de requisitos previos
+    al principio de esta página.
+   </p>
+   <p class="para">
+    Se puede especificar cualquier otro parámetro <strong class="command">cscript</strong> que sea necesario para
+    incluir o excluir elementos de la construcción PHP u opciones seleccionadas.
+   </p>
+   <p class="para">
+    Asumiendo que todo ha ido bien finalmente se debe ejecutar un &quot;make&quot; para la framework SAM!
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+nmake php_sam.dll
+</pre></div>
+    </div>
+    También si se está utilizando el soporte XMS se debe hacer el &quot;make&quot; de las extensiones sam_xms:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+nmake php_sam_xms.dll
+</pre></div>
+    </div>
+   </p>
+   <p class="para">
+    Si se ha utilizado Visual Studio 2005 para construir las DLLs lea, por favor, los pasos siguientes 
+    que se especifican abajo para ejecutar antes de continuar más allá.
+   </p>
+   <p class="para">
+    Las DLLs creadas (<var class="filename">php_sam.dll</var> y opcionalmente
+    <var class="filename">php_sam_xms.dll</var>) pueden copiarse ahora al subdirectorio
+    apropiado de su configuración PHP . Asegurarse de que el/los módulo/s son cargados por
+    PHP, añadiendo las siguientes líneas a <var class="filename">php.ini</var>:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+extension=php_sam.dll
+</pre></div>
+    </div>
+    Si se desea utilizar el soporte XMS para acceder a la familia IBM Messaging and Queuing 
+    se debe activar también la extensión SAM XMS.
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+extension=php_sam_xms.dll
+</pre></div>
+    </div>
+   </p>
+  </div>
+  
+  
+  <div class="section" id="sam.installation.vs2005">
+   <h2 class="title">Pasos adicionales para Visual Studio 2005</h2>
+   <p class="para">
+    Si se construye la extensión SAM extension con el compilador y las herramientas
+    Microsoft Visual Studio 2005 es necesario realizar otro paso en el proceso de 
+    construcción para asegurar que <var class="filename">php_sam.dll</var> puede linkar
+    con las librerías del runtime C runtime en el momento de ejecución. Este paso incluye
+    el manifiesto de dependencia en la DLL. Ir al directorio donde
+    se ha generado <var class="filename">php_sam.dll</var> (habitualmente
+    Release_TS o Debug_TS bajo el directorio fuente de PHP) y ejecutar el
+    conjuro mágico siguiente:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+mt.exe -manifest php_sam.dll.manifest -outputresource:php_sam.dll;2
+</pre></div>
+    </div>
+    Si se están utilizando las capacidades XMS será necesario hacer lo mismo con
+    SAM XMS DLL:
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+mt.exe -manifest php_sam_xms.dll.manifest -outputresource:php_sam_xms.dll;2
+</pre></div>
+    </div>
+   </p>
+   <p class="para">
+    Si se construye la extensión SAM utilizando el compilador y las librerías de
+    Microsoft Visual Studio 2005 también será necesario asegurar que los componentes del ejecutable
+    están instalados en el sistema en el cual se desea utilizar
+    SAM. Esto se puede hacer instalando Visual Studio 2005 o
+    utilizando el distribuíble gratuíto
+    <a href="http://www.microsoft.com/downloads/details.aspx?familyid=32BC1BEE-A3F9-4C13-9C99-220B62A191EE&displaylang=en" class="link external">&raquo;&nbsp;paquete de ejecución</a>.
+   </p>
+  </div>
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sam.requirements.html">Requerimientos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sam.configuration.html">Configuraci&oacute;n en tiempo de ejecuci&oacute;n</a></div>
+ <div class="up"><a href="sam.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

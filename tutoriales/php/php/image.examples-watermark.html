@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>A&ntilde;adir marcas de agua a im&aacute;genes usando canales alfa</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="image.examples-png.html">Creaci&oacute;n de un PNG con PHP</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="image.examples.merged-watermark.html">Usar imagecopymerge para crear una marca de agua transl&uacute;cida</a></div>
+ <div class="up"><a href="image.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="image.examples-watermark" class="section">
+  <h2 class="title">Añadir marcas de agua a imágenes usando canales alfa</h2>
+  <p class="para">
+   <div class="example" id="example-3464">
+    <p><strong>Ejemplo #1 Añadir marcas de agua a imágenes usando canales alfa</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Cargar&nbsp;la&nbsp;estampa&nbsp;y&nbsp;la&nbsp;foto&nbsp;para&nbsp;aplicarle&nbsp;la&nbsp;marca&nbsp;de&nbsp;agua<br /></span><span style="color: #0000BB">$estampa&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagecreatefrompng</span><span style="color: #007700">(</span><span style="color: #DD0000">'estampa.png'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$im&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagecreatefromjpeg</span><span style="color: #007700">(</span><span style="color: #DD0000">'foto.jpeg'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Establecer&nbsp;los&nbsp;márgenes&nbsp;para&nbsp;la&nbsp;estampa&nbsp;y&nbsp;obtener&nbsp;el&nbsp;alto/ancho&nbsp;de&nbsp;la&nbsp;imagen&nbsp;de&nbsp;la&nbsp;estampa<br /></span><span style="color: #0000BB">$margen_dcho&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$margen_inf&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$sx&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagesx</span><span style="color: #007700">(</span><span style="color: #0000BB">$estampa</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sy&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagesy</span><span style="color: #007700">(</span><span style="color: #0000BB">$estampa</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Copiar&nbsp;la&nbsp;imagen&nbsp;de&nbsp;la&nbsp;estampa&nbsp;sobre&nbsp;nuestra&nbsp;foto&nbsp;usando&nbsp;los&nbsp;índices&nbsp;de&nbsp;márgen&nbsp;y&nbsp;el<br />//&nbsp;ancho&nbsp;de&nbsp;la&nbsp;foto&nbsp;para&nbsp;calcular&nbsp;la&nbsp;posición&nbsp;de&nbsp;la&nbsp;estampa.&nbsp;<br /></span><span style="color: #0000BB">imagecopy</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$estampa</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">imagesx</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">$sx&nbsp;</span><span style="color: #007700">-&nbsp;</span><span style="color: #0000BB">$margen_dcho</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">imagesy</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">$sy&nbsp;</span><span style="color: #007700">-&nbsp;</span><span style="color: #0000BB">$margen_inf</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">imagesx</span><span style="color: #007700">(</span><span style="color: #0000BB">$estampa</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">imagesy</span><span style="color: #007700">(</span><span style="color: #0000BB">$estampa</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Imprimir&nbsp;y&nbsp;liberar&nbsp;memoria<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-type:&nbsp;image/png'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">imagepng</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">imagedestroy</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="mediaobject">
+     
+     <div class="imageobject">
+      <img src="images/21009b70229598c6a80eef8b45bf282b-watermarks.png" alt="Añadir marcas de agua a imágenes usando canales alfa" width="320" height="240" />
+     </div>
+    </div>
+   </div>
+   Este ejemplo es una manera común de añadir marcas de agua y estampas a fotos y
+   poner el copyright a imágenes. Observe que la presencia de un canal alfa en la
+   imagen de la estampa como en el texto tiene anti-aliasing. Esto se conserva durante la copia.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="image.examples-png.html">Creaci&oacute;n de un PNG con PHP</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="image.examples.merged-watermark.html">Usar imagecopymerge para crear una marca de agua transl&uacute;cida</a></div>
+ <div class="up"><a href="image.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

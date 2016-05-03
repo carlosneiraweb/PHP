@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Objetos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.types.array.html">Arrays</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.types.resource.html">Recursos</a></div>
+ <div class="up"><a href="language.types.html">Tipos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.types.object" class="sect1">
+ <h2 class="title">Objetos</h2>
+ 
+ <div class="sect2" id="language.types.object.init">
+  <h3 class="title">Inicialización de objetos</h3>
+  
+  <p class="para">
+   Para crear un nuevo <span class="type"><a href="language.types.object.html" class="type object">object</a></span>, utilice la sentencia <em>new</em> 
+   para instanciar una clase:
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">foo<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">hacer_algo</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Haciendo&nbsp;algo."</span><span style="color: #007700">;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$bar</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">hacer_algo</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="simpara">
+   Para una descripción completa, véase el capítulo
+   <a href="language.oop5.html" class="link">Clases y objetos</a>.
+  </p>
+  
+ </div>
+ 
+ <div class="sect2" id="language.types.object.casting">
+  <h3 class="title">Conversión a un objeto</h3>
+  
+  <p class="para">
+   Si un <span class="type"><a href="language.types.object.html" class="type object">object</a></span> se convierte en un <span class="type"><a href="language.types.object.html" class="type object">object</a></span>, éste no se
+   modifica. Si un valor de cualquier otro tipo se convierte en un 
+   <span class="type"><a href="language.types.object.html" class="type object">object</a></span>, se crea una nueva instancia de la clase
+   <em>stdClass</em> incorporada. Si el valor es <strong><code>NULL</code></strong>, la nueva instancia
+   estará vacía. Un <span class="type"><a href="language.types.array.html" class="type array">array</a></span> se convierte en un <span class="type"><a href="language.types.object.html" class="type object">object</a></span> con las propiedades
+   nombradas como claves y los valores correspondientes, con la excepción de las claves numéricas, las cuales
+   serán inaccesibles a menos que sean recorridas.
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$obj&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;array(</span><span style="color: #DD0000">'1'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'foo'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(isset(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;{</span><span style="color: #DD0000">'1'</span><span style="color: #007700">}));&nbsp;</span><span style="color: #FF8000">//&nbsp;muestra&nbsp;'bool(false)'<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">key</span><span style="color: #007700">(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;muestra&nbsp;'int(1)'<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Para cualquier otro valor, una variable miembro llamada <em>scalar</em> contendrá
+   el valor.
+  </p>
+  
+  <div class="informalexample">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$obj&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;</span><span style="color: #DD0000">'ciao'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">scalar</span><span style="color: #007700">;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;muestra&nbsp;'ciao'<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+ </div>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.types.array.html">Arrays</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.types.resource.html">Recursos</a></div>
+ <div class="up"><a href="language.types.html">Tipos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Inviocar el analizador Invoke CCL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.yaz-ccl-conf.html">yaz_ccl_conf</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.yaz-close.html">yaz_close</a></div>
+ <div class="up"><a href="ref.yaz.html">Funciones de YAZ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.yaz-ccl-parse" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">yaz_ccl_parse</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.5, PECL yaz &gt;= 0.9.0)</p><p class="refpurpose"><span class="refname">yaz_ccl_parse</span> &mdash; <span class="dc-title">Inviocar el analizador Invoke CCL</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.yaz-ccl-parse-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>yaz_ccl_parse</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$id</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$query</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$result</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Esta función invoca un analizador CCL. Convierte una consulta dada CCL FIND a
+   una consulta RPN la cual puede ser pasada también a la función <span class="function"><a href="function.yaz-search.html" class="function">yaz_search()</a></span> 
+   para ejecutar la búsqueda.
+  </p>
+  <p class="para">
+   Para definir un conjunto de campos validos CCL llaman preferiblemente a <span class="function"><a href="function.yaz-ccl-conf.html" class="function">yaz_ccl_conf()</a></span> 
+   para definirlo en la función.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.yaz-ccl-parse-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">id</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El recurso de la conexión retornado por <span class="function"><a href="function.yaz-connect.html" class="function">yaz_connect()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">query</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La consulta CCL FIND.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">result</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si la función fue ejecutada con éxito, Va a ser un arreglo conteniendo
+       la consulta RPN valida dentro de la clave <em>rpn</em>.
+      </p>
+      <p class="para">
+       En caso de fallo, tres índices son establecidos en este arreglo para indicar la causa
+       del fallo: 
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          <em>errorcode</em> - El código de error CCL (entero)
+         </p>
+        </li> 
+        <li class="listitem">
+         <p class="para">
+          <em>errorstring</em> - El error CCL de cadena
+         </p>
+         </li> 
+        <li class="listitem">
+         <p class="para">
+          <em>errorpos</em> - aproxima la posición en una consulta de fallo
+          (el entero es el carácter de posición)
+         </p>
+        </li> 
+       </ul>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.yaz-ccl-parse-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.yaz-ccl-parse-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-5191">
+   <p><strong>Ejemplo #1 Análisis CCL</strong></p>
+   <div class="example-contents"><p>
+    Se va a intentar hacer una búsqueda con CCL. En el ejemplo de abajo,  
+    <em>$ccl</em> es una consulta CCL. 
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />yaz_ccl_conf</span><span style="color: #007700">(</span><span style="color: #0000BB">$id</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fields</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;ver&nbsp;el&nbsp;ejemplo&nbsp;para&nbsp;yaz_ccl_conf<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">yaz_ccl_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$id</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$ccl</span><span style="color: #007700">,&nbsp;&amp;</span><span style="color: #0000BB">$cclresult</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Error:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$cclresult</span><span style="color: #007700">[</span><span style="color: #DD0000">"errorstring"</span><span style="color: #007700">];<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$rpn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$cclresult</span><span style="color: #007700">[</span><span style="color: #DD0000">"rpn"</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yaz_search</span><span style="color: #007700">(</span><span style="color: #0000BB">$id</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"rpn"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$rpn</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.yaz-ccl-conf.html">yaz_ccl_conf</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.yaz-close.html">yaz_close</a></div>
+ <div class="up"><a href="ref.yaz.html">Funciones de YAZ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

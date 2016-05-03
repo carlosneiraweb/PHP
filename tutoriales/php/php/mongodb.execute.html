@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecuta c&oacute;digo JavaScript en el servidor de bases de datos [obsoleto]</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongodb.dropcollection.html">MongoDB::dropCollection</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongodb.forceerror.html">MongoDB::forceError</a></div>
+ <div class="up"><a href="class.mongodb.html">MongoDB</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongodb.execute" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">MongoDB::execute</h1>
+  <p class="verinfo">(PECL mongo &gt;=0.9.3)</p><p class="refpurpose"><span class="refname">MongoDB::execute</span> &mdash; <span class="dc-title">Ejecuta código JavaScript en el servidor de bases de datos [obsoleto]</span></p>
+
+ </div> 
+ 
+ <div class="refsect1 description" id="refsect1-mongodb.execute-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">array</span> <span class="methodname"><strong>MongoDB::execute</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$code</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$args</code><span class="initializer"> = array()</span></span>
+  ] )</div>
+
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    La orden <a href="http://docs.mongodb.org/manual/reference/command/eval/" class="link external">&raquo;&nbsp;eval</a>,
+    la cual invoca este método, está obsoleta en MongoDB 3.0+.
+   </p>
+  </div>
+  <p class="para">
+   El servidor de bases de datos de Mongo contiene un motor JavaScript. Este método permite
+   ejecutar cualquier código JavaScript en la base de datos. Puede resultar útil si se desea
+   trabajar ligeramente sobre algunas colecciones, o procesar algunos resultados en el lado del
+   servidor para reducir la cantidad de datos que se enviará al cliente.
+  </p>
+  <p class="para">
+   Al ejecutar JavaScript en la base de datos se hace un bloqueo de escrituras, lo cual significa que se
+   bloquean otras operaciones. Asegúrese de que tiene esto en consideración antes de ejecutar scripts costosos.
+  </p>
+  <p class="para">
+   Este método es una envoltura para la orden de base de datos
+   <a href="http://docs.mongodb.org/manual/reference/command/eval/" class="link external">&raquo;&nbsp;eval</a>.
+   Este método es básicamente:
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">public&nbsp;function&nbsp;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$code</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$args</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">command</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'eval'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$code</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'args'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$args</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </p>
+  <p class="para">
+   Si se tuviera una única sentencia en una única línea, MongoDB devuelve un
+   valor. Esto puede provocar comportamientos inesperados. Por ejemplo, el siguiente
+   código devuelvo &quot;foo&quot;:
+  </p>
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #DD0000">'"foo";'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+  <p class="para">
+   Sin embargo, este código devuelve <strong><code>NULL</code></strong>:
+  </p>
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #DD0000">'"bar";&nbsp;"foo";'</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;más&nbsp;de&nbsp;una&nbsp;sentencia<br /><br /></span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #DD0000">'db.foo.count(<br />);'</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;más&nbsp;de&nbsp;una&nbsp;línea<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+  <p class="para">
+   Para evitar comportamientos inesperados, lo mejor es no dejar que MongoDB decida qué
+   devolver, usando en su lugar una sentencia &quot;return&quot; explícita. Podríamos cambiar
+   los ejemplos superiores por lo siguiente:
+  </p>
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #DD0000">'"bar";&nbsp;return&nbsp;"foo";'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #DD0000">'return&nbsp;db.foo.count(<br />);'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+  <p class="para">
+   Ahora, la primera sentencia devolverá &quot;foo&quot; y la segunda devolverá
+   un contador de la colección &quot;foo&quot;.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-mongodb.execute-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+
+      <code class="parameter">code</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       <a href="class.mongocode.html" class="classname">MongoCode</a> o texto a ejecutar.
+      </p>
+     </dd>
+
+       
+    
+     <dt>
+
+      <code class="parameter">args</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       Argumentos que se deben pasar a <em>code</em>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-mongodb.execute-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el resultado de la evaluación.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-mongodb.execute-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1525">
+   <p><strong>Ejemplo #1 Ejemplo sencillo de <span class="function"><strong>MongoDB::execute()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$response&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #DD0000">"function()&nbsp;{&nbsp;return&nbsp;'Hola,&nbsp;mundo!';&nbsp;}"</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$response</span><span style="color: #007700">[</span><span style="color: #DD0000">'retval'</span><span style="color: #007700">];<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen"><br />
+    Hola, mundo!<br />
+   </div>
+  </div>
+  <div class="example" id="example-1526">
+   <p><strong>Ejemplo #2 Ejemplo de parámetros en <span class="function"><strong>MongoDB::execute()</strong></span></strong></p>
+   <div class="example-contents"><p>
+    Pasaremos a la función JavaScript valores del array del parámetro opcional.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$response&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #DD0000">"function(despedida,&nbsp;nombre)&nbsp;{&nbsp;return&nbsp;despedida+',&nbsp;'+nombre+'!';&nbsp;}"</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"Hasta&nbsp;pronto"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Juan"</span><span style="color: #007700">));<br />echo&nbsp;</span><span style="color: #0000BB">$response</span><span style="color: #007700">[</span><span style="color: #DD0000">'retval'</span><span style="color: #007700">];<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen"><br />
+    Hasta pronto, Juan!<br />
+   </div>
+  </div>
+  <div class="example" id="example-1527">
+   <p><strong>Ejemplo #3 Ejemplo de ámbito</strong></p>
+   <div class="example-contents"><p>
+    Si en lugar de un string, usáramos un <a href="class.mongocode.html" class="classname">MongoCode</a> en el
+    primer parámetro, podrá pasarse un ámbito en el cual se ejecutará
+    JavaScript.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$func&nbsp;</span><span style="color: #007700">=&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"function(despedida,&nbsp;nombre)&nbsp;{&nbsp;"</span><span style="color: #007700">.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"return&nbsp;despedida+',&nbsp;'+nombre+',&nbsp;dice&nbsp;'+despedidor;"</span><span style="color: #007700">.<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"}"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$scope&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"despedidor"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"Fran"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$code&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoCode</span><span style="color: #007700">(</span><span style="color: #0000BB">$func</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$scope</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$response&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$code</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">"Hasta&nbsp;pronto"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Juan"</span><span style="color: #007700">));<br />echo&nbsp;</span><span style="color: #0000BB">$response</span><span style="color: #007700">[</span><span style="color: #DD0000">'retval'</span><span style="color: #007700">];<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen"><br />
+    Hasta pronto, Juan, dice Fran <br />
+   </div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-mongodb.execute-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member">La documentación de <a href="http://docs.mongodb.org/manual/reference/command/eval/" class="link external">&raquo;&nbsp;la orden eval</a> de MongoDB</li>
+  </ul>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-mongodb.execute-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>1.7.0</td>
+       <td>
+        Este método ha sido declarado obsoleto como resultado de estar también
+        obsoleta en MongoDB 3.0+ la orden
+        <a href="http://docs.mongodb.org/manual/reference/command/eval/" class="link external">&raquo;&nbsp;eval</a>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongodb.dropcollection.html">MongoDB::dropCollection</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongodb.forceerror.html">MongoDB::forceError</a></div>
+ <div class="up"><a href="class.mongodb.html">MongoDB</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Gestores de Sesi&oacute;n Personalizados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="session.idpassing.html">Pasar el ID de Sesi&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="session.upload-progress.html">Progreso de Subida en Sesiones</a></div>
+ <div class="up"><a href="session.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="session.customhandler" class="section">
+  <h2 class="title">Gestores de Sesión Personalizados</h2>
+  <p class="para">
+   Para implementar el almacenamiento en bases de datos, o cualquier otro método de almacenamiento,
+   se necesita usar <span class="function"><a href="function.session-set-save-handler.html" class="function">session_set_save_handler()</a></span> para
+   crear un conjunto de funciones de almacenamiento a nivel de ususario. A partir de PHP 5.4.0 se pueden crear gestores de sesiones
+   usando la clase <a href="class.sessionhandlerinterface.html" class="classname">SessionHandlerInterface</a> o extendiendo los gestores internos de PHP heredando
+   de la clase <a href="class.sessionhandler.html" class="classname">SessionHandler</a>.
+  </p>
+  <p class="para">
+   Las llamadas de retorno especificadas en <span class="function"><a href="function.session-set-save-handler.html" class="function">session_set_save_handler()</a></span> son métodos
+   llamados por PHP durante el ciclo de vida de una sesión: <code class="parameter">open</code>, <code class="parameter">read</code>,
+   <code class="parameter">write</code> y <code class="parameter">close</code>, y para las tareas domésticas:
+   <code class="parameter">destroy</code> para borrar una sesión y <code class="parameter">gc</code> para la recoleción periódica
+   de basura.
+  </p>
+  <p class="para">
+   Por lo tanto, PHP siempre necesita gestores de almacenamiento de sesiones. El predeterminado normalmente es el
+   gestor de almacenamiento interno &#039;files&#039;. Se puede establecer un gestor de almacenamiento personalizado usando
+   <span class="function"><a href="function.session-set-save-handler.html" class="function">session_set_save_handler()</a></span>. Se pueden porporcionar de forma alternativa gestores de almacenamiento
+   interno mediante extensiones de PHP, tales como <code class="parameter">sqlite</code>,
+   <code class="parameter">memcache</code> y <code class="parameter">memcached</code> y pueden establecerse con
+   <a href="session.configuration.html#ini.session.save-handler" class="link">session.save_handler</a>.
+  </p>
+  <p class="para">
+   Cuando se inicia la sesión, PHP llamará internamente al gestor <code class="parameter">open</code> seguido de
+   la llamada de retorno <code class="parameter">read</code> la cual debería devolver una cadena codificada exactamente como si fuera
+   pasada originalmente para almacenamiento. Una vez que la llamada de retorno <code class="parameter">read</code> devuelve la cadena codificada, PHP
+   la decodificará y rellenará el array resultante en la variable superglobal <var class="varname"><var class="varname"><a href="reserved.variables.session.html" class="classname">$_SESSION</a></var></var>.
+  </p>
+  <p class="para">
+   Cuando PHP se cierra (o se llama a <span class="function"><a href="function.session-write-close.html" class="function">session_write_close()</a></span>),
+   PHP codificará internamente la variable superglobal <var class="varname"><var class="varname"><a href="reserved.variables.session.html" class="classname">$_SESSION</a></var></var> y la pasará
+   conjuntamente con el ID de sesión a la llamada de retorno <code class="parameter">write</code>.
+   Después de finalizada la llamada de retorno <code class="parameter">write</code>, PHP invocará internamente al
+   gestor de llamada de retorno <code class="parameter">close</code>.
+  </p>
+  <p class="para">
+   Cuando una sesión se destruye de forma específica, PHP llamará al gestor <code class="parameter">destroy</code> con
+   el ID de sesión.
+  </p>
+  <p class="para">
+   PHP llamará a la llamada de retorno <code class="parameter">gc</code> de vez en cuando para
+   terminar cualquier registro de sesión según lo establecido en el tiempo de vida máximo de una sesión.
+   Esta rutina debería borrar todos los registros del almacenamiento persistente a los que se
+   accedió por última vez más allá del parámetro <code class="parameter">$lifetime</code>.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="session.idpassing.html">Pasar el ID de Sesi&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="session.upload-progress.html">Progreso de Subida en Sesiones</a></div>
+ <div class="up"><a href="session.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

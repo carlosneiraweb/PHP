@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Empleo de ficheros remotos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.file-upload.put-method.html">Soporte para el m&eacute;todo PUT</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.connection-handling.html">Manejo de conexiones</a></div>
+ <div class="up"><a href="features.html">Caracter&iacute;sticas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="features.remote-files" class="chapter">
+ <h1>Empleo de ficheros remotos</h1>
+
+ 
+ <p class="para">
+  Siempre que <strong class="option unknown">allow_url_fopen</strong>
+ esté habilitado en
+  <var class="filename">php.ini</var>, se pueden usar los URL de <acronym title="Hypertext Transfer Protocol">HTTP</acronym> y <acronym title="File Transfer Protocol">FTP</acronym>
+  con la mayoría de las funciones
+  que toman un nombre de fichero como parámetro. Además, los URL se pueden
+  emplear con las sentencias <span class="function"><a href="function.include.html" class="function">include</a></span>,
+  <span class="function"><a href="function.include-once.html" class="function">include_once</a></span>, <span class="function"><a href="function.require.html" class="function">require</a></span> y
+  <span class="function"><a href="function.require-once.html" class="function">require_once</a></span> (desde PHP 5.2.0,
+  <strong class="option unknown">allow_url_include</strong>
+ debe estar habilitado para ello).
+  Véanse <a href="wrappers.html" class="xref">Protocolos y Envolturas soportados</a> para más información sobre los protocolos
+  admitidos por PHP.
+ </p>
+ <p class="para">
+  Por ejemplo, se puede emplear para abrir un fichero en un servidor web remoto,
+  analizar la salida de los datos deseados, y usar dichos datos en una
+  consulta a una base de datos, o simplemente para mostrarlos en un estilo que
+  haga juego con el del sitio web.
+ </p>
+ <p class="para">
+  <div class="example" id="example-406">
+   <p><strong>Ejemplo #1 Obtener el título de una página remota</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$fichero&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"http://www.example.com/"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"r"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;p&gt;Imposible&nbsp;abrir&nbsp;el&nbsp;fichero&nbsp;remoto.\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;exit;<br />}<br />while&nbsp;(!</span><span style="color: #0000BB">feof&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$línea&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fgets&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1024</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Esto&nbsp;solo&nbsp;funciona&nbsp;si&nbsp;el&nbsp;título&nbsp;y&nbsp;sus&nbsp;etiquetas&nbsp;están&nbsp;en&nbsp;una&nbsp;línea&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">preg_match&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"@\&lt;title\&gt;(.*)\&lt;/title\&gt;@i"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$línea</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$salida</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$título&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$salida</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">fclose</span><span style="color: #007700">(</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  También se puede escribir en ficheros de un servidor FTP (siempre que se
+  esté conectado como un usuario con los permisos de acceso correctos). Con este
+  método solamente se pueden crear ficheros nuevos. Si se intenta sobreescribir
+  un fichero que ya existe, la llamada a la función <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span>
+  fallará.
+ </p>
+ <p class="para">
+  Para conectarse como un usuario distinto a &#039;anonymous&#039;, es necesario especificar
+  el nombre de usuario (y posiblemente la contraseña) dentro del URL, tal como
+  &#039;<em>ftp://usuario:contraseña@ftp.example.com/ruta/al/fichero</em>&#039;.
+  (Se puede utilizar la misma sintaxis para acceder a ficheros mediante
+  <acronym title="Hypertext Transfer Protocol">HTTP</acronym> cuando se requiera autenticación básica).
+ </p>
+ <p class="para">
+  <div class="example" id="example-407">
+   <p><strong>Ejemplo #2 Almacenar datos en un servidor remoto</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$fichero&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"ftp://ftp.example.com/incoming/outputfile"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"w"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;p&gt;Imposible&nbsp;abrir&nbsp;el&nbsp;fichero&nbsp;remoto&nbsp;para&nbsp;escritura.\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;exit;<br />}<br /></span><span style="color: #FF8000">/*&nbsp;Escribir&nbsp;los&nbsp;datos&nbsp;aqui.&nbsp;*/<br /></span><span style="color: #0000BB">fwrite&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'HTTP_USER_AGENT'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fclose&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>  
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Con el ejemplo anterior, se podría tener la idea de que se puede emplear
+    esta técnica para escribir un fichero de registro remoto. Desafortunadamente
+    esto no funcionaría porque la llamada a la función <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span>
+    fallará si el fichero remoto ya existe. Para realizar registros distribuidos
+    como ese, debería echar un vistazo a <span class="function"><a href="function.syslog.html" class="function">syslog()</a></span>.
+   </p>
+  </p></blockquote>
+ </p>
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.file-upload.put-method.html">Soporte para el m&eacute;todo PUT</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.connection-handling.html">Manejo de conexiones</a></div>
+ <div class="up"><a href="features.html">Caracter&iacute;sticas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

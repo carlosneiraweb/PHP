@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Importar variables GET/POST/Cookie en el &aacute;mbito global</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.gettype.html">gettype</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.intval.html">intval</a></div>
+ <div class="up"><a href="ref.var.html">Funciones de manejo de variables</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.import-request-variables" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">import_request_variables</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.1.0, PHP 5 &lt; 5.4.0)</p><p class="refpurpose"><span class="refname">import_request_variables</span> &mdash; <span class="dc-title">Importar variables GET/POST/Cookie en el ámbito global</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.import-request-variables-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>import_request_variables</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$types</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$prefix</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Importa las variables GET/POST/Cookie en el ámbito global. Esto es útil si
+   ha deshabilitado <a href="ini.core.html#ini.register-globals" class="link">register_globals</a>,
+   pero le gustaría ver algunas variables en el ámbito global.
+  </p>
+  <p class="para">
+   Si está interesado en importar otras variables en el ámbito global,
+   como <var class="varname"><var class="varname"><a href="reserved.variables.server.html" class="classname">$_SERVER</a></var></var>, considere el uso de <span class="function"><a href="function.extract.html" class="function">extract()</a></span>.
+  </p>
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función ha sido declarada
+<em class="emphasis">OBSOLETA</em> desde PHP 5.3.0 y <em class="emphasis">ELIMINADA</em> a partir de PHP 5.4.0.</p></div>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.import-request-variables-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">types</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Usando el parámetro <code class="parameter">types</code>, puede especificar
+       cuáles variables de petición deben importarse. Puede usar los caracteres &#039;G&#039;, &#039;P&#039; y &#039;C&#039; 
+       respectivamente para indicar GET, POST y Cookie. Estos caracteres
+       no son sensibles a mayúsculas o minúsculas, por lo que también puede utilizar cualquier combinación de &#039;g&#039;, &#039;p&#039;
+       y &#039;c&#039;. POST incluye la información de archivos cargados mediante POST.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Tenga en cuenta que el orden de las letras es importante, ya que cuando se utiliza
+        &quot;<em>GP</em>&quot;, las variables POST sobrescribirán las variables GET con el
+        mismo nombre. Cualquier otra letra diferente a GPC es descartada.
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">prefix</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de variable prefijo, puede ser colocado antes de nombrar a todas las variables importadas
+       en el ámbito global. De modo que si tiene un valor GET llamado
+       &quot;<em>userid</em>&quot;, y proporciona un prefijo
+       &quot;<em>pref_</em>&quot;, entonces obtendrá una variable global llamada
+       <var class="varname"><var class="varname">$pref_userid</var></var>.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Aunque el parámetro <code class="parameter">prefix</code> es opcional,
+        recibirá un error de nivel <a href="" class="link"><strong><code>E_NOTICE</code></strong></a>
+        si no especifica un prefijo, o especifica una cadena vacía como prefijo.
+        Este es un riesgo potencial de seguridad. La notificación de aviso de errores
+        no es mostrada usando el nivel predeterminado de <a href="errorfunc.configuration.html#ini.error-reporting" class="link">reporte de errores</a>.
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.import-request-variables-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.import-request-variables-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5831">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>import_request_variables()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Esto&nbsp;importará&nbsp;las&nbsp;variables&nbsp;GET&nbsp;y&nbsp;POST&nbsp;con&nbsp;el&nbsp;prefijo&nbsp;"rvar_"<br /><br /></span><span style="color: #0000BB">import_request_variables</span><span style="color: #007700">(</span><span style="color: #DD0000">"gp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"rvar_"</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #0000BB">$rvar_foo</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.import-request-variables-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><var class="varname"><var class="varname"><a href="reserved.variables.request.html" class="classname">$_REQUEST</a></var></var></li>
+    <li class="member"><a href="ini.core.html#ini.register-globals" class="link">register_globals</a></li>
+    <li class="member"><a href="language.variables.predefined.html" class="link">Variables Predefinidas</a></li>
+    <li class="member"><span class="function"><a href="function.extract.html" class="function" rel="rdfs-seeAlso">extract()</a> - Importar variables a la tabla de s&iacute;mbolos actual desde un array</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.gettype.html">gettype</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.intval.html">intval</a></div>
+ <div class="up"><a href="ref.var.html">Funciones de manejo de variables</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Evaluar una cadena como c&oacute;digo de PHP</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.die.html">die</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.exit.html">exit</a></div>
+ <div class="up"><a href="ref.misc.html">Funciones Varias</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.eval" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">eval</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">eval</span> &mdash; <span class="dc-title">Evaluar una cadena como código de PHP</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.eval-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>eval</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$code</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Evalua el código dado por <code class="parameter">code</code> como código PHP.
+  </p>
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <p class="para">
+    El constructor de lenguaje <span class="function"><strong>eval()</strong></span> es <em class="emphasis">muy peligroso</em>
+    porque permite la ejecución de código de PHP arbitrario. <em class="emphasis">Su uso está totalmente
+    desaconsejado.</em> Si se ha verificado cuidadosamente que no existe otra opción
+    que usar este constructor, se ha de poner especial atención en <em class="emphasis">no pasar ninguna
+    información proporcionada por el usuario</em> a esta función sin haberla validado apropiadamente con anterioridad.
+   </p>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.eval-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">code</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El código de PHP válido ser evaluado.
+      </p>
+      <p class="para">
+       El código no debe encerrarse entre
+       <a href="language.basic-syntax.phpmode.html" class="link">etiquetas de PHP</a> de apertura y cierre,
+       es decir, se debe pasar <em>&#039;echo &quot;¡Hola!&quot;;&#039;</em> en vez de
+       <em>&#039;&lt;?php echo &quot;¡Hola!&quot;; ?&gt;&#039;</em>. Aún es posible abandonar y
+       reentrar en el modo PHP usando las etiquetas de PHP apropiadas, p.ej.
+       <em>&#039;echo &quot;¡En el modo PHP!&quot;; ?&gt;¡En el modo HTML!&lt;?php echo &quot;¡De vuelta en el modo PHP!&quot;;&#039;</em>.
+      </p>
+      <p class="para">
+       Aparte de que el código pasado debe ser código de PHP válido. Esto incluye que todas las sentencias
+       deben finalizar apropiadamente usando un punto y coma.
+       <em>&#039;echo &quot;¡Hola!&quot;&#039;</em>, por ejemplo, causará un error de análisis, mientras que
+       <em>&#039;echo &quot;¡Hola!&quot;;&#039;</em> funcionará.
+      </p>
+      <p class="para">
+       Una sentencia <em>return</em> finalizará inmediantamente la
+       evaluación del código.
+      </p>
+      <p class="para">
+       El código se ejecutará en el ámbito del código que llama a <span class="function"><strong>eval()</strong></span>. Así, cualquier
+       variable definida o cambiada en la llamada a <span class="function"><strong>eval()</strong></span> permanecerá visible después de que
+       finalice.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.eval-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <span class="function"><strong>eval()</strong></span> devuelve <strong><code>NULL</code></strong> a menos que
+   se llame a <em>return</em> en el código evaluado, en cuyo caso
+   el valor pasado a <em>return</em> es devuelto. A partir de PHP 7, si hay un
+   error de análisis en el código evaluado, <span class="function"><strong>eval()</strong></span> lanzará una excepción ParseError.
+   Antes de PHP 7, <span class="function"><strong>eval()</strong></span> devolvía
+   <strong><code>FALSE</code></strong> y la ejecución del código posterior continuaba normalmente. No es
+   posible capturar un error de análisis de <span class="function"><strong>eval()</strong></span>
+   usando <span class="function"><a href="function.set-error-handler.html" class="function">set_error_handler()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.eval-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4319">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>eval()</strong></span> - fusión de texto sencillo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$cadena&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'taza'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$nombre&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'café'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Esto&nbsp;es&nbsp;una&nbsp;$cadena&nbsp;con&nbsp;mi&nbsp;$nombre&nbsp;en&nbsp;ella.'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$str</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />eval(</span><span style="color: #DD0000">"\$str&nbsp;=&nbsp;\"</span><span style="color: #0000BB">$str</span><span style="color: #DD0000">\";"</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$str</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Esto es una $cadena con mi $nombre en ella.
+Esto es una taza con mi café en ella.
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.eval-notes">
+  <h3 class="title">Notas</h3>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Puesto que esto es
+una construcción del lenguaje y no una función, no puede ser llamada usando
+<a href="functions.variable-functions.html" class="link">funciones variables</a>.</span>
+</p></blockquote>
+  
+  <div class="tip"><strong class="tip">Sugerencia</strong><p class="simpara">Como con todo lo que genera
+un resultado directamente en el navegador, se pueden utilizar las
+<a href="book.outcontrol.html" class="link">funciones de control de salida</a>
+para capturar el resultado de esta función y guardarlo, por
+ejemplo, en un <span class="type"><a href="language.types.string.html" class="type string">string</a></span>.</p></div>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    En caso de un error fatal en el código evaluado, se saldrá del script completamente.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.eval-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.call-user-func.html" class="function" rel="rdfs-seeAlso">call_user_func()</a> - Llamar a una llamada de retorno dada por el primer par&aacute;metro</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.die.html">die</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.exit.html">exit</a></div>
+ <div class="up"><a href="ref.misc.html">Funciones Varias</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

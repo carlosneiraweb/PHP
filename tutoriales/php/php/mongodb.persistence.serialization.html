@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Serializaci&oacute;n a BSON</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongodb.persistence.html">Persistencia de datos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongodb.persistence.deserialization.html">Deserializaci&oacute;n desde BSON</a></div>
+ <div class="up"><a href="mongodb.persistence.html">Persistencia de datos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongodb.persistence.serialization" class="section">
+   <h2 class="title">Serialización a BSON</h2>
+   
+   <div class="section">
+    <h2 class="title">Arrays</h2>
+    
+    <p class="para">
+     Si un array es un <em class="emphasis">array compacto</em>, esto es, las claves empiezan
+     en 0 y están en secuencia sin huecos: <em class="emphasis">array BSON</em>. 
+    </p>
+    
+    <p class="para">
+     Si el array no es compacto, esto es, tiene claves asociativas (string), las
+     claves no comienzan en 0, o cuando hay huecos: <em class="emphasis">objeto
+     BSON</em>
+    </p>
+    
+    <p class="para">
+     Un documento del más alto nivel (raíz), <em class="emphasis">siempre</em> se serializa como un
+     documento BSON.
+    </p>
+    
+    <div class="section">
+     <h2 class="title">Ejemplos</h2>
+     
+     <p class="para">
+      Los siguientes arrays se serializan como arrays BSON:
+     </p>
+     
+     <div class="example-contents"><div class="cdata"><pre>
+[ 8, 5, 2, 3 ] =&gt; [ 8, 5, 2, 3 ]
+[ 0 =&gt; 4, 1 =&gt; 9 ] =&gt; [ 4, 9 ]
+     </pre></div></div>
+
+     
+     <p class="para">
+      Estos se serializan como documentos BSON:
+     </p>
+     
+     <div class="example-contents"><div class="cdata"><pre>
+[ 0 =&gt; 1, 2 =&gt; 8, 3 =&gt; 12 ] =&gt; { &quot;0&quot; : 1, &quot;2&quot; : 8, &quot;3&quot; : 12 }
+[ &quot;foo&quot; =&gt; 42 ] =&gt; { &quot;foo&quot; : 42 }
+[ 1 =&gt; 9, 0 =&gt; 10 ] =&gt; { &quot;1&quot; : 9, &quot;0&quot; : 10 }
+     </pre></div></div>
+
+     
+     <p class="para">
+      Observe que los cinco ejemplos son <em class="emphasis">fragmentos</em> de un documento
+      completo que representan solamente <em class="emphasis">un</em> valor dentro de un
+      documento.
+     </p>
+     
+    </div>
+   </div>
+   
+   <div class="section">
+    <h2 class="title">Objetos</h2>
+    
+    <p class="para">
+     Si un objeto es de la clase <strong class="classname">stdClass</strong> se serializa
+     como un <em class="emphasis">documento BSON</em>.
+    </p>
+    
+    <p class="para">
+     Si un objeto es de una clase admitida que implementa
+     <strong class="classname">MongoDB\BSON\Tipo</strong>, se utiliza la lógica de
+     serialización BSON para un tipo específico.
+     Las instancias de <strong class="classname">MongoDB\BSON\Tipo</strong> (excluyendo
+     <a href="class.mongodb-bson-serializable.html" class="classname">MongoDB\BSON\Serializable</a> solo podrían ser serializadas
+     como un valor de campo de documento. Intentar serializar tales objetos como un
+     documento raíz lanzará una
+     <a href="class.mongodb-driver-exception-unexpectedvalueexception.html" class="classname">MongoDB\Driver\Exception\UnexpectedValueException</a>
+    </p>
+    
+    <p class="para">
+     Si un objeto se de una clase desconocida que implementa la
+     interfaz <strong class="classname">MongoDB\BSON\Tipo</strong>, lanza una
+     <a href="class.mongodb-driver-exception-unexpectedvalueexception.html" class="classname">MongoDB\Driver\Exception\UnexpectedValueException</a>
+    </p>
+    
+    <p class="para">
+     Si un objeto es de cualquier otra clase que no implemente ninguna interfaz
+     especial, se serializa como un <em class="emphasis">documento BSON</em>. Se mantienen solo
+     las propiedades <em class="emphasis">public</em> y se ignoran
+     las propiedades <em class="emphasis">protected</em> y
+     <em class="emphasis">private</em>.
+    </p>
+    
+    <p class="para">
+     Si un objeto es de una clase que implementa la
+     interfaz <a href="class.mongodb-bson-serializable.html" class="classname">MongoDB\BSON\Serializable</a>, se llama a
+     <span class="methodname"><a href="mongodb-bson-serializable.bsonserialize.html" class="methodname">MongoDB\BSON\Serializable::bsonSerialize()</a></span> y se utiliza
+     el array u objeto <strong class="classname">stdClass</strong> devuelto para serilizarlo como
+     un documento BSON o array. El tipo BSON será determinado como sigue:
+    </p>
+    
+    <p class="para">
+     <ol type="1">
+      <li class="listitem">
+       <p class="para">Los documentos raíz deben ser serializados como un documento
+        BSON.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">Los objetos <a href="class.mongodb-bson-persistable.html" class="classname">MongoDB\BSON\Persistable</a> deben ser
+        serializados como un documento BSON.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        Si <span class="methodname"><a href="mongodb-bson-serializable.bsonserialize.html" class="methodname">MongoDB\BSON\Serializable::bsonSerialize()</a></span>
+        devuelve un array compacto, se serializa como un array BSON.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        Si <span class="methodname"><a href="mongodb-bson-serializable.bsonserialize.html" class="methodname">MongoDB\BSON\Serializable::bsonSerialize()</a></span>
+        devuelve un array no compacto o un objeto <strong class="classname">stdClass</strong>,
+        se serializa como un documento BSON.
+       </p>
+      </li>
+      <li class="listitem">
+       <p class="para">
+        Si <span class="methodname"><a href="mongodb-bson-serializable.bsonserialize.html" class="methodname">MongoDB\BSON\Serializable::bsonSerialize()</a></span>
+        no devuelve un array u objeto <strong class="classname">stdClass</strong>, se lanza una
+        excepción de tipo
+        <a href="class.mongodb-driver-exception-unexpectedvalueexception.html" class="classname">MongoDB\Driver\Exception\UnexpectedValueException</a>.
+       </p>
+      </li>
+     </ol>
+    </p>
+    
+    <p class="para">
+     Si un objeto es de una clase que implementa la
+     interfaz <a href="class.mongodb-bson-persistable.html" class="classname">MongoDB\BSON\Persistable</a> (lo que implica que
+     <a href="class.mongodb-bson-serializable.html" class="classname">MongoDB\BSON\Serializable</a> obtiene las propiedades
+     de una forma similar a los párrafos anteriores, aunque
+     <em class="emphasis">también</em> añade una propiedad adicional
+     <span class="property">__pclass</span> como un valor Binary, con subtipo
+     <em>0x80</em> y datos soportando el nombre de la clase completamente cualificado
+     del objeto que se está serializando.
+    </p>
+    
+    <p class="para">
+     La propiedad <span class="property">__pclass</span> se añade al array u
+     objeto devuelto por
+     <span class="methodname"><a href="mongodb-bson-serializable.bsonserialize.html" class="methodname">MongoDB\BSON\Serializable::bsonSerialize()</a></span>, lo que
+     significa que se sobrescribirá cualquier clave/propiedad <span class="property">__pclass</span> en
+     el valor devuelto de <span class="methodname"><a href="mongodb-bson-serializable.bsonserialize.html" class="methodname">MongoDB\BSON\Serializable::bsonSerialize()</a></span>.
+     Para evitar este funcionamiento y establecer un valor de
+     <span class="property">__pclass</span> propio, <em class="emphasis">no</em> se debe
+     implementar <a href="class.mongodb-bson-persistable.html" class="classname">MongoDB\BSON\Persistable</a> y, en su lugar,
+     se deería implementar <a href="class.mongodb-bson-serializable.html" class="classname">MongoDB\BSON\Serializable</a>
+     directamente.
+    </p>
+    
+    <div class="section">
+     <h2 class="title">Ejemplos</h2>
+     
+      <div class="example-contents"><div class="cdata"><pre>
+stdClass {
+  public $foo = 42;
+} =&gt; { &quot;foo&quot; : 42 }
+
+MyClass {
+  public $foo = 42;
+  protected $prot = &quot;wine&quot;;
+  private $fpr = &quot;cheese&quot;;
+} =&gt; { &quot;foo&quot; : 42 }
+
+AnotherClass1 implements MongoDB\BSON\Serializable {
+  public $foo = 42;
+  protected $prot = &quot;wine&quot;;
+  private $fpr = &quot;cheese&quot;;
+  function bsonSerialize() {
+      return [ &#039;foo&#039; =&gt; $this-&gt;foo, &#039;prot&#039; =&gt; $this-&gt;prot ];
+  }
+} =&gt; { &quot;foo&quot; : 42, &quot;prot&quot; : &quot;wine&quot; }
+
+AnotherClass2 implements MongoDB\BSON\Serializable {
+  public $foo = 42;
+  function bsonSerialize() {
+      return $this;
+  }
+} =&gt; MongoDB\Driver\Exception\UnexpectedValueException(&quot;bsonSerialize() did not return an array or stdClass&quot;)
+
+AnotherClass3 implements MongoDB\BSON\Serializable {
+  private $elements = [ &#039;foo&#039;, &#039;bar&#039; ];
+  function bsonSerialize() {
+      return $this-&gt;elements;
+  }
+} =&gt; { &quot;0&quot; : &quot;foo&quot;, &quot;1&quot; : &quot;bar&quot; }
+
+ContainerClass implements MongoDB\BSON\Serializable {
+  public $things = AnotherClass4 implements MongoDB\BSON\Serializable {
+    private $elements = [ 0 =&gt; &#039;foo&#039;, 2 =&gt; &#039;bar&#039; ];
+    function bsonSerialize() {
+      return $this-&gt;elements;
+    }
+  }
+  function bsonSerialize() {
+      return [ &#039;things&#039; =&gt; $this-&gt;things ];
+  }
+} =&gt; { &quot;things&quot; : { &quot;0&quot; : &quot;foo&quot;, &quot;2&quot; : &quot;bar&quot; } }
+
+ContainerClass implements MongoDB\BSON\Serializable {
+  public $things = AnotherClass5 implements MongoDB\BSON\Serializable {
+    private $elements = [ 0 =&gt; &#039;foo&#039;, 2 =&gt; &#039;bar&#039; ];
+    function bsonSerialize() {
+      return array_values($this-&gt;elements);
+    }
+  }
+  function bsonSerialize() {
+      return [ &#039;things&#039; =&gt; $this-&gt;things ];
+  }
+} =&gt; { &quot;things&quot; : [ &quot;foo&quot;, &quot;bar&quot; ] }
+
+ContainerClass implements MongoDB\BSON\Serializable {
+  public $things = AnotherClass6 implements MongoDB\BSON\Serializable {
+    private $elements = [ &#039;foo&#039;, &#039;bar&#039; ];
+    function bsonSerialize() {
+      return (object) $this-&gt;elements;
+    }
+  }
+  function bsonSerialize() {
+      return [ &#039;things&#039; =&gt; $this-&gt;things ];
+  }
+} =&gt; { &quot;things&quot; : { &quot;0&quot; : &quot;foo&quot;, &quot;1&quot; : &quot;bar&quot; } }
+
+UpperClass implements MongoDB\BSON\Persistable {
+  public $foo = 42;
+  protected $prot = &quot;wine&quot;;
+  private $fpr = &quot;cheese&quot;;
+  function bsonSerialize() {
+      return [ &#039;foo&#039; =&gt; $this-&gt;foo, &#039;prot&#039; =&gt; $this-&gt;prot ];
+  }
+} =&gt; { &quot;foo&quot; : 42, &quot;prot&quot; : &quot;wine&quot;, &quot;__pclass&quot; : { &quot;$type&quot; : &quot;80&quot;, &quot;$binary&quot; : &quot;VXBwZXJDbGFzcw==&quot; } }
+     </pre></div></div>
+
+    </div>
+   </div>
+  </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongodb.persistence.html">Persistencia de datos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongodb.persistence.deserialization.html">Deserializaci&oacute;n desde BSON</a></div>
+ <div class="up"><a href="mongodb.persistence.html">Persistencia de datos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

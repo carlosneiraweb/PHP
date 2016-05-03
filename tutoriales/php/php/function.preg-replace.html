@@ -1,0 +1,386 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Realiza una b&uacute;squeda y sustituci&oacute;n de una expresi&oacute;n regular</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.preg-replace-callback.html">preg_replace_callback</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.preg-split.html">preg_split</a></div>
+ <div class="up"><a href="ref.pcre.html">Funciones de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.preg-replace" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">preg_replace</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">preg_replace</span> &mdash; <span class="dc-title">Realiza una búsqueda y sustitución de una expresión regular</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.preg-replace-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>preg_replace</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$pattern</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$replacement</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$subject</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$limit</code><span class="initializer"> = -1</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter reference">&$count</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Busca en <code class="parameter">subject</code> coincidencias de
+   <code class="parameter">pattern</code> y las reemplaza con
+   <code class="parameter">replacement</code>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.preg-replace-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">pattern</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El patrón de búsqueda. Puede ser tanto una cadena como un array de
+       cadenas.
+      </p>
+      <p class="para">
+       También están disponibles varios
+       <a href="reference.pcre.pattern.modifiers.html" class="link">modificadores de PCRE</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">replacement</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La cadena o array de cadenas a reemplazar. Si este parámetro es una
+       cadena y el parámetro <code class="parameter">pattern</code> es un array,
+       todos los patrones serán sustituidos por esa cadena. Si ambos parámetros,
+       <code class="parameter">pattern</code> y <code class="parameter">replacement</code>,
+       son arrays, cada <code class="parameter">pattern</code> será reemplazado
+       por el <code class="parameter">replacement</code> equivalente. Si
+       hay menos elementos en el array <code class="parameter">replacement</code>
+       que en el array <code class="parameter">pattern</code>, cualquier
+       <code class="parameter">pattern</code> extra será reemplazado por una cadena vacía.
+      </p>
+      <p class="para">
+       <code class="parameter">replacement</code> puede contener referencias de la forma
+       <em>\\<span class="replaceable">n</span></em> o (desde PHP 4.0.4)
+       <em>$<span class="replaceable">n</span></em>, siendo preferida la
+       última forma. Cada referencia de este tipo será sustituida por el texto
+       capturado por el <span class="replaceable">n</span>-simo patrón entre paréntesis.
+       <span class="replaceable">n</span> puede ser desde 0 a 99, y
+       <em>\\0</em> o <em>$0</em> se refiere al texto coincidido
+       por el patrón completo. Los paréntesis de apertura se cuentan de izquierda a derecha
+       (comenzando por 1) para obtener el número de sub-patrones de captura.
+       Se debe doblar la barra invertida para poder usarla en la sustitución
+       (cadena PHP <em>&quot;\\\\&quot;</em>).
+      </p>
+      <p class="para">
+       Cuando se trabaja con un patrón de sustitución donde una retro-referencia es
+       immediatamente seguida de otro número (p.ej.: colocar un número literal
+       immediatamente después de un patrón coincidido), no puede usar la notación familiar
+       <em>\\1</em> para sus retro-referencias.  
+       <em>\\11</em>, por ejemplo, confundiría a
+       <span class="function"><strong>preg_replace()</strong></span> ya que no sabe si quiere que
+       la retro-referencia <em>\\1</em> esté seguida por un literal
+       <em>1</em>, o que la retro-referencia <em>\\11</em>
+       esté seguida de nada. En este caso la solución es usar
+       <em>\${1}1</em>. Esto crea una retro-referencia
+       <em>$1</em> aislada, dejando el <em>1</em>
+       como un literal.
+      </p>
+      <p class="para">
+       Cuando se usa el modificador obsoleto <em>e</em>, esta función escapa
+       algunos caracteres (a saber, <em>&#039;</em>, <em>&quot;</em>,
+       <em>\</em> y NULL) en la cadena que sustituye a las
+       retro-referencias. Esto está hecho para asegurarse de que no surjan errores de sintaxis
+       en el uso de retro-referencias con comillas simples o dobles (p.ej.
+       <em>&#039;strlen(\&#039;$1\&#039;)+strlen(&quot;$2&quot;)&#039;</em>). Asegúrese de que
+       conoce la <a href="language.types.string.html" class="link">sintaxis de
+       cadena</a> para saber cómo se asemejarán las cadenas interpretadas.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">subject</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La cadena o array de cadenas a buscar y sustituir.
+      </p>
+      <p class="para">
+       Si <code class="parameter">subject</code> es un array, entonces la búsqueda y
+       sustitución se llevan a cabo para cada entrada de <code class="parameter">subject</code>,
+       y el valor devuleto también es un array.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">limit</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Las sustituciones máximas posibles por cada patrón en cada
+       cadena <code class="parameter">subject</code>. Por defecto es
+       <em>-1</em> (sin límite).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">count</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si se especifica, esta variable será rellenada con el número de
+       sustituciones hechas.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.preg-replace-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <span class="function"><strong>preg_replace()</strong></span> devuelve un array si el
+   parámetro <code class="parameter">subject</code> es un array, o, de lo contrario,
+   una cadena.
+  </p>
+  <p class="para">
+   Si se encuentran coincidencias, el nuevo <code class="parameter">subject</code> será
+   devuelto, de lo contrario, <code class="parameter">subject</code> será
+   devuelto sin cambios o <strong><code>NULL</code></strong> si se produjo un error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.preg-replace-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   A partir de PHP 5.5.0 se emite un error de nivel <strong><code>E_DEPRECATED</code></strong> al
+   pasar el modificador &quot;\e&quot;. A partir de PHP 7.0.0, en este caso se emite un
+   <strong><code>E_WARNING</code></strong> y el modificador &quot;\e&quot; no tiene efecto.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.preg-replace-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>7.0.0</td>
+       <td>
+        Se ha eliminado el soporte para el modificador <em>/e</em>.
+        Emplee <span class="function"><a href="function.preg-replace-callback.html" class="function">preg_replace_callback()</a></span> en su lugar.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.5.0</td>
+       <td>
+        El modificador <em>/e</em> está obsoleto. Utilice
+        <span class="function"><a href="function.preg-replace-callback.html" class="function">preg_replace_callback()</a></span> en su lugar. Véase la documentación de
+        <a href="reference.pcre.pattern.modifiers.html#reference.pcre.pattern.modifiers.eval" class="link">PREG_REPLACE_EVAL</a>
+        para obtener información adicional sobre riesgos de seguridad.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.1.0</td>
+       <td>
+        Añadido el parámetro <code class="parameter">count</code>
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.preg-replace-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5351">
+    <p><strong>Ejemplo #1 Usar retro-referencias seguidas de literales numéricos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$cadena&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Abril&nbsp;15,&nbsp;2003'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$patrón&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'/(\w+)&nbsp;(\d+),&nbsp;(\d+)/i'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$sustitución&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'${1}1,$3'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">preg_replace</span><span style="color: #007700">(</span><span style="color: #0000BB">$patrón</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sustitución</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Abril1,2003
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5352">
+    <p><strong>Ejemplo #2 Emplear arrays indexados con <span class="function"><strong>preg_replace()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$cadena&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'El&nbsp;veloz&nbsp;murciélago&nbsp;hindú&nbsp;comía&nbsp;feliz&nbsp;cardillo&nbsp;y&nbsp;kiwi.'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$patrones&nbsp;</span><span style="color: #007700">=&nbsp;array();<br /></span><span style="color: #0000BB">$patrones</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'/veloz/'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$patrones</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'/hindú/'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$patrones</span><span style="color: #007700">[</span><span style="color: #0000BB">2</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'/murciélago/'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$sustituciones&nbsp;</span><span style="color: #007700">=&nbsp;array();<br /></span><span style="color: #0000BB">$sustituciones</span><span style="color: #007700">[</span><span style="color: #0000BB">2</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'galápago'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$sustituciones</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'africano'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$sustituciones</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'lento'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">preg_replace</span><span style="color: #007700">(</span><span style="color: #0000BB">$patrones</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sustituciones</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+El galápago lento africano comía feliz cardillo y kiwi.
+</pre></div>
+    </div>
+    <div class="example-contents"><p>
+     Al usar ksort en patrones y sustituciones, podríamos obtener lo que buscábamos.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />ksort</span><span style="color: #007700">(</span><span style="color: #0000BB">$patrones</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ksort</span><span style="color: #007700">(</span><span style="color: #0000BB">$sustituciones</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">preg_replace</span><span style="color: #007700">(</span><span style="color: #0000BB">$patrones</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sustituciones</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+El lento galápago africano comía feliz cardillo y kiwi.
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5353">
+    <p><strong>Ejemplo #3 Sustituir varios valores</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$patrones&nbsp;</span><span style="color: #007700">=&nbsp;array&nbsp;(</span><span style="color: #DD0000">'/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'/^\s*{(\w+)}\s*=/'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sustitución&nbsp;</span><span style="color: #007700">=&nbsp;array&nbsp;(</span><span style="color: #DD0000">'\4/\3/\1\2'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'$\1&nbsp;='</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">preg_replace</span><span style="color: #007700">(</span><span style="color: #0000BB">$patrones</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sustitución</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'{fechaInicio}&nbsp;=&nbsp;1999-5-27'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+$fechaInicio = 27/5/1999
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5354">
+    <p><strong>Ejemplo #4 Quitar los espacios en blanco</strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo quita los espacios en blanco en exceso de una cadena.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$cadena&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'foo&nbsp;&nbsp;&nbsp;o'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$cadena&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">preg_replace</span><span style="color: #007700">(</span><span style="color: #DD0000">'/\s\s+/'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&nbsp;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;Ahora&nbsp;esto&nbsp;será&nbsp;'foo&nbsp;o'<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$cadena</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5355">
+    <p><strong>Ejemplo #5 Usar el parámetro <code class="parameter">count</code></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$cuenta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #0000BB">preg_replace</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'/\d/'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'/\s/'</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">'*'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'xp&nbsp;4&nbsp;to'</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$cuenta</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$cuenta</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//3<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+xp***to
+3
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.preg-replace-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Cuando se usan arrays con <code class="parameter">pattern</code> y
+    <code class="parameter">replacement</code>, las claves se procesan en el orden
+    en que aparecen en el array. Éste <em class="emphasis">no es necesariamente</em> el
+    mismo que el orden de índice numérico. Si usa índices para identificar qué
+    <code class="parameter">pattern</code> debería ser sustituido por cuál
+    <code class="parameter">replacement</code>, debería usar
+    <span class="function"><a href="function.ksort.html" class="function">ksort()</a></span> en cada array antes de llamar a
+    <span class="function"><strong>preg_replace()</strong></span>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.preg-replace-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><a href="pcre.pattern.html" class="link">Patrones de PCRE</a></li>
+    <li class="member"><span class="function"><a href="function.preg-quote.html" class="function" rel="rdfs-seeAlso">preg_quote()</a> - Escapar caracteres en una expresi&oacute;n regular</span></li>
+    <li class="member"><span class="function"><a href="function.preg-filter.html" class="function" rel="rdfs-seeAlso">preg_filter()</a> - Realiza una b&uacute;squeda y sustituci&oacute;n de una expresi&oacute;n regular</span></li>
+    <li class="member"><span class="function"><a href="function.preg-match.html" class="function" rel="rdfs-seeAlso">preg_match()</a> - Realiza una comparaci&oacute;n con una expresi&oacute;n regular</span></li>
+    <li class="member"><span class="function"><a href="function.preg-replace-callback.html" class="function" rel="rdfs-seeAlso">preg_replace_callback()</a> - Realiza una b&uacute;squeda y sustituci&oacute;n de una expresi&oacute;n regular usando una llamada de retorno</span></li>
+    <li class="member"><span class="function"><a href="function.preg-split.html" class="function" rel="rdfs-seeAlso">preg_split()</a> - Divide un string mediante una expresi&oacute;n regular</span></li>
+    <li class="member"><span class="function"><a href="function.preg-last-error.html" class="function" rel="rdfs-seeAlso">preg_last_error()</a> - Devuelve el c&oacute;digo de error de la &uacute;ltima ejecuci&oacute;n de expresi&oacute;n regular de PCRE</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.preg-replace-callback.html">preg_replace_callback</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.preg-split.html">preg_split</a></div>
+ <div class="up"><a href="ref.pcre.html">Funciones de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

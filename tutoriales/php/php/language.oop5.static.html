@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>La palabra reservada 'static'</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.paamayim-nekudotayim.html">Operador de Resoluci&oacute;n de &Aacute;mbito (::)</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.abstract.html">Abstracci&oacute;n de clases</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.oop5.static" class="sect1">
+ <h2 class="title">La palabra reservada &#039;static&#039;</h2>
+ 
+ <div class="tip"><strong class="tip">Sugerencia</strong>
+  <p class="simpara">
+   Esta página describe el uso de la palabra reservada <em>static</em> para
+   definir métodos y propiedades estáticos. <em>static</em> también se
+   puede usar para
+   <a href="language.variables.scope.html#language.variables.scope.static" class="link">definir variables estáticas</a>
+   y para
+   <a href="language.oop5.late-static-bindings.html" class="link">enlaces estáticos en tiempo de ejecución</a>.
+   Por favor, consulte estas páginas para más información sobre estos significados de 
+   <em>static</em>.
+  </p>
+ </div>
+ 
+ <p class="para">
+  Declarar propiedades o métodos de clases como estáticos los hacen accesibles
+  sin la necesidad de instanciar la clase. Una propiedad declarada como
+  static no puede ser accedida con un objeto de clase instanciado (aunque
+  un método estático sí lo puede hacer).
+ </p>
+ 
+ <p class="para">
+  Por motivos de compatibilidad con PHP 4, si no se utiliza ninguna 
+  declaración de <a href="language.oop5.visibility.html" class="link">visibilidad</a>,
+  se tratará a las propiedades o métodos como si hubiesen sido definidos como
+  <em>public</em>. 
+ </p>
+ 
+ <div class="sect2" id="language.oop5.static.methods">
+  <h3 class="title">Métodos estáticos</h3>
+  
+  <p class="para">
+   Debido a que los métodos estáticos se pueden invocar sin tener creada
+   una instancia del objeto, la seudovariable <var class="varname"><var class="varname">$this</var></var>
+   no está disponible dentro de los métodos declarados como estáticos.
+  </p>
+  
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <p class="simpara">
+    En PHP 5, llamar a métodos no estáticos de forma estática genera una
+    advertencia de nivel <strong><code>E_STRICT</code></strong>.
+   </p>
+  </div>
+  
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="simpara">
+    En PHP 7, llamar a métodos no estáticos de forma estática está obsoleto y
+    generará una advertencia <strong><code>E_DEPRECATED</code></strong>. El soporte para
+    las llamadas a métodos no estáticos de forma estática podría ser eliminado en el futuro.
+   </p>
+  </div>
+  
+  <div class="example" id="example-226">
+   <p><strong>Ejemplo #1 Ejemplo de método estático</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Foo&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;static&nbsp;function&nbsp;</span><span style="color: #0000BB">unMetodoEstatico</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;...<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}<br />}<br /><br /></span><span style="color: #0000BB">Foo</span><span style="color: #007700">::</span><span style="color: #0000BB">unMetodoEstatico</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$nombre_clase&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Foo'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$nombre_clase</span><span style="color: #007700">::</span><span style="color: #0000BB">unMetodoEstatico</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">//&nbsp;A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.3.0<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+ 
+ <div class="sect2" id="language.oop5.static.properties">
+  <h3 class="title">Propiedades estáticas</h3>
+  
+  <p class="para">
+   A las propiedades estáticas no puede acceder a través del objeto utilizando el
+   operador flecha (-&gt;).
+  </p>
+  
+  <p class="para">
+   Como cualquier otra variable estática de PHP, las propiedades estáticas
+   sólo pueden ser inicializadas utilizando un string literal o una constante;
+   las expresiones no están permitidas. Por tanto, se puede inicializar una propiedad
+   estática con enteros o arrays (por ejemplo), pero no se puede hacer con
+   otra variable, con el valor de devolución de una función, o con un objeto.
+  </p>
+  
+  <p class="para">
+   A partir de PHP 5.3.0, es posible hacer referencia a una clase usando una
+   variable. El valor de la variable no puede ser una palabra reservada (p.ej.,
+   <em>self</em>, <em>parent</em> y <em>static</em>).
+  </p>
+  
+  <div class="example" id="example-227">
+   <p><strong>Ejemplo #2 Ejemplo de propiedad estática</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Foo<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;static&nbsp;</span><span style="color: #0000BB">$mi_static&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'foo'</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">valorStatic</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">self</span><span style="color: #007700">::</span><span style="color: #0000BB">$mi_static</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">Bar&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">Foo<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">fooStatic</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">parent</span><span style="color: #007700">::</span><span style="color: #0000BB">$mi_static</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /><br />print&nbsp;</span><span style="color: #0000BB">Foo</span><span style="color: #007700">::</span><span style="color: #0000BB">$mi_static&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Foo</span><span style="color: #007700">();<br />print&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">valorStatic</span><span style="color: #007700">()&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />print&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">mi_static&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;"Propiedad"&nbsp;mi_static&nbsp;no&nbsp;definida<br /><br /></span><span style="color: #007700">print&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">::</span><span style="color: #0000BB">$mi_static&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$nombreClase&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Foo'</span><span style="color: #007700">;<br />print&nbsp;</span><span style="color: #0000BB">$nombreClase</span><span style="color: #007700">::</span><span style="color: #0000BB">$mi_static&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.3.0<br /><br /></span><span style="color: #007700">print&nbsp;</span><span style="color: #0000BB">Bar</span><span style="color: #007700">::</span><span style="color: #0000BB">$mi_static&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Bar</span><span style="color: #007700">();<br />print&nbsp;</span><span style="color: #0000BB">$bar</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fooStatic</span><span style="color: #007700">()&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+  </div>
+ </div>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.paamayim-nekudotayim.html">Operador de Resoluci&oacute;n de &Aacute;mbito (::)</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.abstract.html">Abstracci&oacute;n de clases</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

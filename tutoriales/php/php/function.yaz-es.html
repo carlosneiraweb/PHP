@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Prepara para una solicitud de servicio extendido</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.yaz-es-result.html">yaz_es_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.yaz-get-option.html">yaz_get_option</a></div>
+ <div class="up"><a href="ref.yaz.html">Funciones de YAZ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.yaz-es" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">yaz_es</h1>
+  <p class="verinfo">(PECL yaz &gt;= 0.9.0)</p><p class="refpurpose"><span class="refname">yaz_es</span> &mdash; <span class="dc-title">
+   Prepara para una solicitud de servicio extendido 
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.yaz-es-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>yaz_es</strong></span>
+    ( <span class="methodparam">
+    <span class="type">resource</span> <code class="parameter">$id</code>
+   </span>
+   , <span class="methodparam">
+    <span class="type">string</span> <code class="parameter">$type</code>
+   </span>
+   , <span class="methodparam">
+    <span class="type">array</span> <code class="parameter">$args</code>
+   </span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Esta función prepara para una solicitud de servicio extendido.
+   Los servicios extendidos es la familia de diversas facilidades Z39.50, tales como
+   actualización de registros, ordenado de ítem, administración de base de datos, etc.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Muchos servidores Z39.50 no soportan servicios extendidos.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   La <span class="function"><strong>yaz_es()</strong></span> crea un paquete de solicitud de servicio 
+   extendido y la pone en una cola de operaciones.
+   Se utiliza <span class="function"><a href="function.yaz-wait.html" class="function">yaz_wait()</a></span> para enviar la(s) solicitud(es) al servidor.
+   Después de completar <span class="function"><a href="function.yaz-wait.html" class="function">yaz_wait()</a></span> el resultado de
+   la operación del servicio extendido se debe esperar con
+   una llamada a <span class="function"><a href="function.yaz-es-result.html" class="function">yaz_es_result()</a></span>.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.yaz-es-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">id</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El recurso de conexión devuelto por <span class="function"><a href="function.yaz-connect.html" class="function">yaz_connect()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Una string que representa el tipo de servicio extendido:
+       <em>itemorder</em> (Ordenado de ítem),
+       <em>create</em> (Crear base de datos),
+       <em>drop</em> (Descartar base de datos),
+       <em>commit</em> (Operación de cometer),
+       <em>update</em> (Actualizar registro),
+       <em>xmlupdate</em> (Actualizar XML).
+       Cada tipo se especifica en la sección siguiente.
+      </p>
+     </dd>
+
+    
+
+    
+     <dt>
+<code class="parameter">args</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un array con las opciones de servicio extendido, más
+       opciones específicas del paquete. Las opciones son idénticas a
+       las ofrecidas en la API C de ZOOM C. Consulte a los
+       <a href="http://www.indexdata.dk/yaz/doc/zoom.tkl" class="link external">&raquo;&nbsp;servicios extendidos</a> de ZOOM.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.yaz-es-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.yaz-es-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-5192">
+   <p><strong>Ejemplo #1 Actualizar registro</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$con&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">yaz_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"myhost/database"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$args&nbsp;</span><span style="color: #007700">=&nbsp;array&nbsp;(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"record"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"&lt;gils&gt;&lt;title&gt;some&nbsp;title&lt;/title&gt;&lt;/gils&gt;"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"syntax"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"xml"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"action"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"specialUpdate"<br /></span><span style="color: #007700">);<br /></span><span style="color: #0000BB">yaz_es</span><span style="color: #007700">(</span><span style="color: #0000BB">$con</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"update"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$args</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">yaz_wait</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">yaz_es_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$id</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.yaz-es-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.yaz-es-result.html" class="function" rel="rdfs-seeAlso">yaz_es_result()</a> - Resulados de Servicios Extendidos de Inspecci&oacute;n</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.yaz-es-result.html">yaz_es_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.yaz-get-option.html">yaz_get_option</a></div>
+ <div class="up"><a href="ref.yaz.html">Funciones de YAZ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

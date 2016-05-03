@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Averiguar si una imagen es de color verdadero</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imageinterlace.html">imageinterlace</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagejpeg.html">imagejpeg</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imageistruecolor" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imageistruecolor</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.2, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">imageistruecolor</span> &mdash; <span class="dc-title">Averiguar si una imagen es de color verdadero</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imageistruecolor-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>imageistruecolor</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$image</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>imageistruecolor()</strong></span> averigua si la imagen
+   <code class="parameter">image</code> es una imagen de color verdadero.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imageistruecolor-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+image</code></dt>
+<dd>
+<p class="para">Un recurso image, es devuelto por una de las funciones de creación de imágenes,
+como <span class="function"><a href="function.imagecreatetruecolor.html" class="function">imagecreatetruecolor()</a></span>.</p></dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imageistruecolor-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> si <code class="parameter">image</code> es de color verdadero, <strong><code>FALSE</code></strong>
+   si no.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.imageistruecolor-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3551">
+    <p><strong>Ejemplo #1 Simple detección de instancias de imagen de color verdadero usando <span class="function"><strong>imageistruecolor()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;$im&nbsp;es&nbsp;una&nbsp;instancia&nbsp;de&nbsp;imagen<br /><br />//&nbsp;Comprobar&nbsp;si&nbsp;la&nbsp;imagen&nbsp;es&nbsp;de&nbsp;color&nbsp;verdadero&nbsp;o&nbsp;no<br /></span><span style="color: #007700">if(!</span><span style="color: #0000BB">imageistruecolor</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">))<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Crear&nbsp;una&nbsp;nueva&nbsp;instancia&nbsp;de&nbsp;imagen&nbsp;de&nbsp;color&nbsp;verdadero<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$tc&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagecreatetruecolor</span><span style="color: #007700">(</span><span style="color: #0000BB">imagesx</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">imagesy</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">));<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Copiar&nbsp;sobre&nbsp;los&nbsp;píxeles<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">imagecopy</span><span style="color: #007700">(</span><span style="color: #0000BB">$tc</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$im</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">imagesx</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">imagesy</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">));<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">imagedestroy</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$im&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$tc</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$tc&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;O&nbsp;usar&nbsp;imagepalettetotruecolor()<br /></span><span style="color: #007700">}<br /><br /></span><span style="color: #FF8000">//&nbsp;Continuar&nbsp;trabajando&nbsp;con&nbsp;la&nbsp;instancia&nbsp;de&nbsp;imagen<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.imageistruecolor-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Esta función require GD 2.0.1 o superior (se recomienda 2.0.28 o superior).</span></p></blockquote>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.imageistruecolor-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.imagecreatetruecolor.html" class="function" rel="rdfs-seeAlso">imagecreatetruecolor()</a> - Crear una nueva imagen de color verdadero</span></li>
+    <li class="member"><span class="function"><a href="function.imagepalettetotruecolor.html" class="function" rel="rdfs-seeAlso">imagepalettetotruecolor()</a> - Convierte una imagen basada en paleta a color verdadero</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imageinterlace.html">imageinterlace</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagejpeg.html">imagejpeg</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

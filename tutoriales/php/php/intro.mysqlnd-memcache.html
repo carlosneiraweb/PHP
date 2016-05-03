@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Introducci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.mysqlnd-memcache.html">mysqlnd_memcache</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-memcache.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="up"><a href="book.mysqlnd-memcache.html">mysqlnd_memcache</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intro.mysqlnd-memcache" class="preface">
+  <h1 class="title">Introducción</h1>
+  <p class="para">
+   El complemento memcache de mysqlnd (<em>mysqlnd_memcache</em>) es una
+   extensión de PHP para traducir de forma transparente SQL en peticiones para el
+   Complemento InnoDB Memcached Daemon de MySQL (complemento de servidor). Incluye
+   soporte experimental para el Cluster Memcached Daemon de MySQL. El complemento
+   del servidor proporciona acceso a datos almancenados en tablas InnoDB de MySQL
+   (respectivamente MySQL Cluster NDB) empleando el protocolo Memcache.
+   Esta extensión de PHP, la cual admite todas las extensiones de MySQL para PHP que utilicen
+   <a href="book.mysqlnd.html" class="link">mysqlnd</a>, identificarán tablas exportadas de
+   esta manera y traducirá consultas SELECT específicas a peticiones de Memcache. 
+  </p>
+  <div class="mediaobject">
+   
+   <div class="imageobject">
+    <img src="images/55c7816ef6df6821f05678a68b4e4e63-mymemflow.png" alt="Flujo de datos de mysqlnd_memcache" width="813" height="276" />
+   </div>
+  </div>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Este complemento depende del Complemento InnoDB Memcached Daemon de MySQL. No está
+    provisto para utilizarlo con una Memcached independiente. Para una caché de consultas genérico
+    que emplee Memcached vea el <a href="book.mysqlnd-qc.html" class="link">complemento de caché de
+    consultas de</a>. Para un acceso directo a Memcache vea las extensiones
+    <a href="book.memcache.html" class="link">memcache</a> y
+    <a href="book.memcached.html" class="link">memcached</a>.
+   </p>
+  </p></blockquote>
+  <p class="para">  
+   El controlador nativo de MySQL para PHP es una biblioteca en C que acompaña a
+   PHP a partir de PHP 5.3.0. Sirve como un sustituto a corto plazo de la
+   Biblioteca Cliente de MySQL (libmysqlclient). El uso de mysqlnd tiene
+   varias ventajas: no son necesarias descargas extra debido a que está incluido con PHP,
+   está bajo la licencia de PHP, hay menor consumo de memoria en ciertos casos, y
+   contiene nueva funcionalidad, como consultas asíncronas.
+  </p>
+  <p class="para">
+   <em>mysqlnd_mmemcache</em> opera, en mayor parte,
+   de forma transparente desde la perspectiva del usuario. El complento memcache
+   de mysqlnd admite todas las aplicaciones de PHP y todas las extensiones de MySQL para PHP.
+   No cambia las APIs existentes. Por lo tanto, se puede usar fácilmente con
+   las aplicaciones de PHP existentes.
+  </p>
+  <p class="para">
+   Los complementos de Memcache para MySQL añaden un método de acceso tipo clave-valor para datos
+   almacenados en tablas InnoDB (respectivamente MySQL Cluster  NDB) a través del protocolo Memcache.
+   Este acceso tipo clave-valor a menudo es más rápido que el uso de SQL.
+  </p>
+  <div class="section" id="mysqlnd-memcache.key-features">
+   <h2 class="title">Características principales</h2>
+   <p class="para">
+    Las características principales de PECL/mysqlnd_memcache son las siguientes.
+   </p>
+   <p class="para">
+    <ul class="itemizedlist">
+     <li class="listitem">
+      <p class="para">
+       Posible beneficio en el rendimiento
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Lado del cliente: protocolo ligero.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Lado del servidor: sin análisis de SQL, acceso directo al almacenamiento.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Por favor, ejecute su propia aplicación comparativa. Los resultados de rendimiento
+          reales dependen altamente de la configuración y el hardware empleados.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+    </ul>
+   </p>
+  </div>
+  
+  <div class="section" id="mysqlnd-memcache.limitations">
+   <h2 class="title">Limitaciones</h2>
+   <p class="para">
+    La versión inicial no es segura a nivel binario. Debido a la manera en que trabajan
+    los complementos de Memcache para MySQL, existen restricciones relacionadas con separadores.
+   </p>
+   <p class="para">
+    No hay soprte para sentencias preparadas y consultas asíncronas. El soporte
+    para metadatos de conjuntos de resultados está limitado.
+   </p>
+   <p class="para">
+    La información de correspondencia para tablas accesible mediante Memcache no se almacena
+    en la caché del complemento entre peticiones, sino que se obtiene desde el servidor de MySQL cada vez
+    una conexión de MySQL se asocie con una conexión de Memcache. Ver
+    <span class="function"><a href="function.mysqlnd-memcache-set.html" class="function">mysqlnd_memcache_set()</a></span> para más detalles.
+   </p>
+  </div>
+  
+  <div class="section" id="mysqlnd-memcache.name">
+   <h2 class="title">Sobre el nombre</h2>
+   <p class="para">
+    La abreviatura <em>mysqlnd_memcache</em>
+    significa <em>complemento de memcache para mysqlnd</em>.
+    Memcache se refiere al soporte de los complementos de Memcache para MySQL
+    para InnoDB y NDB (MySQL Cluster). El complemento no
+    tiene relación con el servidor de caché de Memcached.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.mysqlnd-memcache.html">mysqlnd_memcache</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-memcache.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="up"><a href="book.mysqlnd-memcache.html">mysqlnd_memcache</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

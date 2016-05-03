@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Estado de la conexi&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.usage.html">Ejecutar sentencias</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.sqlhints.html">Sugerencias SQL</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.quickstart.connectionpooling" class="section">
+  <h2 class="title">Estado de la conexión</h2>
+  <p class="para">
+   El complemento cambia la semántica de un gestor de conexión de MySQL para PHP.
+   Un gestor de conexión representa una agrupación de conexiones, en lugar de una
+   única conexión de red cliente-servidor de MySQL. La agrupación de conexiones consiste
+   en una conexión maestra, y opcionalmente cualquier número de conexiones esclavas.
+  </p>
+  <p class="para">
+   Cada conexión de la agrupación de conexiones tiene su propio estado. Por ejemplo,
+   las variables SQL de usuario, las tablas temporales y las transacciones, son parte del estado.
+   Se puede encontrar un listado completo con los elementos que pertenecen al estado de una conexión en
+   los conceptos de la documentación de
+   <a href="mysqlnd-ms.pooling.html" class="link">agrupación e intercambio de conexiones</a>.
+   Si el complemento decide intercambiar conexiones para equilibrar la carga, a la
+   aplicación se le podría proporcionar una conexión que tuviera un estado diferente.
+   Las aplicaciones deben considerar esto.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1982">
+    <p><strong>Ejemplo #1 Configuración del complemento con un esclavo y un maestro</strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">{
+    &quot;myapp&quot;: {
+        &quot;master&quot;: {
+            &quot;master_0&quot;: {
+                &quot;host&quot;: &quot;localhost&quot;,
+                &quot;socket&quot;: &quot;\/tmp\/mysql.sock&quot;
+            }
+        },
+        &quot;slave&quot;: {
+            &quot;slave_0&quot;: {
+                &quot;host&quot;: &quot;192.168.2.27&quot;,
+                &quot;port&quot;: &quot;3306&quot;
+            }
+        }
+    }
+}</pre>
+</div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-1983">
+    <p><strong>Ejemplo #2 Problema: estado de conexión y variables SQL de usuario</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nombre_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Conexión&nbsp;1,&nbsp;la&nbsp;conexión&nbsp;vincula&nbsp;una&nbsp;variable&nbsp;SQL&nbsp;de&nbsp;usuario,&nbsp;no&nbsp;se&nbsp;ejecuta&nbsp;ningún&nbsp;SELECT&nbsp;en&nbsp;el&nbsp;maestro&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SET&nbsp;@myrole='master'"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Conexión&nbsp;2,&nbsp;se&nbsp;ejecuta&nbsp;en&nbsp;el&nbsp;esclavo&nbsp;a&nbsp;causa&nbsp;de&nbsp;SELECT&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!(</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;@myrole&nbsp;AS&nbsp;_role"</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"@myrole&nbsp;=&nbsp;'%s'\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'_role'</span><span style="color: #007700">]);<br />}<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+@myrole = &#039;&#039;
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   El ejemplo abre una conexión con equilibrio de carga y ejecuta dos sentencias.
+   La primera sentencia <em>SET @myrole=&#039;master&#039;</em> no comienza
+   con la cadena <em>SELECT</em>. Por lo tanto, el complemento no
+   la reconoce como una consulta de solo lectura que se ejecutaría en un esclavo. El
+   complemento ejecuta la sentencia en una conexión al maestro. La sentencia
+   establece una variable SQL de usuario que está vinculada a la conexión con el maestro. El
+   estado de la conexión maestra ha sido cambiado.
+  </p>
+  <p class="para">
+   La siguiente sentencia es <em>SELECT @myrole AS _role</em>.
+   El complemento la reconoce como una consulta de solo lectura y la envía al
+   esclavo. La sentencia se ejecuta en una conexión al esclavo. Esta
+   segunda conexión no tiene ninguna variable SQL de usuario vinculada a ella.
+   Tiene un estado diferente a la primera conexión al maestro.
+   La variable SQL de usuario no está establecida. El script del ejemplo imprime
+   <em>@myrole = &#039;&#039;</em>.
+  </p>
+  <p class="para">
+   Es responsabilidad del desarrollador de la apliación ocuparse
+   del estado de la conexión. El complemento no monitoriza todas
+   las actividades de cambio de estado. La monitorización de todos los casos posibles
+   sería una tarea intensiva de la CPU, si es que esta tarea pudiera ser realizada.
+  </p>
+  <p class="para">
+   Los problemas se pueden evitar fácilmente usando sugerencias SQL.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.usage.html">Ejecutar sentencias</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.sqlhints.html">Sugerencias SQL</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

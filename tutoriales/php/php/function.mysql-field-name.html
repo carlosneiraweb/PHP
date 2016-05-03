@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene el nombre del campo especificado de un resultado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-field-len.html">mysql_field_len</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-field-seek.html">mysql_field_seek</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-field-name" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_field_name</h1>
+  <p class="verinfo">(PHP 4, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_field_name</span> &mdash; <span class="dc-title">Obtiene el nombre del campo especificado de un resultado</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-field-name-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta extensión fue declarada obsoleta en PHP 5.5.0 y eliminada en PHP 7.0.0.
+En su lugar debería utilzarse las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a>.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Alternatives to this function include:</p>
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli-result.fetch-field-direct.html" class="function">mysqli_fetch_field_direct()</a></span> [name] o [orgname]</li>
+    <li class="member"><span class="methodname"><a href="pdostatement.getcolumnmeta.html" class="methodname">PDOStatement::getColumnMeta()</a></span> [name]</li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-field-name-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>mysql_field_name</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$field_offset</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>mysql_field_name()</strong></span> devuelve el nombre del
+   índice del campo especificado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-field-name-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+result</code></dt>
+<dd>
+<p class="para">El resultado <span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> que está
+siendo evaluado. Este resultado proviene de una llamada a
+<span class="function"><a href="function.mysql-query.html" class="function">mysql_query()</a></span>.</p></dd>
+
+    <dt>
+<code class="parameter">
+field_offset</code></dt>
+<dd>
+<p class="para">El número del campo a buscar. El valor de
+<code class="parameter">field_offset</code> comienza en <em>0</em>. Si
+<code class="parameter">field_offset</code> no existe, un error de nivel
+<strong><code>E_WARNING</code></strong> es emitido.</p></dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-field-name-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El nombre del índice del campo especificado en caso de éxito  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysql-field-name-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1810">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysql_field_name()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;La&nbsp;tabla&nbsp;usuarios&nbsp;consiste&nbsp;de&nbsp;tres&nbsp;campos:<br />&nbsp;*&nbsp;&nbsp;&nbsp;user_id<br />&nbsp;*&nbsp;&nbsp;&nbsp;username<br />&nbsp;*&nbsp;&nbsp;&nbsp;password.<br />&nbsp;*/<br /></span><span style="color: #0000BB">$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'usuario_mysql'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña_mysql'</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'No&nbsp;se&nbsp;pudo&nbsp;conectar&nbsp;al&nbsp;servidor&nbsp;MySQL:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">());<br />}<br /></span><span style="color: #0000BB">$nombre_bd&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'mibd'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$bd_seleccionada&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_select_db</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_bd</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$bd_seleccionada</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">"No&nbsp;se&nbsp;pudo&nbsp;establecer&nbsp;</span><span style="color: #0000BB">$nombre_bd</span><span style="color: #DD0000">:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">());<br />}<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_query</span><span style="color: #007700">(</span><span style="color: #DD0000">'select&nbsp;*&nbsp;from&nbsp;usuarios'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #0000BB">mysql_field_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">mysql_field_name</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+user_id
+password
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.mysql-field-name-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Los nombres de los campos devueltos por esta función
+son <em class="emphasis">sensibles a mayúsculas y minúsculas</em>.</span></p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Por razones de compatibilidad con versiones anteriores, los siguientes alias 
+obsoletos podrían usarse: 
+    <span class="function"><strong>mysql_fieldname()</strong></span>
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-field-name-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-field-type.html" class="function" rel="rdfs-seeAlso">mysql_field_type()</a> - Obtiene el tipo del campo especificado de un resultado</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-field-len.html" class="function" rel="rdfs-seeAlso">mysql_field_len()</a> - Devuelve la longitud del campo especificado</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-field-len.html">mysql_field_len</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-field-seek.html">mysql_field_seek</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

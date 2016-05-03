@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Rutina de interoperabilidad del fichero Phar</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.fileformat.ingredients.html">Ingredientes de todos los archivos Phar, independientes del formato de fichero</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.fileformat.comparison.html">Comparaci&oacute;n cara a cara de Phar, Tar y Zip</a></div>
+ <div class="up"><a href="phar.fileformat.html">&iquest;Qu&eacute; hace de un phar un phar y no un tar o un zip?</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="phar.fileformat.stub" class="section">
+  <h2 class="title">Rutina de interoperabilidad del fichero Phar</h2>
+  <p class="para">
+   Una rutina de interoperabilidad de un Phar es un simple fichero PHP. La rutina de interoperabilidad más pequeña posible es:
+  </p>
+  <p class="para">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php&nbsp;</span><span style="color: #007700">__HALT_COMPILER();</span>
+</span>
+</code></div>
+   </div>
+
+  </p>
+  <p class="para">
+   Una rutina de interoperabilidad debe contener como mínimo el token <em>__HALT_COMPILER();</em>
+   en su conclusión. Normalmente, una rutina de interoperabilidad contendrá funcionalidad cargadora
+   como:
+  </p>
+  <p class="para">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />Phar</span><span style="color: #007700">::</span><span style="color: #0000BB">mapPhar</span><span style="color: #007700">();<br />include&nbsp;</span><span style="color: #DD0000">'phar://miphar.phar/index.php'</span><span style="color: #007700">;<br />__HALT_COMPILER();</span>
+</span>
+</code></div>
+   </div>
+
+  </p>
+  <p class="para">
+   No existen restricciones para el contenido de una rutina de interoperabilidad de Phar, excepto el requerimiento
+   de que concluya con <em>__HALT_COMPILER();</em>. La etiqueta de cierre de PHP
+   <em><div class="cdata"><pre>?&gt;</pre></div></em> se puede incluir u omitir, pero no puede haber
+   más de un espacio entre el <em>;</em> y la etiqueta de cierre
+   <em><div class="cdata"><pre>?&gt;</pre></div></em> o la extensión phar no podrá
+   procesar el manifiesto del archivo Phar.
+  </p>
+  <p class="para">
+   En un archivo phar basado en tar o zip, la rutina de interoperabilidad es alamcenada en el
+   fichero <em>.phar/stub.php</em>. La rutina de interoperabilidad predeterminada para archivos Phar
+   basados en phar contiene aproximadamente 7k de código para extraer el contenido
+   del phar y ejecutarlo. Véase <span class="function"><a href="phar.createdefaultstub.html" class="function">Phar::createDefaultStub()</a></span>
+   para más información.
+  </p>
+  <p class="para">
+   El alias de phar se alamcena en un archivo phar basado en zip en el
+   fichero <em>.phar/alias.txt</em> como texto plano.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.fileformat.ingredients.html">Ingredientes de todos los archivos Phar, independientes del formato de fichero</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.fileformat.comparison.html">Comparaci&oacute;n cara a cara de Phar, Tar y Zip</a></div>
+ <div class="up"><a href="phar.fileformat.html">&iquest;Qu&eacute; hace de un phar un phar y no un tar o un zip?</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Filtro</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.rwsplit.html">Divisi&oacute;n de lectura-escritura</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.qos-consistency.html">Nivel de servicio y consistencia</a></div>
+ <div class="up"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.filter" class="section">
+  <h2 class="title">Filtro</h2>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Requisitos de versión</strong><br />
+   <p class="para">
+    Los filtros existen a partir de la versión 1.1.0-beta de mysqlnd_ms.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   <a href="mysqlnd-ms.plugin-ini-json.html" class="link">filtros</a>.
+   Las aplicaciones de PHP que implementen un clúster de replicación MySQL deben identificar primero
+   un grupo de servidores en el clúster que podrían ejecutar una sentencia antes
+   de que ésta sea ejecutada por uno de los candidatos. En otras palabras: se debe filtrar
+   una lista de servidores definidos hasta que esté disponible solamente un servidor.
+  </p>
+  <p class="para">
+   El proceso de filtrado puede incluir el uso de uno o más filtros, los cuales pueden estar
+   encadenados. Son ejecutados en el orden en el que están definidos en el fichero de configuración
+   del complemento.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Aclaración: comparación entre cadena de filtros y tuberías</strong><br />
+   <p class="para">
+    El concepto de filtros encadenados puede ser comparado con el uso de tuberías para conectar
+    utilidades de línea de comandos en un sistema operativo intérprete de comandos. Por ejemplo,
+    un flujo de entrada se pasa al procesador, se filtra, y luego se transfiere
+    para su salida. Entonces, la salida se pasa al siguiente comando,
+    el cual está conectado al anterior mediante el operador de tubería.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   Filtros disponibles:
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Filtros de equilibrado de carga:
+      <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filters" class="link">random</a> y
+      <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filters" class="link">roundrobin</a>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Filtros de selección:
+      <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filters" class="link">user</a>,
+      <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filters" class="link">user_multi</a>,
+      <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filters" class="link">quality_of_service</a>.
+     </span>
+    </li>
+   </ul>
+  </p>
+  
+  <p class="para">
+   El filtro <em>random</em> implementa las políticas de equilibrado de carga
+   &#039;aleatoria&#039; y &#039;aleatorio una vez&#039;. El equilibrado de carga &#039;rotacional&#039; se puede configurar
+   a través del filtro <em>roundrobin</em>. Estblecer una &#039;llamada de retorno
+   definida por el usuario&#039; para la selección del servidor es posible con filtro <em>user</em>.
+   El filtro <em>quality_of_service</em> busca nodos del clúster
+   capaces de cumplir con un cierto servicio, por ejemplo, la lectura de sus escrituras, o
+   no demorar más segundos de lo permitido con respecto al maestro.
+  </p>
+  <p class="para">
+   Los filtros puede aceptar parámetros para cambiar su comportamiento.
+   El filtro <em>random</em> acepta el parámetro opcional
+   <em>sticky</em>. Si se establece a &#039;true&#039;, el filtro cambia
+   el equilibrado de carga de &#039;aleatorio&#039; a &#039;aleatorio una vez&#039;. &#039;Aleatorio&#039; escoge un servidor aleatorio
+   cada vez qeu se vaya a ejecutar una sentencia. &#039;Aleatorio una vez&#039; escoge un servidor aleatorio
+   cuando la primera sentencia va a ser ejecutada y utiliza el mismo
+   servidor para el resto de peticiones de PHP.
+  </p>
+  <p class="para">
+   Una de los puntos fuertes del concepto de filtro es la posibilidad de
+   encadenar filtros. Este punto fuerte no se hace inmediatamente visible debido a que
+   los filtros <em>random</em>, <em>roundrobin</em> y
+   <em>user</em> deben de producir no más de un servidor.
+   Si un filtro reduce la lista de candidatos para la ejecución de una sentencia a
+   un único servidor, tiene poco sentido usar ese servidor como
+   entrada de otro filtro para reducir aún más la lista de candidatos.
+  </p>
+  <p class="para">
+   Un ejemplo de una secuencia de filtros que fallará:
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Sentencia a ejecutar: <em>SELECT 1 FROM DUAL</em>. Pasada a todos los filtros.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Todos los nodos configurados son pasados como entrada al primer filtro.
+      Nodos maestro: <em>master_0</em>.
+      Nodos esclavo:<em>slave_0</em>, <em>slave_1</em>
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Filtro: <em>random</em>, argumento <em>sticky=1</em>.
+      Elige un esclavo aleatorio una vez para utilizarlo para el resto de peticiones de PHP.
+      Salida: <em>slave_0</em>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      La salida de <em>slave_0</em> y la sentencia a ejecutar
+      son pasadas como entradas al siguiente filtro. Aquí: <em>roundrobin</em>,
+      la lista de servidores pasada para filtrar es: <em>slave_0</em>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Filtro: <em>roundrobin</em>. La lista de servidores consisten en
+      un solo servidor, la rotación siempre devolverá el mismo servidor.
+     </span>
+    </li>
+   </ul>
+   Si se intenta usar esta secuencia de filtros,
+   el complemento puede emitir una advertencia como <em>(mysqlnd_ms) Error while creating
+   filter &#039;%s&#039; . Non-multi filter &#039;%s&#039; already created. Stopping in %s on
+   line %d</em>. Además, se puede establecer un error apropiado para el gestor
+   de conexión.
+  </p>
+  <p class="para">
+   Existe un segundo tipo de filtro: el filtro múltiple. Un filtro múltiple emite cero, uno o múltiples
+   servidores después del procesamiento. El filtro <em>quality_of_service</em>
+   es un ejemplo. Si la calidad de servicio solicitada establece un límite superior para la demora del
+   esclavo y más de un esclavo se demora menos que el número de segundos permitido,
+   el filtro devuelve más de un nodo del clúster. Un filtro múltiple debe ser seguido de otro
+   para reducir aún más la lista de candidatos para la ejecución de sentencias hasta que se encuentre
+   un candidato.
+  </p>
+  <p class="para">
+   Una secuencia de filtros con el filtro múltiple <em>quality_of_service</em>
+   seguido por un filtro de equilibrado de carga.
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Sentencia a ejecutar: <em>SELECT sum(price) FROM orders WHERE order_id = 1</em>.
+      Pasada a todos los filtros.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Todos los nodos configurados son pasados como entrada para el primer filtro.
+      Nodos maestro: <em>master_0</em>.
+      Nodos esclavo: <em>slave_0</em>, <em>slave_1</em>,
+      <em>slave_2</em>, <em>slave_3</em>
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Filtro: <em>quality_of_service</em>, conjunto de reglas: session_consistency (lectura de sus escrituras)
+      Salida: <em>master_0</em>
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      La salida de <em>master_0</em>
+      y la sentencia a ejecutar
+      son pasadas como entrada al siguiente filtro, el cual es <em>roundrobin</em>.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Filtro: <em>roundrobin</em>. La lista de servidores consiste en un
+      servidor. La rotación selecciona <em>master_0</em>.
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Una secuencia de filtros no debe finalizar con un filtro múltiple. Si se intenta usar
+   una sencuencia de filtros que finaliza con un filtro múltiple, el complemento puede emitir
+   una advertencias como <em>(mysqlnd_ms) Error in configuration. Last filter is multi
+   filter. Needs to be non-multi one. Stopping in %s on line %d</em>.
+   Además, se puede establecer un error apropiado para el gestor
+   de conexión.
+  </p>
+  <p class="para">
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <strong>Especulación sobre el futuro: filtrado de replicación MySQL</strong><br />
+    <p class="para">
+     En futuras versiones, pueden existir filtros múltiples adicionales.
+     Por ejemplo podría existir un filtro <em>table</em>
+     para soportar el filtrado de replicación MySQL. Esto podría permitir
+     la definición de reglas para qué base de datos o tabla van a ser replicadas a cual
+     nodo de un clúster de replicación. Se asume que el clúster de replicación
+     consiste en cuatro esclavos (<em>slave_0</em>, <em>slave_1</em>,
+     <em>slave_2</em>, <em>slave_3</em>), dos de los cuales replican una base de datos llamada
+     <em>ventas</em> (<em>slave_0</em>, <em>slave_1</em>).
+     Si la aplicación pregunta a la base de datos <em>esclavos</em>, el
+     hipotético filtro <em>table</em> reduciría la lista de posibles
+     servidores a <em>slave_0</em> y <em>slave_1</em>. Ya que
+     la salida y la lista de candidatos consiste en más de un servidor, es
+     posible y necesario añadir filtros adicionales a la lista de candidatos, por ejemplo, usando
+     un filtro de equilibrado de carga para identificar un servidor para la ejecución de sentencias.
+    </p>
+   </p></blockquote>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.rwsplit.html">Divisi&oacute;n de lectura-escritura</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.qos-consistency.html">Nivel de servicio y consistencia</a></div>
+ <div class="up"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

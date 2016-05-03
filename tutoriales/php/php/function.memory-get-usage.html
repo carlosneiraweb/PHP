@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve la cantidad de memoria asignada a PHP</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.memory-get-peak-usage.html">memory_get_peak_usage</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.php-ini-loaded-file.html">php_ini_loaded_file</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.memory-get-usage" class="refentry">
+ <div class="refnamediv"> 
+  <h1 class="refname">memory_get_usage</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.2, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">memory_get_usage</span> &mdash; <span class="dc-title">Devuelve la cantidad de memoria asignada a PHP</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.memory-get-usage-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>memory_get_usage</strong></span>
+    ([ <span class="methodparam"><span class="type">bool</span> <code class="parameter">$real_usage</code><span class="initializer"> = false</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve la cantidad de memoria, en bytes, que actualmente se asigna 
+   a su script PHP.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.memory-get-usage-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">real_usage</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Debe establecer esto a <strong><code>TRUE</code></strong> para obtener el tamaño real de memoria 
+       asignada por el sistema. Si no se establece o es <strong><code>FALSE</code></strong> sólo se reportará 
+       la memoria usada por <em>emalloc()</em>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.memory-get-usage-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la cantidad de memoria en bytes.
+  </p>
+ </div>
+
+
+ <div class="refsect1 changelog" id="refsect1-function.memory-get-usage-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.2.1</td>
+       <td>
+        Compilar con <a href="ini.core.html#ini.memory-limit" class="link">--enable-memory-limit</a> 
+        ya no es necesario para que exista esta función.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.2.0</td>
+       <td>
+        Se añadió <code class="parameter">real_usage</code>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.memory-get-usage-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-567">
+    <p><strong>Ejemplo #1 A <span class="function"><strong>memory_get_usage()</strong></span> ejemplo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Este&nbsp;es&nbsp;sólo&nbsp;un&nbsp;ejemplo,&nbsp;los&nbsp;siguientes&nbsp;números<br />//&nbsp;serán&nbsp;diferentes&nbsp;dependiendo&nbsp;de&nbsp;su&nbsp;sistema<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">memory_get_usage</span><span style="color: #007700">()&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;36640<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">str_repeat</span><span style="color: #007700">(</span><span style="color: #DD0000">"Hello"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">4242</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #0000BB">memory_get_usage</span><span style="color: #007700">()&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;57960<br /><br /></span><span style="color: #007700">unset(</span><span style="color: #0000BB">$a</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #0000BB">memory_get_usage</span><span style="color: #007700">()&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;36744<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.memory-get-usage-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.memory-get-peak-usage.html" class="function" rel="rdfs-seeAlso">memory_get_peak_usage()</a> - Devuelve el m&aacute;ximo de memoria asignada por PHP</span></li>
+    <li class="member"><a href="ini.core.html#ini.memory-limit" class="link">memory_limit</a></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.memory-get-peak-usage.html">memory_get_peak_usage</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.php-ini-loaded-file.html">php_ini_loaded_file</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

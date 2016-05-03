@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener la &laquo;edad&raquo; del punto de c&oacute;digo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.chardigitvalue.html">IntlChar::charDigitValue</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intlchar.charage" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">IntlChar::charAge</h1>
+  <p class="verinfo">(PHP 7)</p><p class="refpurpose"><span class="refname">IntlChar::charAge</span> &mdash; <span class="dc-title">Obtener la «edad» del punto de código</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-intlchar.charage-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">array</span> <span class="methodname"><strong>IntlChar::charAge</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$codepoint</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene la «edad» del punto de código.
+  </p>
+  <p class="para">
+   La «edad» es la versión de Unicode cuando el punto de código fue diseñado por primera vez (como un no carácter o para Uso Privado)
+   o se le asignó un carácter. Esta puede ser útil para evitar la emisión de puntos de código a procesos receptores que no aceptan
+   nuevos caracteres.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-intlchar.charage-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">codepoint</code></dt>
+
+    <dd>
+
+     <p class="para">El valor de tipo <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span> del punto de código (p.ej. <em>0x2603</em> para <em class="emphasis">U+2603 SNOWMAN</em>), o el carácter codificado como un <span class="type"><a href="language.types.string.html" class="type string">string</a></span> UTF-8 (p.ej. <em>&quot;\u{2603}&quot;</em>)</p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-intlchar.charage-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El número de versión de Unicode, como <span class="type"><a href="language.types.array.html" class="type array">array</a></span>.
+   Por ejemplo, la versión <em class="emphasis">1.3.31.2</em> sería representada como <em>[1, 3, 31, 2]</em>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-intlchar.charage-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2927">
+   <p><strong>Ejemplo #1 Probar diferentes puntos de código</strong></p>
+   <div class="example-contents">
+    <div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">charage</span><span style="color: #007700">(</span><span style="color: #DD0000">"\u{2603}"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">charage</span><span style="color: #007700">(</span><span style="color: #DD0000">"\u{1F576}"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+    <div class="cdata"><pre>
+array(4) {
+  [0]=&gt;
+  int(1)
+  [1]=&gt;
+  int(1)
+  [2]=&gt;
+  int(0)
+  [3]=&gt;
+  int(0)
+}
+array(4) {
+  [0]=&gt;
+  int(7)
+  [1]=&gt;
+  int(0)
+  [2]=&gt;
+  int(0)
+  [3]=&gt;
+  int(0)
+}
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-intlchar.charage-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="intlchar.getunicodeversion.html" class="function" rel="rdfs-seeAlso">IntlChar::getUnicodeVersion()</a> - Obtener la versi&oacute;n de Unicode</span></li>
+    <li class="member"><span class="function"><a href="intlchar.getintpropertyminvalue.html" class="function" rel="rdfs-seeAlso">IntlChar::getIntPropertyMinValue()</a> - Obtener el valor m&iacute;nimo de una propiedad de Unicode</span></li>
+    <li class="member"><span class="function"><a href="intlchar.getintpropertyvalue.html" class="function" rel="rdfs-seeAlso">IntlChar::getIntPropertyValue()</a> - Obtener el valor de una propiedad de Unicode para un punto de c&oacute;digo</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.chardigitvalue.html">IntlChar::charDigitValue</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

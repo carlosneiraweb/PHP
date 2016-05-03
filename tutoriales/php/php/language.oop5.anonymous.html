@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Clases an&oacute;nimas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.traits.html">Traits</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.overloading.html">Sobrecarga</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.oop5.anonymous" class="sect1">
+ <h2 class="title">Clases anónimas</h2>
+ 
+ <p class="para">
+  Se ha añadido soporte para clases anónimas en PHP 7. Las clases anónimas son
+  útiles cuando es necesario crear objetos sencillos y únicos.
+ </p>
+ 
+ <div class="informalexample">
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Código&nbsp;anterior&nbsp;a&nbsp;PHP&nbsp;7<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Logger<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">log</span><span style="color: #007700">(</span><span style="color: #0000BB">$msg</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$msg</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$util</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setLogger</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">Logger</span><span style="color: #007700">());<br /><br /></span><span style="color: #FF8000">//&nbsp;Código&nbsp;de&nbsp;PHP&nbsp;7+<br /></span><span style="color: #0000BB">$util</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setLogger</span><span style="color: #007700">(new&nbsp;class&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">log</span><span style="color: #007700">(</span><span style="color: #0000BB">$msg</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$msg</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />});</span>
+</span>
+</code></div>
+  </div>
+
+ </div>
+ 
+ <p class="para">
+  Pueden pasar argumentos a través de sus constructores, extender otras clases,
+  implementar interfaces, y utilizar rasgos al igual que una clase normal:
+ </p>
+ 
+ <div class="informalexample">
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">SomeClass&nbsp;</span><span style="color: #007700">{}<br />interface&nbsp;</span><span style="color: #0000BB">SomeInterface&nbsp;</span><span style="color: #007700">{}<br />trait&nbsp;</span><span style="color: #0000BB">SomeTrait&nbsp;</span><span style="color: #007700">{}<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(new&nbsp;class(</span><span style="color: #0000BB">10</span><span style="color: #007700">)&nbsp;extends&nbsp;</span><span style="color: #0000BB">SomeClass&nbsp;</span><span style="color: #007700">implements&nbsp;</span><span style="color: #0000BB">SomeInterface&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;</span><span style="color: #0000BB">$num</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">__construct</span><span style="color: #007700">(</span><span style="color: #0000BB">$num</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">num&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$num</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;use&nbsp;</span><span style="color: #0000BB">SomeTrait</span><span style="color: #007700">;<br />});</span>
+</span>
+</code></div>
+  </div>
+
+  <p class="para">El resultado del ejemplo sería:</p>
+  <div class="example-contents screen">
+<div class="cdata"><pre>
+object(class@anonymous)#1 (1) {
+  [&quot;Command line code0x104c5b612&quot;:&quot;class@anonymous&quot;:private]=&gt;
+  int(10)
+}
+</pre></div>
+  </div>
+ </div>
+ 
+ <p class="para">
+  El anidamiento de una clase anónima dentro de otra clase no le proporciona acceso a
+  ningún método o propiedad privados o protegidos de la clase externa. Para
+  utilizar las propiedades o métodos protegidos de la clase externa, la clase anónima
+  puede extender la clase externa. Para utilizar las propiedades privadas de
+  la clase externa en la clase anónima, estos deben pasarse a su
+  constructor:
+ </p>
+ 
+ <div class="informalexample">
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Externa<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;</span><span style="color: #0000BB">$prop&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;protected&nbsp;</span><span style="color: #0000BB">$prop2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;protected&nbsp;function&nbsp;</span><span style="color: #0000BB">func1</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">func2</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;class(</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prop</span><span style="color: #007700">)&nbsp;extends&nbsp;</span><span style="color: #0000BB">Externa&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;</span><span style="color: #0000BB">$prop3</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">__construct</span><span style="color: #007700">(</span><span style="color: #0000BB">$prop</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prop3&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$prop</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">func3</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prop2&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prop3&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">func1</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />echo&nbsp;(new&nbsp;</span><span style="color: #0000BB">Externa</span><span style="color: #007700">)-&gt;</span><span style="color: #0000BB">func2</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">func3</span><span style="color: #007700">();</span>
+</span>
+</code></div>
+  </div>
+
+  <p class="para">El resultado del ejemplo sería:</p>
+  <div class="example-contents screen">
+<div class="cdata"><pre>
+6
+</pre></div>
+  </div>
+ </div>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.traits.html">Traits</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.overloading.html">Sobrecarga</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

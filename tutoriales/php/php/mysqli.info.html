@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene la informaci&oacute;n de la &uacute;ltima consulta ejecutada</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli.get-warnings.html">mysqli::get_warnings</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli.init.html">mysqli::init</a></div>
+ <div class="up"><a href="class.mysqli.html">mysqli</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqli.info" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysqli::$info</h1>
+  <h1 class="refname">mysqli_info</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">mysqli::$info</span> -- <span class="refname">mysqli_info</span> &mdash; <span class="dc-title">Obtiene la información de la última consulta ejecutada</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-mysqli.info-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo orientado a objetos</p>
+  <div class="fieldsynopsis"><span class="type">string</span> <var class="varname"><a href="mysqli.info.html">$mysqli-&gt;info</a></var>;</div>
+
+  <p class="para">Estilo por procedimientos</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>mysqli_info</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.mysqli.html" class="type mysqli">mysqli</a></span> <code class="parameter">$link</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   La función <span class="function"><strong>mysqli_info()</strong></span> devuelve una cadena facilitando
+   información sobre la última consulta ejecutada. La naturaleza de esta cadena está
+   indicada abajo: 
+  </p>
+  <p class="para">
+  <table class="doctable table">
+   <caption><strong>Posibles valores de retorno de mysqli_info</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Tipo de consulta</th>
+      <th>Ejemplo de cadena devuelta</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>INSERT INTO...SELECT...</td>
+      <td>Records: 100 Duplicates: 0 Warnings: 0</td>
+     </tr>
+
+     <tr>
+      <td>INSERT INTO...VALUES (...),(...),(...)</td>
+      <td>Records: 3 Duplicates: 0 Warnings: 0</td>
+     </tr>
+
+     <tr>
+      <td>LOAD DATA INFILE ...</td>
+      <td>Records: 1 Deleted: 0 Skipped: 0 Warnings: 0</td>
+     </tr>
+
+     <tr>
+      <td>ALTER TABLE ...</td>
+      <td>Records: 3 Duplicates: 0 Warnings: 0</td>
+     </tr>
+
+     <tr>
+      <td>UPDATE ...</td>
+      <td>Rows matched: 40 Changed: 40 Warnings: 0</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Las consultas que no estén incluidas en uno de los formatos anteriores no están soportadas.
+    En estas situaciones, <span class="function"><strong>mysqli_info()</strong></span> devolverá una cadena vacía.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-mysqli.info-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+link</code></dt>
+<dd>
+<p class="para">Sólo estilo por procediminetos: Un identificador de enlace
+devuelto por <span class="function"><a href="function.mysqli-connect.html" class="function">mysqli_connect()</a></span> o <span class="function"><a href="mysqli.init.html" class="function">mysqli_init()</a></span>
+</p></dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-mysqli.info-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Una cadena de caracteres representando información adicional sobre la última consulta ejecutrada.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-mysqli.info-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1893">
+   <p><strong>Ejemplo #1 Ejemplo de <var class="varname"><var class="varname">$mysqli->info</var></var></strong></p>
+   <div class="example-contents"><p>Estilo orientado a objetos</p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"my_user"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"my_password"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"world"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;check&nbsp;connection&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Connect&nbsp;failed:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;exit();<br />}<br /><br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TEMPORARY&nbsp;TABLE&nbsp;t1&nbsp;LIKE&nbsp;City"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;INSERT&nbsp;INTO&nbsp;..&nbsp;SELECT&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;t1&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;City&nbsp;ORDER&nbsp;BY&nbsp;ID&nbsp;LIMIT&nbsp;150"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">info</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;close&nbsp;connection&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>Estilo por procedimientos</p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$link&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"my_user"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"my_password"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"world"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;check&nbsp;connection&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Connect&nbsp;failed:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;exit();<br />}<br /><br /></span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$link</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"CREATE&nbsp;TEMPORARY&nbsp;TABLE&nbsp;t1&nbsp;LIKE&nbsp;City"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;INSERT&nbsp;INTO&nbsp;..&nbsp;SELECT&nbsp;*/<br /></span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$link</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;t1&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;City&nbsp;ORDER&nbsp;BY&nbsp;ID&nbsp;LIMIT&nbsp;150"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_info</span><span style="color: #007700">(</span><span style="color: #0000BB">$link</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">/*&nbsp;close&nbsp;connection&nbsp;*/<br /></span><span style="color: #0000BB">mysqli_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$link</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado de los ejemplos sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Records: 150  Duplicates: 0  Warnings: 0
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-mysqli.info-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli.affected-rows.html" class="function" rel="rdfs-seeAlso">mysqli_affected_rows()</a> - Obtiene el n&uacute;mero de filas afectadas en la &uacute;ltima operaci&oacute;n MySQL</span></li>
+    <li class="member"><span class="function"><a href="mysqli.warning-count.html" class="function" rel="rdfs-seeAlso">mysqli_warning_count()</a> - Devuelve el n&uacute;mero de mensajes de advertencia de la &uacute;ltima consulta para un enlace dado</span></li>
+    <li class="member"><span class="function"><a href="mysqli-result.num-rows.html" class="function" rel="rdfs-seeAlso">mysqli_num_rows()</a> - Obtiene el n&uacute;mero de filas de un resultado</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli.get-warnings.html">mysqli::get_warnings</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli.init.html">mysqli::init</a></div>
+ <div class="up"><a href="class.mysqli.html">mysqli</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

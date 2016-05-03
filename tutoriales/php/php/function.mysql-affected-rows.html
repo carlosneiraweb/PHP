@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene el n&uacute;mero de filas afectadas en la anterior operaci&oacute;n de MySQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-client-encoding.html">mysql_client_encoding</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-affected-rows" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_affected_rows</h1>
+  <p class="verinfo">(PHP 4, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_affected_rows</span> &mdash; <span class="dc-title">Obtiene el número de filas afectadas en la anterior operación de MySQL</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-affected-rows-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta extensión fue declarada obsoleta en PHP 5.5.0 y eliminada en PHP 7.0.0.
+En su lugar debería utilzarse las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a>.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Alternatives to this function include:</p>
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli.affected-rows.html" class="function">mysqli_affected_rows()</a></span></li>
+    <li class="member"><span class="methodname"><a href="pdostatement.rowcount.html" class="methodname">PDOStatement::rowCount()</a></span></li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-affected-rows-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>mysql_affected_rows</strong></span>
+    ([ <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code><span class="initializer"> = NULL</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene el número de filas afectadas por la última consulta INSERT, UPDATE, REPLACE
+   o DELETE asociada con <code class="parameter">link_identifier</code>.  
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-affected-rows-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+link_identifier</code></dt>
+<dd>
+<p class="para">La conexión MySQL. Si el
+identificador de enlace no se especifica, el último enlace abierto por
+<span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> es asumido. Si no se encuentra dicho enlace, la
+función intentará establecer un nuevo enlace como si <span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> fuese invocado
+sin parámetros. Si no se encuentra o establece una conexión, un error de nivel
+<strong><code>E_WARNING</code></strong> es generado.</p></dd>
+
+
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-affected-rows-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el número de filas afectadas en caso de éxito, y -1 si la última consulta
+   falló.
+  </p>
+  <p class="para">
+   Si la consulta anterior fue DELETE con ninguna cláusula WHERE, todos
+   los registros habrán sido borrados de la tabla, aunque ésta función
+   devolverá cero con una versión anterior a MySQL 4.1.2.
+  </p>
+  <p class="para">
+   Al utilizar UPDATE, MySQL no actualiza las columnas donde el nuevo valor es el
+   mismo que el anterior. Esto crea la posibilidad de que  
+   <span class="function"><strong>mysql_affected_rows()</strong></span> no pueda equivaler en realidad al número
+   de filas encontradas, solamente el número de filas que estuvieron literalmente afectadas por
+   la consulta.
+  </p>
+  <p class="para">
+   La sentencia REPLACE primero borra el registro con la misma clave primaria
+   y luego inserta el nuevo registro. Esta función devuelve el número de
+   registros borrados más el número de registros insertados.
+  </p>
+  <p class="para">
+   En el caso de consultas &quot;INSERT ... ON DUPLICATE KEY UPDATE&quot;, el 
+   valor devuelto será <em>1</em> si se realizó una inserción,
+   o <em>2</em> para una actualización de una fila existente.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysql-affected-rows-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1783">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysql_affected_rows()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'usuario_mysql'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña_mysql'</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'No&nbsp;se&nbsp;pudo&nbsp;conectar:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">());<br />}<br /></span><span style="color: #0000BB">mysql_select_db</span><span style="color: #007700">(</span><span style="color: #DD0000">'mibd'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Esto&nbsp;debería&nbsp;devolver&nbsp;el&nbsp;número&nbsp;correcto&nbsp;de&nbsp;registros&nbsp;borrados&nbsp;*/<br /></span><span style="color: #0000BB">mysql_query</span><span style="color: #007700">(</span><span style="color: #DD0000">'DELETE&nbsp;FROM&nbsp;mitabla&nbsp;WHERE&nbsp;id&nbsp;&lt;&nbsp;10'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Registros&nbsp;borrados:&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysql_affected_rows</span><span style="color: #007700">());<br /><br /></span><span style="color: #FF8000">/*&nbsp;con&nbsp;una&nbsp;clausula&nbsp;WHERE&nbsp;que&nbsp;nunca&nbsp;es&nbsp;verdad,&nbsp;debería&nbsp;devolver&nbsp;0&nbsp;*/<br /></span><span style="color: #0000BB">mysql_query</span><span style="color: #007700">(</span><span style="color: #DD0000">'DELETE&nbsp;FROM&nbsp;mitabla&nbsp;WHERE&nbsp;0'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Registros&nbsp;borrados:&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysql_affected_rows</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Registros borrados: 10
+Registros borrados: 0
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-1784">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>mysql_affected_rows()</strong></span> al utilizar transacciones</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'usuario_mysql'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña_mysql'</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'No&nbsp;se&nbsp;pudo&nbsp;conectar:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">());<br />}<br /></span><span style="color: #0000BB">mysql_select_db</span><span style="color: #007700">(</span><span style="color: #DD0000">'mibd'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Actualizar&nbsp;registros&nbsp;*/<br /></span><span style="color: #0000BB">mysql_query</span><span style="color: #007700">(</span><span style="color: #DD0000">"UPDATE&nbsp;mitabla&nbsp;SET&nbsp;usado=1&nbsp;WHERE&nbsp;id&nbsp;&lt;&nbsp;10"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">printf&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"Registros&nbsp;actualizados:&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysql_affected_rows</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">mysql_query</span><span style="color: #007700">(</span><span style="color: #DD0000">"COMMIT"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Registros actualizados: 10
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.mysql-affected-rows-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Transacciones</strong><br />
+   <p class="para">
+    Si se usan transacciones, es necesario llamar a
+    <span class="function"><strong>mysql_affected_rows()</strong></span> después de una consulta INSERT, UPDATE, o
+    DELETE, no después del COMMIT.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Sentencias SELECT</strong><br />
+   <p class="para">
+    Para conocer el número de filas devueltas por un SELECT, es posible
+    usar <span class="function"><a href="function.mysql-num-rows.html" class="function">mysql_num_rows()</a></span>.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Claves Foráneas en Cascada</strong><br />
+   <p class="para">
+    <span class="function"><strong>mysql_affected_rows()</strong></span> no cuenta la filas afectadas
+    implícitamente a través del uso de ON DELETE CASCADE y/o ON UPDATE CASCADE
+    en las restricciones de las claves foráneas.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-affected-rows-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-num-rows.html" class="function" rel="rdfs-seeAlso">mysql_num_rows()</a> - Obtener el n&uacute;mero de filas de un conjunto de resultados</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-info.html" class="function" rel="rdfs-seeAlso">mysql_info()</a> - Obtiene informaci&oacute;n sobre la consulta m&aacute;s reciente</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-client-encoding.html">mysql_client_encoding</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

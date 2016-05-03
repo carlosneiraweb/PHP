@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener la representaci&oacute;n de un car&aacute;cter para un d&iacute;gito y base dados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlchar.foldcase.html">IntlChar::foldCase</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.getbidipairedbracket.html">IntlChar::getBidiPairedBracket</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intlchar.fordigit" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">IntlChar::forDigit</h1>
+  <p class="verinfo">(PHP 7)</p><p class="refpurpose"><span class="refname">IntlChar::forDigit</span> &mdash; <span class="dc-title">Obtener la representación de un carácter para un dígito y base dados</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-intlchar.fordigit-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">int</span> <span class="methodname"><strong>IntlChar::forDigit</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$digit</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$radix</code><span class="initializer"> = 10</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Determina la representación de un carácter para un dígito específico en la base especificada.
+  </p>
+  <p class="para">
+   Si el valor de la base no es una base válida, o si el valor del dígito no es un dígito válido en la base especificada,
+   devuelve el carácter null (<em>U+0000</em>).
+  </p>
+  <p class="para">
+   El argumento &#039;radix&#039; es válido si es mayor o igual que <em>2</em> y menor o igual que <em>36</em>.
+   El argumento &#039;digit&#039; es válido si <em>0 &lt;= dígito &lt; base</em>.
+  </p>
+  <p class="para">
+   Si el dígito es menor que <em>10</em>, devuelve &#039;0&#039; + dígito. De lo contrario, deuvleve el valor &#039;a&#039; + dígito - 10.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-intlchar.fordigit-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">digit</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El número a convertir en un carácter.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">radix</code></dt>
+
+    <dd>
+
+     <p class="para">
+      La base (valor predeterminado: <em>10</em>).
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-intlchar.fordigit-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   La representación de un carácter (como <span class="type"><a href="language.types.string.html" class="type string">string</a></span>) del dígito especificado en la base especificada.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-intlchar.fordigit-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2938">
+   <p><strong>Ejemplo #1 Probar diferentes puntos de código</strong></p>
+   <div class="example-contents">
+    <div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">forDigit</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">forDigit</span><span style="color: #007700">(</span><span style="color: #0000BB">3</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">forDigit</span><span style="color: #007700">(</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">forDigit</span><span style="color: #007700">(</span><span style="color: #0000BB">10</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">forDigit</span><span style="color: #007700">(</span><span style="color: #0000BB">10</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">16</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+    <div class="cdata"><pre>
+int(48)
+int(51)
+int(51)
+int(0)
+int(97)
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-intlchar.fordigit-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="intlchar.digit.html" class="function" rel="rdfs-seeAlso">IntlChar::digit()</a> - Obtener el valor del d&iacute;gito decimal de un punto de c&oacute;digo para una base dada</span></li>
+    <li class="member"><span class="function"><a href="intlchar.chardigitvalue.html" class="function" rel="rdfs-seeAlso">IntlChar::charDigitValue()</a> - Obtener el valor del d&iacute;gito decimal de un car&aacute;cter de d&iacute;gito decimal</span></li>
+    <li class="member"><span class="function"><a href="intlchar.isdigit.html" class="function" rel="rdfs-seeAlso">IntlChar::isdigit()</a> - Comprobar si un punto de c&oacute;digo es un car&aacute;cter de d&iacute;gito</span></li>
+    <li class="member"><strong><code>IntlChar::PROPERTY_NUMERIC_TYPE</code></strong></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlchar.foldcase.html">IntlChar::foldCase</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.getbidipairedbracket.html">IntlChar::getBidiPairedBracket</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

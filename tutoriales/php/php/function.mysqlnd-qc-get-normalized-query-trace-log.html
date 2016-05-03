@@ -1,0 +1,330 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve un registro de rastreo de consultas normalizadas para cada consulta inspeccionada por la cach&eacute; de consultas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysqlnd-qc-get-core-stats.html">mysqlnd_qc_get_core_stats</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-qc-get-query-trace-log.html">mysqlnd_qc_get_query_trace_log</a></div>
+ <div class="up"><a href="ref.mysqlnd-qc.html">Funciones de mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysqlnd-qc-get-normalized-query-trace-log" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysqlnd_qc_get_normalized_query_trace_log</h1>
+  <p class="verinfo">(PECL mysqlnd_qc &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">mysqlnd_qc_get_normalized_query_trace_log</span> &mdash; <span class="dc-title">Devuelve un registro de rastreo de consultas normalizadas para cada consulta inspeccionada por la caché de consultas</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysqlnd-qc-get-normalized-query-trace-log-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> 
+   <span class="methodname"><strong>mysqlnd_qc_get_normalized_query_trace_log</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve un registro de rastreo de consultas normalizadas para cada consulta inspeccionada por la caché de consultas.
+   La recopilación del registro de rastreo está deshabilitada de forma predeterminada. Para recopilar
+   el registro de rastreo se ha de establecer la directiva de configuración de PHP
+   <em>mysqlnd_qc.collect_normalized_query_trace</em> a
+   <em>1</em>
+  </p>
+  <p class="para">
+   Las entradas en el registro de rastreo están agrupadas por la sentencia de consulta normalizada.
+   Dicha sentencia es la sentencia de consulta en donde todos los valores de sus
+   parámetros han sido reemplazados por un signo de interrogación. Por ejemplo, Las dos
+   sentencias <em>SELECT id FROM test WHERE id = 1</em> y
+   <em>SELECT id FROM test WHERE id = 2</em> son normalizadas como
+   <em>SELECT id FROM test WHERE id = ?</em>. Siempre que una sentencia
+   sea inspeccionada por la caché de consultas y coincida con el patrón de sentencia normalizado,
+   sus estadísticas son agrupadas por la cadena de sentencia normalizada.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysqlnd-qc-get-normalized-query-trace-log-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">Esta función no tiene parámetros.</p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysqlnd-qc-get-normalized-query-trace-log-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Un array con el registro de consutas. Cada entrada de la lista contiene
+   la cadena de consulta normalizada en información detallada.
+  </p>
+  
+  <table class="doctable informaltable">
+   
+    <col width="1*" />
+    <col width="9*" />
+    <thead>
+     <tr>
+      <th>Clave</th>
+      <th>Descripción</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>
+       <em>query</em>
+      </td>
+      <td>
+       La cadena de sentencia normalizada.
+      </td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>occurences</em>
+      </td>
+      <td>
+       Cuántas sentencias han coincidido con la cadena de sentencia
+       normalizada además de la que creó la entrada en el registro.
+       Este valor es cero si una sentencia ha sido normalizada, su representación
+       normalizada ha sido añadida al registro y ninguna consulta inspeccionada
+       por PECL/mysqlnd_qc tiene la misma cadena de sentencia normalizada.
+      </td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>eligible_for_caching</em>
+      </td>
+      <td>
+       Si una sentencia podría ser almacenada en caché. Una sentencia candidata para ser
+       almacenada en caché no tiene que ser almacenada necesariamente. No es posible indicar
+       con certeza cuántas sentencias almacenadas en caché han contribuido a la
+       entrada del registro de la sentencia normalizada acumulada. Sin embargo, comparando
+       el tiempo de ejecución mínimo y medio se puede hacer una estimación fundamentada.
+      </td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>avg_run_time</em>
+      </td>
+      <td>
+       El tiempo de ejecución medio de todas las consultas que contribuyen a la
+       entrada del registro. El tiempo de ejcución es el intervalo entre el envío de la
+       sentencia de consulta a MySQL y el recibimiento de la respuesta desde MySQL.
+      </td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>avg_store_time</em>
+      </td>
+      <td>
+       El tiempo de almacenamiento medio de todas las consultas que contribuyen a la
+       entrada del registro. El tiempo de almacenamiento es el tiempo necesario para obtener
+       un conjunto de resultados de una sentencia desde el sevidor al cliente, y
+       almacenarlo en el cliente.
+      </td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>min_run_time</em>
+      </td>
+      <td>
+       El tiempo de ejecución mínimo de todas las consultas que contribuyen a la
+       entrada del registro.
+      </td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>min_store_time</em>
+      </td>
+      <td>
+       El tiempo de almacenamiento mínimo de todas las consultas que contribuyen a la
+       entrada del registro.
+      </td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>max_run_time</em>
+      </td>
+      <td>
+       El tiempo de ejecución máximo de todas las consultas que contribuyen a la
+       entrada del registro.
+      </td>
+     </tr>
+
+     <tr>
+      <td>
+       <em>max_store_time</em>
+      </td>
+      <td>
+       El tiempo de almacenamiento máximo de todas las consultas que contribuyen a la
+       entrada del registro.
+      </td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </div>
+
+ 
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysqlnd-qc-get-normalized-query-trace-log-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2100">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysqlnd_qc_get_normalized_query_trace_log()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="inicode"><pre class="inicode">mysqlnd_qc.collect_normalized_query_trace=1</pre>
+</div>
+   </div>
+
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Conectar,&nbsp;crear&nbsp;y&nbsp;rellenar&nbsp;la&nbsp;tabla&nbsp;test&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"host"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"esquema"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"puerto"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"socket"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT)"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id)&nbsp;VALUES&nbsp;(1),&nbsp;(2)"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;no&nbsp;almacenanda&nbsp;en&nbsp;caché&nbsp;*/<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id&nbsp;FROM&nbsp;test&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;1"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">free</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;colocada&nbsp;en&nbsp;caché&nbsp;*/<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"/*"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">MYSQLND_QC_ENABLE_SWITCH&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"*/"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;id&nbsp;FROM&nbsp;test&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;2"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">free</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;coincidencia&nbsp;en&nbsp;la&nbsp;caché&nbsp;*/<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"/*"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">MYSQLND_QC_ENABLE_SWITCH&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"*/"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;id&nbsp;FROM&nbsp;test&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;2"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">free</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">mysqlnd_qc_get_normalized_query_trace_log</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado de los ejemplos sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+array(1) {
+  [&quot;id&quot;]=&gt;
+  string(1) &quot;1&quot;
+}
+array(1) {
+  [&quot;id&quot;]=&gt;
+  string(1) &quot;2&quot;
+}
+array(1) {
+  [&quot;id&quot;]=&gt;
+  string(1) &quot;2&quot;
+}
+array(4) {
+  [0]=&gt;
+  array(9) {
+    [&quot;query&quot;]=&gt;
+    string(25) &quot;DROP TABLE IF EXISTS test&quot;
+    [&quot;occurences&quot;]=&gt;
+    int(0)
+    [&quot;eligible_for_caching&quot;]=&gt;
+    bool(false)
+    [&quot;avg_run_time&quot;]=&gt;
+    int(0)
+    [&quot;min_run_time&quot;]=&gt;
+    int(0)
+    [&quot;max_run_time&quot;]=&gt;
+    int(0)
+    [&quot;avg_store_time&quot;]=&gt;
+    int(0)
+    [&quot;min_store_time&quot;]=&gt;
+    int(0)
+    [&quot;max_store_time&quot;]=&gt;
+    int(0)
+  }
+  [1]=&gt;
+  array(9) {
+    [&quot;query&quot;]=&gt;
+    string(27) &quot;CREATE TABLE test (id INT )&quot;
+    [&quot;occurences&quot;]=&gt;
+    int(0)
+    [&quot;eligible_for_caching&quot;]=&gt;
+    bool(false)
+    [&quot;avg_run_time&quot;]=&gt;
+    int(0)
+    [&quot;min_run_time&quot;]=&gt;
+    int(0)
+    [&quot;max_run_time&quot;]=&gt;
+    int(0)
+    [&quot;avg_store_time&quot;]=&gt;
+    int(0)
+    [&quot;min_store_time&quot;]=&gt;
+    int(0)
+    [&quot;max_store_time&quot;]=&gt;
+    int(0)
+  }
+  [2]=&gt;
+  array(9) {
+    [&quot;query&quot;]=&gt;
+    string(40) &quot;INSERT INTO test (id ) VALUES (? ), (? )&quot;
+    [&quot;occurences&quot;]=&gt;
+    int(0)
+    [&quot;eligible_for_caching&quot;]=&gt;
+    bool(false)
+    [&quot;avg_run_time&quot;]=&gt;
+    int(0)
+    [&quot;min_run_time&quot;]=&gt;
+    int(0)
+    [&quot;max_run_time&quot;]=&gt;
+    int(0)
+    [&quot;avg_store_time&quot;]=&gt;
+    int(0)
+    [&quot;min_store_time&quot;]=&gt;
+    int(0)
+    [&quot;max_store_time&quot;]=&gt;
+    int(0)
+  }
+  [3]=&gt;
+  array(9) {
+    [&quot;query&quot;]=&gt;
+    string(31) &quot;SELECT id FROM test WHERE id =?&quot;
+    [&quot;occurences&quot;]=&gt;
+    int(2)
+    [&quot;eligible_for_caching&quot;]=&gt;
+    bool(true)
+    [&quot;avg_run_time&quot;]=&gt;
+    int(159)
+    [&quot;min_run_time&quot;]=&gt;
+    int(12)
+    [&quot;max_run_time&quot;]=&gt;
+    int(307)
+    [&quot;avg_store_time&quot;]=&gt;
+    int(10)
+    [&quot;min_store_time&quot;]=&gt;
+    int(8)
+    [&quot;max_store_time&quot;]=&gt;
+    int(13)
+  }
+}
+</pre></div>
+   </div>
+   
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysqlnd-qc-get-normalized-query-trace-log-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member">
+     <a href="mysqlnd-qc.configuration.html" class="link">Configuración en tiempo de ejecución</a>
+    </li>
+    <li class="member">
+     <a href="mysqlnd-qc.configuration.html#ini.mysqlnd-qc.collect-query-trace" class="link">mysqlnd_qc.collect_normalized_query_trace</a>
+    </li>
+    <li class="member">
+     <a href="mysqlnd-qc.configuration.html#ini.mysqlnd-qc.time-statistics" class="link">mysqlnd_qc.time_statistics</a>
+    </li>
+    <li class="member">
+     <span class="function"><a href="function.mysqlnd-qc-get-query-trace-log.html" class="function" rel="rdfs-seeAlso">mysqlnd_qc_get_query_trace_log()</a> - Devuelve informaci&oacute;n de rastreo para cada consulta inspeccionada por la cach&eacute; de consultas</span>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysqlnd-qc-get-core-stats.html">mysqlnd_qc_get_core_stats</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-qc-get-query-trace-log.html">mysqlnd_qc_get_query_trace_log</a></div>
+ <div class="up"><a href="ref.mysqlnd-qc.html">Funciones de mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

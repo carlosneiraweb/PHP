@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Datos Enviados por el Usuario</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.globals.html">Usando Register Globals</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.magicquotes.html">Comillas M&aacute;gicas</a></div>
+ <div class="up"><a href="security.html">Seguridad</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="security.variables" class="chapter">
+ <h1>Datos Enviados por el Usuario</h1>
+
+ <p class="para">
+  Las mayores debilidades de muchos programas <acronym title="PHP: Hypertext Preprocessor">PHP</acronym> no son inherentes al
+  lenguaje mismo, sino simplemente un problema generado cuando se escribe
+  código sin pensar en la seguridad. Por esta razón, usted debería tomarse
+  siempre el tiempo para considerar las implicaciones de cada pedazo de
+  código, para averiguar el posible peligro involucrado cuando una variable
+  inesperada es enviada.
+  <div class="example" id="example-390">
+   <p><strong>Ejemplo #1 Uso Peligroso de Variables</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;eliminar&nbsp;un&nbsp;archivo&nbsp;del&nbsp;directorio&nbsp;personal&nbsp;del&nbsp;usuario&nbsp;..&nbsp;¿o<br />//&nbsp;quizás&nbsp;de&nbsp;alguien&nbsp;más?<br /><br /></span><span style="color: #0000BB">unlink&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$variable_malvada</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Imprimir&nbsp;el&nbsp;registro&nbsp;del&nbsp;acceso...&nbsp;¿o&nbsp;quizás&nbsp;una&nbsp;entrada&nbsp;de&nbsp;/etc/passwd?<br /></span><span style="color: #0000BB">fwrite&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$desc_archivo</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$variable_malvada</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ejecutar&nbsp;algo&nbsp;trivial..&nbsp;¿o&nbsp;rm&nbsp;-rf&nbsp;*?<br /></span><span style="color: #0000BB">system&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$variable_malvada</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">exec&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$variable_malvada</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  Usted debería examinar siempre, y cuidadosamente su código para asegurarse
+  de que cualquier variable siendo enviada desde un navegador web sea
+  chequeada apropiadamente, y preguntarse a sí mismo:
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <span class="simpara">
+     ¿Este script afectará únicamente los archivos que se pretende?
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     ¿Puede tomarse acción sobre datos inusuales o indeseados?
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     ¿Puede ser usado este script en formas malintencionadas?
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     ¿Puede ser usado en conjunto con otros scripts en forma negativa?
+    </span>
+   </li>
+   <li class="listitem">
+    <span class="simpara">
+     ¿Serán adecuadamente registradas las transacciones?
+    </span>
+   </li>
+  </ul>
+ </p>
+ <p class="para">
+  Al preguntarse adecuadamente estas preguntas mientras escribe su script,
+  en lugar de hacerlo posteriormente, usted previene una desafortunada
+  re-implementación del programa cuando desee incrementar el nivel de
+  seguridad. Al comenzar con esta mentalidad, no garantizará la seguridad de
+  su sistema, pero puede ayudar a mejorarla.
+ </p>
+ <p class="para">
+  Puede que también desee considerar la deshabilitación de register_globals,
+  magic_quotes, u otros parámetros convenientes que pueden causar confusión
+  sobre la validez, fuente o valor de una determinada variable. Trabajar con
+  <acronym title="PHP: Hypertext Preprocessor">PHP</acronym> en modo error_reporting(E_ALL) también puede ayudarle a advertir
+  variables que están siendo usadas antes de ser chequeadas o inicializadas
+  (de modo que puede prevenir que datos inusuales produzcan operaciones
+  inadvertidas).
+ </p>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.globals.html">Usando Register Globals</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.magicquotes.html">Comillas M&aacute;gicas</a></div>
+ <div class="up"><a href="security.html">Seguridad</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

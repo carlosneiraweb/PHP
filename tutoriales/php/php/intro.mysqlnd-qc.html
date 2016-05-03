@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Introducci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.mysqlnd-qc.html">mysqlnd_qc</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-qc.quickstart.html">Guia r&aacute;pida y ejemplos</a></div>
+ <div class="up"><a href="book.mysqlnd-qc.html">mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intro.mysqlnd-qc" class="preface">
+  <h1 class="title">Introducción</h1>
+  <p class="para">
+   El complemento de caché de resultados de consultas de mysqlnd facilita el uso del almacenamiento
+   en caché de consultas en el lado del cliente para todas las extensiones de MySQL para PHP que utilicen
+   <a href="book.mysqlnd.html" class="link">mysqlnd</a>.
+  </p>
+  <p class="para">
+   A partir de la versión 5.3.3 de PHP, el controlador nativo de MySQL para PHP
+   (<em>mysqlnd</em>)
+   introduce una API en C de complementos internos. Los complementos en C, tales como el complemento
+   de caché de consultas, pueden ampliar la funcionalidad de
+   <a href="book.mysqlnd.html" class="link">mysqlnd</a>.
+  </p>
+  <p class="para">
+   Los complementos de mysqlnd, tales como el complemento de caché de consultas, operan de forma transparente
+   desde la perspectiva del usuario. El complemento de caché admite todas las apliaciones de PHP
+   y todas las extensiones de MySQL para PHP (
+   <a href="ref.mysqli.html" class="link">mysqli</a>,
+   <a href="ref.mysql.html" class="link">mysql</a>,
+   <a href="ref.pdo-mysql.html" class="link">PDO_MYSQL</a>).
+   No cambia ninguna API existente.
+  </p>
+  <p class="para">
+   No es necesario hacer cambios significativos en una aplicación para almacenar en caché una consulta.
+   La caché tiene dos modos de operar. Almacenará en caché todas las
+   consultas (no recomendado), o simplemente aquellas consultas marcadas con una
+   sugerencia SQL en particular (recomendado).
+  </p>
+  
+  <div class="section" id="mysqlnd-qc.key-features">
+   <h2 class="title">Características principales</h2>
+   <p class="para">
+    <ul class="itemizedlist">
+     <li class="listitem">
+      <p class="para">
+       Es transparente y por lo tanto fácil de usar
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          admite todas las extensiones de MySQL para PHP
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          sin cambios en la API
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          son necesarios muy pocos cambios en la aplicación
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       Estrategia de invalidación flexible
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          tiempo de vida (TTL)
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          definida por el usuario
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       Almacenamiento con diferentes ámbitos y periodos de vida
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Default (Hash, procesa la memoria)
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          <a href="ref.apc.html" class="link">APC</a>
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          MEMCACHE
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          sqlite
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          definido por el usuario
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       Defensa de cierre interna para prevenir la estampida de la caché.
+      </p>
+     </li>
+    </ul>
+   </p>
+  </div>
+  
+  <div class="section" id="mysqlnd-qc.limitations">
+   <h2 class="title">Limitaciones</h2>
+   <p class="para">
+    La versión 1.0.1 actual de PECL mysqlnd_qc
+    no admite PHP 5.4. La versión 1.1.0-alpha elimina esta limitación.
+   </p>
+   <p class="para">
+    Las setencias preparadas y las consultas no almacenadas en búfer están totalmente soportadas.
+    Por lo tanto, el complemento puede almacenar en caché todas las sentencias emitidas
+    con <em>mysqli</em> o <em>PDO_MySQL</em>, la cuales son
+    las únicas dos APIs de MySQL para PHP que ofrecen soporte para sentencias preparadas.
+   </p>
+  </div>
+  
+  <div class="section" id="mysqlnd-qc.name">
+   <h2 class="title">Sobre el nombre</h2>
+   <p class="para">
+    La abreviatura <em>mysqlnd_qc</em>
+    significa <em>complemento de caché de consultas de mysqlnd</em>. El nombre
+    fue elegido por una rápida y desordenada prueba de conceptos. Al principio,
+    los desarrolladores no esperaban que se continuase usando el código base.
+    Algunas veces, a PECL/mysqlnd_qc también se le ha llamado
+    <em>caché de conjuntos de resultados de consultas del lado del cliente</em>.
+   </p>
+  </div>
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.mysqlnd-qc.html">mysqlnd_qc</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-qc.quickstart.html">Guia r&aacute;pida y ejemplos</a></div>
+ <div class="up"><a href="book.mysqlnd-qc.html">mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,266 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configuraci&oacute;n en tiempo de ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ibm-db2.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ibm-db2.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="ibm-db2.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="ibm-db2.configuration" class="section">
+ <h2 class="title">Configuración en tiempo de ejecución</h2>
+ <p class="simpara">
+El comportamiento de estas funciones se ve afectado por la configuración de <var class="filename">php.ini</var>.
+</p>
+ <p class="para">
+  <table class="doctable table">
+   <caption><strong>Opciones de configuración de ibm_db2</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Nombre</th>
+      <th>Por defecto</th>
+      <th>Cambiable</th>
+      <th>Registro de cambios</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><a href="ibm-db2.configuration.html#ini.ibm-db2.binmode" class="link">ibm_db2.binmode</a></td>
+      <td>&quot;1&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td class="empty">&nbsp;</td>
+     </tr>
+
+     <tr>
+      <td><a href="ibm-db2.configuration.html#ini.ibm-db2.i5-all-pconnect" class="link">ibm_db2.i5_all_pconnect</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde ibm_db2 1.6.5.</td>
+     </tr>
+     
+     <tr>
+      <td><a href="ibm-db2.configuration.html#ini.ibm-db2.i5-allow-commit" class="link">ibm_db2.i5_allow_commit</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde ibm_db2 1.4.9.</td>
+     </tr>
+
+     <tr>
+      <td><a href="ibm-db2.configuration.html#ini.ibm-db2.i5-dbcs-alloc" class="link">ibm_db2.i5_dbcs_alloc</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde ibm_db2 1.5.0.</td>
+     </tr>
+
+     <tr>
+      <td><a href="ibm-db2.configuration.html#ini.ibm-db2.instance-name" class="link">ibm_db2.instance_name</a></td>
+      <td>NULL</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde ibm_db2 1.0.2.</td>
+     </tr>
+
+     <tr>
+      <td><a href="ibm-db2.configuration.html#ini.ibm-db2.i5-ignore-userid" class="link">ibm_db2.i5_ignore_userid</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_SYSTEM</td>
+      <td>Disponible desde ibm_db2 1.8.0.</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  
+ </p>
+ 
+ <p class="para">He aquí una breve explicación de
+las directivas de configuración.</p>
+ 
+ <p class="para">
+  <dl>
+
+   
+    <dt id="ini.ibm-db2.binmode">
+     <code class="parameter">ibm_db2.binmode</code>
+     <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Esta opción controla el modo que se usará para convertir desde y hasta datos
+      binarios en la aplicación PHP.
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <p class="para">
+         1 (DB2_BINARY)
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         2 (DB2_CONVERT)
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         3 (DB2_PASSTHRU)
+        </p>
+       </li>
+      </ul>
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.ibm-db2.i5-all-pconnect">
+     <code class="parameter">ibm_db2.i5_all_pconnect</code>
+     <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Esta opción sobrescribe la apertura y cierre i5 <span class="function"><a href="function.db2-connect.html" class="function">db2_connect()</a></span> dentro de
+      PHP. Cuando <code class="parameter">ibm_db2.i5_all_pconnect</code> = 1, todas las conexiones de db2
+      serán persistentes (<span class="function"><a href="function.db2-pconnect.html" class="function">db2_pconnect()</a></span>). En i5/OS, <span class="function"><a href="function.db2-pconnect.html" class="function">db2_pconnect()</a></span> lo realiza
+      significativamente mejor, empleando menos recurso de máquina que <span class="function"><a href="function.db2-connect.html" class="function">db2_connect()</a></span>. Es un buen
+      reemplazo de <span class="function"><a href="function.db2-connect.html" class="function">db2_connect()</a></span> para invocar <span class="function"><a href="function.db2-pconnect.html" class="function">db2_pconnect()</a></span> sin modificaciones
+      del código fuente de PHP. 
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <p class="para">
+         0 <span class="function"><a href="function.db2-connect.html" class="function">db2_connect()</a></span> apertura y cierre completo por omisión
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         1 <span class="function"><a href="function.db2-connect.html" class="function">db2_connect()</a></span> sobrescribe <span class="function"><a href="function.db2-pconnect.html" class="function">db2_pconnect()</a></span> sólo en conexiones persistentes
+        </p>
+       </li>
+      </ul>
+     </p>
+    </dd>
+
+      
+   
+    <dt id="ini.ibm-db2.i5-allow-commit">
+     <code class="parameter">ibm_db2.i5_allow_commit</code>
+     <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Esta opción controla el modo de &#039;commit&#039; (aplicar cambios) que se usa en conelciones
+      de esquemas i5 en aplicaciones PHP.
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <p class="para">
+         0 sin commit (vea <code class="parameter">i5_commit</code> para sobrescribir)
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         1 permite commit (vea <code class="parameter">i5_commit</code> para sobrescribirlo)
+        </p>
+       </li>
+      </ul>
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.ibm-db2.i5-dbcs-alloc">
+     <code class="parameter">ibm_db2.i5_dbcs_alloc</code>
+     <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Esta opción controla la ubicación interna de esquemas ibm_db2 en buffers
+      de columnas DBCS de gran tamaño.
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <p class="para">
+         0 sin expandir su ubicación (vea <code class="parameter">i5_dbcs_alloc</code> para sobrescribirlo)
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         1 usa ubicaciones expandidas (vea <code class="parameter">i5_dbcs_alloc</code> para sobrescribirlo)
+        </p>
+       </li>
+      </ul>
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.ibm-db2.instance-name">
+     <code class="parameter">ibm_db2.instance_name</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      En sistemas Linux y Unix, esta opción declara el nombre de instancia que se
+      utilizará para catalogar las conexiones a bases de datos. Si se estableciera un valor,
+      sobrescribirá la variable de entorno DB2INSTANCE.
+     </p>
+     <p class="para">
+      En sistemas operativos Windows, esta opción se ignora.
+     </p>
+    </dd>
+
+   
+   
+    <dt id="ini.ibm-db2.i5-ignore-userid">
+     <code class="parameter">ibm_db2.i5_ignore_userid</code>
+     <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Esta opción establece el id de usuario y la contraseña en i5 db2_(p)connect
+      dentro de una aplicación PHP. Cuando <code class="parameter">ibm_db2.i5_ignore_userid</code> = 1, 
+      todas las conexiones db2 establecen a null el id de usuario y la contraseña. De ese modo,
+      las tareas de Apache usarán el perfil activo (NOBODY). Este perfil es útil
+      sobre todo en páginas web sencillas basadas en DB2 que no necesiten cambiar perfiles, y
+      por tanto se pueda evitar todo el consumo adicional del modo de servidor de
+      tareas QSQSRVR adicionales. Es un remplazo conveiente de db2_(p)connect para asignar
+      null en los valores de userid y password sin tener que modificar el fuente de PHP. Se puede usar
+      junto con <code class="parameter">ibm_db2.i5_all_pconnect</code> = 1.
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <p class="para">
+         0 db2_(p)connect - conecta con el id de usuario y contraseña especificados
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         1 db2_(p)connect - establece a null el id de usuario y contraseña de la conexión
+        </p>
+       </li>
+      </ul>
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </p>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ibm-db2.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ibm-db2.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="ibm-db2.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

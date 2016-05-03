@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Crea una nueva fecha</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mongodate.html">MongoDate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongodate.todatetime.html">MongoDate::toDateTime</a></div>
+ <div class="up"><a href="class.mongodate.html">MongoDate</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongodate.construct" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">MongoDate::__construct</h1>
+  <p class="verinfo">(PECL mongo &gt;= 0.8.1)</p><p class="refpurpose"><span class="refname">MongoDate::__construct</span> &mdash; <span class="dc-title">Crea una nueva fecha</span></p>
+
+ </div>
+
+ <div id="mongodate.construct-soft-deprecation-notice" class="soft-deprecation-notice">
+  <blockquote class="sidebar">
+   <p class="para">Esta extenisón que define este método
+está obsoleta. En su lugar debe usarse la extensión <a href="set.mongodb.html" class="link">MongoDB</a>.
+Las alternativas a este método son:</p>
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="mongodb-bson-utcdatetime.construct.html" class="methodname">MongoDB\BSON\UTCDateTime::__construct()</a></span></li>
+   </ul>
+  </blockquote>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-mongodate.construct-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="methodname"><strong>MongoDate::__construct</strong></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$sec</code><span class="initializer"> = time()</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$usec</code><span class="initializer"> = 0</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Crea una nueva fecha. Si no se proporciona ningún parámetro, se utilizará la hora actual.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-mongodate.construct-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+
+      <code class="parameter">sec</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       Número de segundos desde la época (es decir, 1 enero 1970 00:00:00.000 UTC).
+      </p>
+     </dd>
+
+         
+    
+     <dt>
+
+      <code class="parameter">usec</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       Microsegundos. Por favor, tenga en cuenta que la resolución de MongoDB es
+       <em class="emphasis">milisegundos</em> y no microsegundos, lo que significa que este
+       valor será truncado a la resolución de milisegundos.
+      </p>
+     </dd>
+
+         
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-mongodate.construct-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve esta nueva fecha.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-mongodate.construct-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1625">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>MongoDate::__construct()</strong></span></strong></p>
+   <div class="example-contents"><p>Este ejemplo muestra cómo crear una nueva fecha con la hora actual y una nueva fecha con la hora proporcionada.</p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$f&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoDate</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$f</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoDate</span><span style="color: #007700">(</span><span style="color: #0000BB">1234567890</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$f</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoDate</span><span style="color: #007700">(</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"2009-05-01&nbsp;00:00:01"</span><span style="color: #007700">));<br />echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$f</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+0.23660600 1235685067
+0.00000000 1234567890
+0.00000000 1241150401
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-mongodate.construct-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="mongodate.tostring.html" class="methodname" rel="rdfs-seeAlso">MongoDate::__toString()</a> - Devuelve una representaci&oacute;n en forma de texto de esta fecha</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mongodate.html">MongoDate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongodate.todatetime.html">MongoDate::toDateTime</a></div>
+ <div class="up"><a href="class.mongodate.html">MongoDate</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

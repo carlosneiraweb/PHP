@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Realiza una b&uacute;squeda y sustituci&oacute;n de una expresi&oacute;n regular</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.pcre.html">Funciones de PCRE</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.preg-grep.html">preg_grep</a></div>
+ <div class="up"><a href="ref.pcre.html">Funciones de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.preg-filter" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">preg_filter</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7)</p><p class="refpurpose"><span class="refname">preg_filter</span> &mdash; <span class="dc-title">Realiza una búsqueda y sustitución de una expresión regular</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.preg-filter-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>preg_filter</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$pattern</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$replacement</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$subject</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$limit</code><span class="initializer"> = -1</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter reference">&$count</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>preg_filter()</strong></span> es idéntica a <span class="function"><a href="function.preg-replace.html" class="function">preg_replace()</a></span>
+   excepto que sólo devuelve los sujetos (posiblemente tranformados) donde hubo
+   una coincidencia. Los detalles de cómo trabaja esta función se encuentra en la
+   documentación de <span class="function"><a href="function.preg-replace.html" class="function">preg_replace()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.preg-filter-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un <span class="type"><a href="language.types.array.html" class="type array">array</a></span> si el parámetro <code class="parameter">subject</code>
+   es un <span class="type"><a href="language.types.array.html" class="type array">array</a></span>, de lo contrario devuelve un <span class="type"><a href="language.types.string.html" class="type string">string</a></span>.
+  </p>
+  <p class="para">
+   Si no se encontraron coincidencias u ocurrió un error, se devuelve un <span class="type"><a href="language.types.array.html" class="type array">array</a></span>
+   vacío cuando <code class="parameter">subject</code> es un <span class="type"><a href="language.types.array.html" class="type array">array</a></span>
+   o <strong><code>NULL</code></strong> de otro modo.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.preg-filter-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5335">
+    <p><strong>Ejemplo #1 
+     Ejemplo comparando <span class="function"><strong>preg_filter()</strong></span> 
+     con <span class="function"><a href="function.preg-replace.html" class="function">preg_replace()</a></span>
+    </strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$sujeto&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'1'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'a'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'2'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'b'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'3'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'A'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'B'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'4'</span><span style="color: #007700">);&nbsp;<br /></span><span style="color: #0000BB">$patrón&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'/\d/'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'/[a-z]/'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'/[1a]/'</span><span style="color: #007700">);&nbsp;<br /></span><span style="color: #0000BB">$sustitución&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'A:$0'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'B:$0'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'C:$0'</span><span style="color: #007700">);&nbsp;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"preg_filter&nbsp;devuelve\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">preg_filter</span><span style="color: #007700">(</span><span style="color: #0000BB">$patrón</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sustitución</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sujeto</span><span style="color: #007700">));&nbsp;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"preg_replace&nbsp;devuelve\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">preg_replace</span><span style="color: #007700">(</span><span style="color: #0000BB">$patrón</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sustitución</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sujeto</span><span style="color: #007700">));&nbsp;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+preg_filter devuelve
+Array
+(
+    [0] =&gt; A:C:1
+    [1] =&gt; B:C:a
+    [2] =&gt; A:2
+    [3] =&gt; B:b
+    [4] =&gt; A:3
+    [7] =&gt; A:4
+)
+preg_replace devuelve
+Array
+(
+    [0] =&gt; A:C:1
+    [1] =&gt; B:C:a
+    [2] =&gt; A:2
+    [3] =&gt; B:b
+    [4] =&gt; A:3
+    [5] =&gt; A
+    [6] =&gt; B
+    [7] =&gt; A:4
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.preg-filter-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><a href="pcre.pattern.html" class="link">Patrones de PCRE</a></li>
+    <li class="member"><span class="function"><a href="function.preg-quote.html" class="function" rel="rdfs-seeAlso">preg_quote()</a> - Escapar caracteres en una expresi&oacute;n regular</span></li>
+    <li class="member"><span class="function"><a href="function.preg-replace.html" class="function" rel="rdfs-seeAlso">preg_replace()</a> - Realiza una b&uacute;squeda y sustituci&oacute;n de una expresi&oacute;n regular</span></li>
+    <li class="member"><span class="function"><a href="function.preg-replace-callback.html" class="function" rel="rdfs-seeAlso">preg_replace_callback()</a> - Realiza una b&uacute;squeda y sustituci&oacute;n de una expresi&oacute;n regular usando una llamada de retorno</span></li>
+    <li class="member"><span class="function"><a href="function.preg-grep.html" class="function" rel="rdfs-seeAlso">preg_grep()</a> - Devuelve entradas de matriz que coinciden con el patr&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="function.preg-last-error.html" class="function" rel="rdfs-seeAlso">preg_last_error()</a> - Devuelve el c&oacute;digo de error de la &uacute;ltima ejecuci&oacute;n de expresi&oacute;n regular de PCRE</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.pcre.html">Funciones de PCRE</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.preg-grep.html">preg_grep</a></div>
+ <div class="up"><a href="ref.pcre.html">Funciones de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

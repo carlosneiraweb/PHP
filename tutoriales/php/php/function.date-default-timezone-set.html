@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establece la zona horaria predeterminada usada por todas las funciones de fecha/hora en un script</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.date-default-timezone-get.html">date_default_timezone_get</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.date-diff.html">date_diff</a></div>
+ <div class="up"><a href="ref.datetime.html">Funciones de Fecha/Hora</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.date-default-timezone-set" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">date_default_timezone_set</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7)</p><p class="refpurpose"><span class="refname">date_default_timezone_set</span> &mdash; <span class="dc-title">
+   Establece la zona horaria predeterminada usada por todas las funciones de fecha/hora en un script
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.date-default-timezone-set-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>date_default_timezone_set</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$timezone_identifier</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>date_default_timezone_set()</strong></span> establece la zona horaria predetermiada usada
+   por todas las funciones de fecha/hora.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    A partir de PHP 5.1.0 (cuando las funciones de fecha/hora fueron reescritas), cada llamada
+    a la función de fecha/hora generará un <strong><code>E_NOTICE</code></strong> si
+    la zona horaria no es válida, y/o un mensaje <strong><code>E_WARNING</code></strong>
+    si se usa la configuración del sistema o la variable de entorno
+    <var class="varname"><var class="varname">TZ</var></var>.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   En vez de usar esta función para establecer la zona horaria predeterminada en su script,
+   puede usar también la configuración INI <a href="datetime.configuration.html#ini.date.timezone" class="link">date.timezone</a> para establecer la zona horaria
+   predeterminada.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.date-default-timezone-set-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">timezone_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El indentificador de la zona horaria, como <em>UTC</em> o
+       <em>Europe/Lisbon</em>. La lista de los identificadores válidos está
+       disponible en la <a href="timezones.html" class="xref">Listado de zonas horarias admitidas</a>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.date-default-timezone-set-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Esta función devuelve <strong><code>FALSE</code></strong> si
+   <code class="parameter">timezone_identifier</code> no es válido, o <strong><code>TRUE</code></strong>
+   de otro modo.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.date-default-timezone-set-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2530">
+    <p><strong>Ejemplo #1 Obtener la zona horaria por defecto</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />date_default_timezone_set</span><span style="color: #007700">(</span><span style="color: #DD0000">'America/Los_Angeles'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$script_tz&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">date_default_timezone_get</span><span style="color: #007700">();<br /><br />if&nbsp;(</span><span style="color: #0000BB">strcmp</span><span style="color: #007700">(</span><span style="color: #0000BB">$script_tz</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">ini_get</span><span style="color: #007700">(</span><span style="color: #DD0000">'date.timezone'</span><span style="color: #007700">))){<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'La&nbsp;zona&nbsp;horaria&nbsp;del&nbsp;script&nbsp;difiere&nbsp;de&nbsp;la&nbsp;zona&nbsp;horaria&nbsp;de&nbsp;la&nbsp;configuracion&nbsp;ini.'</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'La&nbsp;zona&nbsp;horaria&nbsp;del&nbsp;script&nbsp;y&nbsp;la&nbsp;zona&nbsp;horaria&nbsp;de&nbsp;la&nbsp;configuración&nbsp;ini&nbsp;coinciden.'</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.date-default-timezone-set-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Ahora se lanza un <strong><code>E_WARNING</code></strong> en vez de un
+        <strong><code>E_STRICT</code></strong>.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.1.2</td>
+       <td>
+        La función comenzo a validar el parámetro
+        <code class="parameter">timezone_identifier</code>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.date-default-timezone-set-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.date-default-timezone-get.html" class="function" rel="rdfs-seeAlso">date_default_timezone_get()</a> - Obtiene la zona horaria predeterminada usada por todas las funciones de fecha/hora en un script</span></li>
+    <li class="member"><a href="timezones.html" class="xref">Listado de zonas horarias admitidas</a></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.date-default-timezone-get.html">date_default_timezone_get</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.date-diff.html">date_diff</a></div>
+ <div class="up"><a href="ref.datetime.html">Funciones de Fecha/Hora</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

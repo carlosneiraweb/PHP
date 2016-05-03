@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configuraci&oacute;n en tiempo de ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="outcontrol.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="outcontrol.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="outcontrol.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="outcontrol.configuration" class="section">
+ <h2 class="title">Configuración en tiempo de ejecución</h2>
+ <p class="simpara">
+El comportamiento de estas funciones se ve afectado por la configuración de <var class="filename">php.ini</var>.
+</p>
+ <p class="para">
+  <table class="doctable table">
+   <caption><strong>Opciones de configuración del Control de la salida</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Nombre</th>
+      <th>Por defecto</th>
+      <th>Cambiable</th>
+      <th>Historial de cambios</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td><a href="outcontrol.configuration.html#ini.output-buffering" class="link">output_buffering</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_PERDIR</td>
+      <td class="empty">&nbsp;</td>
+     </tr>
+
+     <tr>
+      <td><a href="outcontrol.configuration.html#ini.output-handler" class="link">output_handler</a></td>
+      <td>NULL</td>
+      <td>PHP_INI_PERDIR</td>
+      <td>Disponible desde PHP 4.0.4.</td>
+     </tr>
+
+     <tr>
+      <td><a href="outcontrol.configuration.html#ini.implicit-flush" class="link">implicit_flush</a></td>
+      <td>&quot;0&quot;</td>
+      <td>PHP_INI_ALL</td>
+      <td>PHP_INI_PERDIR en PHP &lt;= 4.2.3.</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  Para más detalles y definiciones de los modos de
+PHP_INI_*, vea <a href="configuration.changes.modes.html" class="xref">D&oacute;nde se puede realizar un ajuste de configuraci&oacute;n</a>.
+ </p>
+ 
+ <p class="para">He aquí una breve explicación de
+las directivas de configuración.</p>
+ 
+ <p class="para">
+  <dl>
+
+   
+    <dt id="ini.output-buffering">
+     <code class="parameter">output_buffering</code>
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>/<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Se puede habilitar el búfer de salida para todos los ficheros estableciendo esta directiva
+      a &#039;On&#039;. Si se necesita limitar el tamaño del búfer a un tamaño en particular,
+      se puede usar un número máximo de bytes en lugar de &#039;On&#039; como valor para
+      esta directiva (p.ej., output_buffering=4096).
+      A partir de PHP 4.3.5, esta direcitva siempre es &#039;Off&#039; en PHP-CLI.
+     </p>
+    </dd>
+
+   
+   
+   
+    <dt id="ini.output-handler">
+     <code class="parameter">output_handler</code>
+     <span class="type"><a href="language.types.string.html" class="type string">string</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Se pueden redireccionar todas las salidas producidas por los scripts a una funcion. Por
+      ejemplo, si se establece output_handler a
+      <span class="function"><a href="function.mb-output-handler.html" class="function">mb_output_handler()</a></span>, la codificación de caracteres será
+      convertida de forma transparente a la codificación especificada. Al establecer cualquier gestor
+      de salida automáticamente se activará el búfer de salida.
+     </p>
+     <blockquote class="note"><p><strong class="note">Nota</strong>: 
+      <p class="para">
+       No se puede usar <span class="function"><a href="function.mb-output-handler.html" class="function">mb_output_handler()</a></span> con
+       <span class="function"><a href="function.ob-iconv-handler.html" class="function">ob_iconv_handler()</a></span>, y tampoco se puedem usar juntos
+       <span class="function"><a href="function.ob-gzhandler.html" class="function">ob_gzhandler()</a></span> y
+       <a href="zlib.configuration.html#ini.zlib.output-compression" class="link">zlib.output_compression</a>.
+      </p>
+     </p></blockquote>
+     <blockquote class="note"><p><strong class="note">Nota</strong>: 
+      <p class="para">
+       Solamente se pueden usar funciones internas con esta directiva. Para funciones
+       definidas por el usuario se ha de usar <span class="function"><a href="function.ob-start.html" class="function">ob_start()</a></span>.
+      </p>
+     </p></blockquote>
+    </dd>
+
+   
+   
+   
+    <dt id="ini.implicit-flush">
+     <code class="parameter">implicit_flush</code>
+     <span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Es <strong><code>FALSE</code></strong> de forma predeterminada. Cambiarla a <strong><code>TRUE</code></strong> le dirá a PHP que indique a la
+      capa de salida que se vuelque a sí misma automáticamente después de cada bloque de salida.
+      Esto es equivalente a llamar a la función de PHP
+      <span class="function"><a href="function.flush.html" class="function">flush()</a></span> después de cada llamada a
+      <span class="function"><a href="function.print.html" class="function">print</a></span> o <span class="function"><a href="function.echo.html" class="function">echo</a></span> y de cada
+      bloque de <em>HTML</em>.
+     </p>
+     <p class="para">
+      Cuando se usa PHP dentro de un entorno web, la activación
+      de esta opción tiene serias implicaciones de rendimiento, por lo que solamente
+      se recomienda para propósitos de depuración. Este valor es <strong><code>TRUE</code></strong> de forma
+      predeterminada cuando se opera bajo la <em>SAPI CLI</em>.
+     </p>
+     <p class="para">
+      Véase también <span class="function"><a href="function.ob-implicit-flush.html" class="function">ob_implicit_flush()</a></span>.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </p>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="outcontrol.installation.html">Instalaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="outcontrol.resources.html">Tipos de recursos</a></div>
+ <div class="up"><a href="outcontrol.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

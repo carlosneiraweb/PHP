@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Convierte el string en variables</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ord.html">ord</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.print.html">print</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.parse-str" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">parse_str</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">parse_str</span> &mdash; <span class="dc-title">Convierte el string en variables</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.parse-str-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>parse_str</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$str</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$arr</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Analiza <code class="parameter">str</code> como si fuera un string de consulta
+   pasado por medio de un URL y establece variables en el ámbito actual.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Para obtener el <em>QUERY_STRING</em> actual, se puede utilizar la variable
+    <var class="varname"><var class="varname"><a href="reserved.variables.server.html" class="classname">$_SERVER['QUERY_STRING']</a></var></var>.
+    También se puede consultar la sección sobre
+    <a href="language.variables.external.html" class="link">variables a partir de fuentes
+    externas</a>.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    La configuración <a href="info.configuration.html#ini.magic-quotes-gpc" class="link">magic_quotes_gpc</a> 
+    afecta la salida de esta función, ya que <span class="function"><strong>parse_str()</strong></span> usa
+    el mismo mecanismo que PHP utiliza para poblar las variables <var class="varname"><var class="varname"><a href="reserved.variables.get.html" class="classname">$_GET</a></var></var>,
+    <var class="varname"><var class="varname"><a href="reserved.variables.post.html" class="classname">$_POST</a></var></var>, etc.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.parse-str-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">str</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El string de entrada.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">arr</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si el segundo parámetro <code class="parameter">arr</code> está presente,
+       es su lugar las variables serán almacenadas en esta variable como elementos de array.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.parse-str-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.parse-str-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5409">
+    <p><strong>Ejemplo #1 Utilizando <span class="function"><strong>parse_str()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"first=value&amp;arr[]=foo+bar&amp;arr[]=baz"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">parse_str</span><span style="color: #007700">(</span><span style="color: #0000BB">$str</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$first</span><span style="color: #007700">;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;value<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$arr</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;foo&nbsp;bar<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$arr</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;baz<br /><br /></span><span style="color: #0000BB">parse_str</span><span style="color: #007700">(</span><span style="color: #0000BB">$str</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$output</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$output</span><span style="color: #007700">[</span><span style="color: #DD0000">'first'</span><span style="color: #007700">];&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;value<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$output</span><span style="color: #007700">[</span><span style="color: #DD0000">'arr'</span><span style="color: #007700">][</span><span style="color: #0000BB">0</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;foo&nbsp;bar<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$output</span><span style="color: #007700">[</span><span style="color: #DD0000">'arr'</span><span style="color: #007700">][</span><span style="color: #0000BB">1</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;baz<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.parse-str-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.parse-url.html" class="function" rel="rdfs-seeAlso">parse_url()</a> - Analiza un URL y devuelve sus componentes</span></li>
+    <li class="member"><span class="function"><a href="function.pathinfo.html" class="function" rel="rdfs-seeAlso">pathinfo()</a> - Devuelve informaci&oacute;n acerca de la ruta de un fichero</span></li>
+    <li class="member"><span class="function"><a href="function.http-build-query.html" class="function" rel="rdfs-seeAlso">http_build_query()</a> - Generar una cadena de consulta codificada estilo URL</span></li>
+    <li class="member"><span class="function"><a href="function.get-magic-quotes-gpc.html" class="function" rel="rdfs-seeAlso">get_magic_quotes_gpc()</a> - Obtiene el valor actual de configuraci&oacute;n de magic_quotes_gpc</span></li>
+    <li class="member"><span class="function"><a href="function.urldecode.html" class="function" rel="rdfs-seeAlso">urldecode()</a> - Decodifica una cadena cifrada como URL</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ord.html">ord</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.print.html">print</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Introducci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.mysqlnd-uh.html">mysqlnd_uh</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-uh.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="up"><a href="book.mysqlnd-uh.html">mysqlnd_uh</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intro.mysqlnd-uh" class="preface">
+  <h1 class="title">Introducción</h1>
+  <p class="para">
+   El complemento de gestión del usuario de mysqlnd (<em>mysqlnd_uh</em>)
+   permite a los usuarios establecer ganchos para la mayoría de las llamadas internas del
+   controlador nativo de MySQL para PHP
+   (<em><a href="book.mysqlnd.html" class="link">mysqlnd</a></em>).
+   Mysqlnd y sus complementos, incluido PECL/mysqlnd_uh, operan en una capa
+   por debajo de las extensiones de MySQL para PHP. Un complemento de mysqlnd puede considerarse
+   como un delegado (proxy) entre las extensiones de MySQL para PHP y el servidor MySQL
+   como parte del ejecutable de PHP en el lado del cliente. Ya que los complementos
+   operan en sus propias capas bajo las extensiones de MySQL para PHP,
+   pueden monitorizar y cambiar las acciones de una aplicación sin la necesidad de
+   efectuar cambios en la misma. Si las
+   extensiones de MySQL para PHP (<a href="ref.mysqli.html" class="link">mysqli</a>,
+   <a href="ref.mysql.html" class="link">mysql</a>,
+   <a href="ref.pdo-mysql.html" class="link">PDO_MYSQL</a>) están compiladas para
+   usar <em>mysqlnd</em>, este comlemento puede utilizarse para:
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Monitorizar
+     </p>
+     <p class="para">
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <p class="para">
+         consultas ejecutas por cualquier extensión de MySQL para PHP
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         sentencias preparadas que son ejecutadas por cualquier extensión de MySQL para PHP
+        </p>
+       </li>
+      </ul>
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Auditar
+     </p>
+     <p class="para">
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <p class="para">
+         la detección del uso de una base de datos
+        </p>
+       </li>
+       <li class="listitem">
+        <p class="para">
+         la protección contra inyecciones SQL usando listas negras y blancas
+        </p>
+       </li>
+      </ul>
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Varios
+     </p>
+     <p class="para">
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <p class="para">
+         Conexiones con equilibrado de carga
+        </p>
+       </li>
+      </ul>
+     </p>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   El controlador nativo de MySQL para PHP (<a href="book.mysqlnd.html" class="link">mysqlnd</a>)
+   introduce una API en C de complementos internos. Estos complementos, como el complemento
+   de gestión del usuario, pueden ampliar la funcionalidad de
+   <a href="book.mysqlnd.html" class="link">mysqlnd</a>. PECL/mysqlnd_uh
+   es parte de la API en C de complementos internos disponibles para el
+   usuario desarrollador con PHP.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Estado</strong><br />
+   <p class="para">
+    El complemento de gestión del usuario de mysqlnd está en un estado alfa.
+    Se han de tomar las precauciones pertinentes para usarlo en entornos de producción.
+   </p>
+  </p></blockquote>
+  
+  <div class="section" id="mysqlnd-uh.security">
+   <h2 class="title">Consideraciones de seguridad</h2>
+   <p class="para">
+    PECL/mysqlnd_uh proporciona a los usuarios el acceso a los nombres de usuario y contraseñas
+    de MySQL usados por cualquier extensión de MySQL para PHP que se conecte a MySQL.
+    Permite la monitorización de todas las consultas y sentencias preparadas exponiéndolas
+    al usuario. Por lo tanto, la extensión debería ser
+    instalada con precaución. El ajuste de configuración de <em>PHP_INI_SYSTEM</em>
+    <em><a href="mysqlnd-uh.configuration.html#ini.mysqlnd-uh.enable" class="link">mysqlnd_uh.enable</a></em>
+    se puede usar para evitar que los usuarios capturen las llamadas a mysqlnd.
+   </p>
+   <p class="para">
+    Los ofuscadores de código y tecnologías similares no son adecuados para evitar
+    la monitorización de las actividades de la biblioteca mysqlnd si PECL/mysqlnd_uh está
+    disponible y el usuario puede instalar un proxy, por ejemplo,
+    usando <a href="ini.core.html#ini.auto-prepend-file" class="link">auto_prepend_file</a>.
+   </p>
+  </div>
+  
+  <div class="section" id="mysqlnd-uh.docs-note">
+   <h2 class="title">Nota sobre la documentación</h2>
+   <p class="para">
+    Muchas de las funciones de mysqlnd_uh están descritas brevemente debido
+    a que la extensión <a href="ref.mysqli.html" class="link">mysqli</a> es una
+    fina capa de abstracción en lo alto de la API en C de MySQL que
+    proporciona la biblioteca <em>mysqlnd</em>. Por lo tanto,
+    se puede consultar la documentación correspondiente a
+    <a href="ref.mysqli.html" class="link">mysqli</a> (junto con el manual de referencia de MySQL manual)
+    para recibir más información sobre una función en particular.
+   </p>
+  </div>
+  
+  <div class="section" id="mysqlnd-uh.name">
+   <h2 class="title">Sobre el nombre</h2>
+   <p class="para">
+    La abreviatura <em>mysqlnd_uh</em> significa en español
+    <em>gestión del usuario de mysqlnd</em>, y ha sido el nombre
+    desde el desarrollo inicial del complemento.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.mysqlnd-uh.html">mysqlnd_uh</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-uh.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="up"><a href="book.mysqlnd-uh.html">mysqlnd_uh</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Deshabilitar las comillas m&aacute;gicas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.magicquotes.whynot.html">Por qu&eacute; no usarlas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.hiding.html">Ocultar PHP</a></div>
+ <div class="up"><a href="security.magicquotes.html">Comillas M&aacute;gicas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="security.magicquotes.disabling" class="sect1">
+  <h2 class="title">Deshabilitar las comillas mágicas</h2>
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta característica ha sido declarada
+<em class="emphasis">OBSOLETA</em> desde PHP 5.3.0. Su uso está
+totalmente desaconsejado.</p></div>
+  <p class="para">
+   La directiva <a href="info.configuration.html#ini.magic-quotes-gpc" class="link">magic_quotes_gpc</a>
+   sólo puede deshabilitarse en el sistema, y no en tiempo de ejecución.
+   En otras palabras, no se puede utilizar <span class="function"><a href="function.ini-set.html" class="function">ini_set()</a></span>.
+  </p>
+  <p class="para">
+   <div class="example" id="example-391">
+    <p><strong>Ejemplo #1 Deshabilitar comillas mágicas en el servidor</strong></p>
+    <div class="example-contents"><p>
+     Ejemplo que establece un <em>Off</em> a estas directivas
+     en <var class="filename">php.ini</var>. Para más detalles, lea la sección del manual
+     titulada <a href="configuration.changes.html" class="link">Cómo
+     cambiar los ajustes de configuración</a>.
+    </p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+; Magic quotes
+;
+
+; Magic quotes for incoming GET/POST/Cookie data.
+magic_quotes_gpc = Off
+
+; Magic quotes for runtime-generated data, e.g. data from SQL, from exec(), etc.
+magic_quotes_runtime = Off
+
+; Use Sybase-style magic quotes (escape &#039; with &#039;&#039; instead of \&#039;).
+magic_quotes_sybase = Off
+</pre></div>
+    </div>
+    <div class="example-contents"><p>
+     Si no es posible acceder a la configuración del servidor, también puede
+     usar <var class="filename">.htaccess</var>. Por ejemplo:
+    </p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+php_flag magic_quotes_gpc Off
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Si tuviera interés en implementar código portable (aquél que funciona en cualquier
+   entorno), y no pudiera modificar la configuración en el servidor,
+   aquí hay un ejemplo de cómo deshabilitar <a href="info.configuration.html#ini.magic-quotes-gpc" class="link">
+   magic_quotes_gpc</a> en tiempo de ejecución. Este método es ineficiente
+   por lo que se recomienda establecer los valores apropiados para las directivas en otro lugar.
+  </p>
+  <p class="para">
+   <div class="example" id="example-392">
+    <p><strong>Ejemplo #2 Deshabilitar las comillas mágicas en tiempo de ejecución</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">get_magic_quotes_gpc</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$process&nbsp;</span><span style="color: #007700">=&nbsp;array(&amp;</span><span style="color: #0000BB">$_GET</span><span style="color: #007700">,&nbsp;&amp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">,&nbsp;&amp;</span><span style="color: #0000BB">$_COOKIE</span><span style="color: #007700">,&nbsp;&amp;</span><span style="color: #0000BB">$_REQUEST</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(list(</span><span style="color: #0000BB">$key</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">)&nbsp;=&nbsp;</span><span style="color: #0000BB">each</span><span style="color: #007700">(</span><span style="color: #0000BB">$process</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$k&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$v</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unset(</span><span style="color: #0000BB">$process</span><span style="color: #007700">[</span><span style="color: #0000BB">$key</span><span style="color: #007700">][</span><span style="color: #0000BB">$k</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">is_array</span><span style="color: #007700">(</span><span style="color: #0000BB">$v</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$process</span><span style="color: #007700">[</span><span style="color: #0000BB">$key</span><span style="color: #007700">][</span><span style="color: #0000BB">stripslashes</span><span style="color: #007700">(</span><span style="color: #0000BB">$k</span><span style="color: #007700">)]&nbsp;=&nbsp;</span><span style="color: #0000BB">$v</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$process</span><span style="color: #007700">[]&nbsp;=&nbsp;&amp;</span><span style="color: #0000BB">$process</span><span style="color: #007700">[</span><span style="color: #0000BB">$key</span><span style="color: #007700">][</span><span style="color: #0000BB">stripslashes</span><span style="color: #007700">(</span><span style="color: #0000BB">$k</span><span style="color: #007700">)];<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$process</span><span style="color: #007700">[</span><span style="color: #0000BB">$key</span><span style="color: #007700">][</span><span style="color: #0000BB">stripslashes</span><span style="color: #007700">(</span><span style="color: #0000BB">$k</span><span style="color: #007700">)]&nbsp;=&nbsp;</span><span style="color: #0000BB">stripslashes</span><span style="color: #007700">(</span><span style="color: #0000BB">$v</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;unset(</span><span style="color: #0000BB">$process</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.magicquotes.whynot.html">Por qu&eacute; no usarlas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.hiding.html">Ocultar PHP</a></div>
+ <div class="up"><a href="security.magicquotes.html">Comillas M&aacute;gicas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

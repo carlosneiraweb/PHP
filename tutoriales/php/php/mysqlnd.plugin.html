@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>API de Complementos del Controlador Nativo de MySQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd.memory.html">Gesti&oacute;n de la memoria</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd.plugin.mysql-proxy.html">Una comparaci&oacute;n de los complementos de mysqlnd y el Proxy de MySQL</a></div>
+ <div class="up"><a href="book.mysqlnd.html">Mysqlnd</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd.plugin" class="chapter">
+ <h1>API de Complementos del Controlador Nativo de MySQL</h1>
+<h2>Tabla de contenidos</h2><ul class="chunklist chunklist_chapter"><li><a href="mysqlnd.plugin.mysql-proxy.html">Una comparaci&oacute;n de los complementos de mysqlnd y el Proxy de MySQL</a></li><li><a href="mysqlnd.plugin.obtaining.html">Obtener la API de complementos de mysqlnd</a></li><li><a href="mysqlnd.plugin.architecture.html">Arquitectura de los Complementos del Controlador Nativo de MySQL</a></li><li><a href="mysqlnd.plugin.api.html">La API de complementos de mysqlnd</a></li><li><a href="mysqlnd.plugin.developing.html">Empezar a construir un complemento de mysqlnd</a></li></ul>
+
+ <p class="para">
+  La API de Complementos del Controlador Nativo de MySQL es una característica del Controlador
+  Nativo de MySQL, o <em>mysqlnd</em>. Los complementos de
+  <em>mysqlnd</em> operan en la capa que hay entre las aplicaciones de PHP y el
+  servidor MySQL. Es comparable al Proxy de MySQL. El Proxy de MySQL opera sobre una
+  capa entre cualquier aplicación cliente de MySQL, por ejemplo, una aplicación
+  de PHP, y el servidor de MySQL. Los complementos de <em>mysqlnd</em>
+  can undertake typical MySQL Proxy tasks such as load balancing,
+  monitorizan y optimizan el rendimiento. A causa de la arquitectura
+  y ubicación diferentes, los complementos de <em>mysqlnd</em> no
+  tienen algunas de las desventajas del Proxy de MySQL. Por ejemplo, con los complementos
+  no existe un único punto de fallo, ni un servidor proxy para el
+  despliegue, y no hace falta aprender un nuevo lenguaje de programación (Lua).
+ </p>
+ <p class="para">
+  Se puede pensar en un complemento de <em>mysqlnd</em> como una extensión
+  de <em>mysqlnd</em>. Los complementos pueden interceptar la mayoría de las
+  funciones de <em>mysqlnd</em>. Las funciones de
+  <em>mysqlnd</em> son llamadas por las extensiones de MySQl de PHP, como
+  <em>ext/mysql</em>, <em>ext/mysqli</em>, y
+  <em>PDO_MYSQL</em>. Como resultado, es posible que un complemento de
+  <em>mysqlnd</em> intercepte todas las llamadas hechas a estas
+  extensiones desde la apliacación cliente.
+ </p>
+ <p class="para">
+  Las llamadas a funciones internas de <em>mysqlnd</em> también pueden ser
+  interceptadas o reemplazadas. No existen restricciones en la manipulación
+  de tablas de funciones internas de <em>mysqlnd</em>. Es posible
+  configurar cosas, y así cuando ciertas funciones de
+  <em>mysqlnd</em> son llamadas por extensiones que utilizan
+  <em>mysqlnd</em>, la llamada es dirigida a la función
+  apropiada del complemento de <em>mysqlnd</em>. La capacidad de
+  manipular tablas de funciones internas de <em>mysqlnd</em> de esta manera
+  permite una flexibilidad máxima para los complementos.
+ </p>
+ <p class="para">
+  Los complementos de <em>mysqlnd</em> son de hecho Extensiones de PHP, escritos
+  en C, que utilizan la API de complementos de <em>mysqlnd</em> (la cual está
+  construida dentro del Controlador Nativo de MySQL, <em>mysqlnd</em>). Los complementos
+  se pueden hacer 100% transparentes a las aplicaciones de PHP. No es necesario hacer ningún
+  cambio a las aplicaciones ya que los complementos operan en una capa diferente. Se puede
+  pensar en los complementos de <em>mysqlnd</em> como en una operación en una
+  capa por debajo de <em>mysqlnd</em>.
+ </p>
+ <p class="para">
+  La siguiente lista representa algunas aplicaciones posibles de los
+  complementos de <em>mysqlnd</em>.
+ </p>
+ <ul class="itemizedlist">
+  <li class="listitem">
+   <p class="para">
+    Equilibrio de Carga
+   </p>
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      División de Lectura/Escritura. Un ejemplo de esto es la extensión
+      PECL/mysqlnd_ms (Maestro Esclavo). Esta extensión divide las consultas de lectura/escritura
+      para una configuración de réplica.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Tolerancia a fallos
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Rotación de servidores para evitar la sobrecarga (&quot;Round-Robin&quot;)
+     </p>
+    </li>
+   </ul>
+  </li>
+  <li class="listitem">
+   <p class="para">
+    Monitorización
+   </p>
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Registro de Consultas
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Análisis de Consultas
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Audición de Consultas. Un ejemplo de esto es la extensión PECL/mysqlnd_sip (Protección
+      contra la Inyección SQL). Esta extensión inspecciona las consultas
+      y ejecuta únicamente aquellas que están permitidas según un cojunto de reglas.
+     </p>
+    </li>
+   </ul>
+  </li>
+  <li class="listitem">
+   <p class="para">
+    Rendimiento
+   </p>
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Almacenamiento en Caché. Un ejemplo de esto es la extenión PECL/mysqlnd_qc
+      (Caché de Consultas).
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Estrangulamiento (&quot;Throttling&quot;)
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Fragmentación. Un ejemplo de esto es la extensión PECL/mysqlnd_mc
+      (Multiconexión). Esta extensión intentará dividir una sentencia SELECT
+      en n partes, usando SELECT ... LIMIT parte_1, SELECT
+      LIMIT parte_n. Envía las consultas a diferentes servidores MySQL y
+      combina el resultado en el cliente.
+     </p>
+    </li>
+   </ul>
+  </li>
+ </ul>
+ <p class="para">
+  <em class="emphasis">Complementos del Controlador Nativo de MySQL disponibles</em>
+ </p>
+ <p class="para">
+  Hay varios complementos de mysqlnd ya disponibles. Estos
+  incluyen:
+ </p>
+ <ul class="itemizedlist">
+  <li class="listitem">
+   <p class="para">
+    <em class="emphasis">PECL/mysqlnd_mc</em> - Complemento de
+    Multiconexión.
+   </p>
+  </li>
+  <li class="listitem">
+   <p class="para">
+    <em class="emphasis">PECL/mysqlnd_ms</em> - Complemento
+    Maestro Esclavo.
+   </p>
+  </li>
+  <li class="listitem">
+   <p class="para">
+    <em class="emphasis">PECL/mysqlnd_qc</em> - Complemento de
+    Caché de Consultas.
+   </p>
+  </li>
+  <li class="listitem">
+   <p class="para">
+    <em class="emphasis">PECL/mysqlnd_pscache</em> - Complemento de
+    Caché de Gestores de Sentencias Preparadas.
+   </p>
+  </li>
+  <li class="listitem">
+   <p class="para">
+    <em class="emphasis">PECL/mysqlnd_sip</em> - Complemento de
+    Protección contra Inyección SQL.
+   </p>
+  </li>
+  <li class="listitem">
+   <p class="para">
+    <em class="emphasis">PECL/mysqlnd_uh</em> - Complemento de
+    Gestor de Usuarios.
+   </p>
+  </li>
+ </ul>
+ 
+ 
+ 
+ 
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd.memory.html">Gesti&oacute;n de la memoria</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd.plugin.mysql-proxy.html">Una comparaci&oacute;n de los complementos de mysqlnd y el Proxy de MySQL</a></div>
+ <div class="up"><a href="book.mysqlnd.html">Mysqlnd</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

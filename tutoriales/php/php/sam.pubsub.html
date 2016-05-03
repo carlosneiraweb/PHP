@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Publicar/Suscribir y suscripci&oacute;n a temas (topics)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sam.operations.html">Operaciones de mensajer&iacute;a</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sam.errors.html">Control de errores</a></div>
+ <div class="up"><a href="sam.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sam.pubsub" class="section">
+  <h2 class="title">Publicar/Suscribir y suscripción a temas (topics)</h2>
+  <p class="para">
+   SAM permite enviar mensajes a colas, o para WebSphere MQ
+   y WPM, publicar/suscribir temas.
+   El envío a un tema es especificado por SAM de la manera habitual, p.e. de la
+   forma &#039;topic://fred&#039;, mejor que de la forma &#039;queue://AQUEUE&#039; utilizada para
+   operaciones punto a punto. Para publicar/suscribir únicamente es
+   necesario especificar el nombre del broker correcto en la llamada al método &quot;connect&quot;  
+   del objeto SAMConnect y el tema deseado en el argumento de destino de las llamadas
+   a los métodos &quot;send&quot; y &quot;receive&quot; del objeto SAMConnect. La interface PHP es
+   sin embargo idéntica al modelo punto a punto.
+  </p>
+  <p class="para">
+   Por defecto, SAM crea suscripciones no duraderas cuando se utiliza
+   publicar/suscribir. Esto significa que si una aplicación cliente está
+   inactiva cuando los mensajes se publiquen en un tema, entonces esta aplicación no
+   los recibirá cuando sea reactivada. SAM también permite realizar
+   suscripciones duraderas a temas cuando se usa el publicar/suscribir de WPM o WebSphere
+   MQ. El objetivo de estas suscripciones es permitir
+   que los datos sean recibidos por una aplicación cliente incluso si este cliente no estaba
+   activo en el momento de publicación de los datos.
+  </p>
+  <p class="para">
+   Las suscripciones duraderas se especifican utilizando el método &quot;subscribe&quot;
+   del objeto SAMConnect. Este método toma el tema de destino como un parámetro de entrada y
+   devuelve un identificador de suscripción que puede ser utilizado en siguientes
+   llamadas &quot;receive&quot;. Cuando la suscripción ya no se necesita, debe utilizarse el
+   método &quot;unsubscribe&quot; del objeto SAMConnection para eliminar la
+   suscripción.
+  </p>
+  <p class="para">
+   <div class="example" id="example-5020">
+    <p><strong>Ejemplo #1 Creación de una suscripción duradera a un tema</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$subName&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">subscribe</span><span style="color: #007700">(</span><span style="color: #DD0000">'topic://A'</span><span style="color: #007700">);<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$subName</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Subscribe&nbsp;fallido"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;Subscribe&nbsp;OK<br />&nbsp;&nbsp;&nbsp;//&nbsp;...<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5021">
+    <p><strong>Ejemplo #2 Suscripción a un tema utilizando un servidor WebSphere Platform Messaging (WPM)</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conn&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SAMConnection</span><span style="color: #007700">();<br /></span><span style="color: #FF8000">//&nbsp;Nota:&nbsp;Para&nbsp;pub/sub&nbsp;en&nbsp;WPM,&nbsp;al&nbsp;conectar&nbsp;al&nbsp;nombre&nbsp;de&nbsp;un&nbsp;motor&nbsp;de&nbsp;mensajería,<br />//&nbsp;&nbsp;&nbsp;para&nbsp;mantener&nbsp;la&nbsp;suscrición&nbsp;duradera&nbsp;debe&nbsp;especificarse(SAM_WPM_DUR_SUB_HOME).<br /></span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect</span><span style="color: #007700">(</span><span style="color: #0000BB">SAM_WMQ</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #0000BB">SAM_ENDPOINTS&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'localhost:7278:BootstrapBasicMessaging'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">SAM_BUS&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Bus1'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">SAM_TARGETCHAIN&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'InboundBasicMessaging'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">SAM_WPM_DUR_SUB_HOME&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'MyMachineNode01.server1-Bus1'</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">$subName&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">subscribe</span><span style="color: #007700">(</span><span style="color: #DD0000">'topic://A'</span><span style="color: #007700">);<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$subName</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Subscribe&nbsp;fallido"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;Subscribe&nbsp;OK<br />&nbsp;&nbsp;&nbsp;//&nbsp;...<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5022">
+    <p><strong>Ejemplo #3 Recepción de datos publicados utilizando una suscripción duradera</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$msg&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">receive</span><span style="color: #007700">(</span><span style="color: #0000BB">$subName</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$msg</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Mensaje&nbsp;recibido&nbsp;OK"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"El&nbsp;receive&nbsp;falló"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5023">
+    <p><strong>Ejemplo #4 Eliminación de una suscripción duradera a un tema</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$conn</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">unsubscribe</span><span style="color: #007700">(</span><span style="color: #0000BB">$subName</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Unsubscribe&nbsp;fallido"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sam.operations.html">Operaciones de mensajer&iacute;a</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sam.errors.html">Control de errores</a></div>
+ <div class="up"><a href="sam.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

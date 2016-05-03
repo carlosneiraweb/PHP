@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Aladir valores al mecanismo de reescritura de URLs</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ob-start.html">ob_start</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.output-reset-rewrite-vars.html">output_reset_rewrite_vars</a></div>
+ <div class="up"><a href="ref.outcontrol.html">Funciones del Control de la salida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.output-add-rewrite-var" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">output_add_rewrite_var</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">output_add_rewrite_var</span> &mdash; <span class="dc-title">Aladir valores al mecanismo de reescritura de URLs</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.output-add-rewrite-var-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>output_add_rewrite_var</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$name</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$value</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Esta función añade otro par nombre/valor al mecanismo de reescritura de URLs.
+   El nombre y el valor se agregarán a los URLs (como parámetros de GET) y a los formularios
+   (como camos intput ocultos) de la misma forma que el ID de sesión cuando la reescritura de
+   URLs de forma transparente está habilitada con <a href="session.configuration.html#ini.session.use-trans-sid" class="link">session.use_trans_sid</a>. Observe
+   que los URLs absolutos (http://example.com/..) no son reescritos.
+  </p>
+  <p class="para">
+   El comportamiento de esta función está controlado por el parámetro <a href="session.configuration.html#ini.url-rewriter.tags" class="link">url_rewriter.tags</a>
+   de <var class="filename">php.ini</var>.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Al llamar a esta función se iniciará el almacenamiento implícito en búfer de salida
+    si no estaba ya activo.
+   </span>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.output-add-rewrite-var-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de la variable.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">value</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El valor de la variable.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.output-add-rewrite-var-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.output-add-rewrite-var-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-534">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>output_add_rewrite_var()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />output_add_rewrite_var</span><span style="color: #007700">(</span><span style="color: #DD0000">'var'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'valor'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;algunos&nbsp;enlaces<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">'&lt;a&nbsp;href="fichero.php"&gt;enlace&lt;/a&gt;<br />&lt;a&nbsp;href="http://example.com"&gt;enlace2&lt;/a&gt;'</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;un&nbsp;formulario<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">'&lt;form&nbsp;action="script.php"&nbsp;method="post"&gt;<br />&lt;input&nbsp;type="text"&nbsp;name="var2"&nbsp;/&gt;<br />&lt;/form&gt;'</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">ob_list_handlers</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+&lt;a href=&quot;fichero.php?var=valor&quot;&gt;enlace&lt;/a&gt;
+&lt;a href=&quot;http://example.com&quot;&gt;enlace2&lt;/a&gt;
+
+&lt;form action=&quot;script.php&quot; method=&quot;post&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;var&quot; value=&quot;valor&quot; /&gt;
+&lt;input type=&quot;text&quot; name=&quot;var2&quot; /&gt;
+&lt;/form&gt;
+
+Array
+(
+    [0] =&gt; URL-Rewriter
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.output-add-rewrite-var-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.output-reset-rewrite-vars.html" class="function" rel="rdfs-seeAlso">output_reset_rewrite_vars()</a> - Restablecer los valores del mecanismo de reescritura de URLs</span></li>
+    <li class="member"><span class="function"><a href="function.ob-flush.html" class="function" rel="rdfs-seeAlso">ob_flush()</a> - Vaciar (enviar) el b&uacute;fer de salida</span></li>
+    <li class="member"><span class="function"><a href="function.ob-list-handlers.html" class="function" rel="rdfs-seeAlso">ob_list_handlers()</a> - Enumerar todos los gestores de salida en uso</span></li>
+   </ul>
+  </p>
+ </div>
+  
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ob-start.html">ob_start</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.output-reset-rewrite-vars.html">output_reset_rewrite_vars</a></div>
+ <div class="up"><a href="ref.outcontrol.html">Funciones del Control de la salida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecuta una sentencia SQL y devuelve el n&uacute;mero de filas afectadas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.errorinfo.html">PDO::errorInfo</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.getattribute.html">PDO::getAttribute</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdo.exec" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDO::exec</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7, PECL pdo &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">PDO::exec</span> &mdash; <span class="dc-title">
+   Ejecuta una sentencia SQL y devuelve el número de filas afectadas
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-pdo.exec-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">int</span> <span class="methodname"><strong>PDO::exec</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$statement</code></span>
+   )</div>
+
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>PDO::exec()</strong></span> ejecuta una sentencia SQL en
+   una única llamada a la función, devolviendo el número de filas afectadas
+   por la sentencia.
+  </p>
+  <p class="para">
+   <span class="function"><strong>PDO::exec()</strong></span> no devuelve resultados de una sentencia
+   SELECT. Para una sentencia SELECT que sólo se necesita ejecutar una vez en
+   el programa, se debe considerar el uso de <span class="function"><a href="pdo.query.html" class="function">PDO::query()</a></span>.
+   Para una sentencia que se deba ejecutar en múltiples ocasiones, preparar
+   un objeto PDOStatement con <span class="function"><a href="pdo.prepare.html" class="function">PDO::prepare()</a></span> y ejecutarlo
+   con <span class="function"><a href="pdostatement.execute.html" class="function">PDOStatement::execute()</a></span>.
+  </p>
+
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-pdo.exec-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">statement</code></dt>
+
+      <dd>
+
+       <p class="para">
+        La sentencia SQL para preparar y ejecutar.
+       </p>
+       <p class="para">
+        Los datos dentro de la consulta deben ser <a href="pdo.quote.html" class="link">debidamente escapados</a>.
+       </p>
+      </dd>
+
+     
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-pdo.exec-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <span class="function"><strong>PDO::exec()</strong></span> devuelve el número de filas modificadas
+   o borradas por la sentencia SQL ejecutada. Si no hay filas afectadas,
+   <span class="function"><strong>PDO::exec()</strong></span> devuelve <em>0</em>. 
+  </p>
+
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función puede
+devolver el valor booleano <strong><code>FALSE</code></strong>, pero también puede devolver un valor no booleano que se
+evalúa como <strong><code>FALSE</code></strong>. Por favor lea la sección sobre <a href="language.types.boolean.html" class="link">Booleanos</a> para más
+información. Use <a href="language.operators.comparison.html" class="link">el operador
+===</a> para comprobar el valor devuelto por esta
+función.</p></div>
+  <p class="para">
+   El siguiente ejemplo confía incorrectamente en el valor de retorno de
+   <span class="function"><strong>PDO::exec()</strong></span>, donde en una sentencia que afecta a 0 filas
+   resulta en una llamada a <span class="function"><a href="function.die.html" class="function">die()</a></span>:
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">()&nbsp;or&nbsp;die(</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errorInfo</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </p>
+
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-pdo.exec-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1022">
+    <p><strong>Ejemplo #1 Ejecutando una sentencia DELETE</strong></p>
+    <div class="example-contents"><p>
+     Cuenta el número de filas afectadas por una sentencia DELETE sin
+     cláusula WHERE.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$dbh&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'odbc:sample'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'db2inst1'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ibmdb2'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Borra&nbsp;todas&nbsp;las&nbsp;filas&nbsp;de&nbsp;la&nbsp;tabla&nbsp;FRUIT&nbsp;*/<br /></span><span style="color: #0000BB">$count&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$dbh</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"DELETE&nbsp;FROM&nbsp;fruit&nbsp;WHERE&nbsp;colour&nbsp;=&nbsp;'red'"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Devuelve&nbsp;el&nbsp;número&nbsp;de&nbsp;filas&nbsp;borradas&nbsp;*/<br /></span><span style="color: #007700">print(</span><span style="color: #DD0000">"Deleted&nbsp;</span><span style="color: #0000BB">$count</span><span style="color: #DD0000">&nbsp;rows.\n"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Deleted 1 rows.
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+
+ <div class="refsect1 seealso" id="refsect1-pdo.exec-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdo.prepare.html" class="function" rel="rdfs-seeAlso">PDO::prepare()</a> - Prepara una sentencia para su ejecuci&oacute;n y devuelve un objeto sentencia</span></li>
+    <li class="member"><span class="function"><a href="pdo.query.html" class="function" rel="rdfs-seeAlso">PDO::query()</a> - Ejecuta una sentencia SQL, devolviendo un conjunto de resultados como un objeto PDOStatement</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.execute.html" class="function" rel="rdfs-seeAlso">PDOStatement::execute()</a> - Ejecuta una sentencia preparada</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.errorinfo.html">PDO::errorInfo</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.getattribute.html">PDO::getAttribute</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

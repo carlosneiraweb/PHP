@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Eliminar la metainformaci&oacute;n de una entrada</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pharfileinfo.decompress.html">PharFileInfo::decompress</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pharfileinfo.getcrc32.html">PharFileInfo::getCRC32</a></div>
+ <div class="up"><a href="class.pharfileinfo.html">PharFileInfo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pharfileinfo.delmetadata" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PharFileInfo::delMetadata</h1>
+  <p class="verinfo">(PHP &gt;= 5.3.0, PECL phar &gt;= 1.2.0)</p><p class="refpurpose"><span class="refname">PharFileInfo::delMetadata</span> &mdash; <span class="dc-title">Eliminar la metainformación de una entrada</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-pharfileinfo.delmetadata-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>PharFileInfo::delMetadata</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Eliminar la metainformación de una entrada, si existe.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-pharfileinfo.delmetadata-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   No parameters.
+  </p>
+  
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-pharfileinfo.delmetadata-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito, <strong><code>FALSE</code></strong> si la entrada no tiene metainformación.
+   Al igual que con toda la funcionalidad que modifica el contenido de
+   un Phar, la variable INI <a href="phar.configuration.html#ini.phar.readonly" class="link">phar.readonly</a>
+   debe estar desactivada para poder realizar esto si el fichero está dentro de un archivo
+   <a href="class.phar.html" class="classname">Phar</a>. Los ficheros dentro de archivos <a href="class.phardata.html" class="classname">PharData</a> no tienen
+   esta restricción.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-pharfileinfo.delmetadata-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Lanza una excepción de tipo <a href="class.pharexception.html" class="classname">PharException</a> si ocurrió algún error al volcar
+   los cambios al disco, y una excepción de tipo <a href="class.badmethodcallexception.html" class="classname">BadMethodCallException</a> si
+   el acceso a escritura está deshabilitado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-pharfileinfo.delmetadata-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-809">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>PharFileInfo::delMetaData()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Phar</span><span style="color: #007700">(</span><span style="color: #DD0000">'miphar.phar'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'hola'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'hola'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'hola'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">delMetadata</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'hola'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">setMetadata</span><span style="color: #007700">(</span><span style="color: #DD0000">'qué&nbsp;tal'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'hola'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">delMetadata</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'hola'</span><span style="color: #007700">]-&gt;</span><span style="color: #0000BB">delMetadata</span><span style="color: #007700">());<br />}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">Exception&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;manejar&nbsp;errores<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+bool(false)
+bool(true)
+bool(false)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-pharfileinfo.delmetadata-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pharfileinfo.setmetadata.html" class="function" rel="rdfs-seeAlso">PharFileInfo::setMetadata()</a> - Establecer la metainformaci&oacute;n espec&iacute;fica de un fichero almacenda con un fichero</span></li>
+    <li class="member"><span class="function"><a href="pharfileinfo.hasmetadata.html" class="function" rel="rdfs-seeAlso">PharFileInfo::hasMetadata()</a> - Devolver la metainformaci&oacute;n de una entrada</span></li>
+    <li class="member"><span class="function"><a href="pharfileinfo.getmetadata.html" class="function" rel="rdfs-seeAlso">PharFileInfo::getMetadata()</a> - Devolver la metainformaci&oacute;n espec&iacute;fica de un fichero almacenada con un fichero</span></li>
+    <li class="member"><span class="function"><a href="phardata.setmetadata.html" class="function" rel="rdfs-seeAlso">Phar::setMetadata()</a> - Establecer la metainformaci&oacute;n de un archivo phar</span></li>
+    <li class="member"><span class="function"><a href="phar.hasmetadata.html" class="function" rel="rdfs-seeAlso">Phar::hasMetadata()</a> - Devolver si el phar tiene metainformaci&oacute;n global</span></li>
+    <li class="member"><span class="function"><a href="phar.getmetadata.html" class="function" rel="rdfs-seeAlso">Phar::getMetadata()</a> - Devolver la metainformaci&oacute;n de un archivo phar</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pharfileinfo.decompress.html">PharFileInfo::decompress</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pharfileinfo.getcrc32.html">PharFileInfo::getCRC32</a></div>
+ <div class="up"><a href="class.pharfileinfo.html">PharFileInfo</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

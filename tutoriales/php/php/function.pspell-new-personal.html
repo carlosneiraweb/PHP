@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cargar un nuevo diccionario con una lista personal de palabras</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.pspell-new-config.html">pspell_new_config</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.pspell-new.html">pspell_new</a></div>
+ <div class="up"><a href="ref.pspell.html">Funciones de Pspell</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.pspell-new-personal" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">pspell_new_personal</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.2, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">pspell_new_personal</span> &mdash; <span class="dc-title">Cargar un nuevo diccionario con una lista personal de palabras</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.pspell-new-personal-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>pspell_new_personal</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$personal</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$language</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$spelling</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$jargon</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$encoding</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$mode</code><span class="initializer"> = 0</span></span>
+  ]]]] )</div>
+
+  <p class="simpara">
+   <span class="function"><strong>pspell_new_personal()</strong></span> abre un nuevo diccionario con
+   una lista personal de palabras. Ésta puede ser modificada y guardada con
+   <span class="function"><a href="function.pspell-save-wordlist.html" class="function">pspell_save_wordlist()</a></span>, si se desea. Sin embargo, los
+   pares de sustitución no se guardan. Para guardarlos se debería
+   crear una configuración usando <span class="function"><a href="function.pspell-config-create.html" class="function">pspell_config_create()</a></span>,
+   establecer el fichero de la lista personal de palabras con
+   <span class="function"><a href="function.pspell-config-personal.html" class="function">pspell_config_personal()</a></span>,
+   establecer el fichero de pares de sustitución con
+   <span class="function"><a href="function.pspell-config-repl.html" class="function">pspell_config_repl()</a></span>, y abrir un nuevo diccionario con
+   <span class="function"><a href="function.pspell-new-config.html" class="function">pspell_new_config()</a></span>.
+  </p>
+  <p class="para">
+   Para más información y ejemplos, verifique el sitio web de pspell del manual
+   en línea:<a href="http://aspell.net/" class="link external">&raquo;&nbsp;http://aspell.net/</a>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.pspell-new-personal-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">personal</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El fichero donde se almacenarán las palabras añadidas a la lista personal.
+       Debería ser un nombre de fichero absoluto comenzado con &#039;/&#039;, ya que de otro modo
+       será relativo a $HOME, el cual es &quot;/root&quot; para la mayoría de sistemas, y
+       probablemente no es lo que quiere.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">language</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El parámetro language es el código de lenguaje que consiste en el
+       código de lenguaje ISO 639 de dos letras y un código de país ISO
+       3166 de dos letras opcional después de un guión o guión de subrayado.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">spelling</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La ortografía solicitada para lenguajes con más de una ortografía, como el inglés.
+       Valores conocidos son &#039;american&#039;, &#039;british&#039;, y &#039;canadian&#039;.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">jargon</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Información extra para distinguir dos listas de palabras diferentes que tienen
+       el mismo lenguaje y parámetros de ortografía.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">encoding</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La codificación que se espera que tengan esas palabras. Los valores válidos son
+       <em>utf-8</em>, <em>iso8859-*</em>, 
+       <em>koi8-r</em>, <em>viscii</em>, 
+       <em>cp1252</em>, <em>machine unsigned 16</em>, 
+       <em>machine unsigned 32</em>. 
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El modo en el que trabajará el corrector ortográfico. Hay varios modos disponibles:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>PSPELL_FAST</code></strong> - Modo rápido (menor númeo de
+          sugerencias)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>PSPELL_NORMAL</code></strong> - Modo normal (más sugerencias)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>PSPELL_BAD_SPELLERS</code></strong> - Modo lento (un montón de
+          sugerencias)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>PSPELL_RUN_TOGETHER</code></strong> - Considerar palabras unidas
+          como compuestos legales. Es decir, &quot;elgao&quot; será un compuesto legal,
+          aunque debería haber un espacio entre las dos palabras. Cambiar esta
+          configuración solo afecta a los resultados devueltos por
+          <span class="function"><a href="function.pspell-check.html" class="function">pspell_check()</a></span>; <span class="function"><a href="function.pspell-suggest.html" class="function">pspell_suggest()</a></span>
+          seguirá devolviendo sugerencias.
+         </span>
+        </li>
+       </ul>
+       El modo es una máscara de bits construida a partir de diferentes constantes listadas después.
+       Sin embargo, <strong><code>PSPELL_FAST</code></strong>,
+       <strong><code>PSPELL_NORMAL</code></strong> y
+       <strong><code>PSPELL_BAD_SPELLERS</code></strong> son mutuamente exclusivas, por lo que
+       debería seleccionar únicamente una de ellas.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.pspell-new-personal-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el identificador de vínculo de diccionario para usarlo en otras funciones pspell.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.pspell-new-personal-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3032">
+    <p><strong>Ejemplo #1 <span class="function"><strong>pspell_new_personal()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$pspell_link&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">pspell_new_personal&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"/var/dictionaries/custom.pws"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"en"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PSPELL_FAST</span><span style="color: #007700">|</span><span style="color: #0000BB">PSPELL_RUN_TOGETHER</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.pspell-new-config.html">pspell_new_config</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.pspell-new.html">pspell_new</a></div>
+ <div class="up"><a href="ref.pspell.html">Funciones de Pspell</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

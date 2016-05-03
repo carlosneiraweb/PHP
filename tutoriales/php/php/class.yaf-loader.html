@@ -1,0 +1,477 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>La clase Yaf_Loader</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="yaf-view-simple.setscriptpath.html">Yaf_View_Simple::setScriptPath</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="yaf-loader.autoload.html">Yaf_Loader::autoload</a></div>
+ <div class="up"><a href="book.yaf.html">Yaf</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="class.yaf-loader" class="reference">
+ 
+ <h1 class="title">La clase Yaf_Loader</h1>
+ 
+ 
+ <div class="partintro"><p class="verinfo">(Yaf &gt;=1.0.0)</p>
+  
+  
+  <div class="section" id="yaf-loader.intro">
+   <h2 class="title">Introducción</h2>
+   <p class="para">
+    <strong class="classname">Yaf_Loader</strong> introduce una solución completa de
+    autocarga para Yaf.
+   </p>
+   <p class="para">
+    La primera vez que se recupera una instancia de la clase <a href="class.yaf-application.html" class="classname">Yaf_Application</a>,
+    <strong class="classname">Yaf_Loader</strong> instanciará un singleton, y se registrará a sí mismo con
+    spl_autoload. Se recupera una instancia usando el método <span class="methodname"><a href="yaf-loader.getinstance.html" class="methodname">Yaf_Loader::getInstance()</a></span>
+   </p>
+   <p class="para">
+    <strong class="classname">Yaf_Loader</strong> intenta cargar una clase sólo una vez, y si
+    falla, dependiendo de <a href="yaf.configuration.html#ini.yaf.use-spl-autoload" class="link">yaf.use_spl_auload</a>, si esta configuración
+    es &quot;On&quot; <span class="methodname"><a href="yaf-loader.autoload.html" class="methodname">Yaf_Loader::autoload()</a></span> devolverá
+    <strong><code>FALSE</code></strong>, y así dará otra oportunidad a otra función de autocarga; si es &quot;Off&quot;
+    (por omisión), <span class="methodname"><a href="yaf-loader.autoload.html" class="methodname">Yaf_Loader::autoload()</a></span> devolverá
+    <strong><code>TRUE</code></strong>, y lo que es más importante: emitirá una advertencia muy útil
+    (muy útil para averiguar por qué no se cargó una clase).
+    <blockquote class="note"><p><strong class="note">Nota</strong>: 
+     <p class="para">
+      Por favor, mantenga yaf.use_spl_autoload en &quot;Off&quot; a menos que exista una biblioteca que
+      tenga su propio mecanismo de autocarga y sea imposible reescribirlo.
+     </p>
+    </p></blockquote>
+   </p>
+   <p class="para">
+    Por defecto, <strong class="classname">Yaf_Loader</strong> asume que todas las bibliotecas (las clases
+    definidas en el script) se almacenan en el <a href="yaf.configuration.html#ini.yaf.library" class="link">directorio de clases
+    global</a>, el cual está definido en php.ini (yaf.library).
+   </p>
+   
+   <p class="para">
+    Si quiere que <strong class="classname">Yaf_Loader</strong> busque algunas
+    clases (bibliotecas) en el <a href="class.yaf-loader.html#yaf-loader.props.library" class="link">directorio de
+    clases local</a> (el cual está definido en application.ini, y por omisión 
+    es <a href="yaf.appconfig.html#configuration.yaf.directory" class="link">application.directory</a> . &quot;/libraray&quot;),
+    debería registrar el prefijo de clases usando el método
+    <span class="methodname"><a href="yaf-loader.registerlocalnamespace.html" class="methodname">Yaf_Loader::registerLocalNameSpace()</a></span>
+   </p>
+   
+   <p class="para">
+    Veamos algunos ejemplos (asumiendo que APPLICATION_PATH es <a href="yaf.appconfig.html#configuration.yaf.directory" class="link">application.directory</a>):
+    <div class="example" id="example-4695">
+     <p><strong>Ejemplo #1 Ejemplo de configuración</strong></p>
+     <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">// Se asume la siguiente configuración en php.ini:
+yaf.library = &quot;/global_dir&quot;
+
+// Se asume la siguiente configuración en application.ini
+application.library = APPLICATION_PATH &quot;/library&quot;</pre>
+</div>
+     </div>
+
+    </div>
+    
+    Se asume que el siguiente espacio de nombres local está registrado:
+    <div class="example" id="example-4696">
+     <p><strong>Ejemplo #2 Registrar el espacio de nombres local</strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Bootstrap&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">Yaf_Bootstrap_Abstract</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">_initLoader</span><span style="color: #007700">(</span><span style="color: #0000BB">$dispatcher</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">Yaf_Loader</span><span style="color: #007700">::</span><span style="color: #0000BB">getInstance</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">registerLocalNameSpace</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"Foo"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Bar"</span><span style="color: #007700">));<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </div>
+    
+    Ahora los ejemplos de autocarga:
+    <div class="example" id="example-4697">
+     <p><strong>Ejemplo #3 Load class example</strong></p>
+     <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">class Foo_Bar_Test =&gt;
+  // APPLICATION_PATH/library/Foo/Bar/Test.php
+  
+class GLO_Name  =&gt;
+  // /global_dir/Glo/Name.php
+ 
+class BarNon_Test
+  // /global_dir/Barnon/Test.php</pre>
+</div>
+     </div>
+
+    </div>
+    
+    A partir de PHP 5.3 se pueden usar espacios de nombres:
+    <div class="example" id="example-4698">
+     <p><strong>Ejemplo #4 Ejemplo de carga de una clase en el espacio de nombres</strong></p>
+     <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">class \Foo\Bar\Dummy =&gt;
+   // APPLICATION_PATH/library/Foo/Bar/Dummy.php
+
+class \FooBar\Bar\Dummy =&gt;
+   // /global_dir/FooBar/Bar/Dummy.php</pre>
+</div>
+     </div>
+
+    </div>
+   </p>
+   
+   <p class="para">
+    Se puede observar que todas las carpetas tienen la primera letra en mayúsculas, se pueden ponerlas
+    en minúsculas estableciendo <a href="yaf.configuration.html#ini.yaf.lowcase-path" class="link">yaf.lowcase_path</a> = On en php.ini
+   </p>
+   
+   <p class="para">
+    <strong class="classname">Yaf_Loader</strong> también está diseñada para cargar las clases MVC,
+    y la regla es:
+    <div class="example" id="example-4699">
+     <p><strong>Ejemplo #5 Ejemplo de carga de clase MVC</strong></p>
+     <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">Controller Classes =&gt;
+// APPLICATION_PATH/controllers/
+
+Model Classes =&gt;
+// APPLICATION_PATH/models/
+
+Plugin Classes =&gt;
+// APPLICATION_PATH/plugins/</pre>
+</div>
+     </div>
+
+    </div>
+    
+    Yaf identifica un sufijo de clases (por omisión, se puede cambiar
+    el sufijo cambiando la opción de configuración <a href="yaf.configuration.html#ini.yaf.name-suffix" class="link">yaf.name_suffix</a>) para decidir si
+    es una clase MVC:
+    <div class="example" id="example-4700">
+     <p><strong>Ejemplo #6 Distinciones de clases MVC</strong></p>
+     <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">Controller Classes =&gt;
+    // ***Controller
+
+Model Classes =&gt;
+    // ***Model
+
+Plugin Classes =&gt;
+    // ***Plugin</pre>
+</div>
+     </div>
+
+    </div>
+    
+    algunos ejemplos:
+    <div class="example" id="example-4701">
+     <p><strong>Ejemplo #7 Ejemplo de carga MVC</strong></p>
+     <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">class IndexController
+    // APPLICATION_PATH/controllers/Index.php
+
+class DataModel =&gt;
+   // APPLICATION_PATH/models/Data.php
+
+class DummyPlugin =&gt;
+  // APPLICATION_PATH/plugins/Dummy.php
+
+class A_B_TestModel =&gt;
+  // APPLICATION_PATH/models/A/B/Test.php</pre>
+</div>
+     </div>
+
+    </div>
+    
+    <blockquote class="note"><p><strong class="note">Nota</strong>: 
+     <p class="para">
+      A partir de 2.1.18, Yaf admite que los Controllers se autocarguen para el lado del scrpt cliente,
+      (lo que significa que la autocarga se desencadena por el script del usuario de php, p.ej., acceder a una
+      propiedad de un Controller estático en Bootstrap o Plugins),
+      aunque el autocargador solamente intenta localizar el controlador bajo la carpeta del
+      módulo predeterminado, que es &quot;APPLICATION_PATH/controllers/&quot;.
+     </p>
+    </p></blockquote>
+    
+    también, el directorio será afectado por <a href="yaf.configuration.html#ini.yaf.lowcase-path" class="link">yaf.lowcase_path</a>.
+   </p>
+  </div>
+  
+  
+  <div class="section" id="yaf-loader.synopsis">
+   <h2 class="title">Sinopsis de la Clase</h2>
+   
+   
+   <div class="classsynopsis">
+    <div class="ooclass"></div>
+    
+    
+    <div class="classsynopsisinfo">
+     <span class="ooclass">
+      <strong class="classname">Yaf_Loader</strong>
+     </span>
+     {</div>
+    
+    <div class="classsynopsisinfo classsynopsisinfo_comment">/* Propiedades */</div>
+    <div class="fieldsynopsis">
+     <span class="modifier">protected</span>
+      <var class="varname"><a href="class.yaf-loader.html#yaf-loader.props.local-ns">$<var class="varname">_local_ns</var></a></var>
+    ;</div>
+
+    <div class="fieldsynopsis">
+     <span class="modifier">protected</span>
+      <var class="varname"><a href="class.yaf-loader.html#yaf-loader.props.library">$<var class="varname">_library</var></a></var>
+    ;</div>
+
+    <div class="fieldsynopsis">
+     <span class="modifier">protected</span>
+      <var class="varname"><a href="class.yaf-loader.html#yaf-loader.props.global-library">$<var class="varname">_global_library</var></a></var>
+    ;</div>
+
+    <div class="fieldsynopsis">
+     <span class="modifier">static</span>
+      <var class="varname"><a href="class.yaf-loader.html#yaf-loader.props.instance">$<var class="varname">_instance</var></a></var>
+    ;</div>
+
+    
+    
+    <div class="classsynopsisinfo classsynopsisinfo_comment">/* Métodos */</div>
+    <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.autoload.html" class="methodname">autoload</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.clearlocalnamespace.html" class="methodname">clearLocalNamespace</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">private</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.clone.html" class="methodname">__clone</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">private</span> <span class="methodname"><a href="yaf-loader.construct.html" class="methodname">__construct</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.getinstance.html" class="methodname">getInstance</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">Yaf_Loader</span> <span class="methodname"><a href="yaf-loader.getlibrarypath.html" class="methodname">getLibraryPath</a></span>
+    ([ <span class="methodparam"><span class="type">bool</span> <code class="parameter">$is_global</code><span class="initializer"> = false</span></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.getlocalnamespace.html" class="methodname">getLocalNamespace</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.import.html" class="methodname">import</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.islocalname.html" class="methodname">isLocalName</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.registerlocalnamespace.html" class="methodname">registerLocalNamespace</a></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$prefix</code></span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">Yaf_Loader</span> <span class="methodname"><a href="yaf-loader.setlibrarypath.html" class="methodname">setLibraryPath</a></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$directory</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$is_global</code><span class="initializer"> = false</span></span>
+  ] )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">private</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.sleep.html" class="methodname">__sleep</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+<div class="methodsynopsis dc-description">
+   <span class="modifier">private</span> <span class="type">void</span> <span class="methodname"><a href="yaf-loader.wakeup.html" class="methodname">__wakeup</a></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+   }</div>
+   
+   
+  </div>
+  
+  
+  
+  <div class="section" id="yaf-loader.props">
+   <h2 class="title">Propiedades</h2>
+   <dl>
+
+    
+     <dt id="yaf-loader.props.local-ns"><var class="varname"><var class="varname">_local_ns</var></var></dt>
+
+     <dd>
+
+      <p class="para"/>
+     </dd>
+
+    
+    
+     <dt id="yaf-loader.props.library"><var class="varname"><var class="varname">_library</var></var></dt>
+
+     <dd>
+
+      <p class="para">
+       Por omisión, este valor es <a href="yaf.appconfig.html#configuration.yaf.directory" class="link">application.directory</a> . &quot;/library&quot;,
+       se puede cambiar en application.ini (application.library) o llamando al método
+       <span class="methodname"><a href="yaf-loader.setlibrarypath.html" class="methodname">Yaf_Loader::setLibraryPath()</a></span>
+      </p>
+     </dd>
+
+    
+    
+     <dt id="yaf-loader.props.global-library"><var class="varname"><var class="varname">_global_library</var></var></dt>
+
+     <dd>
+
+      <p class="para"/>
+     </dd>
+
+    
+    
+     <dt id="yaf-loader.props.instance"><var class="varname"><var class="varname">_instance</var></var></dt>
+
+     <dd>
+
+      <p class="para"/>
+     </dd>
+
+    
+   </dl>
+
+  </div>
+  
+  
+  
+ </div>
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+<h2>Tabla de contenidos</h2><ul class="chunklist chunklist_reference"><li><a href="yaf-loader.autoload.html">Yaf_Loader::autoload</a> — El prop&oacute;sito de autoload</li><li><a href="yaf-loader.clearlocalnamespace.html">Yaf_Loader::clearLocalNamespace</a> — El prop&oacute;sito de clearLocalNamespace</li><li><a href="yaf-loader.clone.html">Yaf_Loader::__clone</a> — El prop&oacute;sito de __clone</li><li><a href="yaf-loader.construct.html">Yaf_Loader::__construct</a> — El prop&oacute;sito de __construct</li><li><a href="yaf-loader.getinstance.html">Yaf_Loader::getInstance</a> — El prop&oacute;sito de getInstance</li><li><a href="yaf-loader.getlibrarypath.html">Yaf_Loader::getLibraryPath</a> — El prop&oacute;sito de getLibraryPath</li><li><a href="yaf-loader.getlocalnamespace.html">Yaf_Loader::getLocalNamespace</a> — El prop&oacute;sito de getLocalNamespace</li><li><a href="yaf-loader.import.html">Yaf_Loader::import</a> — El prop&oacute;sito de import</li><li><a href="yaf-loader.islocalname.html">Yaf_Loader::isLocalName</a> — El prop&oacute;sito de isLocalName</li><li><a href="yaf-loader.registerlocalnamespace.html">Yaf_Loader::registerLocalNamespace</a> — Registra un prefijo de clase local</li><li><a href="yaf-loader.setlibrarypath.html">Yaf_Loader::setLibraryPath</a> — Cmabiar la ruta de la biblioteca</li><li><a href="yaf-loader.sleep.html">Yaf_Loader::__sleep</a> — El prop&oacute;sito de __sleep</li><li><a href="yaf-loader.wakeup.html">Yaf_Loader::__wakeup</a> — El prop&oacute;sito de __wakeup</li></ul>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="yaf-view-simple.setscriptpath.html">Yaf_View_Simple::setScriptPath</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="yaf-loader.autoload.html">Yaf_Loader::autoload</a></div>
+ <div class="up"><a href="book.yaf.html">Yaf</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Empezar una nueva p&aacute;gina</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-arcn.html">ps_arcn</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-begin-pattern.html">ps_begin_pattern</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ps-begin-page" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ps_begin_page</h1>
+  <p class="verinfo">(PECL ps &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">ps_begin_page</span> &mdash; <span class="dc-title">Empezar una nueva página</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ps-begin-page-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>ps_begin_page</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$psdoc</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$width</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$height</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Empiza una nueva página. Aunque los parámetros <code class="parameter">width</code>
+   y <code class="parameter">height</code> implican un tamaño de página diferente para cada
+   página, esto no es posible en PostScript. La primera llamada a la función
+   <span class="function"><strong>ps_begin_page()</strong></span> establecerá el tamaño de página para el documento
+   entero. Las llamadas consecutivas no tendrán efecto, excepto para crear una nueva
+   página. La situación es diferente si se intenta convertir el documento
+   PostScript a PDF. Esta función coloca marcas pdf dentro del documento, con lo que
+   se puede establecer el tamaño de cada página individualmente. El documento PDF resultante
+   tendrá diferentes tamaños de página.
+  </p>
+  <p class="para">
+   Aunque PostScript no conoce diferentes tamaños de página, pslib coloca
+   una caja circundante para cada página dentro del documento. Este tamaño es evaluado
+   por algunos visualizadores de PostScript y tendrá precedencia sobre el campo BoundingBox
+   de la cabecera (Header) del documento. Esto puede llevar a resultados inesperados cuando
+   se establece BoundingBox con su esquina inferior izquierda diferente de (0, 0), ya que la
+   caja circundante de la página siempre tendrá una esquina inferior izquierda (0, 0)
+   y sobrescribirá la configuración global.
+  </p>
+  <p class="para">
+   Cada página está encapsulada en la forma guardar/restaurar. Esto significa que la mayoría de los
+   ajustes hechos en una página no se conservarán para la siguiente página.
+  </p>
+  <p class="para">
+   Si hasta la primera llamada a la función <span class="function"><strong>ps_begin_page()</strong></span> no existen
+   llamadas a la función <span class="function"><a href="function.ps-findfont.html" class="function">ps_findfont()</a></span>, la cabecera del documento
+   PostScript se imprimirá y la caja circundante será establecida al tamaño de
+   la primera página. La esquina inferior izquierda de la caja circundante se establecerá a (0, 0).
+   Si si llamó antes a la función <span class="function"><a href="function.ps-findfont.html" class="function">ps_findfont()</a></span>, la
+   cabecera ya ha sido impresa, y el documento no tendrá una caja circundante
+   válida. Para prevenir esto, se debería llamar a la función
+   <span class="function"><a href="function.ps-set-info.html" class="function">ps_set_info()</a></span> para establecer el campo de información
+   <em>BoundingBox</em> y posiblemente <em>Orientation</em>
+   antes de cualquier llamada a las funciones <span class="function"><a href="function.ps-findfont.html" class="function">ps_findfont()</a></span> o
+   <span class="function"><strong>ps_begin_page()</strong></span>.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Hasta la versión 0.2.6 de pslib, esta función siempre sobrescribía
+    los campos BoundingBox y Orientation si antes habían sido establecidos con la función
+    <span class="function"><a href="function.ps-set-info.html" class="function">ps_set_info()</a></span> y no se había llamado antes
+    a la función <span class="function"><a href="function.ps-findfont.html" class="function">ps_findfont()</a></span>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ps-begin-page-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">psdoc</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de recursos del fichero postscript,
+       como el devuelto por la función <span class="function"><a href="function.ps-new.html" class="function">ps_new()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">width</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El ancho de la página en píxeles, p.ej. 596 para el formato A4
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">height</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El alto de la página en píxeles, p.ej. 842 para el formato A4
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ps-begin-page-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ps-begin-page-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ps-end-page.html" class="function" rel="rdfs-seeAlso">ps_end_page()</a> - Finalizar una p&aacute;gina</span></li>
+    <li class="member"><span class="function"><a href="function.ps-findfont.html" class="function" rel="rdfs-seeAlso">ps_findfont()</a> - Cargar una fuente</span></li>
+    <li class="member"><span class="function"><a href="function.ps-set-info.html" class="function" rel="rdfs-seeAlso">ps_set_info()</a> - Establecer los campos de informaci&oacute;n del documento</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ps-arcn.html">ps_arcn</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ps-begin-pattern.html">ps_begin_pattern</a></div>
+ <div class="up"><a href="ref.ps.html">Funciones de PS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

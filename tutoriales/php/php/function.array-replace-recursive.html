@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Reemplaza los elementos de los arrays pasados al primer array de forma recursiva</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.array-reduce.html">array_reduce</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.array-replace.html">array_replace</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.array-replace-recursive" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">array_replace_recursive</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7)</p><p class="refpurpose"><span class="refname">array_replace_recursive</span> &mdash; <span class="dc-title">Reemplaza los elementos de los arrays pasados al primer array de forma recursiva</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.array-replace-recursive-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>array_replace_recursive</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$array1</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter">$array2</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$...</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>array_replace_recursive()</strong></span> reemplaza los valores de
+   <code class="parameter">array1</code> con los mismos valores de todos los siguientes
+   arrays. Si una clave del primer array existe en el segundo array, su valor
+   será reemplazado por el valor del segundo array. Si la clave existe en el
+   segundo array, y no en el primero, será creada en el primer array.
+   Si una clave existe únicamente en el primer array, se dejará como está.
+   Si se pasan varios arrays para el reemplazo, serán procesados
+   en orden, el último array sobrescribiendo los valores anteriores.
+  </p>
+  <p class="para">
+   <span class="function"><strong>array_replace_recursive()</strong></span> es recursiva: realizará la recursividad en los
+   arrays y aplicará el mismo proceso al valor interno.
+  </p>
+  <p class="para">
+   Cuando el valor de <code class="parameter">array1</code> es escalar, será reemplazado
+   por el valor de <code class="parameter">array2</code>, que puede ser escalar o un array.
+   Cuando los valores de <code class="parameter">array1</code> y <code class="parameter">array2</code>
+   son arrays, <span class="function"><strong>array_replace_recursive()</strong></span> reemplazará
+   sus respectivos valores recursivamente.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.array-replace-recursive-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">array1</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El array cuyos elementos son reemplazados.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">array2</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El array del cual se extraerán los elementos.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">...</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Opcional. Más arrays desde los cuales se extraerán los elementos.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.array-replace-recursive-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un <span class="type"><a href="language.types.array.html" class="type array">array</a></span>, o <strong><code>NULL</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.array-replace-recursive-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5537">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>array_replace_recursive()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$base&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'cítricos'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(&nbsp;</span><span style="color: #DD0000">"naranja"</span><span style="color: #007700">)&nbsp;,&nbsp;</span><span style="color: #DD0000">'bayas'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"mora"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"frambuesa"</span><span style="color: #007700">),&nbsp;);<br /></span><span style="color: #0000BB">$reemplazos&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'cítricos'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'piña'</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">'bayas'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'arándano'</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">$cesta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_replace_recursive</span><span style="color: #007700">(</span><span style="color: #0000BB">$base</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$reemplazos</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$cesta</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$cesta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_replace</span><span style="color: #007700">(</span><span style="color: #0000BB">$base</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$reemplazos</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$cesta</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [cítricos] =&gt; Array
+        (
+            [0] =&gt; piña
+        )
+
+    [bayas] =&gt; Array
+        (
+            [0] =&gt; arándano
+            [1] =&gt; frambuesa
+        )
+
+)
+Array
+(
+    [cítricos] =&gt; Array
+        (
+            [0] =&gt; piña
+        )
+
+    [bayas] =&gt; Array
+        (
+            [0] =&gt; arándano
+        )
+
+)
+
+</pre></div>
+    </div>
+   </div>
+   <div class="example" id="example-5538">
+    <p><strong>Ejemplo #2 <span class="function"><strong>array_replace_recursive()</strong></span> y comportamiento recursivo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$base&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'cítricos'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"naranja"</span><span style="color: #007700">)&nbsp;,&nbsp;</span><span style="color: #DD0000">'bayas'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"mora"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"frambuesa"</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">'otros'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'banana'&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$reemplazos&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'cítricos'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'piña'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bayas'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'arándano'</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">'otros'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'litchis'</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$reemplazos2&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'cítricos'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'piña'</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">'bayas'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'arándano'</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">'otros'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'litchis'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$cesta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_replace_recursive</span><span style="color: #007700">(</span><span style="color: #0000BB">$base</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$reemplazos</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$reemplazos2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$cesta</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [cítricos] =&gt; Array
+        (
+            [0] =&gt; piña
+        )
+
+    [bayas] =&gt; Array
+        (
+            [0] =&gt; arándano
+            [1] =&gt; frambuesa
+        )
+
+    [otros] =&gt; litchis
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.array-replace-recursive-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.array-replace.html" class="function" rel="rdfs-seeAlso">array_replace()</a> - Reemplaza los elementos de los arrays pasados en el primer array</span></li>
+    <li class="member"><span class="function"><a href="function.array-merge-recursive.html" class="function" rel="rdfs-seeAlso">array_merge_recursive()</a> - Une dos o m&aacute;s arrays recursivamente</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.array-reduce.html">array_reduce</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.array-replace.html">array_replace</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

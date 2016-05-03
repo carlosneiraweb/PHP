@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Acceso a URLS en HTTP(s)</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="wrappers.file.html">file://</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="wrappers.ftp.html">ftp://</a></div>
+ <div class="up"><a href="wrappers.html">Protocolos y Envolturas soportados</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="wrappers.http" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">http://</h1>
+  <h1 class="refname">https://</h1>
+  <p class="refpurpose"><span class="refname">http://</span> -- <span class="refname">https://</span> &mdash; <span class="dc-title">Acceso a URLS en HTTP(s)</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-wrappers.http-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">
+   Permite acceso de lectura a ficheros/recursos mediante HTTP 1.0,
+   utilizando el método GET de HTTP. Junto con la petición, se envía una cabecera
+   <em>Host:</em> para así poder usar hosts virtuales basados en nombres. Si se ha definido
+   un <a href="filesystem.configuration.html#ini.user-agent" class="link">user_agent</a> en el fichero
+   <var class="filename">php.ini</var> o en el contexto del flujo, éste se incluirá también en la
+   petición.
+  </p>
+  <p class="simpara">
+   El flujo proporciona acceso al <em class="emphasis">cuerpo</em> del
+   recurso; las cabeceras se guardan en la variable
+   <var class="varname"><var class="varname"><a href="reserved.variables.httpresponseheader.html" class="classname">$http_response_header</a></var></var>.
+  </p>
+  <p class="simpara">
+   Si fuera importante conocer la URL del recurso del que procede
+   el documento (tras procesar todas las redirecciones),
+   se deberán procesar todas las cabeceras de respuesta devueltas por
+   el flujo.
+  </p>
+  <p class="simpara">
+   Se usará la directiva <a href="filesystem.configuration.html#ini.from" class="link">from</a> en la cabecera
+   <em>From:</em> siempre que esté asignado y no se sobrescriba por
+   <a href="context.html" class="xref">Opciones y par&aacute;metros de contexto</a>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 usage" id="refsect1-wrappers.http-usage"> 
+  <h3 class="title">Uso</h3>
+  <ul class="itemizedlist">
+   <li class="listitem"><span class="simpara"><var class="filename">http://ejemplo.com</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">http://ejemplo.com/fichero.php?var1=val1&amp;var2=val2</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">http://usuario:contraseña@ejemplo.com</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">https://ejemplo.com</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">https://ejemplo.com/fichero.php?var1=val1&amp;var2=val2</var></span></li>
+   <li class="listitem"><span class="simpara"><var class="filename">https://usuario:contraseña@ejemplo.com</var></span></li>
+  </ul>
+ </div>
+ 
+ 
+ <div class="refsect1 options" id="refsect1-wrappers.http-options">
+  <h3 class="title">Opciones</h3>
+  <p class="para">
+   <table class="doctable table">
+    <caption><strong>Resumen de la Envoltura</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Atributo</th>
+       <th>Permitido</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>Restringido por <a href="filesystem.configuration.html#ini.allow-url-fopen" class="link">allow_url_fopen</a></td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite Lecturas</td>
+       <td>Sí</td>
+      </tr>
+
+      <tr>
+       <td>Permite Escrituras</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite Añadir contenidos</td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite Lecturas y Escrituras Simultáneas</td>
+       <td>N/A</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.stat.html" class="function">stat()</a></span></td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.unlink.html" class="function">unlink()</a></span></td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.rename.html" class="function">rename()</a></span></td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.mkdir.html" class="function">mkdir()</a></span></td>
+       <td>No</td>
+      </tr>
+
+      <tr>
+       <td>Permite usar la función <span class="function"><a href="function.rmdir.html" class="function">rmdir()</a></span></td>
+       <td>No</td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+ 
+ 
+ <div class="refsect1 changelog" id="refsect1-wrappers.http-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>4.3.7</td>
+       <td>
+        Detectado errores en servidores IIS para evitar <em>&quot;SSL: Fatal Protocol Error&quot;</em>.
+       </td>
+      </tr>
+
+      <tr>
+       <td>4.3.0</td>
+       <td>
+        Añadido <em>https://</em>.
+       </td>
+      </tr>
+
+      <tr>
+       <td>4.0.5</td>
+       <td>
+        Añadido soporte para las redirecciones.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-wrappers.http-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="wrappers.http.example.basic">
+   <p><strong>Ejemplo #1 Detectar la URL en la que se finaliza tras las redirecciones</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$url&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'http://www.example.com/redirecting_page.php'</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #0000BB">$url</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'r'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$meta_data&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">stream_get_meta_data</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br />foreach&nbsp;(</span><span style="color: #0000BB">$meta_data</span><span style="color: #007700">[</span><span style="color: #DD0000">'wrapper_data'</span><span style="color: #007700">]&nbsp;as&nbsp;</span><span style="color: #0000BB">$response</span><span style="color: #007700">)&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Were&nbsp;we&nbsp;redirected?&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">strtolower</span><span style="color: #007700">(</span><span style="color: #0000BB">substr</span><span style="color: #007700">(</span><span style="color: #0000BB">$response</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">))&nbsp;==&nbsp;</span><span style="color: #DD0000">'location:&nbsp;'</span><span style="color: #007700">)&nbsp;{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;update&nbsp;$url&nbsp;with&nbsp;where&nbsp;we&nbsp;were&nbsp;redirected&nbsp;to&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$url&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">substr</span><span style="color: #007700">(</span><span style="color: #0000BB">$response</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-wrappers.http-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Sólo habrá soporte para HTTPS cuando la extensión <a href="book.openssl.html" class="link">openssl</a>
+    esté habilitada.
+   </span>
+  </p></blockquote>
+  <p class="simpara">
+   Las conexiones HTTP son de sólo lectura; no hay soporte para escribir
+   o copiar datos a un recurso HTTP.
+  </p>
+  <p class="simpara">
+   Se pueden enviar peticiones <em class="emphasis">POST</em> y <em class="emphasis">PUT</em>, por ejemplo,
+   con ayuda de los <a href="context.http.html" class="link">Contextos HTTP</a>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-wrappers.http-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member"><a href="context.http.html" class="xref">Opciones de contexto de HTTP</a></li>
+   <li class="member"><var class="varname"><var class="varname"><a href="reserved.variables.httpresponseheader.html" class="classname">$http_response_header</a></var></var></li>
+   <li class="member"><span class="function"><a href="function.stream-get-meta-data.html" class="function" rel="rdfs-seeAlso">stream_get_meta_data()</a> - Recuperar meta-informaci&oacute;n o de cabecera de punteros a flujos/archivo</span></li>
+  </ul>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="wrappers.file.html">file://</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="wrappers.ftp.html">ftp://</a></div>
+ <div class="up"><a href="wrappers.html">Protocolos y Envolturas soportados</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Consultas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.writes.html">Escrituras</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.updates.html">Actualizaciones</a></div>
+ <div class="up"><a href="mongo.manual.html">Manual</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongo.queries" class="chapter">
+ <h1>Consultas</h1>
+
+ 
+ <div class="simplesect">
+  <h3 class="title">Distribuyendo consultas a esclavos</h3>
+  
+  <p class="para">
+   Todas las consultas (lecturas y escrituras) solamente se envian al miembro primario de un
+   conjunto de réplicas de manera predeterminada. Sin embargo, esto es fácilmente configurable usando las
+   <a href="mongo.readpreferences.html" class="link">Preferencias de lectura</a>, que permiten
+   establecer algunas preferencias de lectura genéricas (tales como permitir que un secundario lea
+   del servidor más cercano), y también proporcionar formas de dirigir específicamente un
+   servidor en un país concreto, o incluso hardware, usando los
+   <a href="mongo.readpreferences.html#mongo.readpreferences.tagsets" class="link">conjuntos de etiquetas de conjuntos de réplicas</a>.
+  </p>
+  <p class="para">
+   Las preferencias de lectura se pueden configurar en cualquier nivel del controlador:
+   <ul class="simplelist">
+    <li class="member">Como parámetro de consulta u opción a <span class="methodname"><a href="mongoclient.construct.html" class="methodname">MongoClient::__construct()</a></span></li>
+    <li class="member">Específicamente invocando a <span class="methodname"><a href="mongoclient.setreadpreference.html" class="methodname">MongoClient::setReadPreference()</a></span></li>
+    <li class="member">A nivel de la base de datos con <span class="methodname"><a href="mongodb.setreadpreference.html" class="methodname">MongoDB::setReadPreference()</a></span></li>
+    <li class="member">A nivel de la colección con <span class="methodname"><a href="mongocollection.setreadpreference.html" class="methodname">MongoCollection::setReadPreference()</a></span></li>
+    <li class="member">A nivel de cursor con <span class="methodname"><a href="mongocursor.setreadpreference.html" class="methodname">MongoCursor::setReadPreference()</a></span> o <span class="methodname"><a href="mongocommandcursor.setreadpreference.html" class="methodname">MongoCommandCursor::setReadPreference()</a></span></li>
+   </ul>
+   Cada clase hereda su configuración de preferencias de lectura del contexto &quot;padre&quot;.
+  </p>
+  <div class="example" id="mongo.queries.secondaries.inheritence-example">
+   <p><strong>Ejemplo #1 Herencia de las preferencias de lectura del nivel de la base de datos hacia el cursor</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setReadPreference</span><span style="color: #007700">(</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">::</span><span style="color: #0000BB">RP_SECONDARY_PREFERRED</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">myCollection</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$cursor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$c</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <p class="para">
+   En este ejemplo, la consulta se ejecutará en un secundario. La
+   colección hereda <strong><code>MongoClient::RP_SECONDARY_PREFERRED</code></strong>
+   de la base de datos y el cursor lo hereda de la colección.
+  </p>
+ </div>
+ 
+ <div class="simplesect">
+  <h3 class="title">Cómo se escogen los esclavos</h3>
+  
+  <p class="para">
+   Cada instancia de <a href="class.mongoclient.html" class="classname">MongoClient</a> escoge su propio
+   secundario utilizando el secundario disponible con el menor tiempo de respuesta. Es decir,
+   si tuviéramos un cliente PHP en Europa y otro en Australia y tuviéramos un secundario en
+   cada uno de estos centros de datos, podríamos hacer:
+  </p>
+  <div class="example" id="mongo.queries.choosing.secondary-example">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$options&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"replicaSet"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"setName"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"readPreference"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">::</span><span style="color: #0000BB">RP_SECONDARY_PREFERRED</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;en&nbsp;el&nbsp;cliente&nbsp;de&nbsp;Australia<br /></span><span style="color: #0000BB">$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #DD0000">"mongodb://primary,australianhost.secondary,europeanhost.secondary"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$options</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$cursor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bar</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$cursor</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getNext</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #DD0000">"Leyendo&nbsp;desde:&nbsp;"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$cursor</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">info</span><span style="color: #007700">()[</span><span style="color: #DD0000">"server"</span><span style="color: #007700">],&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;en&nbsp;el&nbsp;cliente&nbsp;de&nbsp;Europa<br /></span><span style="color: #0000BB">$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #DD0000">"mongodb://primary,australianhost.secondary,europeanhost.secondary"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$options</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$cursor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bar</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$cursor</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getNext</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #DD0000">"Leyendo&nbsp;desde:&nbsp;"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$cursor</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">info</span><span style="color: #007700">()[</span><span style="color: #DD0000">"server"</span><span style="color: #007700">],&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Reading from: australianHost
+Reading from: europeanHost
+</pre></div>
+   </div>
+   <div class="example-contents"><p>
+    Tenga en cuenta que se debe realizar una consulta antes de elegir un secundario:
+    los secundarios los elige el controlador de forma retardada, y para cada consulta por separado.
+   </p></div>
+  </div>
+  
+  <p class="para">
+   Se puede ver los que el controlador piensa que es el estado actual de los miembros
+   del conjunto ejecutando <span class="methodname"><a href="mongoclient.gethosts.html" class="methodname">MongoClient::getHosts()</a></span> o
+   <span class="methodname"><a href="mongoclient.getconnections.html" class="methodname">MongoClient::getConnections()</a></span>.
+  </p>
+  
+  <p class="para">
+   Si un secundario no es legible, el controlador enviará las lecturas al
+   primario que se especificó con
+   <strong><code>MongoClient::RP_SECONDARY_PREFERRED</code></strong>, que
+   recurrirá a ejecutar una consulta en un primario si no estuviera disponible un secundario.
+   Un servidor es considerado legible si su estado es 2 (SECONDARY) y su
+   salud es 1. Se puede verificar esto con
+   <span class="methodname"><a href="mongoclient.gethosts.html" class="methodname">MongoClient::getHosts()</a></span> y
+   <span class="methodname"><a href="mongoclient.getconnections.html" class="methodname">MongoClient::getConnections()</a></span>.
+  </p>
+  
+ </div>
+ <div class="simplesect">
+  <h3 class="title">Notas aleatorias</h3>
+  
+  <p class="para">
+   Las escrituras siempre se envian al primario y, de forma predeterminada, todas las lecturas
+   son enviada también al primario.
+  </p>
+  
+ </div>
+ 
+ <div class="simplesect">
+  <h3 class="title">Consultando por _id</h3>
+  <p class="para">
+   A cada objeto que se inserta se le asigna automáticamente un campo
+   <em>_id</em> único, el cual, a menudo, es un campo útil para usarlo en
+   consultas. Esto funciona de forma similar a la funcionalidad &quot;obtener el último ID insertado&quot;,
+   excepto que el <em>_id</em> es escogido por el <em class="emphasis">cliente</em>.
+  </p>
+  <p class="para">
+   Supongamos que queremos localizar el documento que acabamos de insertar. Las inserciones
+   añaden un campo <em>_id</em> al documento, de modo que podemos realizar una consulta a partir de él:
+   
+   <div class="example" id="mongo.queries.querying-example">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$person&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"name"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"joe"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$people</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$person</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;ahora&nbsp;$joe&nbsp;tiene&nbsp;un&nbsp;campo&nbsp;_id<br /></span><span style="color: #0000BB">$joe&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$people</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">findOne</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"_id"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$person</span><span style="color: #007700">[</span><span style="color: #DD0000">'_id'</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Salvo que se indique lo contrario, el campo <em>_id</em> será de tipo
+   <a href="class.mongoid.html" class="classname">MongoId</a>. El error más frecuente consiste en usar una cadena
+   de texto que concuerde con un <a href="class.mongoid.html" class="classname">MongoId</a>. Debe tenerse presente
+   que son dos tipos de datos distintos, y no concuerdan, del mismo modo que el texto
+   &quot;array()&quot; no es lo mismo que un array vacío. Por ejemplo:
+   
+   <div class="example" id="mongo.queries.querying.wrong">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$person&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"name"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"joe"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$people</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$person</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;convertimos&nbsp;el&nbsp;_id&nbsp;a&nbsp;texto<br /></span><span style="color: #0000BB">$pid&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$person</span><span style="color: #007700">[</span><span style="color: #DD0000">'_id'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;FALLO&nbsp;-&nbsp;$pid&nbsp;es&nbsp;un&nbsp;texto,&nbsp;no&nbsp;un&nbsp;MongoId<br /></span><span style="color: #0000BB">$joe&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$people</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">findOne</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"_id"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$pid</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+ 
+ <div class="simplesect">
+  <h3 class="title">Arrays</h3>
+  
+  <p class="para">
+   Los arrays son especiales por varias razones. En primer lugar, hay dos tipos de arrays que
+   MongoDB utiliza: arrays &quot;normales&quot; y arrays asociativos. Los arrays asociativos pueden tener
+   cualquier combinación de claves y valores. Los arrays &quot;normales&quot; se definen como arrays
+   con un índice numérico ascendente que comienza por 0 y se incrementa en uno por cada
+   elemento. Estos son, normalmente, los arrays de PHP más comunes.
+  </p>
+  
+  <p class="para">
+   Por ejemplo, si se quisiera guardar una lista de premios en un documento, podríamos
+   poner:
+  </p>
+  
+  <div class="example" id="mongo.queries.arrays-example">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">save</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"awards"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"gold"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"silver"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"bronze"</span><span style="color: #007700">)));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Las consultas pueden llegar hasta los arrays en busca de elementos. Supongamos que queremos
+   encontrar todos los documentos que contienen un elemento de un array con un determinado valor. Por ejemplo,
+   documentos con un premio &quot;gold&quot;, como por ejemplo:
+  </p>
+  
+  <div class="example-contents screen">
+<div class="cdata"><pre>
+{ &quot;_id&quot; : ObjectId(&quot;4b06c282edb87a281e09dad9&quot;), &quot;awards&quot; : [&quot;gold&quot;, &quot;silver&quot;, &quot;bronze&quot;]}
+</pre></div>
+  </div>
+  
+  <p class="para">
+   Esto puede lograrse con una única consulta, ignorando el hecho de que &quot;awards&quot; es
+   un array:
+  </p>
+  
+  <div class="example" id="mongo.queries.arrays-example-2">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />&nbsp;&nbsp;$cursor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"awards"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"gold"</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Supongamos que estamos consultando un objeto más complejo, si cada elemento del array
+   fuera un objeto en sí mismo, como en:
+  </p>
+  
+  <div class="example-contents screen">
+<div class="cdata"><pre>
+{
+     &quot;_id&quot; : ObjectId(&quot;4b06c282edb87a281e09dad9&quot;),
+     &quot;awards&quot; :
+     [
+        {
+            &quot;first place&quot; : &quot;gold&quot;
+        },
+        {
+            &quot;second place&quot; : &quot;silver&quot;
+        },
+        {
+            &quot;third place&quot; :  &quot;bronze&quot;
+        }
+     ]
+}
+</pre></div>
+  </div>
+  
+  <p class="para">
+   Incluso aquí, ignorando que se trata de un array, podemos usar la misma
+   notación para consultar al subobjeto:
+  </p>
+  
+  <div class="example" id="mongo.queries.querying-arrays-nested">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$cursor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"awards.first&nbsp;place"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"gold"</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <p class="para">
+   Debe tenerse en cuenta que no importa que haya espacios en los nombres de campos
+   (pese a que sea mejor no usarlos, sólo por mantenerlo más
+   legible).
+  </p>
+  
+  <p class="para">
+   Puede también usarse un array para consultar un determinado número de posibles valores. Por
+   ejemplo, si buscáramos documentos &quot;gold&quot; o &quot;copper&quot;, podríamos hacer:
+  </p>
+  
+  <div class="example" id="mongo.queries.querying-arrays-in">
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$cursor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"awards"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'$in'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">"gold"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"copper"</span><span style="color: #007700">))));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+ 
+ <div class="simplesect">
+  <h3 class="title">Historial de cambios</h3>
+  <table class="doctable informaltable">
+   
+    <thead>
+     <tr>
+      <th>Versión</th>
+      <th>Descripción</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     
+     <tr>
+      <td>1.3.0</td>
+      <td>
+       Se introdujo el framwork <a href="mongo.readpreferences.html" class="link">Preferencias
+       de Lectura</a> para poder tener más control sobre
+       las lecturas de secundarios.
+      </td>
+     </tr>
+
+     <tr>
+      <td>1.3.0</td>
+      <td>
+       Uso obsoleto de <em>slaveOkay</em>, la alternativa es <a href="mongo.readpreferences.html" class="link">Preferencias de Lectura</a>.
+      </td>
+     </tr>
+
+     <tr>
+      <td>1.1.0</td>
+      <td>
+       Se introdujo la posibilidad de enviar lecturas a secundarios de miembros de conjuntos
+       de réplicas usando <span class="methodname"><a href="mongo.setslaveokay.html" class="methodname">Mongo::setSlaveOkay()</a></span>
+      </td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </div>
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.writes.html">Escrituras</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.updates.html">Actualizaciones</a></div>
+ <div class="up"><a href="mongo.manual.html">Manual</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

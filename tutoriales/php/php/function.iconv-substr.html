@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Elimina parte del string</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.iconv-strrpos.html">iconv_strrpos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.iconv.html">iconv</a></div>
+ <div class="up"><a href="ref.iconv.html">Funciones de iconv</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.iconv-substr" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">iconv_substr</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">iconv_substr</span> &mdash; <span class="dc-title">Elimina parte del string</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.iconv-substr-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>iconv_substr</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$str</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$offset</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$length</code><span class="initializer"> = iconv_strlen($str, $charset)</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$charset</code><span class="initializer"> = ini_get(&quot;iconv.internal_encoding&quot;)</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Corta una parte de <code class="parameter">str</code> especificada por los
+   parámetros <code class="parameter">offset</code> y <code class="parameter">length</code>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.iconv-substr-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">str</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El string original.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">offset</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si <code class="parameter">offset</code> no es negativo,
+       <span class="function"><strong>iconv_substr()</strong></span> elimina la porción de
+       <code class="parameter">str</code> que empieza en el caracter número
+       <code class="parameter">offset</code>, empezando de cero.
+      </p>
+      <p class="para">
+       Si <code class="parameter">offset</code> es negativo,
+       <span class="function"><strong>iconv_substr()</strong></span> elimina la parte que empieza en esa
+       posición, <code class="parameter">offset</code> caracteres desde el final de
+       <code class="parameter">str</code>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">length</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si se da el parámetro <code class="parameter">length</code> y es positivo, el
+       valor retornado contendrá como mucho <code class="parameter">length</code>
+       caracteres de la porción que comienza en <code class="parameter">offset</code>
+       (dependiendo de la longitud de <code class="parameter">string</code>).
+      </p>
+      <p class="para">
+       Si se indica un valor negativo en <code class="parameter">length</code>,
+       <span class="function"><strong>iconv_substr()</strong></span> elimina la porción de
+       <code class="parameter">str</code> desde la posición
+       <code class="parameter">offset</code> hasta el caracter que está
+       <code class="parameter">length</code> caracteres desde el final del string. En
+       caso de que <code class="parameter">offset</code> sea también negativo, la
+       posición de inicio se calcula de antemano de acuerdo con la regla
+       explicada anteriormente.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">charset</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si se omite el parámetro <code class="parameter">charset</code>,
+       se asume que <code class="parameter">string</code> se codifica en 
+       <a href="iconv.configuration.html" class="link">iconv.internal_encoding</a>.
+      </p>
+      <p class="para">
+       Notar que se considera que los parámetros <code class="parameter">offset</code> y
+       <code class="parameter">length</code> representan offsets que se calculan en
+       base a la codificación de caracteres determinada en
+       <code class="parameter">charset</code>, mientras que por otro lado,
+       <span class="function"><a href="function.substr.html" class="function">substr()</a></span> siempre los toma como offset de bytes.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.iconv-substr-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Retorna la parte de <code class="parameter">str</code> especificada por los
+   parámetros <code class="parameter">offset</code> y <code class="parameter">length</code>i
+  </p>
+  <p class="para">
+   Si <code class="parameter">str</code> tiene un tamaño más corto que
+   <code class="parameter">offset</code>, se retornará <strong><code>FALSE</code></strong>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.iconv-substr-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.substr.html" class="function" rel="rdfs-seeAlso">substr()</a> - Devuelve parte de una cadena</span></li>
+    <li class="member"><span class="function"><a href="function.mb-substr.html" class="function" rel="rdfs-seeAlso">mb_substr()</a> - Obtiene parte de una cadena de caracteres</span></li>
+    <li class="member"><span class="function"><a href="function.mb-strcut.html" class="function" rel="rdfs-seeAlso">mb_strcut()</a> - Obtener parte de un string</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.iconv-strrpos.html">iconv_strrpos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.iconv.html">iconv</a></div>
+ <div class="up"><a href="ref.iconv.html">Funciones de iconv</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Interpreta un string de XML en un objeto</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.simplexml-load-file.html">simplexml_load_file</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.wddx.html">WDDX</a></div>
+ <div class="up"><a href="ref.simplexml.html">Funciones de SimpleXML</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.simplexml-load-string" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">simplexml_load_string</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">simplexml_load_string</span> &mdash; <span class="dc-title">
+   Interpreta un string de XML en un objeto
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.simplexml-load-string-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="class.simplexmlelement.html" class="type SimpleXMLElement">SimpleXMLElement</a></span> <span class="methodname"><strong>simplexml_load_string</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$data</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$class_name</code><span class="initializer"> = &quot;SimpleXMLElement&quot;</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$options</code><span class="initializer"> = 0</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$ns</code><span class="initializer"> = &quot;&quot;</span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$is_prefix</code><span class="initializer"> = false</span></span>
+  ]]]] )</div>
+
+  <p class="para rdfs-comment">
+   Toma un string XML correcto y lo retorna como objeto.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.simplexml-load-string-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">data</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un string XML correcto
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">class_name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Este parámetro opcional puede ser usado cuando se necesita que
+       <span class="function"><a href="function.simplexml-load-file.html" class="function">simplexml_load_file()</a></span> retorne un objeto de la clase
+       especificada. Esa clase debe extender de la clase
+       <span class="type"><a href="class.simplexmlelement.html" class="type SimpleXMLElement">SimpleXMLElement</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">options</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Desde PHP 5.1.0 y Libxml 2.6.0 puede usarse
+       <code class="parameter">options</code> para especificar <a href="libxml.constants.html" class="link">parámetros Libxml adicionales</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">ns</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El prefijo del espacio de nombres o un URI.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">is_prefix</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <strong><code>TRUE</code></strong> si <code class="parameter">ns</code> es un prefijo, <strong><code>FALSE</code></strong> si es un URI;
+       por defecto es <strong><code>FALSE</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.simplexml-load-string-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Retorna un <span class="type"><a href="language.types.object.html" class="type object">object</a></span> de tipo <span class="type"><a href="class.simplexmlelement.html" class="type SimpleXMLElement">SimpleXMLElement</a></span> cuyas
+   propiedades contienen los datos del documento XML,  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.simplexml-load-string-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Produce un mensaje de error <strong><code>E_WARNING</code></strong> para cada error
+   encontrado en los datos XML.
+  </p>
+  <div class="tip"><strong class="tip">Sugerencia</strong>
+   <p class="para">
+    Usar <span class="function"><a href="function.libxml-use-internal-errors.html" class="function">libxml_use_internal_errors()</a></span> para suprimir todos
+    los errores XML y <span class="function"><a href="function.libxml-get-errors.html" class="function">libxml_get_errors()</a></span> para iterar sobre
+    cada uno de ellos posteriormente.
+   </p>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.simplexml-load-string-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-6074">
+    <p><strong>Ejemplo #1 Interpreta un string XML</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$string&nbsp;</span><span style="color: #007700">=&nbsp;&lt;&lt;&lt;XML<br /></span><span style="color: #DD0000">&lt;?xml&nbsp;version='1.0'?&gt;&nbsp;<br />&lt;document&gt;<br />&nbsp;&lt;title&gt;¿Cuarenta&nbsp;qué?&lt;/title&gt;<br />&nbsp;&lt;from&gt;Joe&lt;/from&gt;<br />&nbsp;&lt;to&gt;Jane&lt;/to&gt;<br />&nbsp;&lt;body&gt;<br />&nbsp;&nbsp;Sé&nbsp;que&nbsp;esa&nbsp;es&nbsp;la&nbsp;respuesta&nbsp;pero,&nbsp;¿cuál&nbsp;es&nbsp;la&nbsp;pregunta?<br />&nbsp;&lt;/body&gt;<br />&lt;/document&gt;<br /></span><span style="color: #007700">XML;<br /><br /></span><span style="color: #0000BB">$xml&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">simplexml_load_string</span><span style="color: #007700">(</span><span style="color: #0000BB">$string</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$xml</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+SimpleXMLElement Object
+(
+  [titulo] =&gt; ¿Cuarenta qué?
+  [de] =&gt; Joe
+  [para] =&gt; Jane
+  [mensaje] =&gt; Sé que esa es la respuesta pero, ¿cuál es la pregunta?
+)
+</pre></div>
+    </div>
+    <div class="example-contents"><p>
+     En este punto, se puede usar <em>$xml-&gt;mensaje</em> y similares.
+    </p></div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.simplexml-load-string-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.simplexml-load-file.html" class="function" rel="rdfs-seeAlso">simplexml_load_file()</a> - Interpreta un fichero XML en un objeto</span></li>
+    <li class="member"><span class="methodname"><a href="simplexmlelement.construct.html" class="methodname" rel="rdfs-seeAlso">SimpleXMLElement::__construct()</a> - Crea un nuevo objeto SimpleXMLElement</span></li>
+    <li class="member"><a href="simplexml.examples-errors.html" class="xref">Tratar con los errores XML</a></li>
+    <li class="member"><span class="function"><a href="function.libxml-use-internal-errors.html" class="function" rel="rdfs-seeAlso">libxml_use_internal_errors()</a> - Deshabilita errores libxml y permite al usuario extraer informaci&oacute;n de errores seg&uacute;n sea necesario</span></li>
+    <li class="member"><a href="simplexml.examples-basic.html" class="xref">Uso b&aacute;sico de SimpleXML</a></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.simplexml-load-file.html">simplexml_load_file</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.wddx.html">WDDX</a></div>
+ <div class="up"><a href="ref.simplexml.html">Funciones de SimpleXML</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

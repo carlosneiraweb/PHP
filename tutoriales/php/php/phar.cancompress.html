@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve si la extensi&oacute;n phar soporta la compresi&oacute;n usando zlib o bzip2</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.buildfromiterator.html">Phar::buildFromIterator</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.canwrite.html">Phar::canWrite</a></div>
+ <div class="up"><a href="class.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="phar.cancompress" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">Phar::canCompress</h1>
+  <p class="verinfo">(PHP &gt;= 5.3.0, PECL phar &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">Phar::canCompress</span> &mdash; <span class="dc-title">Devuelve si la extensión phar soporta la compresión usando zlib o bzip2</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-phar.cancompress-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">final</span> <span class="modifier">public</span> <span class="modifier">static</span> <span class="type">bool</span> <span class="methodname"><strong>Phar::canCompress</strong></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  
+  <p class="para rdfs-comment">
+   Este método debería usarse para comprobar si es posible una compresicón antes de
+   cargar un archivo phar que contiene ficheros comprimidos.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-phar.cancompress-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Se puede usar tanto <em>Phar::GZ</em> o <em>Phar::BZ2</em>
+       para comprobar si la compresión es posible con un algoritmo de compresión
+       específico (zlib o bzip2).
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-phar.cancompress-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <strong><code>TRUE</code></strong> si la compresión/descompresión está disponible, <strong><code>FALSE</code></strong> si no.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-phar.cancompress-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-743">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>Phar::canCompress()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">Phar</span><span style="color: #007700">::</span><span style="color: #0000BB">canCompress</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">file_get_contents</span><span style="color: #007700">(</span><span style="color: #DD0000">'phar://phar_comprimido.phar/fichero/interno.txt'</span><span style="color: #007700">);<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'La&nbsp;compresión&nbsp;no&nbsp;está&nbsp;disponible'</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-phar.cancompress-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pharfileinfo.getcompressedsize.html" class="function" rel="rdfs-seeAlso">PharFileInfo::getCompressedSize()</a> - Devolver el tama&ntilde;o real de un fichero (con compresi&oacute;n) dentro de un archivo Phar</span></li>
+    <li class="member"><span class="function"><a href="pharfileinfo.iscompressed.html" class="function" rel="rdfs-seeAlso">PharFileInfo::isCompressed()</a> - Devolver si la entrada est&aacute; comprimida</span></li>
+    <li class="member"><span class="function"><a href="pharfileinfo.compress.html" class="function" rel="rdfs-seeAlso">PharFileInfo::compress()</a> - Comprimir la entrada del Phar actual con la compresi&oacute;n zlib o bzip2</span></li>
+    <li class="member"><span class="function"><a href="pharfileinfo.decompress.html" class="function" rel="rdfs-seeAlso">PharFileInfo::decompress()</a> - Descomprimir la entrada Phar actual dentro del phar</span></li>
+    <li class="member"><span class="function"><a href="phar.iscompressed.html" class="function" rel="rdfs-seeAlso">Phar::isCompressed()</a> - Devuelve Phar::GZ oPHAR::BZ2 si el archivo phar entero est&aacute; comprimido (.tar.gz/tar.bz, etc.)</span></li>
+    <li class="member"><span class="function"><a href="phar.compressfiles.html" class="function" rel="rdfs-seeAlso">Phar::compressFiles()</a> - Comprime todos los ficheros del archivo Phar actual</span></li>
+    <li class="member"><span class="function"><a href="phar.decompressfiles.html" class="function" rel="rdfs-seeAlso">Phar::decompressFiles()</a> - Descomprimir todos los ficheros del archivo Phar actual</span></li>
+    <li class="member"><span class="function"><a href="phar.getsupportedcompression.html" class="function" rel="rdfs-seeAlso">Phar::getSupportedCompression()</a> - Devolver un array de los algoritmos de compresi&oacute;n soportados</span></li>
+    <li class="member"><span class="function"><a href="phar.converttoexecutable.html" class="function" rel="rdfs-seeAlso">Phar::convertToExecutable()</a> - Convertir un archivo phar en otro formato de archivo phar ejecutable</span></li>
+    <li class="member"><span class="function"><a href="phar.converttodata.html" class="function" rel="rdfs-seeAlso">Phar::convertToData()</a> - Convertir un archivo phar en un fichero tar o zip no ejecutable</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.buildfromiterator.html">Phar::buildFromIterator</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.canwrite.html">Phar::canWrite</a></div>
+ <div class="up"><a href="class.phar.html">Phar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

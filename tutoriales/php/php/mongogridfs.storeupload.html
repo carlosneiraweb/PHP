@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Almacena un fichero subido en la base de datos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongogridfs.storefile.html">MongoGridFS::storeFile</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongogridfsfile.html">MongoGridFSFile</a></div>
+ <div class="up"><a href="class.mongogridfs.html">MongoGridFS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongogridfs.storeupload" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">MongoGridFS::storeUpload</h1>
+  <p class="verinfo">(PECL mongo &gt;=0.9.0)</p><p class="refpurpose"><span class="refname">MongoGridFS::storeUpload</span> &mdash; <span class="dc-title">Almacena un fichero subido en la base de datos</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-mongogridfs.storeupload-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>MongoGridFS::storeUpload</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$name</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$metadata</code></span>
+  ] )</div>
+
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-mongogridfs.storeupload-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+
+      <code class="parameter">name</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del fichero o ficheros subidos a almacenar. Debería corresponder con el
+       atributo <em>name</em> del campo del fichero del formulario HTML.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+
+      <code class="parameter">metadata</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       Otros campos de metadatos a incluir en el documento de fichero.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: <p class="para">Estos cambpos podrían sobrescribir aquellos que serían creados automáticamente por el controlador, tal como está descrito es la documentación del núcleo de MongoDB para las <a href="http://docs.mongodb.org/manual/core/gridfs/#the-files-collection" class="link external">&raquo;&nbsp;colecciones de ficheros</a>. Algunos casos prácticos para este comportamiento serían especificar un <em>chunkSize</em> o <em>_id</em> personalizados para un fichero.</p></p></blockquote>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        El campo <em>filename</em> será rellenado con el
+       nombre de fichero del cliente (p.ej., <em>$_FILES[&#039;foo&#039;][&#039;name&#039;]</em>).
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-mongogridfs.storeupload-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">Devuelve el <em>_id</em> del documento de fichero guardado. Será un <a href="class.mongoid.html" class="classname">MongoId</a> generado a menos que unless sea especificado explícitamente un <em>_id</em> en el parámetro <code class="parameter">metadata</code>.</p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Si <a href="features.file-upload.multiple.html" class="link">se suben varios ficheros
+    empleando el mismo nombre de campo</a>, este método no devolverá nada;
+    sin embargo, los ficheros en sí serán procesados.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-mongogridfs.storeupload-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Lanza una <a href="class.mongogridfsexception.html" class="classname">MongoGridFSException</a> si ocurre un error
+   al leer el fichero o ficheros subidos o al realizar la inserción en las
+   colecciones <em>chunks</em> o <em>files</em>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-mongogridfs.storeupload-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>1.2.5</td>
+       <td>
+        Se cambió el segundo parámetro a un array de metadatos. Antes de la versión 1.2.5, 
+        el segundo parámetro era un string opcional que reemplazaba el nombre de fichero.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-mongogridfs.storeupload-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1638">
+   <p><strong>Ejemplo #1 Ejemplo de forumulario HTML con <span class="function"><strong>MongoGridFS::storeUpload()</strong></span></strong></p>
+   <div class="example-contents"><p>
+    Suponer que se tiene el siguiente formulario HTML:
+   </p></div>
+   <div class="example-contents">
+<div class="htmlcode"><pre class="htmlcode">&lt;form method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&gt;
+    &lt;label for=&quot;username&quot;&gt;Username:&lt;/label&gt;
+    &lt;input type=&quot;text&quot; name=&quot;username&quot; id=&quot;username&quot; /&gt;
+
+    &lt;label for=&quot;pic&quot;&gt;Please upload a profile picture:&lt;/label&gt;
+    &lt;input type=&quot;file&quot; name=&quot;pic&quot; id=&quot;pic&quot; /&gt;
+
+    &lt;input type=&quot;submit&quot; /&gt;
+&lt;/form&gt;</pre>
+</div>
+   </div>
+
+   <div class="example-contents"><p>
+    Si se quiere almacenar la imagen subida en MongoDB, podría realizarse lo
+    siguiente en el script manejando el envío del formulario:
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$gridfs&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">selectDB</span><span style="color: #007700">(</span><span style="color: #DD0000">'test'</span><span style="color: #007700">)-&gt;</span><span style="color: #0000BB">getGridFS</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">$gridfs</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">storeUpload</span><span style="color: #007700">(</span><span style="color: #DD0000">'pic'</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">'username'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'username'</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-mongogridfs.storeupload-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member"><span class="function"><a href="mongogridfs.put.html" class="function" rel="rdfs-seeAlso">MongoGridFS::put()</a> - Almacena un fichero en la base de datos</span></li>
+   <li class="member"><span class="function"><a href="mongogridfs.storebytes.html" class="function" rel="rdfs-seeAlso">MongoGridFS::storeBytes()</a> - Almacena un string de bytes en la base de datos</span></li>
+   <li class="member"><span class="function"><a href="mongogridfs.storefile.html" class="function" rel="rdfs-seeAlso">MongoGridFS::storeFile()</a> - Almacena un fichero en la base de datos</span></li>
+   <li class="member">Documentación del núcleo de MongoDB sobre <a href="http://docs.mongodb.org/manual/core/gridfs/" class="link external">&raquo;&nbsp;GridFS</a></li>
+  </ul>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongogridfs.storefile.html">MongoGridFS::storeFile</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongogridfsfile.html">MongoGridFSFile</a></div>
+ <div class="up"><a href="class.mongogridfs.html">MongoGridFS</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

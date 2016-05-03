@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Lee un CLOB de la base de datos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fbsql-read-blob.html">fbsql_read_blob</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.fbsql-result.html">fbsql_result</a></div>
+ <div class="up"><a href="ref.fbsql.html">Funciones de FrontBase</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.fbsql-read-clob" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">fbsql_read_clob</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.2.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">fbsql_read_clob</span> &mdash; <span class="dc-title">Lee un CLOB de la base de datos</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.fbsql-read-clob-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>fbsql_read_clob</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$clob_handle</code></span>
+   [, <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Lee datos CLOB de la base de datos.
+  </p>
+  <p class="para">
+    Si la consulta SELECT contiene columnas BLOB y/o CLOB, Frontbase
+   los devolverá directamente cuando se recuperen los datos. Este funcionamiento por defecto
+   puede cambiarse con <span class="function"><a href="function.fbsql-set-lob-mode.html" class="function">fbsql_set_lob_mode()</a></span> para que las funciones 
+   de recuperación devuelvan handles a los datos BLOB y CLOB. Si se recupera un handle, se
+   deberá llamar a <span class="function"><strong>fbsql_read_clob()</strong></span> para obtener los datos 
+   CLOB de la base de datos.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.fbsql-read-clob-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">clob_handle</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un handle CLOB, devuelto por <span class="function"><a href="function.fbsql-create-clob.html" class="function">fbsql_create_clob()</a></span>.
+      </p>
+     </dd>
+
+    
+    <dt>
+<code class="parameter">
+link_identifier</code></dt>
+<dd>
+<p class="para">Un identificador de enlace FrontBase
+devuelto por <span class="function"><a href="function.fbsql-connect.html" class="function">fbsql_connect()</a></span> o
+<span class="function"><a href="function.fbsql-pconnect.html" class="function">fbsql_pconnect()</a></span>.</p><p class="para">Es opcional y si no se especifica,
+la función intentará encontrar un enlace abierto al servidor FrontBase y de no encontrarse
+ningún enlace abierto intentará crear uno como si
+<span class="function"><a href="function.fbsql-connect.html" class="function">fbsql_connect()</a></span> fuese invocada sin parámetros.</p>
+</dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.fbsql-read-clob-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve una cadena conteniendo los datos CLOB especificados.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.fbsql-read-clob-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1236">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>fbsql_read_clob()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$link&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fbsql_pconnect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"_SYSTEM"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"secret"</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;die(</span><span style="color: #DD0000">"No&nbsp;se&nbsp;pudo&nbsp;conectar"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;CLOB_COLUMN&nbsp;FROM&nbsp;CLOB_TABLE;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$rs&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fbsql_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$sql</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$link</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$row_data&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fbsql_fetch_row</span><span style="color: #007700">(</span><span style="color: #0000BB">$rs</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;$row_data[0]&nbsp;contendrá&nbsp;ahora&nbsp;los&nbsp;datos&nbsp;CLOB&nbsp;de&nbsp;la&nbsp;primera&nbsp;fila<br /></span><span style="color: #0000BB">fbsql_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$rs</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$rs&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fbsql_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$sql</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$link</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fbsql_set_lob_mode</span><span style="color: #007700">(</span><span style="color: #0000BB">$rs</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">FBSQL_LOB_HANDLE</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$row_data&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fbsql_fetch_row</span><span style="color: #007700">(</span><span style="color: #0000BB">$rs</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;$row_data[0]&nbsp;contiene&nbsp;ahora&nbsp;un&nbsp;handle&nbsp;a&nbsp;los&nbsp;datos&nbsp;CLOB&nbsp;de&nbsp;la&nbsp;primera&nbsp;fila<br /></span><span style="color: #0000BB">$clob_data&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fbsql_read_clob</span><span style="color: #007700">(</span><span style="color: #0000BB">$row_data</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]);<br /></span><span style="color: #0000BB">fbsql_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$rs</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.fbsql-read-clob-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.fbsql-create-clob.html" class="function" rel="rdfs-seeAlso">fbsql_create_clob()</a> - Crea un CLOB</span></li>
+    <li class="member"><span class="function"><a href="function.fbsql-read-blob.html" class="function" rel="rdfs-seeAlso">fbsql_read_blob()</a> - Lee un BLOB de la base de datos</span></li>
+    <li class="member"><span class="function"><a href="function.fbsql-set-lob-mode.html" class="function" rel="rdfs-seeAlso">fbsql_set_lob_mode()</a> - Asigna el modo de recuperaci&oacute;n LOB para un set de resultados FrontBase</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fbsql-read-blob.html">fbsql_read_blob</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.fbsql-result.html">fbsql_result</a></div>
+ <div class="up"><a href="ref.fbsql.html">Funciones de FrontBase</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

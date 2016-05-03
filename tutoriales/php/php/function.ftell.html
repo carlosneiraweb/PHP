@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve la posici&oacute;n de lectura/escritura actual del puntero a un fichero</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fstat.html">fstat</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ftruncate.html">ftruncate</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ftell" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ftell</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">ftell</span> &mdash; <span class="dc-title">Devuelve la posición de lectura/escritura actual del puntero a un fichero</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ftell-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>ftell</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$handle</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve la posición del puntero al fichero referido por <code class="parameter">handle</code>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ftell-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">handle</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El puntero al fichero debe ser válido, y debe apuntar a un fichero abierto
+       con éxito por <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span> o <span class="function"><a href="function.popen.html" class="function">popen()</a></span>.
+       <span class="function"><strong>ftell()</strong></span> da resultados indefinidos para flujos de sólo agregado
+       (abiertos con la bandera &quot;a&quot;).
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ftell-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la posición del puntero al fichero referido por
+   <code class="parameter">handle</code> como un entero; esto es, su índice dentro del flujo de fichero.
+  </p>
+  <p class="para">
+   Si se produjo un error, devuelve <strong><code>FALSE</code></strong>.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">
+Debido a que el tipo integer de PHP es con signo y muchas plataformas usan enteros de 32 bits,
+algunas funciones de sistema de ficheros pueden devolver resultados inesperados para ficheros que
+son mayores de 2 GB.
+</span></p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ftell-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2632">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>ftell()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;abre&nbsp;un&nbsp;fichero&nbsp;y&nbsp;leer&nbsp;algunos&nbsp;datos<br /></span><span style="color: #0000BB">$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #DD0000">"/etc/passwd"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"r"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$información&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fgets</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">12</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;¿dónde&nbsp;estamos?<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">ftell</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;11<br /><br /></span><span style="color: #0000BB">fclose</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ftell-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.fopen.html" class="function" rel="rdfs-seeAlso">fopen()</a> - Abre un fichero o un URL</span></li>
+    <li class="member"><span class="function"><a href="function.popen.html" class="function" rel="rdfs-seeAlso">popen()</a> - Abre un proceso de un puntero a un fichero</span></li>
+    <li class="member"><span class="function"><a href="function.fseek.html" class="function" rel="rdfs-seeAlso">fseek()</a> - Busca sobre un puntero a un fichero</span></li>
+    <li class="member"><span class="function"><a href="function.rewind.html" class="function" rel="rdfs-seeAlso">rewind()</a> - Rebobina la posici&oacute;n de un puntero a un archivo</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fstat.html">fstat</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ftruncate.html">ftruncate</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve los metadatos del conjunto de resultados de una sentencia preparada</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli-stmt.reset.html">mysqli_stmt::reset</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli-stmt.send-long-data.html">mysqli_stmt::send_long_data</a></div>
+ <div class="up"><a href="class.mysqli-stmt.html">mysqli_stmt</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqli-stmt.result-metadata" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysqli_stmt::result_metadata</h1>
+  <h1 class="refname">mysqli_stmt_result_metadata</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">mysqli_stmt::result_metadata</span> -- <span class="refname">mysqli_stmt_result_metadata</span> &mdash; <span class="dc-title">Devuelve los metadatos del conjunto de resultados de una sentencia preparada</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-mysqli-stmt.result-metadata-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo orientado a objetos</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="class.mysqli-result.html" class="type mysqli_result">mysqli_result</a></span> <span class="methodname"><strong>mysqli_stmt::result_metadata</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">Estilo por procedimientos</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="class.mysqli-result.html" class="type mysqli_result">mysqli_result</a></span> <span class="methodname"><strong>mysqli_stmt_result_metadata</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.mysqli-stmt.html" class="type mysqli_stmt">mysqli_stmt</a></span> <code class="parameter">$stmt</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Si una sentencia pasada a <span class="function"><a href="mysqli.prepare.html" class="function">mysqli_prepare()</a></span> produce
+   un conjunto de resultados, <span class="function"><strong>mysqli_stmt_result_metadata()</strong></span> devolverá un objeto de resultados
+   que puede usarse para procesar metainformación como el número total de campos
+   e información de campo individual.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">Este puntero del conjunto de resultados puede ser pasado como parámetro a cualquier
+    función basada en campos que procese los metadatos del conjunto de resultados, tales como:
+    <ul class="itemizedlist">
+     <li class="listitem"><p class="para"><span class="function"><a href="mysqli-result.field-count.html" class="function">mysqli_num_fields()</a></span></p></li>
+     <li class="listitem"><p class="para"><span class="function"><a href="mysqli-result.fetch-field.html" class="function">mysqli_fetch_field()</a></span></p></li>
+     <li class="listitem"><p class="para"><span class="function"><a href="mysqli-result.fetch-field-direct.html" class="function">mysqli_fetch_field_direct()</a></span></p></li>
+     <li class="listitem"><p class="para"><span class="function"><a href="mysqli-result.fetch-fields.html" class="function">mysqli_fetch_fields()</a></span></p></li>
+     <li class="listitem"><p class="para"><span class="function"><a href="mysqli.field-count.html" class="function">mysqli_field_count()</a></span></p></li>
+     <li class="listitem"><p class="para"><span class="function"><a href="mysqli-result.field-seek.html" class="function">mysqli_field_seek()</a></span></p></li>
+     <li class="listitem"><p class="para"><span class="function"><a href="mysqli-result.current-field.html" class="function">mysqli_field_tell()</a></span></p></li>
+     <li class="listitem"><p class="para"><span class="function"><a href="mysqli-result.free.html" class="function">mysqli_free_result()</a></span></p></li>
+    </ul>
+   </p>
+  </p></blockquote>
+  <p class="para">
+   La estructura del conjunto de resultados debería ser liberada cuando se termine con ella,
+   lo que se puede hacer pasándose la a <span class="function"><a href="mysqli-result.free.html" class="function">mysqli_free_result()</a></span>
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El cojunto de resultados devuelto por <span class="function"><strong>mysqli_stmt_result_metadata()</strong></span> contiene únicamente
+    metadatos. No contiene ningún resultado de filas. Las filas se obtienen usando el
+    gestor de sentencias con <span class="function"><a href="mysqli-stmt.fetch.html" class="function">mysqli_stmt_fetch()</a></span>.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-mysqli-stmt.result-metadata-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+stmt</code></dt>
+<dd>
+<p class="para">Sólo estilo por procediminetos: Un identificador de declaraciones
+devuelto por <span class="function"><a href="mysqli.stmt-init.html" class="function">mysqli_stmt_init()</a></span>.</p></dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-mysqli-stmt.result-metadata-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un objeto de resultados o <strong><code>FALSE</code></strong> si ocurrió un error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-mysqli-stmt.result-metadata-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1938">
+   <p><strong>Ejemplo #1 Estilo orientado a objetos</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"test"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;friends"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;friends&nbsp;(id&nbsp;int,&nbsp;name&nbsp;varchar(20))"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;friends&nbsp;VALUES&nbsp;(1,'Hartmut'),&nbsp;(2,&nbsp;'Ulf')"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;name&nbsp;FROM&nbsp;friends"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;obtener&nbsp;el&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;para&nbsp;los&nbsp;metadatos&nbsp;*/<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">result_metadata</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;recuperar&nbsp;la&nbsp;información&nbsp;de&nbsp;campo&nbsp;de&nbsp;los&nbsp;metadatos&nbsp;del&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;*/<br /></span><span style="color: #0000BB">$campo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_field</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Nombre&nbsp;del&nbsp;campo:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$campo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">name</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;el&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;*/<br /></span><span style="color: #0000BB">$resultado</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="example-1939">
+   <p><strong>Ejemplo #2 Estilo por procedimientos</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"mi_contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"test"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;friends"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;friends&nbsp;(id&nbsp;int,&nbsp;name&nbsp;varchar(20))"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;friends&nbsp;VALUES&nbsp;(1,'Hartmut'),&nbsp;(2,&nbsp;'Ulf')"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_prepare</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;name&nbsp;FROM&nbsp;friends"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">mysqli_stmt_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;obtener&nbsp;el&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;para&nbsp;los&nbsp;metadatos&nbsp;*/<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_stmt_result_metadata</span><span style="color: #007700">(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;recuperar&nbsp;la&nbsp;información&nbsp;de&nbsp;campo&nbsp;de&nbsp;los&nbsp;metadatos&nbsp;del&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;*/<br /></span><span style="color: #0000BB">$campo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqli_fetch_field</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Nombre&nbsp;del&nbsp;campo:&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$campo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">name</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;el&nbsp;conjunto&nbsp;de&nbsp;resultados&nbsp;*/<br /></span><span style="color: #0000BB">mysqli_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;cerrar&nbsp;la&nbsp;conexión&nbsp;*/<br /></span><span style="color: #0000BB">mysqli_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-mysqli-stmt.result-metadata-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli.prepare.html" class="function" rel="rdfs-seeAlso">mysqli_prepare()</a> - Prepara una sentencia SQL para su ejecuci&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="mysqli-result.free.html" class="function" rel="rdfs-seeAlso">mysqli_free_result()</a> - Libera la memoria asociada a un resultado</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli-stmt.reset.html">mysqli_stmt::reset</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli-stmt.send-long-data.html">mysqli_stmt::send_long_data</a></div>
+ <div class="up"><a href="class.mysqli-stmt.html">mysqli_stmt</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

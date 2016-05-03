@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establece las opciones para la exportaci&oacute;n gr&aacute;fica rrd</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="rrdgraph.saveverbose.html">RRDGraph::saveVerbose</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.rrdupdater.html">RRDUpdater</a></div>
+ <div class="up"><a href="class.rrdgraph.html">RRDGraph</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="rrdgraph.setoptions" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">RRDGraph::setOptions</h1>
+  <p class="verinfo">(PECL rrd &gt;= 0.9.0)</p><p class="refpurpose"><span class="refname">RRDGraph::setOptions</span> &mdash; <span class="dc-title">Establece las opciones para la exportación gráfica rrd</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-rrdgraph.setoptions-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>RRDGraph::setOptions</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$options</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-rrdgraph.setoptions-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">options</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Lista de las opciones para la generación de imágenes a partir del archivo de base de datos RRD. Esta puede
+      ser una lista de cadenas o lista de cadenas con claves para una mejor legibilidad. Consulte
+      las páginas del manual rrd graph para conocer la lista de opciones disponibles.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-rrdgraph.setoptions-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.  
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-rrdgraph.setoptions-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5009">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="methodname"><strong>RRDGraph::setOptions()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$graphObj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setOptions</span><span style="color: #007700">(array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--start"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"920804400"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--end"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">920808000</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--vertical-label"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"m/s"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"DEF:myspeed=</span><span style="color: #0000BB">$rrdFile</span><span style="color: #DD0000">:speed:AVERAGE"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"CDEF:realspeed=myspeed,1000,*"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"LINE2:realspeed#FF0000"<br /></span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   
+   <div class="example" id="example-5010">
+    <p><strong>Ejemplo #2 Establecer varias opciones de color</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$graphObj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setOptions</span><span style="color: #007700">(array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--start"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"920804400"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--end"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">920808000</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--vertical-label"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"m/s"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--color=BACK#00000000"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--color=GRID#00000000"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--color=MGRID#00000000"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"DEF:myspeed=</span><span style="color: #0000BB">$rrdFile</span><span style="color: #DD0000">:speed:AVERAGE"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"CDEF:realspeed=myspeed,1000,*"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"LINE2:realspeed#FF0000"<br /></span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>
+    No emplee la sintaxis de valor de clave para la misma opción rrd. Es más legible, pero
+    no fucniona.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$graphObj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setOptions</span><span style="color: #007700">(array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--color"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"BACK#00000000"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--color"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"GRID#00000000"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--color"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"MGRID#00000000"<br /></span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>
+    En PHP es lo mismo que
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$graphObj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setOptions</span><span style="color: #007700">(array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"--color"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"MGRID#00000000"<br /></span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   </div>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="rrdgraph.saveverbose.html">RRDGraph::saveVerbose</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.rrdupdater.html">RRDUpdater</a></div>
+ <div class="up"><a href="class.rrdgraph.html">RRDGraph</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve una fila del resultado como array asociativo, num&eacute;rico o ambos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mssql-execute.html">mssql_execute</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mssql-fetch-assoc.html">mssql_fetch_assoc</a></div>
+ <div class="up"><a href="ref.mssql.html">Mssql Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mssql-fetch-array" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mssql_fetch_array</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PECL odbtp &gt;= 1.1.1)</p><p class="refpurpose"><span class="refname">mssql_fetch_array</span> &mdash; <span class="dc-title">Devuelve una fila del resultado como array asociativo, numérico o ambos </span></p>
+
+ </div>
+ 
+ <div id="function.mssql-fetch-array-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   
+<p class="para">
+ Esta función está <em class="emphasis">OBSOLETA</em> en PHP 7.0.0.
+</p>
+<p class="para">
+ Las alternativas a esta función son:
+</p>
+
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdostatement.fetch.html" class="function">PDOStatement::fetch()</a></span></li>
+    <li class="member"><span class="function"><a href="function.sqlsrv-fetch-array.html" class="function">sqlsrv_fetch_array()</a></span></li>
+    <li class="member"><span class="function"><a href="function.odbc-fetch-array.html" class="function">odbc_fetch_array()</a></span></li>
+   </ul>
+  </div>
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.mssql-fetch-array-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>mssql_fetch_array</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$result_type</code><span class="initializer"> = MSSQL_BOTH</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>mssql_fetch_array()</strong></span> es una versión extendida de 
+   <span class="function"><a href="function.mssql-fetch-row.html" class="function">mssql_fetch_row()</a></span>. Además de almacenar los datos en el 
+   array resultante con índices numéricos, también almacena los datos con índices 
+   asociativos utilizando los nombres de los campos como claves.
+  </p>
+  <p class="para">
+   Algo importante que observar es que el uso de <span class="function"><strong>mssql_fetch_array()</strong></span>
+   NO es significativamente más lento que <span class="function"><a href="function.mssql-fetch-row.html" class="function">mssql_fetch_row()</a></span>,
+   mientras que esta proporciona un valor agregado significativo. 
+  </p>
+ 
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.mssql-fetch-array-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">result</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El resultado que será evaluado. Este resultado proviene de una llamada a 
+       <span class="function"><a href="function.mssql-query.html" class="function">mssql_query()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">result_type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El tipo de array que se obtendrá. Es una constante que puede tener 
+       los siguientes valores: <strong><code>MSSQL_ASSOC</code></strong>, 
+       <strong><code>MSSQL_NUM</code></strong>, and
+       <strong><code>MSSQL_BOTH</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.mssql-fetch-array-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Retorna un array que corresponde a la fila obtenida o <strong><code>FALSE</code></strong> si 
+   no hay más filas
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.mssql-fetch-array-examples">
+   <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1746">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mssql_fetch_array()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Enviar&nbsp;una&nbsp;consulta&nbsp;con&nbsp;&nbsp;SELECT&nbsp;a&nbsp;&nbsp;MSSQL&nbsp;<br /></span><span style="color: #0000BB">$query&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mssql_query</span><span style="color: #007700">(</span><span style="color: #DD0000">'SELECT&nbsp;[username],&nbsp;[name]&nbsp;FROM&nbsp;[php].[dbo].[userlist]'</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;Revisar&nbsp;si&nbsp;obtuvieron&nbsp;registros<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">mssql_num_rows</span><span style="color: #007700">(</span><span style="color: #0000BB">$query</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'No&nbsp;records&nbsp;found'</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;El&nbsp;siguiente&nbsp;es&nbsp;igual&nbsp;al&nbsp;código&nbsp;de&nbsp;abajo<br />&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;while&nbsp;($row&nbsp;=&nbsp;mssql_fetch_row($query))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">while&nbsp;(</span><span style="color: #0000BB">$row&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mssql_fetch_array</span><span style="color: #007700">(</span><span style="color: #0000BB">$query</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">MSSQL_NUM</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;...<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}<br />}<br /></span><span style="color: #FF8000">//&nbsp;Liberar&nbsp;de&nbsp;memoria&nbsp;el&nbsp;resultado&nbsp;de&nbsp;la&nbsp;consulta&nbsp;<br /></span><span style="color: #0000BB">mssql_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$query</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.mssql-fetch-array-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Los nombres de los campos devueltos por esta función
+son <em class="emphasis">sensibles a mayúsculas y minúsculas</em>.</span></p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Esta función define campos NULOS
+al valor <strong><code>NULL</code></strong> de PHP.</span></p></blockquote>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.mssql-fetch-array-seealso">
+  <h3 class="title">Ver también</h3>
+   <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mssql-fetch-row.html" class="function" rel="rdfs-seeAlso">mssql_fetch_row()</a> - Lee una l&iacute;nea del resultado de la consulta MS SQL dentro de un array num&eacute;rico</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mssql-execute.html">mssql_execute</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mssql-fetch-assoc.html">mssql_fetch_assoc</a></div>
+ <div class="up"><a href="ref.mssql.html">Mssql Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

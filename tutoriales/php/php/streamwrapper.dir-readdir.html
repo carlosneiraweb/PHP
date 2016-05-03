@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Leer una entrada desde el gestor de directorio</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="streamwrapper.dir-opendir.html">streamWrapper::dir_opendir</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="streamwrapper.dir-rewinddir.html">streamWrapper::dir_rewinddir</a></div>
+ <div class="up"><a href="class.streamwrapper.html">streamWrapper</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="streamwrapper.dir-readdir" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">streamWrapper::dir_readdir</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.2, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">streamWrapper::dir_readdir</span> &mdash; <span class="dc-title">Leer una entrada desde el gestor de directorio</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-streamwrapper.dir-readdir-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">string</span> <span class="methodname"><strong>streamWrapper::dir_readdir</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Este método es llamado en respuesta a <span class="function"><a href="function.readdir.html" class="function">readdir()</a></span>.
+  </p>
+
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-streamwrapper.dir-readdir-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">Esta función no tiene parámetros.</p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-streamwrapper.dir-readdir-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Debería devolver un valor de tipo <span class="type"><a href="language.types.string.html" class="type string">string</a></span> que representa el siguiente nombre de archivo,
+   o <strong><code>FALSE</code></strong> si no hay un siguiente archivo.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El valor devuelto será convertido a un valor de tipo <span class="type"><a href="language.types.string.html" class="type string">string</a></span>.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 errors" id="refsect1-streamwrapper.dir-readdir-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">Emite un
+<strong><code>E_WARNING</code></strong> si la llamada a este método falla
+(por ej., por no estar implementado).</p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-streamwrapper.dir-readdir-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4557">
+    <p><strong>Ejemplo #1 Listar los ficheros de archivos tar</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">streamWrapper&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;protected&nbsp;</span><span style="color: #0000BB">$fp</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">dir_opendir</span><span style="color: #007700">(</span><span style="color: #0000BB">$ruta</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$opciones</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$url&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">parse_url</span><span style="color: #007700">(</span><span style="color: #0000BB">$ruta</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$ruta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$url</span><span style="color: #007700">[</span><span style="color: #DD0000">"host"</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #0000BB">$url</span><span style="color: #007700">[</span><span style="color: #DD0000">"path"</span><span style="color: #007700">];<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!</span><span style="color: #0000BB">is_readable</span><span style="color: #007700">(</span><span style="color: #0000BB">$ruta</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">trigger_error</span><span style="color: #007700">(</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$ruta</span><span style="color: #DD0000">&nbsp;no&nbsp;es&nbsp;legible&nbsp;por&nbsp;mí"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">E_USER_NOTICE</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!</span><span style="color: #0000BB">is_file</span><span style="color: #007700">(</span><span style="color: #0000BB">$ruta</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">trigger_error</span><span style="color: #007700">(</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$ruta</span><span style="color: #DD0000">&nbsp;no&nbsp;es&nbsp;un&nbsp;fichero"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">E_USER_NOTICE</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #0000BB">$ruta</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"rb"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">dir_readdir</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Extraer&nbsp;la&nbsp;cabecera&nbsp;para&nbsp;esta&nbsp;entrada<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$cabecera&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fread</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">512</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$data&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">unpack</span><span style="color: #007700">(</span><span style="color: #DD0000">"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/a1filetype/a100link/a100linkedfile"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$cabecera</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Recortar&nbsp;el&nbsp;nombre&nbsp;de&nbsp;archivo&nbsp;y&nbsp;tamaño&nbsp;de&nbsp;archivo<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$nombre_archivo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">trim</span><span style="color: #007700">(</span><span style="color: #0000BB">$data</span><span style="color: #007700">[</span><span style="color: #DD0000">"filename"</span><span style="color: #007700">]);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Â¿No&nbsp;hay&nbsp;nombre&nbsp;de&nbsp;archivo?&nbsp;Estamos&nbsp;en&nbsp;el&nbsp;final&nbsp;del&nbsp;archivo&nbsp;tar<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$nombre_archivo</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$octal_bytes&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">trim</span><span style="color: #007700">(</span><span style="color: #0000BB">$data</span><span style="color: #007700">[</span><span style="color: #DD0000">"size"</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;El&nbsp;tamaño&nbsp;de&nbsp;archivo&nbsp;es&nbsp;definido&nbsp;en&nbsp;octetos<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$bytes&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">octdec</span><span style="color: #007700">(</span><span style="color: #0000BB">$octal_bytes</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;tar&nbsp;redondea&nbsp;hacia&nbsp;arriba&nbsp;en&nbsp;múltiplos&nbsp;de&nbsp;512&nbsp;bytes&nbsp;(rellenando&nbsp;con&nbsp;ceros)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$resto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$bytes&nbsp;</span><span style="color: #007700">%&nbsp;</span><span style="color: #0000BB">512</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">$resto&nbsp;</span><span style="color: #007700">&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$bytes&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">512&nbsp;</span><span style="color: #007700">-&nbsp;</span><span style="color: #0000BB">$resto</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Buscar&nbsp;sobre&nbsp;el&nbsp;archivo<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">fseek</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$bytes</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SEEK_CUR</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$nombre_archivo</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">dir_closedir</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">fclose</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fp</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">dir_rewinddir</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">fseek</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SEEK_SET</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">stream_wrapper_register</span><span style="color: #007700">(</span><span style="color: #DD0000">"tar"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"streamWrapper"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gestor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">opendir</span><span style="color: #007700">(</span><span style="color: #DD0000">"tar://ejemplo.tar"</span><span style="color: #007700">);<br />while&nbsp;(</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">!==&nbsp;(</span><span style="color: #0000BB">$file&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">readdir</span><span style="color: #007700">(</span><span style="color: #0000BB">$gestor</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$file</span><span style="color: #007700">);<br />}<br /><br />echo&nbsp;</span><span style="color: #DD0000">"Rewinding..\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">rewind</span><span style="color: #007700">(</span><span style="color: #0000BB">$gestor</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">readdir</span><span style="color: #007700">(</span><span style="color: #0000BB">$gestor</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">closedir</span><span style="color: #007700">(</span><span style="color: #0000BB">$gestor</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+string(13) &quot;construct.xml&quot;
+string(16) &quot;dir-closedir.xml&quot;
+string(15) &quot;dir-opendir.xml&quot;
+string(15) &quot;dir-readdir.xml&quot;
+string(17) &quot;dir-rewinddir.xml&quot;
+string(9) &quot;mkdir.xml&quot;
+string(10) &quot;rename.xml&quot;
+string(9) &quot;rmdir.xml&quot;
+string(15) &quot;stream-cast.xml&quot;
+string(16) &quot;stream-close.xml&quot;
+string(14) &quot;stream-eof.xml&quot;
+string(16) &quot;stream-flush.xml&quot;
+string(15) &quot;stream-lock.xml&quot;
+string(15) &quot;stream-open.xml&quot;
+string(15) &quot;stream-read.xml&quot;
+string(15) &quot;stream-seek.xml&quot;
+string(21) &quot;stream-set-option.xml&quot;
+string(15) &quot;stream-stat.xml&quot;
+string(15) &quot;stream-tell.xml&quot;
+string(16) &quot;stream-write.xml&quot;
+string(10) &quot;unlink.xml&quot;
+string(12) &quot;url-stat.xml&quot;
+Rewinding..
+string(13) &quot;construct.xml&quot;
+
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-streamwrapper.dir-readdir-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.readdir.html" class="function" rel="rdfs-seeAlso">readdir()</a> - Lee una entrada desde un gestor de directorio</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="streamwrapper.dir-opendir.html">streamWrapper::dir_opendir</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="streamwrapper.dir-rewinddir.html">streamWrapper::dir_rewinddir</a></div>
+ <div class="up"><a href="class.streamwrapper.html">streamWrapper</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

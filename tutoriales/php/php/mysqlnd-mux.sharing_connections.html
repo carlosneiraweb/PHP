@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Compartir conexiones</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-mux.connection_pool.html">Agrupamiento de conexiones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-mux.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="up"><a href="mysqlnd-mux.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-mux.sharing_connections" class="section">
+  <h2 class="title">Compartir conexiones</h2>
+  <p class="para">
+   El complemento de multiplexación de conexiontes de mysqlnd de PHP cambia la relación
+   existente entre getores de conexión de usuario y la conexión de MySQL subyacente.
+   Sin el complemento, cada conexión de MySQL pertenece exactamente a una
+   conexión de usuario cada vez. El complemento de multiplexación cambia este comportamiento.
+   Una conexión de MySQL es compartida entre múltiples gestores de usuario.
+   No existe una relación uno-a-uno si se utiliza el complemento.
+  </p>
+  <p class="para">
+   Compartir conexiones agrupadas tiene un impacto sobre el estado de la conexión.
+   Las operaciones de cambio de estado de múltiples gestores de usuario que apuntan a una
+   conexión de MySQL no están aisladas unas de otras. Si, por ejemplo,
+   una variable de sesión se establece a través de un gestor de conexión de usuario,
+   dicha variable se hará visible a todos los demás gestores de usuario que
+   hagan referencia a la misma conexión de MySQL subyacente.
+  </p>
+  <p class="para">
+   Este concepto es similar al estado de conexión relacionado con los fenómenos
+   descritos para el complemento de la replicación y equilibrado de carga de mysqlnd para PHP.
+   Por favor, revise la
+   <a href="book.mysqlnd-ms.html" class="link">documentación de PECL/mysqlnd_ms</a> para
+   más detalles sobre el estado de una conexión.
+  </p>
+  <p class="para">
+   La prueba de conceptos no toma medidas para aislar unas conexioines
+   multiplexadas de otras.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-mux.connection_pool.html">Agrupamiento de conexiones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-mux.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="up"><a href="mysqlnd-mux.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

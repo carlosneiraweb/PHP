@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Encuentra la posici&oacute;n de la &uacute;ltima aparici&oacute;n de un substring en un string</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.strripos.html">strripos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.strspn.html">strspn</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.strrpos" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">strrpos</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">strrpos</span> &mdash; <span class="dc-title">Encuentra la posición de la última aparición de un substring en un string</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.strrpos-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>strrpos</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$haystack</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$needle</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$offset</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Encuentra la posición númerica de la última aparición de
+   <code class="parameter">needle</code> (aguja) en el string <code class="parameter">haystack</code> (pajar).
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.strrpos-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">haystack</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El string donde buscar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">needle</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si <code class="parameter">needle</code> no es un string, se convierte
+       en un integer y se aplica como el valor ordinal de un caracter.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">offset</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si se especifica, la búsqueda iniciará en éste número de caracteres contados desde el
+       comienzo del string. Si el valor es negativo, entonces la búsqueda iniciará
+       desde esa cantidad de caracteres desde el final del string, buscando hacia atrás.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.strrpos-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la posición donde la aguja existe en relación al inicio del
+   string <code class="parameter">haystack</code> (independiente de la dirección de la búsqueda
+   o del offset).
+   También tener en cuenta que las posiciones de inicio de los string empiezan en 0 y no 1.
+  </p>
+  <p class="para">
+   Devuelve <strong><code>FALSE</code></strong> si no fue encontrada la aguja.
+  </p>
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función puede
+devolver el valor booleano <strong><code>FALSE</code></strong>, pero también puede devolver un valor no booleano que se
+evalúa como <strong><code>FALSE</code></strong>. Por favor lea la sección sobre <a href="language.types.boolean.html" class="link">Booleanos</a> para más
+información. Use <a href="language.operators.comparison.html" class="link">el operador
+===</a> para comprobar el valor devuelto por esta
+función.</p></div>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.strrpos-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.0.0</td>
+       <td>
+        <code class="parameter">needle</code> puede ser ahora un string de más de un
+        carácter.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.strrpos-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5457">
+    <p><strong>Ejemplo #1 Verificando si hay una aguja en el pajar</strong></p>
+    <div class="example-contents"><p>
+     Es fácil confundir el valor devuelto por &quot;caracter encontrado en
+     la posición 0&quot; y &quot;caracter no encontrado&quot;. Aquí está la forma de detectar
+     la diferencia:
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$pos&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strrpos</span><span style="color: #007700">(</span><span style="color: #0000BB">$mystring</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"b"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$pos&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{&nbsp;</span><span style="color: #FF8000">//&nbsp;nota:&nbsp;tres&nbsp;signos&nbsp;de&nbsp;igual<br />&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;no&nbsp;encontrado...<br /></span><span style="color: #007700">}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5458">
+    <p><strong>Ejemplo #2 Buscando con desplazamientos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"0123456789a123456789b123456789c"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">strrpos</span><span style="color: #007700">(</span><span style="color: #0000BB">$foo</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'7'</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">5</span><span style="color: #007700">));&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Comienza&nbsp;mirando&nbsp;hacia&nbsp;atrás&nbsp;cinco&nbsp;posiciones&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;desde&nbsp;el&nbsp;final.&nbsp;Resultado:&nbsp;int(17)<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">strrpos</span><span style="color: #007700">(</span><span style="color: #0000BB">$foo</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'7'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">20</span><span style="color: #007700">));&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Inicia&nbsp;la&nbsp;búsqueda&nbsp;20&nbsp;posiciones&nbsp;en&nbsp;el<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;string.&nbsp;Resultado:&nbsp;int(27)<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">strrpos</span><span style="color: #007700">(</span><span style="color: #0000BB">$foo</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'7'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">28</span><span style="color: #007700">));&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Resultado:&nbsp;bool(false)<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.strrpos-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.strpos.html" class="function" rel="rdfs-seeAlso">strpos()</a> - Encuentra la posici&oacute;n de la primera ocurrencia de un substring en un string</span></li>
+    <li class="member"><span class="function"><a href="function.stripos.html" class="function" rel="rdfs-seeAlso">stripos()</a> - Encuentra la posici&oacute;n de la primera aparici&oacute;n de un substring en un string sin considerar may&uacute;sculas ni min&uacute;sculas</span></li>
+    <li class="member"><span class="function"><a href="function.strripos.html" class="function" rel="rdfs-seeAlso">strripos()</a> - Encuentra la posici&oacute;n de la &uacute;ltima aparici&oacute;n de un substring insensible a may&uacute;sculas y min&uacute;sculas en un string</span></li>
+    <li class="member"><span class="function"><a href="function.strrchr.html" class="function" rel="rdfs-seeAlso">strrchr()</a> - Encuentra la &uacute;ltima aparici&oacute;n de un caracter en un string</span></li>
+    <li class="member"><span class="function"><a href="function.substr.html" class="function" rel="rdfs-seeAlso">substr()</a> - Devuelve parte de una cadena</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.strripos.html">strripos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.strspn.html">strspn</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

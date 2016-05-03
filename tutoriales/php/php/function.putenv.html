@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establece el valor de una variable de entorno</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.phpversion.html">phpversion</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.restore-include-path.html">restore_include_path</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.putenv" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">putenv</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">putenv</span> &mdash; <span class="dc-title">Establece el valor de una variable de entorno</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.putenv-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>putenv</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$setting</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Agrega <code class="parameter">setting</code> al entorno del servidor. La
+   variable de entorno existirá únicamente durante la petición actual. Al
+   final de la petición el entorno es recuperado a su estado original.
+  </p>
+  <p class="para">
+   Definir ciertas variables de entorno puede representar una brecha de
+   seguridad potencial. La directiva
+   <em>safe_mode_allowed_env_vars</em> contiene una lista de
+   prefijos delimitados por comas. En Modo Seguro, el usuario puede alterar
+   únicamente variables de entorno cuyos nombres comiencen con los prefijos
+   ofrecidos por esta directiva. Por omisión, los usuarios sólo podrán
+   definir variables de entorno que comiencen con <em>PHP_</em>
+   (p.ej.  <em>PHP_FOO=BAR</em>). Nota: si esta directiva se
+   encuentra vacía, ¡PHP permitirá que el usuario modifique CUALQUIER
+   variable de entorno!
+  </p>
+  <p class="para">
+   La directiva <em>safe_mode_protected_env_vars</em> contiene una
+   lista de variables de entorno delimitadas por comas, que el usuario final
+   no podrá modificar usando <span class="function"><strong>putenv()</strong></span>. Estas variables
+   serán protegidas incluso si <em>safe_mode_allowed_env_vars</em>
+   se establece de tal modo que permita modificarlas.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.putenv-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">setting</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El parámetro, como p.ej. <em>&quot;FOO=BAR&quot;</em>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.putenv-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.putenv-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-580">
+    <p><strong>Ejemplo #1 Definición de una variable de entorno</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />putenv</span><span style="color: #007700">(</span><span style="color: #DD0000">"UNIQID=</span><span style="color: #0000BB">$uniqid</span><span style="color: #DD0000">"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.putenv-notes">
+  <h3 class="title">Notas</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    La directiva <em>safe_mode_allowed_env_vars</em> y
+    <em>safe_mode_protected_env_vars</em> sólo tendrán efecto 
+    cuando <a href="features.safe-mode.html" class="link">safe_mode</a> esté habilitado.   </p>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.putenv-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.getenv.html" class="function" rel="rdfs-seeAlso">getenv()</a> - Obtiene el valor de una variable de entorno</span></li>
+    <li class="member"><span class="function"><a href="function.apache-setenv.html" class="function" rel="rdfs-seeAlso">apache_setenv()</a> - Establece una variable subprocess_env de Apache</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.phpversion.html">phpversion</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.restore-include-path.html">restore_include_path</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

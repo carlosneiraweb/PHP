@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Serie PECL/mysqlnd_ms 1.4</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes-one-five.html">Serie PECL/mysqlnd_ms 1.5</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-three.html">Serie PECL/mysqlnd_ms 1.3</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.changes-one-four" class="section">
+  <h2 class="title">Serie PECL/mysqlnd_ms 1.4</h2>
+  <p class="para">
+   1.4.2-stable
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Fecha de publicación: 08/2012
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Motivo/tema: Modificaciones menores basadas en comentarios de usuarios
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   1.4.1-beta
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Fecha de publicación: 08/2012
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Motivo/tema: Modificaciones menores basadas en comentarios de usuarios
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Errores corregidos
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Corregida la construcción con PHP 5.5
+     </p>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   1.4.0-alpha
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Fecha de publicación: 07/2012
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Motivo/tema: Modificaciones menores basadas en comentarios de usuarios
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Cambios en las características
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Rotura RC: Se renombró el ajuste de configuración del complemento <em>ini_file</em>
+      a <em>config_file</em>. En versiones anteriores el fichero de configuración del
+      complemento usaba el estilo ini. Así, el ajuste de configuración se llamó en consecuencia.
+      Ahora se ha renombrado para reflechar el formato de fichero nuevo y para distinguirlo
+      del propio fichero ini de PHP (fichero de directivas de configuración).
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se introdujo el ajuste de conjunto de caracteres predeterminado <em>server_charset</em>
+      para permitir el escapado apropiado antes de abrir una conexión.
+      Esto es lo más útil al usar conexiones retardadas, las cuales son las predeterminadas.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se introdujo el ajuste <em>wait_for_gtid_timeout</em> para estrangular
+      las lecturas de esclavos que necesitan consistencia de sesión. Si se usan identificadores de transacciones
+      globales y el nivel de servicio está establecido a consistencia de sesión, el complemento
+      intentará encontrar esclavos actualizados. La comprobación del estado de un esclavo se realiza mediante
+      una sentencia SQL. Si no se establece nada más, dicho estado se comprobará y a partir de
+      entonces solamente se puede continuar la búsqueda de más esclavos actualizados.
+      Establecer <em>wait_for_gtid_timeout</em> ordena al complemento
+      que sondee los estados de los esclavos durante <em>wait_for_gtid_timeout</em> segundos
+      si la primera ejecución de la sentencia SQL ha mostrado que el esclavo aún no
+      está actualizado. El sondeo se realizará una vez por segundo. De este modo, el complemento
+      esperará a que los esclavos se pongan al día y estrangulará al cliente.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      La nueva estrategia de tolerancia a fallos <em>loop_before_master</em>.
+      De manera predeterminada, el complemento no realiza la tolerancia a fallos. Es posible habilitar
+      la tolerancia a fallos automática si falla un intento de conexión. Hasta la versión 1.3
+      solamente existía la estrategia <em>master</em> para realizar la tolerancia a fallos en un maestro si
+      fallaba una conexión a un esclavo. <em>loop_before_master</em> es
+      similar, pero realiza intentos sobre los demás esclavos antes de intentar conectarse al maestro
+      si una conexión a un esclavo falla.
+     </p>
+     <p class="para">
+      El número de intentos se puede limitar usando la opción <em>max_retries</em>.
+      Los equipos anfitriones fallidos se pueden recordar y ser saltados en el equilibrado de carga para
+      el resto de la petición web. <em>max_retries</em> y
+      <em>remember_failed</em> son considerados experimentales, aunque
+      se proporciona una estabilidad decente. La sintaxis y la semántica podrían cambiar en el futuro
+      sin previo aviso.
+     </p>
+    </li>
+   </ul>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes-one-five.html">Serie PECL/mysqlnd_ms 1.5</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-three.html">Serie PECL/mysqlnd_ms 1.3</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

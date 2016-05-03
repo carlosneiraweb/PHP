@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Sugerencias SQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.connectionpooling.html">Estado de la conexi&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.transactions.html">Transacciones locales</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.quickstart.sqlhints" class="section">
+  <h2 class="title">Sugerencias SQL</h2>
+  <p class="para">
+   Las sugerencias SQL pueden forzar a una consulta a elegir un servidor específico de la agrupación de conexiones.
+   Proporcionan al complemento una recomendación para utilizar un servidor indicado, lo que puede resolver
+   problemas causados por intercambios de conexión y estados de conexión.
+  </p>
+  <p class="para">
+   Las sugerencias SQL son comentarios que siguen el estándar. Ya que
+   los comentarios SQL son ignorados por sistemas de procesamiento SQL,
+   no interfieren con otros programas como el Servidor MySQL, el Proxy MySQL,
+   o un cortafuegos.
+  </p>
+  <p class="para">
+   El complemento admite tres sugerencias SQL: La
+   sugerencia <strong><code>MYSQLND_MS_MASTER_SWITCH</code></strong> hace que el complemento ejecute una
+   sentencia en el maestro, <strong><code>MYSQLND_MS_SLAVE_SWITCH</code></strong>
+   fuerza el uso del esclavo, y
+   <strong><code>MYSQLND_MS_LAST_USED_SWITCH</code></strong> ejecutará una sentencia en
+   el mismo servidor que se utilizó con la sentencia anterior.
+  </p>
+  <p class="para">
+   El complemento examina el comienzo de una sentencia para la existencia de una sugerencia
+   SQL. Las sugerencias SQL solo son reconocidas si aparecen al comienzo de
+   la sentencia.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1984">
+    <p><strong>Ejemplo #1 Configuración del complemento con un esclavo y un maestro</strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">{
+    &quot;myapp&quot;: {
+        &quot;master&quot;: {
+            &quot;master_0&quot;: {
+                &quot;host&quot;: &quot;localhost&quot;,
+                &quot;socket&quot;: &quot;\/tmp\/mysql.sock&quot;
+            }
+        },
+        &quot;slave&quot;: {
+            &quot;slave_0&quot;: {
+                &quot;host&quot;: &quot;192.168.2.27&quot;,
+                &quot;port&quot;: &quot;3306&quot;
+            }
+        }
+    }
+}</pre>
+</div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-1985">
+    <p><strong>Ejemplo #2 Sugerencias SQL para evitar el intercambio de conexión</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nombre_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Conexión&nbsp;1,&nbsp;la&nbsp;conexión&nbsp;vincula&nbsp;una&nbsp;variable&nbsp;SQL&nbsp;de&nbsp;usuario,&nbsp;no&nbsp;se&nbsp;ejecuta&nbsp;ningún&nbsp;SELECT&nbsp;en&nbsp;el&nbsp;maestro&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SET&nbsp;@myrole='master'"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Conexión&nbsp;1,&nbsp;se&nbsp;ejecuta&nbsp;en&nbsp;el&nbsp;maestro&nbsp;debido&nbsp;a&nbsp;la&nbsp;sugerencia&nbsp;SQL&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!(</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"/*%s*/SELECT&nbsp;@myrole&nbsp;AS&nbsp;_role"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">MYSQLND_MS_LAST_USED_SWITCH</span><span style="color: #007700">))))&nbsp;{<br />&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}&nbsp;else&nbsp;{<br />&nbsp;</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">();<br />&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br />&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"@myrole&nbsp;=&nbsp;'%s'\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'_role'</span><span style="color: #007700">]);<br />}<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+@myrole = &#039;master&#039;
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   En el ejemplo de arriba, el uso de <strong><code>MYSQLND_MS_LAST_USED_SWITCH</code></strong> evita
+   el intercambio de sesión desde el maestro al esclavo al ejecutar la sentencia
+   <em>SELECT</em>.
+  </p>
+  <p class="para">
+   Las sugerencias SQL también se pueden usar para ejecutar sentencias <em>SELECT</em>
+   en el servidor maestro de MySQL. Esto podría ser necesario si los servidores esclavos de MySQL
+   están normalmente detrás del maestro, pero no se necesitan datos actuales del clúster.
+  </p>
+  <p class="para">
+   En la versión 1.2.0, el concepto de nivel de servicio ha sido introducido para dirigir
+   casos en los que no son necesarios datos actuales. El uso de un nivel de servicio requiere menos atención
+   y elimina la necesidad de usar sugerencias SQL para este caso. Se puede encontrar más
+   información más abajo en la sección de nivel de servicio y consistencia.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1986">
+    <p><strong>Ejemplo #3 Enfrentarse a la demora de replicación</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nombre_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Forzar&nbsp;el&nbsp;uso&nbsp;del&nbsp;maestro,&nbsp;el&nbsp;maestro&nbsp;siempre&nbsp;tiene&nbsp;datos&nbsp;recientes&nbsp;y&nbsp;actuales&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"/*%s*/SELECT&nbsp;critical_data&nbsp;FROM&nbsp;important_table"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">MYSQLND_MS_MASTER_SWITCH</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Un caso de uso puede incluir la creación de tablas en un esclavo.
+   Si no se proporciona una sugenrencia SQL, el complemento enviará las sentencias
+   <em>CREATE</em> e <em>INSERT</em> al maestro. Utilice la
+   sugerencia SQL <strong><code>MYSQLND_MS_SLAVE_SWITCH</code></strong> si quiere
+   ejecutar tales sentencias en un esclavo, por ejemplo, para construir tablas de
+   informes temporales.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1987">
+    <p><strong>Ejemplo #4 Creación de una tabla en un esclavo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nombre_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Forzar&nbsp;el&nbsp;uso&nbsp;del&nbsp;esclavo&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"/*%s*/CREATE&nbsp;TABLE&nbsp;informes_esclavo(id&nbsp;INT)"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">MYSQLND_MS_SLAVE_SWITCH</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /></span><span style="color: #FF8000">/*&nbsp;Continuar&nbsp;usando&nbsp;esta&nbsp;conexión&nbsp;esclava&nbsp;en&nbsp;particular&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"/*%s*/INSERT&nbsp;INTO&nbsp;informes_esclavo(id)&nbsp;VALUES&nbsp;(1),&nbsp;(2),&nbsp;(3)"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">MYSQLND_MS_LAST_USED_SWITCH</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /></span><span style="color: #FF8000">/*&nbsp;¡No&nbsp;usar&nbsp;MYSQLND_MS_SLAVE_SWITCH,&nbsp;ya&nbsp;que&nbsp;permitiría&nbsp;el&nbsp;intercambio&nbsp;con&nbsp;otro&nbsp;esclavo!&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"/*%s*/SELECT&nbsp;COUNT(*)&nbsp;AS&nbsp;_num&nbsp;FROM&nbsp;informes_esclavo"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">MYSQLND_MS_LAST_USED_SWITCH</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Hay&nbsp;%d&nbsp;filas&nbsp;en&nbsp;la&nbsp;tabla&nbsp;'informes_esclavo'"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'_num'</span><span style="color: #007700">]);<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   La sugerencia SQL <strong><code>MYSQLND_MS_LAST_USED</code></strong> prohíbe el intercambio de una
+   conexión, por lo que fuerza el uso de la conexión utilizada anteriormente.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.connectionpooling.html">Estado de la conexi&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.transactions.html">Transacciones locales</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

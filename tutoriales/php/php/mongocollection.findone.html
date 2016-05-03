@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Realiza una consulta a esta colecci&oacute;n, devolviendo s&oacute;lo un elemento</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongocollection.findandmodify.html">MongoCollection::findAndModify</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongocollection.get.html">MongoCollection::__get</a></div>
+ <div class="up"><a href="class.mongocollection.html">MongoCollection</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongocollection.findone" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">MongoCollection::findOne</h1>
+  <p class="verinfo">(PECL mongo &gt;=0.9.0)</p><p class="refpurpose"><span class="refname">MongoCollection::findOne</span> &mdash; <span class="dc-title">Realiza una consulta a esta colección, devolviendo sólo un elemento</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-mongocollection.findone-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">array</span> <span class="methodname"><strong>MongoCollection::findOne</strong></span>
+    ([ <span class="methodparam"><span class="type">array</span> <code class="parameter">$query</code><span class="initializer"> = array()</span></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$fields</code><span class="initializer"> = array()</span></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$options</code><span class="initializer"> = array()</span></span>
+  ]]] )</div>
+
+  <p class="para rdfs-comment">
+   A diferencia de <span class="function"><a href="mongocollection.find.html" class="function">MongoCollection::find()</a></span>, este método
+   solamente devolverá el <em class="emphasis">primer</em> resultado del conjunto de resultados,
+   y no una instancia de <a href="class.mongocursor.html" class="classname">MongoCursor</a> que se pueda recorrer.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-mongocollection.findone-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+
+      <code class="parameter">query</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       Los campos en los que buscar. El lenguaje de consultas de MongoDB es bastante
+       extenso. El controlador de PHP, en la mayoría de los casos, pasará la consulta
+       directamente al servidor, por lo que es una buena idea leer el manual de MongoDB sobre
+       <a href="http://docs.mongodb.org/manual/reference/method/db.collection.find/" class="link external">&raquo;&nbsp;find</a>.
+      </p>
+      <div class="warning"><strong class="warning">Advertencia</strong>
+       <p class="para">
+        Asegúrese de que en todos los operadores de consulta especiales (los que empiezan
+        con <em>$</em>) se usen comillas simples, ya que así PHP no intentará
+        reemplazar <em>&quot;$exists&quot;</em> con el valor de la variable
+        <em>$exists</em>.
+       </p>
+      </div>
+     </dd>
+
+       
+    
+     <dt>
+
+      <code class="parameter">fields</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       Campos del resultado que se devolverán. El array está en el formato
+       <em>array(&#039;nombrecampo&#039; =&gt; true, &#039;nombrecampo2&#039; =&gt; true)</em>.
+       El campo <em>_id</em> se devuelve siempre.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+
+      <code class="parameter">options</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       Este parámetro es un array asociativo de la forma
+       <em>array(&quot;nombre&quot; =&gt; &lt;valor&gt;, ...)</em>. Las opciones
+       disponibles actualmente son:
+      </p>
+      <ul class="itemizedlist">
+       <li class="listitem"><p class="para"><em>&quot;maxTimeMS&quot;</em></p><p class="para">Especifica un tiempo límite acumulativo en milisegundos para procesar la operación en el servdiro (no incluye el tiempo improductivo). Si la operación no la completa el servidor dentro del período de tiempo límite, se lanzará una <a href="class.mongoexecutiontimeoutexception.html" class="classname">MongoExecutionTimeoutException</a>.</p></li>
+      </ul>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-mongocollection.findone-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el registro que coincide con la búsqueda, o <strong><code>NULL</code></strong>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-mongocollection.findone-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Lanza una <a href="class.mongoconnectionexception.html" class="classname">MongoConnectionException</a> si no se puede acceder
+   a la base de datos.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-mongocollection.findone-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <table class="doctable informaltable">
+   
+    <thead>
+     <tr>
+      <th>Versión</th>
+      <th>Descripción</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>1.5.0</td>
+      <td>
+       Se añadió el parámetro opcional <code class="parameter">options</code>.
+      </td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-mongocollection.findone-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1568">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="methodname"><strong>MongoCollection::findOne()</strong></span> buscando por id.</strong></p>
+   <div class="example-contents"><p>Este ejemplo muestra cómo buscar un documento en una colección a partir de su id.</p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$artículos&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mongo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">mi_bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">artículos</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$artículo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$artículos</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">findOne</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'_id'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoId</span><span style="color: #007700">(</span><span style="color: #DD0000">'47cc67093475061e3d9536d2'</span><span style="color: #007700">)));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  <div class="example" id="example-1569">
+   <p><strong>Ejemplo #2 Ejemplo de <span class="methodname"><strong>MongoCollection::findOne()</strong></span> a partir de una condición.</strong></p>
+   <div class="example-contents"><p>Este ejemplo muestra como buscar un documento en una colección a partir de una condición, limitando los campos devueltos.</p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$usuarios&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mongo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">mi_bd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">usuarios</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$usuario&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$usuarios</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">findOne</span><span style="color: #007700">(array(</span><span style="color: #DD0000">'nombreusuario'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'jwage'</span><span style="color: #007700">),&nbsp;array(</span><span style="color: #DD0000">'contraseña'</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$usuario</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [_id] =&gt; MongoId Object
+        (
+        )
+
+    [password] =&gt; test
+)
+</pre></div>
+   </div>
+   <div class="example-contents"><p>
+    Observe que, incluso si el documento no contiene el campo &quot;nombreusuario&quot;, se limitan los resultados
+    para que únicamente contengan el campo &quot;contraseña&quot;.
+   </p></div>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-mongocollection.findone-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member"><span class="function"><a href="mongocollection.find.html" class="function" rel="rdfs-seeAlso">MongoCollection::find()</a> - Consulta esta colecci&oacute;n, devolviendo un objeto MongoCursor
+   para el conjunto de resultados</span></li>
+   <li class="member"><span class="function"><a href="mongocollection.insert.html" class="function" rel="rdfs-seeAlso">MongoCollection::insert()</a> - Inserta un documento en la colecci&oacute;n</span></li>
+   <li class="member">Documentación de MongoDB sobre <a href="http://docs.mongodb.org/manual/reference/method/db.collection.find/" class="link external">&raquo;&nbsp;find</a>.</li>
+  </ul>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongocollection.findandmodify.html">MongoCollection::findAndModify</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongocollection.get.html">MongoCollection::__get</a></div>
+ <div class="up"><a href="class.mongocollection.html">MongoCollection</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

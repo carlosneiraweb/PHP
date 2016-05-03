@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ajusta un string hasta un n&uacute;mero dado de caracteres</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.vsprintf.html">vsprintf</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="changelog.strings.html">Registro de cambios</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.wordwrap" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">wordwrap</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.2, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">wordwrap</span> &mdash; <span class="dc-title">Ajusta un string hasta un número dado de caracteres</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.wordwrap-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>wordwrap</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$str</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$width</code><span class="initializer"> = 75</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$break</code><span class="initializer"> = &quot;\n&quot;</span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$cut</code><span class="initializer"> = false</span></span>
+  ]]] )</div>
+
+  <p class="para rdfs-comment">
+   Ajusta un string hasta un número dado de caracteres utilizando un caracter
+   de salto de string.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.wordwrap-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">str</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El string de entrada.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">width</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número de caracteres en el cual el string se verá envuelto.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">break</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La línea se rompe utilizando el parámetro
+       opcional <code class="parameter">break</code>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">cut</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si <code class="parameter">cut</code> se establece en <strong><code>TRUE</code></strong>, el string siempre
+       será ajustado en o antes del <code class="parameter">width</code> especificado. De tal forma que si se tiene
+       una palabra que es más larga que el ancho dado, será dividida
+       (ver segundo ejemplo). Cuando es <strong><code>FALSE</code></strong> la función no divide la palabra
+       incluso si <code class="parameter">width</code> es menor que el ancho de la palabra.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.wordwrap-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el string dado ajustado a la longitud especificada.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.wordwrap-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5486">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>wordwrap()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$text&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"The&nbsp;quick&nbsp;brown&nbsp;fox&nbsp;jumped&nbsp;over&nbsp;the&nbsp;lazy&nbsp;dog."</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$newtext&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">wordwrap</span><span style="color: #007700">(</span><span style="color: #0000BB">$text</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">20</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #0000BB">$newtext</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+The quick brown fox&lt;br /&gt;
+jumped over the lazy&lt;br /&gt;
+dog.
+</pre></div>
+    </div>
+   </div>
+   <div class="example" id="example-5487">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>wordwrap()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$text&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"A&nbsp;very&nbsp;long&nbsp;woooooooooooord."</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$newtext&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">wordwrap</span><span style="color: #007700">(</span><span style="color: #0000BB">$text</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$newtext</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+A very
+long
+wooooooo
+ooooord.
+</pre></div>
+    </div>
+   </div>
+   <div class="example" id="example-5488">
+    <p><strong>Ejemplo #3 Ejemplo de <span class="function"><strong>wordwrap()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$texto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"A&nbsp;very&nbsp;long&nbsp;woooooooooooooooooord.&nbsp;and&nbsp;something"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$nuevo_texto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">wordwrap</span><span style="color: #007700">(</span><span style="color: #0000BB">$texto</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$nuevo_texto</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+A very
+long
+woooooooooooooooooord.
+and
+something
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.wordwrap-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.nl2br.html" class="function" rel="rdfs-seeAlso">nl2br()</a> - Inserta saltos de l&iacute;nea HTML antes de todas las nuevas l&iacute;neas de un string</span></li>
+    <li class="member"><span class="function"><a href="function.chunk-split.html" class="function" rel="rdfs-seeAlso">chunk_split()</a> - Divide una cadena en trozos m&aacute;s peque&ntilde;os</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.vsprintf.html">vsprintf</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="changelog.strings.html">Registro de cambios</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

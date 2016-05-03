@@ -1,0 +1,380 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Usando PHP y DTrace</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.dtrace.introduction.html">Introducci&oacute;n a PHP y DTrace</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.dtrace.systemtap.html">Usando SystemTap con Sondas Est&aacute;ticas en PHP DTrace</a></div>
+ <div class="up"><a href="features.dtrace.html">Rastreo Din&aacute;mico con DTrace</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="features.dtrace.dtrace" class="sect1">
+  <h2 class="title">Usando PHP y DTrace</h2>
+  <p class="para">
+   PHP puede ser configurado con sondas estáticas DTrace en plataformas
+   que soportan Rastreo Dinámico DTrace.
+  </p>
+  
+  <div class="sect2" id="features.dtrace.install">
+   <h3 class="title">Configurando PHP para Sondas Estáticas DTrace</h3>
+   
+   <p class="para">
+    Refierase a la documentación externa específica par su plataforma
+    para habilitar el soporte para rastreo DTrace en el sistema operativo.
+    Por ejemplo, en Oracle Linux arranque con un kernel UEK3 y haga:
+    
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+#&nbsp;modprobe&nbsp;fasttrap<br />#&nbsp;chmod&nbsp;666&nbsp;/dev/dtrace/helper</span>
+</code></div>
+     </div>
+
+    </div>
+   </p>
+   <p class="para">
+    En lugar de utilizar <em>chmod</em>, usted podria utilizar
+    una regla de paquete ACL para limitar acceso a los dispositivos a 
+    ciertos usuarios.
+   </p>
+   
+   <p class="para">
+    Compile PHP con el parámetro de configuración <em>--enable-dtrace</em>:
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+#&nbsp;./configure&nbsp;--enable-dtrace&nbsp;...<br />#&nbsp;make<br />#&nbsp;make&nbsp;install</span>
+</code></div>
+     </div>
+
+    </div>
+   </p>
+   <p class="para">
+    Esto habilita las sondas estáticas en el núcleo de PHP. Cualquiera
+    de las extensiones que ofrezcan sus propios sondeos deberán ser
+    compiladas de forma separada como extensiones compartidas.
+   </p>
+  </div>
+  
+  <div class="sect2" id="features.dtrace.static-probes">
+   <h3 class="title">Sondeos Estáticos DTrace en el núcleo de PHP</h3>
+   <table class="doctable table">
+    <caption><strong>Los siguientes sondeos estáticos están disponibles en PHP</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Nombre del Sondeo</th>
+       <th>Descripción del Sondeo</th>
+       <th>Argumentos del Sondeo</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td><em>request-startup</em></td>
+       <td>Se dispara cuando comienza una petición.</td>
+       <td>char *<var class="varname"><var class="varname">file</var></var>, char *<var class="varname"><var class="varname">request_uri</var></var>, char *<var class="varname"><var class="varname">request_method</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>request-shutdown</em></td>
+       <td>Se dispara cuando se termina una petición.</td>
+       <td>char *<var class="varname"><var class="varname">file</var></var>, char *<var class="varname"><var class="varname">request_uri</var></var>, char *<var class="varname"><var class="varname">request_method</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>compile-file-entry</em></td>
+       <td>Se dispara cuando la compilación de un script comienza.</td>
+       <td>char *<var class="varname"><var class="varname">compile_file</var></var>, char *<var class="varname"><var class="varname">compile_file_translated</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>compile-file-return</em></td>
+       <td>Se dispara cuando la compilación de un script termina.</td>
+       <td>char *<var class="varname"><var class="varname">compile_file</var></var>, char *<var class="varname"><var class="varname">compile_file_translated</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>execute-entry</em></td>
+       <td>Se dispara cuando un código de operación array está por ser ejecutado.  
+        Por ejemplo, se dispara en llamadas a funciones, includes, y continuaciones de resumes.
+       </td>
+       <td>char *<var class="varname"><var class="varname">request_file</var></var>, int <var class="varname"><var class="varname">lineno</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>execute-return</em></td>
+       <td>Se dispara después de la ejecución de un código de operación array.</td>
+       <td>char *<var class="varname"><var class="varname">request_file</var></var>, int <var class="varname"><var class="varname">lineno</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>function-entry</em></td>
+       <td>Se dispara cuando el motor de PHP entra a la llamada de una función o método.</td>
+       <td>char *<var class="varname"><var class="varname">function_name</var></var>, char *<var class="varname"><var class="varname">request_file</var></var>, int <var class="varname"><var class="varname">lineno</var></var>, char *<var class="varname"><var class="varname">classname</var></var>, char *<var class="varname"><var class="varname">scope</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>function-return</em></td>
+       <td>Se dispara cuando el motor de PHP regresa de la llamada a una función o método.</td>
+       <td>char *<var class="varname"><var class="varname">function_name</var></var>, char *<var class="varname"><var class="varname">request_file</var></var>, int <var class="varname"><var class="varname">lineno</var></var>, char *<var class="varname"><var class="varname">classname</var></var>, char *<var class="varname"><var class="varname">scope</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>exception-thrown</em></td>
+       <td>Se dispara cuando una excepción es lanzada.</td>
+       <td>char *<var class="varname"><var class="varname">classname</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>exception-caught</em></td>
+       <td>Se dispara cuando una excepción es capturada.</td>
+       <td>char *<var class="varname"><var class="varname">classname</var></var></td>
+      </tr>
+
+      <tr>
+       <td><em>error</em></td>
+       <td>Se dispara cuando ocurre un error, sin importar el nivel de <a href="errorfunc.configuration.html#ini.error-reporting" class="link">error_reporting</a>.</td>
+       <td>char *<var class="varname"><var class="varname">errormsg</var></var>, char *<var class="varname"><var class="varname">request_file</var></var>, int <var class="varname"><var class="varname">lineno</var></var></td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+   <p class="para">
+    Otras extensiones PHP pueden también tener otras sondas estáticas adicionales.
+   </p>
+  </div>
+  
+  <div class="sect2" id="features.dtrace.list-probes">
+   <h3 class="title">Listando Sondas Estáticas DTrace en PHP</h3>
+   <p class="para">
+    Para listar todas las sondas disponibles, inicie un proceso PHP y ejecute:
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="cdata"><pre>
+# dtrace -l
+</pre></div>
+     </div>
+
+    </div>
+   </p>
+   
+   <p class="para">
+    La salida será similar a:
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="cdata"><pre>
+   ID   PROVIDER            MODULE                          FUNCTION NAME
+   [ . . . ]
+    4   php15271               php               dtrace_compile_file compile-file-entry
+    5   php15271               php               dtrace_compile_file compile-file-return
+    6   php15271               php                        zend_error error
+    7   php15271               php  ZEND_CATCH_SPEC_CONST_CV_HANDLER exception-caught
+    8   php15271               php     zend_throw_exception_internal exception-thrown
+    9   php15271               php                 dtrace_execute_ex execute-entry
+   10   php15271               php           dtrace_execute_internal execute-entry
+   11   php15271               php                 dtrace_execute_ex execute-return
+   12   php15271               php           dtrace_execute_internal execute-return
+   13   php15271               php                 dtrace_execute_ex function-entry
+   14   php15271               php                 dtrace_execute_ex function-return
+   15   php15271               php              php_request_shutdown request-shutdown
+   16   php15271               php               php_request_startup request-startup
+</pre></div>
+     </div>
+
+    </div>
+   </p>
+   
+   <p class="para">
+    La columna Proveedor consiste en <em>php</em> y el
+    id del proceso del proceso PHP que está ejecutandose.
+   </p>
+   
+   <p class="para">
+    Si el servidor web Apache está corriendo, el nombre del módulo será,
+    por ejemplo, <var class="filename">libphp5.so</var>, y habría múltiples
+    bloques de listado, uno por cada proceso Apache ejecutandose.
+   </p>
+   
+   <p class="para">
+    La columna Función se refiere los nombres internos de función de su 
+    implementación en C, donde cada proveedor está ubicado.
+   </p>
+   
+   <p class="para">
+    Si un proceso PHP no está ejecutandose, entonces ningún sondeo será
+    mostrado.
+   </p>
+  </div>
+  
+  <div class="sect2" id="features.dtrace.examples">
+   <h3 class="title">DTrace con un ejemplo PHP</h3>
+   <p class="para">
+    Este ejemplo muestra los conceptos básicos del lenguaje de scripting DTrace D.
+    <div class="example" id="example-446">
+     <p><strong>Ejemplo #1 <var class="filename">all_probes.d</var> para monitorizar todos los Śondeos Estáticos en PHP con DTrace</strong></p>
+     <div class="example-contents">
+<div class="cdata"><pre>
+#!/usr/sbin/dtrace -Zs
+
+#pragma D option quiet
+
+php*:::compile-file-entry
+{
+    printf(&quot;PHP compile-file-entry\n&quot;);
+    printf(&quot;  compile_file              %s\n&quot;, copyinstr(arg0));
+    printf(&quot;  compile_file_translated   %s\n&quot;, copyinstr(arg1));
+}
+
+php*:::compile-file-return
+{
+    printf(&quot;PHP compile-file-return\n&quot;);
+    printf(&quot;  compile_file              %s\n&quot;, copyinstr(arg0));
+    printf(&quot;  compile_file_translated   %s\n&quot;, copyinstr(arg1));
+}
+
+php*:::error
+{
+    printf(&quot;PHP error\n&quot;);
+    printf(&quot;  errormsg                  %s\n&quot;, copyinstr(arg0));
+    printf(&quot;  request_file              %s\n&quot;, copyinstr(arg1));
+    printf(&quot;  lineno                    %d\n&quot;, (int)arg2);
+}
+
+php*:::exception-caught
+{
+    printf(&quot;PHP exception-caught\n&quot;);
+    printf(&quot;  classname                 %s\n&quot;, copyinstr(arg0));
+}
+
+php*:::exception-thrown
+{
+    printf(&quot;PHP exception-thrown\n&quot;);
+    printf(&quot;  classname                 %s\n&quot;, copyinstr(arg0));
+}
+
+php*:::execute-entry
+{
+    printf(&quot;PHP execute-entry\n&quot;);
+    printf(&quot;  request_file              %s\n&quot;, copyinstr(arg0));
+    printf(&quot;  lineno                    %d\n&quot;, (int)arg1);
+}
+
+php*:::execute-return
+{
+    printf(&quot;PHP execute-return\n&quot;);
+    printf(&quot;  request_file              %s\n&quot;, copyinstr(arg0));
+    printf(&quot;  lineno                    %d\n&quot;, (int)arg1);
+}
+
+php*:::function-entry
+{
+    printf(&quot;PHP function-entry\n&quot;);
+    printf(&quot;  function_name             %s\n&quot;, copyinstr(arg0));
+    printf(&quot;  request_file              %s\n&quot;, copyinstr(arg1));
+    printf(&quot;  lineno                    %d\n&quot;, (int)arg2);
+    printf(&quot;  classname                 %s\n&quot;, copyinstr(arg3));
+    printf(&quot;  scope                     %s\n&quot;, copyinstr(arg4));
+}
+
+php*:::function-return
+{
+    printf(&quot;PHP function-return\n&quot;);
+    printf(&quot;  function_name             %s\n&quot;, copyinstr(arg0));
+    printf(&quot;  request_file              %s\n&quot;, copyinstr(arg1));
+    printf(&quot;  lineno                    %d\n&quot;, (int)arg2);
+    printf(&quot;  classname                 %s\n&quot;, copyinstr(arg3));
+    printf(&quot;  scope                     %s\n&quot;, copyinstr(arg4));
+}
+
+php*:::request-shutdown
+{
+    printf(&quot;PHP request-shutdown\n&quot;);
+    printf(&quot;  file                      %s\n&quot;, copyinstr(arg0));
+    printf(&quot;  request_uri               %s\n&quot;, copyinstr(arg1));
+    printf(&quot;  request_method            %s\n&quot;, copyinstr(arg2));
+}
+
+php*:::request-startup
+{
+    printf(&quot;PHP request-startup\n&quot;);
+    printf(&quot;  file                      %s\n&quot;, copyinstr(arg0));
+    printf(&quot;  request_uri               %s\n&quot;, copyinstr(arg1));
+    printf(&quot;  request_method            %s\n&quot;, copyinstr(arg2));
+}
+</pre></div>
+     </div>
+
+    </div>
+   </p>
+   
+   <p class="para">
+    Este script utiliza la opción <em>-Z</em> en
+    <var class="filename">dtrace</var>, permitiendo que se ejecute aún cuando
+    no hay procesos PHP ejecutandose. Si esta opción se hubiese omitido
+    el script hubiese terminado inmediatamente porque no sabría que los
+    sondeos a ser monitorizados realmente son válidos.
+   </p>
+   
+   <p class="para">
+    Este script rastrea todas las sondas estáticas del núcleo
+    de PHP y puntos de muestreo a lo largo de la duración de un script
+    PHP que esté corriendo:
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="cdata"><pre>
+# ./all_probes.d
+</pre></div>
+     </div>
+
+    </div>
+   </p>
+   
+   <p class="para">
+    Ejecuta un script o aplicación PHP. El script D de monitorización
+    mostrará los argumentos de cada sondeo según vayan sucediendo.
+   </p>
+   
+   <p class="para">
+    Cuando la monitorización está completada, el script D puede ser
+    terminado con
+    <em>^C</em>.
+   </p>
+   
+   <p class="para">
+    En máquinas con múltiples-CPU el orden de los sondeos podría no
+    aparecer secuencialmente. Esto depende de en que CPU fue procesado,
+    y como los hilos se mueven a través de las CPUs. Mostrar la fecha
+    y hora del sondeo ayudará a reducir la confusión, por ejemplo:
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="cdata"><pre>
+php*:::function-entry
+{
+      printf(&quot;%lld: PHP function-entry &quot;, walltimestamp);
+      [ . . .]
+}
+</pre></div>
+     </div>
+
+    </div>
+   </p>
+  </div>
+  
+  <div class="sect2" id="features.dtrace.references">
+   <h3 class="title">Vea también</h3>
+   <ul class="simplelist">
+    <li class="member"><a href="oci8.dtrace.html" class="link">OCI8 y Rastreo Dinámico DTrace</a></li>
+   </ul>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.dtrace.introduction.html">Introducci&oacute;n a PHP y DTrace</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.dtrace.systemtap.html">Usando SystemTap con Sondas Est&aacute;ticas en PHP DTrace</a></div>
+ <div class="up"><a href="features.dtrace.html">Rastreo Din&aacute;mico con DTrace</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

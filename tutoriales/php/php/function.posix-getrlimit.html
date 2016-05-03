@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devolver informaci&oacute;n sobre los l&iacute;mites de recursos del sistema</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.posix-getpwuid.html">posix_getpwuid</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.posix-getsid.html">posix_getsid</a></div>
+ <div class="up"><a href="ref.posix.html">Funciones POSIX</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.posix-getrlimit" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">posix_getrlimit</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">posix_getrlimit</span> &mdash; <span class="dc-title">Devolver información sobre los límites de recursos del sistema</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.posix-getrlimit-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>posix_getrlimit</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>posix_getrlimit()</strong></span> devuelve un <span class="type"><a href="language.types.array.html" class="type array">array</a></span>
+   de información sobre los límites &quot;soft&quot; y &quot;hard&quot; del recurso actual.
+  </p>
+  
+<p class="para">
+ Cada recurso tiene asociado un límite blando («soft») y otro duro («hard»). El límite
+ blando es el valor que el núcleo impone al recurso
+ correspondiente. El límete duro actúa como tope para el límite blando.
+ Un proceso sin privilegios solo puede establecer su límite blando a un valor
+ desde 0 al límite duro, e irreparablemente menor que su límite duro.
+</p>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.posix-getrlimit-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un <span class="type"><a href="language.types.array.html" class="type array">array</a></span> asociativo de elementos para cada
+   límite que es definido. Cada límite tiene un límite soft y hard.
+   <table class="doctable table">
+    <caption><strong>Lista de los límites posibles devueltos</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Nombre del límite</th>
+       <th>Descripción del límite</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>core</td>
+       <td>
+        El tamaño máximo del archivo core. Cuando es 0, no se crean archivos
+        core. Cuando los archivos core son mayores que su tamaño se truncarán
+        a este tamaño.
+       </td>
+      </tr>
+
+      <tr>
+       <td>totalmem</td>
+       <td>
+        The maximum size of the memory of the process, in bytes.
+       </td>
+      </tr>
+
+      <tr>
+       <td>virtualmem</td>
+       <td>
+        El tamaño máximo de memoria virtual para el proceso, en bytes.
+       </td>
+      </tr>
+ 
+      <tr>
+       <td>data</td>
+       <td>
+        El tamaño máximo de the data segment for the process, in bytes.
+       </td>
+      </tr>
+
+      <tr>
+       <td>stack</td>
+       <td>
+        El tamaño máximo de la pila del proceso, en bytes.
+       </td>
+      </tr>
+
+      <tr>
+       <td>rss</td>
+       <td>
+        El número máximo de páginas virtuales residentes en RAM
+       </td>
+      </tr>
+
+      <tr>
+       <td>maxproc</td>
+       <td>
+        El número máximo de procesos que pueden ser creados para el
+        ID real de usuario del proceso llamante.
+       </td>
+      </tr>
+
+      <tr>
+       <td>memlock</td>
+       <td>
+        El número máximo de bytes de memoria que puede ser bloqueados en RAM.
+       </td>
+      </tr>
+
+      <tr>
+       <td>cpu</td>
+       <td>
+        La cantidad de tiempo que se permite al proceso usar la CPU.
+       </td>
+      </tr>
+
+      <tr>
+       <td>filesize</td>
+       <td>
+        El tamaño máximo del segmento de datos del proceso, en bytes.
+       </td>
+      </tr>
+
+      <tr>
+       <td>openfiles</td>
+       <td>
+        Uno más que el número máximo de descriptores de ficheros abiertos.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.posix-getrlimit-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4179">
+    <p><strong>Ejemplo #1 Ejemplo de uso de <span class="function"><strong>posix_getrlimit()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$límites&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">posix_getrlimit</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$límites</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [soft core] =&gt; 0
+    [hard core] =&gt; unlimited
+    [soft data] =&gt; unlimited
+    [hard data] =&gt; unlimited
+    [soft stack] =&gt; 8388608
+    [hard stack] =&gt; unlimited
+    [soft totalmem] =&gt; unlimited
+    [hard totalmem] =&gt; unlimited
+    [soft rss] =&gt; unlimited
+    [hard rss] =&gt; unlimited
+    [soft maxproc] =&gt; unlimited
+    [hard maxproc] =&gt; unlimited
+    [soft memlock] =&gt; unlimited
+    [hard memlock] =&gt; unlimited
+    [soft cpu] =&gt; unlimited
+    [hard cpu] =&gt; unlimited
+    [soft filesize] =&gt; unlimited
+    [hard filesize] =&gt; unlimited
+    [soft openfiles] =&gt; 1024
+    [hard openfiles] =&gt; 1024
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.posix-getrlimit-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member">Página del manual GETRLIMIT(2)</li>
+    <li class="member"><span class="function"><a href="function.posix-setrlimit.html" class="function" rel="rdfs-seeAlso">posix_setrlimit()</a> - Establecer los l&iacute;mites de recursos del sistema</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.posix-getpwuid.html">posix_getpwuid</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.posix-getsid.html">posix_getsid</a></div>
+ <div class="up"><a href="ref.posix.html">Funciones POSIX</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

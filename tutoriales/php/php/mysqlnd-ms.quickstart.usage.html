@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecutar sentencias</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.configuration.html">Puesta en marcha</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.connectionpooling.html">Estado de la conexi&oacute;n</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.quickstart.usage" class="section">
+  <h2 class="title">Ejecutar sentencias</h2>
+  <p class="para">
+   El complemento se puede usar con cualquier extensión de MySQL para PHP
+   (<a href="ref.mysqli.html" class="link">mysqli</a>,
+   <a href="ref.mysql.html" class="link">mysql</a>, y
+   <a href="ref.pdo-mysql.html" class="link">PDO_MYSQL</a>) que esté
+   compilada para utilizar la biblioteca <a href="book.mysqlnd.html" class="link">mysqlnd</a>.
+   <em>PECL/mysqlnd_ms</em> se acopla a la biblioteca <a href="book.mysqlnd.html" class="link">mysqlnd</a>.
+   No cambia la API o el comportamiento de estas extensiones.
+  </p>
+  <p class="para">
+   Siempre que se esté abriendo una conexión a MySQL, el complemento compara el valor del
+   parámetro &#039;host&#039; de la llamada de conexión con los nombres de las secciones
+   del fichero de configuración específico del complemento. Si, por ejemplo, el
+   fichero de configuración específico del complemento tiene una sección <em>myapp</em> , se
+   ha de hacer referencia a ésta para abrir una conexión a MySQL para el
+   anfitrión <em>myapp</em>
+  </p>
+  <p class="para">
+   <div class="example" id="example-1979">
+    <p><strong>Ejemplo #1 Fichero de configuración específico del complemento (mysqlnd_ms_plugin.ini)</strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">{
+    &quot;myapp&quot;: {
+        &quot;master&quot;: {
+            &quot;master_0&quot;: {
+                &quot;host&quot;: &quot;localhost&quot;,
+                &quot;socket&quot;: &quot;\/tmp\/mysql.sock&quot;
+            }
+        },
+        &quot;slave&quot;: {
+            &quot;slave_0&quot;: {
+                &quot;host&quot;: &quot;192.168.2.27&quot;,
+                &quot;port&quot;: &quot;3306&quot;
+            }
+        }
+    }
+}</pre>
+</div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-1980">
+    <p><strong>Ejemplo #2 Abrir una conexión con equilibrado de carga</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;El&nbsp;equilibrado&nbsp;de&nbsp;carga&nbsp;sigue&nbsp;las&nbsp;reglas&nbsp;de&nbsp;la&nbsp;sección&nbsp;"myapp"&nbsp;del&nbsp;fichero&nbsp;de&nbsp;configuración&nbsp;del&nbsp;complemento&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nombre_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$pdo&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">'mysql:host=myapp;dbname=base_datos'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'nombre_usuario'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$mysql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nombre_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Los ejemplos de conexión de arriba tendrán equilibrio de carga.
+   El complemento enviará sentencias de sólo lectura al servidor esclavo de MySQL con la
+   IP <em>192.168.2.27</em> y escuchará el puerto <em>3306</em>
+   para la conexión cliente de MySQL. Todas las demás sentencias serán dirigidas al
+   servidor maestro de MySQL que se ejecuta en el anfitrión <em>localhost</em>. Si se ejecuta en sistemas
+   operativos de tipo Unix, el maestro sobre <em>localhost</em> aceptará
+   conexiones cliente de MySQL en el socket de dominio Unix <em>/tmp/mysql.sock</em>,
+   mientras que TCP/IP es el puerto predeterminado en Windows.
+   El complemento usará el nombre de usuario <em>nombre_usuario</em> y la contraseña
+   <em>contraseña</em> para conectarse a cualquier servidor de MySQL incluido en
+   la sección <em>myapp</em> del fichero de configuración del complemento. Una vez
+   realizada la conexión, el complemento seleccionará <em>base_datos</em> como el esquema
+   actual.
+  </p>
+  <p class="para">
+   El nombre de usuario, la contraseña y el nombre del esquema son tomados de las llamadas a la
+   API de conexión y usados por todos los servidores. En otras palabras: se deben usar los mismos
+   nombre de usuario y contraseña para cada servidor MySQL incluido en una sección del fichero de configuración
+   del comlemento. No es una limitación generalizada. A partir de <em>PECL/mysqlnd_ms</em> 1.1.0,
+   es posible establecer
+   <a href="mysqlnd-ms.plugin-ini-json.html#mysqlnd-ms.plugin-ini-json.server-config-keywords" class="link">username</a> y
+   <a href="mysqlnd-ms.plugin-ini-json.html#mysqlnd-ms.plugin-ini-json.server-config-keywords" class="link">password</a> para cualquier servidor del
+   fichero de configuración del complemento, para utilizarlos en lugar de las credenciales pasadas
+   a la llamada a la API.
+  </p>
+  <p class="para">
+   El complemento no cambia la API para ejecutar sentencias.
+   La <a href="mysqlnd-ms.rwsplit.html" class="link">división de lectura-escritura</a>
+   se desarrolla aparte. El siguiente ejemplo asume que no existe
+   una demora de replicación significante entre el maestro y el esclavo.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1981">
+    <p><strong>Ejemplo #3 Ejecutar sentencias</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;El&nbsp;equilibrado&nbsp;de&nbsp;carga&nbsp;sigue&nbsp;las&nbsp;reglas&nbsp;de&nbsp;la&nbsp;sección&nbsp;"myapp"&nbsp;del&nbsp;fichero&nbsp;de&nbsp;configuración&nbsp;del&nbsp;complemento&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nombre_usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Las&nbsp;sentencias&nbsp;se&nbsp;ejcutarán&nbsp;en&nbsp;el&nbsp;maestro&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT)"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id)&nbsp;VALUES&nbsp;(1)"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;solo&nbsp;lectura:&nbsp;la&nbsp;sentencia&nbsp;se&nbsp;ejecutará&nbsp;en&nbsp;un&nbsp;esclavo&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!(</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id&nbsp;FROM&nbsp;test"</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"El&nbsp;esclavó&nbsp;devuelve&nbsp;el&nbsp;ID&nbsp;=&nbsp;'%s'\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'id'</span><span style="color: #007700">];<br />}<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+El esclavó devuelve el ID = &#039;1&#039;
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.configuration.html">Puesta en marcha</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.connectionpooling.html">Estado de la conexi&oacute;n</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

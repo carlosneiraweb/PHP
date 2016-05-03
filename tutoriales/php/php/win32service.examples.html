@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejemplos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="win32service.constants.basepriorities.html">Clases base de prioridad Win32</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.win32service.html">Funciones win32service</a></div>
+ <div class="up"><a href="book.win32service.html">win32service</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="win32service.examples" class="chapter">
+ <h1>Ejemplos</h1>
+
+ <p class="para">
+  <div class="example" id="example-5939">
+   <p><strong>Ejemplo #1 Registrar un script de PHP para ejecutarlo como un servicio</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />win32_create_service</span><span style="color: #007700">(array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'service'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'dummyphp'</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;el&nbsp;nombre&nbsp;de&nbsp;su&nbsp;servicio<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'display'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'ejemplo&nbsp;de&nbsp;servicio&nbsp;PHP'</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;descripción&nbsp;abreviada<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'description'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'Este&nbsp;es&nbsp;un&nbsp;servicio&nbsp;de&nbsp;Windows&nbsp;creado&nbsp;usando&nbsp;PHP.'</span><span style="color: #007700">,&nbsp;</span><span style="color: #FF8000">#&nbsp;descripción&nbsp;larga<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'params'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'"'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">__FILE__&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">'"&nbsp;&nbsp;run'</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;ruta&nbsp;del&nbsp;script&nbsp;y&nbsp;parámetros<br /></span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  <div class="example" id="example-5940">
+   <p><strong>Ejemplo #2 Dejar de registrar un servicio</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />win32_delete_service</span><span style="color: #007700">(</span><span style="color: #DD0000">'dummyphp'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="para">
+  <div class="example" id="example-5941">
+   <p><strong>Ejemplo #3 Ejecutar como un servicio</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">$argv</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]&nbsp;==&nbsp;</span><span style="color: #DD0000">'run'</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #0000BB">win32_start_service_ctrl_dispatcher</span><span style="color: #007700">(</span><span style="color: #DD0000">'dummyphp'</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;while&nbsp;(</span><span style="color: #0000BB">WIN32_SERVICE_CONTROL_STOP&nbsp;</span><span style="color: #007700">!=&nbsp;</span><span style="color: #0000BB">win32_get_last_control_message</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;hacer&nbsp;su&nbsp;trabajo&nbsp;aquí.<br />&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;intente&nbsp;no&nbsp;tomar&nbsp;más&nbsp;de&nbsp;30&nbsp;segundos&nbsp;antes&nbsp;de&nbsp;ejecutar&nbsp;de&nbsp;nuevo<br />&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;el&nbsp;bucle<br />&nbsp;&nbsp;</span><span style="color: #007700">}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="win32service.constants.basepriorities.html">Clases base de prioridad Win32</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ref.win32service.html">Funciones win32service</a></div>
+ <div class="up"><a href="book.win32service.html">win32service</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

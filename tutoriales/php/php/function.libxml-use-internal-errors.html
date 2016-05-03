@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Deshabilita errores libxml y permite al usuario extraer informaci&oacute;n de errores seg&uacute;n sea necesario</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.libxml-set-streams-context.html">libxml_set_streams_context</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.sdo.html">SDO</a></div>
+ <div class="up"><a href="ref.libxml.html">Funciones de libxml</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.libxml-use-internal-errors" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">libxml_use_internal_errors</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7)</p><p class="refpurpose"><span class="refname">libxml_use_internal_errors</span> &mdash; <span class="dc-title">
+   Deshabilita errores libxml y permite al usuario extraer información de errores según sea necesario
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.libxml-use-internal-errors-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>libxml_use_internal_errors</strong></span>
+    ([ <span class="methodparam"><span class="type">bool</span> <code class="parameter">$use_errors</code><span class="initializer"> = false</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>libxml_use_internal_errors()</strong></span> permite deshabilitar
+   errores libxml estándares y habilitar el manejo de errores del usuario.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.libxml-use-internal-errors-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">use_errors</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Habilita (<strong><code>TRUE</code></strong>) o deshabilita (<strong><code>FALSE</code></strong>) el manejo de errores por parte del usuario. La deshabilitación también borrará cualquier error libxml existente.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.libxml-use-internal-errors-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Esta función devuelve el valor anterior de
+   <code class="parameter">use_errors</code>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.libxml-use-internal-errors-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5994">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>libxml_use_internal_errors()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo demuestra el uso básico de los errores libxml y el valor
+     devuelto por esta función.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;habilita&nbsp;el&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;del&nbsp;usuario<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">libxml_use_internal_errors</span><span style="color: #007700">(</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;carga&nbsp;el&nbsp;documento<br /></span><span style="color: #0000BB">$doc&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">DOMDocument</span><span style="color: #007700">;<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$doc</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">load</span><span style="color: #007700">(</span><span style="color: #DD0000">'file.xml'</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">libxml_get_errors</span><span style="color: #007700">()&nbsp;as&nbsp;</span><span style="color: #0000BB">$error</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Aquí&nbsp;se&nbsp;manejan&nbsp;los&nbsp;errores<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">libxml_clear_errors</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+bool(false)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.libxml-use-internal-errors-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.libxml-clear-errors.html" class="function" rel="rdfs-seeAlso">libxml_clear_errors()</a> - Limpia el buffer de errores de libxml</span></li>
+    <li class="member"><span class="function"><a href="function.libxml-get-errors.html" class="function" rel="rdfs-seeAlso">libxml_get_errors()</a> - Recupera un array de errores</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.libxml-set-streams-context.html">libxml_set_streams_context</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.sdo.html">SDO</a></div>
+ <div class="up"><a href="ref.libxml.html">Funciones de libxml</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

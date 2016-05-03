@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Introducci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.mysqlnd-ms.html">mysqlnd_ms</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="up"><a href="book.mysqlnd-ms.html">mysqlnd_ms</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intro.mysqlnd-ms" class="preface">
+  <h1 class="title">Introducción</h1>
+  <p class="para">
+   El complemento de equilibrado de carga y replicación de mysqlnd (<em>mysqlnd_ms</em>)
+   añade soporte de uso sencillo para la replicación MySQL a todas las extensiones de MySQL para PHP que utilizan
+   <a href="book.mysqlnd.html" class="link">mysqlnd</a>.
+  </p>
+  <p class="para">
+   A partir de la versión 5.3.3 de PHP, el controlador nativo de MySQL para PHP
+   (<em>mysqlnd</em>)
+   ofrece una API en C de complementos internos. Los complementos en C, como el complemento de
+   replicación y equilibrado de carga, pueden extender la funcionalidad de
+   <a href="book.mysqlnd.html" class="link">mysqlnd</a>.
+  </p>
+  <p class="para">
+   El controlador nativo de MySQL para PHP es una biblioteca en C que acompaña a
+   PHP a partir de PHP 5.3.0. Sirve como un sustituto a corto plazo de la
+   Biblioteca Cliente de MySQL (libmysqlclient). El uso de mysqlnd tiene
+   varias ventajas: no son necesarias descargas extra debido a que está incluido con PHP,
+   está bajo la licencia de PHP, hay menor consumo de memoria en ciertos casos, y
+   contiene nueva funcionalidad, como consultas asíncronas.
+  </p>
+  <p class="para">
+   Los complementos de mysqlnd como <em>mysqlnd_ms</em> operan, en mayor parte,
+   de forma transparente desde la perspectiva del usuario. El complemento de replicación y equilibrado
+   de carga admite todas las aplicaciones de PHP y todas las extensiones de MySQL para PHP.
+   No cambia las APIs existentes. Por lo tanto, se puede usar fácilmente con
+   las aplicaciones de PHP existentes.
+  </p>
+  <div class="section" id="mysqlnd-ms.key-features">
+   <h2 class="title">Características principales</h2>
+   <p class="para">
+    Las características principales de PECL/mysqlnd_ms son las siguientes:
+   </p>
+   <p class="para">
+    <ul class="itemizedlist">
+     <li class="listitem">
+      <p class="para">
+       Es transparente y, por lo tanto, fácil de usar.
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Admite todas las extensiones de MySQL para PHP.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Admite SSL.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Es una <acronym title="Application Programming Interface">API</acronym> consistente.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Se requieren pocos cambios o ningún cambio en la aplicación, dependiendo del escenario de uso requerido.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Conexiones retardadas: las conexiones a servidores maestros y esclavos no se
+          abren antes de que se ejecute una sentencia SQL.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Opcional: uso automático del maestro después de la primera escritura en una petición web, para
+          disminuir el posible impacto de la demora de la replicación.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       Se puede usar con cualquier solución de clúster MySQL.
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Replicación MySQL: La división de lectura-escritura la realiza el complemento.
+          Es el foco primario del complemento.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Clúster MySQL: La división de lectura-escritura se puede deshabilitar.
+          Es posible la configuración de múltiples maestros.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Soluciones de terceros: el complemento está optimizado para la Replicación MySQL,
+          pero se puede usar con cualquier otro tipo de solución de clúster MySQL.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       Estrategias destacadas de la división de lectura-escritura.
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Detección automática de SELECT.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Admite sugerencias SQL para invalidar el automatismo.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Definido por el usuario.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Se puede deshabilitar, por ejemplo, al usar un clúster sincrónico, como el Clúster MySQL.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       Estrategias destacadas del equilibrado de carga.
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Rotación: elegir un esclavo diferente, de un modo &#039;round bobin&#039;, en cada petición a los esclavos.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Aleatorio: elegir un esclavo aleatorio en cada petición a los esclavos.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Aleatoiro una vez (adhesión): elegir un esclavo aleatorio una vez para ejecutar todas las peticiones a los esclavos durante toda una petición web.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Definido por el usuario. La aplicación puede registrar llamadas de retorno con mysqlnd_ms.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          PHP 5.4.0 o superior: consideración de transacciones al usar solamente llamadas a la API para controlar transacciones.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Equilibrado de carga ponderado: a los servidores se les pueden asignar diferentes propiedades, por ejemplo, para
+          dirigir más peticiones a una máquina potente que a otra menos potente. O para
+          elegir máquinas cercanas para reducir la latencia.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       ID de transacciones global.
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Emulación en el lado del cliente. Hace más sencilla la tolerancia a fallos manual del servidor maestro y la promoción de esclavos
+          con clústeres asíncronos, como la Repliación MySQL.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Soporte para la característica del identificador de transacciones global interno de MySQL 5.6.5 o superior.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Soporte del uso de IDs de transacciones para identificar esclavos asíncronos actualizados
+          para lectura cuando se necesite consistencia de sesión. Observe las restricciones
+          mencionadas en el manual.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Estrangulamiento: opcionalmente, el complemento puede esperar a que un esclavo se convierta en &quot;sincrónico&quot; antes
+          de continuar.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       Niveles de servicio y de consistencia.
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Las aplicaciones puede solicitar para las conexiones niveles de servicios
+          de consistencia final, de sesión y fuerte. Los nodos adecuados de clústeres
+          se buscarán automáticamente.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Los accesos a un esclavo de Replicación MySQL de consistencia final pueden ser reemplazados
+          por accesos rápidos a la caché local de forma transparente para reducir la carga del servidor.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       Particionamiento y fragmentación
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Los servidores de un clúster de réplica pueden estar organizados en grupos. Se pueden
+          usar las sugerencias SQL para dirigir manualmente consultas a un grupo específico.
+          La agrupación se puede usar para particionar (fragmentar) los datos, o para paliar problemas de
+          hotspots con actualizaciones.
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          Los filtros de Replicación de MySQL están soportados a través del filtro de tabla.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+     
+     <li class="listitem">
+      <p class="para">
+       MySQL Fabric
+      </p>
+      <p class="para">
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          Se incluye <a href="mysqlnd-ms.quickstart.mysql_fabric.html" class="link">soporte experimental</a>
+          para MySQL Fabric.
+         </p>
+        </li>
+       </ul>
+      </p>
+     </li>
+    </ul>
+   </p>
+  </div>
+  
+  <div class="section" id="mysqlnd-ms.limitations">
+   <h2 class="title">Limitaciones</h2>
+   <p class="para">
+    El mecanismo interno de división de lectura-escritura es muy básico. Cada
+    consulta que comience con <em>SELECT</em>
+    es considerada una petición de lectura para enviarla a un servidor esclavo de MySQL.
+    Todas las demás consultas (como las sentencias <em>SHOW</em>)
+    son consideradas como peticiones de escritura que son enviadas al servidor maestro de MySQL.
+    El comportamiento interno se puede invalidar usando las
+    <a href="mysqlnd-ms.constants.html" class="link">sugerencias SQL</a>, o una
+    <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filter-user" class="link">función de llamada de retorno</a> definida por el usuario.
+   </p>
+   <p class="para">
+    El divisor de lectura-escritura no considera las sentencias múltiples. Éstas
+    son consideradas como una única sentencia. La decisión de dónde ejecutar la sentencia
+    se basará en el comienzo de la dicha sentencia. Por ejemplo, si
+    se usa <span class="function"><a href="mysqli.multi-query.html" class="function">mysqli_multi_query()</a></span>
+    para ejecutar la sentencia múltiple <em>SELECT id FROM test ; INSERT INTO test(id) VALUES (1)</em>,
+    ésta será redirigida a un servidor esclavo debido a que comienza con
+    <em>SELECT</em>. La sentencia <em>INSERT</em>, la cual es
+    también parte de la sentencia múltiple, no será redirigida a un servidor maestro.
+   </p>
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <p class="para">
+     Las aplicaciones deben considerar las consecuencias de los intercambios de conexión que se
+     realizan para el equilibrado de carga. Revise la documentación sobre
+     <a href="mysqlnd-ms.pooling.html" class="link">intercambio y agrupación de conexiones</a>,
+     <a href="mysqlnd-ms.transaction.html" class="link">manejo de transacciones</a>,
+     <a href="mysqlnd-ms.failover.html" class="link">tolerancia a fallos</a>
+     <a href="mysqlnd-ms.loadbalancing.html" class="link">equilibrado de carga</a>  y
+     <a href="mysqlnd-ms.rwsplit.html" class="link">división de lectura-escritura</a>.
+    </p>
+   </p></blockquote>
+  </div>
+  
+  <div class="section" id="mysqlnd-ms.name">
+   <h2 class="title">Sobre el nombre</h2>
+   <p class="para">
+    La abreviatura <em>mysqlnd_ms</em>
+    significa <em>complemento maestro esclavo de mysqlnd</em>. El nombre
+    fue elegido por una rápida y desordenada prueba de conceptos. Al principio,
+    los desarrolladores no esperaban que se continuase usando el código base.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.mysqlnd-ms.html">mysqlnd_ms</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="up"><a href="book.mysqlnd-ms.html">mysqlnd_ms</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

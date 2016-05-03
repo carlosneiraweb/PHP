@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establece las condiciones para el almacenamiento en cach&eacute; autom&aacute;tico</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysqlnd-qc-get-query-trace-log.html">mysqlnd_qc_get_query_trace_log</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-qc-set-is-select.html">mysqlnd_qc_set_is_select</a></div>
+ <div class="up"><a href="ref.mysqlnd-qc.html">Funciones de mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysqlnd-qc-set-cache-condition" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysqlnd_qc_set_cache_condition</h1>
+  <p class="verinfo">(PECL mysqlnd_qc &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">mysqlnd_qc_set_cache_condition</span> &mdash; <span class="dc-title">Establece las condiciones para el almacenamiento en caché automático</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysqlnd-qc-set-cache-condition-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> 
+   <span class="methodname"><strong>mysqlnd_qc_set_cache_condition</strong></span>
+    ( <span class="methodparam">
+    <span class="type">int</span>
+     <code class="parameter">$condition_type</code>
+   </span>
+   , <span class="methodparam">
+    <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span>
+     <code class="parameter">$condition</code>
+   </span>
+   , <span class="methodparam">
+    <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span>
+     <code class="parameter">$condition_option</code>
+   </span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Establece una condición para el almacenamiento en caché automático de sentencias que no contienen
+   las sugerencias SQL necesarias para habilitar su almacenamiento en dicha caché.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysqlnd-qc-set-cache-condition-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+
+     <code class="parameter">condition_type</code>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      El tipo de condición. El único valor permitido es
+      <strong><code>MYSQLND_QC_CONDITION_META_SCHEMA_PATTERN</code></strong>.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+
+     <code class="parameter">condition</code>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Parámetro para la condición establecida con <em>condition_type</em>.
+      El tipo y la estructura del parámetro depende de <em>condition_type</em>
+     </p>
+     <p class="para">
+      Si <em>condition_type</em> es igual a
+      <em>MYSQLND_QC_CONDITION_META_SCHEMA_PATTERN</em>,
+      <em>condition</em> debe ser una cadena. Ésta establece el patrón.
+      Las setencias son almacenadas en caché si la tabla y la entrada de los metadatos de la base de datos de sus
+      conjuntos de resultados coinceiden con el patrón. Dicho patrón se comprueba para ver si coincide con las
+      entradas de los metadatos <em>db</em> y <em>org_table</em>
+      proporcionadas por la biblioteca cliente-servidor de MySQL subyacente. Por favor, revise
+      el manual de referencias de MySQL para los detalles de las dos entradas. Los valores de
+      <em>db</em> y <em>org_table</em> son
+      concatenados con un punto (<em>.</em>) antes de compararlos
+      con <em>condition</em>. La comparación de patrones admite
+      los comodines <em>%</em> y <em>_</em>.
+      El comodín <em>%</em> coincidirá con uno o varios caracteres
+      arbitrarios. <em>_</em> coincidirá con un carácter arbitrario.
+      El símbolo de escape es la barra invertida.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+
+     <code class="parameter">condition_option</code>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      Opción para <em>condition</em>. El tipo y la estructura dependen
+      de <em>condition_type</em>.
+     </p>
+     <p class="para">
+      Si <em>condition_type</em> es igual a
+      <em>MYSQLND_QC_CONDITION_META_SCHEMA_PATTERN</em>,
+      <em>condition_options</em> es el TTL a usar.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysqlnd-qc-set-cache-condition-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2102">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysqlnd_qc_set_cache_condition()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Almacenar&nbsp;en&nbsp;caché&nbsp;todos&nbsp;los&nbsp;accesos&nbsp;a&nbsp;las&nbsp;tablas&nbsp;con&nbsp;el&nbsp;nombre&nbsp;"new%"&nbsp;en&nbsp;el&nbsp;esquema/base&nbsp;de&nbsp;datos&nbsp;"ejemplo_db"&nbsp;durante&nbsp;1&nbsp;segundo&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">mysqlnd_qc_set_cache_condition</span><span style="color: #007700">(</span><span style="color: #0000BB">MYSQLND_QC_CONDITION_META_SCHEMA_PATTERN</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"ejemplo_db.new%"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;die(</span><span style="color: #DD0000">"¡Fallo&nbsp;al&nbsp;establecer&nbsp;la&nbsp;condición&nbsp;de&nbsp;la&nbsp;caché!"</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"host"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"ejemplo_db"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"puerto"</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">/*&nbsp;almacenada&nbsp;en&nbsp;caché&nbsp;aunque&nbsp;no&nbsp;se&nbsp;proporcione&nbsp;una&nbsp;sugerencia&nbsp;SQL&nbsp;*/<br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;title&nbsp;FROM&nbsp;news"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$pdo_mysql&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">(</span><span style="color: #DD0000">"mysql:host=host;dbname=ejemplo_db;port=puerto"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">/*&nbsp;no&nbsp;almacenada&nbsp;en&nbsp;caché:&nbsp;sin&nbsp;sugerencia&nbsp;SQL,&nbsp;sin&nbsp;coincidencia&nbsp;con&nbsp;el&nbsp;patrón&nbsp;*/<br /></span><span style="color: #0000BB">$pdo_mysql</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;title&nbsp;FROM&nbsp;latest_news"</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">/*&nbsp;almacenada&nbsp;en&nbsp;caché:&nbsp;TTL&nbsp;1&nbsp;segundo,&nbsp;coincide&nbsp;con&nbsp;el&nbsp;patrón&nbsp;*/<br /></span><span style="color: #0000BB">$pdo_mysql</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;title&nbsp;FROM&nbsp;news"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysqlnd-qc-set-cache-condition-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve TRUE en caso de éxito o FALSE en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysqlnd-qc-set-cache-condition-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member">
+     <a href="mysqlnd-qc.pattern-based-caching.html" class="link">Guía rápida: almacenamiento en caché basado en patrones</a>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysqlnd-qc-get-query-trace-log.html">mysqlnd_qc_get_query_trace_log</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-qc-set-is-select.html">mysqlnd_qc_set_is_select</a></div>
+ <div class="up"><a href="ref.mysqlnd-qc.html">Funciones de mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

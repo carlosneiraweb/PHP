@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Definici&oacute;n de la entrada de fichero del manifiesto de Phar</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.fileformat.flags.html">Banderas mapeadas en bit globales de Phar</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.fileformat.signature.html">Formato de la firma de Phar</a></div>
+ <div class="up"><a href="phar.fileformat.html">&iquest;Qu&eacute; hace de un phar un phar y no un tar o un zip?</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="phar.fileformat.manifestfile" class="section">
+  <h2 class="title">Definición de la entrada de fichero del manifiesto de Phar</h2>
+  <p class="para">
+   Cada fichero en el manifiesto contiene la siguiente información:
+  </p>
+  <p class="para">
+   <table class="doctable table">
+    <caption><strong>Entrada de fichero del manifiesto de Phar</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Tamaño en bytes</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>4 bytes</td>
+       <td>Longitud del nombre del fichero en bytes</td>
+      </tr>
+
+      <tr>
+       <td>??</td>
+       <td>Nombre del fichero (la longitud especificada en lo anterior)</td>
+      </tr>
+
+      <tr>
+       <td>4 bytes</td>
+       <td>Tamaño del fichero sin comprimir en bytes</td>
+      </tr>
+
+      <tr>
+       <td>4 bytes</td>
+       <td>Marca de tiempo Unix del fichero</td>
+      </tr>
+
+      <tr>
+       <td>4 bytes</td>
+       <td>Tamaño del fichero comprimido en bytes</td>
+      </tr>
+
+      <tr>
+       <td>4 bytes</td>
+       <td>Suma de verificación CRC32 del contenido del fichero si comprimir</td>
+      </tr>
+
+      <tr>
+       <td>4 bytes</td>
+       <td>Banderas mapeadas en bit específicas del fichero</td>
+      </tr>
+
+      <tr>
+       <td>4 bytes</td>
+       <td>Longitud de la metainformación del fichero serializada (<em>0</em> para ninguna)</td>
+      </tr>
+
+      <tr>
+       <td>??</td>
+       <td>Metainformación del fichero serializada, almacenada en el formato de <span class="function"><a href="function.serialize.html" class="function">serialize()</a></span></td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+  <p class="para">
+   Observe que a partir de la versión 1.1.1 de la API, los directorios vacíos son almacenados como nombres de fichero
+   con una barra al final, como  <em>mi/directorio/</em>
+  </p>
+  <p class="para">
+   Los valores de mapeo de bit específicos de fichero reconocidos son:
+  </p>
+  <p class="para">
+   <table class="doctable table">
+    <caption><strong>Valores de mapeo de bit reconocidos</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Valor</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td><em>0x000001FF</em></td>
+       <td>
+        Estos bits están reservador para la definición de los permisos de fichero específicos
+        de un fichero. Los permisos son usados por <span class="function"><a href="function.fstat.html" class="function">fstat()</a></span>
+        y se pueden utilizar para recrear permisos deseados en la extracción.
+       </td>
+      </tr>
+
+      <tr>
+       <td><em>0x00001000</em></td>
+       <td>
+        Si se establece, el fichero es comprimido con la compresión zlib
+       </td>
+      </tr>
+
+      <tr>
+       <td><em>0x00002000</em></td>
+       <td>
+        Si se establece, el fichero es comprimido con la compresión bzip
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="phar.fileformat.flags.html">Banderas mapeadas en bit globales de Phar</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="phar.fileformat.signature.html">Formato de la firma de Phar</a></div>
+ <div class="up"><a href="phar.fileformat.html">&iquest;Qu&eacute; hace de un phar un phar y no un tar o un zip?</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

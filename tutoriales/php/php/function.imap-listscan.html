@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve la lista de buzones que coinciden con el texto dado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imap-listmailbox.html">imap_listmailbox</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imap-listsubscribed.html">imap_listsubscribed</a></div>
+ <div class="up"><a href="ref.imap.html">Funciones de IMAP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imap-listscan" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imap_listscan</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">imap_listscan</span> &mdash; <span class="dc-title">Devuelve la lista de buzones que coinciden con el texto dado</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imap-listscan-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>imap_listscan</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$imap_stream</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$ref</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$pattern</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$content</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve un array que contiene los nombres de los buzones que tienen el
+   contenido dado por <code class="parameter">content</code> en el texto del buzón.
+  </p>
+  <p class="para">
+   Esta función es similar a <span class="function"><a href="function.imap-listmailbox.html" class="function">imap_listmailbox()</a></span>,
+   excepto que verificará además la presencia de la cadena
+   <code class="parameter">content</code> dentro de la información del buzón.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imap-listscan-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+imap_stream</code></dt>
+<dd>
+<p class="para">IMAP stream devuelto por
+<span class="function"><a href="function.imap-open.html" class="function">imap_open()</a></span>.</p></dd>
+
+    
+     <dt>
+<code class="parameter">ref</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">ref</code> normalmente debería ser la especificación
+       del servidor como está descrita en <span class="function"><a href="function.imap-open.html" class="function">imap_open()</a></span>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">pattern</code></dt>
+
+     <dd>
+
+      <p class="para">Especifica donde en la jerarquía del buzón 
+para empezar a buscar.</p><p class="para">Hay dos caracteres especiales que se pueden
+pasar como parte del <code class="parameter">pattern</code>:
+&#039;<em>*</em>&#039; y &#039;<em>%</em>&#039;.
+&#039;<em>*</em>&#039; significa devolver todos los buzones. Si se pasa el
+<code class="parameter">pattern</code> como &#039;<em>*</em>&#039;, se obtendrá
+una lista de toda la jerarquía del buzón.
+&#039;<em>%</em>&#039;
+significa devolver sólo el nivel actual.
+&#039;<em>%</em>&#039; como el parámetro <code class="parameter">pattern</code>
+devolverá solamente el nivel superior de los
+buzones; &#039;<em>~/mail/%</em>&#039; en <em>UW_IMAPD</em> devolverá cada buzón en el directorio <var class="filename">~/mail</var>, pero no en los subdirectorios de ese directorio.</p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">content</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La cadena buscada
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imap-listscan-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array que contiene los nombres de los buzones que tienen
+   el contenido dado por <code class="parameter">content</code> en el texto del buzón.
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.imap-listscan-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.imap-listmailbox.html" class="function" rel="rdfs-seeAlso">imap_listmailbox()</a> - Alias de imap_list</span></li>
+    <li class="member"><span class="function"><a href="function.imap-search.html" class="function" rel="rdfs-seeAlso">imap_search()</a> - Esta funci&oacute;n devuelve un array de mensajes que coinciden con el criterio de b&uacute;squeda dado</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imap-listmailbox.html">imap_listmailbox</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imap-listsubscribed.html">imap_listsubscribed</a></div>
+ <div class="up"><a href="ref.imap.html">Funciones de IMAP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

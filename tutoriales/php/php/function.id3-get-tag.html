@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene toda la informaci&oacute;n almacenada en una etiqueta ID3</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.id3-get-genre-name.html">id3_get_genre_name</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.id3-get-version.html">id3_get_version</a></div>
+ <div class="up"><a href="ref.id3.html">Funciones ID3</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.id3-get-tag" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">id3_get_tag</h1>
+  <p class="verinfo">(PECL id3 &gt;= 0.1)</p><p class="refpurpose"><span class="refname">id3_get_tag</span> &mdash; <span class="dc-title">Obtiene toda la información almacenada en una etiqueta ID3</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.id3-get-tag-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>id3_get_tag</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$filename</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$version</code><span class="initializer"> = ID3_BEST</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>id3_get_tag()</strong></span> Es usada para obtener toda la información almacenada
+   en la etiqueta ID3 del fichero especificado.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.id3-get-tag-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">filename</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Ruta al fichero MP3
+      </p>
+      <p class="para">
+       En lugar de un nombre de fichero puede pasarse un contexto de flujos válido.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">version</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Permite especificar la versión de la etiqueta debido a que los ficheros MP3 pueden contener
+       ambas, etiquetas versión 1.x y 2.x
+      </p>
+      <p class="para">
+       Desde la versión 0.2 <span class="function"><strong>id3_get_tag()</strong></span> también soporta etiquetas ID3
+       versión 2.2, 2.3 y 2.4. Para extraer información de esas etiquetas
+       deben pasarse las constantes ID3_V2_2, ID3_V2_3 o ID3_V2_4 como segundo parámetro.
+       Las etiquetas ID3 v2.x pueden contener mucha más información acerca del fichero MP3
+       que las etiquetas ID3 v1.x.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.id3-get-tag-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Retorna un array asociativo con varias claves como:
+   <em>title</em>, <em>artist</em>, ..
+  </p>
+  <p class="para">
+   La clave <em>genre</em> contendrá un entero entre 0 y
+   147. La función <span class="function"><a href="function.id3-get-genre-name.html" class="function">id3_get_genre_name()</a></span> puede ser usada para convertir este valor
+   a uno legible por humanos.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.id3-get-tag-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-675">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>id3_get_tag()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$etiqueta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">id3_get_tag</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">"ruta/a/ejemplo.mp3"&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$etiqueta</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [title] =&gt; DN-38416
+    [artist] =&gt; Re:\Legion
+    [album] =&gt; Reflections
+    [year] =&gt; 2004
+    [genre] =&gt; 19
+)
+</pre></div>
+    </div>
+   </div>
+   <div class="example" id="example-676">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>id3_get_tag()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$etiqueta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">id3_get_tag</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">"ruta/a/ejemplo2.mp3"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">ID3_V2_3&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$etiqueta</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [copyright] =&gt; Dirty Mac
+    [originalArtist] =&gt; Dirty Mac
+    [composer] =&gt; Marcus Götze
+    [artist] =&gt; Dirty Mac
+    [title] =&gt; Little Big Man
+    [album] =&gt; Demo-Tape
+    [track] =&gt; 5/12
+    [genre] =&gt; (17)Rock
+    [year] =&gt; 2001
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.id3-get-tag-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.id3-set-tag.html" class="function" rel="rdfs-seeAlso">id3_set_tag()</a> - Actualiza la informaci&oacute;n almacenada en una etiqueta ID3</span></li>
+    <li class="member"><span class="function"><a href="function.id3-remove-tag.html" class="function" rel="rdfs-seeAlso">id3_remove_tag()</a> - Elimina una etiqueta ID3 existente</span></li>
+    <li class="member"><span class="function"><a href="function.id3-get-version.html" class="function" rel="rdfs-seeAlso">id3_get_version()</a> - Obtiene la versi&oacute;n de una etiqueta ID3</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.id3-get-genre-name.html">id3_get_genre_name</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.id3-get-version.html">id3_get_version</a></div>
+ <div class="up"><a href="ref.id3.html">Funciones ID3</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

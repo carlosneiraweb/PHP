@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Autenticaci&oacute;n HTTP con PHP</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.html">Caracter&iacute;sticas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.cookies.html">'Cookies'</a></div>
+ <div class="up"><a href="features.html">Caracter&iacute;sticas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="features.http-auth" class="chapter">
+ <h1>Autenticación HTTP con PHP</h1>
+
+ 
+ <p class="simpara">
+  Con la
+  función <span class="function"><a href="function.header.html" class="function">header()</a></span> se puede enviar un mensaje de <em>&quot;Autenticación requerida&quot;</em>
+  al navegador del cliente para mostrar una ventana emergente donde introducir un
+  usuario y una contraseña. Una vez introducidos estos datos,
+  el URL que contiene el script de PHP será invocado de nuevo con las
+  <a href="reserved.variables.html" class="link">variables predefinidas</a>
+  <var class="varname"><var class="varname">PHP_AUTH_USER</var></var>, <var class="varname"><var class="varname">PHP_AUTH_PW</var></var> 
+  y <var class="varname"><var class="varname">AUTH_TYPE</var></var> establecidas al nombre de usuario, contraseña y
+  tipo de autenticación, respectivamente. Estas variables se encuentran en
+  el array <var class="varname"><var class="varname"><a href="reserved.variables.server.html" class="classname">$_SERVER</a></var></var>. Se admiten ambos métodos de autenticación,
+  &#039;Basic&#039; y &#039;Digest&#039; (desde PHP 5.1.0). Véase la
+  función <span class="function"><a href="function.header.html" class="function">header()</a></span> para más información.
+ </p>
+ 
+ <p class="para">
+  Un fragmento de un script de ejemplo que forzaría la autenticación
+  en una página es el siguiente:
+ </p>
+ <p class="para">
+  <div class="example" id="example-396">
+   <p><strong>Ejemplo #1 Ejemplo de autenticación HTTP &#039;Basic&#039;</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">if&nbsp;(!isset(</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_AUTH_USER'</span><span style="color: #007700">]))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'WWW-Authenticate:&nbsp;Basic&nbsp;realm="Mi&nbsp;dominio"'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'HTTP/1.0&nbsp;401&nbsp;Unauthorized'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Texto&nbsp;a&nbsp;enviar&nbsp;si&nbsp;el&nbsp;usuario&nbsp;pulsa&nbsp;el&nbsp;botón&nbsp;Cancelar'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;exit;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;p&gt;Hola&nbsp;</span><span style="color: #007700">{</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_AUTH_USER'</span><span style="color: #007700">]}</span><span style="color: #DD0000">.&lt;/p&gt;"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;p&gt;Introdujo&nbsp;</span><span style="color: #007700">{</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_AUTH_PW'</span><span style="color: #007700">]}</span><span style="color: #DD0000">&nbsp;como&nbsp;su&nbsp;contraseña.&lt;/p&gt;"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+ 
+ <p class="para">
+  <div class="example" id="example-397">
+   <p><strong>Ejemplo #2 Ejemplo de autenticación HTTP &#039;Digest&#039;</strong></p>
+   <div class="example-contents"><p>
+    Este ejemplo muestra cómo implementar un sencillo script de
+    autenticación HTTP &#039;Digest&#039;. Para más información lea el <a href="http://www.faqs.org/rfcs/rfc2617" class="link external">&raquo;&nbsp;RFC 2617</a>.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$dominio&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Area&nbsp;restringida'</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;usuario&nbsp;=&gt;&nbsp;contraseña<br /></span><span style="color: #0000BB">$usuarios&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'admin'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'micontraseña'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'invitado'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'invitado'</span><span style="color: #007700">);<br /><br /><br />if&nbsp;(empty(</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_AUTH_DIGEST'</span><span style="color: #007700">]))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'HTTP/1.1&nbsp;401&nbsp;Unauthorized'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'WWW-Authenticate:&nbsp;Digest&nbsp;realm="'</span><span style="color: #007700">.</span><span style="color: #0000BB">$dominio</span><span style="color: #007700">.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'",qop="auth",nonce="'</span><span style="color: #007700">.</span><span style="color: #0000BB">uniqid</span><span style="color: #007700">().</span><span style="color: #DD0000">'",opaque="'</span><span style="color: #007700">.</span><span style="color: #0000BB">md5</span><span style="color: #007700">(</span><span style="color: #0000BB">$dominio</span><span style="color: #007700">).</span><span style="color: #DD0000">'"'</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'Texto&nbsp;a&nbsp;enviar&nbsp;si&nbsp;el&nbsp;usuario&nbsp;pulsa&nbsp;el&nbsp;botón&nbsp;Cancelar'</span><span style="color: #007700">);<br />}<br /><br /><br /></span><span style="color: #FF8000">//&nbsp;Analizar&nbsp;la&nbsp;variable&nbsp;PHP_AUTH_DIGEST<br /></span><span style="color: #007700">if&nbsp;(!(</span><span style="color: #0000BB">$datos&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">analizar_http_digest</span><span style="color: #007700">(</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_AUTH_DIGEST'</span><span style="color: #007700">]))&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!isset(</span><span style="color: #0000BB">$usuarios</span><span style="color: #007700">[</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'username'</span><span style="color: #007700">]]))<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'Credenciales&nbsp;incorrectas'</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #FF8000">//&nbsp;Generar&nbsp;una&nbsp;respuesta&nbsp;válida<br /></span><span style="color: #0000BB">$A1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">md5</span><span style="color: #007700">(</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'username'</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">':'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$dominio&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">':'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$usuarios</span><span style="color: #007700">[</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'username'</span><span style="color: #007700">]]);<br /></span><span style="color: #0000BB">$A2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">md5</span><span style="color: #007700">(</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'REQUEST_METHOD'</span><span style="color: #007700">].</span><span style="color: #DD0000">':'</span><span style="color: #007700">.</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'uri'</span><span style="color: #007700">]);<br /></span><span style="color: #0000BB">$respuesta_válida&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">md5</span><span style="color: #007700">(</span><span style="color: #0000BB">$A1</span><span style="color: #007700">.</span><span style="color: #DD0000">':'</span><span style="color: #007700">.</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'nonce'</span><span style="color: #007700">].</span><span style="color: #DD0000">':'</span><span style="color: #007700">.</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'nc'</span><span style="color: #007700">].</span><span style="color: #DD0000">':'</span><span style="color: #007700">.</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'cnonce'</span><span style="color: #007700">].</span><span style="color: #DD0000">':'</span><span style="color: #007700">.</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'qop'</span><span style="color: #007700">].</span><span style="color: #DD0000">':'</span><span style="color: #007700">.</span><span style="color: #0000BB">$A2</span><span style="color: #007700">);<br /><br />if&nbsp;(</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'response'</span><span style="color: #007700">]&nbsp;!=&nbsp;</span><span style="color: #0000BB">$respuesta_válida</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'Credenciales&nbsp;incorrectas'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Todo&nbsp;bien,&nbsp;usuario&nbsp;y&nbsp;contraseña&nbsp;válidos<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">'Se&nbsp;ha&nbsp;identificado&nbsp;como:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #DD0000">'username'</span><span style="color: #007700">];<br /><br /><br /></span><span style="color: #FF8000">//&nbsp;Función&nbsp;para&nbsp;analizar&nbsp;la&nbsp;cabecera&nbsp;de&nbsp;autenticación&nbsp;HTTP<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">analizar_http_digest</span><span style="color: #007700">(</span><span style="color: #0000BB">$txt</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Protección&nbsp;contra&nbsp;datos&nbsp;ausentes<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$partes_necesarias&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'nonce'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'nc'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'cnonce'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'qop'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'username'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'uri'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'response'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$datos&nbsp;</span><span style="color: #007700">=&nbsp;array();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$claves&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">implode</span><span style="color: #007700">(</span><span style="color: #DD0000">'|'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">array_keys</span><span style="color: #007700">(</span><span style="color: #0000BB">$partes_necesarias</span><span style="color: #007700">));<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">preg_match_all</span><span style="color: #007700">(</span><span style="color: #DD0000">'@('&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$claves&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$txt</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$coincidencias</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PREG_SET_ORDER</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">$coincidencias&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$c</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$datos</span><span style="color: #007700">[</span><span style="color: #0000BB">$c</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]]&nbsp;=&nbsp;</span><span style="color: #0000BB">$c</span><span style="color: #007700">[</span><span style="color: #0000BB">3</span><span style="color: #007700">]&nbsp;?&nbsp;</span><span style="color: #0000BB">$c</span><span style="color: #007700">[</span><span style="color: #0000BB">3</span><span style="color: #007700">]&nbsp;:&nbsp;</span><span style="color: #0000BB">$c</span><span style="color: #007700">[</span><span style="color: #0000BB">4</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unset(</span><span style="color: #0000BB">$partes_necesarias</span><span style="color: #007700">[</span><span style="color: #0000BB">$c</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]]);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$partes_necesarias&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #0000BB">$datos</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+ 
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <strong>Sobre la compatibilidad</strong><br />
+  <p class="para">
+   Hay que tener cuidado al codificar las líneas de cabeceras HTTP. Para garantizar la mayor
+   compatibilidad con todos los clientes, la palabra &#039;Basic&#039; debe escribirse con
+   &#039;B&#039; mayúscula, la cadena del dominio debe estar entre comillas dobles (no simples),
+   y debería haber exactamente un espacio precediendo al código <em class="emphasis">401</em> de la
+   línea de la cabecera <em class="emphasis">HTTP/1.0 401</em>. Los parámetros de autenticación deben
+   estar separados por comas, como se vió en el ejemplo de &#039;Digest&#039; anterior.
+  </p>
+ </p></blockquote>
+ 
+ <p class="para">
+  En lugar de imprimir simplemente <var class="varname"><var class="varname">PHP_AUTH_USER</var></var>
+  y <var class="varname"><var class="varname">PHP_AUTH_PW</var></var> como se hizo en el ejemplo anterior,
+  podría ser conveniente validar el usuario y la contraseña,
+  tal vez enviando una consulta a una base de datos o buscando el
+  usuario en un fichero dbm.
+ </p>
+ 
+ <p class="para">
+  Cuidado con los navegadores Internet Explorer defectuosos. Parecen
+  ser muy quisquillosos con el orden de las cabeceras. Por ahora,
+  parece ser que el truco está en enviar la cabecera
+  <em class="emphasis">WWW-Authenticate</em> antes que la cabecera
+  <em>HTTP/1.0 401</em>.
+ </p>
+ 
+ <p class="simpara">
+  Para prevenir que alguien escriba un script que
+  revele la contraseña de una página que se autenticó con un
+  mecanismo externo tradicional, las variables PHP_AUTH no se
+  establecerán si la autenticación externa está habilitada para esa
+  página en particular y si el <a href="ini.sect.safe-mode.html#ini.safe-mode" class="link">modo seguro</a> está habilitado. Independientemente,
+  se puede emplear <var class="varname"><var class="varname">REMOTE_USER</var></var>
+  para identificar al usuario autenticado externamente. De este modo, se podrá usar
+  <var class="varname"><var class="varname"><a href="reserved.variables.server.html" class="classname">$_SERVER['REMOTE_USER']</a></var></var>.
+ </p>
+ 
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <strong>Sobre la configuración</strong><br />
+  <p class="para">
+   PHP utiliza la presencia de una directiva <em>AuthType</em> para
+   determinar si una autenticación externa está en uso.
+  </p>
+ </p></blockquote>
+ 
+ <p class="simpara">
+  Observe, sin embargo, que lo anterior no impide que alguien que
+  controle un URL no autenticado pueda robar contraseñas
+  de URL autenticados en el mismo servidor.
+ </p>
+ <p class="simpara">
+  Tanto Netscape Navigator como Internet Explorer borran la caché de autenticación
+  de la ventana del navegador local para el dominio al recibr una respuesta
+  401 del servidor. Esto, en efecto, puede hacer que se cierre la sesión de un usuario,
+  obligándolo a reintroducir su nombre de usuario y contraseña. Algunos utilizan esto para
+  inicios de sesión «expiradas» o proveer un botón de «Cerrar sesión».
+ </p>
+ <p class="para">
+  <div class="example" id="example-398">
+   <p><strong>Ejemplo #3 Ejemplo de autenticación HTTP forzando un nuevo usuario/contraseña</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">autenticar</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'WWW-Authenticate:&nbsp;Basic&nbsp;realm="Sistema&nbsp;de&nbsp;autenticación&nbsp;de&nbsp;prueba"'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'HTTP/1.0&nbsp;401&nbsp;Unauthorized'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Debe&nbsp;introducir&nbsp;un&nbsp;ID&nbsp;y&nbsp;contraseña&nbsp;de&nbsp;identificación&nbsp;válidos&nbsp;para&nbsp;acceder&nbsp;a&nbsp;este&nbsp;recurso\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;exit;<br />}<br />&nbsp;<br />if&nbsp;(!isset(</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_AUTH_USER'</span><span style="color: #007700">])&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;(</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'VistoAntes'</span><span style="color: #007700">]&nbsp;==&nbsp;</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">&amp;&amp;&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'UsuarioAntiguo'</span><span style="color: #007700">]&nbsp;==&nbsp;</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_AUTH_USER'</span><span style="color: #007700">]))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">autenticar</span><span style="color: #007700">();<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;p&gt;Bienvenido:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">htmlspecialchars</span><span style="color: #007700">(</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_AUTH_USER'</span><span style="color: #007700">])&nbsp;.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Antiguo:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">htmlspecialchars</span><span style="color: #007700">(</span><span style="color: #0000BB">$_REQUEST</span><span style="color: #007700">[</span><span style="color: #DD0000">'UsuarioAntiguo'</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;form&nbsp;action=''&nbsp;method='post'&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;input&nbsp;type='hidden'&nbsp;name='VistoAntes'&nbsp;value='1'&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;input&nbsp;type='hidden'&nbsp;name='UsuarioAntiguo'&nbsp;value=\""&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">htmlspecialchars</span><span style="color: #007700">(</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_AUTH_USER'</span><span style="color: #007700">])&nbsp;.&nbsp;</span><span style="color: #DD0000">"\"&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;input&nbsp;type='submit'&nbsp;value='Reautenticar'&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;/form&gt;&lt;/p&gt;\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </p>
+ <p class="simpara">
+  El estándar de autenticación <em>HTTP Basic</em> no requiere
+  este funcionamiento, por lo que no se debería depender de ello. Las pruebas con
+  <em>Lynx</em> han mostrado que <em>Lynx</em> no limpia
+  las credenciales de autenticación con una respuesta 401 del servidor, por lo que al presionar «atrás»
+  y luego «adelante» abrirá el recurso nuevamente mientras los requisitos de credenciales
+  no hayan cambiado. Sin embargo, el usuario puede pulsar la
+  tecla <em>&#039;_&#039;</em> para limpiar su información de autenticación.
+ </p>
+ <p class="simpara">
+  Para que la Autenticación HTTP funcione en un servidor IIS con la versión CGI
+  de PHP, se debe editar la configuracion de &quot;<em>Seguridad de directorios</em>&quot; de IIS:
+  hacer clic en &quot;<em>Editar</em>&quot; y solo marcar
+  &quot;<em>Acceso anónimo</em>&quot;; todos los demas campos
+  deberían estar sin marcar.
+ </p>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <strong>Sobre IIS:</strong><br />
+  <span class="simpara">
+   Para que funcione la Autenticación HTTP con IIS, la directiva de PHP
+   <a href="ini.core.html#ini.cgi.rfc2616-headers" class="link">cgi.rfc2616_headers</a> debe
+   establecerse a <em>0</em> (el valor predeterminado).
+  </span>
+ </p></blockquote>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   Si el <a href="ini.sect.safe-mode.html#ini.safe-mode" class="link">modo seguro</a> está habilitado, el
+   uid del script se añade a la parte del <em>dominio</em> de la
+   cabecera <em>WWW-Authenticate</em>.
+  </p>
+ </p></blockquote>
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.html">Caracter&iacute;sticas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.cookies.html">'Cookies'</a></div>
+ <div class="up"><a href="features.html">Caracter&iacute;sticas</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

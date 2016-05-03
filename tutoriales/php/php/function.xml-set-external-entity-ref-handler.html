@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configura el manejador de referencia a entidades externas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.xml-set-end-namespace-decl-handler.html">xml_set_end_namespace_decl_handler</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.xml-set-notation-decl-handler.html">xml_set_notation_decl_handler</a></div>
+ <div class="up"><a href="ref.xml.html">Funciones del Int&eacute;rprete XML</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.xml-set-external-entity-ref-handler" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">xml_set_external_entity_ref_handler</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">xml_set_external_entity_ref_handler</span> &mdash; <span class="dc-title">Configura el manejador de referencia a entidades externas</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.xml-set-external-entity-ref-handler-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>xml_set_external_entity_ref_handler</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$parser</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$handler</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Configura la función del manejador de referencia a entidades externas para el intérprete XML <code class="parameter">parser</code>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.xml-set-external-entity-ref-handler-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">parser</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Identificador del recurso del intérprete XML para el que se va a configurar la función del manejador de referencia a entidades externas 
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">handler</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">handler</code> es un string que contiene el nombre de una función que debe existir cuando <span class="function"><a href="function.xml-parse.html" class="function">xml_parse()</a></span> es llamado por <code class="parameter">parser</code>.
+      </p>
+      <p class="para">
+       La función llamada mediante <code class="parameter">handler</code> debe aceptar cinco parámetros, y deberia devolver un número entero.
+       Si el valor devuelto desde el manejador es <strong><code>FALSE</code></strong> (lo cual ocurrirá si no se devulve un valor), el intérprete XML detendrá el analizado y <span class="function"><a href="function.xml-get-error-code.html" class="function">xml_get_error_code()</a></span> devolverá <strong><code>XML_ERROR_EXTERNAL_ENTITY_HANDLING</code></strong>.
+       <div class="methodsynopsis dc-description">
+        <span class="methodname"><span class="replaceable">handler</span></span>
+         ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$parser</code></span>
+        , <span class="methodparam"><span class="type">string</span> <code class="parameter">$open_entity_names</code></span>
+        , <span class="methodparam"><span class="type">string</span> <code class="parameter">$base</code></span>
+        , <span class="methodparam"><span class="type">string</span> <code class="parameter">$system_id</code></span>
+        , <span class="methodparam"><span class="type">string</span> <code class="parameter">$public_id</code></span>
+        )</div>
+
+       <dl>
+
+        
+         <dt>
+<code class="parameter">parser</code></dt>
+
+         <dd>
+
+          <span class="simpara">
+    El primer parámetro, <span class="replaceable">parser</span>, hace referencia al intérprete XML que llama al manejador.
+          </span>
+         </dd>
+
+        
+        
+         <dt>
+<code class="parameter">open_entity_names</code></dt>
+
+         <dd>
+
+          <span class="simpara">
+    El segundo parámetro, <code class="parameter">open_entity_names</code>, es una lista separada por espacios de los nombres de las entidades que estan abiertas para el análisis de esta entidad (incluyendo el nombre de la entidad referenciada).
+          </span>
+         </dd>
+
+        
+        
+         <dt>
+<code class="parameter">base</code></dt>
+
+         <dd>
+
+          <span class="simpara">
+    Esta es la base para resolver el identificador de sistema (<code class="parameter">system_id</code>) de la declaración de notación. Actualmente este parámetro siempre se establecerá como una cadena vacia.
+          </span>
+         </dd>
+
+        
+        
+         <dt>
+<code class="parameter">system_id</code></dt>
+
+         <dd>
+
+          <span class="simpara">
+    El cuarto parámetro, <code class="parameter">system_id</code>, es el identificador de sistema tal como se especifica en la declaración de entidad.
+          </span>
+         </dd>
+
+        
+        
+         <dt>
+<code class="parameter">public_id</code></dt>
+
+         <dd>
+
+          <span class="simpara">
+    El quinto parámetro, <code class="parameter">public_id</code>, es el identificador público  tal como se especifica en la declaración de entidad, o una cadena vacia si no se habia especificado; en el identificador público el espacio en blanco se habrá normalizado como lo requerido mediante las especificaciones XML.
+          </span>
+         </dd>
+
+        
+       </dl>
+
+      </p>
+      <p class="para">
+       Si la función del manejador se configura como una cadena vacia, o <strong><code>FALSE</code></strong>, el manejador en cuestión se deshabilita.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">En lugar del nombre de una
+función, se puede asignar un array que contenga la referencia a un objeto o el nombre de un
+método.</span></p></blockquote>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.xml-set-external-entity-ref-handler-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.xml-set-end-namespace-decl-handler.html">xml_set_end_namespace_decl_handler</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.xml-set-notation-decl-handler.html">xml_set_notation_decl_handler</a></div>
+ <div class="up"><a href="ref.xml.html">Funciones del Int&eacute;rprete XML</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

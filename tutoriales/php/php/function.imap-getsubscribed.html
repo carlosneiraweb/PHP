@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Listar todos los buzones suscritos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imap-getmailboxes.html">imap_getmailboxes</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imap-header.html">imap_header</a></div>
+ <div class="up"><a href="ref.imap.html">Funciones de IMAP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imap-getsubscribed" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imap_getsubscribed</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">imap_getsubscribed</span> &mdash; <span class="dc-title">Listar todos los buzones suscritos</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imap-getsubscribed-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>imap_getsubscribed</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$imap_stream</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$ref</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$pattern</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene información sobre los buzones suscritos.
+  </p>
+  <p class="para">
+   Idéntica a <span class="function"><a href="function.imap-getmailboxes.html" class="function">imap_getmailboxes()</a></span>, excepto que sólo
+   devuelve los buzones al que está suscrito el usuario.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imap-getsubscribed-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+imap_stream</code></dt>
+<dd>
+<p class="para">IMAP stream devuelto por
+<span class="function"><a href="function.imap-open.html" class="function">imap_open()</a></span>.</p></dd>
+
+    
+     <dt>
+<code class="parameter">ref</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">ref</code> normalmente debería ser la especificación
+       del servidor como está descrita en <span class="function"><a href="function.imap-open.html" class="function">imap_open()</a></span>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">pattern</code></dt>
+
+     <dd>
+
+      <p class="para">Especifica donde en la jerarquía del buzón 
+para empezar a buscar.</p><p class="para">Hay dos caracteres especiales que se pueden
+pasar como parte del <code class="parameter">pattern</code>:
+&#039;<em>*</em>&#039; y &#039;<em>%</em>&#039;.
+&#039;<em>*</em>&#039; significa devolver todos los buzones. Si se pasa el
+<code class="parameter">pattern</code> como &#039;<em>*</em>&#039;, se obtendrá
+una lista de toda la jerarquía del buzón.
+&#039;<em>%</em>&#039;
+significa devolver sólo el nivel actual.
+&#039;<em>%</em>&#039; como el parámetro <code class="parameter">pattern</code>
+devolverá solamente el nivel superior de los
+buzones; &#039;<em>~/mail/%</em>&#039; en <em>UW_IMAPD</em> devolverá cada buzón en el directorio <var class="filename">~/mail</var>, pero no en los subdirectorios de ese directorio.</p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imap-getsubscribed-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array de objetos de contienen información de los buzones. Cada
+   objeto tiene los atributos <code class="parameter">name</code> (nombre), especificando
+   el nombre completo del buzón; <code class="parameter">delimiter</code> (delimitador),
+   que es el delimitador de jerarquía para la parte de jerarquía en la que está
+   este buzón, y
+   <code class="parameter">attributes</code> (atributos). <code class="parameter">Attributes</code>
+   es una máscara de bits que puede ser comprobada con:
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      <strong><code>LATT_NOINFERIORS</code></strong> - Este buzón no tiene
+      &quot;hijos&quot; (no hay buzones por debajo de este).
+     </span>
+    </li>
+   <li class="listitem">
+     <span class="simpara">
+      <strong><code>LATT_NOSELECT</code></strong> - Esto es solo un contenedor,
+      no un buzón - no puede abrirlo.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <strong><code>LATT_MARKED</code></strong> - Este buzón está marcado.
+      Solo usado por UW-IMAPD.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <strong><code>LATT_UNMARKED</code></strong> - Este buzón no está marcado.
+      Solo usado por UW-IMAPD.
+     </span>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imap-getmailboxes.html">imap_getmailboxes</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imap-header.html">imap_header</a></div>
+ <div class="up"><a href="ref.imap.html">Funciones de IMAP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

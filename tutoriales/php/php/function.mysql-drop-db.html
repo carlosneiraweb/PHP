@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Elimina (DROP) una base de datos MySQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-db-query.html">mysql_db_query</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-errno.html">mysql_errno</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-drop-db" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_drop_db</h1>
+  <p class="verinfo">(PHP 4, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_drop_db</span> &mdash; <span class="dc-title">Elimina (DROP) una base de datos MySQL</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-drop-db-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta función está obsoleta en PHP 4.3.0, por lo que ha sido
+eliminada, junto a la totalidad de la <a href="book.mysql.html" class="link">extensión original de MySQL</a>, en PHP 7.0.0.
+En su lugar, utilice las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a> activamente desarrolladas.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Las alternativas a esta función son:</p>
+   <ul class="simplelist">
+    <li class="member">Ejecutar una consulta <em>DROP DATABASE</em></li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-drop-db-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>mysql_drop_db</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$database_name</code></span>
+   [, <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code><span class="initializer"> = NULL</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>mysql_drop_db()</strong></span> intenta eliminar (remover) una 
+   base de datos entera del servidor asociado con el identificador
+   de enlace especificado. Esta función es obsoleta; es preferible usar  
+   <span class="function"><a href="function.mysql-query.html" class="function">mysql_query()</a></span> para ejecutar una sentencia SQL 
+   <em>DROP DATABASE</em> en su lugar.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-drop-db-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">database_name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de la base de datos que va a ser eliminada.
+      </p>
+     </dd>
+
+    
+    <dt>
+<code class="parameter">
+link_identifier</code></dt>
+<dd>
+<p class="para">La conexión MySQL. Si el
+identificador de enlace no se especifica, el último enlace abierto por
+<span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> es asumido. Si no se encuentra dicho enlace, la
+función intentará establecer un nuevo enlace como si <span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> fuese invocado
+sin parámetros. Si no se encuentra o establece una conexión, un error de nivel
+<strong><code>E_WARNING</code></strong> es generado.</p></dd>
+
+
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-drop-db-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysql-drop-db-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1794">
+    <p><strong>Ejemplo #1 Ejemplo alternativo de <span class="function"><strong>mysql_drop_db()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'usuario_mysql'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'contraseña_mysql'</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'No&nbsp;pudo&nbsp;conectarse:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">());<br />}<br /><br /></span><span style="color: #0000BB">$sql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'DROP&nbsp;DATABASE&nbsp;mi_bd'</span><span style="color: #007700">;<br />if&nbsp;(</span><span style="color: #0000BB">mysql_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$sql</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"La&nbsp;base&nbsp;de&nbsp;datos&nbsp;mi_bd&nbsp;fue&nbsp;eliminada&nbsp;con&nbsp;éxito\n"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Error&nbsp;al&nbsp;eliminar&nbsp;la&nbsp;base&nbsp;de&nbsp;datos:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">()&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.mysql-drop-db-notes">
+  <h3 class="title">Notas</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    Ésta función no estará disponible si la extensión MySQL fue construida  
+    con una biblioteca cliente MySQL 4.x.
+   </p>
+  </div>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Por razones de compatibilidad con versiones anteriores, los siguientes alias 
+obsoletos podrían usarse: 
+    <span class="function"><strong>mysql_dropdb()</strong></span>
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-drop-db-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-query.html" class="function" rel="rdfs-seeAlso">mysql_query()</a> - Enviar una consulta MySQL</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-db-query.html">mysql_db_query</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-errno.html">mysql_errno</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

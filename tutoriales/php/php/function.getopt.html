@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene las opciones de la lista de argumentos de la l&iacute;nea de comandos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.getmyuid.html">getmyuid</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.getrusage.html">getrusage</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.getopt" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">getopt</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">getopt</span> &mdash; <span class="dc-title">Obtiene las opciones de la lista de argumentos de la línea de comandos</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.getopt-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>getopt</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$options</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$longopts</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Analiza las opciones pasadas al script.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.getopt-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">options</code></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Cada carácter de esta cadena de texto se usará como un carácter de opción
+       y se comparará con aquellas opciones pasadas al script que comiencen con un
+       guión simple (<em>-</em>).
+      </span>
+      <span class="simpara">
+       Por ejemplo, el string de opciones <em>&quot;x&quot;</em> reconocerá
+       la opción <em>-x</em>.
+      </span>
+      <span class="simpara">
+       Sólo se permiten a-z, A-Z y 0-9.
+      </span>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">longopts</code></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Matriz de opciones. Cada elemento de este array se usará como texto de opciones
+       y se compararán con aquellas opciones pasadas al script que comiencen con
+       dos guiones (<em>--</em>).
+      </span>
+      <span class="simpara">
+       Por ejemplo, longopts tuviera un elemento con <em>&quot;opt&quot;</em>, reconocería la
+       opción <em>--opt</em>.
+      </span>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  <p class="para">
+   El parámetro <code class="parameter">options</code> puede contener los siguientes
+   elementos:
+   <ul class="simplelist">
+    <li class="member">Caracteres individuales (no acepta valores)</li>
+    <li class="member">Caracteres seguidos por dos puntos (el parámetro exije un valor)</li>
+    <li class="member">Caracteres seguidos dos veces por dos puntos (valor opcional)</li>
+   </ul>
+   Los valores de opción serán el primer argumento tras el string. Si se requiere un valor,
+   no importa si este tiene espacios en blanco delante o no. Véase la nota.
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <span class="simpara">
+     Los valores opcionales no aceptan un <em>&quot; &quot;</em> (espacio) como separador.
+    </span>
+   </p></blockquote>
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El formato de <code class="parameter">options</code> y de
+    <code class="parameter">longopts</code> es casi igual. La única diferencia es que
+    <code class="parameter">longopts</code> contiene un array de opciones (donde cada elemento
+    es la opción) mientras que <code class="parameter">options</code> contiene un string
+    (donde cada carácter es la opción).
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.getopt-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Esta función devolverá un array de parejas opciones / argumentos,  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El análisis de opciones finalizará cuando se encuentre alguna no-opción. Todo lo que haya
+    a continuación será descartado.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.getopt-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Añadido soporte para usar &quot;=&quot; como separador de argumento/valor.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Añadido soporte para valores opcionales (especificado mediante &quot;::&quot;).
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        El parámetro <code class="parameter">longopts</code> está disponible en todos los sistemas.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.3.0</td>
+       <td>
+        Esta función ya no depende del sistema y funciona también en Windows.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.getopt-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="getopt.examples-1">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>getopt()</strong></span>: Lo básico</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Script&nbsp;example.php<br /></span><span style="color: #0000BB">$options&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">getopt</span><span style="color: #007700">(</span><span style="color: #DD0000">"f:hp:"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$options</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">shell&gt; php example.php -fvalue -h</pre>
+</div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [&quot;f&quot;]=&gt;
+  string(5) &quot;value&quot;
+  [&quot;h&quot;]=&gt;
+  bool(false)
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="getopt.examples-2">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>getopt()</strong></span>: Introducir opciones long</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Script&nbsp;example.php<br /></span><span style="color: #0000BB">$shortopts&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">""</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$shortopts&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">"f:"</span><span style="color: #007700">;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Valor&nbsp;obligatorio<br /></span><span style="color: #0000BB">$shortopts&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">"v::"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Valor&nbsp;opcional<br /></span><span style="color: #0000BB">$shortopts&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">"abc"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Estas&nbsp;opciones&nbsp;no&nbsp;aceptan&nbsp;valores<br /><br /></span><span style="color: #0000BB">$longopts&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"required:"</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Valor&nbsp;obligatorio<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"optional::"</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Valor&nbsp;opcional<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"option"</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Sin&nbsp;valores<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"opt"</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Sin&nbsp;valores<br /></span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$options&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">getopt</span><span style="color: #007700">(</span><span style="color: #0000BB">$shortopts</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$longopts</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$options</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">shell&gt; php example.php -f &quot;value for f&quot; -v -a --required value --optional=&quot;optional value&quot; --option</pre>
+</div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(6) {
+  [&quot;f&quot;]=&gt;
+  string(11) &quot;value for f&quot;
+  [&quot;v&quot;]=&gt;
+  bool(false)
+  [&quot;a&quot;]=&gt;
+  bool(false)
+  [&quot;required&quot;]=&gt;
+  string(5) &quot;value&quot;
+  [&quot;optional&quot;]=&gt;
+  string(14) &quot;optional value&quot;
+  [&quot;option&quot;]=&gt;
+  bool(false)
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="getopt.examples-3">
+    <p><strong>Ejemplo #3 Ejemplo de <span class="function"><strong>getopt()</strong></span>: Pasar varias opciones como una</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Script&nbsp;example.php<br /></span><span style="color: #0000BB">$options&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">getopt</span><span style="color: #007700">(</span><span style="color: #DD0000">"abc"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$options</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">shell&gt; php example.php -aaac</pre>
+</div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [&quot;a&quot;]=&gt;
+  array(3) {
+    [0]=&gt;
+    bool(false)
+    [1]=&gt;
+    bool(false)
+    [2]=&gt;
+    bool(false)
+  }
+  [&quot;c&quot;]=&gt;
+  bool(false)
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.getopt-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><a href="reserved.variables.argv.html" class="link"><var class="varname"><var class="varname"><a href="reserved.variables.argv.html" class="classname">$argv</a></var></var></a></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.getmyuid.html">getmyuid</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.getrusage.html">getrusage</a></div>
+ <div class="up"><a href="ref.info.html">Funciones de Opciones/Info de PHP</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

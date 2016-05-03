@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Generator syntax</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.generators.overview.html">Informaci&oacute;n general de los generadores</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.generators.comparison.html">Comparaci&oacute;n entre generadores y objetos Iterator</a></div>
+ <div class="up"><a href="language.generators.html">Generadores</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.generators.syntax" class="sect1">
+  <h2 class="title">Generator syntax</h2>
+  
+  <p class="para">
+   Una función generadora es igual que una función normal, con la diferencia de que en vez
+   de devolver un valor, un generador invoca <a href="language.generators.syntax.html#control-structures.yield" class="link">yield</a> tantas veces como necesita.
+  </p>
+  
+  <p class="para">
+   Cuando se llama a una función generadora, devuelve un objeto que puede ser
+   iterado. Cuando se itera sobre ese objeto (por ejemplo, con un
+   bucle <a href="control-structures.foreach.html" class="link">foreach</a>), PHP llamará a la función generadora cada vez que necesite un
+   valor, y guardará el estado del generador cuando este provea un
+   valor con yield para que ese estado pueda ser recuperado cuando el próximo valor sea requerido.
+  </p>
+  
+  <p class="para">
+   Cuando no hay más valores que se puedan proporcionar, la función generadora
+   puede simplemente terminar, y el código desde el que se la llama continuará como si un array se hubiera quedado
+   sin valores.
+  </p>
+  
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Un generador no puede retornar un valor: hacerlo resultaría en un error de
+    compilación. Un <strong class="command">return</strong> vacío es válido en cuanto a sintaxis dentro
+    de un generador y terminará el generador.
+   </p>
+  </p></blockquote>
+  
+  <div class="sect2" id="control-structures.yield">
+   <h3 class="title"><strong class="command">yield</strong> keyword</h3>
+   
+   <p class="para">
+    La clave de una función generadora es la palabra reservada <strong class="command">yield</strong>.
+    En su forma más simple, la sentencia yield es parecida a la sentencia
+    return, excepto en que en vez de detener la ejecución de la función y
+    devolver un valor, yield facilita el valor al bucle que itera sobre el
+    generador y pausa la ejecución de la función generadora.
+   </p>
+   
+   <div class="example" id="example-307">
+    <p><strong>Ejemplo #1 Ejemplo sencillo de facilitar valores con yield</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">gen_one_to_three</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Observe&nbsp;que&nbsp;$i&nbsp;es&nbsp;preservado&nbsp;entre&nbsp;yields<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;$i</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$generator&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">gen_one_to_three</span><span style="color: #007700">();<br />foreach&nbsp;(</span><span style="color: #0000BB">$generator&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$value</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+1
+2
+3
+</pre></div>
+    </div>
+   </div>
+   
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <p class="para">
+     Internamente, las claves enteras secuenciales serán asociadas con los valores
+     sobre los que se usa yield, como un array no asociativo.
+    </p>
+   </p></blockquote>
+   
+   <div class="caution"><strong class="caution">Precaución</strong>
+    <p class="para">
+     Si se utiliza yield en el contexto de una expresión (por ejemplo, en el lado derecho
+     de una asignación), se debe poner la sentencia yield entre
+     paréntesis en PHP 5. Por ejemplo, esto es válido:
+    </p>
+    
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+$data&nbsp;=&nbsp;(yield&nbsp;$value);</span>
+</code></div>
+     </div>
+
+    </div>
+    
+    <p class="para">
+     Pero esto no lo es, y resultará en un error de análisis en PHP 5:
+    </p>
+    
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+$data&nbsp;=&nbsp;yield&nbsp;$value;</span>
+</code></div>
+     </div>
+
+    </div>
+    
+    <p class="para">
+     Las restricciones parentéticas no se aplican en PHP 7.
+    </p>
+    
+    <p class="para">
+     Esta sintaxis podría usarse junto con el método
+     <span class="methodname"><a href="generator.send.html" class="methodname">Generator::send()</a></span>.
+    </p>
+   </div>
+   
+   <div class="sect3" id="control-structures.yield.associative">
+    <h4 class="title">Utilizar yield para facilitar valores con claves</h4>
+    
+    <p class="para">
+     PHP soporta arrays asociativos, y los generadores no son menos. Además
+     de facilitar valores simples, como se muestra arriba, también se puede facilitar
+     una clave al mismo tiempo.
+    </p>
+    
+    <p class="para">
+     La sintaxis para facilitar un par clave-valor es muy similar a la utilizada para
+     definir un array asociativo, como se muestra a continuación.
+    </p>
+    
+    <div class="example" id="example-308">
+     <p><strong>Ejemplo #2 Facilitar un par clave-valor</strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;La&nbsp;entrada&nbsp;son&nbsp;campos&nbsp;separados&nbsp;por&nbsp;punto&nbsp;y&nbsp;coma,&nbsp;con&nbsp;el&nbsp;primer<br />&nbsp;*&nbsp;campo&nbsp;siendo&nbsp;la&nbsp;ID&nbsp;utilizada&nbsp;como&nbsp;clave.<br />&nbsp;*/<br /><br /></span><span style="color: #0000BB">$input&nbsp;</span><span style="color: #007700">=&nbsp;&lt;&lt;&lt;'EOF'<br /></span><span style="color: #DD0000">1;PHP;Likes&nbsp;dollar&nbsp;signs<br />2;Python;Likes&nbsp;whitespace<br />3;Ruby;Likes&nbsp;blocks<br /></span><span style="color: #007700">EOF;<br /><br />function&nbsp;</span><span style="color: #0000BB">input_parser</span><span style="color: #007700">(</span><span style="color: #0000BB">$input</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">explode</span><span style="color: #007700">(</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$input</span><span style="color: #007700">)&nbsp;as&nbsp;</span><span style="color: #0000BB">$line</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fields&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">explode</span><span style="color: #007700">(</span><span style="color: #DD0000">';'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$line</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_shift</span><span style="color: #007700">(</span><span style="color: #0000BB">$fields</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;$id&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$fields</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />foreach&nbsp;(</span><span style="color: #0000BB">input_parser</span><span style="color: #007700">(</span><span style="color: #0000BB">$input</span><span style="color: #007700">)&nbsp;as&nbsp;</span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$fields</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$id</span><span style="color: #DD0000">:\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fields</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fields</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+1:
+    PHP
+    Likes dollar signs
+2:
+    Python
+    Likes whitespace
+3:
+    Ruby
+    Likes blocks
+</pre></div>
+     </div>
+    </div>
+    
+    <div class="caution"><strong class="caution">Precaución</strong>
+     <p class="para">
+      Como en el ejemplo anterior, facilitar un par clave-valor
+      en contexto de expresión requiere que la sentencia yield sea
+      puesta entre paréntesis:
+     </p>
+     
+     <div class="informalexample">
+      <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+$data&nbsp;=&nbsp;(yield&nbsp;$key&nbsp;=&gt;&nbsp;$value);</span>
+</code></div>
+      </div>
+
+     </div>
+    </div>
+   </div>
+   
+   <div class="sect3" id="control-structures.yield.null">
+    <h4 class="title">Facilitar valores nulos</h4>
+    
+    <p class="para">
+     Yield puede ser invocado sin argumentos para facilitar un valor <strong><code>NULL</code></strong> con una
+     clave automática.
+    </p>
+    
+    <div class="example" id="example-309">
+     <p><strong>Ejemplo #3 Yielding <strong><code>NULL</code></strong>s</strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">gen_three_nulls</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">range</span><span style="color: #007700">(</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">)&nbsp;as&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">iterator_to_array</span><span style="color: #007700">(</span><span style="color: #0000BB">gen_three_nulls</span><span style="color: #007700">()));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+array(3) {
+  [0]=&gt;
+  NULL
+  [1]=&gt;
+  NULL
+  [2]=&gt;
+  NULL
+}
+</pre></div>
+     </div>
+    </div>
+   </div>
+   
+   <div class="sect3" id="control-structures.yield.references">
+    <h4 class="title">Facilitar por referencia</h4>
+    
+    <p class="para">
+     Las funciones generadoras son capaces de facilitar valores por referencia igual que lo hacen por
+     valor. Esto se hace de la misma forma que
+     <a href="functions.returning-values.html" class="link">devolviendo referencias desde funciones</a>:
+     poniendo un ampersand (signo &amp;) delante del nombre de la función.
+    </p>
+    
+    <div class="example" id="example-310">
+     <p><strong>Ejemplo #4 Facilitar valores por referencia</strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;&amp;</span><span style="color: #0000BB">gen_reference</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$value&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(</span><span style="color: #0000BB">$value&nbsp;</span><span style="color: #007700">&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;$value</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;<br />&nbsp;*&nbsp;Observe&nbsp;que&nbsp;es&nbsp;posible&nbsp;cambiar&nbsp;$number&nbsp;desde&nbsp;dentro&nbsp;del&nbsp;bucle,&nbsp;y<br />&nbsp;*&nbsp;dado&nbsp;que&nbsp;el&nbsp;generador&nbsp;está&nbsp;facilitando&nbsp;referencias,&nbsp;$value<br />&nbsp;*&nbsp;dentro&nbsp;de&nbsp;gen_reference()&nbsp;cambia.<br />&nbsp;*/<br /></span><span style="color: #007700">foreach&nbsp;(</span><span style="color: #0000BB">gen_reference</span><span style="color: #007700">()&nbsp;as&nbsp;&amp;</span><span style="color: #0000BB">$number</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;(--</span><span style="color: #0000BB">$number</span><span style="color: #007700">).</span><span style="color: #DD0000">'...&nbsp;'</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+2... 1... 0... 
+</pre></div>
+     </div>
+    </div>
+   </div>
+   
+   <div class="sect3" id="control-structures.yield.from">
+    <h4 class="title">Delegación de generadores mediante <strong class="command">yield from</strong></h4>
+    
+    <p class="para">
+     En PHP 7, la delegación de generadores permite producir valores desde otro
+     generador, objeto <a href="class.traversable.html" class="classname">Traversable</a>, o
+     <span class="type"><a href="language.types.array.html" class="type array">array</a></span> mediante la palabra reservada <strong class="command">yield from</strong>.
+     El generador externo producirá entonces todos los valores desde el generador interno,
+     object, o array hasta que este ya no sea válido, después de lo cual la ejecuión
+     continuará en el generador externo.
+    </p>
+    
+    <p class="para">
+     Si un generador se emplea con <strong class="command">yield from</strong>, la
+     expresión <strong class="command">yield from</strong> también devolverá cualquier valor
+     devuelto por el generador interno.
+    </p>
+    
+    <div class="example" id="example-311">
+     <p><strong>Ejemplo #5 Uso básico de <strong class="command">yield from</strong></strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">contar_hasta_diez</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;1</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;2</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;from&nbsp;</span><span style="color: #007700">[</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;from&nbsp;</span><span style="color: #007700">new&nbsp;</span><span style="color: #0000BB">ArrayIterator</span><span style="color: #007700">([</span><span style="color: #0000BB">5</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">6</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;from&nbsp;siete_ocho</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;9</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;10</span><span style="color: #007700">;<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">siete_ocho</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;7</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;from&nbsp;eight</span><span style="color: #007700">();<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">ocho</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;8</span><span style="color: #007700">;<br />}<br /><br />foreach&nbsp;(</span><span style="color: #0000BB">contar_hasta_diez</span><span style="color: #007700">()&nbsp;as&nbsp;</span><span style="color: #0000BB">$num</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$num</span><span style="color: #DD0000">&nbsp;"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+1 2 3 4 5 6 7 8 9 10 
+</pre></div>
+     </div>
+    </div>
+    
+    <div class="example" id="example-312">
+     <p><strong>Ejemplo #6 <strong class="command">yield from</strong> y valores devueltos</strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">contar_hasta_diez</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;1</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;2</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;from&nbsp;</span><span style="color: #007700">[</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;from&nbsp;</span><span style="color: #007700">new&nbsp;</span><span style="color: #0000BB">ArrayIterator</span><span style="color: #007700">([</span><span style="color: #0000BB">5</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">6</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;from&nbsp;siete_ocho</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">yield&nbsp;from&nbsp;nueve_diez</span><span style="color: #007700">();<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">siete_ocho</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;7</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;from&nbsp;ocho</span><span style="color: #007700">();<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">ocho</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;8</span><span style="color: #007700">;<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">nueve_diez</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">yield&nbsp;9</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$gen&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">contar_hasta_diez</span><span style="color: #007700">();<br />foreach&nbsp;(</span><span style="color: #0000BB">$gen&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$num</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$num</span><span style="color: #DD0000">&nbsp;"</span><span style="color: #007700">;<br />}<br />echo&nbsp;</span><span style="color: #0000BB">$gen</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getReturn</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+1 2 3 4 5 6 7 8 9 10
+</pre></div>
+     </div>
+    </div>
+   </div>
+  </div>  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.generators.overview.html">Informaci&oacute;n general de los generadores</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.generators.comparison.html">Comparaci&oacute;n entre generadores y objetos Iterator</a></div>
+ <div class="up"><a href="language.generators.html">Generadores</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve la ruta de un directorio padre</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.delete.html">delete</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.disk-free-space.html">disk_free_space</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.dirname" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">dirname</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">dirname</span> &mdash; <span class="dc-title">Devuelve la ruta de un directorio padre</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.dirname-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>dirname</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$path</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$levels</code><span class="initializer"> = 1</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Dada una cadena que contiene la ruta a un fichero o directorio, esta función
+   devolverá la ruta del directorio padre que está a
+   <code class="parameter">levels</code> niveles del directorio actual.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.dirname-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">path</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Una ruta.
+      </p>
+      <p class="para">
+       En Windows, la barra (<em>/</em>) y la barra invertida
+       (<em>\</em>) se usan como carácter separador de directorio. En
+       otros entornos se usa la barra hacia delante (<em>/</em>).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">levels</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número de directorios padre a subir.
+      </p>
+      <p class="para">
+       Debe ser un número entero mayor que 0.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.dirname-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve la ruta de un directorio padre. Si no hay barras en
+   <code class="parameter">path</code>, será devuelto un punto (&#039;<em>.</em>&#039;),
+   indicando el directorio actual. De otro modo, la cadena devuelta es
+   <code class="parameter">path</code> con cualquier
+   <em>/componente</em> final eliminado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.dirname-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>7.0.0</td>
+       <td>
+        Añadido el parámetro opcional <code class="parameter">levels</code>.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.0.0</td>
+       <td>
+        <span class="function"><strong>dirname()</strong></span> ahora es segura al trabajar con datos binarios
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.dirname-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2590">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>dirname()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #DD0000">"/etc/passwd"</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #DD0000">"/etc/"</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #DD0000">"."</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #DD0000">"/usr/local/lib"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">);</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+/etc
+/ (o \ en Windows)
+.
+/usr
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.dirname-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    <span class="function"><strong>dirname()</strong></span> opera de forma ingénua con la cadena de entrada,
+    y no es consciente del sistema de ficheros o los componentes de la ruta
+    como &quot;<em>..</em>&quot;.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    <span class="function"><strong>dirname()</strong></span> usa la configuración de idioma local, para poder ver 
+    de forma correcta el nombre de directorio con caracteres multibyte en la ruta, se definir la misma configuración local 
+    usando la función <span class="function"><a href="function.setlocale.html" class="function">setlocale()</a></span>.
+   </p>
+  </p></blockquote> 
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    A partir de PHP 4.3.0, a menudo querrá obtener una barra o un punto de
+    <span class="function"><strong>dirname()</strong></span> es situaciones donde la funcionalidad
+    anterior le habría dado una cadena vacía.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   Revise el siguiente cambio de ejemplo:
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//antes&nbsp;de&nbsp;PHP&nbsp;4.3.0<br /></span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #DD0000">'c:/'</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;devolvía&nbsp;'.'<br /><br />//después&nbsp;de&nbsp;PHP&nbsp;4.3.0<br /></span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #DD0000">'c:/x'</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;devuelve&nbsp;'c:\'<br /></span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #DD0000">'c:/Temp/x'</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;devuelve&nbsp;'c:/Temp'<br /></span><span style="color: #0000BB">dirname</span><span style="color: #007700">(</span><span style="color: #DD0000">'/x'</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;devuelve&nbsp;'\'<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.dirname-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.basename.html" class="function" rel="rdfs-seeAlso">basename()</a> - Devuelve el &uacute;ltimo componente de nombre de una ruta</span></li>
+    <li class="member"><span class="function"><a href="function.pathinfo.html" class="function" rel="rdfs-seeAlso">pathinfo()</a> - Devuelve informaci&oacute;n acerca de la ruta de un fichero</span></li>
+    <li class="member"><span class="function"><a href="function.realpath.html" class="function" rel="rdfs-seeAlso">realpath()</a> - Devuelve el nombre de la ruta absoluta canonizado</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.delete.html">delete</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.disk-free-space.html">disk_free_space</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Serie PECL/mysqlnd_ms 1.6</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-five.html">Serie PECL/mysqlnd_ms 1.5</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.changes-one-six" class="section">
+  <h2 class="title">Serie PECL/mysqlnd_ms 1.6</h2>
+  <p class="para">
+   1.6.0-alpha
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Fecha de publicación: TBD
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Motivo/tema: Mantenimiento y soporte inicial para MySQL Fabric
+     </span>
+    </li>
+   </ul>
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Esta es la serie actualmente en desarrollo. Todas las
+    características están en una etapa primitiva. Los cambios podrían ocurrir en cualquier momento sin
+    previo aviso. Por favor, no use esta versión en entornos de producción.
+   </p>
+   <p class="para">
+    La documentación podría no reflejar aún todos los cambios.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   Corrección de errores
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      No se podrá corregir: #66616 Falla la división de lectura/escritura: QOS con mysqlnd_get_last_gtid con GTID internos de MySQL 
+     </p>
+     <p class="para">
+      Esto no es un error en la implementación del complemento, sino una limitación de una característica
+      del lado del servidor no considerada ni documentada antes. Los GTID internos de MySQL 5.6 no pueden
+      usarse para asegurar la consistencia de sesión al leer desde los esclavos en cualquier caso.
+      En el peor de los casos, el complemento no considerará el uso de esclavos y
+      recurrirá al uso del maestro. No habrá resultados erróneos, excepto que no habrá el beneficio
+      de realizar la comprobación del GTID.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Corregido #66064 - Equilibrio de carga aleatorio una vez ignora los pesos
+     </p>
+     <p class="para">
+      Debido a un error de análisis de configuración, el equilibrio de carga ha ignorado el nodo
+      de pesos si, y solo si, la bandera &#039;sticky&#039; estaba establecida (aleatorio una vez).
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Corregido #65496 - Comprobación errónea de la demora de esclavos
+     </p>
+     <p class="para">
+      El filtro de calidad de servicio ha ignorado de forma errónea a los esclavos
+      que demoraban cero (0) segundos si se hubo establecido cualquier máximo de demora.
+      Aunque un esclavo no se demorara, era excluido de la lista de
+      equilibrio de carga si el filtro QoS estableció un máximo de edad.
+      Esto era debido al uso de un operador de comparación erróneo en el código fuente
+      del filtro.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Corregido #65408 - Fallo de compilación con -Werror=format-security
+     </p>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Cambio en las características
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Se introdujo una agrupación de conexiónes interna. Al usar Fabric y cambiar
+      de un grupo de fragmentos A a un grupo de fragmentos B, se remplaza la lista entera de
+      maestros y esclavos. Esto obstaculiza a la lógica de alineamiento de estados de conexiones y
+      a algunos filtros. Algunos filtros almacenan información en cacé en las listas de maestros y esclavos.
+      La nueva abstracción de la agrupación de conexiones interna permite informar de los filtros
+      de cambios, de ahí que puedan actualizar sus cachés.
+     </p>
+     <p class="para">
+      Más adelante, la agrupación puede también emplearse para reducir la sobrecarga de conexiones. Se asume
+      que se está cambiando de un grupo de fragmentos a otro y se vuelve otra vez. Siempre que
+      se realice un cambio, las listas de los servidores activos (y conexiones) de la agrupación son
+      remplazadas. Sin embargo, la conexiones que ya no se utilizan no se cierran necesariamente
+      de inmediato, por lo que se pueden permanecer en la agrupación para una reutilización posterior.
+     </p>
+     <p class="para">
+      Obsérvese que la agrupación de conexiones es interna en este momento. Hay algunas
+      estadísticas nuevas para monitorizarla. Sin embargo, no se puede configurar aún el comportamiento
+      del tamaño de la agrupación. 
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se añadió una abstracción básica para transacciones distribuidas.
+      Las transacciones XA están soportadas desde el empleo de llamads SQL estándar.
+      Esto es inadecuado debido a que los participantes de XA deben ser administrador manualmente.
+      PECL/mysqlnd_ms introduce llamadas a la API para controlar transacciones XA entre servidores de MySQL.
+      Al utilizar las nuevas funciones, PECL/mysqlnd_ms actúa como un coordinador de transacciones.
+      Después de iniciar una transacción distribuida, el complemento rastrea todos los servidores
+      involucrados hasta que la transacción finaliza y se envían las sentencias SQL apropiadas
+      a los participantes de XA.
+     </p>
+     <p class="para">
+      Esto es útil, por ejemplo, al utilizar Fabric y la fragmentación. Cuando se emplea
+      Fabric, los servidores de fragmentación reales involucrados en una transacción de negocio podrían no ser conocidos
+      de antemano. Así, el control manual de una transacción que genere varios fragmentos sería
+      dificultoso.
+      Por favor, tenga en cuenta las <a href="mysqlnd-ms.concept_xa_trx.html" class="link">limitaciones actuales</a>.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se introdujo un bucle de reintentos automático para
+      <a href="mysqlnd-ms.transient_errors.html" class="link">errores transitorios</a> y las
+      <a href="function.mysqlnd-ms-get-stats.html" class="link">estadísticas correspondientes</a>
+      para contar el número de intentos implícitos. Algunos clústeres de
+      bases de datos distribuidas usan erroes transitorios para sugeriri a un cliente que reintente
+      su operación en un momento. Muy amenudo, el cliente se supone que
+      para la ejecución (duerme) por un coroto momento antes del reintentar la
+      operación deseada. No es necesario recurrir inmediatamente a otro nodo
+      en respuesta al error. En su lugar, se puede realizar un blucle
+      de reintentos. Una situación común al usar un Clúster de MySQL.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se introdujo un bucle de reintentos automático para
+      <a href="mysqlnd-ms.transient_errors.html" class="link">errores transitorios</a> y las
+      <a href="function.mysqlnd-ms-get-stats.html" class="link">estadísticas correspondientes</a>
+      para contar el número de intentos implícitos. Algunos clústeres de
+      bases de datos distribuidas usan erroes transitorios para sugeriri a un cliente que reintente
+      su operación en un momento. Muy amenudo, el cliente se supone que
+      para la ejecución (duerme) por un coroto momento antes del reintentar la
+      operación deseada. No es necesario recurrir inmediatamente a otro nodo
+      en respuesta al error. En su lugar, se puede realizar un blucle
+      de reintentos. Una situación común al usar un Clúster de MySQL.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se introdujo el <a href="mysqlnd-ms.quickstart.mysql_fabric.html" class="link">soporte más básico</a>
+      para MySQL Fabric High Availability y el marco de trabajo de fragmentación.
+     </p>
+     <p class="para">
+      Considere este como calidad prealfa. El código del marco de trabajo
+      del lado del servidor y del cliente client debe funcionar de forma precisa
+      considerando solamente los ejemplos del inicio rápido de MySQL Fabric. Sin embargo,
+      no se han realizado pruebas al nivel de versiones del complemento anteriores a alfa.
+      Ambos lados son objetivos móviles, los cambios en la API podrían ocurrir en
+      cualquier momento sin previo aviso.
+     </p>
+     <p class="para">
+      Ya que se está trabajando aún en ello, el manual podría no reflejar las limitaciones
+      de las características permitidas y los errores conocidos.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Nuevas
+      <a href="function.mysqlnd-ms-get-stats.html" class="link">estadísticas</a>
+      para monitorizar la llamada XML RPC de Fabric <em>sharding.lookup_servers</em>:
+      <em>fabric_sharding_lookup_servers_success</em>,
+      <em>fabric_sharding_lookup_servers_failure</em>,
+      <em>fabric_sharding_lookup_servers_time_total</em>,
+      <em>fabric_sharding_lookup_servers_bytes_total</em>,
+      <em>fabric_sharding_lookup_servers_xml_failure</em>.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Nuevas funciones relacionadas con MySQL Fabric:
+      <span class="function"><a href="function.mysqlnd-ms-fabric-select-shard.html" class="function">mysqlnd_ms_fabric_select_shard()</a></span>,
+      <span class="function"><a href="function.mysqlnd-ms-fabric-select-global.html" class="function">mysqlnd_ms_fabric_select_global()</a></span>,
+      <span class="function"><a href="function.mysqlnd-ms-dump-servers.html" class="function">mysqlnd_ms_dump_servers()</a></span>.
+     </p>
+    </li>
+   </ul>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-five.html">Serie PECL/mysqlnd_ms 1.5</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

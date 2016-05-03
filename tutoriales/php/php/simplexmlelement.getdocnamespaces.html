@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Retorna los namespaces declarados en el documento</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="simplexmlelement.count.html">SimpleXMLElement::count</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="simplexmlelement.getname.html">SimpleXMLElement::getName</a></div>
+ <div class="up"><a href="class.simplexmlelement.html">SimpleXMLElement</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="simplexmlelement.getdocnamespaces" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SimpleXMLElement::getDocNamespaces</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.2, PHP 7)</p><p class="refpurpose"><span class="refname">SimpleXMLElement::getDocNamespaces</span> &mdash; <span class="dc-title">
+   Retorna los namespaces declarados en el documento
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-simplexmlelement.getdocnamespaces-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">array</span> <span class="methodname"><strong>SimpleXMLElement::getDocNamespaces</strong></span>
+     ([ <span class="methodparam"><span class="type">bool</span> <code class="parameter">$recursive</code><span class="initializer"> = false</span></span>
+    [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$from_root</code><span class="initializer"> = true</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Retorna los namespaces declarados en el documento
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-simplexmlelement.getdocnamespaces-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">recursive</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si se especifica, retorna todos los namespaces declarados en los nodos
+       padre e hijos. De lo contrario, retorna únicamente el namespace
+       declarado en el nodo raíz.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">from_root</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Permite comprobar recursivamente espacios de nombres bajo un nodo hijo en lugar de
+       desde la raíz del documento XML.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-simplexmlelement.getdocnamespaces-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El método <em>getDocNamespaces</em> retorna un <span class="type"><a href="language.types.array.html" class="type array">array</a></span>
+   de nombres de namespaces con sus URIs asociadas.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-simplexmlelement.getdocnamespaces-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-6058">
+    <p><strong>Ejemplo #1 Obtener los namespaces del documento</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$xml&nbsp;</span><span style="color: #007700">=&nbsp;&lt;&lt;&lt;XML<br /></span><span style="color: #DD0000">&lt;?xml&nbsp;version="1.0"&nbsp;standalone="yes"?&gt;<br />&lt;gente&nbsp;xmlns:p="http://example.org/ns"&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;p:persona&nbsp;id="1"&gt;John&nbsp;Doe&lt;/p:persona&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;p:persona&nbsp;id="2"&gt;Susie&nbsp;Q.&nbsp;Public&lt;/p:persona&gt;<br />&lt;/gente&gt;<br /></span><span style="color: #007700">XML;<br />&nbsp;<br /></span><span style="color: #0000BB">$sxe&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SimpleXMLElement</span><span style="color: #007700">(</span><span style="color: #0000BB">$xml</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$namespaces&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$sxe</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getDocNamespaces</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$namespaces</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(1) {
+   [&quot;p&quot;]=&gt;
+   string(21) &quot;http://example.org/ns&quot;
+}
+</pre></div>
+    </div>
+    
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-6059">
+    <p><strong>Ejemplo #2 Trabajando con múltiples namespaces</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$xml&nbsp;</span><span style="color: #007700">=&nbsp;&lt;&lt;&lt;XML<br /></span><span style="color: #DD0000">&lt;?xml&nbsp;version="1.0"&nbsp;standalone="yes"?&gt;<br />&lt;gente&nbsp;xmlns:p="http://example.org/ns"&nbsp;xmlns:t="http://example.org/test"&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;p:persona&nbsp;t:id="1"&gt;John&nbsp;Doe&lt;/p:persona&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;p:persona&nbsp;t:id="2"&nbsp;a:direccion="Calle&nbsp;123"&nbsp;xmlns:a="http://example.org/addr"&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Susie&nbsp;Q.&nbsp;Public<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p:person&gt;<br />&lt;/gente&gt;<br /></span><span style="color: #007700">XML;<br />&nbsp;<br /></span><span style="color: #0000BB">$sxe&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SimpleXMLElement</span><span style="color: #007700">(</span><span style="color: #0000BB">$xml</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$namespaces&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$sxe</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getDocNamespaces</span><span style="color: #007700">(</span><span style="color: #0000BB">TRUE</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$namespaces</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(3) {
+  [&quot;p&quot;]=&gt;
+  string(21) &quot;http://example.org/ns&quot;
+  [&quot;t&quot;]=&gt;
+  string(23) &quot;http://example.org/test&quot;
+  [&quot;a&quot;]=&gt;
+  string(23) &quot;http://example.org/addr&quot;
+}
+</pre></div>
+    </div>
+    
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-simplexmlelement.getdocnamespaces-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.4.0</td>
+       <td>
+        Se añadió el parámetro <code class="parameter">from_root</code>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-simplexmlelement.getdocnamespaces-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="simplexmlelement.getnamespaces.html" class="methodname" rel="rdfs-seeAlso">SimpleXMLElement::getNamespaces()</a> - Retorna los namespaces usados en el documento</span></li>
+    <li class="member"><span class="methodname"><a href="simplexmlelement.registerxpathnamespace.html" class="methodname" rel="rdfs-seeAlso">SimpleXMLElement::registerXPathNamespace()</a> - Crea un contexto prefijo/ns para la siguiente petici&oacute;n XPath</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="simplexmlelement.count.html">SimpleXMLElement::count</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="simplexmlelement.getname.html">SimpleXMLElement::getName</a></div>
+ <div class="up"><a href="class.simplexmlelement.html">SimpleXMLElement</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

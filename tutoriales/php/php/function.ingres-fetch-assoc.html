@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtienen una fila de resultados en un array asociativo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ingres-fetch-array.html">ingres_fetch_array</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ingres-fetch-object.html">ingres_fetch_object</a></div>
+ <div class="up"><a href="ref.ingres.html">Funciones de Ingres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ingres-fetch-assoc" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ingres_fetch_assoc</h1>
+  <p class="verinfo">(PECL ingres &gt;= 2.2.2)</p><p class="refpurpose"><span class="refname">ingres_fetch_assoc</span> &mdash; <span class="dc-title">Obtienen una fila de resultados en un array asociativo</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ingres-fetch-assoc-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>ingres_fetch_assoc</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Esta función almacena los datos obtenidos desde un consulta ejecutada usando
+   <span class="function"><a href="function.ingres-query.html" class="function">ingres_query()</a></span> en un array asociativo, usando los
+   nombres de los campos como claves.
+  </p>
+  <p class="para">
+   Con respecto a la velocidad, la función es idéntica a
+   <span class="function"><a href="function.ingres-fetch-object.html" class="function">ingres_fetch_object()</a></span>, y casi tan rápida como
+   <span class="function"><a href="function.ingres-fetch-row.html" class="function">ingres_fetch_row()</a></span> (la diferencia es
+   indignificante).
+  </p>
+  <p class="para">
+   De manera predeterminada, los arrays creados por <span class="function"><strong>ingres_fetch_assoc()</strong></span> empiezan
+   en la posición 1, y no en la 0 como en otras extensiones de SGBDs. La posición de inicio
+   se puede ajustar a 0 usando el parámetro de configuración <a href="ingres.configuration.html#ini.ingres.array-index-start" class="link">ingres.array_index_start</a>.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Configuraciones relacionadas</strong><br />
+   <p class="para">
+    Véanse también las directivas <a href="ingres.configuration.html#ini.ingres.array-index-start" class="link">ingres.array_index_start</a>, <a href="ingres.configuration.html#ini.ingres.fetch-buffer-size" class="link">ingres.fetch_buffer_size</a>
+    y <a href="ingres.configuration.html#ini.ingres.utf8" class="link">ingres.utf8</a>
+    de la sección <a href="ingres.configuration.html" class="link">Configuración en
+    tiempo de ejecución</a>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ingres-fetch-assoc-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">result</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de resultados de la consulta
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ingres-fetch-assoc-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array asociativo que se corresponde con la fila obtenida,
+   o <strong><code>FALSE</code></strong> si no existen más filas
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.ingres-fetch-assoc-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1315">
+    <p><strong>Ejemplo #1 Obtener una fila en un array asociativo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ingres_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$base_datos</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$usuario</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$contraseña</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ingres_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,</span><span style="color: #DD0000">"select&nbsp;*&nbsp;from&nbsp;table"</span><span style="color: #007700">);<br />while&nbsp;(</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ingres_fetch_assoc</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">"user_id"</span><span style="color: #007700">];&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;usar&nbsp;un&nbsp;array&nbsp;asociativo<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">"fullname"</span><span style="color: #007700">];<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ingres-fetch-assoc-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ingres-query.html" class="function" rel="rdfs-seeAlso">ingres_query()</a> - Env&iacute;a una consulta SQL a Ingres</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-num-fields.html" class="function" rel="rdfs-seeAlso">ingres_num_fields()</a> - Obtiene el n&uacute;mero de campos devueltos por la &uacute;ltima consulta</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-field-name.html" class="function" rel="rdfs-seeAlso">ingres_field_name()</a> - Obtiene el nombre de un campo de un resultado de una consulta</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-fetch-array.html" class="function" rel="rdfs-seeAlso">ingres_fetch_array()</a> - Obtiene una fila de resultados en un array</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-fetch-object.html" class="function" rel="rdfs-seeAlso">ingres_fetch_object()</a> - Obtiene una fila de resultados en un objeto</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-fetch-row.html" class="function" rel="rdfs-seeAlso">ingres_fetch_row()</a> - Obtiene una fila de resultados en un array enumerado</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ingres-fetch-array.html">ingres_fetch_array</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ingres-fetch-object.html">ingres_fetch_object</a></div>
+ <div class="up"><a href="ref.ingres.html">Funciones de Ingres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

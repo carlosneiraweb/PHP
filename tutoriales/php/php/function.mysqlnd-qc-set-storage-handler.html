@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambia el gestor de almacenamiento en uso</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysqlnd-qc-set-is-select.html">mysqlnd_qc_set_is_select</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-qc-set-user-handlers.html">mysqlnd_qc_set_user_handlers</a></div>
+ <div class="up"><a href="ref.mysqlnd-qc.html">Funciones de mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysqlnd-qc-set-storage-handler" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysqlnd_qc_set_storage_handler</h1>
+  <p class="verinfo">(PECL mysqlnd_qc &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">mysqlnd_qc_set_storage_handler</span> &mdash; <span class="dc-title">Cambia el gestor de almacenamiento en uso</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysqlnd-qc-set-storage-handler-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> 
+   <span class="methodname"><strong>mysqlnd_qc_set_storage_handler</strong></span>
+    ( <span class="methodparam">
+    <span class="type">string</span>
+     <code class="parameter">$handler</code>
+   </span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Establece el gestor de almacenamiento usado por la caché de consultas. Se puede obtener una
+   de los gestores de almacenamiento disponibles con
+   <span class="function"><a href="function.mysqlnd-qc-get-available-handlers.html" class="function">mysqlnd_qc_get_available_handlers()</a></span>.
+   Los gestores que están disponibles dependen de la configuración en tiempo de
+   compilación del complemento de caché de consultas. El
+   gestor de almacenamiento <em>default</em> siempre está disponible.
+   Todos los demás gestores de almacenmiento deben habilitarse explícitamente al construir la
+   extensión.
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysqlnd-qc-set-storage-handler-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+
+     <code class="parameter">handler</code>
+    </dt>
+
+    <dd>
+
+     <p class="para">
+      El gestor puede ser una cadena que representa el nombre de un
+      gestor de almacenamiento interno, o un objeto de tipo
+      <em>mysqlnd_qc_handler_default</em>.
+      Los nombres de los gestores de almacenamiento internos son
+      <em>default</em>,
+      <em>APC</em>,
+      <em>MEMCACHE</em>,
+      <em>sqlite</em>.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysqlnd-qc-set-storage-handler-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+  <p class="para">
+   Si el cambio del gestor de almacenamiento falla se lanzará un error fatal
+   capturable. La caché de consultas no puede operar si el gestor de almacenamiento
+   anterior ha sido cerrado y no se ha instalado un nuevo gestor de almacenamiento.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysqlnd-qc-set-storage-handler-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2104">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysqlnd_qc_set_storage_handler()</strong></span></strong></p>
+   <div class="example-contents"><p>
+    El ejemplo muestra la salida desde el gestor de almacenamiento interno predeterminado (default).
+    Los demás gestores de almacenamiento podrían mostrar datos diferentes.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">mysqlnd_qc_set_storage_handler</span><span style="color: #007700">(</span><span style="color: #DD0000">"memcache"</span><span style="color: #007700">));<br /><br />if&nbsp;(</span><span style="color: #0000BB">true&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">mysqlnd_qc_set_storage_handler</span><span style="color: #007700">(</span><span style="color: #DD0000">"default"</span><span style="color: #007700">))<br />&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Activado&nbsp;el&nbsp;gestor&nbsp;de&nbsp;almacenamiento&nbsp;predeterminado"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Error&nbsp;fatal&nbsp;capturable&nbsp;*/<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">mysqlnd_qc_set_storage_handler</span><span style="color: #007700">(</span><span style="color: #DD0000">"desconocido"</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado de los ejemplos sería:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+bool(true)
+Activado el gestor de almacenamiento predeterminado
+Catchable fatal error: mysqlnd_qc_set_storage_handler(): Unknown handler &#039;desconocido&#039; in (file) on line (line)
+
+</pre></div>
+   </div>
+   
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysqlnd-qc-set-storage-handler-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member">
+     <a href="mysqlnd-qc.installation.html" class="link">Instalación</a>
+    </li>
+    <li class="member">
+     <span class="function"><a href="function.mysqlnd-qc-get-available-handlers.html" class="function" rel="rdfs-seeAlso">mysqlnd_qc_get_available_handlers()</a> - Devuelve una lista de los gestores de almacenamiento disponibles</span>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysqlnd-qc-set-is-select.html">mysqlnd_qc_set_is_select</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysqlnd-qc-set-user-handlers.html">mysqlnd_qc_set_user_handlers</a></div>
+ <div class="up"><a href="ref.mysqlnd-qc.html">Funciones de mysqlnd_qc</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

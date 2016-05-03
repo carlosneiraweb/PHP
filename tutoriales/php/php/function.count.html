@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cuenta todos los elementos de un array o algo de un objeto</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.compact.html">compact</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.current.html">current</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.count" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">count</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">count</span> &mdash; <span class="dc-title">Cuenta todos los elementos de un array o algo de un objeto</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.count-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>count</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$array_or_countable</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$mode</code><span class="initializer"> = COUNT_NORMAL</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Cuenta todos los elementos en un array o algo de un objeto.
+  </p>
+  <p class="para">
+   En objetos, si se tiene
+   <a href="ref.spl.html" class="link">SPL</a> instalado, se puede enganchar a 
+   <span class="function"><strong>count()</strong></span> implementado la interfaz
+   <a href="class.countable.html" class="classname">Countable</a>. Esta interfaz tiene solamente un método,
+   <span class="methodname"><a href="countable.count.html" class="methodname">Countable::count()</a></span>, el cual devuelve el valor retornado por
+   la función <span class="function"><strong>count()</strong></span>.
+  </p>
+  <p class="para">
+   Véase la sección <a href="language.types.array.html" class="link">Array</a> del manual 
+   para una explicación detallada sobre cómo se implementan
+   y usan los arrays en PHP.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.count-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">array_or_countable</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un array o un objeto <a href="class.countable.html" class="classname">Countable</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si el parámetro opcional <code class="parameter">mode</code> está establecido a
+       <strong><code>COUNT_RECURSIVE</code></strong> (o 1), <span class="function"><strong>count()</strong></span>
+       contará el array de forma recursiva. Esto es particularmente útil para
+       contar todos los elementos de un array multidimensional.
+      </p>
+      <div class="caution"><strong class="caution">Precaución</strong>
+       <p class="para">
+        <span class="function"><strong>count()</strong></span> puede detectar recursividad para evitar un bucle
+        infinito, pero emitirá un mensaje <strong><code>E_WARNING</code></strong> cada vez que lo
+        haga (en caso de que el array se contenga a sí mismo más de una vez) y devolverá una
+        cuenta mayor de la que se podría esperar.
+       </p>
+      </div>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.count-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el número de elementos en <code class="parameter">array_or_countable</code>,
+   Si el parámetro no es un array o no es un objecto con la interfaz
+   <a href="class.countable.html" class="classname">Countable</a> implementada,
+   devolverá <em>1</em>.
+   Existe una excepción, si <code class="parameter">array_or_countable</code> es <strong><code>NULL</code></strong>,
+   devolverá <em>0</em>.
+  </p>
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <p class="para">
+    <span class="function"><strong>count()</strong></span> devolverá 0 si la variable que se intenta contar no está establecida,
+    pero también podría devolver 0 si la variable ha sido inicializada conun array
+    vacío. Use <span class="function"><a href="function.isset.html" class="function">isset()</a></span> para comprobar si la variable está establecida.
+   </p>
+  </div>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.count-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5567">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>count()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #0000BB">2</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$a</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;$resultado&nbsp;==&nbsp;3<br /><br /></span><span style="color: #0000BB">$b</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]&nbsp;&nbsp;=&nbsp;</span><span style="color: #0000BB">7</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b</span><span style="color: #007700">[</span><span style="color: #0000BB">5</span><span style="color: #007700">]&nbsp;&nbsp;=&nbsp;</span><span style="color: #0000BB">9</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b</span><span style="color: #007700">[</span><span style="color: #0000BB">10</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">11</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$b</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;$resultado&nbsp;==&nbsp;3<br /><br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">null</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;$resultado&nbsp;==&nbsp;0<br /><br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">false</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;$resultado&nbsp;==&nbsp;1<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5568">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>count()</strong></span> recursivo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$comida&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'frutas'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'naranja'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'plátano'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'manzana'</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'verduras'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'zanahoria'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'col'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'guisante'</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Cuenta&nbsp;recursiva<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$comida</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">COUNT_RECURSIVE</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;muestra&nbsp;8<br /><br />//&nbsp;Cuenta&nbsp;normal<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$comida</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;muestra&nbsp;2<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.count-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.is-array.html" class="function" rel="rdfs-seeAlso">is_array()</a> - Comprueba si una variable es un array</span></li>
+    <li class="member"><span class="function"><a href="function.isset.html" class="function" rel="rdfs-seeAlso">isset()</a> - Determina si una variable est&aacute; definida y no es NULL</span></li>
+    <li class="member"><span class="function"><a href="function.strlen.html" class="function" rel="rdfs-seeAlso">strlen()</a> - Obtiene la longitud de un string</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.compact.html">compact</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.current.html">current</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

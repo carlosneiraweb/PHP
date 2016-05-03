@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Define un conjunto de constantes para recuperaci&oacute;n y definici&oacute;n en masa</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.apc-dec.html">apc_dec</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.apc-delete-file.html">apc_delete_file</a></div>
+ <div class="up"><a href="ref.apc.html">Funciones de APC</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.apc-define-constants" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">apc_define_constants</h1>
+  <p class="verinfo">(PECL apc &gt;= 3.0.0)</p><p class="refpurpose"><span class="refname">apc_define_constants</span> &mdash; <span class="dc-title">
+   Define un conjunto de constantes para recuperación y definición en masa 
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.apc-define-constants-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>apc_define_constants</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$key</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter">$constants</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$case_sensitive</code><span class="initializer"> = true</span></span>
+  ] )</div>
+
+
+  <p class="para rdfs-comment">
+   <span class="function"><a href="function.define.html" class="function">define()</a></span> es notoriamente lenta. Ya que el principal beneficio de
+   APC es aumentar el rendimiento de scripts/aplicaciones, se proporciona
+   este mecanismo para hacer más eficiente el proceso de definición de constantes en masa. Sin embargo,
+   esta función no lo realiza tan bien como se esperaba.
+  </p>
+
+  <p class="para">
+   Para una solución de rendimiento mejor, pruebe la
+   extensión <a href="http://pecl.php.net/package/hidef" class="link external">&raquo;&nbsp;hidef</a> de PECL.
+  </p>
+
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Para eliminar un conjunto de constantes almacenadas (sin limpiar la caché por completo), se
+    puede pasar un array vacío al parámetro <code class="parameter">constants</code>,
+    limpiando de manera eficaz los valores almacenados.
+   </span>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.apc-define-constants-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">key</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">key</code> sirve como el nombre del conjunto de constantes
+       que va a ser almacenado. <code class="parameter">key</code> se usa para recuperar las
+       constantes almacenadas en <span class="function"><a href="function.apc-load-constants.html" class="function">apc_load_constants()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">constants</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un array asociativo de pares <em>nombre_constante =&gt; valor</em>.
+       <em>nombre_constante</em> debe seguir las reglas normales de
+       nominación de <a href="language.constants.html" class="link">constantes</a>.
+       <em>valor</em> debe evaluar un valor escalar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">case_sensitive</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El comportamiento predeterminado para las constantes es ser declaradas sensibles a
+       mayúsculas-minúsculas; es decir, <em>CONSTANTE</em> y <em>Constante</em>
+       representan valores diferentes. Si este parámetro es <strong><code>FALSE</code></strong> las
+       constantes serán declaradas como símbolos insensibles a mayúsculas-minúsculas.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.apc-define-constants-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+
+ <div class="refsect1 examples" id="refsect1-function.apc-define-constants-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-454">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>apc_define_constants()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$constantes&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'UNO'&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'DOS'&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'TRES'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">,<br />);<br /></span><span style="color: #0000BB">apc_define_constants</span><span style="color: #007700">(</span><span style="color: #DD0000">'números'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$constantes</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">UNO</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">DOS</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">TRES</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+123
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+
+ <div class="refsect1 seealso" id="refsect1-function.apc-define-constants-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.apc-load-constants.html" class="function" rel="rdfs-seeAlso">apc_load_constants()</a> - Carga un conjunto de constantes de la cach&eacute;</span></li>
+    <li class="member"><span class="function"><a href="function.define.html" class="function" rel="rdfs-seeAlso">define()</a> - Define una constante con nombre</span></li>
+    <li class="member"><span class="function"><a href="function.constant.html" class="function" rel="rdfs-seeAlso">constant()</a> - Devuelve el valor de una constante</span></li>
+    <li class="member">
+     O <a href="language.constants.html" class="link">la referencia de contantes de PHP</a>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.apc-dec.html">apc_dec</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.apc-delete-file.html">apc_delete_file</a></div>
+ <div class="up"><a href="ref.apc.html">Funciones de APC</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

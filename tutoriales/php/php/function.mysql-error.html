@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve el texto del mensaje de error de la operaci&oacute;n MySQL anterior</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-errno.html">mysql_errno</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-escape-string.html">mysql_escape_string</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-error" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_error</h1>
+  <p class="verinfo">(PHP 4, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_error</span> &mdash; <span class="dc-title">Devuelve el texto del mensaje de error de la operación MySQL anterior</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-error-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta extensión fue declarada obsoleta en PHP 5.5.0 y eliminada en PHP 7.0.0.
+En su lugar debería utilzarse las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a>.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Alternatives to this function include:</p>
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="mysqli.error.html" class="function">mysqli_error()</a></span></li>
+    <li class="member"><span class="methodname"><a href="pdo.errorinfo.html" class="methodname">PDO::errorInfo()</a></span></li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-error-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>mysql_error</strong></span>
+    ([ <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code><span class="initializer"> = NULL</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve el texto del error de la última función MySQL.
+   Los errores que provienen del procesamiento de la base de datos MySQL ya no 
+   emiten advertencias. En su lugar, utilice <span class="function"><a href="function.mysql-errno.html" class="function">mysql_errno()</a></span> para
+   recuperar el código de error. Tenga en cuenta que ésta función solamente devolverá el
+   código de error de la función MySQL ejecutada mas recientemente (sin 
+   incluir a <span class="function"><strong>mysql_error()</strong></span> y
+   <span class="function"><a href="function.mysql-errno.html" class="function">mysql_errno()</a></span>), por lo que, si se quiere usar,
+   hay que asegurarse de revisar el valor antes de llamar otra función 
+   MySQL.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-error-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+link_identifier</code></dt>
+<dd>
+<p class="para">La conexión MySQL. Si el
+identificador de enlace no se especifica, el último enlace abierto por
+<span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> es asumido. Si no se encuentra dicho enlace, la
+función intentará establecer un nuevo enlace como si <span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> fuese invocado
+sin parámetros. Si no se encuentra o establece una conexión, un error de nivel
+<strong><code>E_WARNING</code></strong> es generado.</p></dd>
+
+
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-error-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el texto del error de la última función MySQL, o
+   <em>&#039;&#039;</em> (una cadena vacía) si no ha ocurrido ningún error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysql-error-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1796">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysql_error()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario_mysql"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña_mysql"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">mysql_select_db</span><span style="color: #007700">(</span><span style="color: #DD0000">"bd_inexistente"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">mysql_errno</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">":&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">).&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">mysql_select_db</span><span style="color: #007700">(</span><span style="color: #DD0000">"kossu"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">mysql_query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;*&nbsp;FROM&nbsp;tabla_inexistente"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">mysql_errno</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">":&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mysql_error</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+1049: Unknown database &#039;bd_inexistente&#039;
+1146: Table &#039;kossu.tabla_inexistente&#039; doesn&#039;t exist
+</pre></div>
+     </div>
+    </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-error-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-errno.html" class="function" rel="rdfs-seeAlso">mysql_errno()</a> - Devuelve el valor num&eacute;rico del mensaje de error de la &uacute;ltima operaci&oacute;n MySQL</span></li>
+    <li class="member"><a href="http://dev.mysql.com/doc/mysql/en/error-handling.html" class="link external">&raquo;&nbsp;Códigos de error de MySQL</a></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-errno.html">mysql_errno</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-escape-string.html">mysql_escape_string</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

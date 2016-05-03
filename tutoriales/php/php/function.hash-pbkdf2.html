@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Genera una derivaci&oacute;n de clave PBKDF2 de una contrase&ntilde;a proporcionada</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.hash-init.html">hash_init</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.hash-update-file.html">hash_update_file</a></div>
+ <div class="up"><a href="ref.hash.html">Funciones de hash</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.hash-pbkdf2" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">hash_pbkdf2</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.5.0, PHP 7)</p><p class="refpurpose"><span class="refname">hash_pbkdf2</span> &mdash; <span class="dc-title">Genera una derivación de clave PBKDF2 de una contraseña proporcionada</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.hash-pbkdf2-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>hash_pbkdf2</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$algo</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$password</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$salt</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$iterations</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$length</code><span class="initializer"> = 0</span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$raw_output</code><span class="initializer"> = false</span></span>
+  ]] )</div>
+
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.hash-pbkdf2-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">algo</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del algoritmo hash seleccionado (esto es, <em>&quot;md5&quot;</em>,
+       <em>&quot;sha256&quot;</em>, <em>&quot;haval160,4&quot;</em>, etc.). Véase
+       <span class="function"><a href="function.hash-algos.html" class="function">hash_algos()</a></span> para una lista de los algoritmos admitidos.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">password</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La contraseña a usar para la derivación.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">salt</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La sal a usar para la derivación. Este valor debería ser generado aleatoriamente.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">iterations</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número de iteraciones internas para realizar la derivación.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">length</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La longitud del string de salida. Si <code class="parameter">raw_output</code>
+       es <strong><code>TRUE</code></strong>, se corresponde con la longitud en bytes de la clave derivada; si
+       <code class="parameter">raw_output</code> es <strong><code>FALSE</code></strong>, se corresponde con dos veces la
+       longitud en bytes de la clave derivada (ya que cada byte de la clave es devuelto
+       como dos dígitos hexadecimales).
+      </p>
+      <p class="para">
+       Si se pasa <em>0</em>, se usará la salida completa
+       del algoritmo proporcionado.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">raw_output</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Cuando se establece a <strong><code>TRUE</code></strong>, genera datos binarios puros.
+       <strong><code>FALSE</code></strong> genera dígitos hexadecimales en minúsculas.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.hash-pbkdf2-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un string que contiene la clave derivada como dígitos hexadecimales en minúsculas,
+   a menos que <code class="parameter">raw_output</code> sea establecido a <strong><code>TRUE</code></strong>, en cuyo caso
+   devuelve la represetación binaria pura de la clave derivada.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.hash-pbkdf2-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Se emitirá un <strong><code>E_WARNING</code></strong> si el algoritmo es
+   desconocido, el parámetro <code class="parameter">iterations</code> es menor o
+   igual a <em>0</em>, el parámetro <code class="parameter">length</code> es menor
+   que <em>0</em> o el parámetro <code class="parameter">salt</code> es demasiado grande
+   (mayor que <strong><code>INT_MAX</code></strong><em> - 4</em>).
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.hash-pbkdf2-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-922">
+    <p><strong>Ejemplo #1 Ejemplo de uso básico de <span class="function"><strong>hash_pbkdf2()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$contraseña&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$iteraciones&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1000</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Generar&nbsp;una&nbsp;IV&nbsp;aleatoria&nbsp;usando&nbsp;mcrypt_create_iv(),<br />//&nbsp;openssl_random_pseudo_bytes()&nbsp;u&nbsp;otra&nbsp;fuente&nbsp;disponible&nbsp;de&nbsp;aleatoriedad<br /></span><span style="color: #0000BB">$sal&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mcrypt_create_iv</span><span style="color: #007700">(</span><span style="color: #0000BB">16</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">MCRYPT_DEV_URANDOM</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$hash&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">hash_pbkdf2</span><span style="color: #007700">(</span><span style="color: #DD0000">"sha256"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$contraseña</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sal</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$iteraciones</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">20</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$hash</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+120fb6cffcf8b32c43e7
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.hash-pbkdf2-notes">
+  <h3 class="title">Notas</h3>
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <p class="para">
+    El método PBKDF2 se puede usar para el almacenamiento de contraseñas de hash. Sin embargo,
+    se debería observar que <span class="function"><a href="function.password-hash.html" class="function">password_hash()</a></span> o
+    <span class="function"><a href="function.crypt.html" class="function">crypt()</a></span> con <strong><code>CRYPT_BLOWFISH</code></strong> son
+    más adecuados para el almacenamiento de contraseñas.
+   </p>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.hash-pbkdf2-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.crypt.html" class="function" rel="rdfs-seeAlso">crypt()</a> - Hash de cadenas de un s&oacute;lo sentido</span></li>
+    <li class="member"><span class="function"><a href="function.password-hash.html" class="function" rel="rdfs-seeAlso">password_hash()</a> - Crea un hash de contrase&ntilde;a</span></li>
+    <li class="member"><span class="function"><a href="function.hash.html" class="function" rel="rdfs-seeAlso">hash()</a> - Genera un valor cifrado con base a un string</span></li>
+    <li class="member"><span class="function"><a href="function.hash-algos.html" class="function" rel="rdfs-seeAlso">hash_algos()</a> - Devuelve una lista con los algoritmos de cifrado soportados</span></li>
+    <li class="member"><span class="function"><a href="function.hash-init.html" class="function" rel="rdfs-seeAlso">hash_init()</a> - Inicializa un contexto incremental para cifrar</span></li>
+    <li class="member"><span class="function"><a href="function.hash-hmac.html" class="function" rel="rdfs-seeAlso">hash_hmac()</a> - Genera un valor cifrado mediante una clave especificada usando el m&eacute;todo HMAC</span></li>
+    <li class="member"><span class="function"><a href="function.hash-hmac-file.html" class="function" rel="rdfs-seeAlso">hash_hmac_file()</a> - Genera un valor cifrado mediante una clave especificada usando el m&eacute;todo HMAC y el contenido de un fichero dado</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.hash-init.html">hash_init</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.hash-update-file.html">hash_update_file</a></div>
+ <div class="up"><a href="ref.hash.html">Funciones de hash</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

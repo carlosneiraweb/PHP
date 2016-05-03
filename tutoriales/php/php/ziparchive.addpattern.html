@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>A&ntilde;ade ficheros de un directorio a partir de un patr&oacute;n PCRE</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ziparchive.addglob.html">ZipArchive::addGlob</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ziparchive.close.html">ZipArchive::close</a></div>
+ <div class="up"><a href="class.ziparchive.html">ZipArchive</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="ziparchive.addpattern" class="refentry">      
+ <div class="refnamediv">
+  <h1 class="refname">ZipArchive::addPattern</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7, PECL zip &gt;= 1.9.0)</p><p class="refpurpose"><span class="refname">ZipArchive::addPattern</span> &mdash; <span class="dc-title">Añade ficheros de un directorio a partir de un patrón PCRE </span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-ziparchive.addpattern-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>ZipArchive::addPattern</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$pattern</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$path</code><span class="initializer"> = &quot;.&quot;</span></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$options</code><span class="initializer"> = array()</span></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Añade ficheros de un directorio que coinciden con la expresión regular  <code class="parameter">pattern</code>.
+   La operación no es recursiva. Únicamente se hará la correspondencia del patrón con el nombre del fichero.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-ziparchive.addpattern-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">pattern</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Un patrón <a href="book.pcre.html" class="link">PCRE</a> contra el cual se realizará la correspondencia.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">path</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El directorio que será escaneado. Por defecto es el directorio de trabajo actual.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">options</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Un array asociativo de opciones aceptadas por <span class="methodname"><a href="ziparchive.addglob.html" class="methodname">ZipArchive::addGlob()</a></span>.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-ziparchive.addpattern-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-ziparchive.addpattern-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="ziparchive.addpattern.example.basic">
+   <p><strong>Ejemplo #1 Ejemplo con <span class="methodname"><strong>ZipArchive::addPattern()</strong></span></strong></p>
+   <div class="example-contents"><p>
+     Añadir todos los scripts y ficheros de texto php del directorio actual
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$zip&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">ZipArchive</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$ret&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$zip</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">open</span><span style="color: #007700">(</span><span style="color: #DD0000">'application.zip'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">ZipArchive</span><span style="color: #007700">::</span><span style="color: #0000BB">OVERWRITE</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$ret&nbsp;</span><span style="color: #007700">!==&nbsp;</span><span style="color: #0000BB">TRUE</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">'Erróneo&nbsp;con&nbsp;código&nbsp;%d'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$ret</span><span style="color: #007700">);<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$directory&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">realpath</span><span style="color: #007700">(</span><span style="color: #DD0000">'.'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$options&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'add_path'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'sources/'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'remove_path'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$directory</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$zip</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addPattern</span><span style="color: #007700">(</span><span style="color: #DD0000">'/\.(?:php|txt)$/'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$directory</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$options</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$zip</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-ziparchive.addpattern-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="ziparchive.addfile.html" class="methodname" rel="rdfs-seeAlso">ZipArchive::addFile()</a> - A&ntilde;ade un fichero al archivo ZIP para la ruta dada</span></li>
+    <li class="member"><span class="methodname"><a href="ziparchive.addglob.html" class="methodname" rel="rdfs-seeAlso">ZipArchive::addGlob()</a> - A&ntilde;adir ficheros de un directorio mediante un patr&oacute;n glob</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ziparchive.addglob.html">ZipArchive::addGlob</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="ziparchive.close.html">ZipArchive::close</a></div>
+ <div class="up"><a href="class.ziparchive.html">ZipArchive</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

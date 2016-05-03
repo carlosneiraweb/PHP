@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Expresiones</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.constants.predefined.html">Constantes predefinidas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.operators.html">Operadores</a></div>
+ <div class="up"><a href="langref.html">Referencia del lenguaje</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.expressions" class="chapter">
+   <h1>Expresiones</h1>
+
+   <p class="simpara">
+    La expresiones son las piedras de construcción más importantes de PHP. En PHP
+    casi todo lo que se escribe es una expresión. La manera más simple
+    y acertada de definir lo que es una expresión es &quot;cualquier cosa que tiene
+    un valor&quot;.
+   </p>
+   <p class="simpara">
+    Las formas más básicas de expresiones son las constantes y las variables.
+    Cuando se escribe &quot;<var class="varname"><var class="varname">$a</var></var> = 5&quot;, se está asignando &#039;5&#039; a
+    <var class="varname"><var class="varname">$a</var></var>. &#039;5&#039;, obviamente,
+    tiene el valor 5, o en otras palabras, &#039;5&#039; es una expresión con el
+    valor de 5 (en este caso, &#039;5&#039; es una constante entera).
+   </p>
+   <p class="simpara">
+    Después de esta asignación, se espera que el valor de <var class="varname"><var class="varname">$a</var></var> sea 5
+    también, por lo que si se escribe <var class="varname"><var class="varname">$b</var></var> = <var class="varname"><var class="varname">$a</var></var>, se espera que esto
+    se comporte tal como si se escribiera <var class="varname"><var class="varname">$b</var></var> = 5. En otras palabras,
+    <var class="varname"><var class="varname">$a</var></var> es también una expresión con el valor 5. Si todo funciona bien,
+    esto es exactamente lo que sucederá.
+   </p>
+   <p class="para">
+    Un ejemplo de expresiones algo más complejo son las funciones. Por
+    ejemplo, considere la siguiente función:
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">foo&nbsp;</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </div>
+   </p>
+   <p class="simpara">
+    Asumiendo que está familiarizado con el concepto de función (si no lo está,
+    échele una ojeada al capítulo sobre <a href="language.functions.html" class="link">funciones</a>), asumirá
+    que escribir <em>$c = foo()</em> es esencialmente igual que
+    escribir <em>$c = 5</em>. Y está en lo cierto. Las funciones
+    son expresiones con el valor de sus valores devueltos. Ya que <em>foo()</em>
+    devuelve 5, el valor de la expresión &#039;<em>foo()</em>&#039; es 5. Normalmente
+    las funciones no sólo devuelven un valor estático, sino que computan algo.
+   </p>
+   <p class="simpara">
+    Por supuesto, los valores en PHP no tienen que ser enteros, y con frecuencia
+    no lo son. PHP soporta cuatro tipos de valores escalares: valores enteros (<span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>),
+    valores de coma (punto) flotante (<span class="type"><a href="language.types.float.html" class="type float">float</a></span>), valores de cadena (<span class="type"><a href="language.types.string.html" class="type string">string</a></span>)
+    y valores booleanos (<span class="type"><a href="language.types.boolean.html" class="type boolean">boolean</a></span>) - (valores escalares son aquellos que no se
+    pueden descomponer en piezas más pequeñas, a diferencia de las matrices, por ejemplo). PHP también
+    soporta dos tipos compuestos (no escalares): matrices (arrays) y objetos. Cada uno
+    de estos tipos de valores pueden ser asignados a variables o devueltos desde funciones.
+   </p>
+   <p class="simpara">
+    PHP lleva las expresiones mucho más allá, de la misma manera que lo hacen otros
+    lenguajes. PHP es un lenguaje orientado a expresiones, en el
+    sentido de que casi todo es una expresión. Considere el
+    ejemplo que ya hemos tratado, &#039;<var class="varname"><var class="varname">$a</var></var> = 5&#039;. Es fácil de ver que
+    aquí hay dos valores involucrados, el valor de la constante
+    entera &#039;5&#039;, y el valor de <var class="varname"><var class="varname">$a</var></var> que ha sido actualizado a 5
+    también. Aunque la verdad es que existe aquí un valor adicional
+    involucrado, que es el valor de la asignación misma. La
+    asignación evalúa al valor asignado, en este caso 5.
+    En la práctica, esto significa que &#039;<var class="varname"><var class="varname">$a</var></var> = 5&#039;, sin importar lo que haga,
+    es una expresión con el valor 5. De este modo, escribir algo como
+    &#039;<var class="varname"><var class="varname">$b</var></var> = (<var class="varname"><var class="varname">$a</var></var> = 5)&#039; es igual que escribir
+    &#039;<var class="varname"><var class="varname">$a</var></var> = 5; <var class="varname"><var class="varname">$b</var></var> = 5;&#039; (el punto y coma
+    marca el final de una sentencia). Ya que las asignaciones se analizan de
+    derecha a izquierda, también se puede escribir &#039;<var class="varname"><var class="varname">$b</var></var> = <var class="varname"><var class="varname">$a</var></var> = 5&#039;.
+   </p>
+   <p class="simpara">
+    Otro buen ejemplo de orientación a expresiones es el pre- y
+    post-incremento y decremento. Los usuarios de PHP y de otros muchos
+    lenguajes pueden estar familiarizados con la notación <em>variable++</em> y
+    <em>variable--</em>. Éstos son los <a href="language.operators.increment.html" class="link">
+    operadores de incremento y decremento</a>. En PHP, al igual que en C, hay
+    dos tipos de incrementos - pre-incremento y post-incremento.
+    Ambos esencialmente incrementan la
+    variable, y el efecto sobre la variable es idéntico. La
+    diferencia está con el valor de la expresión de incremento.
+    Pre-incremento, que se escribre &#039;++<var class="varname"><var class="varname">$variable</var></var>&#039;, evalúa al
+    valor incrementado (PHP incrementa la variable antes de leer su
+    valor, de ahí el nombre de &#039;pre-incremento&#039;). Post-incremento, que se
+    escribe &#039;<var class="varname"><var class="varname">$variable</var></var>++&#039; evalúa el valor original de
+    $variable, antes de que sea incrementado (PHP incrementa la variable
+    después de leer su valor, de ahí el nombre de &#039;post-incremento&#039;).
+   </p>
+   <p class="simpara">
+    Un tipo de expresiones muy comunes son las expresiones de <a href="language.operators.comparison.html" class="link">comparación</a>.
+    Estas expresiones evalúan si algo es <strong><code>FALSE</code></strong> (falso) o <strong><code>TRUE</code></strong> (verdadero). PHP
+    soporta &gt; (mayor que), &gt;= (mayor o igual que), == (igual),
+    != (distinto), &lt; (menor que) y &lt;= (menor o igual que).
+    El lenguaje también soporta un conjunto de operadores de equivalencia estricta: ===
+    (igual y del mismo tipo) y !== (diferente o de distinto tipo).
+    Estas expresiones se usan mayormente dentro de ejecuciones condicionales,
+    tales como la sentencia <em>if</em>.
+   </p>
+   <p class="simpara">
+    El último ejemplo de expresiones que trataremos aquí es una combinación
+    de expresiones operador-asignación. Ya sabe que si
+    quiere incrementar <var class="varname"><var class="varname">$a</var></var> en 1, puede simplemente escribir
+    &#039;<var class="varname"><var class="varname">$a</var></var>++&#039; o &#039;++<var class="varname"><var class="varname">$a</var></var>&#039;.
+    Pero si lo que quiere es añadirle más de uno, por ejemplo 3,
+    podría escribir &#039;<var class="varname"><var class="varname">$a</var></var>++&#039; varias veces, pero esto,
+    obviamente, no es una manera muy eficiente o cómoda. Una práctica
+    mucho más común es escribir &#039;<var class="varname"><var class="varname">$a</var></var> =
+    <var class="varname"><var class="varname">$a</var></var> + 3&#039;.  &#039;<var class="varname"><var class="varname">$a</var></var> + 3&#039; evalúa
+    al valor de <var class="varname"><var class="varname">$a</var></var> más 3, y se vuelve a asignar
+    a <var class="varname"><var class="varname">$a</var></var>, lo que resulta en incrementar <var class="varname"><var class="varname">$a</var></var>
+    en 3. En PHP, como en otros lenguajes como C, se puede escribir esto
+    de una manera más abreviada, lo que con el tiempo se podría convertir en una forma más clara y rápida
+    de entenderlo. Añadir 3 al valor actual de <var class="varname"><var class="varname">$a</var></var>
+    puede ser escrito &#039;<var class="varname"><var class="varname">$a</var></var> += 3&#039;. Esto significa exactamente
+    &quot;toma el valor de <var class="varname"><var class="varname">$a</var></var>, añádele 3 y asígnalo
+    de nuevo a <var class="varname"><var class="varname">$a</var></var>&quot;. Además de ser más corto y
+    claro, también resulta en una ejecución más rápida. El valor de
+    &#039;<var class="varname"><var class="varname">$a</var></var> += 3&#039;, al igual que el valor de una asignación normal, es
+    el valor asignado. Observe que NO es 3, sino el valor combinado
+    de <var class="varname"><var class="varname">$a</var></var> más 3 (éste es el valor que es
+    asignado a <var class="varname"><var class="varname">$a</var></var>). Se puede usar cualquier operador compuesto de dos partes
+    en este modo de operador-asignación, por ejemplo &#039;<var class="varname"><var class="varname">$a</var></var> -= 5&#039;
+    (restar 5 del valor de <var class="varname"><var class="varname">$a</var></var>), &#039;<var class="varname"><var class="varname">$b</var></var> *= 7&#039;
+    (multiplicar el valor de <var class="varname"><var class="varname">$b</var></var> por 7), etc.
+   </p>
+   <p class="para">
+    Existe una expresión más que le puede parecer rara si no la ha visto
+    en otros lenguajes, el operador condicional ternario:
+   </p>
+   <p class="para">
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$primero&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #0000BB">$segundo&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #0000BB">$tercero<br />?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </div>
+   </p>
+   <p class="para">
+    Si el valor de la primera subexpresión es <strong><code>TRUE</code></strong> (no es cero),
+    se evalúa la segunda subexpresión, y ése será el resultado de
+    la expresión condicional. Si no, se evalúa la tercera
+    subexpresión, y ése será el valor.
+   </p>
+   <p class="para">
+    El siguiente ejemplo debería ayudarle a comprender un poco mejor el pre- y
+    post-incremento y las expresiones en general:
+   </p>
+   <p class="para">
+    <div class="informalexample">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">doble</span><span style="color: #007700">(</span><span style="color: #0000BB">$i</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">*</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;asignar&nbsp;el&nbsp;valor&nbsp;cinco&nbsp;a&nbsp;la&nbsp;variable&nbsp;$a&nbsp;y&nbsp;$b&nbsp;*/<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">++;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;post-incremento,&nbsp;asignar&nbsp;el&nbsp;valor&nbsp;original&nbsp;de&nbsp;$a&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(5)&nbsp;a&nbsp;$c&nbsp;*/<br /></span><span style="color: #0000BB">$e&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">=&nbsp;++</span><span style="color: #0000BB">$b</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;pre-incremento,&nbsp;asignar&nbsp;el&nbsp;valor&nbsp;incrementado&nbsp;de<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$b&nbsp;(6)&nbsp;a&nbsp;$d&nbsp;y&nbsp;$e&nbsp;*/<br /><br />/*&nbsp;en&nbsp;este&nbsp;punto,&nbsp;$d&nbsp;y&nbsp;$e&nbsp;son&nbsp;iguales&nbsp;a&nbsp;6&nbsp;*/<br /><br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">doble</span><span style="color: #007700">(</span><span style="color: #0000BB">$d</span><span style="color: #007700">++);&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;asignar&nbsp;el&nbsp;doble&nbsp;del&nbsp;valor&nbsp;de&nbsp;$d&nbsp;antes<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;del&nbsp;incremento,&nbsp;2*6&nbsp;=&nbsp;12,&nbsp;a&nbsp;$f&nbsp;*/<br /></span><span style="color: #0000BB">$g&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">doble</span><span style="color: #007700">(++</span><span style="color: #0000BB">$e</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;asignar&nbsp;el&nbsp;doble&nbsp;del&nbsp;valor&nbsp;de&nbsp;$e&nbsp;después<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;del&nbsp;incremento,&nbsp;2*7&nbsp;=&nbsp;14,&nbsp;a&nbsp;$g&nbsp;*/<br /></span><span style="color: #0000BB">$h&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$g&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;primero,&nbsp;$g&nbsp;es&nbsp;incrementado&nbsp;en&nbsp;10&nbsp;y&nbsp;finaliza&nbsp;con&nbsp;el<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valor&nbsp;24.&nbsp;El&nbsp;valor&nbsp;de&nbsp;la&nbsp;asignación&nbsp;(24)&nbsp;es<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asignado&nbsp;después&nbsp;a&nbsp;$h,&nbsp;y&nbsp;$h&nbsp;finaliza&nbsp;también&nbsp;con&nbsp;el<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valor&nbsp;24.&nbsp;*/<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </div>
+   </p>
+   <p class="simpara">
+    Algunas expresiones pueden considerarse como sentencias. En
+    este caso, una sentencia tiene la forma &#039;<em>expr ;</em>&#039;, es decir, una
+    expresión seguida de un punto y coma. En <em>&#039;$b = $a = 5;&#039;</em>,
+    <em>&#039;$a = 5&#039;</em> es una expresión válida, pero no es una sentencia
+    en sí. Sin embargo, <em>&#039;$b = $a = 5;&#039;</em> es una sentencia válida.
+   </p>
+   <p class="simpara">
+    Lo último que vale la pena mencionar es el valor verdadero de las expresiones.
+    En muchos casos, principalmente en ejecuciones condicionales y bucles, no
+    interesa saber el valor específico de la expresión, sino sólo
+    si el valor significa <strong><code>TRUE</code></strong> o <strong><code>FALSE</code></strong>.
+    
+    
+    
+    Las constantes <strong><code>TRUE</code></strong> y <strong><code>FALSE</code></strong> (insensible a mayúsculas-minúsculas) son los
+    dos valores booleanos posibles. Cuando es necesario, una expresión es
+    convertida automáticamente al tipo boolean. Véase la
+    <a href="language.types.type-juggling.html#language.types.typecasting" class="link">sección sobre
+    conversión de tipos</a> para más detalles.
+   </p>
+   <p class="simpara">
+    PHP proporciona una implementación completa y potente de expresiones, y
+    documentarla por completo va más allá del ámbito de este manual. Los
+    ejemplos de arriba deberían darle una buena idea de lo que son las expresiones
+    y cómo construir expresiones útiles. Durante el
+    resto de este manual se escribirá <var class="varname"><var class="varname">expr</var></var>
+    para indicar cualquier expresión de PHP válida.
+   </p>
+  </div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.constants.predefined.html">Constantes predefinidas</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.operators.html">Operadores</a></div>
+ <div class="up"><a href="langref.html">Referencia del lenguaje</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Declaraciones</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.back-references.html">Retroreferencias</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.onlyonce.html">Sub-patrones de una s&oacute;la aplicaci&oacute;n</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="regexp.reference.assertions" class="section">
+  <h2 class="title">Declaraciones</h2>
+  <p class="para">
+   Una declaración es una comprobación de los caracteres siguientes o
+   anteriores al punto de coincidencia actual que en realidad no
+   consumen carácter alguno. Las declaraciones simples codificadas como \b,
+   \B, \A, \Z, \z, ^ y $ están descritas en <a href="regexp.reference.escape.html" class="link">secuencias de escape</a>. Las declaraciones
+   más complicadas están codificadas como sub-patrones. Hay dos tipos:
+   aquéllas que <em class="emphasis">buscan hacia delante</em> desde punto actual de la
+   cadena objetivo, y aquéllas que <em class="emphasis">buscan hacia atrás</em> desde él.
+  </p>
+  <p class="para">
+   Un patrón declaración es comparado de la forma habitual, excepto
+   que no causa que la posición actual de coincidencia
+   cambie. Las declaraciones de <em class="emphasis">búsqueda hacia delante</em> comienzan con
+   (?= para declaraciones positivas y con (?! para declaraciones negativas. Por ejemplo,
+   
+   <em>\w+(?=;)</em>
+   
+   coincide con una palabra seguida de un punto y coma, pero no incluye
+   el punto y coma en la coincidencia, y
+   
+   <em>foo(?!bar)</em>
+   
+   coincide con cualquier incidencia de &quot;foo&quot; que no esté seguida de
+   &quot;bar&quot;. Observe que el patrón aparentemente similar
+   
+   <em>(?!foo)bar</em>
+   
+   no encuentra una incidencia de &quot;bar&quot; que esté precedida por
+   algo distinto de &quot;foo&quot;; no encuentra ninguna incidencia de &quot;bar&quot;
+   en absoluto, ya que la declaración (?!foo) es siempre <strong><code>TRUE</code></strong>
+   cuando los tres caracteres siguientes son &quot;bar&quot;. Se necesita una
+   declaración de búsqueda hacia atrás para conseguir este efecto.
+  </p>
+  <p class="para">
+   Las declaraciones de <em class="emphasis">búsqueda hacia atrás</em> comienzan con (?&lt;=
+   para declaraciones positivas y con (?&lt;! para declaraciones negativas. Por ejemplo,
+   
+   <em>(?&lt;!foo)bar</em>
+   
+   encuentra una incidencia de &quot;bar&quot; que no esté precedida por
+   &quot;foo&quot;. El contenido de una declaración de búsqueda hacia atrás está restringido
+   de tal manera que todas las cadenas que se comparen con ella deben tener una longitud
+   fija. Sin embargo, si hay varias alternativas, no es necesario que
+   tengan todas la misma longitud fija. Así,
+   
+   <em>(?&lt;=buey|burro)</em>
+   
+   está permitido, pero
+   
+   <em>(?&lt;!toros?|vacas?)</em>
+   
+   produce un error en tiempo de compilación. Las ramas que se comparan con cadenas
+   de diferente longitud están permitidas sólo en el nivel superior de
+   una declaración de búsqueda hacia atrás. Esto es una extensión comparado con
+   Perl 5.005, la cual requiere que todas las ramas a comparar tengan la misma
+   longitud de cadena. Una declaración como
+   
+   <em>(?&lt;=ab(c|de))</em>
+   
+   no está permitida porque su rama del nivel superior puede
+   coincidir con dos longitudes diferentes, pero es aceptable si se reescribe
+   para usar dos ramas del nivel superior:
+   
+   <em>(?&lt;=abc|abde)</em>
+   
+   La implementación de las declaraciones de búsqueda hacia atrás es, para cada
+   alternativa, retroceder temporalmente la posición actual
+   por el ancho fijo y después intentar coincidir. Si no hay
+   suficientes caracteres antes de la posición actual, la
+   comparación está condenada a fallar. Las declaraciones de búsqueda hacia atrás junto
+   con los sub-patrones de una sóla aplicación pueden ser particularmente útiles para
+   comparaciones con los finales de las cadenas; se da un ejemplo al final de la
+   sección de sub-patrones de una sóla aplicación.
+  </p>
+  <p class="para">
+   Varias declaraciones (de cualquier tipo) pueden producirse en suceción.
+   Por ejemplo,
+   
+   <em>(?&lt;=\d{3})(?&lt;!999)foo</em>
+   
+   coincide con &quot;foo&quot; precedido de tres dígitos que no sean &quot;999&quot;.
+   Nótese que cada una de las declaraciones es aplicada
+   en el mismo punto de la cadena objetivo. Primero, se
+   verifica que los tres caracteres previos son todos dígitos,
+   depués se verifica que esos mismos tres caracteres no sean
+   &quot;999&quot;. Este patrón no coincide con &quot;foo&quot; precedido de seis
+   caracteres, los primeros de los cuales son dígitos y los tres últimos
+   de éllos no son &quot;999&quot;. Por ejemplo, no coincide con
+   &quot;123abcfoo&quot;. Un patrón que hace eso es
+   
+   <em>(?&lt;=\d{3}...)(?&lt;!999)foo</em>
+  </p>
+  <p class="para">
+   Esta vez, la primera declaración examina los seis caracteres
+   precedentes, verificando que los tres primeros son dígitos, y
+   después, la segunda declaración verifica que los tres caracteres
+   anteriores no son &quot;999&quot;.
+  </p>
+  <p class="para">
+   Las declaraciones pueden estar anidadas en cualquier combianción. Por ejemplo,
+   
+   <em>(?&lt;=(?&lt;!foo)bar)baz</em>
+   
+   coincide con una incidencia de &quot;baz&quot; que está precedida por &quot;bar&quot;,
+   la cual a su vez no está precedida por &quot;foo&quot;, mientras que
+   
+   <em>(?&lt;=\d{3}...(?&lt;!999))foo</em>
+   
+   es otro patrón que coincide con &quot;foo&quot; precedido por tres
+   dígitos y otros tres caracteres cualesquiera que no sean &quot;999&quot;.
+  </p>
+  <p class="para">
+   Los sub-patrones declarativos no son sub-patrones de captura, y no
+   se pueden repetir, ya que no tiene sentido declarar la misma
+   cosa varias veces. Si cualquier tipo de declaración contiene
+   sub-patrones de captura dentro de ella, éstos son contados con el
+   propósito de numerar los sub-patrones de captura en el patrón
+   completo. Sin embargo, la captura de subcadenas se realiza sólo
+   para declaraciones positivas, ya que no tiene sentido para
+   declaraciones negativas.
+  </p>
+  <p class="para">
+   Las declaraciones cuentan para el máximo de 200 sub-patrones
+   entre paréntesis.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="regexp.reference.back-references.html">Retroreferencias</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="regexp.reference.onlyonce.html">Sub-patrones de una s&oacute;la aplicaci&oacute;n</a></div>
+ <div class="up"><a href="reference.pcre.pattern.syntax.html">Sintaxis de expresiones regulares de PCRE</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

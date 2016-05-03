@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Espera y realiza un trabajo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="gearmanworker.wait.html">GearmanWorker::wait</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.gearmanexception.html">GearmanException</a></div>
+ <div class="up"><a href="class.gearmanworker.html">GearmanWorker</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="gearmanworker.work" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">GearmanWorker::work</h1>
+  <p class="verinfo">(PECL gearman &gt;= 0.5.0)</p><p class="refpurpose"><span class="refname">GearmanWorker::work</span> &mdash; <span class="dc-title">Espera y realiza un trabajo</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-gearmanworker.work-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>GearmanWorker::work</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Espera a que se asigne un trabajo y llama a la función de retorno apropiada. Envía un
+   <strong><code>E_WARNING</code></strong> con el último error Gearman si el resultado no es 
+   <strong><code>GEARMAN_SUCCESS</code></strong>, <strong><code>GEARMAN_IO_WAIT</code></strong>,
+   o <strong><code>GEARMAN_WORK_FAIL</code></strong>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-gearmanworker.work-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">Esta función no tiene parámetros.</p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-gearmanworker.work-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-gearmanworker.work-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4874">
+    <p><strong>Ejemplo #1 <span class="methodname"><strong>GearmanWorker::work()</strong></span> example</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">#&nbsp;Crea&nbsp;el&nbsp;trabajador<br /></span><span style="color: #0000BB">$worker&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">GearmanWorker</span><span style="color: #007700">();&nbsp;<br /><br /></span><span style="color: #FF8000">#&nbsp;Añade&nbsp;el&nbsp;servidor&nbsp;por&nbsp;defecto&nbsp;(localhost)<br /></span><span style="color: #0000BB">$worker</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addServer</span><span style="color: #007700">();&nbsp;<br /><br /></span><span style="color: #FF8000">#&nbsp;Añade&nbsp;la&nbsp;función&nbsp;"reverse"<br /></span><span style="color: #0000BB">$worker</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addFunction</span><span style="color: #007700">(</span><span style="color: #DD0000">"reverse"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"my_reverse_function"</span><span style="color: #007700">);&nbsp;<br /><br /></span><span style="color: #FF8000">#&nbsp;Inicia&nbsp;el&nbsp;trabajador&nbsp;escuchando&nbsp;trabajos&nbsp;entrantes<br /></span><span style="color: #007700">while&nbsp;(</span><span style="color: #0000BB">$worker</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">work</span><span style="color: #007700">());&nbsp;<br />&nbsp;<br />function&nbsp;</span><span style="color: #0000BB">my_reverse_function</span><span style="color: #007700">(</span><span style="color: #0000BB">$job</span><span style="color: #007700">)&nbsp;<br />{&nbsp;<br />&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">strrev</span><span style="color: #007700">(</span><span style="color: #0000BB">$job</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">workload</span><span style="color: #007700">());&nbsp;<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-gearmanworker.work-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="gearmanworker.addfunction.html" class="methodname" rel="rdfs-seeAlso">GearmanWorker::addFunction()</a> - Registra y a&ntilde;ade una funci&oacute;n de retorno</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="gearmanworker.wait.html">GearmanWorker::wait</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.gearmanexception.html">GearmanException</a></div>
+ <div class="up"><a href="class.gearmanworker.html">GearmanWorker</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

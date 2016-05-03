@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene la l&iacute;nea de el fichero y elimina etiquetas HTML</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="splfileobject.fgets.html">SplFileObject::fgets</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="splfileobject.flock.html">SplFileObject::flock</a></div>
+ <div class="up"><a href="class.splfileobject.html">SplFileObject</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="splfileobject.fgetss" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SplFileObject::fgetss</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7)</p><p class="refpurpose"><span class="refname">SplFileObject::fgetss</span> &mdash; <span class="dc-title">Obtiene la línea de el fichero y elimina etiquetas HTML</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-splfileobject.fgetss-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">string</span> <span class="methodname"><strong>SplFileObject::fgetss</strong></span>
+    ([ <span class="methodparam"><span class="type">string</span> <code class="parameter">$allowable_tags</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Idéntico a <span class="methodname"><a href="splfileobject.fgets.html" class="methodname">SplFileObject::fgets()</a></span>, excepto que
+   <span class="methodname"><strong>SplFileObject::fgetss()</strong></span> intenta eliminar las etiquetas HTML y PHP de 
+   el texto que se lee.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-splfileobject.fgetss-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">allowable_tags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Parámetro opcional para especificar etiquetas que no deben ser eliminados.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-splfileobject.fgetss-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un string conteniendo la siguiente línea de el fichero con el código HTML y PHP 
+   eliminado, o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-splfileobject.fgetss-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4502">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="methodname"><strong>SplFileObject::fgetss()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$str&nbsp;</span><span style="color: #007700">=&nbsp;&lt;&lt;&lt;EOD<br /></span><span style="color: #DD0000">&lt;html&gt;&lt;body&gt;<br />&nbsp;&lt;p&gt;Bienvenid@!&nbsp;Hoy&nbsp;es&nbsp;el&nbsp;&lt;?php&nbsp;echo(date('jS'));&nbsp;?&gt;&nbsp;de&nbsp;&lt;?=&nbsp;date('F');&nbsp;?&gt;.&lt;/p&gt;<br />&lt;/body&gt;&lt;/html&gt;<br />Texto&nbsp;fuera&nbsp;del&nbsp;bloque&nbsp;HTML.<br /></span><span style="color: #007700">EOD;<br /></span><span style="color: #0000BB">file_put_contents</span><span style="color: #007700">(</span><span style="color: #DD0000">"ejemplo.php"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$str</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$fichero&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SplFileObject</span><span style="color: #007700">(</span><span style="color: #DD0000">"ejemplo.php"</span><span style="color: #007700">);<br />while&nbsp;(!</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">eof</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$fichero</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fgetss</span><span style="color: #007700">();<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+
+Bienvenid@! Hoy es el  de .
+
+Texto fuera del bloque HTML.
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-splfileobject.fgetss-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.fgetss.html" class="function" rel="rdfs-seeAlso">fgetss()</a> - Obtiene un l&iacute;nea desde un puntero a un archivo y elimina las etiquetas HTML</span></li>
+    <li class="member"><span class="methodname"><a href="splfileobject.fgets.html" class="methodname" rel="rdfs-seeAlso">SplFileObject::fgets()</a> - Obtener la l&iacute;nea de el fichero</span></li>
+    <li class="member"><span class="methodname"><a href="splfileobject.fgetc.html" class="methodname" rel="rdfs-seeAlso">SplFileObject::fgetc()</a> - Obtiene un caracter del fichero</span></li>
+    <li class="member"><span class="methodname"><a href="splfileobject.current.html" class="methodname" rel="rdfs-seeAlso">SplFileObject::current()</a> - Recupera la l&iacute;nea actual del fichero</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="splfileobject.fgets.html">SplFileObject::fgets</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="splfileobject.flock.html">SplFileObject::flock</a></div>
+ <div class="up"><a href="class.splfileobject.html">SplFileObject</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

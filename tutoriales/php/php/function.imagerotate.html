@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Rotar una imagen con un &aacute;ngulo dado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imagerectangle.html">imagerectangle</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagesavealpha.html">imagesavealpha</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imagerotate" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imagerotate</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">imagerotate</span> &mdash; <span class="dc-title">Rotar una imagen con un ángulo dado</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imagerotate-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>imagerotate</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$image</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$angle</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$bgd_color</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$ignore_transparent</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Rota la imgaen <code class="parameter">image</code> usando el ángulo
+   <code class="parameter">angle</code> dado en grados.
+  </p>
+  <p class="para">
+   El centro de rotación es el centro de la imagen, y la imagen
+   rotada puede tener dimensiones diferentes que la imagen original.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imagerotate-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+image</code></dt>
+<dd>
+<p class="para">Un recurso image, es devuelto por una de las funciones de creación de imágenes,
+como <span class="function"><a href="function.imagecreatetruecolor.html" class="function">imagecreatetruecolor()</a></span>.</p></dd>
+
+    
+     <dt>
+<code class="parameter">angle</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Ángulo de rotación, en grados. El ángulo de rotación es interpretado como el
+       número de grados en el sentido contrario de las agujas de reloj que la imagen va a rotar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">bgd_color</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Especifica el color de la zona no cubierta después de la rotación.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">ignore_transparent</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si está establecido y no es cero, los colores transparentes son ignorados (de otro modo se conservan).
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imagerotate-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un recurso de imgane para la imagen rotada,  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 changelog" id="refsect1-function.imagerotate-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.5.0</td>
+       <td>
+        Esta función ahora se ve afectada por el método de interpolación establecido por
+        la función <span class="function"><a href="function.imagesetinterpolation.html" class="function">imagesetinterpolation()</a></span>.
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.1.0</td>
+       <td>
+        Se añadió <code class="parameter">ignore_transparent</code>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.imagerotate-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3569">
+    <p><strong>Ejemplo #1 Rotar una imagen 180 grados</strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo rota una imagen 180 grados - boca abajo.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Archivo&nbsp;y&nbsp;rotación<br /></span><span style="color: #0000BB">$nombre_archivo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'prueba.jpg'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$grados&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">180</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Tipo&nbsp;de&nbsp;contenido<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-type:&nbsp;image/jpeg'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Cargar<br /></span><span style="color: #0000BB">$origen&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagecreatefromjpeg</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_archivo</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Rotar<br /></span><span style="color: #0000BB">$rotar&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagerotate</span><span style="color: #007700">(</span><span style="color: #0000BB">$origen</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$grados</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Imprimir<br /></span><span style="color: #0000BB">imagejpeg</span><span style="color: #007700">(</span><span style="color: #0000BB">$rotar</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Liberar&nbsp;la&nbsp;memoria<br /></span><span style="color: #0000BB">imagedestroy</span><span style="color: #007700">(</span><span style="color: #0000BB">$origen</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">imagedestroy</span><span style="color: #007700">(</span><span style="color: #0000BB">$rotar</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="mediaobject">
+     
+     <div class="imageobject">
+      <img src="images/21009b70229598c6a80eef8b45bf282b-imagerotate.jpg" alt="Salida del ejemplo : Rotar una imagen 180 grados" width="95" height="51" />
+     </div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.imagerotate-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <p class="para">Está función se ve afectada por el método de interpolación establecido por <span class="function"><a href="function.imagesetinterpolation.html" class="function">imagesetinterpolation()</a></span>.</p></p></blockquote>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.imagerotate-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.imagesetinterpolation.html" class="function" rel="rdfs-seeAlso">imagesetinterpolation()</a> - Establecer el m&eacute;todo de interpolaci&oacute;n</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imagerectangle.html">imagerectangle</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagesavealpha.html">imagesavealpha</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

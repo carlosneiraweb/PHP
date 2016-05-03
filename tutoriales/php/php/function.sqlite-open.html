@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Abrir una base de datos SQLite y crear la base de datos si no existe</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlite-num-rows.html">sqlite_num_rows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-popen.html">sqlite_popen</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.sqlite-open" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">sqlite_open</h1>
+  <p class="verinfo">(PHP 5 &lt; 5.4.0, PECL sqlite &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">sqlite_open</span> &mdash; <span class="dc-title">Abrir una base de datos SQLite y crear la base de datos si no existe</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.sqlite-open-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>sqlite_open</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$filename</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$mode</code><span class="initializer"> = 0666</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter reference">&$error_message</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">Estilo orientado a objetos (constructor):</p>
+  <div class="constructorsynopsis dc-description">
+   <span class="modifier">final</span> <span class="modifier">public</span> <span class="methodname"><strong>SQLiteDatabase::__construct</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$filename</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$mode</code><span class="initializer"> = 0666</span></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter reference">&$error_message</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Abre una base de datos SQLite o crea la base de datos si no existe.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.sqlite-open-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">filename</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de fichero de la base de datos SQLite. Si el fichero no existe, SQLite
+       intentará crearla. PHP debe tener permisos de escritura del fichero
+       si los datos son insertados, el esquema de la base de datos es modificado o se crea la
+       base de datos si ésta no existe.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El modo del fichero. En un futuro se usará para abrir la base de datos en
+       modo sólo lectura. Actualmente, este parámetro es ignorado por la biblioteca
+       sqlite. El valor por defecto es el valor octal
+       <em>0666</em> y es el valor recomendado.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">error_message</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Pasado por referencia y establecido para contener un mensaje de error descriptivo
+       explicando el por qué no se pudo abrir la base de datos si ocurriera un error.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.sqlite-open-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un recurso (gestor de base de datos) en caso de éxito, <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.sqlite-open-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2386">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>sqlite_open()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">$db&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlite_open</span><span style="color: #007700">(</span><span style="color: #DD0000">'mysqlitedb'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0666</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sqliteerror</span><span style="color: #007700">))&nbsp;{&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">sqlite_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$db</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'CREATE&nbsp;TABLE&nbsp;foo&nbsp;(bar&nbsp;varchar(10))'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">sqlite_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$db</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;foo&nbsp;VALUES&nbsp;('fnord')"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlite_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$db</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'select&nbsp;bar&nbsp;from&nbsp;foo'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">sqlite_fetch_array</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">));&nbsp;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #0000BB">$sqliteerror</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.sqlite-open-notes">
+  <h3 class="title">Notas</h3>
+  <div class="tip"><strong class="tip">Sugerencia</strong>
+   <p class="simpara">
+    En plataformas Unix, SQLite es sensible a scripts que usan la llamada al sistema fork(). Si se
+    tienen tales scripts, se recomienda que se cierre el gestor antes
+    de usar la llamada al sistema y luego reabrirlo en el hijo y/o padre.
+    Para más información de esta cuestión, véase
+    <a href="http://sqlite.org/c_interface.html" class="link external">&raquo;&nbsp;The C language interface
+    to the SQLite library</a> en la sección titulada
+    <em>Multi-Threading And SQLite</em>. 
+   </p>
+  </div>
+  <div class="tip"><strong class="tip">Sugerencia</strong>
+   <p class="simpara">
+    No se recomienda trabajar con bases de datos SQLite montadas sobre particiones
+    NFS. Ya que NFS es notoriamente malo cuando viene a cerrar
+    se puede encontrar que no se puede abrir la base de datos, y que si se puede
+    el comportamiento de cierre puede ser indefinido.
+   </p>
+  </div>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Desde la versión 2.8.2 de la biblioteca SQLite, se puede especificar
+    <em>:memory:</em> como el parámetro <code class="parameter">filename</code> para
+    crear una base de datos que reside solamente en la memoria de la computadora.
+    Ésto es útil principalmente para el procesamiento temporal, ya que la base de datos
+    que está en memoria será destruida cuando el proceso finalice. También puede ser
+    útil cuando se asocia con la sentencia <em>ATTACH DATABASE</em> de SQL
+    para cargar otras bases de dtaos y mover y consultar datos entre ellas.
+   </span>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    SQLite es <a href="ini.sect.safe-mode.html#ini.safe-mode" class="link">modo seguro</a> y compatible con open_basedir.
+   </span>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.sqlite-open-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.sqlite-popen.html" class="function" rel="rdfs-seeAlso">sqlite_popen()</a> - Abrir un gestor persistente a una base de datos SQLite y crearla si no existe</span></li>
+    <li class="member"><span class="function"><a href="function.sqlite-close.html" class="function" rel="rdfs-seeAlso">sqlite_close()</a> - Cierra un base de datos SQLite abierta</span></li>
+    <li class="member"><span class="function"><a href="function.sqlite-factory.html" class="function" rel="rdfs-seeAlso">sqlite_factory()</a> - Abrir una base de datos SQLite y devolver un objeto SQLiteDatabase</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlite-num-rows.html">sqlite_num_rows</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-popen.html">sqlite_popen</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

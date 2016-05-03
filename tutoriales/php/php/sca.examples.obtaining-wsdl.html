@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener el WSDL para un componente SCA que ofrece un Servicio como
+   servicio web</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sca.examples.deploy.html">Implementar un componente SCA</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sca.examples.understanding-wsdl.html">Comprender c&oacute;mo se genera el WSDL</a></div>
+ <div class="up"><a href="sca.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sca.examples.obtaining-wsdl" class="section">
+  <h2 class="title">Obtener el WSDL para un componente SCA que ofrece un Servicio como
+   servicio web</h2>
+  
+  <p class="para"> 
+   Los componentes SCA que exponen una interfaz de servicio web (esto es, tienen
+   una anotación @binding.soap) devolverán su definición WSDL en
+   respuesta a una petición HTTP con un parámetro &#039;get&#039; de &quot;wsdl&quot;. La forma
+   usual de obtener esto es con &quot;?wsdl&quot; al final de una URL. El ejemplo de
+   abajo utiliza
+   <span class="function"><a href="function.file-get-contents.html" class="function">file_get_contents()</a></span> para obtener WSDL desde un
+   servicio y escribirlo a un fichero temporal antes de obtener un delegado
+   para el servicio de la manera usual. Por supuesto, se podría también
+   obtener el WSDL en un navegador, o mediante otros medios, y guardar el fichero
+   uno mismo.
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-5881">
+    <p><strong>Ejemplo #1  Generated WSDL </strong></p>
+    <div class="example-contents">
+<div class="xmlcode"><pre class="xmlcode">&lt;?php
+$wsdl = file_get_contents(&#039;http://www.example.com/Services/Example.php?wsdl&#039;);
+file_put_contents(&quot;service.wsdl&quot;,$wsdl); //write the wsdl to a file
+$service = SCA::getService(&#039;service.wsdl&#039;); 
+?&gt;</pre>
+</div>
+    </div>
+
+   </div>
+  </p>
+  
+  <p class="para">
+   NOTA: si el wsdl requiere xsds importado, será necesario que este sea
+   obtenido por separado.
+  </p>
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sca.examples.deploy.html">Implementar un componente SCA</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sca.examples.understanding-wsdl.html">Comprender c&oacute;mo se genera el WSDL</a></div>
+ <div class="up"><a href="sca.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Guarda un documento en esta colecci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongocollection.remove.html">MongoCollection::remove</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongocollection.setreadpreference.html">MongoCollection::setReadPreference</a></div>
+ <div class="up"><a href="class.mongocollection.html">MongoCollection</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongocollection.save" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">MongoCollection::save</h1>
+  <p class="verinfo">(PECL mongo &gt;=0.9.0)</p><p class="refpurpose"><span class="refname">MongoCollection::save</span> &mdash; <span class="dc-title">Guarda un documento en esta colección</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-mongocollection.save-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>MongoCollection::save</strong></span>
+    ( <span class="methodparam"><span class="type"><span class="type array|object">array|object</span></span> <code class="parameter">$document</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$options</code><span class="initializer"> = array()</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Si el objeto fuera de la base de datos, se actualizará. En caso contrario, se
+   insertará.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-mongocollection.save-parameters">
+  <h3 class="title">Parámetros</h3>    
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+
+      <code class="parameter">document</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       Array u objeto a guardar. Si se usa un objeto, este no puede tener propiedades
+       protegidas o privadas.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Si el parámetro no posee una clave o propiedad <em>_id</em>,
+        se creará una nueva instancia de <a href="class.mongoid.html" class="classname">MongoId</a>
+        y se le asignará. Véase <span class="function"><a href="mongocollection.insert.html" class="function">MongoCollection::insert()</a></span> para
+        información adicional sobre este comportamiento.
+       </p>
+      </p></blockquote>
+     </dd>
+
+    
+    
+     <dt>
+
+      <code class="parameter">options</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       Opciones para el guardado.
+       <ul class="itemizedlist">
+        <li class="listitem"><p class="para"><em>&quot;fsync&quot;</em></p><p class="para">Booleano, cuyo valor predeterminado es <strong><code>FALSE</code></strong>. Si el registro en el diario está habilitado, funciona exactamente igual que <em>&quot;j&quot;</em>. Si no está habilidato, la operación de escriturá bloqueará hasta que se sincronice con los ficheros de la base de datos del disco. Si es <strong><code>TRUE</code></strong>, implica una inserción reconocida y sobrescribirá el ajuste <em>&quot;w&quot;</em> a <em>0</em>.</p><blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Si está habilitada, se recomienda a los usuarios usar la opción <em>&quot;j&quot;</em> en lugar de <em>&quot;fsync&quot;</em>. No use <em>&quot;fsync&quot;</em> y <em>&quot;j&quot;</em> simultáneamente, ya que resultará en un error.</span></p></blockquote></li>
+        <li class="listitem"><p class="para"><em>&quot;j&quot;</em></p><p class="para">Booleano, cuyo valor predeterminado es <strong><code>FALSE</code></strong>. Fuerza a la operación de escritura a bloquear hasta que sea sincronizada con el diario del disco. Si es <strong><code>TRUE</code></strong>, implica una escritura reconocida y sobrescribirá el ajuste <em>&quot;w&quot;</em> a <em>0</em>.</p><blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Si se usa esta opción y el registro en el diario está deshabilitado, MongoDB 2.6+ emitirá un error y la escritura fallará; las versiones más antiguas del servidor simplemente ignoran esta opción.</span></p></blockquote></li>
+        <li class="listitem"><p class="para"><em>&quot;socketTimeoutMS&quot;</em></p><p class="para">Esta opción especifica el tiempo límite, en milisegundos, para las comunicaciones con socket. Si el servidor no responde en el periodo especificado, se lanzará una <a href="class.mongocursortimeoutexception.html" class="classname">MongoCursorTimeoutException</a> y no habrá forma de determinar si el servidor manejó realmente la escritura o no. Se podría especificar un valor de <em>-1</em> para bloquear indefinidamente. El valor predeterminado para <a href="class.mongoclient.html" class="classname">MongoClient</a> es <em>30000</em> (30 segundos).</p></li>
+        <li class="listitem"><p class="para"><em>&quot;w&quot;</em></p><p class="para">Véase <a href="mongo.writeconcerns.html" class="link">WriteConcerns</a>. El valor predeterminado de <a href="class.mongoclient.html" class="classname">MongoClient</a> es <em>1</em>.</p></li>
+        <li class="listitem"><p class="para"><em>&quot;wtimeout&quot;</em></p><p class="para">Alias obsoleto de <em>&quot;wTimeoutMS&quot;</em>.</p></li>
+        <li class="listitem"><p class="para"><em>&quot;wTimeoutMS&quot;</em></p><p class="para">Esta opción especifica el tiempo límite, en milisegundos, para el reconocimiento de un <a href="mongo.writeconcerns.html" class="link">asunto de escritura</a>. Solamente es aplicable cuando <em>&quot;w&quot;</em> sea mayor que <em>1</em>, ya que el tiempo de espera está relacionado con la replecación. Si el asunto de escritura no se satisface dentro del tiempo límite, se lanzará una <a href="class.mongocursorexception.html" class="classname">MongoCursorException</a>. Se puede especificar un valor de <em>0</em> para bloquear indefinidamente. El valor predeterminado es <em>10000</em> (diez segundos).</p></li>
+        <li class="listitem"><p class="para"><em>&quot;safe&quot;</em></p><p class="para">Obsoleto. Use la opción <em>w</em> de los <a href="mongo.writeconcerns.html" class="link">asuntos de escritura</a>.</p></li>
+        <li class="listitem"><p class="para"><em>&quot;timeout&quot;</em></p><p class="para">Alias obsoleto de <em>&quot;socketTimeoutMS&quot;</em>.</p></li>
+       </ul>
+      </p>
+     </dd>
+
+       
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-mongocollection.save-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Si <code class="parameter">w</code> estuviera habilitado, devolverá un array que contiene el estado de la
+   escritura. En cualquier otro caso, devuelve un booleano que representa si el array no estaba vacío
+   (un array vacío no se insertará).
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-mongocollection.save-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Lanza una <a href="class.mongoexception.html" class="classname">MongoException</a> si el documento insertado está
+   vacío o si contiene claves de longitud cero. Intentar insertar un objeto
+   con propiedades protegidas o privadas causará un error de clave de longitud cero.
+  </p>
+  <p class="para">Lanza una <a href="class.mongocursorexception.html" class="classname">MongoCursorException</a> si la opción <em>&quot;w&quot;</em> está establecida y la escritura falla.</p><p class="para">Lanza una <a href="class.mongocursortimeoutexception.html" class="classname">MongoCursorTimeoutException</a> si la opción <em>&quot;w&quot;</em> está establecida a un valor mayor que uno y la operación toma más de <var class="varname"><var class="varname">MongoCursor::$timeout</var></var> milisegundos en completarse. Esto no pondrá fin a la operación en el servidor, es un tiempo límite del lado del cliente. La operación en <var class="varname"><var class="varname">MongoCollection::$wtimeout</var></var> es milisegundos.</p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-mongocollection.save-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>1.5.0</td>
+       <td>
+        <p class="para">
+         Se añadió la opción <em>&quot;wTimeoutMS&quot;</em>, la cual reemplaza a
+         <em>&quot;wtimeout&quot;</em>. Emite un error <strong><code>E_DEPRECATED</code></strong>
+         al utilizar <em>&quot;wtimeout&quot;</em>.
+        </p>
+        <p class="para">
+         Se añadió la opción <em>&quot;socketTimeoutMS&quot;</em>, la cual reemplaza a
+         <em>&quot;timeout&quot;</em>. Emite un error <strong><code>E_DEPRECATED</code></strong>
+         al utilizar <em>&quot;wtimeout&quot;</em>.
+        </p>
+        <p class="para">
+         Emite un error <strong><code>E_DEPRECATED</code></strong> al utilizar
+         <em>&quot;safe&quot;</em>.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>1.2.0</td>
+       <td>Añadida la opción <em>&quot;timeout&quot;</em>.</td>
+      </tr>
+
+      <tr>
+       <td>1.0.11</td>
+       <td>
+        Se desconecta en errores &quot;not master&quot; si <em>&quot;safe&quot;</em> está establecido.
+       </td>
+      </tr>
+
+      <tr>
+       <td>1.0.9</td>
+       <td>
+        <p class="para">
+         Añadida la opción <em>&quot;fsync&quot;</em>.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>1.0.5</td>
+       <td>Añadido el parámetro <code class="parameter">options</code>.</td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-mongocollection.save-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1582">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>MongoCollection::save()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$obj&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'x'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;insertar&nbsp;$obj&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos<br /></span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">save</span><span style="color: #007700">(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;añadir&nbsp;otro&nbsp;campo<br /></span><span style="color: #0000BB">$obj</span><span style="color: #007700">[</span><span style="color: #DD0000">'foo'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'bar'</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;$obj&nbsp;no&nbsp;puede&nbsp;insertarse&nbsp;de&nbsp;nuevo;&nbsp;provoca&nbsp;un&nbsp;error&nbsp;de&nbsp;_id&nbsp;duplicado<br /></span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;la&nbsp;función&nbsp;save&nbsp;actualiza&nbsp;$obj&nbsp;con&nbsp;el&nbsp;nuevo&nbsp;campo<br /></span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">save</span><span style="color: #007700">(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [&quot;x&quot;]=&gt;
+  int(1)
+  [&quot;_id&quot;]=&gt;
+  object(MongoId)#4 (1) {
+    [&quot;$id&quot;]=&gt;
+    string(24) &quot;50b6afe544415ed606000000&quot;
+  }
+}
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongocollection.remove.html">MongoCollection::remove</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongocollection.setreadpreference.html">MongoCollection::setReadPreference</a></div>
+ <div class="up"><a href="class.mongocollection.html">MongoCollection</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

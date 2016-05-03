@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Copia un m&eacute;todo de una clase a otra</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.classkit-method-add.html">classkit_method_add</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.classkit-method-redefine.html">classkit_method_redefine</a></div>
+ <div class="up"><a href="ref.classkit.html">Funciones de Classkit</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.classkit-method-copy" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">classkit_method_copy</h1>
+  <p class="verinfo">(PECL classkit &gt;= 0.2)</p><p class="refpurpose"><span class="refname">classkit_method_copy</span> &mdash; <span class="dc-title">Copia un método de una clase a otra</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.classkit-method-copy-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>classkit_method_copy</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$dClass</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$dMethod</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$sClass</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$sMethod</code></span>
+  ] )</div>
+
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función ha sido declarada
+<em class="emphasis">EXPERIMENTAL</em>. Su funcionamiento, nombre y 
+la documentación que le acompaña puede cambiar sin previo aviso en futuras versiones de PHP.
+Utilícela bajo su propia responsabilidad.
+</p></div>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.classkit-method-copy-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">dClass</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Clase destino para copiar el método
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">dMethod</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Nombre del método destino
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">sClass</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Clase origen del método a copiar
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">sMethod</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Nombre del método a copiar desde la clase origen. Si se omite este parámetro,
+       se asume el valor de <code class="parameter">dMethod</code>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.classkit-method-copy-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.classkit-method-copy-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5628">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>classkit_method_copy()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Foo&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">ejemplo</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #DD0000">"foo!\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">Bar&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;inicialmente&nbsp;sin&nbsp;métodos<br /></span><span style="color: #007700">}<br /><br /></span><span style="color: #FF8000">//&nbsp;copiar&nbsp;el&nbsp;método&nbsp;ejemplo()&nbsp;desde&nbsp;la&nbsp;clase&nbsp;Foo&nbsp;a&nbsp;la&nbsp;clase&nbsp;Bar&nbsp;class,&nbsp;como&nbsp;baz()<br /></span><span style="color: #0000BB">classkit_method_copy</span><span style="color: #007700">(</span><span style="color: #DD0000">'Bar'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'baz'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Foo'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'ejemplo'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;imprimir&nbsp;la&nbsp;función&nbsp;copiada<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">Bar</span><span style="color: #007700">::</span><span style="color: #0000BB">baz</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+foo!
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.classkit-method-copy-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.classkit-method-add.html" class="function" rel="rdfs-seeAlso">classkit_method_add()</a> - A&ntilde;ade din&aacute;micamente un nuevo m&eacute;todo una clase dada</span></li>
+    <li class="member"><span class="function"><a href="function.classkit-method-redefine.html" class="function" rel="rdfs-seeAlso">classkit_method_redefine()</a> - Cambia din&aacute;micamente el c&oacute;digo del m&eacute;todo dado</span></li>
+    <li class="member"><span class="function"><a href="function.classkit-method-remove.html" class="function" rel="rdfs-seeAlso">classkit_method_remove()</a> - Elimina din&aacute;micamente el m&eacute;todo dado</span></li>
+    <li class="member"><span class="function"><a href="function.classkit-method-rename.html" class="function" rel="rdfs-seeAlso">classkit_method_rename()</a> - Cambia din&aacute;micamente el nombre del m&eacute;todo dado</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.classkit-method-add.html">classkit_method_add</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.classkit-method-redefine.html">classkit_method_redefine</a></div>
+ <div class="up"><a href="ref.classkit.html">Funciones de Classkit</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

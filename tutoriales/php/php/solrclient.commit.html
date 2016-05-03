@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Finaliza todas las a&ntilde;adiduras/eliminaciones hechas al &iacute;ndice</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="solrclient.adddocuments.html">SolrClient::addDocuments</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="solrclient.construct.html">SolrClient::__construct</a></div>
+ <div class="up"><a href="class.solrclient.html">SolrClient</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="solrclient.commit" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SolrClient::commit</h1>
+  <p class="verinfo">(PECL solr &gt;= 0.9.2)</p><p class="refpurpose"><span class="refname">SolrClient::commit</span> &mdash; <span class="dc-title">Finaliza todas las añadiduras/eliminaciones hechas al índice</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-solrclient.commit-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><a href="class.solrupdateresponse.html" class="type SolrUpdateResponse">SolrUpdateResponse</a></span> <span class="methodname"><strong>SolrClient::commit</strong></span>
+    ([ <span class="methodparam"><span class="type">bool</span> <code class="parameter">$softCommit</code><span class="initializer"> = false</span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$waitSearcher</code><span class="initializer"> = true</span></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$expungeDeletes</code><span class="initializer"> = false</span></span>
+  ]]] )</div>
+
+  <p class="para rdfs-comment">
+   Este método finaliza todas las añadiduras/eliminaciones hechas al índice.
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-solrclient.commit-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">softCommit</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Refresca la &#039;vista&#039; del índice para un mayor rendimiento, pero si sin garantizar &quot;on-disk&quot;. (Solr4.0+)
+      </p>
+      <p class="para">
+       Una consignación suave es mucho más rápida ya que solamente hace visibles los cabios de índices y usa fsync con los ficheros de índices o escribe un nuevo descriptor de índice.
+       Si la JVM falla o hay una bajada de tensión, los cambios acaecidos después de la úlitma consignación dura se perderán. 
+       Las búsquedas que tengan requisitos cercanos al tiempo real (que requieren que los cambios de índices estén rápidamente visibles para búsquedas) necesitarán más a menudo consignas suaves, y menos frecuentemente duras. 
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">waitSearcher</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Bloqueo hasta que un nuevo buscador sea abierto y registrado como el buscador de consultas principal, haciendo los cambios visibles. 
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">expungeDeletes</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Mezcla segmentos con eliminaciones para desechar. (Solr1.4+)
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-solrclient.commit-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un objeto <span class="type"><a href="class.solrupdateresponse.html" class="type SolrUpdateResponse">SolrUpdateResponse</a></span> en caso de éxito o lanza una excepción en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-solrclient.commit-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Lanza una <a href="class.solrclientexception.html" class="classname">SolrClientException</a> si el cliente falló o hubo un problema de conexión.
+  </p>
+  <p class="para">
+   Lanza una <a href="class.solrserverexception.html" class="classname">SolrServerException</a> si el Servidor de Solr falló al procesar la petición.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-solrclient.commit-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>1.1.0, 2.0.0</td>
+       <td>
+        Se eliminó el parámetro $maxSegments.
+       </td>
+      </tr>
+
+      <tr>
+       <td>2.0.0b</td>
+       <td>
+        Cambio en la API: SolrClient::commit ([ int $maxSegments = 0 [, bool $softCommit = false [, bool $waitSearcher = true[, bool $expungeDeletes = false ]]] )
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td>0.9.2</td>
+       <td>
+        Firma: SolrClient::commit ([ int $maxSegments = 1 [, bool $waitFlush = true [, bool $waitSearcher = true ]]] ). 
+        $waitFlush: Bloquea hasta que los cambios de índices sean volcados a disco.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-solrclient.commit-notes">
+  <h3 class="title">Notas</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    Solr &gt;= 2.0 de PECL solamente soporta Solr Server &gt;= 4.0 
+   </p>
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-solrclient.commit-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="solrclient.optimize.html" class="methodname" rel="rdfs-seeAlso">SolrClient::optimize()</a> - Defragmenta el &iacute;ndice</span></li>
+    <li class="member"><span class="methodname"><a href="solrclient.rollback.html" class="methodname" rel="rdfs-seeAlso">SolrClient::rollback()</a> - Revierte todos los a&ntilde;adidos/eliminados hechos en el &iacute;ndice desde el &uacute;ltimo env&iacute;o</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="solrclient.adddocuments.html">SolrClient::addDocuments</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="solrclient.construct.html">SolrClient::__construct</a></div>
+ <div class="up"><a href="class.solrclient.html">SolrClient</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

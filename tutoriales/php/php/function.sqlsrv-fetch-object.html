@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve la siguiente fila de datos de un conjunto resultado como un objeto</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlsrv-fetch-array.html">sqlsrv_fetch_array</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlsrv-fetch.html">sqlsrv_fetch</a></div>
+ <div class="up"><a href="ref.sqlsrv.html">SQLSRV Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.sqlsrv-fetch-object" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">sqlsrv_fetch_object</h1>
+  <p class="verinfo">(No hay información de versión disponible, podría estar únicamente en SVN)</p><p class="refpurpose"><span class="refname">sqlsrv_fetch_object</span> &mdash; <span class="dc-title">Devuelve la siguiente fila de datos de un conjunto resultado como un objeto</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.sqlsrv-fetch-object-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>sqlsrv_fetch_object</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$stmt</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$className</code></span>
+   [, <span class="methodparam"><span class="type">array</span> <code class="parameter">$ctorParams</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$row</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$offset</code></span>
+  ]]]] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve la siguiente fila de datos de un conjunto resultado como una instancia de la clase
+   especificada, donde las propiedades correspondientes a los nombres de los campos de la fila recuperada y los valores, se corresponden con
+   los valores de la fila recuperada.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.sqlsrv-fetch-object-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">stmt</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un recurso de consulta creado por <span class="function"><a href="function.sqlsrv-query.html" class="function">sqlsrv_query()</a></span> o 
+       <span class="function"><a href="function.sqlsrv-execute.html" class="function">sqlsrv_execute()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">className</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de la clase a instanciar. Si no se especifica el nombre de la clase, 
+       se instanciará la clase stdClass.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">ctorParams</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los valores pasados al constructor de la clase especificada. Si el constructor 
+       de la clase especificada tiene parámetros, se proporcionará el array 
+       ctorParams.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">row</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La fila a la que se accederá. Este parámetro únicamente puede utilizarse si la consulta 
+       especificada se preparó con un cursor con scroll. En ese caso, este parámetro 
+       puede tomar uno de los siguientes valores:
+       <ul class="simplelist">
+        <li class="member">SQLSRV_SCROLL_NEXT</li>
+        <li class="member">SQLSRV_SCROLL_PRIOR</li>
+        <li class="member">SQLSRV_SCROLL_FIRST</li>
+        <li class="member">SQLSRV_SCROLL_LAST</li>
+        <li class="member">SQLSRV_SCROLL_ABSOLUTE</li>
+        <li class="member">SQLSRV_SCROLL_RELATIVE</li>
+       </ul>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">offset</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Especifica la fila a la que se accederá si el parámetro de fila se ha especificado como 
+       <strong><code>SQLSRV_SCROLL_ABSOLUTE</code></strong> o
+       <strong><code>SQLSRV_SCROLL_RELATIVE</code></strong>. Notar que la primera fila en un 
+       conjunto de resultado tiene el índice 0.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.sqlsrv-fetch-object-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para"> 
+   Devuelve un objeto en caso de éxito, <strong><code>NULL</code></strong> si no hay más filas a devolver,
+   y <strong><code>FALSE</code></strong> si se produce un error o si la clase especificada no existe.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.sqlsrv-fetch-object-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2413">
+    <p><strong>Ejemplo #1 Ejemplo con <span class="function"><strong>sqlsrv_fetch_object()</strong></span></strong></p>
+    <div class="example-contents"><p>
+    El siguiente ejemplo demuestra cómo devolver una columna como un objeto stdClass.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$serverName&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"serverName\sqlexpress"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$connectionInfo&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">"Database"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"dbName"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"UID"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"username"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"PWD"</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlsrv_connect</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$serverName</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$connectionInfo</span><span style="color: #007700">);<br />if(&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">sqlsrv_errors</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #0000BB">$sql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;fName,&nbsp;lName&nbsp;FROM&nbsp;Table_1"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlsrv_query</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sql</span><span style="color: #007700">);<br />if(&nbsp;</span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die(&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">sqlsrv_errors</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Devolver&nbsp;cada&nbsp;fila&nbsp;como&nbsp;un&nbsp;objeto.<br />//&nbsp;Puesto&nbsp;que&nbsp;no&nbsp;se&nbsp;especifica&nbsp;ninguna&nbsp;clase,&nbsp;cada&nbsp;fila&nbsp;devolverá&nbsp;un&nbsp;objeto&nbsp;stdClass.<br />//&nbsp;Los&nbsp;nombres&nbsp;de&nbsp;propiedades&nbsp;corresponden&nbsp;a&nbsp;nombres&nbsp;de&nbsp;campo.<br /></span><span style="color: #007700">while(&nbsp;</span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlsrv_fetch_object</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fName</span><span style="color: #007700">.</span><span style="color: #DD0000">",&nbsp;"</span><span style="color: #007700">.</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">lName</span><span style="color: #007700">.</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.sqlsrv-fetch-object-notes">
+  <h3 class="title">Notas</h3>
+  <p class="para">
+   Si se especifica un nombre de clase con el parámetro opcional $className y la  
+   clase tiene propiedades cuyos nombres coinciden con los nombres de campos del conjunto de resultado, los valores correspondientes
+   del conjunto de resultado se aplicarán a las propiedades. Si un nombre de campo del conjunto resultado
+   no coincide con ninguna propiedad de clase, una propiedad con el nombre de campo se añadirá al
+   objeto del conjunto resultado y el valor del resultado se aplicará a la propiedad. Se aplican las
+   reglas siguientes cuando se utiliza el parámetro $className:
+   <ul class="simplelist">
+      <li class="member">El nombre de propiedad de campo coincidente es sensible al uso de mayúsculas y minúsculas (es case sensitive).</li>
+      <li class="member">La coincidencia con la propiedad de campo se da aunque se utilicen modificadores de acceso.</li>
+      <li class="member">Los tipos de datos de la propiedad de clase se ignoran cuando se aplica un valor de campo a la propiedad.</li>
+      <li class="member">Si la clase no existe, la función devuelve <strong><code>FALSE</code></strong> y añade un error a la colección de errores.</li>
+   </ul>
+   A pesar de que se defina el parámetro $className, si se devuelve un campo sin 
+   nombre, el valor de campo será ignorado y se añadirá una alerta
+   a la colección de errores.
+  </p>
+  <p class="para">
+   Cuando se trate un conjunto de resultado que tenga varias columnas con el mismo nombre, podría
+   ser mejor utilizar <span class="function"><a href="function.sqlsrv-fetch-array.html" class="function">sqlsrv_fetch_array()</a></span> o la combinación de 
+   <span class="function"><a href="function.sqlsrv-fetch.html" class="function">sqlsrv_fetch()</a></span> y <span class="function"><a href="function.sqlsrv-get-field.html" class="function">sqlsrv_get_field()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.sqlsrv-fetch-object-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.sqlsrv-fetch.html" class="function" rel="rdfs-seeAlso">sqlsrv_fetch()</a> - Hace que est&eacute; disponible para ser le&iacute;da la siguiente fila del conjunto de resultado</span></li>
+    <li class="member"><span class="function"><a href="function.sqlsrv-fetch-array.html" class="function" rel="rdfs-seeAlso">sqlsrv_fetch_array()</a> - Devuelve una fila como un array</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlsrv-fetch-array.html">sqlsrv_fetch_array</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlsrv-fetch.html">sqlsrv_fetch</a></div>
+ <div class="up"><a href="ref.sqlsrv.html">SQLSRV Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

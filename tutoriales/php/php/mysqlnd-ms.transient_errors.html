@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Errores transitorios</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.errorhandling.html">Manejo de errores</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.failover.html">Tolerancia a fallos</a></div>
+ <div class="up"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.transient_errors" class="section">
+  <h2 class="title">Errores transitorios</h2>
+  <p class="para">
+   Algunos clústeres de bases de datos distribuidas hacen usan errores transitorios. Un error
+   transitorio es un error temporal que es probable que dessaparezca pronto. Por definición,
+   es seguro para un cliente el ignorar un error transitorio y reintentar la operación
+   fallida en el mismo servidor de bases de datos. El reintento está libre de efectos segundarios.
+   Los clientes no están forzados a abortar su trabajo o recurrir a otro servidor de bases de datos
+   de forma inmediata. Podrían entrar en un bucle de reintentos antes de esperar a que el error
+   desaparezca antes de dejar el servidor de bases de datos.
+   Los errores transitorios pueden ser vistos, por ejemplo, al usar MySQL Cluster. Aunque
+   no están limitados a ninguan solución de clústeres específica per se.
+  </p>
+  <p class="para">
+   <em>PECL/mysqlnd_ms</em> puede realizar un bucle de reintentos automático en
+   caso de darse un error transitorio. Esto aumento la transparencia de la distribución y, por lo tanto,
+   hace más sencillo migrar una aplicación ejecutando en un único servidor de bases
+   de datos para ejecutar un clúster de servidores de bases de datos sin tener que cambiar
+   el origen de la aplicación.
+  </p>
+  <p class="para">
+   El bucle de reintentos automáticos repetirá la operación solicitada hasta un número
+   de veces configurable por el usuario y hará una pausa entre intentos por una cantidad de
+   tiempo configurable. Si el error desaparece durante el bucle, la aplicación nunca
+   lo verá. Si no, el error es reenviado a al aplicación para su manejo.
+  </p>
+  <p class="para">
+   En el ejemplo de abajo se provoca un error de clave duplicada para hacer que el complemento
+   reintente la consulta fallida dos vedes antes de que el error sea pasado a la aplicación.
+   Entre los dos intentos, el complemento duerme durante 100 milisegundos.
+  </p>
+  <p class="para">
+   <div class="example" id="example-2023">
+    <p><strong>Ejemplo #1 Provocar un error transitorio</strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">mysqlnd_ms.enable=1
+mysqlnd_ms.collect_statistics=1</pre>
+</div>
+    </div>
+
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">{
+    &quot;myapp&quot;: {
+        &quot;master&quot;: {
+            &quot;master_0&quot;: {
+                &quot;host&quot;: &quot;localhost&quot;
+            }
+        },
+        &quot;slave&quot;: {
+            &quot;slave_0&quot;: {
+                &quot;host&quot;: &quot;192.168.78.136&quot;,
+                &quot;port&quot;: &quot;3306&quot;
+            }
+       },
+       &quot;transient_error&quot;: {
+          &quot;mysql_error_codes&quot;: [
+            1062
+          ],
+          &quot;max_retries&quot;: 2,
+          &quot;usleep_retry&quot;: 100
+       }
+    }
+}</pre>
+</div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2024">
+    <p><strong>Ejemplo #2 Bucle de reintentos del error transitorio</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"username"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"database"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">())<br />&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT&nbsp;PRIMARY&nbsp;KEY)"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id)&nbsp;VALUES&nbsp;(1))"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;El&nbsp;bucle&nbsp;de&nbsp;reintentos&nbsp;es&nbsp;completamente&nbsp;transaparente.&nbsp;Verificar&nbsp;las&nbsp;estadísticas&nbsp;es<br />&nbsp;la&nbsp;única&nbsp;manera&nbsp;de&nbsp;conocer&nbsp;algo&nbsp;sobre&nbsp;los&nbsp;reintentos&nbsp;implícitos&nbsp;*/<br /></span><span style="color: #0000BB">$stats&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqlnd_ms_get_stats</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Intentos&nbsp;del&nbsp;error&nbsp;transitorio&nbsp;antes&nbsp;del&nbsp;error:&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$stats</span><span style="color: #007700">[</span><span style="color: #DD0000">'transient_error_retries'</span><span style="color: #007700">]);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Provocar&nbsp;un&nbsp;error&nbsp;de&nbsp;clave&nbsp;duplicada&nbsp;para&nbsp;ver&nbsp;el&nbsp;cambio&nbsp;en&nbsp;las&nbsp;estadísticas&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id)&nbsp;VALUES&nbsp;(1))"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #0000BB">$stats&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysqlnd_ms_get_stats</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Intentos&nbsp;del&nbsp;error&nbsp;transitorio&nbsp;después&nbsp;del&nbsp;error:&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$stats</span><span style="color: #007700">[</span><span style="color: #DD0000">'transient_error_retries'</span><span style="color: #007700">]);<br /><br /></span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Intentos del error transitorio antes del error: 0
+[1062] Duplicate entry &#039;1&#039; for key &#039;PRIMARY&#039;
+Intentos del error transitorio después del error: 2
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Ya que la ejecución del bucle de reintentos es transparente desde el punt de vista
+   de los usuarios, el ejemplo comprueba las
+   <a href="function.mysqlnd-ms-get-stats.html" class="link">estadísticas</a>
+   proporcionadas por el complemento para aprender de ellas.
+  </p>
+  <p class="para">
+   Como muetra el ejemplo, el complemento puede ser instruido para considerar cualquier error
+   transitorio a pesar de la semámtica de los errores de los servidores de bases de datos. El único error
+   que cosidera temporal un stock de servidor MySQL tiene el código de error
+   <strong><code>1297</code></strong>. Al configurar otror códigos de errores excepto el
+   <strong><code>1297</code></strong>, asegúrese de que la configuración refleja
+   la semántica de los códigos de error del clúster.
+  </p>
+  <p class="para">
+   Las siguientes llamadas a las API en C de mysqlnd están monitorizadas por el complemento para
+   comprobar errores transitorios: <em>query()</em>,
+   <em>change_user()</em>, <em>select_db()</em>,
+   <em>set_charset()</em>, <em>set_server_option()</em>
+   <em>prepare()</em>, <em>execute()</em>,
+   <em>set_autocommit()</em>,
+   <em>tx_begin()</em>, <em>tx_commit()</em>,
+   <em>tx_rollback()</em>, <em>tx_commit_or_rollback()</em>.
+   Las llamadas a la API de usuario correspondientes tienen nombres similares.
+  </p>
+  <p class="para">
+   El tiemp máximo que el complemento puede dormir durante el bucle de reintentos depende de la
+   función en cuestión. Un bucle de reintentos para <em>query()</em>,
+   <em>prepare()</em> o <em>execute()</em> dormirá
+   hasta <em>max_retries * usleep_retry</em> milisegundos.
+  </p>
+  <p class="para">
+   Sin embargo, las funciones que
+   <a href="mysqlnd-ms.pooling.html" class="link">controlan el estado de conexión</a>
+   son despachadas para todas las conexiones. Los ajustes del bucle de reintentos están aplicados
+   a cada conexión sobre la cual el comando se está ejecutando. Así, tales funciones
+   podrían interrumpir la ejecución del programa durante más tiempo que una función que se ejecute
+   sobre únicamente un servidor. Por ejemplo, <em>set_autocommit()</em> es
+   despachada para conexiones y podría dormir hasta
+   <em>(max_retries * usleep_retry) * number_of_open_connections)</em>
+   milisegundos. Por favor, mantenga esto en mento al configurar tiempos de dormir largos
+   y números de reintentos grandes. Con los ajustes preestablecidos de
+   <em>max_retries=1</em>, <em>usleep_retry=100</em> y
+   <em>lazy_connections=1</em> es improbable que vea
+   un retarno de más de un segundo.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.errorhandling.html">Manejo de errores</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.failover.html">Tolerancia a fallos</a></div>
+ <div class="up"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

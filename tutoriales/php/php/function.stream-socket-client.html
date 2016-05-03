@@ -1,0 +1,268 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Abrir una conexi&oacute;n de socket de dominio de Internet o Unix</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.stream-socket-accept.html">stream_socket_accept</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.stream-socket-enable-crypto.html">stream_socket_enable_crypto</a></div>
+ <div class="up"><a href="ref.stream.html">Funciones de Flujos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.stream-socket-client" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">stream_socket_client</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">stream_socket_client</span> &mdash; <span class="dc-title">Abrir una conexión de socket de dominio de Internet o Unix</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.stream-socket-client-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>stream_socket_client</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$remote_socket</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter reference">&$errno</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter reference">&$errstr</code></span>
+   [, <span class="methodparam"><span class="type">float</span> <code class="parameter">$timeout</code><span class="initializer"> = ini_get(&quot;default_socket_timeout&quot;)</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$flags</code><span class="initializer"> = STREAM_CLIENT_CONNECT</span></span>
+   [, <span class="methodparam"><span class="type">resource</span> <code class="parameter">$context</code></span>
+  ]]]]] )</div>
+
+  <p class="para rdfs-comment">
+   Inicia una conexión de flujo o datagrama al destino especificado
+   por <code class="parameter">remote_socket</code>. El tipo de socket creado
+   se determina por el transporte especificado usando el formato de URL estándar:
+   <em>transporte://objetivo</em>. Para sockets de Dominio de Internet
+   (AF_INET) como TCP y UDP, la porción del <em>objetivo</em>
+   del parámetro <code class="parameter">remote_socket</code> debería consistir en
+   un nombre de host o dirección IP seguida de dos puntos y un número de puerto. Para sockets
+   de dominio de Unix, la porción de <code class="parameter">target</code> apuntará
+   al archivo de socket del sistema de archivos.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El flujo será abierto por defecto en modo de bloqueo. Se puede
+    cambiar al modo de no bloqueo usando
+    <span class="function"><a href="function.stream-set-blocking.html" class="function">stream_set_blocking()</a></span>.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.stream-socket-client-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">remote_socket</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Dirección del socket al que se va a conectar.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">errno</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Será establecido al número de error a nivel de sistema si la conexión falla.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">errstr</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Será establecido al mensaje de error a nivel de sistema si la conexión falla.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">timeout</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Número de segundos hasta que la llamda al sistema de <em>connect()</em>
+       debería esperar.
+       <blockquote class="note"><p><strong class="note">Nota</strong>: 
+        <span class="simpara">
+         Este parámetro sólo se aplica cuando no se hace un intento de
+         conexión asíncrona.
+        </span>
+       </p></blockquote>
+       <blockquote class="note"><p><strong class="note">Nota</strong>: 
+        <p class="para">
+         Para establecer un tiempo de espera para lectura/escritura de información sobre el socket,
+         use la función <span class="function"><a href="function.stream-set-timeout.html" class="function">stream_set_timeout()</a></span>, ya que
+         <code class="parameter">timeout</code> sólo se aplica mientras se hace una conexión
+         al socket.
+        </p>
+       </p></blockquote>
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">flags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Campo de máscara de bits que puede ser establecido a cualquier combinación de banderas de conexión.
+       Actualmente la selección de banderas de conexión está limitada a
+       <strong><code>STREAM_CLIENT_CONNECT</code></strong> (por defecto),
+       <strong><code>STREAM_CLIENT_ASYNC_CONNECT</code></strong> y
+       <strong><code>STREAM_CLIENT_PERSISTENT</code></strong>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">context</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un recurso de contexto válido creado con <span class="function"><a href="function.stream-context-create.html" class="function">stream_context_create()</a></span>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.stream-socket-client-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Si se tuvo éxito, un recurso de flujo es devuelto, el cuál se puede
+   usar junto con las demás funciones de archivo (tales como
+   <span class="function"><a href="function.fgets.html" class="function">fgets()</a></span>, <span class="function"><a href="function.fgetss.html" class="function">fgetss()</a></span>,
+   <span class="function"><a href="function.fwrite.html" class="function">fwrite()</a></span>, <span class="function"><a href="function.fclose.html" class="function">fclose()</a></span>, y
+   <span class="function"><a href="function.feof.html" class="function">feof()</a></span>), <strong><code>FALSE</code></strong> si falló.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.stream-socket-client-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Si falló, los argumentos <code class="parameter">errno</code> y
+   <code class="parameter">errstr</code> serán rellenados con el error
+   a nivel de sistema actual que ocurrió en la llamda a nivel de
+   sistema de <em>connect()</em>. Si el valor devuelto en
+   <code class="parameter">errno</code> es <em>0</em> y la
+   función devolvió <strong><code>FALSE</code></strong>, es una indicación de que el error
+   ocurrió antes de la llamada a <em>connect()</em>. Esto es
+   lo más probable debido a un problema de inicialización del socket. Observe que
+   los argumentos <code class="parameter">errno</code> y
+   <code class="parameter">errstr</code> siempre serán pasados por
+   referencia.
+  </p>
+ </div>
+
+ 
+ 
+ <div class="refsect1 examples" id="refsect1-function.stream-socket-client-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="stream-socket-client.example.basic">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>stream_socket_client()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">stream_socket_client</span><span style="color: #007700">(</span><span style="color: #DD0000">"tcp://www.example.com:80"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$errstr</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$fp</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$errstr</span><span style="color: #DD0000">&nbsp;(</span><span style="color: #0000BB">$errno</span><span style="color: #DD0000">)&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">fwrite</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"GET&nbsp;/&nbsp;HTTP/1.0\r\nHost:&nbsp;www.example.com\r\nAccept:&nbsp;*/*\r\n\r\n"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(!</span><span style="color: #0000BB">feof</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">fgets</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1024</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">fclose</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <div class="example" id="stream-socket-client.example.daytime">
+    <p><strong>Ejemplo #2 Usar una conexión UDP</strong></p>
+    <div class="example-contents"><p>
+     Recuperar el día y la hora desde el servicio &quot;daytime&quot; de UDP (puerto 13)
+     en localhost.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">stream_socket_client</span><span style="color: #007700">(</span><span style="color: #DD0000">"udp://127.0.0.1:13"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$errstr</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$fp</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"ERROR:&nbsp;</span><span style="color: #0000BB">$errno</span><span style="color: #DD0000">&nbsp;-&nbsp;</span><span style="color: #0000BB">$errstr</span><span style="color: #DD0000">&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">fwrite</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">fread</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">26</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">fclose</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.stream-socket-client-notes">
+  <h3 class="title">Notas</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="simpara">
+     Los sockects UDP a veces parecerán estar abiertos sin un error,
+     incluso si el host remoto es inalcanzable. El error sólo
+     aparecerá cuando se lea o escriba información desde/en el socket.
+     La razón de esto es que UDP es un protocolo no orientado a conexión,
+     lo que significa que el sistema operativo no intenta establecer
+     un enlace para el socket hasta que se necesite enviar o recibir informaicón.
+   </p>
+  </div>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Cuando se especifique una dirección numérica IPv6
+(por ej., <em>fe80::1</em>), la IP debe ser encerrada entre corchetes
+— por ejemplo, <em>tcp://[fe80::1]:80</em>.</span></p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Dependiendo del entorno, pueden no estar disponibles el dominio Unix
+    o el tiempo de espera opcional de la conexión. Una lista de transportes
+    disponibles se puede recuperar unsando <span class="function"><a href="function.stream-get-transports.html" class="function">stream_get_transports()</a></span>.
+    Véase <a href="transports.html" class="xref">Lista de Transportes de Sockets Soportados</a> para una lista de transportes incluidos.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.stream-socket-client-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.stream-socket-server.html" class="function" rel="rdfs-seeAlso">stream_socket_server()</a> - Crear un socket de servidor de dominio de Internet o de Unix</span></li>
+    <li class="member"><span class="function"><a href="function.stream-set-blocking.html" class="function" rel="rdfs-seeAlso">stream_set_blocking()</a> - Establecer el modo bloqueo/no-bloqueo en un flujo</span></li>
+    <li class="member"><span class="function"><a href="function.stream-set-timeout.html" class="function" rel="rdfs-seeAlso">stream_set_timeout()</a> - Establecer un perido de tiempo de espera en un flujo</span></li>
+    <li class="member"><span class="function"><a href="function.stream-select.html" class="function" rel="rdfs-seeAlso">stream_select()</a> - Ejecuta el equivalente de la llamada al sistema select() sobre las matrices
+   de flujos dadas con un tiempo de espera especificado por tv_sec y tv_usec</span></li>
+    <li class="member"><span class="function"><a href="function.fgets.html" class="function" rel="rdfs-seeAlso">fgets()</a> - Obtiene una l&iacute;nea desde el puntero a un fichero</span></li>
+    <li class="member"><span class="function"><a href="function.fgetss.html" class="function" rel="rdfs-seeAlso">fgetss()</a> - Obtiene un l&iacute;nea desde un puntero a un archivo y elimina las etiquetas HTML</span></li>
+    <li class="member"><span class="function"><a href="function.fwrite.html" class="function" rel="rdfs-seeAlso">fwrite()</a> - Escritura de un archivo en modo binario seguro</span></li>
+    <li class="member"><span class="function"><a href="function.fclose.html" class="function" rel="rdfs-seeAlso">fclose()</a> - Cierra un puntero a un archivo abierto</span></li>
+    <li class="member"><span class="function"><a href="function.feof.html" class="function" rel="rdfs-seeAlso">feof()</a> - Comprueba si el puntero a un archivo est&aacute; al final del archivo</span></li>
+    <li class="member"><a href="ref.curl.html" class="xref">Funciones de cURL</a></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.stream-socket-accept.html">stream_socket_accept</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.stream-socket-enable-crypto.html">stream_socket_enable_crypto</a></div>
+ <div class="up"><a href="ref.stream.html">Funciones de Flujos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

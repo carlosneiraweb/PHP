@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Configura los criterios de b&uacute;squeda</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.yaz-set-option.html">yaz_set_option</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.yaz-syntax.html">yaz_syntax</a></div>
+ <div class="up"><a href="ref.yaz.html">Funciones de YAZ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.yaz-sort" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">yaz_sort</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.7, PECL yaz &gt;= 0.9.0)</p><p class="refpurpose"><span class="refname">yaz_sort</span> &mdash; <span class="dc-title">Configura los criterios de búsqueda</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.yaz-sort-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>yaz_sort</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$id</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$criteria</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Esta función configura los criterios de búsqueda y activa la ordenación Z39.50 .
+  </p>
+  <p class="para">
+   LLamar a esta función <em class="emphasis">antes</em> de <span class="function"><a href="function.yaz-search.html" class="function">yaz_search()</a></span>.
+   Utilizar esta función por si sola no tiene ningún efecto. Cuando se usa en conjunción
+   con <span class="function"><a href="function.yaz-search.html" class="function">yaz_search()</a></span>, una ordenación Z39.50 se enviará después de que la 
+   respuesta de la búsqueda ha sido recibida y antes de que cualquier registro sea recuperado con
+   Z39.50 Present (<span class="function"><a href="function.yaz-present.html" class="function">yaz_present()</a></span>. 
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.yaz-sort-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">id</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El recurso de conexión devuelto por <span class="function"><a href="function.yaz-connect.html" class="function">yaz_connect()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">criteria</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un string que toma la forma <span class="replaceable">field1 flags1 field2 
+       flags2</span> donde field1 especifica los atributos primarios para
+       ordenar, field2 los secundarios, etc.. 
+      </p>
+      <p class="para">
+       El campo especifica ya sea combinaciones de atributos numéricos consistentes
+       de pares type=value separados por una coma (p.e. <em>1=4,2=1</em>)
+       ; o el campo debe especificar un string con el criterio (p.e. 
+       <em>título</em>). Los flags son secuencias de los caracteres 
+       siguientes que no pueden estar separados por ningún espacio.
+      </p>
+      <p class="para">
+       <dl>
+
+        <strong class="title">Sort Flags</strong>
+        
+         <dt>
+<em>a</em></dt>
+
+         <dd>
+
+          <p class="para">
+           Ordenar de forma ascendente
+          </p>
+         </dd>
+
+        
+        
+         <dt>
+<em>d</em></dt>
+
+         <dd>
+
+          <p class="para">
+           Ordenar de forma descendente
+          </p>
+         </dd>
+
+        
+        
+         <dt>
+<em>i</em></dt>
+
+         <dd>
+
+          <p class="para">
+           No diferenciar entre mayúsculas o minúsculas en la ordenación
+          </p>
+         </dd>
+
+        
+        
+         <dt>
+<em>s</em></dt>
+
+         <dd>
+
+          <p class="para">
+           Diferenciar entre mayúsculas o minúsculas en la ordenación
+          </p>
+         </dd>
+
+        
+       </dl>
+
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.yaz-sort-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.yaz-sort-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-5197">
+   <p><strong>Ejemplo #1 Criterios de Ordenación</strong></p>
+   <div class="example-contents"><p>
+    Para ordenar con el título de atributo Bib1e, sin diferenciar mayúsculas o minúsculas, y de forma ascendente, 
+    utilizar el siguiente criterio de ordenación:
+    <div class="example-contents screen">
+<div class="examplescode"><pre class="examplescode">1=4 ia</pre>
+</div>
+    </div>
+   </p></div>
+   <div class="example-contents"><p>
+    Si el criterio de ordenación secundario fuera el autor, diferenciando mayúsculas y minúsculas y
+    de forma ascendente, se usaría:
+    <div class="example-contents screen">
+<div class="examplescode"><pre class="examplescode">1=4 ia 1=1003 sa</pre>
+</div>
+    </div>
+   </p></div>
+  </div>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.yaz-set-option.html">yaz_set_option</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.yaz-syntax.html">yaz_syntax</a></div>
+ <div class="up"><a href="ref.yaz.html">Funciones de YAZ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

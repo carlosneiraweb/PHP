@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Elimina valores duplicados de un array</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.array-uintersect.html">array_uintersect</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.array-unshift.html">array_unshift</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.array-unique" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">array_unique</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.1, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">array_unique</span> &mdash; <span class="dc-title">Elimina valores duplicados de un array</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.array-unique-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>array_unique</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$array</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$sort_flags</code><span class="initializer"> = SORT_STRING</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Toma un <code class="parameter">array</code> y devuelve un nuevo array
+   sin valores duplicados.
+  </p>
+  <p class="para">
+   Nótese que se conservan las claves. <span class="function"><strong>array_unique()</strong></span> ordena
+   los valores tratándolos como cadenas, manteniendo la primera clave encontrada
+   por cada valor e ignorando las demás claves. Esto no significa
+   que será mantenida la clave relacionada con el primer valor encontrado del
+   <code class="parameter">array</code> no ordenado.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Dos elementos son considerados iguales solo si
+    <em>(string) $elem1 === (string) $elem2</em>, es decir,
+    cuando la representación en formato de string sea la misma, se usará el primer elemento.
+   </span>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.array-unique-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">array</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El array de entrada.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">sort_flags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El segundo parámetro opcional <code class="parameter">sort_flags</code>
+       se puede utilizar para modificar el tipo de orden usando estos valores:
+      </p>
+      <p class="para">
+       Indicadores de tipos de orden:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara"><strong><code>SORT_REGULAR</code></strong> - compara ítems normalmente
+          (no cambia los tipos)</span>
+        </li>
+        <li class="listitem">
+         <span class="simpara"><strong><code>SORT_NUMERIC</code></strong> - compara ítems numéricamente</span>
+        </li>
+        <li class="listitem">
+         <span class="simpara"><strong><code>SORT_STRING</code></strong> - compara ítems como strings</span>
+        </li>
+        <li class="listitem">
+         <span class="simpara"><strong><code>SORT_LOCALE_STRING</code></strong> - compara ítems como
+          strings, basados en la configuración regional en uso.
+         </span>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.array-unique-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el array filtrado.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.array-unique-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.2.10</td>
+       <td>
+        Se volvió a cambiar el valor predeterminado de <code class="parameter">sort_flags</code> a
+        <strong><code>SORT_STRING</code></strong>.
+       </td>
+      </tr>
+      
+      <tr>
+       <td>5.2.9</td>
+       <td>
+        Se añadió el parámetro opcional <code class="parameter">sort_flags</code> con el
+        valor predeterminado <strong><code>SORT_REGULAR</code></strong>. Antes de 5.2.9, esta función se usaba para ordenar
+        el array con <strong><code>SORT_STRING</code></strong> internamente.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.array-unique-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5554">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>array_unique()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$entrada&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"verde"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"rojo"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"b"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"verde"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"azul"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"rojo"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_unique</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [a] =&gt; verde
+    [0] =&gt; rojo
+    [1] =&gt; azul
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5555">
+    <p><strong>Ejemplo #2 <span class="function"><strong>array_unique()</strong></span> y tipos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$entrada&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">4</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"4"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"3"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"3"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_unique</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [0] =&gt; int(4)
+  [2] =&gt; string(1) &quot;3&quot;
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.array-unique-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.array-count-values.html" class="function" rel="rdfs-seeAlso">array_count_values()</a> - Cuenta todos los valores de un array</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.array-unique-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Observe que <span class="function"><strong>array_unique()</strong></span> no está pensado
+    para que trabaje con arrays multidimensionales.
+   </span>
+  </p></blockquote>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.array-uintersect.html">array_uintersect</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.array-unshift.html">array_unshift</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

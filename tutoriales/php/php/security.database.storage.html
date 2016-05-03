@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Modelo de almacenamiento encriptado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.database.connection.html">Conexi&oacute;n a una base de datos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.database.sql-injection.html">Inyecci&oacute;n de SQL</a></div>
+ <div class="up"><a href="security.database.html">Seguridad en bases de datos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="security.database.storage" class="sect1">
+  <h2 class="title">Modelo de almacenamiento encriptado</h2>
+  <p class="simpara">
+   SSL/SSH protege los datos que viajan desde el cliente al servidor: SSL/SSH
+   no protege los datos persistentes almacenados en una base de datos. SSL es un
+   protocolo que protege los datos mientras viajan por el cable.
+  </p>
+  <p class="simpara">
+   Una vez que un atacante obtiene acceso directo a una base de datos (eludiendo el
+   servidor web), los datos sensibles almacenados podrían ser divulgados o mal utilizados, a menos que
+   la información esté protegida por la base de datos misma. Encriptar los datos
+   es una buena forma de mitigar esta amenaza, pero muy pocas bases de datos ofrecen este
+   tipo de encriptación de datos.
+  </p>
+  <p class="simpara">
+   La forma más sencilla para evitar este problema es crear primero un paquete de
+   encriptación propio y utilizarlo en los scripts de <acronym title="PHP: Hypertext Preprocessor">PHP</acronym>. Hay muchas
+   extensiones de <acronym title="PHP: Hypertext Preprocessor">PHP</acronym> que pueden ser de ayuda para esto, tales como <a href="ref.mcrypt.html" class="link">Mcrypt</a> y <a href="ref.mhash.html" class="link">Mhash</a>, cubriendo así una amplia variedad de algoritmos de
+   encriptación. El script encripta los datos antes de insertarlos en la base de datos, y los
+   desencripta al obtenerlos. Véanse las referencias para ejemplos adicionales del
+   funcionamiento de la encriptación.
+  </p>
+  <p class="simpara">
+   En caso de datos que deban estar realmente ocultos, si no fuera necesaria su representación real,
+   (es decir, que no sean mostrados), quizás convenga utilizar algoritmos hash.
+   El ejemplo más típico del uso del hash es a la hora de almacenar el hash criptográfico de una
+   contraseña en una base de datos, en lugar de almacenar la contraseña en sí. Véase también
+   <span class="function"><a href="function.crypt.html" class="function">crypt()</a></span>.
+  </p>
+  <div class="example" id="example-378">
+   <p><strong>Ejemplo #1 Utilización de campos de contraseña con hash</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Almacenar&nbsp;el&nbsp;hash&nbsp;de&nbsp;la&nbsp;contraseña<br />//&nbsp;$caracteres_aleatorios&nbsp;se&nbsp;obtuvo,&nbsp;p.ej.,&nbsp;utilizando&nbsp;/dev/random<br /></span><span style="color: #0000BB">$consulta&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;users(name,pwd)&nbsp;VALUES('%s','%s');"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">pg_escape_string</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_usuario</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">pg_escape_string</span><span style="color: #007700">(</span><span style="color: #0000BB">crypt</span><span style="color: #007700">(</span><span style="color: #0000BB">$contraseña</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'$2a$07$'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$caracteres_aleatorios&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">'$'</span><span style="color: #007700">)));<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">pg_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Consultar&nbsp;si&nbsp;el&nbsp;usuario&nbsp;envió&nbsp;la&nbsp;contraseña&nbsp;correcta<br /></span><span style="color: #0000BB">$consulta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;pwd&nbsp;FROM&nbsp;users&nbsp;WHERE&nbsp;name='%s';"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">pg_escape_string</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_usuario</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">pg_fetch_assoc</span><span style="color: #007700">(</span><span style="color: #0000BB">pg_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">));<br /><br />if&nbsp;(</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">&amp;&amp;&nbsp;</span><span style="color: #0000BB">crypt</span><span style="color: #007700">(</span><span style="color: #0000BB">$contraseña</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'pwd'</span><span style="color: #007700">])&nbsp;==&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'pwd'</span><span style="color: #007700">])&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Bienvenido,&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">htmlspecialchars</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_usuario</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">'!'</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'La&nbsp;autenticación&nbsp;ha&nbsp;fallado&nbsp;para&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">htmlspecialchars</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_usuario</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">'.'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="security.database.connection.html">Conexi&oacute;n a una base de datos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="security.database.sql-injection.html">Inyecci&oacute;n de SQL</a></div>
+ <div class="up"><a href="security.database.html">Seguridad en bases de datos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene el momento del &uacute;ltimo cambio del i-nodo de un archivo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fileatime.html">fileatime</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.filegroup.html">filegroup</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.filectime" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">filectime</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">filectime</span> &mdash; <span class="dc-title">Obtiene el momento del último cambio del i-nodo de un archivo</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.filectime-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>filectime</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$filename</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene el momento del último cambio del i-nodo de un archivo.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.filectime-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">filename</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Ruta del archivo.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.filectime-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el momento en que se modificó un archivo por última vez,
+    o <strong><code>FALSE</code></strong> en caso de error. El momento es devuelto como tiempo Unix.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.filectime-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2610">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>filectime()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;muestra,&nbsp;p.ej.&nbsp;&nbsp;La&nbsp;última&nbsp;modificación&nbsp;de&nbsp;archivo.txt&nbsp;fue:&nbsp;December&nbsp;29&nbsp;2002&nbsp;22:16:23.<br /><br /></span><span style="color: #0000BB">$nombre_archivo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'archivo.txt'</span><span style="color: #007700">;<br />if&nbsp;(</span><span style="color: #0000BB">file_exists</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_archivo</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"La&nbsp;última&nbsp;modificación&nbsp;de&nbsp;</span><span style="color: #0000BB">$nombre_archivo</span><span style="color: #DD0000">&nbsp;fue:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">date</span><span style="color: #007700">(</span><span style="color: #DD0000">"F&nbsp;d&nbsp;Y&nbsp;H:i:s."</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">filectime</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_archivo</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.filectime-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+En caso de fallo, se emite un <strong><code>E_WARNING</code></strong>.
+</p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.filectime-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Anotación: En la mayoría de los sistemas de archivos Unix, un archivo se
+    considera modificado cuando su información de i-nodo se cambia; es decir,
+    cuando los permisos, propietario, grupo, u otra meta-información del i-nodo
+    es acualizada. Véase también <span class="function"><a href="function.filemtime.html" class="function">filemtime()</a></span> (la cual es la que
+    se querrá usar cuando se desee crear pies de página como &quot;Última Modificación&quot; en
+    páginas web) y <span class="function"><a href="function.fileatime.html" class="function">fileatime()</a></span>.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Observe también que en algunos textos Unix el ctime de un archivo se refiere al
+    momento de creación del archivo. Esto es erróneo. No hay momento de creación de
+    archivos Unix en la mayoría de sistemas de archivos Unix.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <p class="para">Observe que el tiempo de resolución
+quizá varia según el sistema de ficheros.</p></p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Los resultados de esta 
+función son guardados en caché. Para
+más información ver <span class="function"><a href="function.clearstatcache.html" class="function">clearstatcache()</a></span>.</span></p></blockquote>
+  <div class="tip"><strong class="tip">Sugerencia</strong><p class="simpara">Desde PHP 5.0.0, 
+esta función también puede usarse con <em class="emphasis">algunos</em> URL wrappers.  Consultar
+<a href="wrappers.html" class="xref">Protocolos y Envolturas soportados</a> para deter4minar qué envolturas soportan 
+la familia de funcionalidad de <span class="function"><a href="function.stat.html" class="function">stat()</a></span>.</p></div>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.filectime-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.filemtime.html" class="function" rel="rdfs-seeAlso">filemtime()</a> - Obtiene el momento de la &uacute;ltima modificaci&oacute;n de un archivo</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fileatime.html">fileatime</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.filegroup.html">filegroup</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

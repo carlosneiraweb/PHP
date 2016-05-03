@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecuta una sentencia preparada</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdostatement.errorinfo.html">PDOStatement::errorInfo</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdostatement.fetch.html">PDOStatement::fetch</a></div>
+ <div class="up"><a href="class.pdostatement.html">PDOStatement</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdostatement.execute" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDOStatement::execute</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7, PECL pdo &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">PDOStatement::execute</span> &mdash; <span class="dc-title">
+   Ejecuta una sentencia preparada
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-pdostatement.execute-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>PDOStatement::execute</strong></span>
+    ([ <span class="methodparam"><span class="type">array</span> <code class="parameter">$input_parameters</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Ejecuta la <a href="pdo.prepared-statements.html" class="link">sentencia
+   preparada</a>. Si ésta incluía marcadores de parámetros,
+   se debe:
+   <ul class="itemizedlist">
+    <li class="listitem"><p class="para">llamar a <span class="function"><a href="pdostatement.bindparam.html" class="function">PDOStatement::bindParam()</a></span> y/o
+     <span class="function"><a href="pdostatement.bindvalue.html" class="function">PDOStatement::bindValue()</a></span> para vincular variables o
+     valores (respectivamente) a los marcadores de parámetros. Las variables vinculadas pasan
+     su valor como entrada y reciben el valor de salida, si lo hubiera, de sus marcadores
+     de parámetros asociados</p></li>
+    <li class="listitem">
+     <p class="para">o pasar un array de valores de parámetros de sólo entrada</p>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-pdostatement.execute-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">input_parameters</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un array de valores con tantos elementos como parámetros
+       vinculados en la sentencia SQL que va a ser ejecutada.
+       Todos los valores son tratados como <strong><code>PDO::PARAM_STR</code></strong>.
+      </p>
+      <p class="para">
+       No es posible vincular múltiples valores a un único parámetro; por ejemplo,
+       no se puede vincular dos valores a un único parámetro con nombre en una cláusula
+       IN().
+      </p>
+      <p class="para">
+       Tampoco es posible vincular más valores que los especificados; si existen más claves en
+       <code class="parameter">input_parameters</code> que en la sentencia SQL especificada
+       en <span class="methodname"><a href="pdo.prepare.html" class="methodname">PDO::prepare()</a></span>, entonces la sentencia
+       fallará y se emitirá un error.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-pdostatement.execute-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-pdostatement.execute-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.2.0</td>
+       <td>
+        Las claves de <code class="parameter">input_parameters</code> deben coincidir con aquellas
+        declaradas en la sentencia SQL. Antes de PHP 5.2.0 esto se ignoraba silenciosamente.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-pdostatement.execute-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1044"><p><strong>Ejemplo #1 Ejecutar una sentencia preparada con una variable y valor vinculados</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Ejecutar&nbsp;una&nbsp;sentencia&nbsp;preparada&nbsp;vinculando&nbsp;una&nbsp;variable&nbsp;y&nbsp;un&nbsp;valor&nbsp;*/<br /></span><span style="color: #0000BB">$calorías&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">150</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$color&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'gre'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$gsent&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">'SELECT&nbsp;name,&nbsp;colour,&nbsp;calories<br />&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;fruit<br />&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;calories&nbsp;&lt;&nbsp;:calorías&nbsp;AND&nbsp;colour&nbsp;LIKE&nbsp;:color'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindParam</span><span style="color: #007700">(</span><span style="color: #DD0000">':calories'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$calorías</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">PARAM_INT</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindValue</span><span style="color: #007700">(</span><span style="color: #DD0000">':colour'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"%</span><span style="color: #007700">{</span><span style="color: #0000BB">$color</span><span style="color: #007700">}</span><span style="color: #DD0000">%"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <div class="example" id="example-1045"><p><strong>Ejemplo #2 Ejecutar una sentencia preparada con un array de valores de inserción (parámetros con nombre)</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Ejecutar&nbsp;una&nbsp;sentencia&nbsp;preparada&nbsp;proporcionando&nbsp;un&nbsp;array&nbsp;de&nbsp;valores&nbsp;de&nbsp;inserción&nbsp;*/<br /></span><span style="color: #0000BB">$calorías&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">150</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$color&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'red'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$gsent&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">'SELECT&nbsp;name,&nbsp;colour,&nbsp;calories<br />&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;fruit<br />&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;calories&nbsp;&lt;&nbsp;:calories&nbsp;AND&nbsp;colour&nbsp;=&nbsp;:colour'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(array(</span><span style="color: #DD0000">':calories'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$calorías</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">':colour'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$color</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <div class="example" id="example-1046"><p><strong>Ejemplo #3 Ejecutar una sentencia preparada con un array de valores de inserción (parámetros de sustitución)</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Ejecutar&nbsp;una&nbsp;sentencia&nbsp;preparada&nbsp;proporcionando&nbsp;un&nbsp;array&nbsp;de&nbsp;valores&nbsp;de&nbsp;inserción&nbsp;*/<br /></span><span style="color: #0000BB">$calorías&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">150</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$color&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'red'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$gsent&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">'SELECT&nbsp;name,&nbsp;colour,&nbsp;calories<br />&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;fruit<br />&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;calories&nbsp;&lt;&nbsp;?&nbsp;AND&nbsp;colour&nbsp;=&nbsp;?'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(array(</span><span style="color: #0000BB">$calorías</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$color</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <div class="example" id="example-1047"><p><strong>Ejemplo #4 Ejecutar una sentencia preparada con parámetros de sustitución de signos de interrogación</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Ejecutar&nbsp;una&nbsp;sentencia&nbsp;preparada&nbsp;vinculando&nbsp;variables&nbsp;de&nbsp;PHP&nbsp;*/<br /></span><span style="color: #0000BB">$calorías&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">150</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$color&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'red'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$gsent&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">'SELECT&nbsp;name,&nbsp;colour,&nbsp;calories<br />&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;fruit<br />&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;calories&nbsp;&lt;&nbsp;?&nbsp;AND&nbsp;colour&nbsp;=&nbsp;?'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindParam</span><span style="color: #007700">(</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$calorías</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">PARAM_INT</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bindParam</span><span style="color: #007700">(</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$color</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PDO</span><span style="color: #007700">::</span><span style="color: #0000BB">PARAM_STR</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">12</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+  
+  <div class="example" id="example-1048"><p><strong>Ejemplo #5 Ejecutar una sentencia preparada usando un array para la cláusula IN</strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Ejecutar&nbsp;una&nbsp;sentencia&nbsp;preparada&nbsp;usando&nbsp;un&nbsp;array&nbsp;de&nbsp;valores&nbsp;para&nbsp;una&nbsp;cláusula&nbsp;IN&nbsp;*/<br /></span><span style="color: #0000BB">$parámetros&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">21</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">63</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">171</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">/*&nbsp;Crear&nbsp;una&nbsp;cadena&nbsp;para&nbsp;los&nbsp;parámetros&nbsp;de&nbsp;sustitución&nbsp;rellenados&nbsp;con&nbsp;el&nbsp;número&nbsp;de&nbsp;parámetros&nbsp;*/<br /></span><span style="color: #0000BB">$place_holders&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">implode</span><span style="color: #007700">(</span><span style="color: #DD0000">','</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">array_fill</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$parámetros</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">'?'</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">/*<br />&nbsp;&nbsp;&nbsp;&nbsp;Esto&nbsp;prepara&nbsp;una&nbsp;sentencia&nbsp;con&nbsp;suficientes&nbsp;parámetros&nbsp;de&nbsp;sustitución&nbsp;sin&nbsp;nombre&nbsp;para<br />&nbsp;&nbsp;&nbsp;&nbsp;cada&nbsp;valor&nbsp;del&nbsp;array&nbsp;$parámetros.&nbsp;Los&nbsp;valores&nbsp;del&nbsp;array&nbsp;$parámetros&nbsp;son&nbsp;vinculados&nbsp;a<br />&nbsp;&nbsp;&nbsp;&nbsp;los&nbsp;parámetros&nbsp;de&nbsp;sustitución&nbsp;de&nbsp;la&nbsp;sentencia&nbsp;preparada&nbsp;cuando&nbsp;ésta&nbsp;sea&nbsp;ejecutada.<br />&nbsp;&nbsp;&nbsp;&nbsp;Esto&nbsp;no&nbsp;es&nbsp;lo&nbsp;mismo&nbsp;que&nbsp;usar&nbsp;PDOStatement::bindParam(),&nbsp;pues&nbsp;esto&nbsp;último<br />&nbsp;&nbsp;&nbsp;&nbsp;requiere&nbsp;una&nbsp;referencia&nbsp;a&nbsp;la&nbsp;variable.&nbsp;En&nbsp;su&nbsp;lugar,&nbsp;PDOStatement::execute()&nbsp;sólo<br />&nbsp;&nbsp;&nbsp;&nbsp;vincula&nbsp;por&nbsp;valor.<br />*/<br /></span><span style="color: #0000BB">$gsent&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;name&nbsp;FROM&nbsp;contacts&nbsp;WHERE&nbsp;id&nbsp;IN&nbsp;(</span><span style="color: #0000BB">$place_holders</span><span style="color: #DD0000">)"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$parámetros</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-pdostatement.execute-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Algunos controladores necesitan <a href="pdostatement.closecursor.html" class="link">cerrar
+    los cursores</a> antes de poder ejecutar la siguiente sentencia.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-pdostatement.execute-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdo.prepare.html" class="function" rel="rdfs-seeAlso">PDO::prepare()</a> - Prepara una sentencia para su ejecuci&oacute;n y devuelve un objeto sentencia</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.bindparam.html" class="function" rel="rdfs-seeAlso">PDOStatement::bindParam()</a> - Vincula un par&aacute;metro al nombre de variable especificado</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.fetch.html" class="function" rel="rdfs-seeAlso">PDOStatement::fetch()</a> - Obtiene la siguiente fila de un conjunto de resultados</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.fetchall.html" class="function" rel="rdfs-seeAlso">PDOStatement::fetchAll()</a> - Devuelve un array que contiene todas las filas del conjunto de resultados</span></li>
+    <li class="member"><span class="function"><a href="pdostatement.fetchcolumn.html" class="function" rel="rdfs-seeAlso">PDOStatement::fetchColumn()</a> - Devuelve una &uacute;nica columna de la siguiente fila de un conjunto de resultados</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdostatement.errorinfo.html">PDOStatement::errorInfo</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdostatement.fetch.html">PDOStatement::fetch</a></div>
+ <div class="up"><a href="class.pdostatement.html">PDOStatement</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

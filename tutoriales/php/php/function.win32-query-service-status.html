@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Pregunta sobre el estado de un servicio</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.win32-pause-service.html">win32_pause_service</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.win32-set-service-status.html">win32_set_service_status</a></div>
+ <div class="up"><a href="ref.win32service.html">Funciones win32service</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.win32-query-service-status" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">win32_query_service_status</h1>
+  <p class="verinfo">(PECL win32service SVN)</p><p class="refpurpose"><span class="refname">win32_query_service_status</span> &mdash; <span class="dc-title">Pregunta sobre el estado de un servicio</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.win32-query-service-status-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>win32_query_service_status</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$servicename</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$machine</code></span>
+  ] )</div>
+
+  
+  <p class="para rdfs-comment">
+   Pregunta sobre el estado actual de un servicio, devolviendo una matriz de
+   información.
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.win32-query-service-status-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">servicename</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre corto del servicio.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">machine</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre opcional de la máquina. Si se omite, será usada la máquina local.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.win32-query-service-status-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve una matriz que consiste en la sigiente información sobre , <strong><code>FALSE</code></strong> si hay un problema con los parámetros o <a href="win32service.constants.errors.html" class="link">Código de error Win32</a> en caso de error.
+  </p>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">ServiceType</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El dwServiceType. Véase <a href="win32service.constants.servicetype.html" class="link">Máscaras de Bits de Tipo Servicio de Win32Service</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">CurrentState</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El dwCurrentState. Véase <a href="win32service.constants.servicestatus.html" class="link">Constantes de Estado de Servicio de Win32Service</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">ControlsAccepted</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Qué controles de servicio son aceptados por el servicio. Véase <a href="win32service.constants.controlsaccepted.html" class="link">Máscaras de Bits Aceptadas de Mensajes de Control de Servicios de Win32Service</a>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">Win32ExitCode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si se sale del servicio, el código de retorno del proceso.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">ServiceSpecificExitCode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si se sale del servicio con una condición de error, el código específico
+       de servicio que es registrado en el registro de eventos es visible aquí.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">CheckPoint</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si el servicio se apaga, mantiene el número del punto de control actual.
+       Ésto es usado por el ACS como un tipo de pulso para detectar un proceso de servicio
+       estancado. El valor del punto de control se interpreta mejor junto
+       con el valor WaitHint.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">WaitHint</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si el servicio se apaga se establecerá WaitHint a un valor del punto de
+       control que indicará 100% de finalización. Esto se puede usar para
+       implementar un indicador de progreso.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">ProcessId</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El indentificador de proceso de Windows. Si es 0, el proceso no se está ejecutando.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">ServiceFlags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El dwServiceFlags. Véase <a href="win32service.constants.serviceflag.html" class="link">Constantes de Banderas de Servicio de Win32Service</a>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.win32-query-service-status-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><a href="win32service.constants.html" class="link">Constantes Predefinidas de Win32Service</a></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.win32-pause-service.html">win32_pause_service</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.win32-set-service-status.html">win32_set_service_status</a></div>
+ <div class="up"><a href="ref.win32service.html">Funciones win32service</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

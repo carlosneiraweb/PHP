@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Serie PECL/mysqlnd_ms 1.5</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes-one-six.html">Serie PECL/mysqlnd_ms 1.6</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-four.html">Serie PECL/mysqlnd_ms 1.4</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.changes-one-five" class="section">
+  <h2 class="title">Serie PECL/mysqlnd_ms 1.5</h2>
+  <p class="para">
+   1.5.1-stable
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Fecha de publicación: 06/2013
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Motivo/tema: Soporte para fragmentación, soporte mejorado para transacciones
+     </span>
+    </li>
+   </ul>
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Esta es la serie estble actual. Use esta versión en entornos de producción.
+   </p>
+   <p class="para">
+    La documentación está completa.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   1.5.0-alpha
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      Fecha de publicación: 03/2013
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      Motivo/tema: Soporte para fragmentación, soporte mejorado para transacciones
+     </span>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Corrección de errores
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Corregida la violación de acceso #60605 de PHP cuando mysqlnd_ms está habilitado.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Establecer la adhesión de transacciones deshabilita todo el equilibrado de carga, incluyendo
+      lla tolerancia a fallos automática, durante una transacción. Por lo que
+      podrían ocurrir intercambios de conexiones en mitad de una transacción
+      en configuraciones multimaestro y durante la tolerancia a fallos automática aunque
+      la monitorización de transacciones haya detectado los límites de la transacción apropiadamente.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Rotura de RC y error corregido. Las sugerencias SQL que fuerzan a un tipo
+      específico de servidor (<strong><code>MYSQLND_MS_MASTER_SWITCH</code></strong>,
+      <strong><code>MYSQLND_MS_SLAVE_SWITCH</code></strong>,
+      <strong><code>MYSQLND_MS_LAST_USED_SWITCH</code></strong>) son ignoradas durante
+      una transacción si la adhesión de transacciones está habilitada y
+      se han detectado apropiadamente los límites de la transacción.
+     </p>
+     <p class="para">
+      Este es un cambio de comportamiento. Sin embargo, también es una corrección de error y un paso
+      para alinear comportamiento. Si, en versiones anteriores, con adhesión de transacciones,
+      se combinaba una de las sugerencias SQL enumeradas el filtro de calidad de servicio,
+      podía ocurrir que dichas sugerencias fueran ignoradas. En algún
+      caso, las sugerencias SQL funcionaban, en otros no. El nuevo
+      comportamiento es más consistente. Las sugerencias SQL siempre serán ignoradas
+      durante una transacción si la
+      <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.trx-stickiness" class="link">adhesión de transacciones</a>
+      está habilitado.
+     </p>
+     <p class="para">
+      Observe que la detección de los límites de transaccoines continua basándose en la monitorización
+      de llamadas a la API. Los comandos SQL que controlan transacciones no son monitorizados.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Rotura de RC y error corregido. Las llamadas a <span class="function"><a href="function.mysqlnd-ms-set-qos.html" class="function">mysqlnd_ms_set_qos()</a></span>
+      fallarán cuando se hacen en mitad de una transacción si la
+      <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.trx-stickiness" class="link">adhesión de transacciones</a>
+      está habilitada. Los intercambios de conexión no están permitidos durante una
+      transacción. El cambio de la calidad de servicio probablemente resulta en un conjunto
+      diferente de servidores elegidos para la ejecución de consultas, posiblemente haciendo
+      necesario intercambiar conexiones. Así, la llamada no está permitida durante
+      una transacción activa. La calidad de servicio puede ser, sin embargo,
+      cambiada entre transacciones.
+     </p>
+    </li>
+   </ul>
+  </p>
+  <p class="para">
+   Cambios en las características
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <p class="para">
+      Se introdujo el filtro <em>node_group</em>.
+      El filtro permite organizar servidores (maestro y esclavos)
+      en grupos. Las consultas se pueden dirigir a ciertos grupos de servidores
+      prefijando la sentencia de consulta con una sugerencia/comentario de SQL que contenga
+      el nombre de configuración de grupos. La agrupación se puede usar para
+      particionar y fragmentar, aunque también para optimizar la caché local.
+      En el caso de la fragmentación, se ha de pensar en un nombre grupo como una clave fragmentada.
+      Todas las consultas para una clave fragmentada dada serán ejecutadas en el
+      fragmento configurado. Nota: tanto el cliente como el servidor deben sorportar la fragmentación
+      para usar la misma con mysqlnd_ms.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Validación del fichero de configuración extendida durante el arranque de PHP (RINIT).
+      Se lanzará un error de nivel <strong><code>E_WARNING</code></strong> si no se puede leer el
+      fichero de configuración (permisos), si está vacío, o si el fichero (JSON) no se pudo analizar.
+      Las advertencias podrían aparecer el ficheros log, lo que depende de cómo esté configurado PHP.
+     </p>
+     <p class="para">
+      Las distribuciones que pretenden proporcionar una configuración precofigurada, incluyendo una
+      rutina auxiliar de fichero de configuración, se les interroga para colocar <em>{}</em> en
+      el fichero de configuración para evitar esta advertencia sobre un fichero de
+      configuración inválido.
+     </p>
+     <p class="para">
+      Se realiza una validación extra del fichero de configuración cuando se analizan secciones
+      que abran una conexión. Por favor, observe que aún podrían haber situaciones en las que
+      un fichero de configuración del complemento inválido no conduzca a mensajes de error apropiados,
+      sino a un fallo de conexión.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      A partir de PHP 5.5.0, se añadió la mejora de la detección de límites de transacciones para
+      <em>mysqli</em>. La extensión <em>mysqli</em> ha sido
+      modificada para usar las nuevas llamadas a la API en C de la biblioteca <em>mysqlnd</em>
+      para comenzar, consolidar y revertir una transacción o un punto de prevención.
+      Si se usa <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.trx-stickiness" class="link">trx_stickiness</a>
+      para habilitar transacciones que consideran equilibrado de carga, las funciones
+      <span class="function"><strong>mysqli_begin()</strong></span>, <span class="function"><a href="mysqli.commit.html" class="function">mysqli_commit()</a></span> and <span class="function"><a href="mysqli.rollback.html" class="function">mysqli_rollback()</a></span>
+      ahora serán monitorizadas por el complemento, para aceptar la función <span class="function"><a href="mysqli.autocommit.html" class="function">mysqli_autocommit()</a></span>
+      que ya estaba admitida. Todas las características de SQL para controlar
+      transacciones también están disponibles a través de las funciones mejoradas relacionadas
+      con el control de transacciones de <em>mysqli</em>. Esto significa que no es necesario para
+      emitir sentencias SQL en lugar de usar llamadas a la API. Las aplicaciones
+      que utilicen las llamadas apropiadas a la API pueden ser equilibradas en carga por
+      PECL/mysqlnd_ms de una manera completamente consciente de transacciones.
+     </p>
+     <p class="para">
+      Observe que <em>PDO_MySQL</em> no ha sido actualizada
+      aún para usar las nuevas llamadas a la API de mysqlnd. Por lo tanto, la detección
+      de límites de transacciones con <em>PDO_MySQL</em> continua estando limitada a
+      la monitorización pasando <strong><code>PDO::ATTR_AUTOCOMMIT</code></strong> a
+      <span class="methodname"><a href="pdo.setattribute.html" class="methodname">PDO::setAttribute()</a></span>.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Se introdujo <em>trx_stickiness=on</em>. Esta opción de
+      <a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.trx-stickiness" class="link">trx_stickiness</a>
+      difiere de <em>trx_stickiness=master</em> en que
+      intenta ejecutar una transacción de solo lectura en un esclavo, si la
+      calidad de servicio (nivel de consistencia) permite el uso de un esclavo.
+      Las transacciones de solo lectura fueron introducidas en MySQL 5.6 y
+      ofrecen ganancias de rendimiento.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      El soporte para la caché de consultas se considera beta si se usa con la API de
+      <em>mysqli</em>. Debería funcionar bien con clústeres basados en copia primaria. Para
+      las demás API, este rasgo continua siendo experimental.
+     </p>
+    </li>
+    <li class="listitem">
+     <p class="para">
+      Los ejemplos de código del fichero fuente de mysqlnd_ms se actualizaron.
+     </p>
+    </li>
+   </ul>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.changes-one-six.html">Serie PECL/mysqlnd_ms 1.6</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.changes-one-four.html">Serie PECL/mysqlnd_ms 1.4</a></div>
+ <div class="up"><a href="mysqlnd-ms.changes.html">Historial de cambios</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Introducci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.pthreads.html">pthreads</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pthreads.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="up"><a href="book.pthreads.html">pthreads</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intro.pthreads" class="preface">
+  <h1 class="title">Introducción</h1>
+  <p class="para">
+   pthreads es una API orientada a objetos que permite la ejecución multihilo en el espacio de usuario de PHP.
+   Incluye todas las herramientas necesarias para crear aplicaciones multihilo.
+   Las aplicaciones de PHP pueden crear, leer, escribir, ejecutar y sincronizar objetos Thread, Worker y Threaded.
+  </p>
+  <p class="para">
+   Un objeto Threaded:
+   Un objeto Threaded forma la base de la funcionalidad que permite a pthreads operar. Expone métodos de sincronización y algunas interfaces útiles para el programador.
+  </p>
+  <p class="para">
+   Un Thread:
+   El usuario puede implementar un Thread (Hilo) extendiendo la declaración de Thread que proporciona pthreads, implementando el método run.
+   Cualquier miembro puede ser escrito y leído por cualquier contexto con una referencia al objeto Thread; también, cualquier contexto puede ejecutar cualquier método público o protegido. 
+   El método run de la implementación se ejecuta en un hilo diferente cuando se invoca al método start de la implementación desde el contexto (esto es, hilo o proceso) que lo creó. 
+   Solamente el contexto que crea el hilo puede iniciarlo y unirlo.
+  </p>
+  <p class="para">
+   Un objeto Worker:
+   Un Worker Thread posee un estado persistente, y estará disponible desde la llamada a start hasta que el objeto salga del ámbito, o se apague explícitamente. 
+   Cualquier contexto con una referencia puede apilar objetos sobre el Worker, los cuales serán ejecutados por el Worker en un Thread diferente.
+   El método run de un Worker se ejecuta antes de cualquier objeto de la pila, de tal forma que se pueden inicializar recursos que podrían necesitar los objetos venideros.   
+  </p>
+  <p class="para">
+   Una Pool:
+   Una Pool de hilos Worker se puede emplear para distribuir objetos Threaded entre objetos Worker. La clase Pool incluida implementa esta funcionalidad cuidando de realizar la referenciación de una manera apropiada. 
+   Introducida en v1.0.0, la implementación de Pool es la forma más fácil y eficiente de utilizar múltiples hilos.   
+  </p>
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <p class="para">
+    Pool es un objeto normal de PHP, por lo que sus instancias no deberían compartirse entre contextos.
+   </p>
+  </div>
+  <p class="para">
+   Sincronización:
+   Todos los objeto que crea pthreads poseen sincronización interna en la forma ( familiar para los programadores de Java ) de ::wait y ::notify. 
+   La invocación de ::wait sobre un objeto causará que el contexto espere a que otro contexto invoque a ::notify sobre el mismo objeto. 
+   Esto pertmite una sincronización potente entre objetos Threaded de PHP.
+  </p>
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <p class="para">
+    Cualquier objeto cuyo propósito sea emplearlo en escenarios multihilo de una aplicación debería extender a Threaded.
+   </p> 
+  </div>
+  <p class="para">
+   Modificadores de métodos:
+   Los métodos protegidos de objetos Threaded están protegidos por pthreads, por lo que solamente un contexto podría llamar a dichos métodos a la vez.
+   Los métodos privados de objetos Threaded solamente pueden ser invocados desde dentro de un objeto Threaded durante su ejecución.  
+  </p>
+  <p class="para">
+   Almacenamiento de datos:
+   Como regla general, cualquier tipo de dato que se pueda serializar puede ser empleado como un miembro de un objeto Threaded; puede ser leído y escrito desde cualquier contexto con una referencia al objeto Threaded. 
+   No todos los tipos de datos se almacenan en serie; los tipos básicos se almacenan en su forma verdadera. 
+   Los tipos complejos, los arrays, y los objetos que no son Threaded se almacenan en serie; pueden ser leídos y escritos en el objeto Threaded desde cualquier contexto con una referencia.
+   Con la excepción de los objetos Threaded, cualquier referencia empleada para establecer un miembro de un objeto Threaded está separada de la referencia del objeto Threaded; 
+   los mismos datos pueden ser leídos directamente desde el objeto Threaded en cualquier momento por cualquier contexto con una referencia al objeto Threaded.   
+  </p>
+  <p class="para">
+   Miembros estáticos:
+   Cuando se crea un nuevo contexto ( Thread o Worker ), generalmente se copia, aunque los recursos y los objetos con un estado interno se anulan (por motivos de seguridad). Esto permite que funcionen como un tipo de almacen local de hilos. Por ejemplo, al iniciar el contexto, una clase cuyos miembros estáticos incluyen información de conexión a un servidor de bases de datos y la conexión misma, tendrá simplemente la información de la conexión copiada, no la conexión, permitiendo que el nuevo contexto inicie una conexión de la misma forma que el contexto que la creó, almacenando la conexión en el mismo lugar sin afectar al contexto original.
+  </p>
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <p class="para">
+    Cuando se ejecutan print_r, var_dump y otras funciones de depuración de objetos, estas no incluyen protección de recursividad.  
+   </p>
+  </div>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Recursos:
+    Las extensiones y la funcionalidad que definen recursos de PHP no están preparados para este tipo de entorno; pthreads toma medidas preventivas para que los recursos sean compartidos entre contextos; sin embargo, para la mayoría de tipos de recursos debería considerarse inseguro. Se deberían extremar las precauciones al compartir recursos entre contextos.    
+   </p>
+  </p></blockquote>
+  <div class="caution"><strong class="caution">Precaución</strong>
+   <p class="para">
+    En el entorno en el que se ejecute pthreads, son necesarias algunas restricciones y limitaciones para proporcionar un entorno estable.    
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="book.pthreads.html">pthreads</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pthreads.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="up"><a href="book.pthreads.html">pthreads</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

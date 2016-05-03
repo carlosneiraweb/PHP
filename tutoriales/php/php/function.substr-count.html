@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cuenta el n&uacute;mero de apariciones del substring</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.substr-compare.html">substr_compare</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.substr-replace.html">substr_replace</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.substr-count" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">substr_count</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">substr_count</span> &mdash; <span class="dc-title">Cuenta el número de apariciones del substring</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.substr-count-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>substr_count</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$haystack</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$needle</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$offset</code><span class="initializer"> = 0</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$length</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>substr_count()</strong></span> devuelve el número de veces en que el substring
+   <code class="parameter">needle</code> aparece en el string
+   <code class="parameter">haystack</code>. Por favor nótese que
+   <code class="parameter">needle</code> es sensible a mayúsculas y minúsculas.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Esta función no cuenta las subcadenas que se traslapan. Véase el ejemplo de abajo!
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.substr-count-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">haystack</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El string dentro del cual buscar 
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">needle</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El substring a buscar
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">offset</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El desplazamiento por dónde empezar a contar
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">length</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La longitud máxima después del desplazamiento especificado para buscar el
+       substring. Se emite una advertencia si offset más length es
+       mayor que la longitud de <code class="parameter">haystack</code>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.substr-count-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Esta función devuelve un <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 changelog" id="refsect1-function.substr-count-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.1.0</td>
+       <td>
+        Los parámetros <code class="parameter">offset</code> y
+        <code class="parameter">length</code> fueron agregados
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.substr-count-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5470">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>substr_count()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$text&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'This&nbsp;is&nbsp;a&nbsp;test'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #0000BB">$text</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;14<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">substr_count</span><span style="color: #007700">(</span><span style="color: #0000BB">$text</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'is'</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;2<br /><br />//&nbsp;el&nbsp;string&nbsp;es&nbsp;reducido&nbsp;a&nbsp;'s&nbsp;is&nbsp;a&nbsp;test',&nbsp;así&nbsp;que&nbsp;muestra&nbsp;1<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">substr_count</span><span style="color: #007700">(</span><span style="color: #0000BB">$text</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'is'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;el&nbsp;texto&nbsp;es&nbsp;reducido&nbsp;a&nbsp;'s&nbsp;i',&nbsp;así&nbsp;que&nbsp;muestra&nbsp;0<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">substr_count</span><span style="color: #007700">(</span><span style="color: #0000BB">$text</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'is'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;genera&nbsp;una&nbsp;advertencia&nbsp;debido&nbsp;a&nbsp;que&nbsp;5+10&nbsp;&gt;&nbsp;14<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">substr_count</span><span style="color: #007700">(</span><span style="color: #0000BB">$text</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'is'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #FF8000">//&nbsp;muestra&nbsp;sólo&nbsp;1,&nbsp;debido&nbsp;a&nbsp;que&nbsp;no&nbsp;cuenta&nbsp;subcadenas&nbsp;traslapadas.<br /></span><span style="color: #0000BB">$text2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'gcdgcdgcd'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">substr_count</span><span style="color: #007700">(</span><span style="color: #0000BB">$text2</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'gcdgcd'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.substr-count-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.count-chars.html" class="function" rel="rdfs-seeAlso">count_chars()</a> - Devuelve informaci&oacute;n sobre los caracteres usados en una cadena</span></li>
+    <li class="member"><span class="function"><a href="function.strpos.html" class="function" rel="rdfs-seeAlso">strpos()</a> - Encuentra la posici&oacute;n de la primera ocurrencia de un substring en un string</span></li>
+    <li class="member"><span class="function"><a href="function.substr.html" class="function" rel="rdfs-seeAlso">substr()</a> - Devuelve parte de una cadena</span></li>
+    <li class="member"><span class="function"><a href="function.strstr.html" class="function" rel="rdfs-seeAlso">strstr()</a> - Encuentra la primera aparici&oacute;n de un string</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.substr-compare.html">substr_compare</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.substr-replace.html">substr_replace</a></div>
+ <div class="up"><a href="ref.strings.html">Funciones de strings</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

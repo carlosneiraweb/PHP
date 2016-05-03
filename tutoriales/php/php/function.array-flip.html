@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Intercambia todas las claves de un array con sus valores asociados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.array-filter.html">array_filter</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.array-intersect-assoc.html">array_intersect_assoc</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.array-flip" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">array_flip</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">array_flip</span> &mdash; <span class="dc-title">Intercambia todas las claves de un array con sus valores asociados</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.array-flip-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>array_flip</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$array</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>array_flip()</strong></span> devuelve un <span class="type"><a href="language.types.array.html" class="type array">array</a></span> dado la vuelta,
+   es decir, las claves de <code class="parameter">array</code> se convierten en valores
+   y los valores de <code class="parameter">array</code> se convierten en claves.
+  </p>
+  <p class="para">
+   Observe que los valores de <code class="parameter">array</code> tienen que ser ser claves
+   válidas, es decir, que necesitan ser un valor de tipo <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span> o
+   <span class="type"><a href="language.types.string.html" class="type string">string</a></span>. Se emitirá una advertencia si un valor tiene el tipo
+   erróneo, por lo que el par clave/valor en cuestión <em class="emphasis">no será incluido
+   en el resultado</em>
+  </p>
+  <p class="para">
+   Si un valor tiene varias coincidencias, se usará la última
+   clave como su valor, perdiéndose todas las demás.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.array-flip-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">array</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un array de pares clave/valor a ser volteados.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.array-flip-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el array volteado en caso de éxito y <strong><code>NULL</code></strong> si en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.array-flip-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5508">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>array_flip()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$entrada&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"naranjas"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"manzanas"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"peras"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$intercambio&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_flip</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$intercambio</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [naranjas] =&gt; 0
+    [manzanas] =&gt; 1
+    [peras] =&gt; 2
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-5509">
+    <p><strong>Ejemplo #2 Ejemplo de <span class="function"><strong>array_flip()</strong></span> : collision</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$entrada&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"b"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"c"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$intercambio&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">array_flip</span><span style="color: #007700">(</span><span style="color: #0000BB">$entrada</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$intercambio</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [1] =&gt; b
+    [2] =&gt; c
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.array-flip-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.array-values.html" class="function" rel="rdfs-seeAlso">array_values()</a> - Devuelve todos los valores de un array</span></li>
+    <li class="member"><span class="function"><a href="function.array-keys.html" class="function" rel="rdfs-seeAlso">array_keys()</a> - Devuelve todas las claves de un array o un subconjunto de claves de un array</span></li>
+    <li class="member"><span class="function"><a href="function.array-reverse.html" class="function" rel="rdfs-seeAlso">array_reverse()</a> - Devuelve un array con los elementos en orden inverso</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.array-filter.html">array_filter</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.array-intersect-assoc.html">array_intersect_assoc</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

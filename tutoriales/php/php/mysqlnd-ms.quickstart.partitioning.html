@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Particionamiento y fragmentaci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.failover.html">Tolerancia a fallos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.mysql_fabric.html">MySQL Fabric</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.quickstart.partitioning" class="section">
+  <h2 class="title">Particionamiento y fragmentación</h2>
+  <p class="para">
+   La agrupación (clustering) de bases de datos se realiza por varias razones. Los clúster pueden mejorar la disponibilidad,
+   la tolerancia a fallos, e incrementar el rendimiento aplicando un enfoque de &quot;divide y vencerás&quot;,
+   ya que el trabajo se distribuye en varias máquinas. La agrupación (clustering) a veces se combina con
+   particionamiento y fragmentación para dividir aún más una tarea compleja grande en unidades
+   más pequeñas y manejables.
+  </p>
+  <p class="para">
+   El complemento mysqlnd_ms pretende dar soporte a una gran variedad de clústeres de bases de datos de MySQL. Algunos sabores de
+   clúster de bases de datos de MySQL poseen métodos internos para el particionamiento y la fragmentacion,
+   los cuales podrían ser transparentes de usar. El complemetno admite los dos enfoques más
+   comunes: filtración de tabla de Replicación de MySQL, y la fragmentación
+   (particionamiento basada en aplicación).
+  </p>
+  <p class="para">
+   La Replicación de MySQL admite el particionamiento como filtros que permiten
+   crear esclavos que replican todas las bases de datos o específicas del maestro, o tablas.
+   Es entonces responsabilidad de la aplicación
+   elegir un esclavo según las reglas de los filtros. Se puede usar el filtro
+   <em><a href="mysqlnd-ms.plugin-ini-json.html#ini.mysqlnd-ms-plugin-config-v2.filter-node-groups" class="link">node_groups</a></em>
+   de mysqlnd_ms para dar soporte manual a esto, o usar el filtro de tablas experimental.
+  </p>
+  <p class="para">
+   El particionamiento manual o fragmentación está soportado a través del
+   filtro de agrupación de nodos, y de las sugerencias SQL a partir de 1.5.0. El filtro node_groups
+   permite asignar un nombre simbólico a un grupo de servidores maestros y esclavos.
+   En el ejemplo, el maestro <em>master_0</em> y <em>slave_0</em>
+   forman un grupo con el nombre de <em>Partition_A</em>. Es su responsabilidad
+   decidir lo que haga un grupo. Por ejemplo, se podrían usar grupos de
+   nodos para la fragmentación, y usar los nombres de grupos para direccionar fragmentos
+   como <em>Shard_A_Range_0_100</em>.
+  </p>
+  <p class="para">
+   <div class="example" id="example-2015">
+    <p><strong>Ejemplo #1 Clúster de grupos de nodos</strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">{
+  &quot;myapp&quot;: {
+       &quot;master&quot;: {
+            &quot;master_0&quot;: {
+                &quot;host&quot;: &quot;localhost&quot;,
+                &quot;socket&quot;: &quot;\/tmp\/mysql.sock&quot;
+            }
+        },
+        &quot;slave&quot;: {
+            &quot;slave_0&quot;: {
+                &quot;host&quot;: &quot;simulate_slave_failure&quot;,
+                &quot;port&quot;: &quot;0&quot;
+            },
+            &quot;slave_1&quot;: {
+                &quot;host&quot;: &quot;127.0.0.1&quot;,
+                &quot;port&quot;: 3311
+            }
+        },
+        &quot;filters&quot;: {
+            &quot;node_groups&quot;: {
+                &quot;Partition_A&quot; : {
+                    &quot;master&quot;: [&quot;master_0&quot;],
+                    &quot;slave&quot;: [&quot;slave_0&quot;]
+                }
+            },
+           &quot;roundrobin&quot;: []
+        }
+    }
+}</pre>
+</div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-2016">
+    <p><strong>Ejemplo #2 Particionamiento manual usando sugerencias SQL</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">select</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$msj</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sugerencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Nota:&nbsp;prueba&nbsp;débil,&nbsp;dos&nbsp;conexiones&nbsp;a&nbsp;dos&nbsp;servidores&nbsp;podrían&nbsp;tener&nbsp;el&nbsp;mismo&nbsp;id&nbsp;de&nbsp;hilo&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$sql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;CONNECTION_ID()&nbsp;AS&nbsp;_thread,&nbsp;'%s'&nbsp;AS&nbsp;_hint&nbsp;FROM&nbsp;DUAL"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$msj</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">$sugerencia</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$sql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$sugerencia&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sql</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!(</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #0000BB">$sql</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"%d&nbsp;-&nbsp;%s&nbsp;-&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'_thread'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'_hint'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$sql</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Permitir&nbsp;siempre&nbsp;esclavos&nbsp;*/<br /></span><span style="color: #0000BB">select</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"slave_0"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">select</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"slave_1"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;solamente&nbsp;permtir&nbsp;los&nbsp;servidores&nbsp;del&nbsp;grupo&nbsp;de&nbsp;nodos&nbsp;"Partition_A"&nbsp;*/<br /></span><span style="color: #0000BB">select</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"slave_1"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"/*Partition_A*/"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">select</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"slave_1"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"/*Partition_A*/"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+6804 - slave_0 - SELECT CONNECTION_ID() AS _thread, &#039;slave1&#039; AS _hint FROM DUAL
+2442 - slave_1 - SELECT CONNECTION_ID() AS _thread, &#039;slave2&#039; AS _hint FROM DUAL
+6804 - slave_0 - /*Partition_A*/SELECT CONNECTION_ID() AS _thread, &#039;slave1&#039; AS _hint FROM DUAL
+6804 - slave_0 - /*Partition_A*/SELECT CONNECTION_ID() AS _thread, &#039;slave1&#039; AS _hint FROM DUAL
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Por omisión, el complemento usará todos los servidores maestros y esclavos configurados para
+   la ejecución de consultas. Pero si una consulta comienza con una sugerencia SQL como
+   <em>/*node_group*/</em>, el complemento considerará únicamente los servidores
+   enumerados en <em>node_group</em> para la ejecución de consultas. Así,
+   las consultas <em>SELECT</em> prefijadas con <em>/*Partition_A*/</em>
+   úncamente serán ejecutadas en <em>slave_0</em>.
+  </p>
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.failover.html">Tolerancia a fallos</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.quickstart.mysql_fabric.html">MySQL Fabric</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

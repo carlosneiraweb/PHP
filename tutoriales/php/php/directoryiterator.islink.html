@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Determina si el elemento actual DirectoryIterator es un enlace simb&oacute;lico</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="directoryiterator.isfile.html">DirectoryIterator::isFile</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="directoryiterator.isreadable.html">DirectoryIterator::isReadable</a></div>
+ <div class="up"><a href="class.directoryiterator.html">DirectoryIterator</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="directoryiterator.islink" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">DirectoryIterator::isLink</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">DirectoryIterator::isLink</span> &mdash; <span class="dc-title">Determina si el elemento actual DirectoryIterator es un enlace simbólico</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-directoryiterator.islink-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>DirectoryIterator::isLink</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Determina si el elemento actual <a href="class.directoryiterator.html" class="classname">DirectoryIterator</a> 
+   es un enlace simbólico.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-directoryiterator.islink-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">Esta función no tiene parámetros.</p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-directoryiterator.islink-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> si el elemento es un enlace simbólico, en caso contrario <strong><code>FALSE</code></strong>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-directoryiterator.islink-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4410">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="methodname"><strong>DirectoryIterator::isLink()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo contiene una función recursiva para remover el árbol del directorio.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/**<br />&nbsp;*&nbsp;Esta&nbsp;función&nbsp;eliminará&nbsp;todos&nbsp;los&nbsp;ficheros&nbsp;resursivamente&nbsp;en&nbsp;la&nbsp;ruta&nbsp;dada&nbsp;sin&nbsp;seguir<br />&nbsp;*&nbsp;los&nbsp;enlaces&nbsp;simbólicos.<br />&nbsp;*&nbsp;<br />&nbsp;*&nbsp;@param&nbsp;string&nbsp;$path&nbsp;Ruta&nbsp;del&nbsp;directorio&nbsp;a&nbsp;remover<br />&nbsp;*/<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">removeDir</span><span style="color: #007700">(</span><span style="color: #0000BB">$path</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$dir&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">DirectoryIterator</span><span style="color: #007700">(</span><span style="color: #0000BB">$path</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">$dir&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$fileinfo</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">$fileinfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isFile</span><span style="color: #007700">()&nbsp;||&nbsp;</span><span style="color: #0000BB">$fileinfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isLink</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">unlink</span><span style="color: #007700">(</span><span style="color: #0000BB">$fileinfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getPathName</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;elseif&nbsp;(!</span><span style="color: #0000BB">$fileinfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isDot</span><span style="color: #007700">()&nbsp;&amp;&amp;&nbsp;</span><span style="color: #0000BB">$fileinfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">isDir</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">removeDir</span><span style="color: #007700">(</span><span style="color: #0000BB">$fileinfo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getPathName</span><span style="color: #007700">());<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">rmdir</span><span style="color: #007700">(</span><span style="color: #0000BB">$path</span><span style="color: #007700">);<br />}<br /><br /></span><span style="color: #0000BB">removeDir</span><span style="color: #007700">(</span><span style="color: #DD0000">'foo'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-directoryiterator.islink-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="directoryiterator.gettype.html" class="methodname" rel="rdfs-seeAlso">DirectoryIterator::getType()</a> - Determina el tipo del elemento actual DirectoryIterator</span></li>
+    <li class="member"><span class="methodname"><a href="directoryiterator.isdir.html" class="methodname" rel="rdfs-seeAlso">DirectoryIterator::isDir()</a> - Determina si el elemento actual DirectoryIterator es un directorio</span></li>
+    <li class="member"><span class="methodname"><a href="directoryiterator.isdot.html" class="methodname" rel="rdfs-seeAlso">DirectoryIterator::isDot()</a> - Determina si el elemento actual DirectoryIterator es '.' o '..'</span></li>
+    <li class="member"><span class="methodname"><a href="directoryiterator.isfile.html" class="methodname" rel="rdfs-seeAlso">DirectoryIterator::isFile()</a> - Determina si el elemento actual DirectoryIterator es un fichero</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="directoryiterator.isfile.html">DirectoryIterator::isFile</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="directoryiterator.isreadable.html">DirectoryIterator::isReadable</a></div>
+ <div class="up"><a href="class.directoryiterator.html">DirectoryIterator</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

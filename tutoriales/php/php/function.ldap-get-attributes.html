@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtener atributos de una entrada de b&uacute;squeda de resultados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ldap-free-result.html">ldap_free_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ldap-get-dn.html">ldap_get_dn</a></div>
+ <div class="up"><a href="ref.ldap.html">LDAP Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ldap-get-attributes" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ldap_get_attributes</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">ldap_get_attributes</span> &mdash; <span class="dc-title">Obtener atributos de una entrada de búsqueda de resultados</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ldap-get-attributes-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>ldap_get_attributes</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code></span>
+   , <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result_entry_identifier</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Lee atributos y valores desde una entrada en la búsqueda de resultados. 
+  </p>
+  <p class="para">
+   Teniendo ubicada una entrada específica en el el directorio, puedes encontrar qué
+   información es mantenida para esa entrada utilizando esta llamada. Podrías utilizar esta
+   llamada para una aplicación la cual &quot;navegue&quot; entre entradas de directorio y/o donde no
+   conozcas la estructura de las entradas de directorio. En muchas aplicaciones
+   estarás buscando un atributo específico tal como una dirección de correo electrónico o
+   un apellido, y no tendrás cuidado de qué otro datos sean mantenidos en esa búsqueda.
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="cdata"><pre>
+return_value[&quot;count&quot;] = número de atributos en la entrada
+return_value[0] = el primero atributo
+return_value[n] = el enésimo atributo
+
+return_value[&quot;attribute&quot;][&quot;count&quot;] = número de valores para un atributo
+return_value[&quot;attribute&quot;][0] = el primero valor del atributo
+return_value[&quot;attribute&quot;][i] = el valor (i+1) del atributo
+</pre></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.ldap-get-attributes-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">link_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un enlace identificador de LDAP, devuelto por <span class="function"><a href="function.ldap-connect.html" class="function">ldap_connect()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">result_entry_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.ldap-get-attributes-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve una entrada completa de información en un arreglo multi-dimensional
+   en caso de éxito y <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.ldap-get-attributes-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4902">
+    <p><strong>Ejemplo #1 
+     Mostrar la lista de atributos mantenida por una entrada de directorio en particular
+    </strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;$ds&nbsp;es&nbsp;el&nbsp;enlace&nbsp;identificador&nbsp;para&nbsp;el&nbsp;directorio<br /><br />//&nbsp;$sr&nbsp;es&nbsp;un&nbsp;resultado&nbsp;de&nbsp;búsqueda&nbsp;válido&nbsp;desde&nbsp;una&nbsp;llamada&nbsp;previa&nbsp;hacia<br />//&nbsp;una&nbsp;de&nbsp;las&nbsp;llamadas&nbsp;de&nbsp;búsqueda&nbsp;de&nbsp;directorio&nbsp;de&nbsp;ldap<br /><br /></span><span style="color: #0000BB">$entry&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ldap_first_entry</span><span style="color: #007700">(</span><span style="color: #0000BB">$ds</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sr</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$attrs&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ldap_get_attributes</span><span style="color: #007700">(</span><span style="color: #0000BB">$ds</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$entry</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #0000BB">$attrs</span><span style="color: #007700">[</span><span style="color: #DD0000">"count"</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"&nbsp;atributos&nbsp;mantenidos&nbsp;por&nbsp;esta&nbsp;entrada:&lt;p&gt;"</span><span style="color: #007700">;<br /><br />for&nbsp;(</span><span style="color: #0000BB">$i</span><span style="color: #007700">=</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">$attrs</span><span style="color: #007700">[</span><span style="color: #DD0000">"count"</span><span style="color: #007700">];&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$attrs</span><span style="color: #007700">[</span><span style="color: #0000BB">$i</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.ldap-get-attributes-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ldap-first-attribute.html" class="function" rel="rdfs-seeAlso">ldap_first_attribute()</a> - Devolver el primer atributo</span></li>
+    <li class="member"><span class="function"><a href="function.ldap-next-attribute.html" class="function" rel="rdfs-seeAlso">ldap_next_attribute()</a> - Obtener el siguiente atributo en un resultado</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ldap-free-result.html">ldap_free_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ldap-get-dn.html">ldap_get_dn</a></div>
+ <div class="up"><a href="ref.ldap.html">LDAP Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

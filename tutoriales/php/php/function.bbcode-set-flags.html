@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establece o cambia las opciones del analizador</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.bbcode-set-arg-parser.html">bbcode_set_arg_parser</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.pcre.html">PCRE</a></div>
+ <div class="up"><a href="ref.bbcode.html">Funciones de BBCode</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.bbcode-set-flags" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">bbcode_set_flags</h1>
+  <p class="verinfo">(PECL bbcode &gt;= 0.10.2)</p><p class="refpurpose"><span class="refname">bbcode_set_flags</span> &mdash; <span class="dc-title">Establece o cambia las opciones del analizador</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.bbcode-set-flags-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>bbcode_set_flags</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$bbcode_container</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$flags</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$mode</code><span class="initializer"> = BBCODE_SET_FLAGS_SET</span></span>
+  ] )</div>
+
+
+  <p class="para rdfs-comment">
+   Establece o cambia las opciones del analizador
+  </p>
+
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.bbcode-set-flags-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">bbcode_container</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Resource BBCode_Container , retornado por
+       <span class="function"><a href="function.bbcode-create.html" class="function">bbcode_create()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">flags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El flag que se debe aplicar a las opciones de bbcode_container
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Una de las constantes BBCODE_SET_FLAGS_* para aplicar, eliminar un set
+       de flag o reemplazar el set de flag por <code class="parameter">flags</code>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.bbcode-set-flags-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+
+ <div class="refsect1 examples" id="refsect1-function.bbcode-set-flags-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5332">
+    <p><strong>Ejemplo #1 Ejemplo de uso de <span class="function"><strong>bbcode_set_flags()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Preparando&nbsp;el&nbsp;set&nbsp;de&nbsp;reglas<br />&nbsp;*/<br /></span><span style="color: #0000BB">$arrayBBCode</span><span style="color: #007700">=array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'b'</span><span style="color: #007700">=&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'type'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">BBCODE_TYPE_NOARG</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'open_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;b&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'close_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;/b&gt;'</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'u'</span><span style="color: #007700">=&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'type'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">BBCODE_TYPE_NOARG</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'open_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;u&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'close_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;/u&gt;'</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'i'</span><span style="color: #007700">=&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'type'</span><span style="color: #007700">=&gt;</span><span style="color: #0000BB">BBCODE_TYPE_NOARG</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'open_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;i&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'close_tag'</span><span style="color: #007700">=&gt;</span><span style="color: #DD0000">'&lt;/i&gt;'</span><span style="color: #007700">),<br />);<br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Emparejando&nbsp;BBCode&nbsp;anidado&nbsp;incorrectamente<br />&nbsp;*/<br /></span><span style="color: #0000BB">$texto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"[i]&nbsp;Analizador&nbsp;[b]&nbsp;Autocorrección&nbsp;[/i]&nbsp;en&nbsp;el&nbsp;trabajo&nbsp;[/b]\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$BBHandler&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">bbcode_create</span><span style="color: #007700">(</span><span style="color: #0000BB">$arrayBBCode</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">bbcode_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$BBHandler</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$text</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;Habilitamos&nbsp;reapertura&nbsp;de&nbsp;elementos&nbsp;cerrados&nbsp;automáticamente<br /></span><span style="color: #0000BB">bbcode_set_flags</span><span style="color: #007700">(</span><span style="color: #0000BB">$BBHandler</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">BBCODE_CORRECT_REOPEN_TAGS</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">BBCODE_SET_FLAGS_SET</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">bbcode_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$BBHandler</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$texto</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Desemparejado&nbsp;de&nbsp;BBCode&nbsp;anidado&nbsp;incorrectamente<br />&nbsp;*/<br /></span><span style="color: #0000BB">$texto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"[i]&nbsp;Analizador&nbsp;[b]&nbsp;Autocorrección&nbsp;[/i]&nbsp;en&nbsp;el&nbsp;trabajo\n"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">bbcode_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$BBHandler</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$texto</span><span style="color: #007700">);<br /></span><span style="color: #FF8000">//&nbsp;Habilitamos&nbsp;cierre&nbsp;automático&nbsp;de&nbsp;etiquetas&nbsp;pendientes<br /></span><span style="color: #0000BB">bbcode_set_flags</span><span style="color: #007700">(</span><span style="color: #0000BB">$BBHandler</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">BBCODE_CORRECT_REOPEN_TAGS&nbsp;</span><span style="color: #007700">|&nbsp;</span><span style="color: #0000BB">BBCODE_AUTO_CORRECT</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">BBCODE_SET_FLAGS_SET</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">bbcode_parse</span><span style="color: #007700">(</span><span style="color: #0000BB">$BBHandler</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$texto</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+&lt;i&gt; Analizador &lt;b&gt; Autocorrección &lt;/b&gt;&lt;/i&gt; en el trabajo 
+&lt;i&gt; Analizador &lt;b&gt; Autocorrección &lt;/b&gt;&lt;/i&gt;&lt;b&gt; en el trabajo &lt;/b&gt;
+&lt;i&gt; Analizador [b] Autocorrección &lt;/i&gt; en el trabajo
+&lt;i&gt; Analizador &lt;b&gt; Autocorrección &lt;/b&gt;&lt;/i&gt;&lt;b&gt; en el trabajo
+&lt;/b&gt;
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.bbcode-set-arg-parser.html">bbcode_set_arg_parser</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.pcre.html">PCRE</a></div>
+ <div class="up"><a href="ref.bbcode.html">Funciones de BBCode</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

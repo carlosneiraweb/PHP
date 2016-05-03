@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Especificar una funci&oacute;n para capturar y/o procesar la salida de un aislamiento de procesos de runkit</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.runkit-return-value-used.html">runkit_return_value_used</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.runkit-superglobals.html">runkit_superglobals</a></div>
+ <div class="up"><a href="ref.runkit.html">Funciones runkit</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.runkit-sandbox-output-handler" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">runkit_sandbox_output_handler</h1>
+  <p class="verinfo">(PECL runkit &gt;= 0.7.0)</p><p class="refpurpose"><span class="refname">runkit_sandbox_output_handler</span> &mdash; <span class="dc-title">
+   Especificar una función para capturar y/o procesar la salida de un aislamiento de procesos de runkit
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.runkit-sandbox-output-handler-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>runkit_sandbox_output_handler</strong></span>
+    ( <span class="methodparam"><span class="type">object</span> <code class="parameter">$sandbox</code></span>
+   [, <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$callback</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Normalmente, cuanquier cosa que realice una salida (como <span class="function"><a href="function.echo.html" class="function">echo</a></span>
+   o <span class="function"><a href="function.print.html" class="function">print</a></span>) será sacada como si fuera impresa
+   desde el ámbito padre. Sin embargo, al usar <span class="function"><strong>runkit_sandbox_output_handler()</strong></span>,
+   la salida generada por el aislamiento de procesos (inclueyndo errores) puede ser capturada
+   por una función fuera del aislamiento de procesos.
+  </p>
+
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Soporte para Entorno de Pruebas (requerido por
+<span class="function"><a href="function.runkit-lint.html" class="function">runkit_lint()</a></span>, <span class="function"><a href="function.runkit-lint-file.html" class="function">runkit_lint_file()</a></span>,
+y la clase <strong class="classname">Runkit_Sandbox</strong>) está disponible sólo a partir de
+PHP 5.1.0 o versiones especialmente parcheadas de PHP 5.0, y requiere que thread
+safety sea habilitada.
+Vea el archivo <var class="filename">README</var> incluido en el paquete runkit para
+más información.</span></p></blockquote>
+
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <strong>Obsoleto</strong><br />
+    <p class="para">
+      A partir de la versión 0.5 de runkit, esta función está obsoleta y está programada para
+      ser eliminada del paquete antes de la distribución de la versión 1.0. Para una instancia de Runkit_Sandbox,
+      el gestor de salida puede ser leído/establecido usando la sintaxis de índice de array
+      mostrado en la página de definición de la clase <a href="runkit.sandbox.html" class="link">Runkit_Sandbox</a>.
+    </p>
+  </p></blockquote>
+
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.runkit-sandbox-output-handler-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">sandbox</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Instancia de objeto de la clase Runkit_Sandbox en la que establecer el gestor de salida.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">callback</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Nombre de una función que espera un parámetro.
+       La salida generada por <code class="parameter">sandbox</code> será pasada
+       a esta llamada de retorno (callback). Cualquier cosa devuelta por la llamda de retorno será mostrada
+       normalmente. Si este parámetro no se pasa, la gestión de salida no será cambiada.
+       Si se pasa un valor no verdadero, la gestión de salida será deshabilitada y será vuelta a la
+       muestra directa.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.runkit-sandbox-output-handler-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el nombre de la llamada de retorno del gestor de salida definido previamente, o
+   <strong><code>FALSE</code></strong> si no se definió previamente un gestor.
+  </p>
+ </div>
+
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.runkit-sandbox-output-handler-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-609">
+    <p><strong>Ejemplo #1 Introducir la salida en una variable</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">capture_output</span><span style="color: #007700">(</span><span style="color: #0000BB">$str</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">[</span><span style="color: #DD0000">'sandbox_output'</span><span style="color: #007700">]&nbsp;.=&nbsp;</span><span style="color: #0000BB">$str</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;return&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$sandbox_output&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$php&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Runkit_Sandbox</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">runkit_sandbox_output_handler</span><span style="color: #007700">(</span><span style="color: #0000BB">$php</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'capture_output'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$php</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">echo</span><span style="color: #007700">(</span><span style="color: #DD0000">"Hola\n"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$php</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">eval</span><span style="color: #007700">(</span><span style="color: #DD0000">'var_dump("Lo&nbsp;siento");'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$php</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">die</span><span style="color: #007700">(</span><span style="color: #DD0000">"Me&nbsp;perdí."</span><span style="color: #007700">);<br />unset(</span><span style="color: #0000BB">$php</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"Sandbox&nbsp;Completado\n\n"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$sandbox_output</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Sandbox Completado
+
+Hola
+string(9) &quot;Lo sientoe&quot;
+Me perdí.
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.runkit-return-value-used.html">runkit_return_value_used</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.runkit-superglobals.html">runkit_superglobals</a></div>
+ <div class="up"><a href="ref.runkit.html">Funciones runkit</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

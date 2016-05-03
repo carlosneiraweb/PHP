@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Buscar coincidencias de nombres de ruta con un patr&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fwrite.html">fwrite</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.is-dir.html">is_dir</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.glob" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">glob</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.3.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">glob</span> &mdash; <span class="dc-title">Buscar coincidencias de nombres de ruta con un patrón</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.glob-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>glob</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$pattern</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$flags</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   La función <span class="function"><strong>glob()</strong></span> busca todos los nombres de ruta que
+   coinciden con <code class="parameter">pattern</code> según las reglas usadas por la
+   función glob() de la biblioteca estándar de C, las cuales son similares a
+   las reglas usadas por intérpretes de comandos comunes.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.glob-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">pattern</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El patrón. No se realiza la expansión de tilde o la sustitución de parámetro.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">flags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Banderas válidas:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>GLOB_MARK</code></strong> - Añade un barra a cada directorio devuelto
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>GLOB_NOSORT</code></strong> - Devuelve los çvos como aparecen en el
+          directorio (sin ordenar). Cuando no se emple este indicador, los parámetros se
+          ordenan alfabéticamente
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>GLOB_NOCHECK</code></strong> - Devuelve el patrón de búsqueda si no
+          se encontraron ficheros coincidentes
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>GLOB_NOESCAPE</code></strong> - Las barras invertidas no escapan
+          meta-caracteres
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>GLOB_BRACE</code></strong> - Expande {a,b,c} para coincidir con &#039;a&#039;, &#039;b&#039;,
+          o &#039;c&#039;
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>GLOB_ONLYDIR</code></strong> - Devuelve sólo entradas de directorio
+          que coinciden con el patrón
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>GLOB_ERR</code></strong> - Se detiene si se produjeron errores de lectura
+          (como directorios ilegibles), por defecto los errores son ignorados.
+         </span>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.glob-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve una matriz que contiene los ficheros/directorios coincidentes, una matriz vacía
+   si no hubo ficheros coincidentes o <strong><code>FALSE</code></strong> si se produjo un error.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    En algunos sistemas es imposible distinguir entre una coincidencia vacía y un
+    error.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.glob-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.1.0</td>
+       <td>
+        Se añadió <strong><code>GLOB_ERR</code></strong>
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.glob-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2635">
+    <p><strong>Ejemplo #1 
+     Manera conveniente de cómo <span class="function"><strong>glob()</strong></span> puede remplazar a
+     <span class="function"><a href="function.opendir.html" class="function">opendir()</a></span> y similares.
+    </strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">foreach&nbsp;(</span><span style="color: #0000BB">glob</span><span style="color: #007700">(</span><span style="color: #DD0000">"*.txt"</span><span style="color: #007700">)&nbsp;as&nbsp;</span><span style="color: #0000BB">$nombre_fichero</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Tamaño&nbsp;de&nbsp;</span><span style="color: #0000BB">$nombre_fichero</span><span style="color: #DD0000">&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">filesize</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_fichero</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Tamaño de funclist.txt 44686
+Tamaño de funcsummary.txt 267625
+Tamaño de quickref.txt 137820
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.glob-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Esta función no funcionará en 
+<a href="features.remote-files.html" class="link">ficheros remotos</a> ya que el fichero debe ser
+accesible vía el sistema de ficheros del servidor para poder ser examinado.</span></p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    Está función no está disponible en algunos sistemas (p.ej. antiguos sistemas operativos de Sun).
+   </span>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <span class="simpara">
+    La bandera <strong><code>GLOB_BRACE</code></strong> no está disponible en algunos sistemas que no
+    son GNU, como Solaris.
+   </span>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.glob-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.opendir.html" class="function" rel="rdfs-seeAlso">opendir()</a> - Abre un gestor de directorio</span></li>
+    <li class="member"><span class="function"><a href="function.readdir.html" class="function" rel="rdfs-seeAlso">readdir()</a> - Lee una entrada desde un gestor de directorio</span></li>
+    <li class="member"><span class="function"><a href="function.closedir.html" class="function" rel="rdfs-seeAlso">closedir()</a> - Cierra un gestor de directorio</span></li>
+    <li class="member"><span class="function"><a href="function.fnmatch.html" class="function" rel="rdfs-seeAlso">fnmatch()</a> - Compara un nombre de fichero con un patr&oacute;n</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.fwrite.html">fwrite</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.is-dir.html">is_dir</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

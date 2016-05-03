@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Elevar un n&uacute;mero de precisi&oacute;n arbitraria a otro</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.bcmul.html">bcmul</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.bcpowmod.html">bcpowmod</a></div>
+ <div class="up"><a href="ref.bc.html">Funciones de BC Math</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.bcpow" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">bcpow</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">bcpow</span> &mdash; <span class="dc-title">Elevar un número de precisión arbitraria a otro</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.bcpow-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>bcpow</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$left_operand</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$right_operand</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$scale</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Elevar <code class="parameter">left_operand</code> a la potencia
+   <code class="parameter">right_operand</code>. 
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.bcpow-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">left_operand</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El left operand, como una cadena.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">right_operand</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El right operand, como una cadena.
+      </p>
+     </dd>
+
+    
+    <dt>
+<code class="parameter">
+scale</code></dt>
+<dd>
+<p class="para">Este parámetro opcional es usado para establecer el número
+de dígitos después del punto decimal en el resultado. Si se omite, su valor será el de la escala establecida
+globalmente con la función <span class="function"><a href="function.bcscale.html" class="function">bcscale()</a></span>, o se recurrirá a <em>0</em> si
+este valor no ha sido establecido.</p></dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.bcpow-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve el resultado como una cadena.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.bcpow-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-3907">
+   <p><strong>Ejemplo #1 Ejemplo <span class="function"><strong>bcpow()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">bcpow</span><span style="color: #007700">(</span><span style="color: #DD0000">'4.2'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'3'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;74.08<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.bcpow-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    <span class="function"><strong>bcpow()</strong></span> podría devolver un resultado con menos dígitos tras el punto
+    decimal que los indicados en el parámetro <code class="parameter">scale</code>.
+    Esto sucede únicamente cuando el resultado no necesita toda la precisión
+    disponible por <code class="parameter">scale</code>. Por ejemplo:
+    <div class="example" id="example-3908">
+     <p><strong>Ejemplo #2 Ejemplo de escalado de <span class="function"><strong>bcpow()</strong></span></strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">bcpow</span><span style="color: #007700">(</span><span style="color: #DD0000">'5'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'2'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;imprime&nbsp;"25",&nbsp;no&nbsp;"25.00"<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </div>
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.bcpow-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.bcpowmod.html" class="function" rel="rdfs-seeAlso">bcpowmod()</a> - Eleva un n&uacute;mero de precisi&oacute;n arbitraria a otro, reducido por un m&oacute;dulo especificado</span></li>
+    <li class="member"><span class="function"><a href="function.bcsqrt.html" class="function" rel="rdfs-seeAlso">bcsqrt()</a> - Obtiene la raiz cuadrada de un n&uacute;mero de precisi&oacute;n arbitraria</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.bcmul.html">bcmul</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.bcpowmod.html">bcpowmod</a></div>
+ <div class="up"><a href="ref.bc.html">Funciones de BC Math</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

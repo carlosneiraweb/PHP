@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>La clase MongoMaxKey</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mongominkey.html">MongoMinKey</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongotimestamp.html">MongoTimestamp</a></div>
+ <div class="up"><a href="mongo.types.html">Tipos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="class.mongomaxkey" class="reference">
+ 
+ <h1 class="title">La clase MongoMaxKey</h1>
+ 
+ 
+ <div class="partintro"><p class="verinfo">(PECL mongo &gt;= 1.0.2)</p>
+
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta extensión que define esta clase
+está obsoleta. En su lugar debe usarse la extensión <a href="set.mongodb.html" class="link">MongoDB</a>.
+Las alternativas a esta clase son:</p>
+   <ul class="simplelist">
+    <li class="member"><a href="class.mongodb-bson-maxkey.html" class="classname">MongoDB\BSON\MaxKey</a></li>
+   </ul>
+  </div>
+  
+  
+  <div class="section" id="mongomaxkey.intro">
+   <h2 class="title">Introducción</h2>
+   <p class="para">
+    <strong class="classname">MongoMaxKey</strong> es un tipo especial empleado por la base de datos
+    que se evalúa mayor que todos los demás valores BSON posibles. Así, si una consulta está
+    ordenada ascendentemente por un campo, cualquier documento con un
+    <a href="class.mongominkey.html" class="classname">MongoMinKey</a> como su valor será devuelto el último.
+   </p>
+   <p class="para">
+    <strong class="classname">MongoMaxKey</strong> no tiene campos asociados, métodos, o
+    constantes. Es meramente el valor &quot;más grande&quot; que se puede representar en la
+    base de datos.
+   </p>
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <span class="simpara">
+     <strong class="classname">MongoMaxKey</strong> se utilizar internamente en MongoDB para
+     indexar y fragmentar. Generalmente, no existe razón para utilizar esta clase en
+     una aplicación.
+    </span>
+   </p></blockquote>
+  </div>
+  
+  
+  <div class="section" id="mongomaxkey.synopsis">
+   <h2 class="title">Sinopsis de la Clase</h2>
+   
+   
+   <div class="classsynopsis">
+    <div class="ooclass"></div>
+    
+    
+    <div class="classsynopsisinfo">
+     <span class="ooclass">
+      <strong class="classname">MongoMaxKey</strong>
+     </span>
+     {</div>
+    
+   }</div>
+   
+   
+  </div>
+  
+  <div class="section" id="mongomaxkey.example">
+   <h2 class="title">Usando <strong class="classname">MongoMaxKey</strong> como valor</h2>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"task"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"dishes"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"doBy"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoMaxKey</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"task"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"staff&nbsp;meeting"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"doBy"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoDate</span><span style="color: #007700">(</span><span style="color: #0000BB">strtotime</span><span style="color: #007700">(</span><span style="color: #DD0000">"+4&nbsp;days"</span><span style="color: #007700">))));<br /><br /></span><span style="color: #0000BB">$cursor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$collection</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">sort</span><span style="color: #007700">(array(</span><span style="color: #DD0000">"doBy"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <p class="para">
+    El cursor devolverá el documento &#039;staff meeting&#039; seguido del documento
+    &#039;dishes&#039;. El documento &#039;dishes&#039; siempre será devuelto el último, independientemente de
+    lo que se añada a la colección (a menos que otros documentos se añadan con
+    <strong class="classname">MongoMaxKey</strong> en su campo &quot;doBy&quot;).
+   </p>
+  </div>
+  
+  <div class="simplesect">
+   <h3 class="title">Ver también</h3>
+   <ul class="simplelist">
+    <li class="member"><a href="class.mongominkey.html" class="classname">MongoMinKey</a></li>
+   </ul>
+  </div>
+ </div>
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.mongominkey.html">MongoMinKey</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="class.mongotimestamp.html">MongoTimestamp</a></div>
+ <div class="up"><a href="mongo.types.html">Tipos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

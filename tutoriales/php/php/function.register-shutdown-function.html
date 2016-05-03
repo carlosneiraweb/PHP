@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Registrar una funci&oacute;n para que sea ejecutada al cierre</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.get-defined-functions.html">get_defined_functions</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.register-tick-function.html">register_tick_function</a></div>
+ <div class="up"><a href="ref.funchand.html">Funciones de Manejo de Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.register-shutdown-function" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">register_shutdown_function</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">register_shutdown_function</span> &mdash; <span class="dc-title">Registrar una función para que sea ejecutada al cierre</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.register-shutdown-function-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>register_shutdown_function</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$callback</code></span>
+   [, <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$parameter</code></span>
+   [, <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$...</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Registra una llamada de retorno dada por <code class="parameter">callback</code> para ser ejecutada después
+   de que finalice la ejecución del scrip o se llame a <span class="function"><a href="function.exit.html" class="function">exit()</a></span>.
+  </p>
+  <p class="para">
+   Se pueden hacer múltiples llamadas a <span class="function"><strong>register_shutdown_function()</strong></span>,
+   y cada una será llamada en el mismo orden en el que fueron registradas.
+   Si se llama a <span class="function"><a href="function.exit.html" class="function">exit()</a></span> dentro de una función de cierre
+   registrada, el procesamiento se detendrá completamente y no se llamarán a otras
+   funciones de cierre registradas.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.register-shutdown-function-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">callback</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La llamada de retorno de cierre a registrar.
+      </p>
+      <p class="para">
+       Las llamadas de retorno de cierre se ejecutan como parte de una petición, por lo que
+       es posible enviar salidas desde ellas y acceder a los buffers de salida.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">parameter</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Es posible pasar parámetros a la función de cierre pasando
+       parámetros adicionales.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">...</code></dt>
+
+     <dd>
+
+      <p class="para">
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.register-shutdown-function-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-function.register-shutdown-function-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Se generará un error de nivel <strong><code>E_WARNING</code></strong> si no es posible llamar a
+   la llamada de retorno.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.register-shutdown-function-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5679">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>register_shutdown_function()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">cierre</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Esta&nbsp;es&nbsp;nuestra&nbsp;función&nbsp;de&nbsp;cierre,<br />&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;aquí&nbsp;podemos&nbsp;hacer&nbsp;las&nbsp;últimas&nbsp;operaciones<br />&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;antes&nbsp;de&nbsp;que&nbsp;el&nbsp;script&nbsp;sea&nbsp;completado.<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">'Script&nbsp;ejecutado&nbsp;con&nbsp;éxito'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">register_shutdown_function</span><span style="color: #007700">(</span><span style="color: #DD0000">'cierre'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.register-shutdown-function-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El directorio de trabajo del script se puede cambiar dentro de la función de cierre
+    bajo algunos servidores web, p.ej. Apache.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Las funciones de cierre no serán ejecutadas si el proceso es terminado por señales SIGTERM
+    o SIGKILL. Pese a que no es posible interceptar una señal SIGKILL, es posible utilizar <span class="function"><a href="function.pcntl-signal.html" class="function">pcntl_signal()</a></span>
+    para registrar un manejador para SIGTERM que utilice <span class="function"><a href="function.exit.html" class="function">exit()</a></span> para
+    terminar limpiamente.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.register-shutdown-function-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><a href="ini.core.html#ini.auto-append-file" class="link">auto_append_file</a></li>
+    <li class="member"><span class="function"><a href="function.exit.html" class="function" rel="rdfs-seeAlso">exit()</a> - Imprime un mensaje y termina el script actual</span></li>
+    <li class="member">La sección sobre <a href="features.connection-handling.html" class="link">manejo de conexiones</a></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.get-defined-functions.html">get_defined_functions</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.register-tick-function.html">register_tick_function</a></div>
+ <div class="up"><a href="ref.funchand.html">Funciones de Manejo de Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

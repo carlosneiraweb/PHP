@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Env&iacute;a una consulta SQL a MySQL, sin recuperar ni almacenar en b&uacute;fer las filas de resultados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-thread-id.html">mysql_thread_id</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.mysqli.html">MySQLi</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-unbuffered-query" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_unbuffered_query</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.6, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_unbuffered_query</span> &mdash; <span class="dc-title">Envía una consulta SQL a MySQL, sin recuperar ni almacenar en búfer las filas de resultados</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-unbuffered-query-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta extensión fue declarada obsoleta en PHP 5.5.0 y eliminada en PHP 7.0.0.
+En su lugar debería utilzarse las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a>.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Alternatives to this function include:</p>
+   <ul class="simplelist">
+    <li class="member">See: <a href="mysqlinfo.concepts.buffering.html" class="link">Consultas almacenadas y no almacenadas en buffer</a></li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-unbuffered-query-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>mysql_unbuffered_query</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$query</code></span>
+   [, <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code><span class="initializer"> = NULL</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>mysql_unbuffered_query()</strong></span> envía la consulta SQL
+   <code class="parameter">query</code> a MySQL, sin recuperar ni almacenar automáticamente
+   en búfer las filas de resultados, como
+   <span class="function"><a href="function.mysql-query.html" class="function">mysql_query()</a></span> lo hace. Esto ahorra una considerable
+   cantidad de memoria con las consultas SQL que producen conjuntos de resultados grandes,
+   y se puede empezar a trabajar con el conjunto de resultados inmediatamente después de
+   que la primera fila haya sido recuperada, ya que no es necesario esperar hasta que la
+   consulta SQL completa haya sido ejecutada. Para usar
+   <span class="function"><strong>mysql_unbuffered_query()</strong></span> mientras están abiertas
+   múltiples conexiones a la base de datos, se debe especificar el parámetro opcional
+   <code class="parameter">link_identifier</code> para identificar qué conexión
+   se desea utilizar.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-unbuffered-query-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">query</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La consulta SQL a ejecutar.
+      </p>
+      <p class="para">
+       Los datos dentro de la consulta deben estar <a href="function.mysql-real-escape-string.html" class="link">propiamente escapados</a>.
+      </p>
+     </dd>
+
+    
+    <dt>
+<code class="parameter">
+link_identifier</code></dt>
+<dd>
+<p class="para">La conexión MySQL. Si el
+identificador de enlace no se especifica, el último enlace abierto por
+<span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> es asumido. Si no se encuentra dicho enlace, la
+función intentará establecer un nuevo enlace como si <span class="function"><a href="function.mysql-connect.html" class="function">mysql_connect()</a></span> fuese invocado
+sin parámetros. Si no se encuentra o establece una conexión, un error de nivel
+<strong><code>E_WARNING</code></strong> es generado.</p></dd>
+
+
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-unbuffered-query-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Para sentencias SELECT, SHOW, DESCRIBE o EXPLAIN,
+   <span class="function"><strong>mysql_unbuffered_query()</strong></span>
+   devuelve un <span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> en caso de éxito, o <strong><code>FALSE</code></strong> en caso
+   de error.
+  </p>
+  <p class="para">
+   Para otro tipo de sentencias SQL, UPDATE, DELETE, DROP, etc,
+   <span class="function"><strong>mysql_unbuffered_query()</strong></span> devuelve <strong><code>TRUE</code></strong> en caso de éxito
+   o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.mysql-unbuffered-query-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Los beneficios de <span class="function"><strong>mysql_unbuffered_query()</strong></span> tienen
+    un precio: no se puede usar <span class="function"><a href="function.mysql-num-rows.html" class="function">mysql_num_rows()</a></span> ni
+    <span class="function"><a href="function.mysql-data-seek.html" class="function">mysql_data_seek()</a></span> en un conjunto de resultados devuelto por
+    <span class="function"><strong>mysql_unbuffered_query()</strong></span>, hasta que todas las filas sean recuperadas.
+    También se tendrán que recuperar todas las filas de resultados de una consulta SQL no almacenada en búfer
+    antes de poder enviar una nueva consulta SQL a MySQL, usando el mismo 
+    <code class="parameter">link_identifier</code>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-unbuffered-query-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-query.html" class="function" rel="rdfs-seeAlso">mysql_query()</a> - Enviar una consulta MySQL</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-thread-id.html">mysql_thread_id</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.mysqli.html">MySQLi</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

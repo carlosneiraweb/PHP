@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambios en el control de referencias</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration51.changes.html">Funcionalidades clave de PHP 5.1.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration51.reading.html">Leyendo []</a></div>
+ <div class="up"><a href="migration51.html">Migrar de PHP 5.0.x a PHP 5.1.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="migration51.references" class="section">
+  <h2 class="title">Cambios en el control de referencias</h2>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.references.html#migration51.references-overview" class="link">Resumen</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.references.html#migration51.references-fails" class="link">Código que funcionaba en PHP
+      4.3.x, y ahora falla</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.references.html#migration51.references-error" class="link">Código que funcionaba en PHP
+      4.3.x, y ahora lanza un error</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.references.html#migration51.references-works" class="link">Código que fallaba en PHP
+      4.3.x, y ahora funciona</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.references.html#migration51.references-didnotwork" class="link">Código que
+      debería haber funcionado en PHP 5.0.x</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.references.html#migration51.references-warnings" class="link">Alertas que vienen y
+      van</a>
+    </p>
+   </li>
+  </ul>
+  
+  <div class="section" id="migration51.references-overview">
+   <h2 class="title">Resumen</h2>
+   <p class="para">
+    Desde el punto de vista del lector de scripts PHP, el cambio que más
+    impacto tendrá a la hora de mantener el código compatible, es la forma en que se manejan
+    las referencias en las versiones de PHP posteriores a 4.4.0.
+   </p>
+   <p class="para">
+    Hasta PHP 4.3, incluida ésta, era posible enviar, asignar o devolver
+    variables por referencia que realmente tenían que devolver un valor, como
+    una constante, un valor temporal (p.ej. el resultado de una expresión), o el
+    resultado de una función que ha devuelto sí misma como valor, como aquí:
+   </p>
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"123"</span><span style="color: #007700">;<br /><br />function&nbsp;</span><span style="color: #0000BB">return_value</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;global&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">return_value</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <p class="para">
+    Aunque este código normalmente funcionará en PHP 4.3 como cabe esperar,
+    en general el resultado es indefinido. El Zend Engin podría no actuar
+    correctamente con estos valores como referencia. Este error podría llevar
+    a problemas de memorias corruptas difíciles de reproducir, en especial cuando
+    el código base es muy largo.
+   </p>
+   <p class="para">
+    En PHP 4.4.0, PHP 5.0.4, y posterior, el motor Zend se ha corregido para que
+    &#039;sepa&#039; cuándo una operación por referencia se usa en un valor que no
+    debería referenciarse. En estos casos se utiliza el valor real,
+    y se emite una alerta. Esta alerta es en forma de
+    <strong><code>E_NOTICE</code></strong> en PHP 4.4.0 y superior, y de
+    <strong><code>E_STRICT</code></strong> en PHP 5.0.4 y superior.
+   </p>
+   <p class="para">
+    Los códigos que podrían producir corrupciones en memoria ya no podrán hacerlo.
+    Sin embargo, hay códigos fuente que podrían funcionar de forma distinta a la esperada.
+   </p>
+  </div>
+  
+  <div class="section" id="migration51.references-fails">
+   <h2 class="title">Código que funcionaba en PHP 4.3, pero ahora falla</h2>
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">func</span><span style="color: #007700">(&amp;</span><span style="color: #0000BB">$arraykey</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$arraykey</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;¡la&nbsp;función&nbsp;devuelve&nbsp;un&nbsp;valor!<br /></span><span style="color: #007700">}<br /><br /></span><span style="color: #0000BB">$array&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'a'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'b'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'c'</span><span style="color: #007700">);<br />foreach&nbsp;(</span><span style="color: #0000BB">array_keys</span><span style="color: #007700">(</span><span style="color: #0000BB">$array</span><span style="color: #007700">)&nbsp;as&nbsp;</span><span style="color: #0000BB">$key</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$y&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">func</span><span style="color: #007700">(</span><span style="color: #0000BB">$array</span><span style="color: #007700">[</span><span style="color: #0000BB">$key</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$z</span><span style="color: #007700">[]&nbsp;=&amp;&nbsp;</span><span style="color: #0000BB">$y</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$z</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;<br /></span>&lt;</span>
+</code></div>
+    </div>
+
+    <p class="para">
+     Al ejecutar el script superior en alguna versión de PHP anterior a la
+     corrección del error, producirá la siguiente salida:
+    </p>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(3) {
+  [0]=&gt;
+  &amp;string(1) &quot;a&quot;
+  [1]=&gt;
+  &amp;string(1) &quot;b&quot;
+  [2]=&gt;
+  &amp;string(1) &quot;c&quot;
+}
+</pre></div>
+    </div>
+    <p class="para">
+     Y tras corregir el error de referencias, el mismo código resultará en:
+    </p>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(3) {
+  [0]=&gt;
+  &amp;string(1) &quot;c&quot;
+  [1]=&gt;
+  &amp;string(1) &quot;c&quot;
+  [2]=&gt;
+  &amp;string(1) &quot;c&quot;
+}
+</pre></div>
+    </div>
+   </div>
+   <p class="para">
+    Esto es porque, de acuerdo a los cambios, la asignación en <em>func()</em>
+    se hace por valor. El valor de <var class="varname"><var class="varname">$y</var></var> se reasigna,
+    y se impide enlazar por referencia a <var class="varname"><var class="varname">$z</var></var>. Antes de la
+    corrección, se asignaba el valor por referencia, dando lugar a que <var class="varname"><var class="varname">$y</var></var>
+    se revinculara en cada asignación. El intento de enlazar a un valor
+    temporal por referencia era la causa de la memoria corrupta.
+   </p>
+   <p class="para">
+    Dicho código se puede rescribir para funcionar de forma idéntica en 
+    ambas versiones. La definición de <em>func()</em> se puede modificar
+    para devolver valores por referencia, o se podría eliminar la asignación
+    por referencia del resultado de <em>func()</em>.
+   </p>
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">func</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #DD0000">'devolución&nbsp;de&nbsp;la&nbsp;function'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$x&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'valor&nbsp;original'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$y&nbsp;</span><span style="color: #007700">=&amp;&nbsp;</span><span style="color: #0000BB">$x</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$y&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">func</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #0000BB">$x</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <p class="para">
+    En PHP 4.3 <var class="varname"><var class="varname">$x</var></var> será &#039;valor original&#039;, mientras que tras los
+    cambios será &#039;devolución de la función&#039; - recuerde que como la función
+    no devuelve el valor por referencia, la asignación por referencia se convierte
+    a una asignación convencional. De nuevo, esto puede se llevar a un comportamiento común,
+    o bien forzando a que <em>func()</em> devuelva el valor por referencia
+    o eliminando la asignación por referencia.
+   </p>
+  </div>
+  
+  <div class="section" id="migration51.references-error">
+   <h2 class="title">Código que funcionaba en PHP 4.3.x, pero ahora lanza un error</h2>
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Foo&nbsp;</span><span style="color: #007700">{<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">getThis</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">destroyThis</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$baz&nbsp;</span><span style="color: #007700">=&amp;&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getThis</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Foo</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$bar</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">destroyThis</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$bar</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <p class="para">
+    En PHP 5.0.3, <var class="varname"><var class="varname">$bar</var></var> se evaluaba a <strong><code>NULL</code></strong>
+    en lugar de devolver un objeto. Esto sucedía porque
+    <em>getThis()</em> devuelve por valor, pero el valor aquí se
+    asigna por referencia. A pesar de que funciona de la forma esperada, esto es en realidad
+    un código inválido que lanzará un <strong><code>E_NOTICE</code></strong>
+    en PHP 4.4 o un <strong><code>E_STRICT</code></strong> en PHP 5.0.4 y superior.
+   </p>
+  </div>
+  
+  <div class="section" id="migration51.references-works">
+   <h2 class="title">Código que fallaba en PHP 4.3.x, pero ahora funciona</h2>
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;&amp;</span><span style="color: #0000BB">f</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$x&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"foo"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$x</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$x</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;return(</span><span style="color: #0000BB">$a</span><span style="color: #007700">);<br />}<br /><br />for&nbsp;(</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$h&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">f</span><span style="color: #007700">();<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <p class="para">
+     En PHP 4.3 la tercera llamada a <span class="function"><a href="function.var-dump.html" class="function">var_dump()</a></span> produce
+     <strong><code>NULL</code></strong>, debido a la memoria corrupta provocada tras
+     devolver por referencia un valor no inicializado. Este código es valido
+     en PHP 5.0.4 y superior, pero lanza errores en versiones de PHP anteriores.
+    </p>
+   </div>
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$arr&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'a1'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;array(</span><span style="color: #DD0000">'alfa'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'ok'</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$arr&nbsp;</span><span style="color: #007700">=&amp;&nbsp;</span><span style="color: #0000BB">$arr</span><span style="color: #007700">[</span><span style="color: #DD0000">'a1'</span><span style="color: #007700">];<br />echo&nbsp;</span><span style="color: #DD0000">'-'</span><span style="color: #007700">.</span><span style="color: #0000BB">$arr</span><span style="color: #007700">[</span><span style="color: #DD0000">'alfa'</span><span style="color: #007700">].</span><span style="color: #DD0000">"-\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <p class="para">
+     Hasta PHP 5.0.5, no era posible asignar un array por referencia
+     de esta forma. Ahora sí.
+    </p>
+   </div>
+  </div>
+  
+  <div class="section" id="migration51.references-didnotwork">
+   <h2 class="title">Código que <em>debería haber funcionado</em> en PHP 5.0.x</h2>
+   <p class="para">
+    Hay un par de de errores en PHP 5.0, anteriores a que se
+    corrigiera el problema de referencias, que ahora &#039;funcionan&#039;. Sin embargo, en ambos
+    casos los errores se emiten en PHP 5.1.x, porque en primer lugar, el código era
+    inválido. Devolver un valor por referencia usando <em>self::</em> ahora,
+    en términos generales, funciona pero emite una alerta <strong><code>E_STRICT</code></strong>,
+    y se emitirá un <strong><code>E_ERROR</code></strong> cuando se asigne por referencia
+    un objeto sobrecargado, incluso cuando parezca que la asignación ha funcionado.
+   </p>
+  </div>
+  
+  <div class="section" id="migration51.references-warnings">
+   <h2 class="title">Alertas que vienen y van</h2>
+   <p class="para">
+    Las llamadas anidadas a funciones que devuelven por valores por referencia son válidas tanto
+    en PHP 4.3.x como en PHP 5.1.x, pero emiten 
+    <strong><code>E_NOTICE</code></strong> o <strong><code>E_STRICT</code></strong> en las
+    versiones de PHP intermedias.
+   </p>
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;&amp;&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$var&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'ok'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$var</span><span style="color: #007700">;<br />}<br /><br />function&nbsp;&amp;&nbsp;</span><span style="color: #0000BB">bar</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">();<br />}<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&amp;&nbsp;</span><span style="color: #0000BB">bar</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$a</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration51.changes.html">Funcionalidades clave de PHP 5.1.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration51.reading.html">Leyendo []</a></div>
+ <div class="up"><a href="migration51.html">Migrar de PHP 5.0.x a PHP 5.1.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

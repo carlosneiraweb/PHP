@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Constantes de clases</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.properties.html">Propiedades</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.autoload.html">Autocarga de clases</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.oop5.constants" class="sect1">
+ <h2 class="title">Constantes de clases</h2>
+ <p class="para">
+  Es posible definir valores constantes en función de cada clase manteniéndola
+  invariable. Las constantes se diferencian de las variables comunes en que no
+  utilizan el símbolo <var class="varname"><var class="varname">$</var></var> al declararlas o emplearlas. 
+ </p>
+ <p class="para">
+  El valor debe ser una expresión constante, no (por ejemplo) una variable, una
+  propiedad o una llamada a una función.
+ </p>
+ <p class="para">
+  También es posible que las interfaces tengan <em>constantes</em>. Consulte
+  los ejemplos de la
+  <a href="language.oop5.interfaces.html" class="link">documentación de interfaces</a>.
+ </p>
+ <p class="para">
+  A partir de PHP 5.3.0, es posible referirse a una clase utilizando una variable.
+  El valor de la variable no puede ser una palabra reservada (p.ej., <em>self</em>,
+  <em>parent</em> o <em>static</em>).
+ </p>
+ <div class="example" id="example-209">
+  <p><strong>Ejemplo #1 Definición y uso de una constante</strong></p>
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">MiClase<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;</span><span style="color: #0000BB">CONSTANTE&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'valor&nbsp;constante'</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">mostrarConstante</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;&nbsp;</span><span style="color: #0000BB">self</span><span style="color: #007700">::</span><span style="color: #0000BB">CONSTANTE&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />echo&nbsp;</span><span style="color: #0000BB">MiClase</span><span style="color: #007700">::</span><span style="color: #0000BB">CONSTANTE&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$nombreclase&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"MiClase"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$nombreclase</span><span style="color: #007700">::</span><span style="color: #0000BB">CONSTANTE&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.3.0<br /><br /></span><span style="color: #0000BB">$clase&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MiClase</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$clase</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">mostrarConstante</span><span style="color: #007700">();<br /><br />echo&nbsp;</span><span style="color: #0000BB">$clase</span><span style="color: #007700">::</span><span style="color: #0000BB">CONSTANTE</span><span style="color: #007700">.</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.3.0<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+ </div>
+ <div class="example" id="example-210">
+  <p><strong>Ejemplo #2 Ejemplo de datos estáticos</strong></p>
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">foo&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.3.0<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">const&nbsp;</span><span style="color: #0000BB">BAR&nbsp;</span><span style="color: #007700">=&nbsp;&lt;&lt;&lt;'EOT'<br /></span><span style="color: #DD0000">bar<br /></span><span style="color: #007700">EOT;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.3.0<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">const&nbsp;</span><span style="color: #0000BB">BAZ&nbsp;</span><span style="color: #007700">=&nbsp;&lt;&lt;&lt;EOT<br /></span><span style="color: #DD0000">baz<br /></span><span style="color: #007700">EOT;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+ </div>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   El soporte para la inicialización de constantes con la sintaxis de Heredoc y Nowdoc fue agregado en PHP 5.3.0.
+  </p>
+ </p></blockquote>
+ <div class="example" id="example-211">
+  <p><strong>Ejemplo #3 Ejemplo de expresión constante</strong></p>
+  <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">const&nbsp;</span><span style="color: #0000BB">UNO&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /><br />class&nbsp;</span><span style="color: #0000BB">foo&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;A&nbsp;partir&nbsp;de&nbsp;PHP&nbsp;5.6.0<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">const&nbsp;</span><span style="color: #0000BB">DOS&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">UNO&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;</span><span style="color: #0000BB">TRES&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">UNO&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">self</span><span style="color: #007700">::</span><span style="color: #0000BB">DOS</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;</span><span style="color: #0000BB">SENTENCIA&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'El&nbsp;valor&nbsp;de&nbsp;TRES&nbsp;es&nbsp;'</span><span style="color: #007700">.</span><span style="color: #0000BB">self</span><span style="color: #007700">::</span><span style="color: #0000BB">TRES</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+  </div>
+
+  <div class="example-contents"><p>
+   Es posible proporcionar una expresión escalar que implique literales numéricos y de string y/o constantes en el contexto de una constante de clase.
+  </p></div>
+ </div>
+ <blockquote class="note"><p><strong class="note">Nota</strong>: 
+  <p class="para">
+   El soporte para expresiones constantes se añadió en PHP 5.6.0.
+  </p>
+ </p></blockquote>
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.oop5.properties.html">Propiedades</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.oop5.autoload.html">Autocarga de clases</a></div>
+ <div class="up"><a href="language.oop5.html">Clases y objetos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

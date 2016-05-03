@@ -1,0 +1,283 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Nginx 1.4.x en sistemas Unix</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="install.unix.apache2.html">Apache 2.x sobre sistemas Unix</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="install.unix.lighttpd-14.html">Lighttpd 1.4 en sistemas Unix</a></div>
+ <div class="up"><a href="install.unix.html">Instalaci&oacute;n sobre sistemas Unix</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="install.unix.nginx" class="sect1">
+ <h2 class="title">Nginx 1.4.x en sistemas Unix</h2>
+ 
+ <p class="para">
+  Esta documentación cubre la instalación y configuración de PHP con
+  PHP-FPM para un servidor HTTP de Nginx 1.4.x.
+ </p>
+ 
+ <p class="para">
+  En esta guía se asume que se ha construido Nginx desde el código fuente, por lo que
+  todos los ficheros binarios y de configuración están ubicados en
+  <em>/usr/local/nginx</em>. Si este no es el caso y se ha
+  obtenido Nginx a través de otros medios, consúltese la
+  <a href="http://wiki.nginx.org/Main" class="link external">&raquo;&nbsp;Wiki de Nginx</a> para traducir
+  este manual a una configuración propia.
+ </p>
+ 
+ <p class="para">
+  Esta guía cubre la configuración básica de un servidor Nginx para
+  procesar aplicaciones de PHP y servirlas en el puerto 80. Se recomienda
+  estudiar la documentación de Nginx y de PHP-FPM para poder
+  optimizar la configuración más allá del ámbito de esta documentación.
+ </p>
+ 
+ <p class="para">
+  Obsérvese que en esta documentación se han reemplazado los números
+  de versión con una &#039;x&#039; para asegurarse de que sea correcta en el futuro;
+  se han de reemplazar estos con los números de versión correspondiente cuando sea necesario.
+ </p>
+ 
+ <ol type="1">
+  <li class="listitem">
+   <p class="para">
+    Se recomienda visitar la página de
+    <a href="http://wiki.nginx.org/Install" class="link external">&raquo;&nbsp;instalación</a> de la Wiki de Nginx 
+    para obtener e instalar Nginx en un sistema propio.
+   </p>
+  </li>
+  
+  <li class="listitem">
+   <p class="para">
+    Obtener y desempaquetar el código fuente de PHP:
+   </p>
+   
+   <div class="example" id="install.unix.nginx.extract.php">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+tar zxf php-x.x.x
+</pre></div>
+    </div>
+   </div>
+  </li>
+  
+  <li class="listitem">
+   <p class="para">
+    Configurar y construir PHP. Aquí es donde se personaliza PHP
+    con varias opciones, como qué extensiones se habilitarán. Ejecutar
+    ./configure --help para enumerar las opciones disponibles. En este ejemplo
+    se realiza una configuración sencilla con soporte para PHP-FPM y MySQL.
+   </p>
+   
+   <div class="example" id="install.unix.nginx.build.php">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+cd ../php-x.x.x
+./configure --enable-fpm --with-mysql
+make
+sudo make install
+</pre></div>
+    </div>
+   </div>
+  </li>
+  
+  <li class="listitem">
+   <p class="para">
+    Obtener y mover los ficheros de configuración a sus ubicaciones correctas
+   </p>
+   
+   <div class="example" id="install.unix.nginx.configure.php">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+cp php.ini-development /usr/local/php/php.ini
+cp /usr/local/etc/php-fpm.conf.default /usr/local/etc/php-fpm.conf
+cp sapi/fpm/php-fpm /usr/local/bin
+</pre></div>
+    </div>
+   </div>
+  </li>
+  
+  <li class="listitem">
+   <p class="para">
+    Es importante prevenir que Nginx pase peticiones al
+    «backend» de PHP-FPM si el fichero no existe, evitando así
+    la inyección arbitraria de scripts.
+   </p>
+   <p class="para">
+    Esto se puede corregir estableciendo la directiva
+    <a href="ini.core.html#ini.cgi.fix-pathinfo" class="link">cgi.fix_pathinfo</a>
+    a <em>0</em> dentro del fichero php.ini.
+   </p>
+   <p class="para">
+    Cargar el php.ini:
+   </p>
+   
+   <div class="example" id="install.unix.nginx.configure.ini">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+vim /usr/local/php/php.ini
+</pre></div>
+    </div>
+   </div>
+   
+   <p class="para">
+    Localizar <em>cgi.fix_pathinfo=</em> y modificarla como sigue:
+   </p>
+   
+   <div class="example" id="install.unix.nginx.configure.pathinfo">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+cgi.fix_pathinfo=0
+</pre></div>
+    </div>
+   </div>
+  </li>
+  
+  <li class="listitem">
+   <p class="para">
+    Se debe modificar php-fpm.conf para especificar que php-fpm debe ejecutarse como el usuario
+    www-data y el grupo www-data antes de poder iniciar el servicio:
+   </p>
+   
+   <div class="example" id="install.unix.nginx.modify.phpfpm">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+vim /usr/local/etc/php-fpm.conf
+</pre></div>
+    </div>
+   </div>
+   
+   <p class="para">
+    Buscar y modificar lo siguiente: 
+   </p>
+   
+   <div class="example" id="install.unix.nginx.modify.phpfpm.usergroup">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+; Usuario/grupo de procesos de Unix
+; Nota: El usuario es obligatorio. Si el grupo no se establece, se utilizará
+;       el grupo predeterminado del usuario.
+user = www-data
+group = www-data
+</pre></div>
+    </div>
+   </div>
+   
+   <p class="para">
+    Ahora se puede iniciar el servicio de php-fpm:
+   </p>
+   
+   <div class="example" id="install.unix.nginx.start.phpfpm">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+/usr/local/bin/php-fpm
+</pre></div>
+    </div>
+   </div>
+   
+   <p class="para">
+    Esta guía no continua configurando php-fpm; si se tiene interés en
+    una configuración mayor de php-fpm, consulte la documentación.
+   </p>
+  </li>
+  
+  <li class="listitem">
+   <p class="para">
+    Ahora Nginx debe configurarse para que pueda procesar aplicaciones de PHP:
+   </p>
+   
+   <div class="example" id="install.unix.nginx.configure.nginx">
+    <div class="example-contents">
+<div class="cdata"><pre>
+vim /usr/local/nginx/conf/nginx.conf
+</pre></div>
+    </div>
+
+   </div>
+   
+   <p class="para">
+    Modificar el bloque de ubicaciones predeterminado para que intente
+    servir ficheros .php:
+   </p>
+   
+   <div class="example" id="install.unix.nginx.configure.nginx.location">
+    <div class="example-contents">
+<div class="nginx-confcode"><pre class="nginx-confcode">location / {
+    root   html;
+    index  index.php index.html index.htm;
+}</pre>
+</div>
+    </div>
+
+   </div>
+   
+   <p class="para">
+    El siguiente paso es asegurarse de que los ficheros .php se pasan al
+    «backend» de PHP-FPM. Bajo el bloque de ubicaciones predeterminado de PHP
+    comentado, añadir lo siguiente:
+   </p>
+   
+   <div class="example" id="install.unix.nginx.configure.nginx.php">
+    <div class="example-contents">
+<div class="nginx-confcode"><pre class="nginx-confcode">location ~* \.php$ {
+    fastcgi_index   index.php;
+    fastcgi_pass    127.0.0.1:9000;
+    include         fastcgi_params;
+    fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+    fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
+}</pre>
+</div>
+    </div>
+
+   </div>
+   
+   <p class="para">
+    Reiniciar Nginx.
+   </p>
+   
+   <div class="example" id="install.unix.nginx.restart.nginx">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+sudo /usr/local/nginx/sbin/nginx -s stop
+sudo /usr/local/nginx/sbin/nginx
+</pre></div>
+    </div>
+   </div>
+  </li>
+  
+  <li class="listitem">
+   <p class="para">
+    Crear un fichero de prueba
+   </p>
+   
+   <div class="example" id="install.unix.nginx.test.nginx.php">
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+rm /usr/local/nginx/html/index.html
+echo &quot;&lt;?php phpinfo(); ?&gt;&quot; &gt;&gt; /usr/local/nginx/html/index.php
+</pre></div>
+    </div>
+   </div>
+   
+   <p class="para">
+    Ahora, navegar a http://localhost. phpinfo() debería mostrarse.
+   </p>
+  </li>
+ </ol>
+ 
+ <p class="para">
+  Siguiendo los pasos anteriores se tendrá un servidor web Nginx funcionando con
+  soporte para PHP como módulo <em>SAPI</em>. Por supuesto, existen
+  muchas más opciones de configuración disponibles para Nginx y PHP. Para más
+  información, teclear <strong class="command">./configure --help</strong> en el árbol de código
+  fuente correspondiente.
+ </p>
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="install.unix.apache2.html">Apache 2.x sobre sistemas Unix</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="install.unix.lighttpd-14.html">Lighttpd 1.4 en sistemas Unix</a></div>
+ <div class="up"><a href="install.unix.html">Instalaci&oacute;n sobre sistemas Unix</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

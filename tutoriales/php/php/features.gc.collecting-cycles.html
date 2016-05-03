@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Recolecci&oacute;n de referencias c&iacute;clicas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.gc.refcounting-basics.html">Introducci&oacute;n al contador de referencias</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.gc.performance-considerations.html">Consideraciones acerca del Rendimiento</a></div>
+ <div class="up"><a href="features.gc.html">Recolecci&oacute;n de basura</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="features.gc.collecting-cycles" class="sect1">
+  <h2 class="title">Recolección de referencias cíclicas</h2>
+  <p class="para">
+   Tradicionalmente, los mecanismos que contabilizan las referencias en memoria, tal como el que empleaba
+   PHP anteriormente, fallaban al abordar las fugas de memoria de referencias cíclicas.
+   Sin embargo, desde PHP 5.3.0 se implementa el algoritmo síncrono del artículo
+   <a href="http://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon01Concurrent.pdf" class="link external">&raquo;&nbsp;Recolección de ciclos concurrentes en sistemas de contabilidad de referencias</a>
+   que resuelve este asunto.
+  </p>
+  <p class="para">
+   Una explicación detallada del funcionamiento del algoritmo queda más allá del
+   objetivo de esta sección, aunque aquí explicaremos el mecanismo básico. Antes de nada,
+   debemos establecer unas reglas básicas. Si se incrementa un refcount,
+   este aún sigue en uso: no es basura. Si se decrementa el refcount y llega
+   a cero, el zval puede liberarse. Esto significa que la recolección de ciclos sólo   
+   puede llevarse a cabo cuando un argumento refcount se decrementa a un valor que no sea cero.
+   En segundo lugar, en un ciclo de recolección de basura, es posible averiguar qué partes son
+   basura comprobando si se puede decrementar en uno sus refcount, para
+   después comprobar cuáles zval poseen un refcount de cero.
+  </p>
+  <p class="para">
+   <div class="mediaobject">
+    
+    <div class="imageobject">
+     <img src="images/12f37b1c6963c1c5c18f30495416a197-gc-algorithm.png" alt="Algoritmo de recolección de basura" width="614" height="814" />
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Para evitar llamar a la comprobación de ciclos de basura en cada posible
+   decremento de un refcount, el algoritmo lo que hace es pasar todas las posibles raíces
+   (zvals) al &quot;buffer raíz&quot; (marcándolos en &quot;púrpura&quot;). También se asegura
+   de que cada raíz de basura sólo finaliza una vez en el buffer. Únicamente cuando el
+   buffer raíz está completo, comienza el mecanismo de recolección para todos los zval
+   diferentes que haya en su interior. Véase el paso A en la figura anterior.
+  </p>
+  <p class="para">
+   En el paso B, el algoritmo inicia una primera búsqueda en profundidad de todas las posibles raíces
+   en las que decrementa por uno los refcount de los zval que encuentra, asegurándose de que no
+   decrementa dos veces el mismo zval (marcándolo en &quot;gris&quot;). En
+   el paso C, el algoritmo vuelve a llevar a cabo una búsqueda en profundidad dentro de cada nodo raíz,
+   para volver a comprobar el refcount de cada zval. Si ve que el refcount es
+   cero, se marca al zval en &quot;blanco&quot; (azul en la figura). Si es mayor que
+   cero, deshace el decremento con una búsqueda en profundidad partiendo de
+   ese punto, y se le vuelve a marcar en &quot;negro&quot;. En el último
+   paso (D), el algoritmo recorre el buffer raíz eliminando las raíces zval que haya,
+   y a la vez, comprueba qué zvals se han marcado en &quot;blanco&quot; en
+   el paso anterior. Todos los zval marcados en &quot;blanco&quot; se eliminarán.
+  </p>
+  <p class="para">
+   Ahora que ya tiene un conocimiento básico de cómo funciona el algoritmo,
+   volveremos atrás para ver cómo se integra esto en PHP. Por omisión, el recolector
+   de basuras de PHP está habilitado. Hay, sin embargo, una directiva en <var class="filename">php.ini</var>
+   que permite cambiar esto:
+   <a href="info.configuration.html#ini.zend.enable-gc" class="link">zend.enable_gc</a>.
+  </p>
+  <p class="para">
+   Cuando el recolector de basura está habilitado, el algoritmo que busca ciclos,
+   tal y como se ha descrito arriba, se ejecuta cada vez que se llena el buffer raíz. Éste
+   tiene un tamaño fijo de 10.000 raíces posibles (se puede modificar
+   esto cambiando la contante <em>GC_ROOT_BUFFER_MAX_ENTRIES</em> en
+   <em>Zend/zend_gc.c</em> del código fuente de PHP, y recompilando
+   PHP). Cuando el recolector de basuras se deshabilita, no se ejecutará
+   el algoritmo que busca ciclos. Sea como fuere, las posibles raíces seguirían
+   registrándose en el buffer raíz, sin importar si el mecanismo recolector de basuras está
+   habilitado en la configuración o no.
+  </p>
+  <p class="para">
+   Si estando deshabilitado el mecanismo recolector de basuras se llenara el buffer raíz
+   de posibles raíces, no se registraría al resto de raíces posibles, por lo que
+   no llegarían a ser analizadas por el algoritmo. Si fueran parte de un ciclo de
+   referencia circular, nunca se liberarían y podrían provocar una fuga de memoria.
+  </p>
+  <p class="para">
+   La razón por la que se registran las posibles raíces estando deshabilitado
+   el mecanismo es porque es más rápido registrarlas que
+   comprobar en cada una de ellas si el mecanismo está habilitado.
+   Sin embargo, el recolector de basuras y el propio mecanismo de análisis, sí
+   puede conllevar una cantidad de tiempo considerable.
+  </p>
+  <p class="para">
+   Ademas de poder cambiar la configuración <a href="info.configuration.html#ini.zend.enable-gc" class="link">zend.enable_gc</a>,
+   también es posible habilitar o deshabilitar el mecanismo recolector de basura
+   llamando a <span class="function"><a href="function.gc-enable.html" class="function">gc_enable()</a></span> o
+   <span class="function"><a href="function.gc-disable.html" class="function">gc_disable()</a></span> respectivamente. La llamada a estas funciones tiene
+   el mismo efecto que habilitar o deshabilitar el mecanismo en la propia configuración.
+   También es posible forzar la recolección de ciclos incluso sin que esté lleno el 
+   buffer raíz. Para hacer esto, se puede usar la función
+   <span class="function"><a href="function.gc-collect-cycles.html" class="function">gc_collect_cycles()</a></span>. Esta función devuelve el número
+   de ciclos que fueron recolectados por el algoritmo.
+  </p>
+  <p class="para">
+   El motivo por el que es posible habilitar o deshabilitar el mecanismo, o
+   iniciar los ciclos de recolección a mano, es porque podría haber determinadas
+   partes de una aplicación que necesiten mucha precisión de tiempo. En estos casos, quizás
+   no se desee que funcione el mecanismo recolector de basuras. Por supuesto, al deshabilitar
+   el recolector de basuras en algunas partes del código, se corre el riesgo de
+   provocar fugas de memoria, ya que algunas raíces podrían no caber en el buffer raíz.
+   Por tanto, lo mas prudente sería llamar a 
+   <span class="function"><a href="function.gc-collect-cycles.html" class="function">gc_collect_cycles()</a></span> justo después de llamar a
+   <span class="function"><a href="function.gc-disable.html" class="function">gc_disable()</a></span> para que libere la memoria ocupada por
+   posibles raíces ya registradas en el buffer raíz. Esto deja por tanto
+   un buffer vacío, de modo que queda más espacio para almacenar
+   posibles raíces en el tiempo en que el mecanismo recolector de ciclos está deshabilitado.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.gc.refcounting-basics.html">Introducci&oacute;n al contador de referencias</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.gc.performance-considerations.html">Consideraciones acerca del Rendimiento</a></div>
+ <div class="up"><a href="features.gc.html">Recolecci&oacute;n de basura</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Trabajar con objetos de datos secuenciados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sdo.sample.getset.html">Establecer y obtener valores de propiedades</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sdo.sample.reflection.html">Reflexi&oacute;n sobre Objetos de Datos de Servicio</a></div>
+ <div class="up"><a href="sdo.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sdo.sample.sequence" class="section">
+  <h2 class="title">Trabajar con objetos de datos secuenciados</h2>
+  <p class="para">
+   Los objetos de datos sencuenciados son SDOs que pueden rastrear el orden
+   de las propiedades de un objeto de datos. También pueden
+   contener elementos de texto no estructurado (un elemento de texto que no
+   pertenece a ninguna de las propiedades del SDO). Los objetos de datos secuenciados son
+   útiles para trabajar con documentos XML que permiten texto no estructurado (es decir,
+   mixed=true) o si los elementos pueden estar intercalados (
+<div class="cdata"><pre>&lt;A/&gt;&lt;B/&gt;&lt;A/&gt;</pre></div>). Esto puede ocurrir, por ejemplo, cuando
+   el esquema define maxOccurs&gt;1 en un
+   elemento que es de tipo complejo (complexType) con un indicador de orden de elección.
+  </p>
+  <p class="para">
+   En los ejemplos de abajo se asume que existe un SDO creado con el siguiente esquema
+   y la siguiente información de ejemplo, usando el Servicio de Acceso a Datos XML.
+  </p>
+  <p class="para">
+   El esquema de abajo describe el formato de una carta. La carta puede
+   contener opcionalmente tres propiedades: fecha, nombre, y apellido.
+   El estado del esquema es <strong class="command">mixed=&quot;true&quot;</strong>, lo que significa que
+   se puede intercalar texto no estructurado entre las tres propiedades.
+  </p>
+  <p class="para">
+   <div class="example-contents">
+<div class="xmlcode"><pre class="xmlcode">&lt;xsd:schema xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot;
+  xmlns:carta=&quot;http://esquemaCarta&quot;
+  targetNamespace=&quot;http://esquemaCarta&quot;&gt;
+  &lt;xsd:element name=&quot;cartas&quot; type=&quot;carta:ModeloCarta&quot;/&gt;
+  &lt;xsd:complexType name=&quot;ModeloCarta&quot; mixed=&quot;true&quot;&gt;
+    &lt;xsd:sequence&gt;
+      &lt;xsd:element name=&quot;fecha&quot; minOccurs=&quot;0&quot; type=&quot;xsd:string&quot;/&gt;
+      &lt;xsd:element name=&quot;nombre&quot; minOccurs=&quot;0&quot; type=&quot;xsd:string&quot;/&gt;
+      &lt;xsd:element name=&quot;apellido&quot; minOccurs=&quot;0&quot; type=&quot;xsd:string&quot;/&gt;
+    &lt;/xsd:sequence&gt;
+  &lt;/xsd:complexType&gt;
+&lt;/xsd:schema&gt;</pre>
+</div>
+   </div>
+
+  </p>
+  
+  <p class="para">
+   Lo siguiente es un documento carta de ejemplo. Contiene las
+   tres propiedades de la carta: fecha, nombre y apellido; y tiene
+   elementos de texto no esctrucrado para la dirección y el cuerpo de la carta.
+  </p>
+  <p class="para">
+   <div class="example-contents">
+<div class="xmlcode"><pre class="xmlcode">&lt;carta:cartas xmlns:carta=&quot;http://esquemaCarta&quot;&gt;
+  &lt;fecha&gt;1 de marzo de 2005&lt;/fecha&gt;
+  Mutual of Omaha
+  Wild Kingdom, USA
+  Querida
+  &lt;nombre&gt;Casy&lt;/nombre&gt;
+  &lt;apellido&gt;Crocodile&lt;/apellido&gt;
+  Por favor, compre más repelente de tiburones.
+  Su prima ha vencido.
+&lt;/carta:cartas&gt;</pre>
+</div>
+   </div>
+
+  </p>
+  <p class="para">
+   Cuando se carga, el objeto de datos carta tendrá la secuencia y
+   los índices de propiedades mostrados en la tabla de abajo:
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Índice de Secuencia</th>
+       <th>Índice de Propiedad:Nombre</th>
+       <th>Valor</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>0</td>
+       <td>0:fecha</td>
+       <td>1 de marzo de 2005</td>
+      </tr>
+
+      <tr>
+       <td>1</td>
+       <td>-</td>
+       <td>Mutual of Omaha</td>
+      </tr>
+
+      <tr>
+       <td>2</td>
+       <td>-</td>
+       <td>Wild Kingdom, USA</td>
+      </tr>
+
+      <tr>
+       <td>3</td>
+       <td>-</td>
+       <td>Querida</td>
+      </tr>
+
+      <tr>
+       <td>4</td>
+       <td>1:nombre</td>
+       <td>Casy</td>
+      </tr>
+
+      <tr>
+       <td>5</td>
+       <td>2:apellido</td>
+       <td>Crocodile</td>
+      </tr>
+
+      <tr>
+       <td>6</td>
+       <td>-</td>
+       <td>Por favor, compre más repelente de tiburones.</td>
+      </tr>
+
+      <tr>
+       <td>7</td>
+       <td>-</td>
+       <td>Su prima ha vencido.</td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+  
+  <p class="para">
+   Para asegurarse de que los índices de secuencia se mantienen, los objetos de datos secuenciados
+   deberían ser manipulados mediante la interfaz SDO_Sequence.  
+   Esto permite que los datos de instancias de objetos de datos sean manipulados
+   en términos de índice de secuencia en lugar de índice de propiedad
+   (mostrado en la tabla de arriba).  
+   En los siguientes ejemplos se asume que la carta de ejemplo ha sido
+   cargada en un objeto de datos al que hace referencia la variable
+   <strong class="command">$carta</strong>.
+   <div class="example" id="example-6009">
+    <p><strong>Ejemplo #1 Obtener la interfaz SDO_Sequence</strong></p>
+    <div class="example-contents"><p>
+     Se obtiene una secuencia de objetos de datos usando el método
+     <span class="function"><strong>getSequence()</strong></span>.
+     Lo siguiente obtiene la
+     secuencia para el objeto de datos carta.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;$secuencia_carta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$carta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getSequence</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   En todos los ejemplos subsiguientes se asume que la variable
+   <strong class="command">$secuencia_carta</strong>
+   ha sido asignada a la secuencia del objeto de datos carta.
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-6010">
+    <p><strong>Ejemplo #2 Obtener/establecer valores de secuencias</strong></p>
+    <div class="example-contents"><p>
+     Se pueden obtener y establecer valores individuales (incluyendo texto no estructurado)
+     usando el índice de secuencia.
+     Lo siguiente establece el nombre a &#039;Snappy&#039; y obtiene los últimos
+     valores de la secuencia (el texto no estructurado, &#039;Su prima ha vencido.&#039;).
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;$secuencia_carta</span><span style="color: #007700">[</span><span style="color: #0000BB">4</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'Snappy'</span><span style="color: #007700">;<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$texto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$secuencia_carta</span><span style="color: #007700">[</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$secuencia_carta</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">];<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-6011">
+    <p><strong>Ejemplo #3 Iteración sobre secuencias</strong></p>
+    <div class="example-contents"><p>
+     Se pueden recorrer valores individuales de la secuencia usando <a href="control-structures.foreach.html" class="link">foreach</a>.
+     Lo siguiente recorre los valores individuales en el orden de la secuencia.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">foreach&nbsp;(</span><span style="color: #0000BB">$carta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getSequence</span><span style="color: #007700">()&nbsp;as&nbsp;</span><span style="color: #0000BB">$valor</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;...<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-6012">
+    <p><strong>Ejemplo #4 Secuencias contra Objetos de Datos</strong></p>
+    <div class="example-contents"><p>
+     Al establecer valores a través de la interfaz del objeto de datos, puede resultar que el
+     valor no sea parte de la secuencia. Un valor establecido a través del objeto de
+     datos sólo será accesible a través de la secuencia si la propiedad ya
+     era parte de la secuencia. El siguiente ejemplo establece el
+     apellido a través del objeto de datos y lo obtiene a través de la secuencia.
+     Esto es correcto, ya que apellido ya existe en la secuencia. Si
+     no se hubiera establecido anteriormente, apellido sería establecido a
+     &#039;Smith&#039;, pero no sería parte de la secuencia.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;$carta</span><span style="color: #007700">[</span><span style="color: #0000BB">2</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">'Smith'</span><span style="color: #007700">;<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$apellido&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$secuencia_carta</span><span style="color: #007700">[</span><span style="color: #0000BB">5</span><span style="color: #007700">];<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-6013">
+    <p><strong>Ejemplo #5 Añadir elementos a una secuencia</strong></p>
+    <div class="example-contents"><p>
+     Se pueden añadir nuevos valores a una secuencia usando el método
+     <span class="function"><a href="sdo-sequence.insert.html" class="function">SDO_Sequence::insert()</a></span>.
+     En los siguientes ejemplos se asume que las propiedades &#039;nombre&#039; y 
+     &#039;apellido&#039; no estaban establecidas inicialmente.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Añadir&nbsp;un&nbsp;valor&nbsp;de&nbsp;nombre&nbsp;a&nbsp;la&nbsp;secuencia<br />&nbsp;&nbsp;//&nbsp;valor:&nbsp;'Smith'<br />&nbsp;&nbsp;//&nbsp;índice&nbsp;de&nbsp;secuencia:&nbsp;NULL&nbsp;(añadido)<br />&nbsp;&nbsp;//&nbsp;identificador&nbsp;de&nbsp;propiedad:&nbsp;1&nbsp;(índice&nbsp;de&nbsp;la&nbsp;propiedad&nbsp;nombre)<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$secuencia_carta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #DD0000">'Smith'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Añadir&nbsp;un&nbsp;valor&nbsp;de&nbsp;apellido&nbsp;a&nbsp;la&nbsp;secuencia<br />&nbsp;&nbsp;//&nbsp;valor:&nbsp;'Jones'<br />&nbsp;&nbsp;//&nbsp;índice&nbsp;de&nbsp;secuencia:&nbsp;NULL&nbsp;(añadido)<br />&nbsp;&nbsp;//&nbsp;identificador&nbsp;de&nbsp;propiedad:&nbsp;'apellido'&nbsp;(nombre&nbsp;de&nbsp;la&nbsp;propiedad&nbsp;apellido)<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$secuencia_carta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #DD0000">'Jones'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'apellido'</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Añadir&nbsp;texto&nbsp;no&nbsp;estructurado<br />&nbsp;&nbsp;//&nbsp;valor:&nbsp;'Cancelar&nbsp;suscripción.'<br />&nbsp;&nbsp;//&nbsp;índice&nbsp;de&nbsp;secuencia:&nbsp;ausente&nbsp;(añadido)<br />&nbsp;&nbsp;//&nbsp;identificador&nbsp;de&nbsp;propiedad:&nbsp;ausente&nbsp;(texto&nbsp;no&nbsp;estructurado)<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$secuencia_carta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #DD0000">'Cancelar&nbsp;suscripción.'</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Insertar&nbsp;nuevo&nbsp;texto&nbsp;no&nbsp;estructurado.&nbsp;Los&nbsp;valores&nbsp;de&nbsp;secuencia&nbsp;subsiguientes<br />&nbsp;&nbsp;//&nbsp;son&nbsp;aumentados.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;//&nbsp;valor:&nbsp;'Por&nbsp;medio&nbsp;de:'<br />&nbsp;&nbsp;//&nbsp;índice&nbsp;de&nbsp;secuencia:&nbsp;1&nbsp;(insertado&nbsp;como&nbsp;segundo&nbsp;elemento)<br />&nbsp;&nbsp;//&nbsp;identificador&nbsp;de&nbsp;propiedad:&nbsp;ausente&nbsp;(texto&nbsp;no&nbsp;estructurado)<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$secuencia_carta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">insert</span><span style="color: #007700">(</span><span style="color: #DD0000">'Por&nbsp;medio&nbsp;de:'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-6014">
+    <p><strong>Ejemplo #6 Eliminar elementos de una secuencia</strong></p>
+    <div class="example-contents"><p>
+     Se pueden usar las funciones <span class="function"><a href="function.isset.html" class="function">isset()</a></span> y
+     <span class="function"><a href="function.unset.html" class="function">unset()</a></span> para comprobar y eliminar elementos
+     de una secuencia (Nota: <span class="function"><a href="function.unset.html" class="function">unset()</a></span> actualmente
+     deja los valores del objeto de datos, pero este comportamiento es probable
+     que se cambie para que tambíen se eliminen los datos del mismo).
+     Una secuencia se comporta como una lista contigua; por lo tanto, eliminar
+     elementos de la mitad de la lista moverá hacia abajo las entradas en índices más
+     altos. El siguiente ejemplo comprueba si el primer elemento de la
+     secuencia está establecido, en cuyo caso los desestablece.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(isset(</span><span style="color: #0000BB">$secuencia_carta</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;unset(</span><span style="color: #0000BB">$secuencia_carta</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]);<br />&nbsp;&nbsp;}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sdo.sample.getset.html">Establecer y obtener valores de propiedades</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sdo.sample.reflection.html">Reflexi&oacute;n sobre Objetos de Datos de Servicio</a></div>
+ <div class="up"><a href="sdo.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

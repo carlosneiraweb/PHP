@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Preferencias de lectura</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.tutorial.indexes.html">Creando un &Iacute;ndice</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.writeconcerns.html">Asuntos de Escritura (Write Concerns)</a></div>
+ <div class="up"><a href="mongo.manual.html">Manual</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongo.readpreferences" class="chapter">
+ <h1>Preferencias de lectura</h1>
+
+ <p class="para">
+  MongoDB 2.2 y la versión 1.3.0 del controlador añaden el soporte para
+  <a href="http://docs.mongodb.org/manual/core/read-preference/" class="link external">&raquo;&nbsp;preferencias de lectura</a>,
+  que permiten controlar cuántas consultas son dirigidas a instancias de mongod en un
+  entorno de conjunto de réplica. Las preferencias de lectura podrían especificarse en función a
+  cada conexión, cada base de datos, o cada colección. Las preferencias definidas
+  en un nivel más alto
+  serán heredadas de forma predeterminada (p.ej. <a href="class.mongocollection.html" class="classname">MongoCollection</a>
+  heredará las preferencias de lectura definidas en la instancia de
+  <a href="class.mongodb.html" class="classname">MongoDB</a> conrrespondiente).
+ </p>
+ <p class="para">
+  Las preferencias de lectura son especificadas con una combinación de modos y conjuntos de etiquetas.
+  Los modos determinan cómo se priorizan instancias, mientras que los
+  <a href="http://docs.mongodb.org/manual/tutorial/configure-replica-set-tag-sets/" class="link external">&raquo;&nbsp;conjuntos de etiquetas</a> especifican criterios
+  para elegir instancias de mongod. Las instancias de mongod solamente son elegibles si
+  el timepo de ping está dentro de 15ms desde la instancia de mongod más cercana.
+ </p>
+ <div class="simplesect">
+  <h3 class="title">Modos de preferencias de lectura</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    Todos los modos de preferencias de lectura excepto <em>MongoClient::RP_PRIMARY</em>
+    podrían devolver datos antiguos, puesto que los secundarios replican operaciones del primario
+    con alguna demora. Asegúrese de que su aplicación puede admitir datos antiguos si elige
+    usar un modo distinto de <em>MongoClient::RP_PRIMARY</em>.
+   </p>
+  </div>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <p class="para">
+     <em>MongoClient::RP_PRIMARY</em>
+    </p>
+    <p class="para">
+     Todas las opearciones de lectura utilizarn únicamente el primario del conjunto de réplica actual. Esto es lo
+     predeterminado. Si el primario no está disponible, las operaciones de lectura producirán una
+     excepción.
+    </p>
+    <p class="para">
+     Este modo es incompatible con el uso de conjuntos de etiquetas. Especificar un conjunto de etiquetas con
+     <em>MongoClient::RP_PRIMARY</em> resultará en una excepción.
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <em>MongoClient::RP_PRIMARY_PREFERRED</em>
+    </p>
+    <p class="para">
+     En muchas situaciones, las operaciones leen desde el miembro primario del conjunto.
+     Sin embargo, si el primario no está disponible, como durante situaciones de tolerancia
+     a fallos, las operacoines leen desde miembros secundarios.
+    </p>
+    <p class="para">
+     Cuando la preferencias de lectura incluye un conjunto de etiquetas, el cliente lee primero desde
+     el primario, si está disponible, y luego desde los secundarios que coinciden con las
+     etiquetas especificadas. Si ningún segundario coincide con alguna etiqueta, la operación de lectura
+     producirá una excepción.
+    </p>
+    <div class="warning"><strong class="warning">Advertencia</strong>
+     <p class="para">
+      La versión 2.2 de mongos añade soporte completo para preferencias de lectura. Al
+      conectar a instancias más antiguas de mongos,
+      <em>MongoClient::RP_PRIMARY_PREFERRED</em> enviará las consultas a
+      los secundarios.
+     </p>
+    </div>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <em>MongoClient::RP_SECONDARY</em>
+    </p>
+    <p class="para">
+     Operations read only from the secondary members of the set. If no
+     secondaries are available, read operations will produce an exception.
+    </p>
+    <p class="para">
+     La mayoría de los conjuntos tienen al menos un secundario, pero hay situaciones donde
+     podría no haber ningún secundario disponible. Por ejemplo, un conjunto con un primario, un
+     secundario, y un árbitro podría no tener ningún secundario si un miembro está en
+     estado de recuperación o indisponible.
+    </p>
+    <p class="para">
+     Cuando la preferencia de lectura incluye un conjunto de etiquetas, el cliente intenta encontrar
+     miembros secundarios que coincidan con el conjunto de etiquetas especificado y dirigir las lecturas
+     a un secundario aleatorio de entre el grupo más cercano. Si ningún secundario ha coincidido
+     con las etiquetas, la operación de lectura producirá una excepción.
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <em>MongoClient::RP_SECONDARY_PREFERRED</em>
+    </p>
+    <p class="para">
+     En muchas situaciones, las operaciones leen desde miembros secundarios, pero en
+     situaciones donde el conjunto consiste el un único primario sin ningún otro
+     miembro, la operación de lectura usará el primario del conjunto.
+    </p>
+    <p class="para">
+     Cuando la preferencia de lectura incluye un conjunto de etiquetas, el cliente intenta encontrar
+     un miembro secundario que coincida con el conjunto de etiquetas especificado y dirigir las lecturas
+     a un secundario aleatorio de entre el grupo más cercano. Si ningún secundario ha coincidido
+     con las etiquetas, la operación de lectura producirá una excepción.
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <em>MongoClient::RP_NEAREST</em>
+    </p>
+    <p class="para">
+     El controlador lee desde un miembro <em class="emphasis">aleatorio</em> del conjunto
+     que posea un timepo de ping que sea menos de 15ms más lento que el miembro con
+     el tiempo de ping más lento. Las lecturas en el modo
+     <em>MongoClient::RP_NEAREST</em> no consideran el
+     tipo de miembro y podría leerse tanto desde primarios como de secundarios.
+    </p>
+    <p class="para">
+     Establezca este modo para minimizar el efecto de latencia de red en operaciones de lectura
+     sin tener preferencia para datos actuales o antiguos.
+    </p>
+    <p class="para">
+     Si se especifica un conjunto de etiquetas, el cliente intenta encontrar un miembro
+     que coincida con el conjunto de etiquetas especificado y dirigir las lecturas a un nodo
+     aleatorio de entre el grupo más cercano.
+    </p>
+    <blockquote class="note"><p><strong class="note">Nota</strong>: 
+     <p class="para">
+      Todas las operaciones leen desde el miembro más cercano del conjunto de réplica que
+      coincida con el modo de preferencia de lectura especificado. El modo
+      <em>MongoClient::RP_NEAREST</em> prefiere lecturas de baja latencia
+      sobre un estado de miembro primario o secundario.
+     </p>
+    </p></blockquote>
+   </li>
+  </ul>
+ </div>
+ <div class="simplesect">
+  <h3 class="title">Conjuntos de etiquetas</h3>
+  <p class="para">
+   Los <a href="http://docs.mongodb.org/manual/tutorial/configure-replica-set-tag-sets/" class="link external">&raquo;&nbsp;conjuntos de etiquetas</a> permiten
+   especificar criterios para que una aplicación pueda dirigir operaciones de lectura hacia
+   miembros específicos, basándose en parámetros personalizados. Los conjuntos de etiquetas
+   aseguran que las operaciones de lectura apunten a miembros de un centro de datos en particular o
+   a instancias de mongod diseñadas para una clase de operaciones en concreto, tales
+   como de información o análisis.
+  </p>
+  <p class="para">
+   Se pueden especificar conjuntos de etiquetas con los siguientes modos de preferencia de lectura:
+  </p>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <p class="para">
+     <em>MongoClient::RP_PRIMARY_PREFERRED</em>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <em>MongoClient::RP_SECONDARY</em>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <em>MongoClient::RP_SECONDARY_PREFERRED</em>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <em>MongoClient::RP_NEAREST</em>
+    </p>
+   </li>
+  </ul>
+  <p class="para">
+   No se pueden especificar conjuntos de etiquetas con el modo de
+   preferencia de lectura <em>MongoClient::RP_PRIMARY</em>. Las etiquetas se aplican
+   solamente al seleccionar un miembro secundario de un conjunto, excepto para el cuándo en el
+   modo más cercano.
+  </p>
+ </div>
+ <div class="simplesect">
+  <h3 class="title">Especificar preferencias de lectura</h3>
+  <p class="para">
+   Las preferencias de lectura se pueden especificar en una URI proporcionada a
+   <span class="function"><a href="mongoclient.construct.html" class="function">MongoClient::__construct()</a></span>, el cual utiliza una sintaxis decadena
+   de consulta, o mediante métodos modificadores (setter) en las clases núcleo, que usan una
+   sintaxis de array para los conjuntos de etiquetas.
+  </p>
+  <p class="para">
+   Cuando se especifican los modos de preferencia de lectura en una cadena de consulta, los conjuntos de etiquetas
+   para el valor <em>readPreferenceTags</em> deberían ser una secuencia delimitada por
+   comas de pares clave/valor delimitados por dos puntos.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Cada conjunto de etiquetas definida en la cadena de consulta utilizará el
+    nombre <em>readPreferenceTags</em>. A diferencia de cómo PHP pudiera tratar cadenas
+    de consulta de URL, los valores sucesivos para <em>readPreferenceTags</em>
+    no se sobrescribirán. El controlador recopilará conjuntos de etiquetas en el orden
+    en que aparecen en la cadena de consulta.
+   </p>
+  </p></blockquote>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    ¡Si el controlador no puede encontrar un conjunto de etiquetas coincidente, la lectura fallará!
+    Es su responsabilidad el proporcionar recursos adecuados, tales como un valor de
+    <em>readPreferenceTags</em> vacío para recurrir a &quot;no tag set
+    preference&quot;.
+   </p>
+  </div>
+  <p class="para">
+   <div class="example" id="example-1468">
+    <p><strong>Ejemplo #1 Preferencias de lectura de URI de coneción con sintaxis de cadena de consulta</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Preferir&nbsp;el&nbsp;servidor&nbsp;más&nbsp;cercano&nbsp;sin&nbsp;preferencia&nbsp;de&nbsp;etiqueta<br /></span><span style="color: #0000BB">$uri&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'mongodb://rs1.example.com,rs2.example.com/'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'?readPreference=nearest'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #0000BB">$uri</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">'replicaSet'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'rs'</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Elegir&nbsp;el&nbsp;servidor&nbsp;más&nbsp;cercano&nbsp;en&nbsp;el&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"east"<br /></span><span style="color: #0000BB">$uri&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'mongodb://rs1.example.com,rs2.example.com/'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'?readPreference=nearest'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'&amp;readPreferenceTags=dc:east'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #0000BB">$uri</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">'replicaSet'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'rs'</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Preferir&nbsp;el&nbsp;servidor&nbsp;más&nbsp;cercano&nbsp;del&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"east"&nbsp;también&nbsp;usado&nbsp;para&nbsp;información,<br />//&nbsp;pero&nbsp;recurrir&nbsp;a&nbsp;un&nbsp;servidor&nbsp;en&nbsp;el&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"west"<br /></span><span style="color: #0000BB">$uri&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'mongodb://rs1.example.com,rs2.example.com/'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'?readPreference=nearest'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'&amp;readPreferenceTags=dc:east,use:reporting'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'&amp;readPreferenceTags=dc:west'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #0000BB">$uri</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">'replicaSet'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'rs'</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Preferir&nbsp;el&nbsp;servidor&nbsp;más&nbsp;cercano&nbsp;del&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"east",&nbsp;luego&nbsp;un&nbsp;servidor&nbsp;del<br />//&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"west",&nbsp;y&nbsp;finalmente&nbsp;recurrir&nbsp;a&nbsp;preferencia&nbsp;sin&nbsp;conjunto&nbsp;de&nbsp;etiquetas<br /></span><span style="color: #0000BB">$uri&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'mongodb://rs1.example.com,rs2.example.com/'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'?readPreference=nearest'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'&amp;readPreferenceTags=dc:east'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'&amp;readPreferenceTags=dc:west'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$uri&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'&amp;readPreferenceTags='</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #0000BB">$uri</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">'replicaSet'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'rs'</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-1469">
+    <p><strong>Ejemplo #2 Establecer las preferencias de lectura con sintaxis de array para conjuntos de etiquetas</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">(</span><span style="color: #DD0000">'mongodb://rs1.example.com,rs2.example.com'</span><span style="color: #007700">,&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'replicaSet'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'rs'</span><span style="color: #007700">,<br />));<br /><br /></span><span style="color: #FF8000">//&nbsp;Preferir&nbsp;el&nbsp;servidor&nbsp;más&nbsp;cercano&nbsp;sin&nbsp;preferencia&nbsp;de&nbsp;etiqueta<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setReadPreference</span><span style="color: #007700">(</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">::</span><span style="color: #0000BB">RP_NEAREST</span><span style="color: #007700">,&nbsp;array());<br /><br /></span><span style="color: #FF8000">//&nbsp;Elegir&nbsp;el&nbsp;servidor&nbsp;más&nbsp;cercano&nbsp;en&nbsp;el&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"east"<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setReadPreference</span><span style="color: #007700">(</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">::</span><span style="color: #0000BB">RP_NEAREST</span><span style="color: #007700">,&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'dc'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'east'</span><span style="color: #007700">),<br />));<br /><br /></span><span style="color: #FF8000">//&nbsp;Preferir&nbsp;el&nbsp;servidor&nbsp;más&nbsp;cercano&nbsp;del&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"east"&nbsp;también&nbsp;usado&nbsp;para&nbsp;información,<br />//&nbsp;pero&nbsp;recurrir&nbsp;a&nbsp;un&nbsp;servidor&nbsp;en&nbsp;el&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"west"<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setReadPreference</span><span style="color: #007700">(</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">::</span><span style="color: #0000BB">RP_NEAREST</span><span style="color: #007700">,&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'dc'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'east'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'use'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'reporting'</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'dc'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'west'</span><span style="color: #007700">),<br />));<br /><br /></span><span style="color: #FF8000">//&nbsp;Preferir&nbsp;el&nbsp;servidor&nbsp;más&nbsp;cercano&nbsp;del&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"east",&nbsp;luego&nbsp;un&nbsp;servidor&nbsp;del<br />//&nbsp;centro&nbsp;de&nbsp;datos&nbsp;"west",&nbsp;y&nbsp;finalmente&nbsp;recurrir&nbsp;a&nbsp;preferencia&nbsp;sin&nbsp;conjunto&nbsp;de&nbsp;etiquetas<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setReadPreference</span><span style="color: #007700">(</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">::</span><span style="color: #0000BB">RP_NEAREST</span><span style="color: #007700">,&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'dc'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'east'</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;array(</span><span style="color: #DD0000">'dc'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'west'</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;array(),<br />));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongo.tutorial.indexes.html">Creando un &Iacute;ndice</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongo.writeconcerns.html">Asuntos de Escritura (Write Concerns)</a></div>
+ <div class="up"><a href="mongo.manual.html">Manual</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

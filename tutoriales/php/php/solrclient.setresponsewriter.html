@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establece el autor de la respuesta usado para preparar la respuesta de Solr</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="solrclient.rollback.html">SolrClient::rollback</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="solrclient.setservlet.html">SolrClient::setServlet</a></div>
+ <div class="up"><a href="class.solrclient.html">SolrClient</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="solrclient.setresponsewriter" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SolrClient::setResponseWriter</h1>
+  <p class="verinfo">(PECL solr &gt;= 0.9.11)</p><p class="refpurpose"><span class="refname">SolrClient::setResponseWriter</span> &mdash; <span class="dc-title">Establece el autor de la respuesta usado para preparar la respuesta de Solr</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-solrclient.setresponsewriter-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>SolrClient::setResponseWriter</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$responseWriter</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Establece el autor de la respuesta usado para preparar la respuesta de Solr
+  </p>
+  
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-solrclient.setresponsewriter-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">responseWriter</code></dt>
+
+     <dd>
+
+      <p class="para">Uno de los siguientes autores:</p>
+      <ul class="simplelist">
+       <li class="member"><em>json</em></li>
+       <li class="member"><em>phps</em></li>
+       <li class="member"><em>xml</em></li>
+      </ul>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-solrclient.setresponsewriter-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-solrclient.setresponsewriter-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5244">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="methodname"><strong>SolrClient::setResponseWriter()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Esta&nbsp;es&nbsp;mi&nbsp;clase&nbsp;personalizada&nbsp;para&nbsp;los&nbsp;objetos<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">SolrClass<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;public&nbsp;</span><span style="color: #0000BB">$_propiedades&nbsp;</span><span style="color: #007700">=&nbsp;array();<br /><br />&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000BB">__get</span><span style="color: #007700">(</span><span style="color: #0000BB">$nombre_propiedad</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">property_exists</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$nombre_propiedad</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">$nombre_propiedad</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;if&nbsp;(isset(</span><span style="color: #0000BB">$_propiedades</span><span style="color: #007700">[</span><span style="color: #0000BB">$nombre_propiedad</span><span style="color: #007700">]))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$_propiedades</span><span style="color: #007700">[</span><span style="color: #0000BB">$nombre_propiedad</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$opciones&nbsp;</span><span style="color: #007700">=&nbsp;array<br />(<br />&nbsp;&nbsp;</span><span style="color: #DD0000">'hostname'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'localhost'</span><span style="color: #007700">,<br />&nbsp;&nbsp;</span><span style="color: #DD0000">'port'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">8983</span><span style="color: #007700">,<br />&nbsp;&nbsp;</span><span style="color: #DD0000">'path'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'/solr/core1'<br /></span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$cliente&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SolrClient</span><span style="color: #007700">(</span><span style="color: #0000BB">$opciones</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$cliente</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setResponseWriter</span><span style="color: #007700">(</span><span style="color: #DD0000">"json"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//$respuesta&nbsp;=&nbsp;$cliente-&gt;ping();<br /><br /></span><span style="color: #0000BB">$consulta&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SolrQuery</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">$consulta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setQuery</span><span style="color: #007700">(</span><span style="color: #DD0000">"*:*"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$consulta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set</span><span style="color: #007700">(</span><span style="color: #DD0000">"objectClassName"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"SolrClass"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$consulta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set</span><span style="color: #007700">(</span><span style="color: #DD0000">"objectPropertiesStorageMode"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;0&nbsp;para&nbsp;propiedades&nbsp;independientes,&nbsp;1&nbsp;para&nbsp;combinadas<br /><br /></span><span style="color: #007700">try<br />{<br /><br /></span><span style="color: #0000BB">$respuesta&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$cliente</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #0000BB">$consulta</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$resp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$respuesta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getResponse</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$respuesta</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$resp</span><span style="color: #007700">);<br /><br />}&nbsp;catch&nbsp;(</span><span style="color: #0000BB">Exception&nbsp;$e</span><span style="color: #007700">)&nbsp;{<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$e</span><span style="color: #007700">);<br /><br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="solrclient.rollback.html">SolrClient::rollback</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="solrclient.setservlet.html">SolrClient::setServlet</a></div>
+ <div class="up"><a href="class.solrclient.html">SolrClient</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

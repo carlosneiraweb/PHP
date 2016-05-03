@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Destruye toda la informaci&oacute;n registrada de una sesi&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.session-decode.html">session_decode</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.session-encode.html">session_encode</a></div>
+ <div class="up"><a href="ref.session.html">Funciones de sesi&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.session-destroy" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">session_destroy</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">session_destroy</span> &mdash; <span class="dc-title">Destruye toda la información registrada de una sesión</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.session-destroy-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>session_destroy</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="simpara">
+   <span class="function"><strong>session_destroy()</strong></span> destruye toda la información asociada
+   con la sesión actual. No destruye ninguna de las variables globales
+   asociadas con la sesión, ni destruye la cookie de sesión.
+   Para volver a utilizar las variables de sesión se debe llamar a <span class="function"><a href="function.session-start.html" class="function">session_start()</a></span>.
+  </p>
+  <p class="para">
+   Para destruir la sesión completamente, como desconectar al usuario, el
+   id de sesión también debe ser destruido. Si se usa una cookie para propagar el
+   id de sesión (comportamiento por defecto), entonces la cookie de sesión se debe borrar.
+   <span class="function"><a href="function.setcookie.html" class="function">setcookie()</a></span> se puede usar para eso.
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.session-destroy-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.session-destroy-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5318">
+    <p><strong>Ejemplo #1 Destruir una sesión con <var class="varname"><var class="varname"><a href="reserved.variables.session.html" class="classname">$_SESSION</a></var></var></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Inicializar&nbsp;la&nbsp;sesión.<br />//&nbsp;Si&nbsp;está&nbsp;usando&nbsp;session_name("algo"),&nbsp;¡no&nbsp;lo&nbsp;olvide&nbsp;ahora!<br /></span><span style="color: #0000BB">session_start</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;Destruir&nbsp;todas&nbsp;las&nbsp;variables&nbsp;de&nbsp;sesión.<br /></span><span style="color: #0000BB">$_SESSION&nbsp;</span><span style="color: #007700">=&nbsp;array();<br /><br /></span><span style="color: #FF8000">//&nbsp;Si&nbsp;se&nbsp;desea&nbsp;destruir&nbsp;la&nbsp;sesión&nbsp;completamente,&nbsp;borre&nbsp;también&nbsp;la&nbsp;cookie&nbsp;de&nbsp;sesión.<br />//&nbsp;Nota:&nbsp;¡Esto&nbsp;destruirá&nbsp;la&nbsp;sesión,&nbsp;y&nbsp;no&nbsp;la&nbsp;información&nbsp;de&nbsp;la&nbsp;sesión!<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">ini_get</span><span style="color: #007700">(</span><span style="color: #DD0000">"session.use_cookies"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$params&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">session_get_cookie_params</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">setcookie</span><span style="color: #007700">(</span><span style="color: #0000BB">session_name</span><span style="color: #007700">(),&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">time</span><span style="color: #007700">()&nbsp;-&nbsp;</span><span style="color: #0000BB">42000</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$params</span><span style="color: #007700">[</span><span style="color: #DD0000">"path"</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$params</span><span style="color: #007700">[</span><span style="color: #DD0000">"domain"</span><span style="color: #007700">],<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$params</span><span style="color: #007700">[</span><span style="color: #DD0000">"secure"</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$params</span><span style="color: #007700">[</span><span style="color: #DD0000">"httponly"</span><span style="color: #007700">]<br />&nbsp;&nbsp;&nbsp;&nbsp;);<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Finalmente,&nbsp;destruir&nbsp;la&nbsp;sesión.<br /></span><span style="color: #0000BB">session_destroy</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.session-destroy-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Usar sólo <span class="function"><a href="function.session-unset.html" class="function">session_unset()</a></span> para códigos antiguos obsoletos
+    que no usan <var class="varname"><var class="varname"><a href="reserved.variables.session.html" class="classname">$_SESSION</a></var></var>.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.session-destroy-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.unset.html" class="function" rel="rdfs-seeAlso">unset()</a> - Destruye una variable especificada</span></li>
+    <li class="member"><span class="function"><a href="function.setcookie.html" class="function" rel="rdfs-seeAlso">setcookie()</a> - Enviar una cookie</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.session-decode.html">session_decode</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.session-encode.html">session_encode</a></div>
+ <div class="up"><a href="ref.session.html">Funciones de sesi&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

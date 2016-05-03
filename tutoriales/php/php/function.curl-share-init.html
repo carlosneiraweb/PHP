@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Inicializar un gestor cURL compartido</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-share-close.html">curl_share_close</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.curl-share-setopt.html">curl_share_setopt</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.curl-share-init" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">curl_share_init</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.5.0, PHP 7)</p><p class="refpurpose"><span class="refname">curl_share_init</span> &mdash; <span class="dc-title">Inicializar un gestor cURL compartido</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.curl-share-init-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>curl_share_init</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Permite la compartición de datos entre gestores cURL.
+  </p>
+
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.curl-share-init-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">Esta función no tiene parámetros.</p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.curl-share-init-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un recurso del tipo &quot;cURL Share Handle&quot;.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.curl-share-init-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4766">
+    <p><strong>Ejemplo #1 Ejemplo con <span class="function"><strong>curl_share_init()</strong></span> </strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo creará un gestor compartido cURL, añadirá dos gestores cURL en él,
+     y entonces los ejecuta con compartición de datos con cookie.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Crear&nbsp;gestor&nbsp;compartido&nbsp;cURL&nbsp;y&nbsp;configurarlo&nbsp;para&nbsp;compartir&nbsp;datos&nbsp;con&nbsp;cookie<br /></span><span style="color: #0000BB">$sh&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_share_init</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">curl_share_setopt</span><span style="color: #007700">(</span><span style="color: #0000BB">$sh</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURLSHOPT_SHARE</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURL_LOCK_DATA_COOKIE</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Inicializar&nbsp;el&nbsp;primer&nbsp;gestor&nbsp;cURL&nbsp;y&nbsp;asignarlo&nbsp;al&nbsp;gestor&nbsp;compartido<br /></span><span style="color: #0000BB">$ch1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_init</span><span style="color: #007700">(</span><span style="color: #DD0000">"http://example.com/"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">curl_setopt</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURLOPT_SHARE</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sh</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ejecutar&nbsp;el&nbsp;primer&nbsp;gestor&nbsp;cURL<br /></span><span style="color: #0000BB">curl_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch1</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Inicializar&nbsp;el&nbsp;segundo&nbsp;gestor&nbsp;cURL&nbsp;y&nbsp;asignarlo&nbsp;al&nbsp;gestor&nbsp;compartido<br /></span><span style="color: #0000BB">$ch2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">curl_init</span><span style="color: #007700">(</span><span style="color: #DD0000">"http://php.net/"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">curl_setopt</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CURLOPT_SHARE</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sh</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Ejecutar&nbsp;el&nbsp;segundo&nbsp;gestor&nbsp;cURL<br />//&nbsp;todas&nbsp;las&nbsp;cookies&nbsp;del&nbsp;gestor&nbsp;$ch1&nbsp;son&nbsp;compartidas&nbsp;con&nbsp;el&nbsp;gestor&nbsp;$ch2<br /></span><span style="color: #0000BB">curl_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch2</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Cerrar&nbsp;el&nbsp;gestor&nbsp;compartido&nbsp;cURL&nbsp;<br /></span><span style="color: #0000BB">curl_share_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$sh</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Cerrar&nbsp;los&nbsp;gestores&nbsp;cURL<br /></span><span style="color: #0000BB">curl_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">curl_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$ch2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.curl-share-init-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.curl-share-setopt.html" class="function" rel="rdfs-seeAlso">curl_share_setopt()</a> - Configura una opci&oacute;n para un manejador cURL compartido</span></li>
+    <li class="member"><span class="function"><a href="function.curl-share-close.html" class="function" rel="rdfs-seeAlso">curl_share_close()</a> - Cierra un gestor cURL compartido</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.curl-share-close.html">curl_share_close</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.curl-share-setopt.html">curl_share_setopt</a></div>
+ <div class="up"><a href="ref.curl.html">Funciones de cURL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

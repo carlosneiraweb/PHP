@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecuta la llamada a select() del sistema sobre las matrices de sockets dadas con un tiempo l&iacute;mite especificado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-recvmsg.html">socket_recvmsg</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-send.html">socket_send</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.socket-select" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">socket_select</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.1.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">socket_select</span> &mdash; <span class="dc-title">Ejecuta la llamada a select() del sistema sobre las matrices de sockets dadas con un tiempo límite especificado</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.socket-select-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>socket_select</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$read</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$write</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter reference">&$except</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$tv_sec</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$tv_usec</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>socket_select()</strong></span> acepta matrices de sockets y las espera para
+   cambiar el estado. Aquellas que vienen con un fondo de sockets BSD
+   reconocerán que aquellas matrices de recursos socket son de hecho los también llamados conjuntos
+   descriptores de archivos. Se observan tres matrices de recursos socket independientes.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.socket-select-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">read</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los sockets listados en la matriz <code class="parameter">read</code> serán
+       observados para ver si los caracteres están disponibles para lectura (más
+       precisamente, para ver si una lectura no bloqueará - en particular, un recurso
+       socket también está listo al final del archivo, en cuyo caso un
+       <span class="function"><a href="function.socket-read.html" class="function">socket_read()</a></span> devolverá una cadena de longitud cero).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">write</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los sockets listados en la matriz <code class="parameter">write</code> serán
+       observados para ver si una escritura no bloqueará.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">except</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Los sockets listados en la matriz <code class="parameter">except</code> serán
+       observados para excepciones.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">tv_sec</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">tv_sec</code> y <code class="parameter">tv_usec</code>
+       forman juntos el parámetros <em>timeout</em>.
+       <em>timeout</em> es un límite superior de la cantidad de tiempo
+       trancurrido antes de que <span class="function"><strong>socket_select()</strong></span> devuelva.
+       <code class="parameter">tv_sec</code> puede ser cero, causando que
+       <span class="function"><strong>socket_select()</strong></span> devuelva inmediatamente. Esto es útil
+       para consultas constantes (polling). Si <code class="parameter">tv_sec</code> es <strong><code>NULL</code></strong> (sin tiempo
+       línmite), <span class="function"><strong>socket_select()</strong></span> puede bloquear indefinidamente.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">tv_usec</code></dt>
+
+     <dd>
+
+      <p class="para">
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    Al salir, las matrices son modificadas para indicar que recurso socket
+    realmente cambió el estado.
+   </p>
+  </div>
+  <p class="para">
+   No es necesario pasar cada matriz a
+   <span class="function"><strong>socket_select()</strong></span>. En su lugar, se puede omitir y
+   usar una matriz vacía o <strong><code>NULL</code></strong>. No olvide también que esas matrices son
+   pasadas <em class="emphasis">por referencia</em> y serán modificadas después de
+   que <span class="function"><strong>socket_select()</strong></span> devuelva.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    A causa de una limitación en el Motor Zend actual no es posible pasar una
+    constante como <strong><code>NULL</code></strong> directamente como un parámetro a una función
+    que espera que este parámetro sea pasado por referencia. En su lugar use una
+    variable temporal o una expresión que su miembro más a la izquierda sea una
+    variable temporal:
+    <div class="example" id="example-5108">
+     <p><strong>Ejemplo #1 Usar <strong><code>NULL</code></strong> con <span class="function"><strong>socket_select()</strong></span></strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$e&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">socket_select</span><span style="color: #007700">(</span><span style="color: #0000BB">$r</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$w</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </div>
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.socket-select-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   En caso de éxtio, <span class="function"><strong>socket_select()</strong></span> devuelve el número de
+   recursos socket contenidos en las matrices modificadas, lo que puede ser cero si
+   el tiempo límite expira antes de que ocurra algo interesante. En caso de error se
+   devuelve <strong><code>FALSE</code></strong>. El código de error se puede recuperar con
+   <span class="function"><a href="function.socket-last-error.html" class="function">socket_last_error()</a></span>.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Asegúrese de usar el operador <em>===</em> cuando verifique un
+    error. Ya que <span class="function"><strong>socket_select()</strong></span> puede devolver 0 la
+    comparación con <em>==</em> será evaluada a <strong><code>TRUE</code></strong>:
+    <div class="example" id="example-5109">
+     <p><strong>Ejemplo #2 Comprender el resultado de <span class="function"><strong>socket_select()</strong></span></strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$e&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br />if&nbsp;(</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">socket_select</span><span style="color: #007700">(</span><span style="color: #0000BB">$r</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$w</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$e</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"falló&nbsp;socket_select(),&nbsp;razón:&nbsp;"&nbsp;</span><span style="color: #007700">.<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">())&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </div>
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.socket-select-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5110">
+    <p><strong>Ejemplo #3 Un ejemplo de <span class="function"><strong>socket_select()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Preparar&nbsp;la&nbsp;matriz&nbsp;de&nbsp;lectura&nbsp;*/<br /></span><span style="color: #0000BB">$read&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">$socket1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$socket2</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$write&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$except&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$núm_sockets_cambiados&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">socket_select</span><span style="color: #007700">(</span><span style="color: #0000BB">$read</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$write</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$except</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /><br />if&nbsp;(</span><span style="color: #0000BB">$núm_sockets_cambiados&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Manejo&nbsp;de&nbsp;errores&nbsp;*/<br /></span><span style="color: #007700">}&nbsp;else&nbsp;if&nbsp;(</span><span style="color: #0000BB">$núm_sockets_cambiados&nbsp;</span><span style="color: #007700">&gt;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Ocurrió&nbsp;algo&nbsp;interesante&nbsp;en&nbsp;al&nbsp;menos&nbsp;uno&nbsp;de&nbsp;los&nbsp;sockets&nbsp;*/<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.socket-select-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Tenga en cuenta que algunas implementaciones de sockets necesitan ser tratadas con
+    mucho cuidado. Unas cuantas reglas básicas:
+    <ul class="itemizedlist">
+     <li class="listitem">
+      <span class="simpara">
+       Debería siempre intentar usar <span class="function"><strong>socket_select()</strong></span>
+       sin tiempo límite. Su programa no debería de hacer nada si no hay
+       información disponible. El código que depende de tiempos límite normalmente no es
+       portable y es difícil de depurar.
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       No se deben añadir recursos socket a ningún conjunto si no se pretende
+       verificar su resultado después de la llamada a <span class="function"><strong>socket_select()</strong></span>,
+       y responder apropiadamente. Después de que <span class="function"><strong>socket_select()</strong></span>
+       devuelva, todos los recursos socket en todas las matrices deben ser verificados. Cualquier
+       recurso socket que esté disponible para escritura debe ser escrito, y
+       cualquier recurso socket disponible para lectura debe ser leído.
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       Si lee/escribe en un socket devuelto en las matrices, tenga en cuenta que
+       no necesariamente leerán/escribirán la cantidad de información que
+       solicitó. Esté preparado para que incluso sea capaz de leer/escrir sólo un único
+       byte.
+      </span>
+     </li>
+     <li class="listitem">
+      <span class="simpara">
+       En la mayoría de las implementaciones de sockets es común que la única expcepción
+       capturada con la matriz <code class="parameter">except</code> sea información
+       fuera de banda recibida en un socket.
+      </span>
+     </li>
+    </ul>
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.socket-select-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.socket-read.html" class="function" rel="rdfs-seeAlso">socket_read()</a> - Lee un m&aacute;ximo de longitud de bytes desde un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-write.html" class="function" rel="rdfs-seeAlso">socket_write()</a> - Escribir en un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-last-error.html" class="function" rel="rdfs-seeAlso">socket_last_error()</a> - Devuelve el &uacute;ltimo error sobre un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-strerror.html" class="function" rel="rdfs-seeAlso">socket_strerror()</a> - Devuelve una cadena que describe un error de socket</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-recvmsg.html">socket_recvmsg</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-send.html">socket_send</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

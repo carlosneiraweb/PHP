@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Servidor web interno</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.commandline.interactive.html">Consola interactiva</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.commandline.ini.html">Configuraci&oacute;n INI</a></div>
+ <div class="up"><a href="features.commandline.html">Uso de la l&iacute;nea de comandos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="features.commandline.webserver" class="section">
+  <h2 class="title">Servidor web interno</h2>
+  
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    Este servidor web ha sido diseñado para ayudar al desarrollo de aplicaciones.
+    También puede ser útil para propósitos de prueba o para demostraciones de
+    aplicaciones que se ejecutan en entornos controlados. No se pretende que sea
+    un servidor web con todas las funciones. No debe ser utilizado en una red
+    pública.
+   </p> 
+  </div>
+  
+  <p class="para">
+   Desde PHP 5.4.0, la SAPI CLI provee un servidor web embebido.
+  </p>
+  
+  <p class="para">
+   El servidor web ejecuta solamente un único proceso monohilo, por lo que
+   las aplicaciones PHP se detendrán si la solicitud está bloqueada.
+  </p>
+  
+  <p class="para">
+   Las peticiones de URI se sirven desde el actual directorio de trabajo donde
+   PHP se inició, a menos que la opción -t sea utilizada para especificar una
+   raíz de documentos explícita. Si una petición de URI no especifica un fichero,
+   entonces el index.php o index.html que estén en el directorio dado serán
+   devueltos. Si ninguno de los ficheros existen, la búsqueda de index.php e index.html
+   continuará en el directorio padre y continuará así hasta encontrar uno de ello o
+   se alcance el directorio raíz. Si se encuentra index.php o index.html,
+   se devuelve este y $_SERVER[&#039;PATH_INFO&#039;] se establece a la parte final del
+   URI. De lo contrario se devuelve un código de respuesta 404.
+  </p>
+  
+  <p class="para">
+   Si un fichero PHP es proporcionado en la línea de comandos cuando se inicia el
+   servidor web éste es tratado como un script &quot;enrutador&quot;. El script es ejecutado
+   al inicio de cada petición HTTP. Si este script devuelve <strong><code>FALSE</code></strong>, entonces el
+   recurso solicitado se devuelve tal cual está. De otra forma la salida del script
+   se devuelve en el navegador.
+  </p>
+  
+  <p class="para">
+   Los tipos MIME estándar son devueltos para ficheros con extensiones: .3gp,
+   .apk, .avi, .bmp, .css, .csv, .doc, .docx, .flac, .gif, .gz,
+   .gzip, .htm, .html, .ics, .jpe, .jpeg, .jpg, .js, .kml, .kmz,
+   .m4a, .mov, .mp3, .mp4, .mpeg, .mpg, .odp, .ods, .odt, .oga, .ogg,
+   .ogv, .pdf, .pdf, .png, .pps, .pptx, .qt, .svg, .swf, .tar, .text,
+   .tif, .txt, .wav, .webm, .wmv, .xls, .xlsx, .xml, .xsl, .xsd, y .zip.
+  </p>
+  
+  
+  <table class="doctable table">
+   <caption><strong>Registro de cambios: Tipos MIME soportados (extensiones de ficheros)</strong></caption>
+   
+    <thead>
+     <tr>
+      <th>Versión</th>
+      <th>Descripción</th>
+     </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>5.5.12</td>
+      <td>
+       .xml, .xsl, and .xsd
+      </td>
+     </tr>
+
+     <tr>
+      <td>5.5.7</td>
+      <td>
+       .3gp, .apk, .avi, .bmp, .csv, .doc, .docx, .flac, .gz, .gzip,
+       .ics, .kml, .kmz, .m4a, .mp3, .mp4, .mpg, .mpeg, .mov, .odp, .ods,
+       .odt, .oga, .pdf, .pptx, .pps, .qt, .swf, .tar, .text, .tif, .wav,
+       .wmv, .xls, .xlsx, y .zip
+      </td>
+     </tr>
+
+     <tr>
+      <td>5.5.5</td>
+      <td>
+       .pdf
+      </td>
+     </tr>
+
+     <tr>
+      <td>5.4.11</td>
+      <td>
+       .ogg, .ogv, and .webm
+      </td>
+     </tr>
+
+     <tr>
+      <td>5.4.4</td>
+      <td>
+       .htm and .svg
+      </td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  
+  <div class="example" id="example-426">
+   <p><strong>Ejemplo #1 Iniciando el servidor web</strong></p>
+   <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ cd ~/public_html
+$ php -S localhost:8000</pre>
+</div>
+   </div>
+
+   <div class="example-contents"><p>
+    La terminal mostrará:
+   </p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+PHP 5.4.0 Servidor de desarrollo iniciado en Jueves Julio 21 10:43:28 2011
+Escuchando en localhost:8000
+La raíz de documentos es /home/usuario/html_público
+Presione Ctrl-C para salir
+</pre></div>
+   </div>
+   <div class="example-contents"><p>
+    Después de una petición de una URI para http://localhost:8000/ y
+    http://localhost:8000/mi_script.html la terminal mostrará
+    algo similar a:
+   </p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+PHP 5.4.0 Servidor de desarrollo iniciado en Jueves Julio 21 10:43:28 2011
+Escuchando en localhost:8000
+La raíz de documentos es /home/usuario/html_público
+Presione Ctrl-C para salir.
+[Thu Jul 21 10:48:48 2011] ::1:39144 GET /favicon.ico - Petición leída
+[Thu Jul 21 10:48:50 2011] ::1:39146 GET / - Petición leída
+[Thu Jul 21 10:48:50 2011] ::1:39147 GET /favicon.ico - Petición leída
+[Thu Jul 21 10:48:52 2011] ::1:39148 GET /mi_script.html - Petición leída
+[Thu Jul 21 10:48:52 2011] ::1:39149 GET /favicon.ico - Petición leída
+</pre></div>
+   </div>
+  </div>
+  
+  <div class="example" id="example-427">
+   <p><strong>Ejemplo #2 Iniciando con una raíz de documentos específica</strong></p>
+   <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ cd ~/html_público
+$ php -S localhost:8000 -t foo/</pre>
+</div>
+   </div>
+
+   <div class="example-contents"><p>
+    La terminal mostrará:
+   </p></div>
+   <div class="example-contents screen">
+<div class="cdata"><pre>
+PHP 5.4.0 Servidor de desarrollo iniciado en Jueves Julio 21 10:50:26 2011
+Escuchando en localhost:8000
+La raíz de documentos es /home/usuario/html_público/foo
+Presione Ctrl-C para salir
+</pre></div>
+   </div>
+  </div>
+  
+  <div class="example" id="example-428">
+   <p><strong>Ejemplo #3 Utilizando un Script enrutador</strong></p>
+   <div class="example-contents"><p>
+    En este ejemplo, las peticiones a las imágenes se mostrarán, pero las peticiones a
+    ficheros HTML mostrarán &quot;Bienvenido a PHP&quot;:
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;router.php<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">preg_match</span><span style="color: #007700">(</span><span style="color: #DD0000">'/\.(?:png|jpg|jpeg|gif)$/'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">"REQUEST_URI"</span><span style="color: #007700">])){<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;servir&nbsp;la&nbsp;petición&nbsp;tal&nbsp;cual&nbsp;es.<br /></span><span style="color: #007700">}else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&lt;p&gt;Bienvenido&nbsp;a&nbsp;PHP&lt;/p&gt;"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ php -S localhost:8000 router.php</pre>
+</div>
+   </div>
+
+  </div>
+  
+  <div class="example" id="example-429">
+   <p><strong>Ejemplo #4 Revisión del uso de la CLI del servidor web</strong></p>
+   <div class="example-contents"><p>
+    Para reutilizar un framework de script enrutador durante el desarrollo con la CLI del servidor web server y luego con un servidor web en producción:
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;router.php<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">php_sapi_name</span><span style="color: #007700">()&nbsp;==&nbsp;</span><span style="color: #DD0000">'cli-server'</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;los&nbsp;activos&nbsp;de&nbsp;ruta&nbsp;estática&nbsp;y&nbsp;devolver&nbsp;falso&nbsp;*/<br /></span><span style="color: #007700">}<br /></span><span style="color: #FF8000">/*&nbsp;seguir&nbsp;adelante&nbsp;con&nbsp;operaciones&nbsp;normales&nbsp;de&nbsp;index.php&nbsp;*/<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ php -S localhost:8000 router.php</pre>
+</div>
+   </div>
+
+  </div>
+  
+  <div class="example" id="example-430">
+   <p><strong>Ejemplo #5 Manejando tipos de ficheros no soportados</strong></p> 
+   <div class="example-contents"><p>
+    Si necesita servir un recurso estático cuyo tipo MIME no es manejado por la CLI del servidor web, utilice:
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;router.php<br /></span><span style="color: #0000BB">$path&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">pathinfo</span><span style="color: #007700">(</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">"SCRIPT_FILENAME"</span><span style="color: #007700">]);<br />if&nbsp;(</span><span style="color: #0000BB">$path</span><span style="color: #007700">[</span><span style="color: #DD0000">"extension"</span><span style="color: #007700">]&nbsp;==&nbsp;</span><span style="color: #DD0000">"el"</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Content-Type:&nbsp;text/x-script.elisp"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">readfile</span><span style="color: #007700">(</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">"SCRIPT_FILENAME"</span><span style="color: #007700">]);<br />}<br />else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">FALSE</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ php -S localhost:8000 router.php</pre>
+</div>
+   </div>
+
+  </div>
+  
+  <div class="example" id="example-431">
+   <p><strong>Ejemplo #6 Accediendo a la CLI del servidor web desde máquinas remotas</strong></p> 
+   <div class="example-contents"><p>
+    Puede hacer que el servidor web sea accesible en el puerto 8000 a cualquier interfaz con:
+   </p></div>
+   <div class="example-contents">
+<div class="shellcode"><pre class="shellcode">$ php -S 0.0.0.0:8000</pre>
+</div>
+   </div>
+
+  </div>
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.commandline.interactive.html">Consola interactiva</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.commandline.ini.html">Configuraci&oacute;n INI</a></div>
+ <div class="up"><a href="features.commandline.html">Uso de la l&iacute;nea de comandos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

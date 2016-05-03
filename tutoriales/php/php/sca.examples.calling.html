@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Invocar a otro Componente de Servicio</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sca.examples.proxies.html">Obtener un delegado para otro Componente de Servicio</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sca.examples.nonscascript.html">Localizar e invocar a servicios desde un script que no es un
+   Componente SCA</a></div>
+ <div class="up"><a href="sca.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sca.examples.calling" class="section">
+  <h2 class="title">Invocar a otro Componente de Servicio</h2>
+  
+  <p class="para">
+   El ejemplo ConvertedStockQuote también invoca a los delegados para
+   los dos componentes a los que hace referencia.
+  </p>
+  
+  <p class="para">
+   <div class="example" id="example-5876">
+    <p><strong>Ejemplo #1 Llamar a servicios</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$quote&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">stock_quote</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getQuote</span><span style="color: #007700">(</span><span style="color: #0000BB">$ticker</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$rate&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exchange_rate</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getRate</span><span style="color: #007700">(</span><span style="color: #0000BB">$currency</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  
+  <p class="para"> 
+   La llamada al servicio StockQuote es una llamada a un servicio local;
+   la llamada al servicio ExchangeRate es una llamada a un servicio remoto.
+   Observe que las llamadas se realizan de la misma manera, sin tener en cuenta
+   si la llamada es a un servicio local o a uno remoto.
+  </p>
+  
+  <p class="para"> 
+   Los delegados que han sido inyectados se aseguran de que la manera de llamar
+   a los componentes y el comportamiento sea el mismo, ya se trate de un servicio
+   local o de uno remoto, por lo que los componentes no dependen
+   de si una llamada es a un servicio local o a uno remoto. Por
+   ejemplo, el delegado para un servicio local copia los argumentos
+   y únicamente pasa esas copias, para asegurarse de que las llamadas sean por
+   paso por valor, como lo harían para una llamada remota. También, el delegado
+   para un servicio remoto toma los argumentos desde una lista de parámetros
+   posicionales y se asegura de que están empaquetados apropiadamente en una petición
+   SOAP y vueltos a convertir a una lista de parámetros posicionales al final de
+   todo. 
+  </p>
+  
+  <p class="para"> 
+   En el ejemplo de arriba,
+   
+   <var class="varname"><var class="varname">$ticker</var></var> y
+   
+   <var class="varname"><var class="varname">$currency</var></var> son claramente tipos escalares de PHP.
+   Los componentes puede pasar los tipos escalares de PHP string, integer, float y
+   boolean, pero las estructuras de datos sobre llamadas a servicios son siempre pasadas como
+   Objetos de Datos de Servicio (SDOs). En un sección posterior se describe cómo un
+   componente puede crear un SDO y pasarlo a una llamada a un servicio local o web, o
+   cómo un componente puede crear un SDO para devolverlo. La documentación de proyecto
+   SDO de PHP describe cómo trabajar con las APIs de SDO (véanse
+   <a href="ref.sdo.html" class="link">las páginas de SDO</a>).
+  </p>
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sca.examples.proxies.html">Obtener un delegado para otro Componente de Servicio</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sca.examples.nonscascript.html">Localizar e invocar a servicios desde un script que no es un
+   Componente SCA</a></div>
+ <div class="up"><a href="sca.examples.html">Ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

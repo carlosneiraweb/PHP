@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve un gestor a una instancia de un objeto COM ya en ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.com-event-sink.html">com_event_sink</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.com-load-typelib.html">com_load_typelib</a></div>
+ <div class="up"><a href="ref.com.html">Funciones de COM</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.com-get-active-object" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">com_get_active_object</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">com_get_active_object</span> &mdash; <span class="dc-title">Devuelve un gestor a una instancia de un objeto COM ya en ejecución</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.com-get-active-object-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="class.variant.html" class="type variant">variant</a></span> <span class="methodname"><strong>com_get_active_object</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$progid</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$code_page</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>com_get_active_object()</strong></span> es similar a crear una nueva
+   instancia de un objeto <a href="class.com.html" class="xref">COM</a>, excepto que sólo
+   devolverá un objeto a su script si el objeto ya está en ejecución.
+   Las aplicaciones OLE usan algo conocido como la &quot;<em>Tabla de Objetos en Ejecución</em>&quot; para
+   permitir a las famosas aplicaciones que se lancen solo una vez; esta función
+   expone la función de la biblioteca COM, GetActiveObject(), para obtener un gestor sobre
+   una instancia en ejecución.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.com-get-active-object-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">progid</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">progid</code> puede ser el ProgID o el CLSID del
+       objeto al que se quiere acceder (por ejemplo
+       <em>Word.Application</em>).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">code_page</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Actúa exactamente de la misma forma que lo hace la clase <a href="class.com.html" class="xref">COM</a>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.com-get-active-object-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Si el objeto solicitado está ejecutándose será devuelto a su script
+   al igual que otro objeto COM.
+  </p>
+ </div>
+
+ <div class="refsect1 errors" id="refsect1-function.com-get-active-object-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Existen diversas razones para que esta función pueda fallar, la más común
+   siendo que el objeto no está ejecutándose aún. En esta situación,
+   el código de error de excepción será <strong><code>MK_E_UNAVAILABLE</code></strong>;
+   se puede usar el método <em>getCode</em> del objeto excepción
+   para comprobar el código de excepción.
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.com-get-active-object-notes">
+  <h3 class="title">Notas</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">
+    Usar <span class="function"><strong>com_get_active_object()</strong></span> en un contexto de servidor web
+    no es siempre una idea inteligente. La mayoría de las aplicaciones COM/OLE no están diseñadas
+    para tratar más de un cliente al mismo tiempo, incluso (¡o especialmente!)
+    Microsoft Office. Debería leer <a href="http://support.microsoft.com/kb/257757" class="link external">&raquo;&nbsp;Consideraciones para la Automatización
+    del Lado del Servidor de Office</a> para más información sobre los temas generales
+    involucrados.
+   </p>
+  </div>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.com-event-sink.html">com_event_sink</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.com-load-typelib.html">com_load_typelib</a></div>
+ <div class="up"><a href="ref.com.html">Funciones de COM</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

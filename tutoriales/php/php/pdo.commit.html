@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Consigna una transacci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.begintransaction.html">PDO::beginTransaction</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.construct.html">PDO::__construct</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="pdo.commit" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">PDO::commit</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7, PECL pdo &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">PDO::commit</span> &mdash; <span class="dc-title">
+   Consigna una transacción
+  </span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-pdo.commit-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>PDO::commit</strong></span>
+    ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Consigna una transacción, devolviendo la conexión a la base de datos al modo
+   &#039;autocommit&#039; hasta que la siguiente llamada a <span class="function"><a href="pdo.begintransaction.html" class="function">PDO::beginTransaction()</a></span>
+   inicie una nueva transacción.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-pdo.commit-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-pdo.commit-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1015">
+    <p><strong>Ejemplo #1 Consignar una transacción básica</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Iniciar&nbsp;una&nbsp;transacción,&nbsp;desactivando&nbsp;'autocommit'&nbsp;*/<br /></span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">beginTransaction</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;Insertar&nbsp;múltiples&nbsp;registros&nbsp;según&nbsp;"todo&nbsp;o&nbsp;nada"&nbsp;*/<br /></span><span style="color: #0000BB">$sql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'INSERT&nbsp;INTO&nbsp;fruit<br />&nbsp;&nbsp;&nbsp;&nbsp;(name,&nbsp;colour,&nbsp;calories)<br />&nbsp;&nbsp;&nbsp;&nbsp;VALUES&nbsp;(?,&nbsp;?,&nbsp;?)'</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$gsent&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #0000BB">$sql</span><span style="color: #007700">);<br /><br />foreach&nbsp;(</span><span style="color: #0000BB">$frutas&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$fruta</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$gsent</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">(array(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fruta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">name</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fruta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">colour</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$fruta</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">calories</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Consignar&nbsp;los&nbsp;cambios&nbsp;*/<br /></span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">commit</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;La&nbsp;conexión&nbsp;a&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;ahora&nbsp;a&nbsp;vuelto&nbsp;al&nbsp;modo&nbsp;'autocommit'&nbsp;*/<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-1016">
+    <p><strong>Ejemplo #2 Consignar una transacción DDL</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Iniciar&nbsp;una&nbsp;transacción,&nbsp;desactivando&nbsp;'autocommit'&nbsp;*/<br /></span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">beginTransaction</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;Cambiar&nbsp;el&nbsp;esquema&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;*/<br /></span><span style="color: #0000BB">$gsent&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;fruit"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Consignar&nbsp;los&nbsp;cambios&nbsp;*/<br /></span><span style="color: #0000BB">$gbd</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">commit</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;La&nbsp;conexión&nbsp;a&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;ahora&nbsp;a&nbsp;vuelto&nbsp;al&nbsp;modo&nbsp;'autocommit'&nbsp;*/<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <blockquote class="note"><p><strong class="note">Nota</strong>: 
+    <span class="simpara">
+     No todas las bases de datos permitirán que las transacciones operen sobre sentencias DDL:
+     algunas generarán errores, mientras que otras (incluida MySQL) automáticamente
+     consignarán la transacción después de encontrar la primera
+     sentencia DDL.
+    </span>
+   </p></blockquote>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-pdo.commit-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="pdo.begintransaction.html" class="function" rel="rdfs-seeAlso">PDO::beginTransaction()</a> - Inicia una transacci&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="pdo.rollback.html" class="function" rel="rdfs-seeAlso">PDO::rollBack()</a> - Revierte una transacci&oacute;n</span></li>
+    <li class="member"><a href="pdo.transactions.html" class="link">Transacciones y &#039;auto-commit&#039;</a></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="pdo.begintransaction.html">PDO::beginTransaction</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="pdo.construct.html">PDO::__construct</a></div>
+ <div class="up"><a href="class.pdo.html">PDO</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

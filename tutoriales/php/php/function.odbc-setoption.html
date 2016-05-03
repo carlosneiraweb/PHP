@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ajustar la configuraci&oacute;n de ODBC</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.odbc-rollback.html">odbc_rollback</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.odbc-specialcolumns.html">odbc_specialcolumns</a></div>
+ <div class="up"><a href="ref.uodbc.html">Funciones ODBC</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.odbc-setoption" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">odbc_setoption</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">odbc_setoption</span> &mdash; <span class="dc-title">Ajustar la configuración de ODBC</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.odbc-setoption-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>odbc_setoption</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$id</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$function</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$option</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$param</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Esta función permite juguetear con las opciones de ODBC para una
+   conexión o resultado de consulta en particular. Fue escrita para ayudar
+   a encontrar soluciones a problemas en controladoes ODBC estrafalarios. Probablemente, debería
+   usar esta función sólo si es un programador de ODBC y
+   entiende los efectos de las opciones que se dan. Desde luego
+   necesitará una buena referencia de ODBC para explicar todas las diferentes
+   opciones y valores que se pueden usar. Diferentes versiones de controlardes
+   soportan diferentes opciones.
+  </p>
+  <p class="para">
+   Ya que los efectos pueden variar dependiendo del controlador ODBC, se desaconseja
+   el uso de esta función en scripts que van a estar disponilbes públicamente.
+   También, algunas opciones ODBC no están disponibles
+   para esta función ya que deben ser establecidas antes de que se
+   establezca la conexión o la consulta esté preparada. No obstante,
+   lo que realmente importa es que si en trabajo en particular hace que PHP funcione,
+   su jefe no le diga que use un producto comercial.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.odbc-setoption-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">id</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Es un id de conexión o de resultado sobre el que cambiar las configuraciones.
+       Para SQLSetConnectOption(), es un id de conexión.
+       Para SQLSetStmtOption(), es un id de resultado.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">function</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Es la función ODBC a usar. El valor debería ser
+       1 para SQLSetConnectOption() y
+       2 para SQLSetStmtOption().
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">option</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La opción a establecer.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">param</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El valor para la opción dada por <code class="parameter">option</code>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.odbc-setoption-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.odbc-setoption-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-996">
+    <p><strong>Ejemplo #1 Ejemplos de <span class="function"><strong>odbc_setoption()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;1.&nbsp;Opción&nbsp;102&nbsp;de&nbsp;SQLSetConnectOption()&nbsp;es&nbsp;SQL_AUTOCOMMIT.<br />//&nbsp;&nbsp;&nbsp;&nbsp;Valor&nbsp;1&nbsp;de&nbsp;SQL_AUTOCOMMIT&nbsp;es&nbsp;SQL_AUTOCOMMIT_ON.<br />//&nbsp;&nbsp;&nbsp;&nbsp;Este&nbsp;ejemplo&nbsp;tiene&nbsp;el&nbsp;mismo&nbsp;efecto&nbsp;que<br />//&nbsp;&nbsp;&nbsp;&nbsp;odbc_autocommit($conexión,&nbsp;true);<br /><br /></span><span style="color: #0000BB">odbc_setoption</span><span style="color: #007700">(</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">102</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;2.&nbsp;Opción&nbsp;0&nbsp;de&nbsp;SQLSetStmtOption()&nbsp;es&nbsp;SQL_QUERY_TIMEOUT.<br />//&nbsp;&nbsp;&nbsp;&nbsp;Este&nbsp;ejemplo&nbsp;establece&nbsp;la&nbsp;consulta&nbsp;para&nbsp;que&nbsp;termine&nbsp;después&nbsp;de&nbsp;30&nbsp;segundos.<br /><br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">odbc_prepare</span><span style="color: #007700">(</span><span style="color: #0000BB">$conexión</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sql</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">odbc_setoption</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">odbc_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.odbc-rollback.html">odbc_rollback</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.odbc-specialcolumns.html">odbc_specialcolumns</a></div>
+ <div class="up"><a href="ref.uodbc.html">Funciones ODBC</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

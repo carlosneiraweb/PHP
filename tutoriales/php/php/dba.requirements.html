@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Requerimientos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="dba.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="dba.installation.html">Instalaci&oacute;n</a></div>
+ <div class="up"><a href="dba.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="dba.requirements" class="section">
+  <h2 class="title">Requerimientos</h2>
+  <p class="para">
+   El comportamiento de varios aspectos depende de la implementación de la
+   base de datos subyacente. Funciones tales como <span class="function"><a href="function.dba-optimize.html" class="function">dba_optimize()</a></span>
+   y <span class="function"><a href="function.dba-sync.html" class="function">dba_sync()</a></span> harán que se prometa para una
+   base de datos y no harán nada para otras. Tiene que descargar e instalar
+   los gestores de dba soportados.
+   <table class="doctable table">
+    <caption><strong>Lista de los gestores de DBA</strong></caption>
+    
+     <thead>
+      <tr>
+       <th>Gestor</th>
+       <th>Notas</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td><em>dbm</em></td>
+       <td>
+        Dbm es el tipo más antiguo (original) de las bases de datos estilo
+        Berkeley DB. Se debería evitar si es posible. No se tiene soporte para
+        la compatibilidad de funciones contruidas dentrode DB2 y gdbm, ya que
+        sólo son compatibles con el nivel de código fuente, pero no pueden
+        manejar el formato original de dbm.
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>ndbm</em></td>
+       <td>
+        Ndbm es un tipo más reciente y flexible que dbm. Todavía tiene
+        la mayoría de los límites arbitrarios de dbm (aunque está
+        obsoleto).
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>gdbm</em></td>
+       <td>
+        Gdbm es el <a href="ftp://ftp.gnu.org/pub/gnu/gdbm/" class="link external">&raquo;&nbsp;GNU database
+        manager</a>.
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>db2</em></td>
+       <td>
+        DB2 es para <a href="http://www.sleepycat.com/" class="link external">&raquo;&nbsp;Oracle Berkeley
+        DB 2</a>. Está descrito como &quot;un conjunto de herramientas programático que
+        proporciona soporte para bases de datos internas de alto rendimiento para
+        aplicaciones autónomas y de cliente/servidor&quot;.
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>db3</em></td>
+       <td>
+        DB3 es para <a href="http://www.sleepycat.com/" class="link external">&raquo;&nbsp;Oracle Berkeley DB
+        3</a>.
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>db4</em></td>
+       <td>
+        DB4 es para <a href="http://www.sleepycat.com/" class="link external">&raquo;&nbsp;Oracle Berkeley DB
+        4 o 5</a>. Esta opción está disponible desde PHP 4.3.2. Se
+        puede usar con BDB 5 desde PHP 5.3.3.
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>cdb</em></td>
+       <td>
+        Cdb es &quot;un paquete rápido, fiable, ligero para crear y
+        leer bases de datos constantes.&quot; Es del autor de qmail y
+        se puede encontrar en <a href="http://cr.yp.to/cdb.html" class="link external">&raquo;&nbsp;http://cr.yp.to/cdb.html</a>. Ya que
+        es consntante, solo se soportan las operaciones de lectura. Y desde PHP 4.3.0
+        se soporta la escritura (no la actualización) a través de la biblioteca interna de cdb.
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>cdb_make</em></td>
+       <td>
+        Desde PHP 4.3.0 se soporta la creación (no la actualización) de ficheros cdb
+        cuando se usa la biblioteca interna cdb.
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>flatfile</em></td>
+       <td>
+        Está disponible desde PHP 4.3.0 únicamente para la compatibilidad con la extensión
+        obsoleta <em>dbm</em> y debería de evitarse.
+        Sin embargo, se puede usar para los ficheros creados con este formato. Esto
+        ocurre cuando configure no puede encontrar una biblioteca externa.
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>inifile</em></td>
+       <td>
+        Está disponible desde PHP 4.3.3 para ser capaz de modificar ficheros php.ini
+        desde dentro de scripts de PHP. Cuando se trabaja con ficheros ini se pueden pasar arrays
+        de la forma array(0=&gt;grupo,1=&gt;nombre_valor) o cadenas de la forma
+        &quot;[grupo]nombre_valor&quot; donde grupo es opcional. Ya que las funciones
+        <span class="function"><a href="function.dba-firstkey.html" class="function">dba_firstkey()</a></span> y <span class="function"><a href="function.dba-nextkey.html" class="function">dba_nextkey()</a></span>
+        devuelve una cadenas que representan la clave, existe una nueva función,
+        <span class="function"><a href="function.dba-key-split.html" class="function">dba_key_split()</a></span>, disponbile desde PHP 5, la cual permite
+        convertir las claves de cadena en claves de array sin ocasionar <strong><code>FALSE</code></strong>.
+       </td>
+      </tr>
+
+      
+      <tr>
+       <td><em>qdbm</em></td>
+       <td>
+        Está disponilbe desde PHP 5.0.0. La biblioteca qdbm se puede cargar desde
+        <a href="http://fallabs.com/qdbm/index.html" class="link external">&raquo;&nbsp;http://fallabs.com/qdbm/index.html</a>.
+       </td>
+      </tr>
+
+      
+     </tbody>
+    
+   </table>
+
+  </p>
+  <p class="para">
+   Cuando se invoca a las funciones <span class="function"><a href="function.dba-open.html" class="function">dba_open()</a></span> o
+   <span class="function"><a href="function.dba-popen.html" class="function">dba_popen()</a></span>, se debe proporcionar uno de los
+   nombres de gestores como argumento. La lista real de gestores
+   disponibles se muestra invocando a
+   <span class="function"><a href="function.phpinfo.html" class="function">phpinfo()</a></span> o <span class="function"><a href="function.dba-handlers.html" class="function">dba_handlers()</a></span>.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="dba.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="dba.installation.html">Instalaci&oacute;n</a></div>
+ <div class="up"><a href="dba.setup.html">Instalaci&oacute;n/Configuraci&oacute;n</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

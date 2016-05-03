@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve el log hist&oacute;rico de mensajes de un repositorio URL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.svn-import.html">svn_import</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.svn-ls.html">svn_ls</a></div>
+ <div class="up"><a href="ref.svn.html">Funciones SVN</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.svn-log" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">svn_log</h1>
+  <p class="verinfo">(PECL svn &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">svn_log</span> &mdash; <span class="dc-title">Devuelve el log histórico de mensajes de un repositorio URL</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.svn-log-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>svn_log</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$repos_url</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$start_revision</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$end_revision</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$limit</code><span class="initializer"> = 0</span></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$flags</code><span class="initializer"> = SVN_DISCOVER_CHANGED_PATHS | SVN_STOP_ON_COPY</span></span>
+  ]]]] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>svn_log()</strong></span> devuelve el histórico completo de un elemento del repositorio URL 
+   <code class="parameter">repos_url</code>, o el histórico de una revisión específica
+   si <code class="parameter">start_revision</code> se ha especificado. Esta función es equivalente
+   a <strong class="userinput"><code>svn log --verbose -r $start_revision $repos_url</code></strong>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.svn-log-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">repos_url</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Repositorio URL del elemento del que se obtendrá el log histórico.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">start_revision</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Número de revisión del primer log a obtener. Usar
+       <strong><code>SVN_REVISION_HEAD</code></strong> para obtener el log de 
+       la revisión más reciente.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">end_revision</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Número de revisión del último log a obtener. Por defecto es
+       <code class="parameter">start_revision</code> si se especifica, o 
+       <strong><code>SVN_REVISION_INITIAL</code></strong> en caso contrario.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">limit</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Número de logs a obtener.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">flags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Cualquier combinación de <strong><code>SVN_OMIT_MESSAGES</code></strong>,
+       <strong><code>SVN_DISCOVER_CHANGED_PATHS</code></strong> y
+       <strong><code>SVN_STOP_ON_COPY</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.svn-log-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   En caso de éxito, esta función devuelve un array con el siguiente formato
+   :
+   <div class="example-contents screen">
+<div class="returnvaluescode"><pre class="returnvaluescode">[0] =&gt; Array, ordenado mostrando la revisión más reciente (la mayor) primero
+(
+    [rev] =&gt; integer número de revisión
+    [author] =&gt; string nombre del autor
+    [msg] =&gt; string log del mensaje
+    [date] =&gt; string fecha formateada por ISO 8601, p.e. date(&#039;c&#039;)
+    [paths] =&gt; Array, descripción de los ficheros cambiados
+        (
+            [0] =&gt; Array
+                (
+                    [action] =&gt; string letra que indica el cambio
+                    [path] =&gt;  path absoluto del repositorio de un fichero cambiado
+                )
+            [1] =&gt; ...
+        )
+)
+[1] =&gt; ...</pre>
+</div>
+    </div>
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    La salida siempre será un array de arrays indexado numéricamente,
+    incluso cuando no haya ninguno o sólo un log de mensaje(s).
+   </p>
+  </p></blockquote>
+  <p class="para">
+   El valor de <var class="varname"><var class="varname">action</var></var> es un subconjunto de
+   <a href="http://svnbook.red-bean.com/en/1.2/svn.ref.svn.c.status.html" class="link external">&raquo;&nbsp; con el estado de salida
+   en la primer columna</a>, donde los valores posibles son:
+  </p>
+  <table class="doctable table">
+   <caption><strong>Actions</strong></caption>
+   
+     <thead>
+      <tr>
+       <th>Letter</th>
+       <th>Description</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>M</td>
+       <td>Elemento/propiedad fue modificada</td>
+      </tr>
+
+      <tr>
+       <td>A</td>
+       <td>Elemento fue añadido</td>
+      </tr>
+
+      <tr>
+       <td>D</td>
+       <td>Elemento fue borrado</td>
+      </tr>
+
+      <tr>
+       <td>R</td>
+       <td>Elemento fue reemplazado</td>
+      </tr>
+
+     </tbody>
+    
+  </table>
+
+  <p class="para">
+   Si no se hizo ningún cambio al elemento, se devolverá un array vacío.
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.svn-log-notes">
+  <h3 class="title">Notas</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función ha sido declarada
+<em class="emphasis">EXPERIMENTAL</em>. Su funcionamiento, nombre y 
+la documentación que le acompaña puede cambiar sin previo aviso en futuras versiones de PHP.
+Utilícela bajo su propia responsabilidad.
+</p></div>
+ </div>
+
+
+ 
+
+ 
+
+ <div class="refsect1 examples" id="refsect1-function.svn-log-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5180">
+    <p><strong>Ejemplo #1 <span class="function"><strong>svn_log()</strong></span> example</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">svn_log</span><span style="color: #007700">(</span><span style="color: #DD0000">'http://www.example.com/'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">23</span><span style="color: #007700">)&nbsp;);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [0] =&gt; Array
+    (
+        [rev] =&gt; 23
+        [author] =&gt; &#039;joe&#039;
+        [msg] =&gt; &#039;Add cheese and salami to our sandwich.&#039;
+        [date] =&gt; &#039;2007-04-06T16:00:27-04:00&#039;
+        [paths] =&gt; Array
+            (
+                [0] =&gt; Array
+                    (
+                        [action] =&gt; &#039;M&#039;
+                        [path] =&gt;  &#039;/sandwich.txt&#039;
+                    )
+            )
+    )
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.svn-log-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member">
+     <a href="http://svnbook.red-bean.com/en/1.2/svn.ref.svn.c.log.html" class="link external">&raquo;&nbsp;
+      Documentación SVN para svn log
+     </a>
+    </li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.svn-import.html">svn_import</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.svn-ls.html">svn_ls</a></div>
+ <div class="up"><a href="ref.svn.html">Funciones SVN</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

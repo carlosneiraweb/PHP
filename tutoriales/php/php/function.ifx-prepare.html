@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Preparar una sentencia SQL para su ejecuci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ifx-pconnect.html">ifx_pconnect</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ifx-query.html">ifx_query</a></div>
+ <div class="up"><a href="ref.ifx.html">Informix Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ifx-prepare" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ifx_prepare</h1>
+  <p class="verinfo">(PHP 4, PHP &lt;=5.2.0)</p><p class="refpurpose"><span class="refname">ifx_prepare</span> &mdash; <span class="dc-title">Preparar una sentencia SQL para su ejecución</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ifx-prepare-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>ifx_prepare</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$query</code></span>
+   , <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$cursor_def</code></span>
+   ], <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$blobidarray</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Prepara a <code class="parameter">query</code> para su posterior uso con 
+   <span class="function"><a href="function.ifx-do.html" class="function">ifx_do()</a></span>.
+  </p>
+  <p class="para">
+   Para consultas &quot;SELECT&quot; un cursor es declarado y abierto.
+   Las consultas que no son &quot;SELECT&quot; son ejecutadas inmediatamente.
+  </p>
+  <p class="para">
+   Para cualquier tipo de consulta el número (estimado o real) de filas afectadas es 
+   guardado para extraerse por medio de <span class="function"><a href="function.ifx-affected-rows.html" class="function">ifx_affected_rows()</a></span>.
+  </p>
+  <p class="para">
+   Si el contendo de las columnas de tipo TEXT (o BYTE) lo permiten, se puede usar además 
+   <em>ifx_textasvarchar(1)</em> e 
+   <em>ifx_byteasvarchar(1)</em>.  Lo anterior permitirá tratar las columnas de tipo TEXT
+   (o BYTE) como si fueran columnas VARCHAR ordinarias (pero extensas) 
+   en consultas &quot;SELECT&quot; y no es necesario preocuparse por identificadores BLOB.
+  </p>
+  <p class="para">
+   Con <em>ifx_textasvarchar(0)</em> o 
+   <em>ifx_byteasvarchar(0)</em> (opción predeterminada), las consultas &quot;SELECT&quot; 
+   devolverán las columnas BLOB como identificadores BLOB (valores enteros). Se puede 
+   obtener el valor BLOB como si fuera cadena o archivo con las funciones BLOB (ver más abajo).
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.ifx-prepare-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">query</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La consulta como cadena.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">link_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de la conexión.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">cursor_def</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Este parámetro opcional permite tratarlo como un cursor  
+       <em>scroll</em> y/o <em>hold</em>.
+       Es una máscara y puede ser <strong><code>IFX_SCROLL</code></strong>,
+       <strong><code>IFX_HOLD</code></strong>, o ambas.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">blobidarray</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si existen columnas BLOB (BYTE o TEXT) en la consulta, se puede agregar 
+       un parámetro <code class="parameter">blobidarray</code> que contenga los 
+       identificadores BLOB correspondientes.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.ifx-prepare-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un identificador válido del resultado para ser usado por <span class="function"><a href="function.ifx-do.html" class="function">ifx_do()</a></span>,
+   o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.ifx-prepare-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ifx-do.html" class="function" rel="rdfs-seeAlso">ifx_do()</a> - Ejecutar una sentencia SQL previamente preparada</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ifx-pconnect.html">ifx_pconnect</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ifx-query.html">ifx_query</a></div>
+ <div class="up"><a href="ref.ifx.html">Informix Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

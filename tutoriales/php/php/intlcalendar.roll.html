@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>A&ntilde;adir un valor a un campo si acarrear m&aacute;s campos significativos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlcalendar.isweekend.html">IntlCalendar::isWeekend</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlcalendar.set.html">IntlCalendar::set</a></div>
+ <div class="up"><a href="class.intlcalendar.html">IntlCalendar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intlcalendar.roll" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">IntlCalendar::roll</h1>
+  <p class="verinfo">(PHP 5.5.0, PHP 7, PECL &gt;= 3.0.0a1)</p><p class="refpurpose"><span class="refname">IntlCalendar::roll</span> &mdash; <span class="dc-title">Añadir un valor a un campo si acarrear más campos significativos</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-intlcalendar.roll-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">
+   Estilo orientado a objetos
+  </p>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>IntlCalendar::roll</strong></span>
+    ( <span class="methodparam"><span class="type">int</span> <code class="parameter">$field</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$amountOrUpOrDown</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Estilo por procedimientos
+  </p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>intlcal_roll</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.intlcalendar.html" class="type IntlCalendar">IntlCalendar</a></span> <code class="parameter">$cal</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$field</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$amountOrUpOrDown</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Añade una cantidad (con signo) a un campo. La diferencia con respecto a
+   <span class="function"><a href="intlcalendar.add.html" class="function">IntlCalendar::add()</a></span> es que cuando el valor del campo
+   se desborda, no acarrea más campos significativos.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-intlcalendar.roll-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">cal</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El recurso IntlCalendar.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">field</code></dt>
+
+    <dd>
+
+     
+
+
+
+<p class="para">
+ Una de las <a href="class.intlcalendar.html#intlcalendar.constants" class="link">constantes del campo</a>
+ fecha/hora de <a href="class.intlcalendar.html" class="classname">IntlCalendar</a>. Son valores de tipo
+ integer entre <em>0</em> y
+ <strong><code>IntlCalendar::FIELD_COUNT</code></strong>.
+</p>
+
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">amountOrUpOrDown</code></dt>
+
+    <dd>
+
+     <p class="para">
+      La cantidad (con signo) a añadir al campo, <strong><code>TRUE</code></strong> para subir (añadiendo
+      <em>1</em>), o <strong><code>FALSE</code></strong> para bajar (sustrayendo
+      <em>1</em>).
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-intlcalendar.roll-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito, <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-intlcalendar.roll-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2857">
+    <p><strong>Ejemplo #1 <span class="function"><strong>IntlCalendar::roll()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />ini_set</span><span style="color: #007700">(</span><span style="color: #DD0000">'date.timezone'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Europe/Lisbon'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ini_set</span><span style="color: #007700">(</span><span style="color: #DD0000">'intl.default_locale'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'pt_PT'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$cal&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">IntlGregorianCalendar</span><span style="color: #007700">(</span><span style="color: #0000BB">2013</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">5&nbsp;</span><span style="color: #FF8000">/*&nbsp;June&nbsp;*/</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$cal</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">FIELD_DAY_OF_MONTH</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlDateFormatter</span><span style="color: #007700">::</span><span style="color: #0000BB">formatObject</span><span style="color: #007700">(</span><span style="color: #0000BB">$cal</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;"01/07/2013,&nbsp;00:00:00"<br /><br /></span><span style="color: #0000BB">$cal</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">set</span><span style="color: #007700">(</span><span style="color: #0000BB">2013</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">5&nbsp;</span><span style="color: #FF8000">/*&nbsp;June&nbsp;*/</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$cal</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">roll</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">FIELD_DAY_OF_MONTH</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;subir,&nbsp;lo&nbsp;mismo&nbsp;que&nbsp;subir&nbsp;+1<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">IntlDateFormatter</span><span style="color: #007700">::</span><span style="color: #0000BB">formatObject</span><span style="color: #007700">(</span><span style="color: #0000BB">$cal</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;"01/06/2013,&nbsp;00:00:00"</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+string(20) &quot;01/07/2013, 00:00:00&quot;
+string(20) &quot;01/06/2013, 00:00:00&quot;
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-intlcalendar.roll-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="intlcalendar.add.html" class="methodname" rel="rdfs-seeAlso">IntlCalendar::add()</a> - A&ntilde;adir una candidad (con signo) de tiempo al campo</span></li>
+    <li class="member"><span class="methodname"><a href="intlcalendar.set.html" class="methodname" rel="rdfs-seeAlso">IntlCalendar::set()</a> - Establecer un campo de instante o varios campos en com&uacute;n de una vez</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlcalendar.isweekend.html">IntlCalendar::isWeekend</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlcalendar.set.html">IntlCalendar::set</a></div>
+ <div class="up"><a href="class.intlcalendar.html">IntlCalendar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

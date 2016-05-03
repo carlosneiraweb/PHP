@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Enumerar todos los caracteres de Unicode con asignaci&oacute;n dentro de un rango</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlchar.digit.html">IntlChar::digit</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.enumchartypes.html">IntlChar::enumCharTypes</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intlchar.enumcharnames" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">IntlChar::enumCharNames</h1>
+  <p class="verinfo">(PHP 7)</p><p class="refpurpose"><span class="refname">IntlChar::enumCharNames</span> &mdash; <span class="dc-title">Enumerar todos los caracteres de Unicode con asignación dentro de un rango</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-intlchar.enumcharnames-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="modifier">static</span> <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>IntlChar::enumCharNames</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$start</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$limit</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$callback</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$nameChoice</code><span class="initializer"> = <strong><code>IntlChar::UNICODE_CHAR_NAME</code></strong></span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Enumera todos los caracteres de Unicode asignados entre los puntos de código de inicio y límite, (inclusive y exclusive, respectivamente)
+   y se llama a una función para cada uno, pasando el valor del punto de código y el nombre del carácter.
+  </p>
+  <p class="para">
+   Para los nombres de Unicode 1.0, solamente se enumeran aquellos que difieren de los nombres modernos.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-intlchar.enumcharnames-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">start</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El primer punto de código en el rango de la enumeración.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">limit</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Uno más del último punto de código en el rango de la enumeración (el primero después del rango).
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">callback</code></dt>
+
+    <dd>
+
+     <p class="para">
+      La función a invorcar para cada nombre de carácter. Se le pasarán los siguientes tres argumentos:
+      <ul class="simplelist">
+       <li class="member"><span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span> <em>$codepoint</em> - El valor numérico del punto de código</li>
+       <li class="member"><span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span> <em>$nameChoice</em> - El mismo valor que el del parámetro <code class="parameter">nameChoice</code> de abajo</li>
+       <li class="member"><span class="type"><a href="language.types.string.html" class="type string">string</a></span> <em>$name</em> - El nombre del carácter</li>
+      </ul>
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">nameChoice</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El selector por cuyo tipo de nombres se va a enumerar. Puede ser cualquier de estas constantes:
+      <ul class="simplelist">
+       <li class="member"><strong><code>IntlChar::UNICODE_CHAR_NAME</code></strong> (predeterminada)</li>
+       <li class="member"><strong><code>IntlChar::UNICODE_10_CHAR_NAME</code></strong></li>
+       <li class="member"><strong><code>IntlChar::EXTENDED_CHAR_NAME</code></strong></li>
+       <li class="member"><strong><code>IntlChar::CHAR_NAME_ALIAS</code></strong></li>
+       <li class="member"><strong><code>IntlChar::CHAR_NAME_CHOICE_COUNT</code></strong></li>
+      </ul>
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-intlchar.enumcharnames-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-intlchar.enumcharnames-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-2936">
+   <p><strong>Ejemplo #1 Enumeración de un rango de muestra de puntos de código</strong></p>
+   <div class="example-contents">
+    <div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />IntlChar</span><span style="color: #007700">::</span><span style="color: #0000BB">enumCharNames</span><span style="color: #007700">(</span><span style="color: #0000BB">0x2600</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0x2610</span><span style="color: #007700">,&nbsp;function(</span><span style="color: #0000BB">$codepoint</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$nameChoice</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$name</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"U+%04x&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$codepoint</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$name</span><span style="color: #007700">);<br />});<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+   <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+   <div class="example-contents screen">
+    <div class="cdata"><pre>
+U+2600 BLACK SUN WITH RAYS
+U+2601 CLOUD
+U+2602 UMBRELLA
+U+2603 SNOWMAN
+U+2604 COMET
+U+2605 BLACK STAR
+U+2606 WHITE STAR
+U+2607 LIGHTNING
+U+2608 THUNDERSTORM
+U+2609 SUN
+U+260a ASCENDING NODE
+U+260b DESCENDING NODE
+U+260c CONJUNCTION
+U+260d OPPOSITION
+U+260e BLACK TELEPHONE
+U+260f WHITE TELEPHONE
+</pre></div>
+   </div>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-intlchar.enumcharnames-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="intlchar.charname.html" class="function" rel="rdfs-seeAlso">IntlChar::charName()</a> - Obtener el nombre de un car&aacute;cter Unicode</span></li>
+    <li class="member"><span class="function"><a href="intlchar.charfromname.html" class="function" rel="rdfs-seeAlso">IntlChar::charFromName()</a> - Buscar un car&aacute;cter Unicode por su nombre y devolver su valor de punto de c&oacute;digo</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlchar.digit.html">IntlChar::digit</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlchar.enumchartypes.html">IntlChar::enumCharTypes</a></div>
+ <div class="up"><a href="class.intlchar.html">IntlChar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

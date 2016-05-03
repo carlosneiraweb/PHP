@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Crear un array que contiene variables y sus valores</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.asort.html">asort</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.count.html">count</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.compact" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">compact</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">compact</span> &mdash; <span class="dc-title">Crear un array que contiene variables y sus valores</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.compact-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>compact</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$varname1</code></span>
+   [, <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$...</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Crea un array que contiene variables y sus valores.
+  </p>
+  <p class="para">
+   Por cada variable, <span class="function"><strong>compact()</strong></span> busca una
+   variable con ese nombre en la tabla de símbolos actual y las añade
+   al array de salida de modo que el nombre de la variable se convierte en la clave
+   y el contenido de la variable se convierte en el valor para esa clave.
+   En pocas palabras, hace lo contrario que <span class="function"><a href="function.extract.html" class="function">extract()</a></span>.
+  </p>
+  <p class="para">
+   Cualquier cadena que no esté establecida será simplemente saltada.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.compact-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">varname1</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <span class="function"><strong>compact()</strong></span> toma un número variable de parámetros.
+       Cada parámetro puede ser una cadena que contiene el nombre de la
+       variable, o un array de nombres de variables. El array puede contener otros
+       arrays de nombres de variables dentro de él; <span class="function"><strong>compact()</strong></span>
+       los trata recursivamente.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.compact-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array de salida con todas las variables añadidas a él.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.compact-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5566">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>compact()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$ciudad&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"San&nbsp;Francisco"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$estado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"CA"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$evento&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SIGGRAPH"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$vars_región&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"ciudad"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"estado"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">compact</span><span style="color: #007700">(</span><span style="color: #DD0000">"evento"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"nada_aquí"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$vars_región</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [evento] =&gt; SIGGRAPH
+    [ciudad] =&gt; San Francisco
+    [estado] =&gt; CA
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.compact-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>A tener en consideración</strong><br />
+   <p class="para">
+    Ya que las <a href="language.variables.variable.html" class="link">variables
+    variables</a> no se pueden usar con
+    <a href="language.variables.superglobals.html" class="link">Arrays Superglobales
+    </a> de PHP dentro de funciones, los arrays Superglobales no pueden ser pasados
+    a <span class="function"><strong>compact()</strong></span>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.compact-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.extract.html" class="function" rel="rdfs-seeAlso">extract()</a> - Importar variables a la tabla de s&iacute;mbolos actual desde un array</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.asort.html">asort</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.count.html">count</a></div>
+ <div class="up"><a href="ref.array.html">Funciones de Arrays</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

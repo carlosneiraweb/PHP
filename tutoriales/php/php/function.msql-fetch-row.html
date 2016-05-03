@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Extrae la fila como un array ordenado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.msql-fetch-object.html">msql_fetch_object</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.msql-field-flags.html">msql_field_flags</a></div>
+ <div class="up"><a href="ref.msql.html">mSQL Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.msql-fetch-row" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">msql_fetch_row</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">msql_fetch_row</span> &mdash; <span class="dc-title">Extrae la fila como un array ordenado</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.msql-fetch-row-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>msql_fetch_row</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>msql_fetch_row()</strong></span> extrae una fila de datos del
+   resultado asociado con el identificador de consulta especificado. La
+   fila es devuelta como un array. Cada columna resultante es almacenada en un
+   desplazamiento de array, empezando el desplazamiento en 0.
+  </p>  
+  <p class="para"> 
+   La siguiente llamada a <span class="function"><strong>msql_fetch_row()</strong></span>
+   devolverá la siguiente fila en el conjunto de resultados, o <strong><code>FALSE</code></strong> si no hubiese
+   más filas.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.msql-fetch-row-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+result</code></dt>
+<dd>
+<p class="para">El resultado <span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> que está
+siendo evaluado. Este resultado proviene de una llamada a
+<span class="function"><a href="function.msql-query.html" class="function">msql_query()</a></span>.</p></dd>
+
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.msql-fetch-row-returnvalues">
+  <h3 class="title">Valores devueltos</h3>  
+  <p class="para">
+   Devuelve un array que corresponde con la fila extraída, o <strong><code>FALSE</code></strong> si
+   no hubiese más filas.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.msql-fetch-row-examples">
+  <h3 class="title">Ejemplos</h3>  
+  <p class="para">
+   <div class="example" id="example-1739">
+    <p><strong>Ejemplo #1 <span class="function"><strong>msql_fetch_row()</strong></span> ejemplo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$con&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">msql_connect</span><span style="color: #007700">();<br />if&nbsp;(!</span><span style="color: #0000BB">$con</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'Server&nbsp;connection&nbsp;problem:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">msql_error</span><span style="color: #007700">());<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">msql_select_db</span><span style="color: #007700">(</span><span style="color: #DD0000">'test'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$con</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'Database&nbsp;connection&nbsp;problem:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">msql_error</span><span style="color: #007700">());<br />}<br /><br /></span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">msql_query</span><span style="color: #007700">(</span><span style="color: #DD0000">'SELECT&nbsp;id,&nbsp;name&nbsp;FROM&nbsp;people'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$con</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$result</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #DD0000">'Query&nbsp;execution&nbsp;problem:&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">msql_error</span><span style="color: #007700">());<br />}<br /><br />while&nbsp;(</span><span style="color: #0000BB">$row&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">msql_fetch_row</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">':&nbsp;'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">msql_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 changelog" id="refsect1-function.msql-fetch-row-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.0.4 </td>
+       <td>
+        Se corrigió un error al recuperar los datos de las columnas que contenían valores
+        <strong><code>NULL</code></strong>. Estas columnas no se incluyen en el array resultante.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.msql-fetch-row-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.msql-fetch-array.html" class="function" rel="rdfs-seeAlso">msql_fetch_array()</a> - Extraer una fila como array</span></li>
+    <li class="member"><span class="function"><a href="function.msql-fetch-object.html" class="function" rel="rdfs-seeAlso">msql_fetch_object()</a> - Extraer la fila como un objeto</span></li>
+    <li class="member"><span class="function"><a href="function.msql-data-seek.html" class="function" rel="rdfs-seeAlso">msql_data_seek()</a> - Mueve el puntero de fila interno</span></li>
+    <li class="member"><span class="function"><a href="function.msql-result.html" class="function" rel="rdfs-seeAlso">msql_result()</a> - Obtenci&oacute;n de datos del resultado</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.msql-fetch-object.html">msql_fetch_object</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.msql-field-flags.html">msql_field_flags</a></div>
+ <div class="up"><a href="ref.msql.html">mSQL Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

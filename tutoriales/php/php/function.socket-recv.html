@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>REcibe informaci&oacute;n desde un socket conectado</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-read.html">socket_read</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-recvfrom.html">socket_recvfrom</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.socket-recv" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">socket_recv</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.1.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">socket_recv</span> &mdash; <span class="dc-title">REcibe información desde un socket conectado</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.socket-recv-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>socket_recv</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$socket</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter reference">&$buf</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$len</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$flags</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   La función <span class="function"><strong>socket_recv()</strong></span> recibe
+   <code class="parameter">len</code> bytes de información en <code class="parameter">buf</code> desde
+   <code class="parameter">socket</code>. <span class="function"><strong>socket_recv()</strong></span> se puede
+   usar para reunir información desde sockets conectados. Además, se pueden
+   especificar una o más banderas para modificar el comportamiento de la
+   función.
+  </p>
+  <p class="para">
+   <code class="parameter">buf</code> es pasado por referencia, por lo que debe ser
+   especificado como una variable en la lista de argumentos. La información leída desde
+   <code class="parameter">socket</code> por <span class="function"><strong>socket_recv()</strong></span>
+   será devuelta en <code class="parameter">buf</code>.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.socket-recv-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">socket</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">socket</code> debe ser un recurso socket previamente
+       creado por socket_create().
+      </p>
+     </dd>
+
+    
+
+    
+     <dt>
+<code class="parameter">buf</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La información recibida será traida a la variable especifivada por
+       <code class="parameter">buf</code>. Si ocurre un error, si la
+       conexión es reiniciada, o si no hay información
+       disponible, <code class="parameter">buf</code> será establecido a <strong><code>NULL</code></strong>.
+      </p>
+     </dd>
+
+    
+
+    
+     <dt>
+<code class="parameter">len</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Se obtendrán hasta <code class="parameter">len</code> bytes desde el host remoto.
+      </p>
+     </dd>
+
+    
+
+    
+     <dt>
+<code class="parameter">flags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El valor de <code class="parameter">flags</code> puede ser una combinación de
+       las siguientes banderas, unidas con el operador binario OR
+       (<em>|</em>).
+      </p>
+      
+      <table class="doctable table">
+       <caption><strong>Valores posibles de <code class="parameter">flags</code></strong></caption>
+       
+        <thead>
+         <tr>
+          <th>Bandera</th>
+          <th>Descripción</th>
+         </tr>
+
+        </thead>
+
+        <tbody class="tbody">
+         <tr>
+          <td><strong><code>MSG_OOB</code></strong></td>
+          <td>
+           Procesar información fuera de banda.
+          </td>
+         </tr>
+
+         <tr>
+          <td><strong><code>MSG_PEEK</code></strong></td>
+          <td>
+           Recibir informaicón desde el inicio de la cola recibida sin
+           eliminarla de la cola.
+          </td>
+         </tr>
+
+         <tr>
+          <td><strong><code>MSG_WAITALL</code></strong></td>
+          <td>
+           Bloquea hasta que al menos se reciba <code class="parameter">len</code> bytes.
+           Sin embargo, si se captura una señal o el host remoto se desconecta, la
+           función puede devolver menos información.
+          </td>
+         </tr>
+
+         <tr>
+          <td><strong><code>MSG_DONTWAIT</code></strong></td>
+          <td>
+           Con esta bandera establecida, la función devuelve incluso si normalmente
+           habría bloqueado.
+          </td>
+         </tr>
+
+        </tbody>
+       
+      </table>
+
+     </dd>
+
+        
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.socket-recv-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <span class="function"><strong>socket_recv()</strong></span> devuelve el número de bytes recibidos,
+   o <strong><code>FALSE</code></strong> si hubo un error. El código de error real se puede recuperar
+   llamando a <span class="function"><a href="function.socket-last-error.html" class="function">socket_last_error()</a></span>. Este código de error se puede
+   pasar a <span class="function"><a href="function.socket-strerror.html" class="function">socket_strerror()</a></span> para obtener una explicación textual
+   del error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.socket-recv-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5106">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>socket_recv()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo es un reescrito sencillo del primer ejemplo de
+     <a href="sockets.examples.html" class="xref">Ejemplos</a> para
+     usar <span class="function"><strong>socket_recv()</strong></span>.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />error_reporting</span><span style="color: #007700">(</span><span style="color: #0000BB">E_ALL</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"&lt;h2&gt;Conexión&nbsp;TCP/IP&lt;/h2&gt;\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/*&nbsp;Obtener&nbsp;el&nbsp;puerto&nbsp;del&nbsp;servicio&nbsp;WWW.&nbsp;*/<br /></span><span style="color: #0000BB">$service_port&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">getservbyname</span><span style="color: #007700">(</span><span style="color: #DD0000">'www'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'tcp'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Obtener&nbsp;la&nbsp;dirección&nbsp;IP&nbsp;del&nbsp;host&nbsp;objetivo.&nbsp;*/<br /></span><span style="color: #0000BB">$address&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">gethostbyname</span><span style="color: #007700">(</span><span style="color: #DD0000">'www.example.com'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">/*&nbsp;Crear&nbsp;un&nbsp;socket&nbsp;TCP/IP.&nbsp;*/<br /></span><span style="color: #0000BB">$socket&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">socket_create</span><span style="color: #007700">(</span><span style="color: #0000BB">AF_INET</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SOCK_STREAM</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">SOL_TCP</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$socket&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"socket_create()&nbsp;falló:&nbsp;razón:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">())&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"OK.\n"</span><span style="color: #007700">;<br />}<br /><br />echo&nbsp;</span><span style="color: #DD0000">"Intentando&nbsp;conectar&nbsp;a&nbsp;'</span><span style="color: #0000BB">$address</span><span style="color: #DD0000">'&nbsp;en&nbsp;el&nbsp;puerto&nbsp;'</span><span style="color: #0000BB">$service_port</span><span style="color: #DD0000">'..."</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">socket_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$socket</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$address</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$service_port</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"socket_connect()&nbsp;falló.\nRazón:&nbsp;(</span><span style="color: #0000BB">$result</span><span style="color: #DD0000">)&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">(</span><span style="color: #0000BB">$socket</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"OK.\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$in&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"HEAD&nbsp;/&nbsp;HTTP/1.1\r\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$in&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">"Host:&nbsp;www.example.com\r\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$in&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">"Connection:&nbsp;Close\r\n\r\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$out&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"Enviando&nbsp;petición&nbsp;HTTP&nbsp;HEAD..."</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">socket_write</span><span style="color: #007700">(</span><span style="color: #0000BB">$socket</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$in</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #0000BB">$in</span><span style="color: #007700">));<br />echo&nbsp;</span><span style="color: #DD0000">"OK.\n"</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"Leyendo&nbsp;la&nbsp;respuesta:\n\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$buf&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Este&nbsp;es&nbsp;mi&nbsp;buffer.'</span><span style="color: #007700">;<br />if&nbsp;(</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">!==&nbsp;(</span><span style="color: #0000BB">$bytes&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">socket_recv</span><span style="color: #007700">(</span><span style="color: #0000BB">$socket</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$buf</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2048</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">MSG_WAITALL</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Leídos&nbsp;</span><span style="color: #0000BB">$bytes</span><span style="color: #DD0000">&nbsp;bytes&nbsp;desde&nbsp;socket_recv().&nbsp;Cerrando&nbsp;el&nbsp;socket..."</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"socket_recv()&nbsp;falló;&nbsp;razón:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">socket_strerror</span><span style="color: #007700">(</span><span style="color: #0000BB">socket_last_error</span><span style="color: #007700">(</span><span style="color: #0000BB">$socket</span><span style="color: #007700">))&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">socket_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$socket</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #0000BB">$buf&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"OK.\n\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>
+     El ejemplo de arriba producirá algo parecido a esto:
+    </p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+&lt;h2&gt;Conexión TCP/IP&lt;/h2&gt;
+OK.
+Intentando conectar a &#039;208.77.188.166&#039; en el puerto &#039;80&#039;...OK.
+Enviando petición HTTP HEAD...OK.
+Leyendo la respuesta:
+
+Leídos 123 bytes desde socket_recv(). Cerrando el socket...HTTP/1.1 200 OK
+Date: Mon, 14 Sep 2009 08:56:36 GMT
+Server: Apache/2.2.3 (Red Hat)
+Last-Modified: Tue, 15 Nov 2005 13:24:10 GMT
+ETag: &quot;b80f4-1b6-80bfd280&quot;
+Accept-Ranges: bytes
+Content-Length: 438
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+OK.
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+                     
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-read.html">socket_read</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-recvfrom.html">socket_recvfrom</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

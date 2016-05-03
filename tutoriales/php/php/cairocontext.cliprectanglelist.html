@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Recupera el recorte actual como una lista de rect&aacute;ngulos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="cairocontext.clippreserve.html">CairoContext::clipPreserve</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="cairocontext.closepath.html">CairoContext::closePath</a></div>
+ <div class="up"><a href="class.cairocontext.html">CairoContext</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="cairocontext.cliprectanglelist" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">CairoContext::clipRectangleList</h1>
+  <h1 class="refname">cairo_clip_rectangle_list</h1>
+  <p class="verinfo">(PECL cairo &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">CairoContext::clipRectangleList</span> -- <span class="refname">cairo_clip_rectangle_list</span> &mdash; <span class="dc-title">Recupera el recorte actual como una lista de rectángulos</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-cairocontext.cliprectanglelist-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">Estilo orientado a objetos (método):</p>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">array</span> <span class="methodname"><strong>CairoContext::clipRectangleList</strong></span>
+     ( <span class="methodparam">void</span>
+   )</div>
+
+  <p class="para rdfs-comment">Estilo por procedimientos:</p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>cairo_clip_rectangle_list</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.cairocontext.html" class="type CairoContext">CairoContext</a></span> <code class="parameter">$context</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve una matriz tipo lista con la región de recorte actual como una lista de rectángulos en coordenadas del usuario
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-cairocontext.cliprectanglelist-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">context</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un objeto <a href="class.cairocontext.html" class="classname">CairoContext</a> válido creado con <span class="methodname"><a href="cairocontext.construct.html" class="methodname">CairoContext::__construct()</a></span> o
+       <span class="function"><a href="function.cairo-create.html" class="function">cairo_create()</a></span>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-cairocontext.cliprectanglelist-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Una matriz de espacio de usuario constituida de rectángulos para el recorte actual
+  </p>
+  <p class="para">
+   (El estado de la lista puede ser CAIRO_STATUS_CLIP_NOT_REPRESENTABLE para indicar que la región
+   de recorte no puede ser representada como una lista de rectángulos de espacio de usuario.
+   El estado puede tener otros valores para indicar otros errores.)
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-cairocontext.cliprectanglelist-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3155">
+    <p><strong>Ejemplo #1 Estilo orientado a objetos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$superficie&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">CairoImageSurface</span><span style="color: #007700">(</span><span style="color: #0000BB">CairoFormat</span><span style="color: #007700">::</span><span style="color: #0000BB">ARGB32</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$contexto&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">CairoContext</span><span style="color: #007700">(</span><span style="color: #0000BB">$superficie</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$contexto</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">clipRectangleList</span><span style="color: #007700">());<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(1) {
+  [0]=&gt;
+  array(4) {
+    [&quot;x&quot;]=&gt;
+    float(0)
+    [&quot;y&quot;]=&gt;
+    float(0)
+    [&quot;width&quot;]=&gt;
+    float(50)
+    [&quot;height&quot;]=&gt;
+    float(50)
+  }
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-3156">
+    <p><strong>Ejemplo #2 Estilo por procedimientos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$superficie&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cairo_image_surface_create</span><span style="color: #007700">(</span><span style="color: #0000BB">CAIRO_FORMAT_ARGB32</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">50</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$contexto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">cairo_create</span><span style="color: #007700">(</span><span style="color: #0000BB">$superficie</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">cairo_clip_rectangle_list</span><span style="color: #007700">(</span><span style="color: #0000BB">$contexto</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(1) {
+  [0]=&gt;
+  array(4) {
+    [&quot;x&quot;]=&gt;
+    float(0)
+    [&quot;y&quot;]=&gt;
+    float(0)
+    [&quot;width&quot;]=&gt;
+    float(50)
+    [&quot;height&quot;]=&gt;
+    float(50)
+  }
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-cairocontext.cliprectanglelist-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><strong>Classname::Method()</strong></span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="cairocontext.clippreserve.html">CairoContext::clipPreserve</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="cairocontext.closepath.html">CairoContext::closePath</a></div>
+ <div class="up"><a href="class.cairocontext.html">CairoContext</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Registrar FDU totalizadora para usarla en sentencias SQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlite-column.html">sqlite_column</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-create-function.html">sqlite_create_function</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.sqlite-create-aggregate" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">sqlite_create_aggregate</h1>
+  <h1 class="refname">SQLiteDatabase::createAggregate</h1>
+  <p class="verinfo">(PHP 5 &lt; 5.4.0, PECL sqlite &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">sqlite_create_aggregate</span> -- <span class="refname">SQLiteDatabase::createAggregate</span> &mdash; <span class="dc-title">Registrar FDU totalizadora para usarla en sentencias SQL</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.sqlite-create-aggregate-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>sqlite_create_aggregate</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$dbhandle</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$function_name</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$step_func</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$finalize_func</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$num_args</code><span class="initializer"> = -1</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">Estilo orientado a objetos (method):</p>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type"><span class="type void">void</span></span> <span class="methodname"><strong>SQLiteDatabase::createAggregate</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$function_name</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$step_func</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$finalize_func</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$num_args</code><span class="initializer"> = -1</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>sqlite_create_aggregate()</strong></span> es similar a
+   <span class="function"><a href="function.sqlite-create-function.html" class="function">sqlite_create_function()</a></span> excepto que registra
+   funciones que pueden ser usadas para calcular un resultado totalizador de todas las
+   filas de una consulta.
+  </p>
+  <p class="para">
+   La diferencia principal entre esta función y
+   <span class="function"><a href="function.sqlite-create-function.html" class="function">sqlite_create_function()</a></span> es que se necesitan dos
+   funciones para administrar la totalización; <code class="parameter">step_func</code> es
+   llamada para cada fila del conjunto de resultados. La función de PHP debería
+   acumular el resultado y almacenarlo en un contexto totalizador.
+   Una vez que se han procesado todas las filas,
+   <code class="parameter">finalize_func</code> será llamada y entonces debería
+   tomar los datos desde el contexto totalizador y devolver el resultado.
+   Las funciones de llamada de retorno deberían un tipo comprendido por SQLite (esto es, un
+   <a href="language.types.intro.html" class="link">tipo escalar</a>).
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.sqlite-create-aggregate-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">dbhandle</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El recurso de Base de datos de SQLite; devuelto por <span class="function"><a href="function.sqlite-open.html" class="function">sqlite_open()</a></span>
+       cuando se usa procedimentalmente. Este parámetro no es necesario
+       cuando se usa el método orientado a objetos.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">function_name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de la función utlizada en las sentencias SQL.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">step_func</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Función de llamada de retorno llamada para cada fila del conjunto de resultados.
+       Los parámetros de la función son <em>&amp;$context, $value, ...</em>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">finalize_func</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Función de llamada de retorno para totalizar los datos &quot;escalonados&quot; de cada fila.
+       El parámero de la función es <em>&amp;$context</em> y la función
+       debería devolver el resultado final de la totalización.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">num_args</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Alusión al analizador de SQLite si la función de llamada de retorno acepta un
+       número predeterminado de argumentos.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.sqlite-create-aggregate-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   No devuelve ningún valor.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.sqlite-create-aggregate-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2371">
+    <p><strong>Ejemplo #1 Ejemplo de función totalizadora max_length</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$data&nbsp;</span><span style="color: #007700">=&nbsp;array(<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'one'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'two'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'three'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'four'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'five'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'six'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'seven'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'eight'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'nine'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'ten'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;);<br /></span><span style="color: #0000BB">$dbhandle&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlite_open</span><span style="color: #007700">(</span><span style="color: #DD0000">':memory:'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">sqlite_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$dbhandle</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;strings(a)"</span><span style="color: #007700">);<br />foreach&nbsp;(</span><span style="color: #0000BB">$data&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$str</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$str&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqlite_escape_string</span><span style="color: #007700">(</span><span style="color: #0000BB">$str</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">sqlite_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$dbhandle</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;strings&nbsp;VALUES&nbsp;('</span><span style="color: #0000BB">$str</span><span style="color: #DD0000">')"</span><span style="color: #007700">);<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">max_len_step</span><span style="color: #007700">(&amp;</span><span style="color: #0000BB">$context</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$string</span><span style="color: #007700">)&nbsp;<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #0000BB">$string</span><span style="color: #007700">)&nbsp;&gt;&nbsp;</span><span style="color: #0000BB">$context</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$context&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">strlen</span><span style="color: #007700">(</span><span style="color: #0000BB">$string</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">max_len_finalize</span><span style="color: #007700">(&amp;</span><span style="color: #0000BB">$context</span><span style="color: #007700">)&nbsp;<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$context</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">sqlite_create_aggregate</span><span style="color: #007700">(</span><span style="color: #0000BB">$dbhandle</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'max_len'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'max_len_step'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'max_len_finalize'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">sqlite_array_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$dbhandle</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'SELECT&nbsp;max_len(a)&nbsp;from&nbsp;strings'</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   En este ejemplo creamos una función totalizadora que
+   calculará la longitud de la cadena más larga en una de las columnas de la
+   tabla. Para cada fila, la función <em>max_len_step</em> es
+   llamada y se le pasa un parámetro <code class="parameter">context</code>. El parámetro
+   context es como cualquier otra variable de PHP y es establecido para contener un array
+   o incluso un valor de un objeto. En este ejemplo, simplemente estamos usándolo para que contenga
+   la longitud máxima que hemos estado viendo; si el parámetro
+   <code class="parameter">string</code> tiene una longitud mayor que el máximo
+   actual, actualizamos el contexto para que contenga esta nueva longitud máxima.
+  </p>
+  <p class="para">
+   Después de que todas las filas se hayan procesado, SQLite llama a la
+   función <em>max_len_finalize</em> para determinar el resultado
+   total. Aquí, podríamos llevar a cabo algún tipo de cálculo basado en los
+   datos encontrados en <code class="parameter">context</code>. Aunque en nuestro sencillo
+   ejemplo hemos ido calculando el resultado mientras la consulta progresaba, por lo que
+   simplemente necesitamos devolver el valor de contex.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El ejemplo de arrbia no funcionará correctamente si la columna contiene datos
+    binarios. Échele un vistazo a la página del manual de
+    <span class="function"><a href="function.sqlite-udf-decode-binary.html" class="function">sqlite_udf_decode_binary()</a></span> para una explicación de por qué
+    esto es así, y un ejemplo de cómo hacerlo respecto a la codificación binaria.
+   </p>
+  </p></blockquote>
+  <div class="tip"><strong class="tip">Sugerencia</strong>
+   <p class="para">
+    NO se recomienda almacenar una copia de los valores de context
+    y despúes procesarlos al final, ya que causaría que SQLite usara un montoón de
+    memoria para procesar la consulta - simplemente piense en cúanta memoria se necesitaría
+    si estuviesen almacenadas en memoria un millón de filas, cada una conteniendo una cadena de 32 bytes
+    de longitud.
+   </p>
+  </div>
+  <div class="tip"><strong class="tip">Sugerencia</strong>
+   <p class="para">
+    Se puede usar <span class="function"><a href="function.sqlite-create-function.html" class="function">sqlite_create_function()</a></span> y
+    <span class="function"><strong>sqlite_create_aggregate()</strong></span> para sobrescribir las funciones SQL
+    nativas de SQLite.
+   </p>
+  </div>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.sqlite-create-aggregate-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.sqlite-create-function.html" class="function" rel="rdfs-seeAlso">sqlite_create_function()</a> - Registra una funci&oacute;n &quot;regular&quot; definida por el usuario para ser usada en sentencias SQL</span></li>
+    <li class="member"><span class="function"><a href="function.sqlite-udf-encode-binary.html" class="function" rel="rdfs-seeAlso">sqlite_udf_encode_binary()</a> - Codificar datos binarios antes de devolverlos desde una UDF</span></li>
+    <li class="member"><span class="function"><a href="function.sqlite-udf-decode-binary.html" class="function" rel="rdfs-seeAlso">sqlite_udf_decode_binary()</a> - Decodificar datos binarios pasados como par&aacute;metros a una FDU</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.sqlite-column.html">sqlite_column</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.sqlite-create-function.html">sqlite_create_function</a></div>
+ <div class="up"><a href="ref.sqlite.html">SQLite Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

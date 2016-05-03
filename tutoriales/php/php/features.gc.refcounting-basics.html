@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Introducci&oacute;n al contador de referencias</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.gc.html">Recolecci&oacute;n de basura</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.gc.collecting-cycles.html">Recolecci&oacute;n de referencias c&iacute;clicas</a></div>
+ <div class="up"><a href="features.gc.html">Recolecci&oacute;n de basura</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="features.gc.refcounting-basics" class="sect1">
+  <h2 class="title">Introducción al contador de referencias</h2>
+  <p class="para">
+   Una variable en PHP se almacena en un contenedor llamado &quot;zval&quot;. Un contenedor zval
+   contiene, además del tipo de la variable y su valor, dos bits adicionales de
+   información. Al primero se le llama &quot;is_ref&quot; y contiene un valor booleano
+   que indica si la variable es parte o no de un &quot;conjunto de referencias&quot;. Con
+   este bit, el motor de PHP sabe diferenciar entre variables normales
+   y referencias. Puesto que PHP permite referencias definidas por el usuario, tal y
+   como se crean con el operador &amp;, un contenedor zval tiene también un mecanismo
+   contador de referencias para optimizar el uso de memoria. Esta segunda pieza adicional de
+   información, llamada &quot;refcount&quot;, contiene el número de variables (también llamadas
+   símbolos) que apuntan a este contenedor zval. Todos los símbolos se almacenan en
+   una tabla de símbolos, de las cuales hay una por cada ámbito. Hay un ámbito para el
+   script principal (es decir, el solicitado por el navegador), además de uno por
+   cada función o método.
+  </p>
+  <p class="para">
+   Se crea un contenedor zval al crear una nueva variable con un valor constante, 
+   como por ejemplo:
+   <div class="example" id="example-432">
+    <p><strong>Ejemplo #1 Creación de un nuevo contenedor zval</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"nuevo&nbsp;string"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   En este caso, el nombre del nuevo símbolo, <em>a</em>, se crea en el ámbito actual
+   y se crea un nuevo contenedor de variable con el tipo <span class="type"><a href="language.types.string.html" class="type string">string</a></span> y el valor
+   <em>nuevo string</em>. El bit &quot;is_ref&quot; se establece por omisión a <strong><code>FALSE</code></strong> dado que no se
+   ha creado ninguna referencia en el espacio del usuario. &quot;refcount&quot; se establece a <em>1</em>, pues
+   solo hay un símbolo que haga uso de este contenedor de variable. Tenga en cuenta
+   que si &quot;refcount&quot; es <em>1</em>, &quot;is_ref&quot; siempre valdrá <strong><code>FALSE</code></strong>. Si tiene <a href="http://xdebug.org/" class="link external">&raquo;&nbsp;Xdebug</a> instalado, puede mostrar esta
+   información llamando a <span class="function"><strong>xdebug_debug_zval()</strong></span>.
+  </p>
+  <p class="para">
+   <div class="example" id="example-433">
+    <p><strong>Ejemplo #2 Mostrar información de zval</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />xdebug_debug_zval</span><span style="color: #007700">(</span><span style="color: #DD0000">'a'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+a: (refcount=1, is_ref=0)=&#039;nuevo string&#039;
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Al asignar esta variable a otro nombre de variable, se incrementará refcount.
+  </p>
+  <p class="para">
+   <div class="example" id="example-434">
+    <p><strong>Ejemplo #3 Incremento de refcount de un zval</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"nuevo&nbsp;string"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">xdebug_debug_zval</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">'a'&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+a: (refcount=2, is_ref=0)=&#039;nuevo string&#039;
+</pre></div>
+     </div>
+    </div>
+  </p>
+  <p class="para">
+   Aquí, refcount vale <em>2</em>, pues el mismo contenedor de variable está
+   vinculado tanto por <var class="varname"><var class="varname">a</var></var> como por <var class="varname"><var class="varname">b</var></var>.
+   PHP es lo suficiente inteligente para no copiar el contenedor de variable
+   en sí cuando no es necesario. Los contenedores de variables se destruyen cuando
+   &quot;refcount&quot; llega a cero. &quot;refcount&quot; se decrementa en uno cuando alguno de los
+   símbolos vinculados al contenedor de variable abandona su ámbito (p.ej. cuando
+   finaliza una función) o cuando se llama a <span class="function"><a href="function.unset.html" class="function">unset()</a></span> con un símbolo.
+   El siguiente ejemplo muestra esto:
+  </p>
+  <p class="para">
+   <div class="example" id="example-435">
+    <p><strong>Ejemplo #4 Decremento de refcount de zval</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"nuevo&nbsp;string"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">xdebug_debug_zval</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">'a'&nbsp;</span><span style="color: #007700">);<br />unset(&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">xdebug_debug_zval</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">'a'&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+a: (refcount=3, is_ref=0)=&#039;nuevo string&#039;
+a: (refcount=1, is_ref=0)=&#039;nuevo string&#039;
+</pre></div>
+     </div>
+    </div>
+  </p>
+  <p class="para">
+   Si ahora llamáramos a <em>unset($a);</em>, el contenedor de variable, incluyendo tanto
+   el tipo como el valor, se eliminarían de la memoría.
+  </p>
+  
+  <div class="sect2" id="features.gc.compound-types">
+   <h3 class="title">Tipos compuestos</h3>
+   
+   <p class="para">
+    Las cosas se complican con tipos compuestos tales como <span class="type"><a href="language.types.array.html" class="type array">array</a></span>s y
+    <span class="type"><a href="language.types.object.html" class="type object">object</a></span>. En lugar de un valor de tipo <span class="type"><span class="type scalar">scalar</span></span>, los <span class="type"><a href="language.types.array.html" class="type array">array</a></span>s
+    y <span class="type"><a href="language.types.object.html" class="type object">object</a></span>s almacenan sus
+    propiedades en su propia tabla de símbolos. Esto significa que el siguiente
+    ejemplo crea tres contenedores zval:
+   </p>
+   <p class="para">
+    <div class="example" id="example-436">
+     <p><strong>Ejemplo #5 Crear un zval de tipo <span class="type"><a href="language.types.array.html" class="type array">array</a></span></strong></p>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">'meaning'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'life'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'number'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">42&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">xdebug_debug_zval</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">'a'&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+      </div>
+
+      <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+      <div class="example-contents screen">
+<div class="cdata"><pre>
+a: (refcount=1, is_ref=0)=array (
+   &#039;meaning&#039; =&gt; (refcount=1, is_ref=0)=&#039;life&#039;,
+   &#039;number&#039; =&gt; (refcount=1, is_ref=0)=42
+)
+</pre></div>
+      </div>
+      <div class="example-contents"><p>Gráficamente</p></div>
+      <div class="mediaobject">
+       
+       <div class="imageobject">
+        <img src="images/12f37b1c6963c1c5c18f30495416a197-simple-array.png" alt="Los zval de un array simple" width="593" height="143" />
+       </div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     Los tres contenedores zval son: <var class="varname"><var class="varname">a</var></var>, <var class="varname"><var class="varname">meaning</var></var>, y <var class="varname"><var class="varname">number</var></var>.
+     Se aplican reglas similares a la hora de incrementar y decrementar &quot;refcounts&quot;. Abajo, añadimos otro
+     elemento al array, y fijamos su valor al contenido de un elemento ya
+     existente:
+    </p>
+    <p class="para">
+     <div class="example" id="example-437">
+      <p><strong>Ejemplo #6 Añadir un elemento existente a un array</strong></p>
+      <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">'meaning'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'life'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'number'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">42&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'life'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'meaning'</span><span style="color: #007700">];<br /></span><span style="color: #0000BB">xdebug_debug_zval</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">'a'&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+      </div>
+
+      <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+      <div class="example-contents screen">
+<div class="cdata"><pre>
+a: (refcount=1, is_ref=0)=array (
+   &#039;meaning&#039; =&gt; (refcount=2, is_ref=0)=&#039;life&#039;,
+   &#039;number&#039; =&gt; (refcount=1, is_ref=0)=42,
+   &#039;life&#039; =&gt; (refcount=2, is_ref=0)=&#039;life&#039;
+)
+</pre></div>
+      </div>
+      <div class="example-contents"><p>Gráficamente</p></div>
+      <div class="mediaobject">
+       
+       <div class="imageobject">
+        <img src="images/12f37b1c6963c1c5c18f30495416a197-simple-array2.png" alt="Los zval de un array simple con una referencia" width="593" height="143" />
+       </div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     A partir de la salida de Xdebug, vemos que tanto el antiguo como el nuevo elemento
+     del array apuntan a un contenedor zval cuyo &quot;refcount&quot; vale
+     <em>2</em>. Pese a que Xdebug muestra dos contenedores zval
+     con valor <em>&#039;life&#039;</em>, son el mismo. La función
+     <span class="function"><strong>xdebug_debug_zval()</strong></span> no muestra esto, aunque
+     podria comprobarse mostrando también el puntero de memoria.
+    </p>
+    <p class="para">
+     Eliminar un elemento del array es como eliminar un símbolo de un ámbito.
+     Al hacerlo, el &quot;refcount&quot; del contenedor al que apunta el elemento del array
+     se decrementa. De nuevo, cuando &quot;refcount&quot; alcanza cero, el contenedor
+     de la variable se elimina de la memoria. Un ejemplo que muestra esto:
+    </p>
+    <p class="para">
+     <div class="example" id="example-438">
+      <p><strong>Ejemplo #7 Eliminar un elemento de un array</strong></p>
+      <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">'meaning'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'life'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'number'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">42&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'life'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'meaning'</span><span style="color: #007700">];<br />unset(&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'meaning'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">[</span><span style="color: #DD0000">'number'</span><span style="color: #007700">]&nbsp;);<br /></span><span style="color: #0000BB">xdebug_debug_zval</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">'a'&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+      </div>
+
+      <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+      <div class="example-contents screen">
+<div class="cdata"><pre>
+a: (refcount=1, is_ref=0)=array (
+   &#039;life&#039; =&gt; (refcount=1, is_ref=0)=&#039;life&#039;
+)
+</pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     Ahora, las cosas se vuelven interesantes si añadimos al propio array como
+     elemento del array, como veremos en el siguiente ejemplo, en el que también
+     usaremos el operador de referencia, ya que de lo contrario PHP crearía una copia:
+    </p>
+    <p class="para">
+     <div class="example" id="example-439">
+      <p><strong>Ejemplo #8 Añadir el propio array como elemento de sí mismo</strong></p>
+      <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">'one'&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$a</span><span style="color: #007700">[]&nbsp;=&amp;&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">xdebug_debug_zval</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">'a'&nbsp;</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+      </div>
+
+      <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+      <div class="example-contents screen">
+<div class="cdata"><pre>
+a: (refcount=2, is_ref=1)=array (
+   0 =&gt; (refcount=1, is_ref=0)=&#039;one&#039;,
+   1 =&gt; (refcount=2, is_ref=1)=...
+)
+</pre></div>
+      </div>
+      <div class="example-contents"><p>Gráficamente</p></div>
+      <div class="mediaobject">
+       
+       <div class="imageobject">
+        <img src="images/12f37b1c6963c1c5c18f30495416a197-loop-array.png" alt="Los zval para un array que contiene una referencia circular" width="533" height="144" />
+       </div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     Puede verse que tanto la variable de tipo array (<var class="varname"><var class="varname">a</var></var>) como el segundo elemento
+     (<var class="varname"><var class="varname">1</var></var>) apuntan ahora a un contenedor de variable que tiene un &quot;refcount&quot; de
+     <em>2</em>. Los &quot;...&quot; mostrados arriba indican que hay una referencia cíclica, lo cual,
+     por supuesto, significa que en este caso los &quot;...&quot; apuntan al array
+     original.
+    </p>
+    <p class="para">
+     Al igual que antes, al eliminar una variable se elimina el símbolo y
+     el contador de referencias del contenedor de variable al que apunte se decrementa
+     en uno. De modo que, si eliminamos la variable <var class="varname"><var class="varname">$a</var></var> después de ejecutar el código
+     anterior, el contador de referencias del contenedor de variable al que apuntan tanto <var class="varname"><var class="varname">$a</var></var>
+     como el elemento &quot;1&quot; se decrementa en uno, de &quot;2&quot; a &quot;1&quot;. Se puede representar así:
+    </p>
+    <p class="para">
+     <div class="example" id="example-440">
+      <p><strong>Ejemplo #9 Eliminar <var class="varname"><var class="varname">$a</var></var></strong></p>
+      <div class="example-contents screen">
+<div class="cdata"><pre>
+(refcount=1, is_ref=1)=array (
+   0 =&gt; (refcount=1, is_ref=0)=&#039;one&#039;,
+   1 =&gt; (refcount=1, is_ref=1)=...
+)
+</pre></div>
+      </div>
+      <div class="example-contents"><p>Gráficamente</p></div>
+      <div class="mediaobject">
+       
+       <div class="imageobject">
+        <img src="images/12f37b1c6963c1c5c18f30495416a197-leak-array.png" alt="Los zval después de eliminar un array con referencia circular mostrando la fuga de memoria" width="463" height="144" />
+       </div>
+      </div>
+     </div>
+    </p>
+  </div>
+  
+  <div class="sect2" id="features.gc.cleanup-problems">
+   <h3 class="title">Problemas de limpieza</h3>
+   <p class="para">
+    Pese a que ya no hay ningún símbolo en ningún ámbito que apunte a esta
+    estructura, esta no se puede limpiar ya que el elemento &quot;1&quot; del array todavía
+    apunta al mismo array. Al no haber un símbolo externo que apunte a
+    él, no hay forma por la que el usuario pueda eliminar esta estructura; por
+    tanto tenemos una fuga de memoria. Afortunadamente, PHP limpiará esta estructura de datos al
+    finalizar la petición, aunque hasta entonces esté ocupando un valioso espacio de
+    memoria. Esta situación ocurre a menudo si se está implementando un algoritmo
+    de análisis o en otras situaciones en las que un nodo hijo apunte de nuevo a un elemento
+    &quot;padre&quot;. Por supuesto, esta situación también puede suceder con objetos, donde
+    es más frecuente que ocurra, ya que los objetos siempre se usan implícitamente por
+    referencia.
+   </p>
+   <p class="para">
+    Esto no debería ser un problema si sólo ocurre una o dos veces, pero si
+    estas fugas de memoria suceden miles, o incluso millones de veces, lógicamente
+    esto comenzaría a ser un problema. Es especialmente problemático en scripts
+    de larga duración, tales como demonios donde básicamente nunca terminan las peticiones,
+    o en un gran conjunto de pruebas unitarias. Esto último causó problemas al
+    ejecutar las pruebas unitarias del componente Template de la biblioteca
+    eZ Componentes. En algunos casos, podrían ser necesarios 2 GB de memoria que quizás no los
+    tenga el servidor de pruebas.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="features.gc.html">Recolecci&oacute;n de basura</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="features.gc.collecting-cycles.html">Recolecci&oacute;n de referencias c&iacute;clicas</a></div>
+ <div class="up"><a href="features.gc.html">Recolecci&oacute;n de basura</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

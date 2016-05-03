@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Determina si una variable est&aacute; vac&iacute;a</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.doubleval.html">doubleval</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.floatval.html">floatval</a></div>
+ <div class="up"><a href="ref.var.html">Funciones de manejo de variables</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.empty" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">empty</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">empty</span> &mdash; <span class="dc-title">Determina si una variable está vacía</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.empty-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>empty</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$var</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Determina si una variable es considerada vacía. Una variable se considera vacía si no existe o si su valor es igual a <strong><code>FALSE</code></strong>. <span class="function"><strong>empty()</strong></span> no genera una advertencia si la variable no existe.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.empty-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">var</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La variable que se comprueba
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Antes de PHP 5.5, <span class="function"><strong>empty()</strong></span> sólo soportaba variables;
+        cualquier otra cosa provocaría un error del intérprete. En otras palabras, lo
+        siguiente no funcionaría: <strong class="command">empty(trim($nombre))</strong>.
+        En su lugar, utilice <strong class="command">trim($nombre) == false</strong>.
+       </p>
+      </p></blockquote>
+      <p class="para">
+       No se genera una advertencia si la variable no existe.
+       Esto significa que <span class="function"><strong>empty()</strong></span> es esencialmente el
+       equivalente conciso de <strong class="command">!isset($var) || $var == false</strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.empty-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>FALSE</code></strong> si <code class="parameter">var</code> existe y tiene un valor no vacío, distinto de cero.
+   De otro modo devuelve <strong><code>TRUE</code></strong>.
+  </p>
+  <p class="para">
+   Las siguientes expresiones son consideradas como vacías:
+   <ul class="simplelist">
+    <li class="member"><em>&quot;&quot; (una cadena vacía)</em></li>
+    <li class="member"><em>0 (0 como un integer)</em></li>
+    <li class="member"><em>0.0 (0 como un float)</em></li>
+    <li class="member"><em>&quot;0&quot; (0 como un string)</em></li>
+    <li class="member"><strong><code>NULL</code></strong></li>
+    <li class="member"><strong><code>FALSE</code></strong></li>
+    <li class="member"><em>array() (un array vacío)</em></li>
+    <li class="member"><em>$var;</em> (una variable declarada, pero sin un valor)</li>
+   </ul>
+  </p>
+ </div>
+
+ <div class="refsect1 changelog" id="refsect1-function.empty-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.5.0</td>
+       <td>
+        <p class="para">
+         <span class="function"><strong>empty()</strong></span> ahora soporta expresiones, en vez de únicamente
+         variables.
+        </p>
+       </td>
+      </tr>
+
+      <tr>
+       <td>5.4.0</td>
+        <td>
+         <p class="para">
+          Verificación de índices no numéricos de strings devuelve <strong><code>TRUE</code></strong>.
+         </p>
+        </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.empty-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5824">
+    <p><strong>Ejemplo #1 
+     Una simple comparación <span class="function"><strong>empty()</strong></span> / <span class="function"><a href="function.isset.html" class="function">isset()</a></span>
+    </strong></p>  
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$var&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Se&nbsp;evalúa&nbsp;a&nbsp;true&nbsp;ya&nbsp;que&nbsp;$var&nbsp;está&nbsp;vacia<br /></span><span style="color: #007700">if&nbsp;(empty(</span><span style="color: #0000BB">$var</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'$var&nbsp;es&nbsp;o&nbsp;bien&nbsp;0,&nbsp;vacía,&nbsp;o&nbsp;no&nbsp;se&nbsp;encuentra&nbsp;definida&nbsp;en&nbsp;absoluto'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;Se&nbsp;evalúa&nbsp;como&nbsp;true&nbsp;ya&nbsp;que&nbsp;$var&nbsp;está&nbsp;definida<br /></span><span style="color: #007700">if&nbsp;(isset(</span><span style="color: #0000BB">$var</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'$var&nbsp;está&nbsp;definida&nbsp;a&nbsp;pesar&nbsp;que&nbsp;está&nbsp;vacía'</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <div class="example" id="example-5825">
+   <p><strong>Ejemplo #2 <span class="function"><strong>empty()</strong></span> en índices de string</strong></p>
+     <div class="example-contents"><p>
+      PHP 5.4 cambia como <span class="function"><strong>empty()</strong></span> se comporta 
+      cuando se pasan índices de string.
+     </p></div>
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$expected_array_got_string&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'somestring'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(empty(</span><span style="color: #0000BB">$expected_array_got_string</span><span style="color: #007700">[</span><span style="color: #DD0000">'some_key'</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(empty(</span><span style="color: #0000BB">$expected_array_got_string</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(empty(</span><span style="color: #0000BB">$expected_array_got_string</span><span style="color: #007700">[</span><span style="color: #DD0000">'0'</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(empty(</span><span style="color: #0000BB">$expected_array_got_string</span><span style="color: #007700">[</span><span style="color: #0000BB">0.5</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(empty(</span><span style="color: #0000BB">$expected_array_got_string</span><span style="color: #007700">[</span><span style="color: #DD0000">'0.5'</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(empty(</span><span style="color: #0000BB">$expected_array_got_string</span><span style="color: #007700">[</span><span style="color: #DD0000">'0&nbsp;Mostel'</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     <div class="example-contents"><p>Salida del ejemplo de arriba en PHP 5.3:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+bool(false)
+bool(false)
+bool(false)
+bool(false)
+bool(false)
+bool(false)
+</pre></div>
+     </div>
+     <div class="example-contents"><p>Salida del ejemplo de arriba en PHP 5.4:</p></div>
+     <div class="example-contents screen">
+<div class="cdata"><pre>
+bool(true)
+bool(false)
+bool(false)
+bool(false)
+bool(true)
+bool(true)
+</pre></div>
+     </div>
+  </div>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.empty-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Puesto que esto es
+una construcción del lenguaje y no una función, no puede ser llamada usando
+<a href="functions.variable-functions.html" class="link">funciones variables</a>.</span>
+</p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Cuando se utiliza <span class="function"><strong>empty()</strong></span> sobre las propiedades de objetos inaccesibles,
+    el método sobrecargado <a href="language.oop5.overloading.html#object.isset" class="link">__isset()</a>
+    será llamado, si se declara.
+   </p>
+  </p></blockquote>
+ </div>
+
+ <div class="refsect1 seealso" id="refsect1-function.empty-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.isset.html" class="function" rel="rdfs-seeAlso">isset()</a> - Determina si una variable est&aacute; definida y no es NULL</span></li>
+    <li class="member"><a href="language.oop5.overloading.html#object.isset" class="link">__isset()</a></li>
+    <li class="member"><span class="function"><a href="function.unset.html" class="function" rel="rdfs-seeAlso">unset()</a> - Destruye una variable especificada</span></li>
+    <li class="member"><span class="function"><a href="function.array-key-exists.html" class="function" rel="rdfs-seeAlso">array_key_exists()</a> - Verifica si el &iacute;ndice o clave dada existe en el array</span></li>
+    <li class="member"><span class="function"><a href="function.count.html" class="function" rel="rdfs-seeAlso">count()</a> - Cuenta todos los elementos de un array o algo de un objeto</span></li> 
+    <li class="member"><span class="function"><a href="function.strlen.html" class="function" rel="rdfs-seeAlso">strlen()</a> - Obtiene la longitud de un string</span></li>
+    <li class="member"><a href="types.comparisons.html" class="link">Las tablas de comparación de tipos</a></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.doubleval.html">doubleval</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.floatval.html">floatval</a></div>
+ <div class="up"><a href="ref.var.html">Funciones de manejo de variables</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

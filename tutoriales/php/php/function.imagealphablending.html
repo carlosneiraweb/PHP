@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establece el modo de mezcla para una imagen</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imageaffinematrixget.html">imageaffinematrixget</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imageantialias.html">imageantialias</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imagealphablending" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imagealphablending</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.6, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">imagealphablending</span> &mdash; <span class="dc-title">Establece el modo de mezcla para una imagen</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imagealphablending-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>imagealphablending</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$image</code></span>
+   , <span class="methodparam"><span class="type">bool</span> <code class="parameter">$blendmode</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>imagealphablending()</strong></span> permite dos modos
+   diferentes de dibujar imágenes de color verdadero. En el modo de mezcla, el
+   componente canal alfa del color proporcionado a todas las funciones de dibujo,
+   como <span class="function"><a href="function.imagesetpixel.html" class="function">imagesetpixel()</a></span>, determina cuánto se debe permitir
+   que brille el color subyacente a través de los colores de la imagen. Como resultado, gd
+   mezcla automáticamente el color existente en ese punto con el color de dibujo,
+   y almacena el resultado en la imagen. El píxel resultante es opaco. En un modo
+   que no sea de mezcla, el color de dibujo se copia literalmente con la información del
+   canal alfa, remplazando el píxel destino. El modo de mezlca no está disponible
+   cuando se dibuja con imágenes de paleta de color.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imagealphablending-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    <dt>
+<code class="parameter">
+image</code></dt>
+<dd>
+<p class="para">Un recurso image, es devuelto por una de las funciones de creación de imágenes,
+como <span class="function"><a href="function.imagecreatetruecolor.html" class="function">imagecreatetruecolor()</a></span>.</p></dd>
+
+    
+     <dt>
+<code class="parameter">blendmode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Si se habilita o no el modo mezcla. En imágenes de color verdadero
+       el valor por defecto es <strong><code>TRUE</code></strong> de otro modo el valor por defecto es <strong><code>FALSE</code></strong>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imagealphablending-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.imagealphablending-examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-3475">
+   <p><strong>Ejemplo #1 Ejemplo de uso de <span class="function"><strong>imagealphablending()</strong></span></strong></p>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Crear&nbsp;imagen<br /></span><span style="color: #0000BB">$im&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagecreatetruecolor</span><span style="color: #007700">(</span><span style="color: #0000BB">100</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Establecer&nbsp;la&nbsp;mezcla&nbsp;alfa<br /></span><span style="color: #0000BB">imagealphablending</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Dibujar&nbsp;un&nbsp;cuadrado<br /></span><span style="color: #0000BB">imagefilledrectangle</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">30</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">70</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">70</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">imagecolorallocate</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">255</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;Imprimir<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-type:&nbsp;image/png'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">imagepng</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">imagedestroy</span><span style="color: #007700">(</span><span style="color: #0000BB">$im</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.imagealphablending-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Esta función require GD 2.0.1 o superior (se recomienda 2.0.28 o superior).</span></p></blockquote>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imageaffinematrixget.html">imageaffinematrixget</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imageantialias.html">imageantialias</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

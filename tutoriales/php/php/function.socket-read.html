@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Lee un m&aacute;ximo de longitud de bytes desde un socket</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-listen.html">socket_listen</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-recv.html">socket_recv</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.socket-read" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">socket_read</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.1.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">socket_read</span> &mdash; <span class="dc-title">Lee un máximo de longitud de bytes desde un socket</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.socket-read-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>socket_read</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$socket</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$length</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$type</code><span class="initializer"> = PHP_BINARY_READ</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   La función <span class="function"><strong>socket_read()</strong></span> lee desde un recurso
+   socket <code class="parameter">socket</code> creado por las funciones
+   <span class="function"><a href="function.socket-create.html" class="function">socket_create()</a></span> o
+   <span class="function"><a href="function.socket-accept.html" class="function">socket_accept()</a></span>. 
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.socket-read-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">socket</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un recurso socket válido creado con <span class="function"><a href="function.socket-create.html" class="function">socket_create()</a></span>
+       o <span class="function"><a href="function.socket-accept.html" class="function">socket_accept()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">length</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El número máximo de bytes leidos es espeicificado por el
+       parámetro <code class="parameter">length</code>. Por lo demás se puede usar
+       <strong><code>\r</code></strong>, <strong><code>\n</code></strong>,
+       o <strong><code>\0</code></strong> para finalizar la lectura (dependiendo del parámetro
+       <code class="parameter">type</code>, véase abajo).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">type</code></dt>
+
+     <dd>
+
+      <p class="para">
+       EL parámetro opcional <code class="parameter">type</code> es una constante nominada:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>PHP_BINARY_READ</code></strong> (Predeterminada) - usa la función
+          del sistema <em>recv()</em>. Segura para la lectura de información binaria.
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <strong><code>PHP_NORMAL_READ</code></strong> - la lectura se detiene en
+          <em>\n</em> o <em>\r</em>.
+         </span>
+        </li>
+       </ul>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.socket-read-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   <span class="function"><strong>socket_read()</strong></span> devuelve la información como cadena en caso de éxito,
+   o <strong><code>FALSE</code></strong> en caso de error (incluyendo si el host remoto cerró la
+   conexión). El código de error real se puede recuperar
+   llamando a <span class="function"><a href="function.socket-last-error.html" class="function">socket_last_error()</a></span>. Este código se puede
+   pasar a <span class="function"><a href="function.socket-strerror.html" class="function">socket_strerror()</a></span> para obtener una explicación textual
+   del error.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    <span class="function"><strong>socket_read()</strong></span> devuelve una cadena de longitud cero (&quot;&quot;)
+    cuando no hay más información que leer.
+   </p>
+  </p></blockquote>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.socket-read-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.socket-accept.html" class="function" rel="rdfs-seeAlso">socket_accept()</a> - Acepta una conexi&oacute;n de un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-bind.html" class="function" rel="rdfs-seeAlso">socket_bind()</a> - Vincula un nombre a un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-connect.html" class="function" rel="rdfs-seeAlso">socket_connect()</a> - Inicia una conexi&oacute;n sobre un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-listen.html" class="function" rel="rdfs-seeAlso">socket_listen()</a> - Escucha una conexi&oacute;n sobre un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-last-error.html" class="function" rel="rdfs-seeAlso">socket_last_error()</a> - Devuelve el &uacute;ltimo error sobre un socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-strerror.html" class="function" rel="rdfs-seeAlso">socket_strerror()</a> - Devuelve una cadena que describe un error de socket</span></li>
+    <li class="member"><span class="function"><a href="function.socket-write.html" class="function" rel="rdfs-seeAlso">socket_write()</a> - Escribir en un socket</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.socket-listen.html">socket_listen</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.socket-recv.html">socket_recv</a></div>
+ <div class="up"><a href="ref.sockets.html">Funciones de Socket</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

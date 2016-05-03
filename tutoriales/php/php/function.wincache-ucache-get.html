@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene una variable almacenada en la cach&eacute; del usuario</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.wincache-ucache-exists.html">wincache_ucache_exists</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.wincache-ucache-inc.html">wincache_ucache_inc</a></div>
+ <div class="up"><a href="ref.wincache.html">Funciones de WinCache</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.wincache-ucache-get" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">wincache_ucache_get</h1>
+  <p class="verinfo">(PECL wincache &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">wincache_ucache_get</span> &mdash; <span class="dc-title">
+   Obtiene una variable almacenada en la caché del usuario
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.wincache-ucache-get-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <span class="methodname"><strong>wincache_ucache_get</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$key</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter reference">&$success</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene una variable almacenada en la caché del usuario.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.wincache-ucache-get-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">key</code></dt>
+
+     <dd>
+
+      <p class="para">
+       La <code class="parameter">key</code> que se utiliza para almacenar la variable en la caché. 
+       <code class="parameter">key</code> distingue mayúsculas de minúsculas. <code class="parameter">key</code> puede ser 
+       un array de claves. En este caso el valor de retorno será un array de valores de cada elemento en
+       el array <code class="parameter">key</code>. Si un objeto, o un array que contiene objetos,
+       es retornado, entonces los objetos serán decodificados. Véase
+       <a href="language.oop5.magic.html#object.wakeup" class="link">__wakeup()</a> para más detalles sobre decodificar objetos.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">success</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Se establecerá en <strong><code>TRUE</code></strong> en caso de éxito y <strong><code>FALSE</code></strong> en caso de error.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.wincache-ucache-get-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="simpara">
+   Si <code class="parameter">key</code> es un string, la función devuelve el valor de la variable almacenada con esa clave. 
+   El parámetro <code class="parameter">success</code> es establecido a <strong><code>TRUE</code></strong> en caso de éxito y 
+   a <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+  <p class="simpara">
+   El parámetro <code class="parameter">key</code> es un array, el parámetro <code class="parameter">success</code> 
+   siempre se establece en <strong><code>TRUE</code></strong>. El array devuelto (pares nombre =&gt; valor) will 
+   contendrá sólo aquellos pares nombre =&gt; valor en donde la operación de obtención de caché de 
+   usuario se ha realizado correctamente. Si ninguna de las claves del array encuentran una coincidencia 
+   en la caché del usuario, un array vacío será devuelto. 
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.wincache-ucache-get-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-658">
+    <p><strong>Ejemplo #1 <span class="function"><strong>wincache_ucache_get()</strong></span> con <code class="parameter">key</code> como un string</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />wincache_ucache_add</span><span style="color: #007700">(</span><span style="color: #DD0000">'color'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'blue'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">wincache_ucache_get</span><span style="color: #007700">(</span><span style="color: #DD0000">'color'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$success</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$success</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+string(4) &quot;blue&quot;
+bool(true)
+</pre></div>
+    </div>    
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-659">
+    <p><strong>Ejemplo #2 <span class="function"><strong>wincache_ucache_get()</strong></span> con <code class="parameter">key</code> como un array</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$array1&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'green'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'5'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Blue'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'6'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'yellow'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'7'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'cyan'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">'8'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">wincache_ucache_set</span><span style="color: #007700">(</span><span style="color: #0000BB">$array1</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$array2&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'green'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Blue'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'yellow'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'cyan'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">wincache_ucache_get</span><span style="color: #007700">(</span><span style="color: #0000BB">$array2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$success</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$success</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(4) { [&quot;green&quot;]=&gt; string(1) &quot;5&quot; 
+           [&quot;Blue&quot;]=&gt; string(1) &quot;6&quot; 
+           [&quot;yellow&quot;]=&gt; string(1) &quot;7&quot; 
+           [&quot;cyan&quot;]=&gt; string(1) &quot;8&quot; } 
+bool(true) 
+</pre></div>
+    </div>    
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.wincache-ucache-get-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.wincache-ucache-add.html" class="function" rel="rdfs-seeAlso">wincache_ucache_add()</a> - Adds a variable in user cache only if variable does not already exist in the cache</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-ucache-set.html" class="function" rel="rdfs-seeAlso">wincache_ucache_set()</a> - Adds a variable in user cache and overwrites a variable if it already exists in the cache</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-ucache-delete.html" class="function" rel="rdfs-seeAlso">wincache_ucache_delete()</a> - Elimina las variables de la memoria cach&eacute; del usuario</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-ucache-clear.html" class="function" rel="rdfs-seeAlso">wincache_ucache_clear()</a> - Elimina todo el contenido de la cach&eacute; del usuario</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-ucache-exists.html" class="function" rel="rdfs-seeAlso">wincache_ucache_exists()</a> - Comprueba si una variable existe en la cach&eacute; del usuario</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-ucache-meminfo.html" class="function" rel="rdfs-seeAlso">wincache_ucache_meminfo()</a> - Recupera informaci&oacute;n sobre el uso de memoria cach&eacute; de usuario</span></li>
+    <li class="member"><span class="function"><a href="function.wincache-ucache-info.html" class="function" rel="rdfs-seeAlso">wincache_ucache_info()</a> - Recupera informaci&oacute;n sobre los datos almacenados en la cach&eacute; del usuario</span></li>
+    <li class="member"><a href="language.oop5.magic.html#object.wakeup" class="link">__wakeup()</a></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.wincache-ucache-exists.html">wincache_ucache_exists</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.wincache-ucache-inc.html">wincache_ucache_inc</a></div>
+ <div class="up"><a href="ref.wincache.html">Funciones de WinCache</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

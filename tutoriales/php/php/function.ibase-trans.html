@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Comienza una transacci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ibase-set-event-handler.html">ibase_set_event_handler</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ibase-wait-event.html">ibase_wait_event</a></div>
+ <div class="up"><a href="ref.ibase.html">Funciones de Firebird/InterBase</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ibase-trans" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ibase_trans</h1>
+  <p class="verinfo">(PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">ibase_trans</span> &mdash; <span class="dc-title">Comienza una transacción</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ibase-trans-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>ibase_trans</strong></span>
+    ([ <span class="methodparam"><span class="type">int</span> <code class="parameter">$trans_args</code></span>
+   [, <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code></span>
+  ]] )</div>
+
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>ibase_trans</strong></span>
+    ([ <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$trans_args</code></span>
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Comienza una transacción.
+  </p>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    La primera llamada a <span class="function"><strong>ibase_trans()</strong></span> no devolverá la transacción predeterminada
+    de una conexión. Todas las transacciones que comiencen por <span class="function"><strong>ibase_trans()</strong></span>
+    se desharán al finalizar el script siempre y cuando no se hayan llevado a cabo explícitamente, o 
+    ya se hubieran deshecho mediante <span class="function"><a href="function.ibase-commit.html" class="function">ibase_commit()</a></span> o
+    <span class="function"><a href="function.ibase-rollback.html" class="function">ibase_rollback()</a></span> respectivamente.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Esta función aceptará múltiples argumentos <code class="parameter">trans_args</code>
+    y <code class="parameter">link_identifier</code>. Esto permite llevar a cabo transacciones sobre
+    múltiples conexiones a bases de datos, las cuales se llevan a cabo utilizando un algoritmo
+    de dos fases. Esto significa que una actualización podría o bien fallar en todas
+    las bases de datos, o bien tener éxito en todas. NO significa que se puedan usar
+    en una misma consulta tablas de distintas bases de datos.
+   </p>
+   <p class="para">
+    Si se usaran transacciones sobre múltiples bases de datos, se deberá especificar tanto
+    el <code class="parameter">link_id</code> como el <code class="parameter">transaction_id</code>
+    en las llamadas a <span class="function"><a href="function.ibase-query.html" class="function">ibase_query()</a></span> y a <span class="function"><a href="function.ibase-prepare.html" class="function">ibase_prepare()</a></span>.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ibase-trans-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">trans_args</code></dt>
+
+     <dd>
+
+      <p class="para">
+       <code class="parameter">trans_args</code> puede ser una combinación de
+       <strong><code>IBASE_READ</code></strong>,
+       <strong><code>IBASE_WRITE</code></strong>,
+       <strong><code>IBASE_COMMITTED</code></strong>, 
+       <strong><code>IBASE_CONSISTENCY</code></strong>,
+       <strong><code>IBASE_CONCURRENCY</code></strong>, 
+       <strong><code>IBASE_REC_VERSION</code></strong>, 
+       <strong><code>IBASE_REC_NO_VERSION</code></strong>,
+       <strong><code>IBASE_WAIT</code></strong> y
+       <strong><code>IBASE_NOWAIT</code></strong>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">link_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Identificador de enlace a InterBase. Si se omite, se utilizará el
+       último enlace que se haya abierto.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ibase-trans-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un manejador de transacción, o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ibase-set-event-handler.html">ibase_set_event_handler</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ibase-wait-event.html">ibase_wait_event</a></div>
+ <div class="up"><a href="ref.ibase.html">Funciones de Firebird/InterBase</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

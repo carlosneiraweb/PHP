@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambios en clases y objetos</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration51.integer-parameters.html">Valores enteros en los par&aacute;metros de funciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration51.extensions.html">Extensiones</a></div>
+ <div class="up"><a href="migration51.html">Migrar de PHP 5.0.x a PHP 5.1.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="migration51.oop" class="section">
+  <h2 class="title">Cambios en clases y objetos</h2>
+  <ul class="itemizedlist">
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.oop.html#migration51.oop-functions" class="link"><em>instanceof</em>,
+      <em>is_a()</em>, <em>is_subclass_of()</em> y
+      <em>catch</em></a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.oop.html#migration51.oop-methods" class="link">Métodos privados abstractos</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.oop.html#migration51.oop-modifiers" class="link">Modificadores de acceso en
+      interfaces</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.oop.html#migration51.oop-inheritance" class="link">Cambios en las reglas de
+      herencia</a>
+    </p>
+   </li>
+   <li class="listitem">
+    <p class="para">
+     <a href="migration51.oop.html#migration51.oop-constants" class="link">Constantes de clases</a>
+    </p>
+   </li>
+  </ul>
+  
+  <div class="section" id="migration51.oop-functions">
+   <h2 class="title"><em>instanceof</em>, <em>is_a()</em>,
+    <em>is_subclass_of()</em> y <em>catch</em></h2>
+   <p class="para">
+    En PHP 5.0, <em>is_a()</em> quedó obsoleto en favor del operador
+    <em>instanceof</em>. Había algunos problemas con la implementación
+    inicial de <em>instanceof</em>, que dependía de
+    <em>__autoload()</em> para localizar las clases no encontradas.
+    Si no se localizara la clase, <em>instanceof</em> emitiría un error
+    fatal <strong><code>E_ERROR</code></strong> ya que
+    <em>__autoload()</em> fallaría al ubicar la clase. Este mismo comportamiento
+    tenía lugar con el operador <em>catch</em> y con la función
+    <em>is_subclass_of()</em>, por la misma razón.
+   </p>
+   <p class="para">
+    En PHP 5.1.x ninguna de estas funciones y operadores llama a
+    <em>__autoload()</em>, y los trucos tipo <em>class_exists()</em>
+    que se usaban con PHP 5.0.x, pese a que no provocan problemas, ya no
+    serán necesarios.
+   </p>
+  </div>
+  
+  <div class="section" id="migration51.oop-methods">
+   <h2 class="title">Métodos privados abstractos</h2>
+   <p class="para">
+    Los métodos privados abstractos estaban permitidos entre PHP 5.0.0 y PHP 5.0.4,
+    pero se prohibió su uso ya que los comportamientos de
+    <em>private</em> y <em>abstract</em> son mutuamente
+    excluyentes.
+   </p>
+  </div>
+  
+  <div class="section" id="migration51.oop-modifiers">
+   <h2 class="title">Modificadores de acceso en interfaces</h2>
+   <p class="para">
+    En PHP 5.0, las declaraciones de funciones en interfaces se trataban de la misma
+    manera que las declaraciones de funciones en clases. Desde octubre de 2004 esto
+    no es así, fecha a partir de la cual se permite el modificador de acceso <em>public</em>
+    en la declaración de funciones en interfaces. Desde abril de 2005
+    - fecha de la edición de PHP 5.0b1 - se permitió usar también el modificador
+    <em>static</em>. Pero los modificadores
+    <em>protected</em> y <em>private</em> ahora emiten
+    un error <strong><code>E_ERROR</code></strong>, tal y como pasa con
+    <em>abstract</em>. Debe tenerse en cuenta que este cambio no afectará al código
+    ya existente, ya que ninguno de estos modificadores tiene, en ningún caso, sentido
+    en un contexto de interfaces.
+   </p>
+  </div>
+  
+  <div class="section" id="migration51.oop-inheritance">
+   <h2 class="title">Cambios en reglas de herencia</h2>
+   <p class="para">
+    En PHP 5.0 era posible redeclarar una función, en una clase derivada, que no coincidera
+    con la declaración de esa misma función de la clase base,
+    por ejemplo:
+   </p>
+   <div class="informalexample">
+    <p class="para">
+     Este código provocará un error <strong><code>E_STRICT</code></strong> en PHP 5.1.x.
+    </p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">Base&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;&amp;</span><span style="color: #0000BB">return_by_ref</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$r&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$r</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">Derived&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">Base&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">return_by_ref</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </div>
+  
+  <div class="section" id="migration51.oop-constants">
+   <h2 class="title">Constantes de clase</h2>
+   <p class="para">
+    En PHP 5.0.x, el siguiente código era inválido:
+   </p>
+   <div class="informalexample">
+    <p class="para">
+     En PHP 5.1.x, si se redefine una constante de clase se lanzará un error fatal
+     <strong><code>E_ERROR</code></strong>.
+    </p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">test&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;</span><span style="color: #0000BB">foobar&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'foo'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;</span><span style="color: #0000BB">foobar&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'bar'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration51.integer-parameters.html">Valores enteros en los par&aacute;metros de funciones</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration51.extensions.html">Extensiones</a></div>
+ <div class="up"><a href="migration51.html">Migrar de PHP 5.0.x a PHP 5.1.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Elimina un filtro de un flujo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.stream-filter-register.html">stream_filter_register</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.stream-get-contents.html">stream_get_contents</a></div>
+ <div class="up"><a href="ref.stream.html">Funciones de Flujos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.stream-filter-remove" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">stream_filter_remove</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7)</p><p class="refpurpose"><span class="refname">stream_filter_remove</span> &mdash; <span class="dc-title">Elimina un filtro de un flujo</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.stream-filter-remove-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>stream_filter_remove</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$stream_filter</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Elimina un filtro de flujo previamente añadido al flujo con
+   <span class="function"><a href="function.stream-filter-prepend.html" class="function">stream_filter_prepend()</a></span> o
+   <span class="function"><a href="function.stream-filter-append.html" class="function">stream_filter_append()</a></span>. Cualquier información restante en el
+   buffer interno del filtro será volcada al siguiente filtro antes de
+   eliminarla.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.stream-filter-remove-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">stream_filter</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El filtro de flujo a eliminar.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.stream-filter-remove-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.stream-filter-remove-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4568">
+    <p><strong>Ejemplo #1 Refiltrar dináminamente un flujo</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Abrir&nbsp;un&nbsp;archivo&nbsp;de&nbsp;prueba&nbsp;para&nbsp;lectura&nbsp;y&nbsp;escritura&nbsp;*/<br /></span><span style="color: #0000BB">$fp&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">fopen</span><span style="color: #007700">(</span><span style="color: #DD0000">"prueba.txt"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"rw"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$filtro_rot13&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">stream_filter_append</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"string.rot13"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">STREAM_FILTER_WRITE</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fwrite</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Esto&nbsp;es&nbsp;"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">stream_filter_remove</span><span style="color: #007700">(</span><span style="color: #0000BB">$filtro_rot13</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fwrite</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"una&nbsp;prueba\n"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">rewind</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fpassthru</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">fclose</span><span style="color: #007700">(</span><span style="color: #0000BB">$fp</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Rfgb rf una prueba
+</pre></div>
+    </div>
+   </div>
+   
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.stream-filter-remove-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.stream-filter-register.html" class="function" rel="rdfs-seeAlso">stream_filter_register()</a> - Registrar un filtro de flujo definido por el usuario</span></li>
+    <li class="member"><span class="function"><a href="function.stream-filter-append.html" class="function" rel="rdfs-seeAlso">stream_filter_append()</a> - Enlaza un filtro a un flujo</span></li>
+    <li class="member"><span class="function"><a href="function.stream-filter-prepend.html" class="function" rel="rdfs-seeAlso">stream_filter_prepend()</a> - Adjunta un filtro a un flujo</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.stream-filter-register.html">stream_filter_register</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.stream-get-contents.html">stream_get_contents</a></div>
+ <div class="up"><a href="ref.stream.html">Funciones de Flujos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

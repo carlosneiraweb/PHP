@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>MySQL Fabric</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.partitioning.html">Particionamiento y fragmentaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqlnd-ms.quickstart.mysql_fabric" class="section">
+  <h2 class="title">MySQL Fabric</h2>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Requisitos de versión y estado</strong><br />
+   <p class="para">
+    Se comenzó a trabajar en el soporte para MySQL Fabricen la versión 1.6.
+    Considere el soporte con una calidad prealfa. El manual podría no enumerar
+    todas las limitaciones de la/s característica/s. Aún se está trabajand en ello.
+   </p>
+   <p class="para">
+    La fragmentación es el único caso de uso soportado por el complemento hasta la fecha.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <strong>Conceptos de MySQL Fabric</strong><br />
+   <p class="para">
+    Por favor, verfique el manual de referencia de MySQL para más información sobre MySQL Fabric
+    y cómo configurarlo. El manual de PHP asumen que se es familiar
+    con los conceptos e ideas básicos de MySQL Fabric.
+   </p>
+  </p></blockquote>
+  <p class="para">
+   MySQL Fabric es un sistema para gestionar granjas de servidores MySQL para lograr una
+   Alta Disponibilidad y opcionalmente soporte para fragmentación. Técnicamente, es un
+   middleware para gestionar y monitorizar servidores MySQL.
+  </p>
+  <p class="para">
+   Los clientes consultan a MySQL Fabric para obtener listas de servidores MySQL,
+   sus estados y sus roles. Por ejemplo, los clientes pueden solicitar una lista de
+   esclavos para un grupo de Replicacion MySQL y para ver si están listos para
+   manejar peticiones SQL. Otro ejemplo es un clúster de servidores de MySQL fragmentados
+   donde el cliente busca conocer a qué fragmento consultar para una tabla y clave de
+   de fragmentación dados. Si se configura para utilizar Fabric, el complemento usa XML RCP sobre HTTP
+   para obtener la lista en tiempo de ejecución desde un host deto MySQL Fabric. La llamada XML a un
+   procedimiento remoto se realiza en segundo plano y de forma transparente desde el punto
+   de vista de los desarrolladores.
+  </p>
+  <p class="para">
+   En lugar de enumerar los servidores MySQL directamente en el fichero de configuración del
+   complemento, este contiene una lista de uno o más host de MySQL Fabric.
+  </p>
+  <p class="para">
+   <div class="example" id="example-2017">
+    <p><strong>Ejemplo #1 Configuración del complemento: hosts de Fabric en lugar de servidores MySQL</strong></p>
+    <div class="example-contents">
+<div class="inicode"><pre class="inicode">{
+    &quot;myapp&quot;: {
+        &quot;fabric&quot;: {
+            &quot;hosts&quot;: [
+                {
+                    &quot;host&quot; : &quot;127.0.0.1&quot;,
+                    &quot;port&quot; : 8080
+                }
+            ]
+        }
+    }
+}</pre>
+</div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Los usuarios utilizan las nuevas funciones
+   <span class="function"><a href="function.mysqlnd-ms-fabric-select-shard.html" class="function">mysqlnd_ms_fabric_select_shard()</a></span> y
+   <span class="function"><a href="function.mysqlnd-ms-fabric-select-global.html" class="function">mysqlnd_ms_fabric_select_global()</a></span> para cambiar al
+   conjunto de servidores responsables de una clave de fragmento dada. Luego, el
+   complemento elige un servidor apropiado para ejecutar las consultas.
+   Al hacer esto, el complemento se encarga del conjunto de reglas adicionales
+   de equilibrado de carga.
+  </p>
+  <p class="para">
+   El ejemplo de abajo asume que MySQL Fabric ha sido configurado
+   al fragmento de tabla <em>test.fabrictest</em> usando
+   la columna <em>id</em> de la tabla como clave de fragmento.
+  </p>
+  <p class="para">
+   <div class="example" id="example-2018">
+    <p><strong>Ejemplo #2 Particionameinto manual usando sugerencias SQL</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"myapp"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"base_datos"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;Por&nbsp;supuesto,&nbsp;su&nbsp;manejo&nbsp;de&nbsp;errores&nbsp;es&nbsp;mejor...&nbsp;*/<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysqli_connect_errno</span><span style="color: #007700">(),&nbsp;</span><span style="color: #0000BB">mysqli_connect_error</span><span style="color: #007700">()));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Crear&nbsp;una&nbsp;tabla&nbsp;global&nbsp;-&nbsp;una&nbsp;tabla&nbsp;disponible&nbsp;en&nbsp;todos&nbsp;los&nbsp;fragmentos&nbsp;*/<br /></span><span style="color: #0000BB">mysqlnd_ms_fabric_select_global</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"test.fabrictest"</span><span style="color: #007700">);<br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test.fabrictest(id&nbsp;INT&nbsp;NOT&nbsp;NULL&nbsp;PRIMARY&nbsp;KEY)"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Cambiar&nbsp;la&nbsp;conexión&nbsp;al&nbsp;fragmento&nbsp;apropiado&nbsp;e&nbsp;insertar&nbsp;un&nbsp;registro&nbsp;*/<br /></span><span style="color: #0000BB">mysqlnd_ms_fabric_select_shard</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"test.fabrictest"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">);<br />if&nbsp;(!(</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;fabrictest(id)&nbsp;VALUES&nbsp;(10)"</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">));<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Intentar&nbsp;leer&nbsp;el&nbsp;recién&nbsp;insertado&nbsp;registro&nbsp;*/<br /></span><span style="color: #0000BB">mysqlnd_ms_fabric_select_shard</span><span style="color: #007700">(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"test.fabrictest"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">);<br />if&nbsp;(!(</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id&nbsp;FROM&nbsp;test&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;10"</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;die(</span><span style="color: #0000BB">sprintf</span><span style="color: #007700">(</span><span style="color: #DD0000">"[%d]&nbsp;%s\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">));<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   El ejemplo crea una tabla fragmentada, inserta un registro y lo lee
+   después. Todas las operaciones de lenguaje de definición de datos (DDL)
+   sobre una tabla fragmentada deben aplicarse a lo que se llama el grupo de servidores global.
+   Antes de crear o alterar una tabla fragmentada, se llama a
+   <span class="function"><a href="function.mysqlnd-ms-fabric-select-global.html" class="function">mysqlnd_ms_fabric_select_global()</a></span>
+   para cambiar la conexión dada a los servidores correspondientes del grupo
+   global. Las senetencias SQL de manipulación de datos (DML) deben ser enviadas a los fragmentos
+   directamente. La función <a href="function.mysqlnd-ms-fabric-select-shard.html" class="link">
+   <span class="function"><a href="function.mysqlnd-ms-fabric-select-shard.html" class="function">mysqlnd_ms_fabric_select_shard()</a></span></a> cambia una
+   conexión para manejar el fragmento de una cierta clave de fragmento.
+  </p>
+  
+  
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqlnd-ms.quickstart.partitioning.html">Particionamiento y fragmentaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqlnd-ms.concepts.html">Conceptos</a></div>
+ <div class="up"><a href="mysqlnd-ms.quickstart.html">Gu&iacute;a r&aacute;pida y ejemplos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

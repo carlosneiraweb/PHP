@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Establece las caracter&iacute;sticas de entorno que controlan las opciones de salida</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ingres-rollback.html">ingres_rollback</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ingres-unbuffered-query.html">ingres_unbuffered_query</a></div>
+ <div class="up"><a href="ref.ingres.html">Funciones de Ingres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.ingres-set-environment" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">ingres_set_environment</h1>
+  <p class="verinfo">(PECL ingres &gt;= 1.2.0)</p><p class="refpurpose"><span class="refname">ingres_set_environment</span> &mdash; <span class="dc-title">Establece las características de entorno que controlan las opciones de salida</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.ingres-set-environment-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>ingres_set_environment</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link</code></span>
+   , <span class="methodparam"><span class="type">array</span> <code class="parameter">$options</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>ingres_set_environment()</strong></span> se invoca para establecer las opciones
+   de entorno que afectan a la salida de cierots valores desde Ingres, tales como la
+   zona horaria, el format de fecha, el carácter separador decimal, y la precisión del tipo float.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.ingres-set-environment-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">link</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El identificador de enlace de la conexión
+      </p>
+     </dd>
+
+    
+    
+     <dt id="function.ingres-set-environment.options"><code class="parameter">options</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un <span class="type"><a href="language.types.array.html" class="type array">array</a></span> enumerado de pares nombre/valor de opciones. La siguiente tabla
+       enumera el nombre de la opción y el tipo esperado
+      </p>
+      <p class="para">
+       <table class="doctable informaltable">
+        
+         <thead>
+          <tr style="vertical-align: top;">
+           <th>Nombre de la opción</th>
+           <th>Tipo de la opción</th>
+           <th>Descripción</th>
+           <th>Ejemplo</th>
+          </tr>
+
+         </thead>
+
+         <tbody class="tbody">
+          <tr style="vertical-align: top;">
+           <td>date_century_boundary</td>
+           <td><span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span></td>
+           <td>El umbral por el cual se determina si un año de dos dígitos está en
+            el siglo actual o en el siglo siguiente. Equivalente a II_DATE_CENTURY_BOUNDARY.</td>
+           <td>50</td>
+          </tr>
+
+          <tr style="vertical-align: top;">
+           <td>timezone</td>
+           <td><span class="type"><a href="language.types.string.html" class="type string">string</a></span></td>
+           <td>Controla la zona horaria de la sesión. Si no se establece, se usará
+            el valor definido por II_TIMEZONE_NAME. Si
+            II_TIMEZONE_NAME no está definido, se usarán NA-PACIFIC
+            (GMT-8 con horara de verano).</td>
+           <td>UNITED-KINGDOM</td>
+          </tr>
+
+          <tr style="vertical-align: top;">
+           <td>date_format</td>
+           <td><span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span></td>
+           <td><p class="para">Establece el formato de entrada y salida permisible para las fechas de Ingres.
+            El valor predeterminado es el definido por II_DATE_FORMAT. Si II_DATE_FORMAT no
+            está establecido, se usará el formato de fecha US, p.j. mm/dd/aa. Los valores
+            válidos para date_format son:
+            <ul class="itemizedlist">
+             <li class="listitem"><span class="simpara">INGRES_DATE_DMY</span></li>
+             <li class="listitem"><span class="simpara">INGRES_DATE_FINISH</span></li>
+             <li class="listitem"><span class="simpara">INGRES_DATE_GERMAN</span></li>
+             <li class="listitem"><span class="simpara">INGRES_DATE_ISO</span></li>
+             <li class="listitem"><span class="simpara">INGRES_DATE_ISO4</span></li>
+             <li class="listitem"><span class="simpara">INGRES_DATE_MDY</span></li>
+             <li class="listitem"><span class="simpara">INGRES_DATE_MULTINATIONAL</span></li>
+             <li class="listitem"><span class="simpara">INGRES_DATE_MULTINATIONAL4</span></li>
+             <li class="listitem"><span class="simpara">INGRES_DATE_YMD</span></li>
+             <li class="listitem"><span class="simpara">INGRES_DATE_US</span></li>
+            </ul>
+            </p>
+           </td>
+           <td>INGRES_DATE_MULTINATIONAL4</td>
+          </tr>
+
+          <tr style="vertical-align: top;">
+           <td>decimal_separator</td>
+           <td><span class="type"><a href="language.types.string.html" class="type string">string</a></span></td>
+           <td>El identificador del carácter para los datos decimales</td>
+           <td>&quot;,&quot;</td>
+          </tr>
+
+          <tr style="vertical-align: top;">
+           <td>money_lort</td>
+           <td><span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span></td>
+           <td><p class="para">El símbolo monetario que va antes o después del valor. Los valores válidos para money_lort
+            son:
+            <ul class="itemizedlist">
+             <li class="listitem"><span class="simpara">INGRES_MONEY_LEADING</span></li>
+             <li class="listitem"><span class="simpara">INGRES_MONEY_TRAILING</span></li>
+            </ul>
+            </p>
+           </td>
+           <td>INGRES_MONEY_TRAILING</td>
+          </tr>
+
+          <tr style="vertical-align: top;">
+           <td>money_sign</td>
+           <td><span class="type"><a href="language.types.string.html" class="type string">string</a></span></td>
+           <td>El símpbolo monetario a usar con el tipo de datos MONEY</td>
+           <td>€</td>
+          </tr>
+
+          <tr style="vertical-align: top;">
+           <td>money_precision</td>
+           <td><span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span></td>
+           <td>La precisión del tipo de datos MONEY</td>
+           <td>3</td>
+          </tr>
+
+          <tr style="vertical-align: top;">
+           <td>float4_precision</td>
+           <td><span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span></td>
+           <td>La precisión del tipo de datos FLOAT4</td>
+           <td>10</td>
+          </tr>
+
+          <tr style="vertical-align: top;">
+           <td>float8_precision</td>
+           <td><span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span></td>
+           <td>La precisión del tipo de datos FLOAT8</td>
+           <td>10</td>
+          </tr>
+
+          <tr style="vertical-align: top;">
+           <td>blob_segment_length</td>
+           <td><span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span></td>
+           <td>La cantidad de datos en bytes a obtener de una vez cuando se recuperan
+            datos BLOB o CLOB. El valor predeterminado es de 4096 si no se establece explícitamente</td>
+           <td>8192</td>
+          </tr>
+
+         </tbody>
+        
+       </table>
+
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.ingres-set-environment-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.ingres-set-environment-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1324">
+    <p><strong>Ejemplo #1 Establecer el formato de fecha a ISO4</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$opciones&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">"date_format"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">INGRES_DATE_ISO4&nbsp;</span><span style="color: #007700">);<br /><br />if&nbsp;(</span><span style="color: #0000BB">ingres_set_environment</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$opciones</span><span style="color: #007700">))<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">=</span><span style="color: #0000BB">ingres_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,</span><span style="color: #DD0000">"select&nbsp;date('now')&nbsp;as&nbsp;date"</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(&nbsp;</span><span style="color: #0000BB">$objeto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ingres_fetch_object&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">)&nbsp;)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$objeto</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">date</span><span style="color: #007700">.</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   <div class="example" id="example-1325">
+    <p><strong>Ejemplo #2 Set timezone to HONG-KONG</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$opciones&nbsp;</span><span style="color: #007700">=&nbsp;array(&nbsp;</span><span style="color: #DD0000">"timezone"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"HONG-KONG"</span><span style="color: #007700">);<br /><br />if&nbsp;(</span><span style="color: #0000BB">ingres_set_environment</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$opciones</span><span style="color: #007700">))<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">=</span><span style="color: #0000BB">ingres_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,</span><span style="color: #DD0000">"select&nbsp;date('now')&nbsp;as&nbsp;date"</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(&nbsp;</span><span style="color: #0000BB">$objeto&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">ingres_fetch_object&nbsp;</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">)&nbsp;)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$objeto</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">date</span><span style="color: #007700">.</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ 
+ <div class="refsect1 seealso" id="refsect1-function.ingres-set-environment-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.ingres-connect.html" class="function" rel="rdfs-seeAlso">ingres_connect()</a> - Abre una conexi&oacute;n a una base de datos de Ingres</span></li>
+    <li class="member"><span class="function"><a href="function.ingres-query.html" class="function" rel="rdfs-seeAlso">ingres_query()</a> - Env&iacute;a una consulta SQL a Ingres</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.ingres-rollback.html">ingres_rollback</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.ingres-unbuffered-query.html">ingres_unbuffered_query</a></div>
+ <div class="up"><a href="ref.ingres.html">Funciones de Ingres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

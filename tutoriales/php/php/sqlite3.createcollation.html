@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Registra una funci&oacute;n PHP para ser utilizada como una funci&oacute;n SQL de ordenaci&oacute;n espec&iacute;fica</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sqlite3.createaggregate.html">SQLite3::createAggregate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sqlite3.createfunction.html">SQLite3::createFunction</a></div>
+ <div class="up"><a href="class.sqlite3.html">SQLite3</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sqlite3.createcollation" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SQLite3::createCollation</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.11, PHP 7)</p><p class="refpurpose"><span class="refname">SQLite3::createCollation</span> &mdash; <span class="dc-title">Registra una función PHP para ser utilizada como una función SQL de ordenación específica</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-sqlite3.createcollation-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>SQLite3::createCollation</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$name</code></span>
+   , <span class="methodparam"><span class="type"><a href="language.types.callable.html" class="type callable">callable</a></span> <code class="parameter">$callback</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Registra una función PHP o función definida por el usuario para ser utilizada como una función
+   de ordenación específica dentro de sentencias SQL.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-sqlite3.createcollation-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">name</code></dt>
+
+    <dd>
+
+     <p class="para">
+      Nombre de la función SQL de ordenación específica a ser creada o redefinida
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">callback</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El nombre de una función PHP o función definida por el usuario que se aplicará como
+      retorno de llamada, definiendo el comportamiento de la ordenación. Debe aceptar dos
+      strings y devolver el resultado del mismo modo que lo hace <span class="function"><a href="function.strcmp.html" class="function">strcmp()</a></span> , p.e. debe
+      devolver -1, 1, o 0, si el primer string es menor que el segundo, es mayor que el segundo, o es
+      igual al segundo respectivamente.
+     </p>
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-sqlite3.createcollation-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-sqlite3.createcollation-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2391">
+    <p><strong>Ejemplo #1 <span class="function"><strong>SQLite3::createCollation()</strong></span></strong></p>
+    <div class="example-contents"><p>
+     Registra la función PHP <span class="function"><a href="function.strnatcmp.html" class="function">strnatcmp()</a></span> como una secuencia
+     de ordenación en la base de datos SQLite3.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$db&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SQLite3</span><span style="color: #007700">(</span><span style="color: #DD0000">":memory:"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test&nbsp;(col1&nbsp;string)"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test&nbsp;VALUES&nbsp;('a1')"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test&nbsp;VALUES&nbsp;('a10')"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">exec</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test&nbsp;VALUES&nbsp;('a2')"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">createCollation</span><span style="color: #007700">(</span><span style="color: #DD0000">'NATURAL_CMP'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'strnatcmp'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$defaultSort&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;col1&nbsp;FROM&nbsp;test&nbsp;ORDER&nbsp;BY&nbsp;col1"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$naturalSort&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;col1&nbsp;FROM&nbsp;test&nbsp;ORDER&nbsp;BY&nbsp;col1&nbsp;COLLATE&nbsp;NATURAL_CMP"</span><span style="color: #007700">);<br /><br />echo&nbsp;</span><span style="color: #DD0000">"por&nbsp;defecto:\n"</span><span style="color: #007700">;<br />while&nbsp;(</span><span style="color: #0000BB">$row&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$defaultSort</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetchArray</span><span style="color: #007700">()){<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'col1'</span><span style="color: #007700">],&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /><br />echo&nbsp;</span><span style="color: #DD0000">"\nnatural:\n"</span><span style="color: #007700">;<br />while&nbsp;(</span><span style="color: #0000BB">$row&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$naturalSort</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetchArray</span><span style="color: #007700">()){<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'col1'</span><span style="color: #007700">],&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$db</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+
+default:
+a1
+a10
+a2
+
+natural:
+a1
+a2
+a10
+
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-sqlite3.createcollation-seealso">
+  <h3 class="title">Ver también</h3>
+  <ul class="simplelist">
+   <li class="member">La documentación SQLite: <a href="http://sqlite.org/datatype3.html#collation" class="link external">&raquo;&nbsp;http://sqlite.org/datatype3.html#collation</a></li>
+  </ul>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sqlite3.createaggregate.html">SQLite3::createAggregate</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="sqlite3.createfunction.html">SQLite3::createFunction</a></div>
+ <div class="up"><a href="class.sqlite3.html">SQLite3</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

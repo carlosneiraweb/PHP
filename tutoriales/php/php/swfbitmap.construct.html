@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Carga un objeto de mapa de bits</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.swfbitmap.html">SWFBitmap</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="swfbitmap.getheight.html">SWFBitmap::getHeight</a></div>
+ <div class="up"><a href="class.swfbitmap.html">SWFBitmap</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="swfbitmap.construct" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SWFBitmap::__construct</h1>
+  <p class="verinfo">(PHP 5 &lt;= 5.3.0, PECL ming SVN)</p><p class="refpurpose"><span class="refname">SWFBitmap::__construct</span> &mdash; <span class="dc-title">Carga un objeto de mapa de bits</span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-swfbitmap.construct-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="methodname"><strong>SWFBitmap::__construct</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$file</code></span>
+   [, <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$alphafile</code></span>
+  ] )</div>
+
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función ha sido declarada
+<em class="emphasis">EXPERIMENTAL</em>. Su funcionamiento, nombre y 
+la documentación que le acompaña puede cambiar sin previo aviso en futuras versiones de PHP.
+Utilícela bajo su propia responsabilidad.
+</p></div>
+  <p class="para">
+   Crea un nuevo objeto <a href="class.swfbitmap.html" class="classname">SWFBitmap</a> desde el
+   archivo dado por <code class="parameter">file</code>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-swfbitmap.construct-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   Para amabos parámetros, se puede proporcionar un puntero a archivo devuelto por
+   <span class="function"><a href="function.fopen.html" class="function">fopen()</a></span> o la información de imagen, como cadena binaria.
+   <dl>
+
+    
+     <dt>
+<code class="parameter">file</code></dt>
+
+     <dd>
+
+      <p class="para">
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: 
+       <p class="para">
+        Sólo podemos tratar con jpegs de línea base (fotograma 0), ¡sin línea base optimizada ni
+        jpegs de escaneo progresivo! 
+       </p>
+      </p></blockquote>
+      <p class="para">
+       No se pueden importar imágenes png directamente, aunque se tiene que usar la utilidad
+       png2dbl para hacer un archivo dbl (&quot;define bits lossless&quot;) desde el png. 
+       La razón de esto es que no quiero una dependencia de la biblioteca png
+       en ming- autoconf debería resolver esto, pero todavía no está configurado. 
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">alphafile</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un archivo MSK a usar como máscara alfa para una imagen JPEG. 
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-swfbitmap.construct-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4060">
+    <p><strong>Ejemplo #1 Importar un archivo DBL</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$s&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SWFShape</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addFill</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">SWFBitmap</span><span style="color: #007700">(</span><span style="color: #0000BB">file_get_contents</span><span style="color: #007700">(</span><span style="color: #DD0000">"image.dbl"</span><span style="color: #007700">)));<br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setRightFill</span><span style="color: #007700">(</span><span style="color: #0000BB">$f</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(</span><span style="color: #0000BB">32</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">32</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(-</span><span style="color: #0000BB">32</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">32</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SWFMovie</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setDimension</span><span style="color: #007700">(</span><span style="color: #0000BB">32</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">32</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$s</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-type:&nbsp;application/x-shockwave-flash'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">output</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="example-4061">
+    <p><strong>Ejemplo #2 Usar una máscara alfa</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$s&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SWFShape</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;archivo&nbsp;.msk&nbsp;generado&nbsp;con&nbsp;la&nbsp;utilidad&nbsp;"gif2mask"<br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addFill</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">SWFBitmap</span><span style="color: #007700">(</span><span style="color: #0000BB">file_get_contents</span><span style="color: #007700">(</span><span style="color: #DD0000">"alphafill.jpg"</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">file_get_contents</span><span style="color: #007700">(</span><span style="color: #DD0000">"alphafill.msk"</span><span style="color: #007700">)));<br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setRightFill</span><span style="color: #007700">(</span><span style="color: #0000BB">$f</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(</span><span style="color: #0000BB">640</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">480</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(-</span><span style="color: #0000BB">640</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$s</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">480</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SWFShape</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$c</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setRightFill</span><span style="color: #007700">(</span><span style="color: #0000BB">$c</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">addFill</span><span style="color: #007700">(</span><span style="color: #0000BB">0x99</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0x99</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0x99</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">$c</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(</span><span style="color: #0000BB">40</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$c</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">40</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$c</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(-</span><span style="color: #0000BB">40</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$c</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">drawLine</span><span style="color: #007700">(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">40</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">SWFMovie</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setDimension</span><span style="color: #007700">(</span><span style="color: #0000BB">640</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">480</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setBackground</span><span style="color: #007700">(</span><span style="color: #0000BB">0xcc</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0xcc</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0xcc</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;dibujar&nbsp;un&nbsp;fondo&nbsp;de&nbsp;tablero&nbsp;de&nbsp;ajedrez<br /></span><span style="color: #007700">for&nbsp;(</span><span style="color: #0000BB">$y</span><span style="color: #007700">=</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$y</span><span style="color: #007700">&lt;</span><span style="color: #0000BB">480</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$y</span><span style="color: #007700">+=</span><span style="color: #0000BB">40</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;for&nbsp;(</span><span style="color: #0000BB">$x</span><span style="color: #007700">=</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$x</span><span style="color: #007700">&lt;</span><span style="color: #0000BB">640</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$x</span><span style="color: #007700">+=</span><span style="color: #0000BB">80</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$c</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">moveTo</span><span style="color: #007700">(</span><span style="color: #0000BB">$x</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$y</span><span style="color: #007700">);<br />&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;</span><span style="color: #0000BB">$y</span><span style="color: #007700">+=</span><span style="color: #0000BB">40</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;for&nbsp;(</span><span style="color: #0000BB">$x</span><span style="color: #007700">=</span><span style="color: #0000BB">40</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$x</span><span style="color: #007700">&lt;</span><span style="color: #0000BB">640</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$x</span><span style="color: #007700">+=</span><span style="color: #0000BB">80</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$c</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">moveTo</span><span style="color: #007700">(</span><span style="color: #0000BB">$x</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$y</span><span style="color: #007700">);<br />&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">add</span><span style="color: #007700">(</span><span style="color: #0000BB">$s</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">'Content-type:&nbsp;application/x-shockwave-flash'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">output</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="class.swfbitmap.html">SWFBitmap</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="swfbitmap.getheight.html">SWFBitmap::getHeight</a></div>
+ <div class="up"><a href="class.swfbitmap.html">SWFBitmap</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

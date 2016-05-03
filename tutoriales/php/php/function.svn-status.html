@@ -1,0 +1,469 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve el estado de la copia de trabajo de los ficheros y directorios</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.svn-revert.html">svn_revert</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.svn-update.html">svn_update</a></div>
+ <div class="up"><a href="ref.svn.html">Funciones SVN</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.svn-status" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">svn_status</h1>
+  <p class="verinfo">(PECL svn &gt;= 0.1.0)</p><p class="refpurpose"><span class="refname">svn_status</span> &mdash; <span class="dc-title">Devuelve el estado de la copia de trabajo de los ficheros y directorios</span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.svn-status-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>svn_status</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$path</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$flags</code><span class="initializer"> = 0</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve el estado de la copia de trabajo de los ficheros y directorios, dando las modificaciones,
+   adiciones, borrados y otros cambios a los elementos de la copia de trabajo.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.svn-status-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">path</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Path local al fichero o directorio del que se obtendrá el estado.
+      </p>
+      <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Las rutas relativas se resolverán como si el directorio de trabajo actual es el que contiene el binario de PHP. Para utilizar el directorio de trabajo que contiene el script a llamar, use <span class="function"><a href="function.realpath.html" class="function">realpath()</a></span> o dirname(__FILE__).</span></p></blockquote>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">flags</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Cualquier combinación de <strong><code>SVN_NON_RECURSIVE</code></strong>,
+       <strong><code>SVN_ALL</code></strong> (independientemente del estado de modificación),
+       <strong><code>SVN_SHOW_UPDATES</code></strong> (se añadirán entradas para los elementos
+       que estan desactualizados), <strong><code>SVN_NO_IGNORE</code></strong> (ignorar
+       <em>svn:ignore</em> las propiedades cuando se busquen nuevos ficheros)
+       y <strong><code>SVN_IGNORE_EXTERNALS</code></strong>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.svn-status-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array de arrays asociativos indexado numéricamente, detallando
+   el estado de los elementos del repositorio:
+  </p>
+  <div class="example-contents screen">
+<div class="returnvaluescode"><pre class="returnvaluescode">Array (
+    [0] =&gt; Array (
+        // información del elemento
+    )
+    [1] =&gt; ...
+)</pre>
+</div>
+  </div>
+  <p class="para">
+   La información del elemento es un array asociativo que puede contener
+   las siguientes claves:
+  </p>
+  <dl>
+
+   
+    <dt>
+<var class="varname"><var class="varname">path</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       String con el path al fichero/directorio de esta entrada en el sistema de ficheros local.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">text_status</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Estado del texto del elemento. Referirse a <a href="svn.constants.html#svn.constants.status" class="link">constantes de estado</a> para posibles valores.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">repos_text_status</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Estado del texto del elemento en el repositorio. Sólo es exacto si
+       <code class="parameter">update</code> se definió a <strong><code>TRUE</code></strong>.
+       Referirse a <a href="svn.constants.html#svn.constants.status" class="link">constantes de estado</a> para posibles valores.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">prop_status</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Estado de las propiedades del elemento. Referirse a <a href="svn.constants.html#svn.constants.status" class="link">constantes de estado</a> para posibles valores.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">repos_prop_status</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Estado de la propiedad del elemento en el repositorio. Sólo exacto si
+       <code class="parameter">update</code> se definió a <strong><code>TRUE</code></strong>. Referirse a <a href="svn.constants.html#svn.constants.status" class="link">constantes de estado</a> para posibles valores.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">locked</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Si el elemento está bloqueado o no. (Sólo definido si <strong><code>TRUE</code></strong>.)
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">copied</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Si el elemento fue copiado o no (planificado para adición con
+       histórico). (Sólo definido si <strong><code>TRUE</code></strong>.)
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">switched</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Si el elemento fue intercambiado con el comando switch.
+       (Sólo definido si <strong><code>TRUE</code></strong>)
+      </span>
+     </dd>
+
+   
+  </dl>
+
+  <p class="para">
+   Estas claves sólo estan definidas si el elemento está versionado:
+  </p>
+  <dl>
+
+   
+    <dt>
+<var class="varname"><var class="varname">name</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Nombre de base del elemento en el repositorio.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">url</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       URL del elemento en el repositorio.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">repos</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       URL base del repositorio.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">revision</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Entero con la revisión del elemento en la copia de trabajo.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">kind</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Tipo de elemento, p.e. fichero o directorio. Referirse a <a href="svn.constants.html#svn.constants.type" class="link">constantes de tipo</a> para posibles valores.
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">schedule</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Acción planificada para el elemento, p.e. adición o eliminación. Las constantes
+       para estos números mágicos no estan disponibles, pueden ser 
+       emuladas utilizando:
+      </span>
+       <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">defined</span><span style="color: #007700">(</span><span style="color: #DD0000">'svn_wc_schedule_normal'</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">'svn_wc_schedule_normal'</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;nada&nbsp;especial<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">'svn_wc_schedule_add'</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;elemento&nbsp;será&nbsp;añadido<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">'svn_wc_schedule_delete'</span><span style="color: #007700">,&nbsp;&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;elemento&nbsp;será&nbsp;eliminado<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">'svn_wc_schedule_replace'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;elemento&nbsp;será&nbsp;reemplazado<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+      </div>
+
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">deleted</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Si el elemento fue eliminado o no, pero las revisiones previas existen 
+       todavía. (Sólo definido si <strong><code>TRUE</code></strong>.)
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">absent</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Si el elemento está ausente o no, es decir, Subversion sabe que
+       debería haber algo pero no está. (Sólo definido si
+       <strong><code>TRUE</code></strong>.)
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">incomplete</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Si las entradas del fichero o directorio están incompletas o no.
+       (Sólo definido si <strong><code>TRUE</code></strong>.)
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">cmt_date</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Entero con el timestamp de Unix con la última fecha de commit. (No afectado por el parámetro <code class="parameter">update</code>.)
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">cmt_rev</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Entero con la revisión del último commit. (No afectado por el parámetro <code class="parameter">update</code>.)
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">cmt_author</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       String con el autor del último commit. (No afectado por el parámetro <code class="parameter">update</code>.)
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">prop_time</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Entero con el timestamp de Unix con el último tiempo de actualización de las propiedades
+      </span>
+     </dd>
+
+   
+   
+    <dt>
+<var class="varname"><var class="varname">text_time</var></var></dt>
+
+     <dd>
+
+      <span class="simpara">
+       Entero con el timestamp de Unix del último tiempo de actualización para el texto
+      </span>
+     </dd>
+
+   
+   
+  </dl>
+
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.svn-status-notes">
+  <h3 class="title">Notas</h3>
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función ha sido declarada
+<em class="emphasis">EXPERIMENTAL</em>. Su funcionamiento, nombre y 
+la documentación que le acompaña puede cambiar sin previo aviso en futuras versiones de PHP.
+Utilícela bajo su propia responsabilidad.
+</p></div>
+ </div>
+
+
+ 
+
+ 
+
+ <div class="refsect1 examples" id="refsect1-function.svn-status-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5182">
+    <p><strong>Ejemplo #1 Ejemplo básico</strong></p>
+    <div class="example-contents"><p>
+     Este ejemplo muestra un uso básico, teórico de esta función.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">svn_status</span><span style="color: #007700">(</span><span style="color: #0000BB">realpath</span><span style="color: #007700">(</span><span style="color: #DD0000">'wc'</span><span style="color: #007700">)));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array (
+    [0] =&gt; Array (
+        [path] =&gt; /home/bob/wc/sandwich.txt
+        [text_status] =&gt; 8 // elemento que fue modificado
+        [repos_text_status] =&gt; 1 // sin información disponible, usar update
+        [prop_status] =&gt; 3 // sin cambios
+        [repos_prop_status] =&gt; 1 // sin información disponible, usar update
+        [name] =&gt; sandwich.txt
+        [url] =&gt; http://www.example.com/svnroot/deli/trunk/sandwich.txt
+        [repos] =&gt; http://www.example.com/svnroot/
+        [revision] =&gt; 123
+        [kind] =&gt; 1 // fichero
+        [schedule] =&gt; 0 // sin acciones especiales planificadas
+        [cmt_date] =&gt; 1165543135
+        [cmt_rev] =&gt; 120
+        [cmt_author] =&gt; Alice
+        [prop_time] =&gt; 1180201728
+        [text_time] =&gt; 1180201729
+    )
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.svn-status-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.svn-update.html" class="function" rel="rdfs-seeAlso">svn_update()</a> - Actualiza la copia de trabajo</span></li>
+    <li class="member"><span class="function"><a href="function.svn-log.html" class="function" rel="rdfs-seeAlso">svn_log()</a> - Devuelve el log hist&oacute;rico de mensajes de un repositorio URL</span></li>
+    <li class="member"><a href="http://svnbook.red-bean.com/en/1.2/svn.ref.svn.c.status.html" class="link external">&raquo;&nbsp;Documentación SVN para svn status</a></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.svn-revert.html">svn_revert</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.svn-update.html">svn_update</a></div>
+ <div class="up"><a href="ref.svn.html">Funciones SVN</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

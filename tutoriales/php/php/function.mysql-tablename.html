@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene el nombre de la tabla de un campo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-stat.html">mysql_stat</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-thread-id.html">mysql_thread_id</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mysql-tablename" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mysql_tablename</h1>
+  <p class="verinfo">(PHP 4, PHP 5)</p><p class="refpurpose"><span class="refname">mysql_tablename</span> &mdash; <span class="dc-title">Obtiene el nombre de la tabla de un campo</span></p>
+
+ </div>
+ 
+ <div id="function.mysql-tablename-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   <p class="para">Esta extensión fue declarada obsoleta en PHP 5.5.0 y eliminada en PHP 7.0.0.
+En su lugar debería utilzarse las extensiones <a href="book.mysqli.html" class="link">MySQLi</a> o <a href="ref.pdo-mysql.html" class="link">PDO_MySQL</a>.
+Véase también la guía <a href="mysqlinfo.api.choosing.html" class="link">MySQL: elegir una API</a> y sus
+<a href="faq.databases.html#faq.databases.mysql.deprecated" class="link">P+F relacionadas</a> para más información.
+Alternatives to this function include:</p>
+   <ul class="simplelist">
+    <li class="member">Consulta SQL: <em>SHOW TABLES</em></li>
+   </ul>
+  </div>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.mysql-tablename-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>mysql_tablename</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$result</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$i</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Recupera el nombre de tabla desde un resultado dado por <code class="parameter">result</code>.
+  </p>
+  <p class="para">
+   Esta función está obsoleta. Es preferible usar
+   <span class="function"><a href="function.mysql-query.html" class="function">mysql_query()</a></span> para ejecutar una consulta SQL <em>SHOW TABLES
+   [FROM nombre_bd] [LIKE &#039;patrón&#039;]</em> en su lugar.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.mysql-tablename-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">result</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un <span class="type"><a href="language.types.resource.html" class="type resource">resource</a></span> de puntero de resultados que se devuelve desde
+       <span class="function"><a href="function.mysql-list-tables.html" class="function">mysql_list_tables()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">i</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El índice de tipo integer (número de fila/tabla)
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.mysql-tablename-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   El nombre de la tabla en caso de éxito  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+  <p class="para">
+   Use la función <span class="function"><strong>mysql_tablename()</strong></span> para
+   atravesar este puntero de resultados, o cualquier función para obtener tablas,
+   tal como <span class="function"><a href="function.mysql-fetch-array.html" class="function">mysql_fetch_array()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.mysql-tablename-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.5.0</td>
+       <td>
+        La función <span class="function"><strong>mysql_tablename()</strong></span> es obsoleta, 
+        por lo que emite un error de nivel <strong><code>E_DEPRECATED</code></strong>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.mysql-tablename-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1836">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>mysql_tablename()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />mysql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario_mysql"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña_mysql"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_list_tables</span><span style="color: #007700">(</span><span style="color: #DD0000">"mibd"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$número_filas&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mysql_num_rows</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br />for&nbsp;(</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">$número_filas</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Tabla:&nbsp;"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">mysql_tablename</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">mysql_free_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.mysql-tablename-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    La función <span class="function"><a href="function.mysql-num-rows.html" class="function">mysql_num_rows()</a></span> puede ser usada para
+    determinar el número de tablas del puntero de resultados.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.mysql-tablename-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mysql-list-tables.html" class="function" rel="rdfs-seeAlso">mysql_list_tables()</a> - Enumerar las tablas de una base de datos MySQL</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-field-table.html" class="function" rel="rdfs-seeAlso">mysql_field_table()</a> - Obtiene el nombre de la tabla en la que est&aacute; el campo especificado</span></li>
+    <li class="member"><span class="function"><a href="function.mysql-db-name.html" class="function" rel="rdfs-seeAlso">mysql_db_name()</a> - Recupera el nombre de la base de datos desde una llamada a mysql_list_dbs</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mysql-stat.html">mysql_stat</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.mysql-thread-id.html">mysql_thread_id</a></div>
+ <div class="up"><a href="ref.mysql.html">Funciones de MySQL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

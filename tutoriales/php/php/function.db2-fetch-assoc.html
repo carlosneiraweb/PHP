@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devolver un arreglo, indexado por el nombre de las columnas, representando una fila del bloque de resultados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.db2-fetch-array.html">db2_fetch_array</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-fetch-both.html">db2_fetch_both</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.db2-fetch-assoc" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">db2_fetch_assoc</h1>
+  <p class="verinfo">(PECL ibm_db2 &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">db2_fetch_assoc</span> &mdash; <span class="dc-title">
+   Devolver un arreglo, indexado por el nombre de las columnas, representando una fila del bloque de resultados
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.db2-fetch-assoc-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>db2_fetch_assoc</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$stmt</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$row_number</code><span class="initializer"> = -1</span></span>
+  ] )</div>
+
+
+
+  <p class="para rdfs-comment">
+   Devuelve un arreglo, indexado por el nombre de las columnas, representando una fila del bloque de resultados.
+  </p>
+
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.db2-fetch-assoc-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">stmt</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un recurso <em>stmt</em> válido que contenga el bloque de resultados.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">row_number</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Solicita una fila específica, indexada a partir de uno, del bloque de resultados. Este parámetro provoca una 
+       advertencia de PHP si el bloque de resultados utiliza cursor de no-recorrido (sólo hacia adelante).
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.db2-fetch-assoc-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un arreglo asociativo con los valores de las columnas indexados por 
+   el nombre de las mismas, representando la fila siguiente o la fila solicitada 
+   en el bloque de resultados. Devuelve <strong><code>FALSE</code></strong> si no hay más filas
+   en el resultado o si la fila solicitada por 
+   <code class="parameter">row_number</code> no existe en el bloque de resultados.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.db2-fetch-assoc-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1265">
+    <p><strong>Ejemplo #1 Iterando a través de un cursor de no-recorrido (sólo hacia adelante)</strong></p>
+    <div class="example-contents"><p>
+     Si se llama a <span class="function"><strong>db2_fetch_assoc()</strong></span> sin un número específico de fila, 
+     la siguiente fila del bloque de resultados se devuelve automáticamente.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$sql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;name,&nbsp;breed,&nbsp;weight&nbsp;FROM&nbsp;animals&nbsp;ORDER&nbsp;BY&nbsp;breed"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_prepare</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sql</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_execute</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">);<br /><br />while&nbsp;(</span><span style="color: #0000BB">$row&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_fetch_assoc</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"%-5d&nbsp;%-16s&nbsp;%-32s&nbsp;%10s\n"</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'ID'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'NAME'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'BREED'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'WEIGHT'</span><span style="color: #007700">]);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+0     Pook             cat                                    3.20
+5     Rickety Ride     goat                                   9.70
+2     Smarty           horse                                350.00
+</pre></div>
+    </div>
+   </div>
+
+   <div class="example" id="example-1266">
+    <p><strong>Ejemplo #2 Extrayendo filas específicas con <span class="function"><strong>db2_fetch_assoc()</strong></span>
+     a partir de un cursor de recorrido</strong></p>
+    <div class="example-contents"><p>
+     Si el bloque de resultados utiliza un cursor de recorrido, se puede llamar 
+     <span class="function"><strong>db2_fetch_assoc()</strong></span> con un número específico de fila. 
+     El siguiente ejemplo extrae todas las filas del resultado, comenzando con
+     la segunda fila.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br />$sql&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;name,&nbsp;breed,&nbsp;weight&nbsp;FROM&nbsp;animals&nbsp;ORDER&nbsp;BY&nbsp;breed"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$stmt</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$sql</span><span style="color: #007700">,&nbsp;array(</span><span style="color: #DD0000">'cursor'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">DB2_SCROLLABLE</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">$i</span><span style="color: #007700">=</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br />while&nbsp;(</span><span style="color: #0000BB">$row&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_fetch_assoc</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">"%-5d&nbsp;%-16s&nbsp;%-32s&nbsp;%10s\n"</span><span style="color: #007700">,&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'ID'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'NAME'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'BREED'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$row</span><span style="color: #007700">[</span><span style="color: #DD0000">'WEIGHT'</span><span style="color: #007700">]);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+0     Pook             cat                                    3.20
+5     Rickety Ride     goat                                   9.70
+2     Smarty           horse                                350.00
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.db2-fetch-assoc-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.db2-fetch-array.html" class="function" rel="rdfs-seeAlso">db2_fetch_array()</a> - Devolver un arreglo, indexado por la posici&oacute;n de las columnas, que represanta una fila de un bloque de resultados</span></li>
+    <li class="member"><span class="function"><a href="function.db2-fetch-both.html" class="function" rel="rdfs-seeAlso">db2_fetch_both()</a> - Devolver un arreglo, indexado por el nombre y por la posici&oacute;n de la columna, representando una fila de un bloque de resultados</span></li>
+    <li class="member"><span class="function"><a href="function.db2-fetch-object.html" class="function" rel="rdfs-seeAlso">db2_fetch_object()</a> - Devolver un objeto con atributos que representan a las columnas de una fila extraida</span></li>
+    <li class="member"><span class="function"><a href="function.db2-fetch-row.html" class="function" rel="rdfs-seeAlso">db2_fetch_row()</a> - Establecer el apuntador de los resultados hacia la siguiente fila o a la fila solicitada</span></li>
+    <li class="member"><span class="function"><a href="function.db2-result.html" class="function" rel="rdfs-seeAlso">db2_result()</a> - Devolver una columna espec&iacute;fica del resultado</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.db2-fetch-array.html">db2_fetch_array</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-fetch-both.html">db2_fetch_both</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Ejecutar una consulta SQL dada en una base de datos relacional
+   y devolver los resultados como un grafo de datos normalizado.</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sdo-das-relational.executepreparedquery.html">SDO_DAS_Relational::executePreparedQuery</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.sdo-das-xml.html">DAS XML de SDO</a></div>
+ <div class="up"><a href="ref.sdodasrel.html">Funciones del SDO-DAS-Relacional</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="sdo-das-relational.executequery" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">SDO_DAS_Relational::executeQuery</h1>
+  <p class="verinfo">(^)</p><p class="refpurpose"><span class="refname">SDO_DAS_Relational::executeQuery</span> &mdash; <span class="dc-title">
+   Ejecutar una consulta SQL dada en una base de datos relacional
+   y devolver los resultados como un grafo de datos normalizado.
+  </span></p>
+
+ </div>
+
+ <div class="refsect1 description" id="refsect1-sdo-das-relational.executequery-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type"><span class="type SDODataObject">SDODataObject</span></span> 
+   <span class="methodname"><strong>SDO_DAS_Relational::executeQuery</strong></span>
+    ( <span class="methodparam">
+    <span class="type"><a href="class.pdo.html" class="type PDO">PDO</a></span>
+     <code class="parameter">$database_handle</code>
+   </span>
+   , <span class="methodparam">
+    <span class="type">string</span>
+     <code class="parameter">$SQL_statement</code>
+   </span>
+   [, <span class="methodparam">
+    <span class="type">array</span>
+     <code class="parameter">$column_specifier</code>
+   </span>
+  ] )</div>
+
+
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función ha sido declarada
+<em class="emphasis">EXPERIMENTAL</em>. Su funcionamiento, nombre y 
+la documentación que le acompaña puede cambiar sin previo aviso en futuras versiones de PHP.
+Utilícela bajo su propia responsabilidad.
+</p></div>
+
+  <p class="para">
+   Ejecuta una consulta dada en una base de datos relacional,
+   utilizando el gestor de bases de datos PDO proporcionado.
+   Usa el modelo que construye desde los metadatos
+   para interpretar el conjunto de resultados.
+   Devuelve un grafo de datos.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-sdo-das-relational.executequery-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+PDO_database_handle</dt>
+
+     <dd>
+
+      <p class="para">
+       Construido utilizando la extensión PDO.
+       Una línea típica para construir un gestor de bases de datos PDO puede
+       ser así:
+       <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+$dbh&nbsp;=&nbsp;new&nbsp;PDO("mysql:dbname=COMPANYDB;host=localhost",DATABASE_USER,DATABASE_PASSWORD);</span>
+</code></div>
+       </div>
+
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+SQL_statement</dt>
+
+     <dd>
+
+      <p class="para">
+       La sentencia SQL a ejecutar en la base de datos.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+column_specifier</dt>
+
+     <dd>
+
+      <p class="para">
+       El DAS Relacional para examinar el conjunto de resultados y
+       para cada columna, conocer de qué tabla y de qué columna de
+       esa tabla proviene.
+       En algunas circunstancias puede encontrar esta información por sí mismo,
+       pero en otras no puede.
+       En estos casos es necesario una especificador de columna,
+       el cual es un array que identifica las columnas.
+       Cada entrada del array es simplemente una cadena en la forma
+       <var class="varname"><var class="varname">nombre-tabla.nombre_columna</var></var>.
+      </p>
+          
+
+      <p class="para">
+       El especificador de columna es necesario cuando existen nombre
+       de columnas duplicados en los metadatos de la base de datos.
+       Por ejemplo, en la base de datos usada en los ejemplos,
+       todas las tablas tienen una
+       columna
+       <var class="varname"><var class="varname">id</var></var>
+       y una
+       <var class="varname"><var class="varname">name</var></var>.
+       Cuando el DAS Relacional recupera el conjunto de resultados desde PDO,
+       éste puede hacerlo con el atributo PDO_FETCH_ASSOC, 
+       lo que causará que las columnas del conjunto de resultados
+       sean etiquetadas con el nombre de columna, pero no distinguitá
+       duplicados.
+       Por lo tanto, esto solamente funcionará cuando no haya posibles
+       duplicados en el conjunto de resultados.
+      </p>
+          
+      <p class="para">
+       Para resumir, se ha de especificar un especificador de columna siempre que
+       exista cualquier duda sobre cuales columnas pertenecen a cual tabla y
+       solamente omitirlo cuando cada nombre de columna de los metadatos de la base de datos sea único.
+      </p>
+          
+      <p class="para">
+       Todos los ejemplo en la sección
+       <a href="sdodasrel.examples.html" class="link">Ejemplos</a>
+       usan un especificador de columna.
+       Existe un ejemplo en el directorio
+       <var class="filename">Escenarios</var>
+       de la instalación que no lo hace:
+       aquél que trabajo simplemente con la tabla empleado,
+       y ya que trabaja con sólo una tabla,
+       no pueden existir nombres de columnas duplicados.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-sdo-das-relational.executequery-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un grafo de datos.
+   Especialmente, devuelve un objeto raíz de un tipo especial.
+   Bajo este objeto raíz estarán los datos del conjunto de resultados.
+   El objeto raíz tendrá una propiedad de contención polievaluada
+   con el mismo nombre que el tipo raíz de la aplicación
+   especificado en el constructor,
+   y esa propiedad contendrá uno o más objetos de datos
+   del tipo raíz de la aplicación.
+  </p>
+  <p class="para">
+   En el caso en que la consulta no devuelva datos,
+   aún se devolverá el objeto raíz especial pero
+   la propiedad de contención del tipo raíz de la aplicación estará vacía.
+  </p>
+ </div>
+
+
+ <div class="refsect1 errors" id="refsect1-sdo-das-relational.executequery-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   <span class="function"><strong>SDO_DAS_Relational::executeQuery()</strong></span>
+   puede lanzar una excepción <strong class="classname">SDO_DAS_Relational_Exception</strong> si no es capaz
+   de construir el grafo de datos correctamente.
+   Esto puede suceder por varias razones:
+   por ejemplo, si encuentra que no tiene claves primarias
+   en el conjunto de resultados para todos los objetos.
+   También atrapa cualquer excepción de PDO y obtiene información
+   de diagnóstico de PDO, la cual incluye en una excepción
+   <strong class="classname">SDO_DAS_Relational_Exception</strong> que entoces lanza.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-sdo-das-relational.executequery-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   Véase la sección
+   <a href="sdodasrel.examples.html" class="link">Ejemplos</a>
+   de la información general sobre el
+   DAS Relacional para muchos ejemplos de invocar a este método.
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="sdo-das-relational.executepreparedquery.html">SDO_DAS_Relational::executePreparedQuery</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="book.sdo-das-xml.html">DAS XML de SDO</a></div>
+ <div class="up"><a href="ref.sdodasrel.html">Funciones del SDO-DAS-Relacional</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

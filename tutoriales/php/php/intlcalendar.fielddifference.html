@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Calcular la diferencia entre el instante dado y el de este objeto</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlcalendar.equals.html">IntlCalendar::equals</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlcalendar.fromdatetime.html">IntlCalendar::fromDateTime</a></div>
+ <div class="up"><a href="class.intlcalendar.html">IntlCalendar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="intlcalendar.fielddifference" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">IntlCalendar::fieldDifference</h1>
+  <p class="verinfo">(PHP 5.5.0, PHP 7, PECL &gt;= 3.0.0a1)</p><p class="refpurpose"><span class="refname">IntlCalendar::fieldDifference</span> &mdash; <span class="dc-title">Calcular la diferencia entre el instante dado y el de este objeto</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-intlcalendar.fielddifference-description">
+  <h3 class="title">Descripción</h3>
+  <p class="para">
+   Estilo orientado a objetos
+  </p>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">int</span> <span class="methodname"><strong>IntlCalendar::fieldDifference</strong></span>
+    ( <span class="methodparam"><span class="type">float</span> <code class="parameter">$when</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$field</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Estilo por procedimientos
+  </p>
+  <div class="methodsynopsis dc-description">
+   <span class="type">int</span> <span class="methodname"><strong>intlcal_field_difference</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="class.intlcalendar.html" class="type IntlCalendar">IntlCalendar</a></span> <code class="parameter">$cal</code></span>
+   , <span class="methodparam"><span class="type">float</span> <code class="parameter">$when</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$field</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Devuelve la diferencia entre el instante dado y el instante al que está establecido
+   este objeto, con respecto a la cantidad especificada por el parámetro
+   <code class="parameter">field</code>.
+  </p>
+  <p class="para">
+   Se pretende que este método se llamado sucesivamente, primero con el campo de
+   interés más significativo hasta el menos significativo. Para es
+   propósito, y como efecto segundario, el valor del calendario para el campo especificado
+   avanza la cantidad devuelta.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-intlcalendar.fielddifference-parameters">
+  <h3 class="title">Parámetros</h3>
+  <dl>
+
+   
+    <dt>
+<code class="parameter">cal</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El recurso IntlCalendar.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">when</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El instante con el que comparar la cantidad representada por
+      <code class="parameter">field</code>. Para que el resultado sea positivo, el instante
+      dado a este parámetro debe estar por delante del instante del objeto
+      que invocó al método.
+     </p>
+    </dd>
+
+   
+   
+    <dt>
+<code class="parameter">field</code></dt>
+
+    <dd>
+
+     <p class="para">
+      El campo que representa la cantidad a comparar.
+     </p>
+     
+
+
+
+<p class="para">
+ Una de las <a href="class.intlcalendar.html#intlcalendar.constants" class="link">constantes del campo</a>
+ fecha/hora de <a href="class.intlcalendar.html" class="classname">IntlCalendar</a>. Son valores de tipo
+ integer entre <em>0</em> y
+ <strong><code>IntlCalendar::FIELD_COUNT</code></strong>.
+</p>
+
+    </dd>
+
+   
+  </dl>
+
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-intlcalendar.fielddifference-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve una diferencia de tiempo (con signo) en la unidad asociada al
+   campo especificado  o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ 
+ <div class="refsect1 examples" id="refsect1-intlcalendar.fielddifference-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-2834">
+    <p><strong>Ejemplo #1 <span class="function"><strong>IntlCalendar::fieldDifference()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />ini_set</span><span style="color: #007700">(</span><span style="color: #DD0000">'date.timezone'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Europe/Lisbon'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">ini_set</span><span style="color: #007700">(</span><span style="color: #DD0000">'intl.default_locale'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'fr_FR'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$cal1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">fromDateTime</span><span style="color: #007700">(</span><span style="color: #DD0000">'2012-02-29&nbsp;09:00:11'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$cal2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">fromDateTime</span><span style="color: #007700">(</span><span style="color: #DD0000">'2013-03-01&nbsp;09:19:29'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$time&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$cal2</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getTime</span><span style="color: #007700">();<br /><br />echo&nbsp;</span><span style="color: #DD0000">"Instante&nbsp;antes:&nbsp;"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlDateFormatter</span><span style="color: #007700">::</span><span style="color: #0000BB">formatObject</span><span style="color: #007700">(</span><span style="color: #0000BB">$cal1</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"La&nbsp;diferencia&nbsp;es&nbsp;%d&nbsp;year(s),&nbsp;%d&nbsp;month(s),&nbsp;"<br />&nbsp;&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"%d&nbsp;day(s),&nbsp;%d&nbsp;hour(s)&nbsp;and&nbsp;%d&nbsp;minute(s)\n"</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$cal1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fieldDifference</span><span style="color: #007700">(</span><span style="color: #0000BB">$time</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">FIELD_YEAR</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$cal1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fieldDifference</span><span style="color: #007700">(</span><span style="color: #0000BB">$time</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">FIELD_MONTH</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$cal1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fieldDifference</span><span style="color: #007700">(</span><span style="color: #0000BB">$time</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">FIELD_DAY_OF_MONTH</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$cal1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fieldDifference</span><span style="color: #007700">(</span><span style="color: #0000BB">$time</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">FIELD_HOUR_OF_DAY</span><span style="color: #007700">),<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$cal1</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fieldDifference</span><span style="color: #007700">(</span><span style="color: #0000BB">$time</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlCalendar</span><span style="color: #007700">::</span><span style="color: #0000BB">FIELD_MINUTE</span><span style="color: #007700">)<br />);<br /><br /></span><span style="color: #FF8000">//&nbsp;ahora&nbsp;avanzó&nbsp;el&nbsp;instante&nbsp;objetivo,&nbsp;con&nbsp;excepción&nbsp;de&nbsp;los&nbsp;segundos,<br />//&nbsp;para&nbsp;el&nbsp;cual&nbsp;no&nbsp;medimos&nbsp;la&nbsp;diferencia<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"Instante&nbsp;después:&nbsp;"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">IntlDateFormatter</span><span style="color: #007700">::</span><span style="color: #0000BB">formatObject</span><span style="color: #007700">(</span><span style="color: #0000BB">$cal1</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Instante antes: 29 févr. 2012 09:00:11
+La diferencia es 1 year(s), 0 month(s), 1 day(s), 0 hour(s) and 19 minute(s)
+Instante después: 1 mars 2013 09:19:11
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="intlcalendar.equals.html">IntlCalendar::equals</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="intlcalendar.fromdatetime.html">IntlCalendar::fromDateTime</a></div>
+ <div class="up"><a href="class.intlcalendar.html">IntlCalendar</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

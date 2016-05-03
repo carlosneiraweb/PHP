@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Selecciona la base de datos MS SQL</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mssql-rows-affected.html">mssql_rows_affected</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="set.mysqlinfo.html">MySQL</a></div>
+ <div class="up"><a href="ref.mssql.html">Mssql Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.mssql-select-db" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">mssql_select_db</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PECL odbtp &gt;= 1.1.1)</p><p class="refpurpose"><span class="refname">mssql_select_db</span> &mdash; <span class="dc-title">Selecciona la base de datos MS SQL</span></p>
+
+ </div>
+
+ <div id="function.mssql-select-db-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong>
+   
+<p class="para">
+ Esta función está <em class="emphasis">OBSOLETA</em> en PHP 7.0.0.
+</p>
+<p class="para">
+ Las alternativas a esta función son:
+</p>
+
+   <ul class="simplelist">
+    <li class="member">
+     <a href="ref.pdo-sqlsrv.connection.html" class="link">PDO_SQLSRV DSN</a>
+    </li>
+    <li class="member">
+     <a href="ref.pdo-odbc.connection.html" class="link">PDO_ODBC DSN</a>
+    </li>
+    <li class="member"><span class="function"><a href="function.sqlsrv-connect.html" class="function">sqlsrv_connect()</a></span></li>
+    <li class="member"><span class="function"><a href="function.odbc-connect.html" class="function">odbc_connect()</a></span></li>
+   </ul>
+  </div>
+ </div>
+
+ <div class="refsect1 description" id="refsect1-function.mssql-select-db-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>mssql_select_db</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$database_name</code></span>
+   [, <span class="methodparam"><span class="type">resource</span> <code class="parameter">$link_identifier</code></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>mssql_select_db()</strong></span> selecciona la base de datos activa
+   actualmente en el servidor, que está asociada con el identificador
+   link-identifier.
+  </p>
+  <p class="para">
+   Cada subsiguiente llamada a <span class="function"><a href="function.mssql-query.html" class="function">mssql_query()</a></span> se realizará
+   en la base de datos activa.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.mssql-select-db-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">database_name</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre de la base de datos.
+      </p>
+      <p class="para">
+       Para indicar un nombre de base de datos que contenga espacios, guiones (&quot;-&quot;),
+       o cualquier otro caracter excepcional, el nombre de la base de datos debe
+       indicarse entre corchetes, tal y como se muestra en el siguiente ejemplo. Esta
+       técnica debe ser aplicada también cuando se quiera indicar un nombre de base de datos que 
+       sea también una palabra reservada (como <em>primary</em>).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">link_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un identificador de conexión MS SQL, devuelto por
+       <span class="function"><a href="function.mssql-connect.html" class="function">mssql_connect()</a></span> o
+       <span class="function"><a href="function.mssql-pconnect.html" class="function">mssql_pconnect()</a></span>.
+      </p>
+      <p class="para">
+       Si no se especifica ningún identificador, se asumirá la última conexión abierta.
+       Si no hay ninguna conexióna bierta, la función intentará establecer una conexión como si 
+       se hubiera llamado a <span class="function"><a href="function.mssql-connect.html" class="function">mssql_connect()</a></span> , y utilizarla.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.mssql-select-db-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.mssql-select-db-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="mssql.mssql-select-db.example.basic">
+    <p><strong>Ejemplo #1 Ejemplo con <span class="function"><strong>mssql_select_db()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Crear&nbsp;una&nbsp;conexión&nbsp;a&nbsp;MSSQL<br /></span><span style="color: #0000BB">$link&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mssql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'KALLESPC\SQLEXPRESS'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'sa'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'phpfi'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Seleccionar&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;'php'<br /></span><span style="color: #0000BB">mssql_select_db</span><span style="color: #007700">(</span><span style="color: #DD0000">'php'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$link</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <div class="example" id="mssql.mssql-select-db.example.escape">
+    <p><strong>Ejemplo #2 Indicar el nombre de la base de datos entre corchetes</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Crear&nbsp;una&nbsp;conexión&nbsp;a&nbsp;MSSQL<br /></span><span style="color: #0000BB">$link&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">mssql_connect</span><span style="color: #007700">(</span><span style="color: #DD0000">'KALLESPC\SQLEXPRESS'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'sa'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'phpfi'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Seleccionar&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;'my.database-name'<br /></span><span style="color: #0000BB">mssql_select_db</span><span style="color: #007700">(</span><span style="color: #DD0000">'[my.database-name]'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$link</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.mssql-select-db-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.mssql-connect.html" class="function" rel="rdfs-seeAlso">mssql_connect()</a> - Establece una conexi&oacute;n a un servidor MS SQL</span></li>
+    <li class="member"><span class="function"><a href="function.mssql-pconnect.html" class="function" rel="rdfs-seeAlso">mssql_pconnect()</a> - Abre una conexi&oacute;n MS SQL persistente</span></li>
+    <li class="member"><span class="function"><a href="function.mssql-query.html" class="function" rel="rdfs-seeAlso">mssql_query()</a> - Enviar una consulta MS SQL</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.mssql-rows-affected.html">mssql_rows_affected</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="set.mysqlinfo.html">MySQL</a></div>
+ <div class="up"><a href="ref.mssql.html">Mssql Funciones</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

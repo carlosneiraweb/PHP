@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cancelar una transacci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.db2-result.html">db2_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-server-info.html">db2_server_info</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.db2-rollback" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">db2_rollback</h1>
+  <p class="verinfo">(PECL ibm_db2 &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">db2_rollback</span> &mdash; <span class="dc-title">
+   Cancelar una transacción
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.db2-rollback-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>db2_rollback</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$connection</code></span>
+   )</div>
+
+
+  <p class="para rdfs-comment">
+   Cancela una transacción en progreso en el recurso de conexión especificado
+   y comienza una nueva transacción. Comunmente las aplicaciones de PHP confirman las 
+   transacciones de manera automática por lo que la función <span class="function"><strong>db2_rollback()</strong></span> 
+   no tendría efecto a menos que este modo haya sido desactivado para este recurso.
+  </p>
+
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.db2-rollback-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">connection</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un recurso de conexión válido devuelto por 
+       <span class="function"><a href="function.db2-connect.html" class="function">db2_connect()</a></span> o <span class="function"><a href="function.db2-pconnect.html" class="function">db2_pconnect()</a></span>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.db2-rollback-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.db2-rollback-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-1282">
+    <p><strong>Ejemplo #1 Cancelando una sentencia DELETE</strong></p>
+    <div class="example-contents"><p>
+     En el siguiente ejemplo se cuenta el número de filas en una tabla, se cancelan 
+     las confirmaciones automáticas en la conexión, se eliminan todas las filas de la tabla 
+     y devuelve el total de <em>0</em> para confirmar que las filas se han borrado. 
+     Cuando se llama a <span class="function"><strong>db2_rollback()</strong></span>
+     y se devuelve el total actualizado de filas en la tabla para demostrar que el número es 
+     igual al original (antes de ejecutar la sentancia DELETE). Esto demuestra 
+     que la cancelación de la transacción fue correcto.
+    </p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$conn&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$database</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$user</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$password</span><span style="color: #007700">);<br /><br />if&nbsp;(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;count(*)&nbsp;FROM&nbsp;animals"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_fetch_array</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Turn&nbsp;AUTOCOMMIT&nbsp;off<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">db2_autocommit</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">DB2_AUTOCOMMIT_OFF</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Delete&nbsp;all&nbsp;rows&nbsp;from&nbsp;ANIMALS<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">db2_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"DELETE&nbsp;FROM&nbsp;animals"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_exec</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;count(*)&nbsp;FROM&nbsp;animals"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_fetch_array</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Roll&nbsp;back&nbsp;the&nbsp;DELETE&nbsp;statement<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">db2_rollback</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$conn&nbsp;</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_exec</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$conn</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"SELECT&nbsp;count(*)&nbsp;FROM&nbsp;animals"&nbsp;</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">db2_fetch_array</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$stmt&nbsp;</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">]&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">db2_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$conn</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+7
+0
+7
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.db2-rollback-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.db2-autocommit.html" class="function" rel="rdfs-seeAlso">db2_autocommit()</a> - Devuelve o establece el estado de AUTOCOMMIT en una conexi&oacute;n de bases de datos</span></li>
+    <li class="member"><span class="function"><a href="function.db2-commit.html" class="function" rel="rdfs-seeAlso">db2_commit()</a> - Confirmar una transacci&oacute;n</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.db2-result.html">db2_result</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-server-info.html">db2_server_info</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

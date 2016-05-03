@@ -1,0 +1,591 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Utilizar PHP</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="faq.build.html">Problemas de Compilaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="faq.passwords.html">Hash de Contrase&ntilde;as</a></div>
+ <div class="up"><a href="faq.html">FAQ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="faq.using" class="chapter">
+ <h1>Utilizar PHP</h1>
+
+ 
+ 
+ <p class="para">
+  Esta sección reúne varios errores comunes a los que se puede enfrentar
+  mientras se escriben scripts de PHP.
+ </p>
+ 
+ <div class="qandaset"><ol class="qandaset_questions"><li><a href="#faq.using.parameterorder">
+    
+     No puedo recordar el orden de los par&aacute;metros de las funciones de PHP, &iquest;son aleatorios?
+    
+   </a></li><li><a href="#faq.using.anyform">
+    
+     Me gustar&iacute;a escribir un script gen&eacute;rico en PHP que pueda manejar datos provenientes
+     de cualquier formulario. &iquest;C&oacute;mo puedo saber qu&eacute; variables del m&eacute;todo POST est&aacute;n disponibles?
+    
+   </a></li><li><a href="#faq.using.addslashes">
+    
+     Necesito convertir todas las comillas simples (&#039;) en barras invertidas
+     seguidas de comillas simples (\&#039;). &iquest;C&oacute;mo puedo hacer esto con
+     expresiones regulares? Tambi&eacute;n me gustar&iacute;a convertir &quot; en \&quot; y
+     \ en \\.
+    
+   </a></li><li><a href="#faq.using.stripslashes">
+    
+     Todas mis &quot; se convirtieron en \&quot; y mis &#039; en \&#039;, &iquest;c&oacute;mo puedo deshacerme
+     de todas esas barras no deseadas? &iquest;C&oacute;mo y por qu&eacute; est&aacute;n ah&iacute;?
+    
+   </a></li><li><a href="#faq.register-globals">
+    
+     &iquest;C&oacute;mo me afecta la directiva register_globals de PHP?
+    
+   </a></li><li><a href="#faq.using.wrong-order">
+    
+     Cuando hago lo siguiente, la salida se muestra en
+     el orden equivocado:
+     
+
+&lt;?php
+function mi_funci&oacute;n($argumento)
+{
+    echo $argumento + 10;
+}
+$variable = 10;
+echo &quot;mi_funci&oacute;n($variable) = &quot; . mi_funci&oacute;n($variable);
+?&gt;
+
+     
+     &iquest;Qu&eacute; est&aacute; pasando?
+    
+   </a></li><li><a href="#faq.using.newlines">
+    
+     &iexcl;Eh!, &iquest;qu&eacute; les pasa a mis nuevas l&iacute;neas?
+     
+
+&lt;pre&gt;
+&lt;?php echo &quot;Esto deber&iacute;a ser la primer l&iacute;nea.&quot;; ?&gt;
+&lt;?php echo &quot;Esto deber&iacute;a mostrarse despu&eacute;s de la l&iacute;nea anterior.&quot;; ?&gt;
+&lt;/pre&gt;
+
+     
+    
+   </a></li><li><a href="#faq.using.headers-sent">
+    
+     Recibo el mensaje &#039;Warning: Cannot send session cookie - headers already
+     sent...&#039; o &#039;Cannot add header information - headers already sent...&#039;.
+    
+   </a></li><li><a href="#faq.using.header">
+    
+     Necesito acceder directamente a informaci&oacute;n de las cabeceras de una petici&oacute;n.
+     &iquest;C&oacute;mo puedo hacerlo?
+    
+   </a></li><li><a href="#faq.using.authentication">
+    
+     Cuando intento usar la autenticaci&oacute;n con IIS obtengo el mensaje &#039;No Input file specified&#039;.
+    
+   </a></li><li><a href="#faq.using.iis.sharing">
+    
+     Windows: No puedo acceder a ficheros compartidos en otra computadora usando IIS
+    
+   </a></li><li><a href="#faq.using.mixml">
+    
+     &iquest;C&oacute;mo se supone que mezclo XML y PHP? &iexcl;A este no le gustan
+     mis etiquetas &lt;?xml!
+    
+   </a></li><li><a href="#faq.using.variables">
+    
+     &iquest;D&oacute;nde puedo encontrar un listado completo de las variables disponibles
+     de PHP?
+    
+   </a></li><li><a href="#faq.using.freepdf">
+    
+     &iquest;C&oacute;mo puedo generar ficheros PDF sin usar bibliotecas no gratuitas o
+     comerciales como
+     PDFLib? Me gustar&iacute;a algo que sea
+     gratis y no requiera bibliotecas de PDF externas.
+    
+   </a></li><li><a href="#faq.using.cgi-vars">
+    
+     Estoy intentando acceder a una de las variables est&aacute;ndar
+     de CGI (como $DOCUMENT_ROOT o
+     $HTTP_REFERER) en una funci&oacute;n definida
+     por el usuario, y parece que no puede encontrarla. &iquest;Qu&eacute; est&aacute; mal?
+    
+   </a></li><li><a href="#faq.using.shorthandbytes">
+    
+     Algunas directivas de PHP pueden tambi&eacute;n tomar una abreviatura de valores de bytes, en lugar
+     de solo valores de bytes integer. &iquest;Cu&aacute;les son todas las opciones de
+     abreviaturas de bytes disponibles?
+    
+   </a></li><li><a href="#faq.using.windowslocalhostissue">
+    
+     Windows: Mis conexiones caducan al utilizar localhost, 
+     mientras que &quot;127.0.0.1&quot; funciona.
+    
+   </a></li></ol></div>
+  
+  <dl class="qandaentry" id="faq.using.parameterorder">
+   <dt><strong>
+    
+     No puedo recordar el orden de los parámetros de las funciones de PHP, ¿son aleatorios?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     PHP es un pegamento que une cientos de bibliotecas externas y esto, a veces, lo complica.
+     Por eso, una simple regla de oro es la siguiente: 
+    </p>
+    <p class="para">
+     Los parámetros de las <a href="book.array.html" class="link">funciones de Array</a> están ordenados
+     como &quot;<em class="emphasis">aguja, pajar</em>&quot;, mientras que sucede lo contrario con las  
+     <a href="book.strings.html" class="link">funciones de String</a>, esto es,
+     &quot;<em class="emphasis">pajar, aguja</em>&quot;.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.anyform">
+   <dt><strong>
+    
+     Me gustaría escribir un script genérico en PHP que pueda manejar datos provenientes
+     de cualquier formulario. ¿Cómo puedo saber qué variables del método POST están disponibles?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     PHP ofrece muchas <a href="language.variables.predefined.html" class="link">
+     variables predefinidas</a>, como la variable superglobal <var class="varname"><var class="varname">
+     $_POST</var></var>. Se puede recorrer la variable <var class="varname"><var class="varname"><a href="reserved.variables.post.html" class="classname">$_POST</a></var></var>,
+     ya que es un array asociativo con todos los valores provenientes de POST. Por ejemplo,
+     vamos a recorrerla simplemente con <a href="control-structures.foreach.html" class="link">foreach</a>,
+     comprobar los valores vacíos, <span class="function"><a href="function.empty.html" class="function">empty()</a></span>,
+     y mostrarlos todos.
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$vacío&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$post&nbsp;</span><span style="color: #007700">=&nbsp;array();<br />foreach&nbsp;(</span><span style="color: #0000BB">$_POST&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$nombre_variable&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$nombre_valor</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(empty(</span><span style="color: #0000BB">$nombre_valor</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$vacío</span><span style="color: #007700">[</span><span style="color: #0000BB">$nombre_variable</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">$nombre_valor</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$post</span><span style="color: #007700">[</span><span style="color: #0000BB">$nombre_variable</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">$nombre_valor</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br />print&nbsp;</span><span style="color: #DD0000">"&lt;pre&gt;"</span><span style="color: #007700">;<br />if&nbsp;(empty(</span><span style="color: #0000BB">$vacío</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"Ninguno&nbsp;de&nbsp;los&nbsp;valores&nbsp;de&nbsp;POST&nbsp;esta&nbsp;vacío,&nbsp;se&nbsp;envió:\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$post</span><span style="color: #007700">);<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"Tenemos&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$vacío</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"&nbsp;valores&nbsp;vacíos\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"Registrados:\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$post</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"Vacíos:\n"</span><span style="color: #007700">;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$vacío</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;exit;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </p>
+    
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.addslashes">
+   <dt><strong>
+    
+     Necesito convertir todas las comillas simples (&#039;) en barras invertidas
+     seguidas de comillas simples (\&#039;). ¿Cómo puedo hacer esto con
+     expresiones regulares? También me gustaría convertir &quot; en \&quot; y
+     \ en \\.
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Asumiendo que esto es para una base de datos, utilice el mecanismo de escape que
+     viene con esta. Por ejemplo, emplee la función
+     <span class="function"><a href="function.mysql-real-escape-string.html" class="function">mysql_real_escape_string()</a></span> con MYSQL y
+     <span class="function"><a href="function.pg-escape-string.html" class="function">pg_escape_string()</a></span> con PostgreSQL. Existen
+     también las funciones genéricas <span class="function"><a href="function.addslashes.html" class="function">addslashes()</a></span> y
+     <span class="function"><a href="function.stripslashes.html" class="function">stripslashes()</a></span>, las cuales son más comunes
+     en código PHP antiguo.
+    </p>
+    
+    <blockquote class="note"><p><strong class="note">Nota</strong>: <strong>Sobre de la directiva:
+magic_quotes_gpc</strong><br /><p class="para"> La directiva de PHP <a href="info.configuration.html#ini.magic-quotes-gpc" class="link">magic_quotes_gpc</a> tiene por defecto el valor 
+<em>on</em>. Básicamente ejecuta <span class="function"><a href="function.addslashes.html" class="function">addslashes()</a></span> en los 
+datos obtenidos por GET, POST, y COOKIE. Se puede usar <span class="function"><a href="function.stripslashes.html" class="function">stripslashes()</a></span> para quitarlos.</p></p></blockquote>
+    
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.stripslashes">
+   <dt><strong>
+    
+     Todas mis &quot; se convirtieron en \&quot; y mis &#039; en \&#039;, ¿cómo puedo deshacerme
+     de todas esas barras no deseadas? ¿Cómo y por qué están ahí?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Lo más probable es que esas barras invertidas existan porque la directiva de PHP
+     <a href="info.configuration.html#ini.magic-quotes-gpc" class="link">magic_quotes_gpc</a> está activada.
+     Esta es una característica antigua de PHP que debería deshabilitarse y no
+     usarse más. También se puede utilizar la función <span class="function"><a href="function.stripslashes.html" class="function">stripslashes()</a></span>
+     para eliminar las barras invertidas de un <span class="type"><a href="language.types.string.html" class="type string">string</a></span>.
+    </p>
+    
+    <blockquote class="note"><p><strong class="note">Nota</strong>: <strong>Sobre de la directiva:
+magic_quotes_gpc</strong><br /><p class="para"> La directiva de PHP <a href="info.configuration.html#ini.magic-quotes-gpc" class="link">magic_quotes_gpc</a> tiene por defecto el valor 
+<em>on</em>. Básicamente ejecuta <span class="function"><a href="function.addslashes.html" class="function">addslashes()</a></span> en los 
+datos obtenidos por GET, POST, y COOKIE. Se puede usar <span class="function"><a href="function.stripslashes.html" class="function">stripslashes()</a></span> para quitarlos.</p></p></blockquote>
+    
+   </dd>
+  </dl>   
+  
+  <dl class="qandaentry" id="faq.register-globals">
+   <dt><strong>
+    
+     ¿Cómo me afecta la directiva register_globals de PHP?
+    
+   </strong></dt>
+   <dd class="answer">
+    <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta característica ha sido declarada
+<em class="emphasis">OBSOLETA</em> desde PHP 5.3.0 y <em class="emphasis">ELIMINADA</em>
+a partir de PHP 5.4.0.</p></div>
+    <p class="para">
+     En primer lugar, una explicación de lo que hace este ajuste ini. 
+     Digamos que se está utilizando el siguiente URL:
+     <em>http://example.com/foo.php?animal=cat</em>
+     y en el fichero <var class="filename">foo.php</var> tuviéramos el siguiente
+     código PHP:
+    </p>
+    <p class="para">
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Aquí&nbsp;es&nbsp;preferible&nbsp;usar&nbsp;$_GET<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$_GET</span><span style="color: #007700">[</span><span style="color: #DD0000">'animal'</span><span style="color: #007700">];<br /><br /></span><span style="color: #FF8000">//&nbsp;Para&nbsp;que&nbsp;$animal&nbsp;exista,&nbsp;register_globlas&nbsp;debe&nbsp;estar&nbsp;activado<br />//&nbsp;NO&nbsp;HAGA&nbsp;ESTO<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$animal</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Esto&nbsp;se&nbsp;aplica&nbsp;a&nbsp;todas&nbsp;las&nbsp;variables,&nbsp;inclusve&nbsp;a&nbsp;$_SERVER<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$_SERVER</span><span style="color: #007700">[</span><span style="color: #DD0000">'PHP_SELF'</span><span style="color: #007700">];<br /><br /></span><span style="color: #FF8000">//&nbsp;De&nbsp;nuevo,&nbsp;para&nbsp;que&nbsp;$PHP_SELF&nbsp;exista,&nbsp;register_globals&nbsp;debe&nbsp;estar&nbsp;activado<br />//&nbsp;NO&nbsp;HAGA&nbsp;ESTO<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$PHP_SELF</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </p>
+    <p class="para">
+     El código anterior demuestra cómo register_globals crea muchas
+     variables. Durante años, este tipo de código ha sido mal visto, y durante
+     años ha estado deshabilitado por defecto. Así que, aunque la mayoría de alojamientos
+     web deshabilitan register_globals, aun existen artículos, tutoriales y libros
+     desactualizados que requieren que esté habilitado. Actúe en consecuencia.
+    </p>
+    <p class="para">
+     Véase también los siguientes recursos para más información:
+     <ul class="simplelist">
+      <li class="member">La directiva <a href="ini.core.html#ini.register-globals" class="link">register_globals</a></li>
+      <li class="member">El <a href="security.globals.html" class="link">capítulo de seguridad acerca de register globals</a></li>
+      <li class="member"><a href="language.variables.external.html" class="link">Manejo de variables externas</a></li>
+      <li class="member">Usar <a href="language.variables.superglobals.html" class="link">superglobals</a> en su lugar</li>
+     </ul>
+    </p>
+    <blockquote class="note"><p><strong class="note">Nota</strong>: 
+     <p class="para">
+      En el ejemplo anterior, usamos un <acronym title="Uniform Resource Locator">URL</acronym> que contenía un
+      QUERY_STRING. El paso de información como esta se hace a través de una solicitud 
+      GET de HTTP, y es esta la razón por la que se usa la superglobal <var class="varname"><var class="varname"><a href="reserved.variables.get.html" class="classname">$_GET</a></var></var>.
+     </p>
+    </p></blockquote>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.wrong-order">
+   <dt><strong>
+    
+     Cuando hago lo siguiente, la salida se muestra en
+     el orden equivocado:
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">mi_función</span><span style="color: #007700">(</span><span style="color: #0000BB">$argumento</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$argumento&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">$variable&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"mi_función(</span><span style="color: #0000BB">$variable</span><span style="color: #DD0000">)&nbsp;=&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">mi_función</span><span style="color: #007700">(</span><span style="color: #0000BB">$variable</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+     ¿Qué está pasando?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Para poder usar los resultados de funciones en una expresión (como la
+     concatenación con otras cadenas del ejemplo anterior), es necesario
+     devolver el valor con <span class="function"><a href="function.return.html" class="function">return</a></span>;
+     no utilzar <span class="function"><a href="function.echo.html" class="function">echo</a></span>.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.newlines">
+   <dt><strong>
+    
+     ¡Eh!, ¿qué les pasa a mis nuevas líneas?
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+&lt;pre&gt;<br /><span style="color: #0000BB">&lt;?php&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"Esto&nbsp;debería&nbsp;ser&nbsp;la&nbsp;primer&nbsp;línea."</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">?&gt;<br />&lt;?php&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"Esto&nbsp;debería&nbsp;mostrarse&nbsp;después&nbsp;de&nbsp;la&nbsp;línea&nbsp;anterior."</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">?&gt;<br /></span>&lt;/pre&gt;</span>
+</code></div>
+     </div>
+
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     En PHP, la terminación de un bloque de código se realiza bien con &quot;?&gt;&quot; o
+     con &quot;?&gt;\n&quot; (donde \n significa una nueva línea). Con el ejemplo anterior,
+     las sentencias de &#039;echo&#039; estarán en una línea debido a que PHP omite
+     las nuevas líneas después del final de un bloque. Esto significa que es necesario
+     agregar una nueva línea extra después de cada bloque de código PHP para
+     poder imprimir una nueva línea.
+    </p>
+    <p class="para">
+     ¿Por qué PHP hace esto? Porque cuando se formatea HTML normal, esto
+     hace la vida más fácil ya que normalmente no se desea esa nueva línea,
+     pero se tendrían que crear líneas extremadamente largas o, de lo contrario,
+     hacer el código fuente de la pagina ilegible para obtener tal efecto.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.headers-sent">
+   <dt><strong>
+    
+     Recibo el mensaje &#039;Warning: Cannot send session cookie - headers already
+     sent...&#039; o &#039;Cannot add header information - headers already sent...&#039;.
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Las funciones <span class="function"><a href="function.header.html" class="function">header()</a></span>, <span class="function"><a href="function.setcookie.html" class="function">setcookie()</a></span>,
+     y las funciones de <a href="ref.session.html" class="link">sesión</a>
+     necesitan agregar cabeceras al flujo de salida, pero las cabeceras solo
+     pueden enviarse antes de cualquier otro contenido. No puede haber ninguna
+     salida antes de usar esas funciones, salidas como HTML. La función
+     <span class="function"><a href="function.headers-sent.html" class="function">headers_sent()</a></span> comprobará si un script ya ha enviado
+     las cabeceras. Véase también las <a href="ref.outcontrol.html" class="link">funciones
+     de control de salida</a>.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.header">
+   <dt><strong>
+    
+     Necesito acceder directamente a información de las cabeceras de una petición.
+     ¿Cómo puedo hacerlo?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     La función <span class="function"><a href="function.getallheaders.html" class="function">getallheaders()</a></span> lo hará si
+     se está ejecutando PHP como un módulo de Apache. El siguiente trozo
+     de código mostrará todas las cabeceras de la petición:
+     <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$cabeceras&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">getallheaders</span><span style="color: #007700">();<br />foreach&nbsp;(</span><span style="color: #0000BB">$cabeceras&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$nombre&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$contenido</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"headers[</span><span style="color: #0000BB">$nombre</span><span style="color: #DD0000">]&nbsp;=&nbsp;</span><span style="color: #0000BB">$contenido</span><span style="color: #DD0000">&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+     </div>
+
+    </p>
+    <p class="para">
+     Véae también 
+     <span class="function"><a href="function.apache-lookup-uri.html" class="function">apache_lookup_uri()</a></span>,
+     <span class="function"><a href="function.apache-response-headers.html" class="function">apache_response_headers()</a></span>, y
+     <span class="function"><a href="function.fsockopen.html" class="function">fsockopen()</a></span>
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.authentication">
+   <dt><strong>
+    
+     Cuando intento usar la autenticación con IIS obtengo el mensaje &#039;No Input file specified&#039;.
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     El modelo de seguridad de IIS es el culpable en este caso. Es un problema
+     común a todos los programas CGI que se ejecutan bajo IIS. Una solución es
+     crear un fichero de HTML plano (no analizado por PHP) como la página de entrada
+     en un directorio autenticado. Se debe utilizar entonces una etiqueta META para redirigir
+     a la página de PHP, o tener un enlace a dicha página. PHP
+     reconocerá así la autenticación correctamente. Con el módulo ISAPI,
+     esto no es un problema. Esto no debería afectar a otros servidores
+     web NT. Para más información, véase: 
+     <a href="http://support.microsoft.com/kb/q160422/" class="link external">&raquo;&nbsp;http://support.microsoft.com/kb/q160422/</a> y la sección del manual
+     sobre <a href="features.http-auth.html" class="link">Autenticación HTTP
+     </a>.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.iis.sharing">
+   <dt><strong>
+    
+     Windows: No puedo acceder a ficheros compartidos en otra computadora usando IIS
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Ha de cambiar <em>Ir a los Servicios de Información de
+     Internet</em>. Localice su fichero PHP y vaya a sus propiedades.
+     Luego vaya a la pestaña <em>Seguridad de Archivos</em>, <em>Editar -&lt;
+     Acceso anónimo y control de autenticación</em>.
+    </p>
+    <p class="para">
+     Se puede corregir el problema ya sea desmarcando <em>Acceso
+     anónimo</em> y dejando <em>Autenticación integrada de
+     Windows</em> marcado, o marcando <em>Acceso
+     anónimo</em> y editando el usuario, que ya no tendría que
+     tener derecho de acceso.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.mixml">
+   <dt><strong>
+    
+     ¿Cómo se supone que mezclo XML y PHP? ¡A este no le gustan
+     mis etiquetas &lt;?xml!
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Con el fin de integrar directamente &lt;?xml en código de PHP, se han de desactivar
+     las etiquetas abreviadas estableciendo la directiva de PHP
+     <a href="ini.core.html#ini.short-open-tag" class="link">short_open_tags</a> a
+     <em>0</em>. Esta directiva no se puede establecer con
+     <span class="function"><a href="function.ini-set.html" class="function">ini_set()</a></span>. Independientemente de que
+     <a href="ini.core.html#ini.short-open-tag" class="link">short_open_tags</a> esté activada o
+     no, se puede hacer algo como: <em>&lt;?php echo &#039;&lt;?xml&#039;; ?&gt;</em>.
+     El valor predeterminado de esta directiva es <em>On</em>.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.variables">
+   <dt><strong>
+    
+     ¿Dónde puedo encontrar un listado completo de las variables disponibles
+     de PHP?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Lea la página del manual sobre <a href="language.variables.predefined.html" class="link">
+     variables predefinidas</a>, que incluye un listado parcial de variables
+     predefinidas disponibles para su script. Se pude ver un listado completo
+     de las variables disponibles (y mucha mas información) llamando a la
+     función <span class="function"><a href="function.phpinfo.html" class="function">phpinfo()</a></span>. Asegúrese de leer la sección del manual
+     sobre <a href="language.variables.external.html" class="link">variables desde
+     fuentes externas a PHP</a>, la cual describe escenarios comunes para
+     variables externas, como desde un formulario HTML, una cookie, y un URL.
+    </p>
+    
+    <blockquote class="note"><p><strong class="note">Nota</strong>: <strong>register_globals: Observación
+importante</strong><br /><p class="para">Desde PHP 4.2.0, el valor por defecto de la directiva
+<a href="ini.core.html#ini.register-globals" class="link">register_globals</a> es <em class="emphasis">
+off</em>. La comunidad de PHP desaconseja el uso
+de esta directiva y sugiere el uso de otras formas como <a href="language.variables.predefined.html" class="link">superglobals</a>.</p></p></blockquote>
+    
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.freepdf">
+   <dt><strong>
+    
+     ¿Cómo puedo generar ficheros PDF sin usar bibliotecas no gratuitas o
+     comerciales como
+     <a href="ref.pdf.html" class="link">PDFLib</a>? Me gustaría algo que sea
+     gratis y no requiera bibliotecas de PDF externas.
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Hay algunas alternativas escritas en PHP como
+     <a href="http://www.fpdf.org/" class="link external">&raquo;&nbsp;FPDF</a> y
+     <a href="http://www.tcpdf.org/" class="link external">&raquo;&nbsp;TCPDF</a>.
+    </p>
+    <p class="para">
+     También esta la extensión <a href="book.haru.html" class="link">Haru</a>
+     que utiliza la biblioteca externa libHaru gratuita.
+    </p>
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.cgi-vars">
+   <dt><strong>
+    
+     Estoy intentando acceder a una de las variables estándar
+     de CGI (como <var class="varname"><var class="varname">$DOCUMENT_ROOT</var></var> o
+     <var class="varname"><var class="varname">$HTTP_REFERER</var></var>) en una función definida
+     por el usuario, y parece que no puede encontrarla. ¿Qué está mal?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Es importante saber que la directiva de PHP <a href="ini.core.html#ini.register-globals" class="link">register_globals</a> también afecta
+     a variables de servidor y de entorno. Cuando register_globals = off (el
+     valor por defecto desde PHP 4.2.0), <var class="varname"><var class="varname">$DOCUMENT_ROOT</var></var>
+     no existirá. En su lugar, se debe usar <var class="varname"><var class="varname"><a href="reserved.variables.server.html" class="classname">$_SERVER['DOCUMENT_ROOT']
+     </a></var></var>. Si register_globals = on, las variables
+     <var class="varname"><var class="varname">$DOCUMENT_ROOT</var></var> y
+     <var class="varname"><var class="varname"><a href="reserved.variables.globals.html" class="classname">$GLOBALS['DOCUMENT_ROOT']</a></var></var> también existirán.
+    </p>
+    <p class="para">
+     Si se está seguro de que register_globals = on y se pregunta por qué
+     <var class="varname"><var class="varname">$DOCUMENT_ROOT</var></var> no está disponible dentro de las funciones,
+     es porque son como las demás variables, requiriendo dentro
+     de la función <em>global $DOCUMENT_ROOT</em>.
+     Véase también la página del manual sobre
+     <a href="language.variables.scope.html" class="link">ámbito de las variables</a>.
+     Es preferible codificar con register_globals = off.
+    </p>
+    
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.shorthandbytes">
+   <dt><strong>
+    
+     Algunas directivas de PHP pueden también tomar una abreviatura de valores de bytes, en lugar
+     de solo valores de bytes <span class="type"><a href="language.types.integer.html" class="type integer">integer</a></span>. ¿Cuáles son todas las opciones de
+     abreviaturas de bytes disponibles?
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Las opciones disponibles son K (para Kilobytes), M (para Megabytes) y G (para
+     Gigabytes; disponible desde PHP 5.1.0). Ninguna considera las mayúsculas/minúsculas.
+     Cualquier otra cosa asume bytes. <em>1M</em> es igual a un Megabyte o
+     <em>1048576</em> bytes. <em>1K</em> es igual a un
+     Kilobyte o <em>1024</em> bytes. Estas notaciones abreviadas pueden
+     utlizarse en <var class="filename">php.ini</var> y en la función <span class="function"><a href="function.ini-set.html" class="function">ini_set()</a></span>.
+    </p>
+    <blockquote class="note"><p><strong class="note">Nota</strong>: 
+     <strong>kilobyte contra kibibyte</strong><br />
+     <p class="para">
+      La notación de PHP describe que un kilobyte equivale a 1024 bytes, mientras que
+      el estándar <acronym>IEC</acronym> considera que debe ser un kibibyte.
+      Resumiendo: k y K = 1024 bytes.
+     </p>
+    </p></blockquote>     
+   </dd>
+  </dl>
+  
+  <dl class="qandaentry" id="faq.using.windowslocalhostissue">
+   <dt><strong>
+    
+     Windows: Mis conexiones caducan al utilizar <em>localhost</em>, 
+     mientras que <em>&quot;127.0.0.1&quot;</em> funciona.
+    
+   </strong></dt>
+   <dd class="answer">
+    <p class="para">
+     Antes de PHP 5.3.4, existía un error en el código de resolución de red dentro de PHP que 
+     ocasionaba que <em>localhost</em> fallase en todas las situaciones relacionadas con flujos si IPv6 
+     estaba habilitado. Para solucionar este problema se puede usar tanto <em>&quot;127.0.0.1&quot;</em> 
+     como deshabilitar la resolución de IPv6 en el fichero <var class="filename">hosts</var>.
+    </p>
+   </dd>
+  </dl>
+  
+ 
+</div>
+<hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="faq.build.html">Problemas de Compilaci&oacute;n</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="faq.passwords.html">Hash de Contrase&ntilde;as</a></div>
+ <div class="up"><a href="faq.html">FAQ</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

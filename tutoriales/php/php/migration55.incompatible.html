@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambios incompatibles con versiones anteriores</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration55.changes.html">Qu&eacute; ha cambiado en PHP 5.5.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration55.new-features.html">Nuevas caracteristicas</a></div>
+ <div class="up"><a href="migration55.html">Migrar de PHP 5.4.x a PHP 5.5.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="migration55.incompatible" class="sect1">
+  <h2 class="title">Cambios incompatibles con versiones anteriores</h2>
+  <p class="simpara">
+   Aunque la mayoría del código de PHP 5 existente debería funtionar sin cambios, se ha
+   de tomar nota de algunos cambios incompatibles con versiones anteriores:   
+  </p>
+  
+  <div class="sect2" id="migration55.incompatible.windows">
+   <h3 class="title">Eliminado el soporte para Windows XP y 2003</h3>
+   
+   <p class="para">
+    El soporte para Windows XP y 2003 ha sido eliminado. Las construcciones de PHP para
+    Windows ahora requieren Windows Vista o superior.    
+   </p>
+  </div>
+  
+  <div class="sect2" id="migration55.incompatible.case">
+   <h3 class="title">La no consideración de mayúsculas/minúsculas ya no es específica de la configuración regional</h3>
+   
+   <p class="para">
+    Todas las comparaciones que no estiman las mayúsculas/minúsculas de funciones, clases y nombres de constantes,
+    ahora se realizan de una manera independiente de la configuración regional según las reglas de ASCII.
+    Esto mejora el soporte para idiomas que usan el alfabeto latino con reglas de cotejamiento
+    no usuales, tales como el turco o el azerí.
+   </p>
+   <p class="para">
+    Esto podría causar problemas para el código que usa comparaciones que no consideran las mayúsculas/minúsculas para
+    caracteres distintos a los de ASCII en conjuntos de caracteres multibyte (incluyendo UTF-8), como
+    carecteres acentuados en muchos idiomas europeos. Si se tiene un código base distinto
+    del inglés y que no sea ASCII, será necesario probar que no se depende
+    inadvertidamente de este comportamiento antes de utilizar PHP 5.5 para
+    sistemas de producción.
+   </p>
+  </div>
+  
+  <div class="sect2" id="migration55.incompatible.pack">
+   <h3 class="title">Cambios de <span class="function"><a href="function.pack.html" class="function">pack()</a></span> y <span class="function"><a href="function.unpack.html" class="function">unpack()</a></span></h3>
+   
+   <p class="para">
+    Se introdujeron cambios en <span class="function"><a href="function.pack.html" class="function">pack()</a></span> y
+    <span class="function"><a href="function.unpack.html" class="function">unpack()</a></span> para hacerlos más compatibles con Perl:
+   </p>
+   
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><a href="function.pack.html" class="function">pack()</a></span> ahora admite el código de formato &quot;Z&quot;, el cual
+      tiene un comportamiento idéntico al de &quot;a&quot;.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><a href="function.unpack.html" class="function">unpack()</a></span> ahora admite el códio de formato &quot;Z&quot; para cadenas con
+      relleno NULL, y se comporta como lo hacía &quot;a&quot; en versiones anteriores: eliminará
+      los bytes NULL sobrantes.
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><a href="function.unpack.html" class="function">unpack()</a></span> ahora mantiene los bytes NULL sobrantes cuando se usa
+      el código de formato &quot;a&quot;.      
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><a href="function.unpack.html" class="function">unpack()</a></span> ahora elimina los espacios en blanco ASCII sobrantes
+      cuando se usa el código de formato &quot;A&quot;.
+     </span>
+    </li>
+   </ul>
+   
+   <p class="para">
+    Escribir código retrocompatible que use el código de formato &quot;a&quot; con
+    <span class="function"><a href="function.unpack.html" class="function">unpack()</a></span> requiere el uso de
+    <span class="function"><a href="function.version-compare.html" class="function">version_compare()</a></span>, debido a la rotura de
+    retrocompatibilidad.
+   </p>
+   <p class="para">
+    Por ejemplo:
+   </p>
+   <div class="informalexample">
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Código&nbsp;anterior:<br /></span><span style="color: #0000BB">$data&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">unpack</span><span style="color: #007700">(</span><span style="color: #DD0000">'a5'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$packed</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Código&nbsp;nuevo:<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">version_compare</span><span style="color: #007700">(</span><span style="color: #0000BB">PHP_VERSION</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'5.5.0-dev'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;='</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$data&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">unpack</span><span style="color: #007700">(</span><span style="color: #DD0000">'Z5'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$packed</span><span style="color: #007700">);<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;</span><span style="color: #0000BB">$data&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">unpack</span><span style="color: #007700">(</span><span style="color: #DD0000">'a5'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$packed</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </div>
+  
+  <div class="sect2" id="migration55.incompatible.self-parent-static">
+   <h3 class="title"><em>self</em>, <em>parent</em> y <em>static</em> ahora nunca consideran las mayúsculas/minúsculas</h3>
+   
+   <p class="para">
+    Antes de PHP 5.5, existían casos donde las palabras clave
+    <a href="language.oop5.paamayim-nekudotayim.html" class="link">self</a>,
+    <a href="language.oop5.paamayim-nekudotayim.html" class="link">parent</a>, y
+    <a href="language.oop5.late-static-bindings.html" class="link">static</a>
+    eran tratadas de forma que consideraban las mayúsculas/minúsculas. Ahora se ha
+    solucionado, y esta palabras clave siempre son manejadas para no considerarlas:
+    <em>SELF::CONSTANT</em> ahora es tratada de forma idéntica a
+    <em>self::CONSTANT</em>.
+   </p>
+  </div>
+  
+  <div class="sect2" id="migration55.incompatible.guid">
+   <h3 class="title">Eliminados los GUIDs de logos de PHP</h3>
+   
+   <p class="para">
+    Los GUIDs que anteriormente resultaban en la generación de PHP de varios logos han
+    sido eliminados. Esto incluye la eliminación de las funciones que devuelven esots
+    GUIDs. Las funciones eliminadas son:
+   </p>
+   
+   <ul class="itemizedlist">
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><a href="function.php-logo-guid.html" class="function">php_logo_guid()</a></span>
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><strong>php_egg_logo_guid()</strong></span>
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><strong>php_real_logo_guid()</strong></span>
+     </span>
+    </li>
+    <li class="listitem">
+     <span class="simpara">
+      <span class="function"><a href="function.zend-logo-guid.html" class="function">zend_logo_guid()</a></span>
+     </span>
+    </li>
+   </ul>
+  </div>
+  
+  <div class="sect2" id="migration55.incompatible.execution">
+   <h3 class="title">Cambios en la ejecución interna</h3>
+   
+   <p class="para">
+    Los autores de extensiones debería observar que la función <strong class="command">zend_execute()</strong>
+    ya no puede ser sobrescrita, y que se han hecho numerosos cambios
+    a la estructura <em>execute_data</em> y funciones y métodos
+    relacionados que manejan códigos de operación.
+   </p>
+   
+   <p class="para">
+    A la mayoría de los autores de extensiones esto no les afecta, pero aquellos que escriban
+    extensiones que dependan fuertemente del Motor Zend deberían leer
+    <a href="migration55.internals.html" class="link">las notas sobre estos cambios</a>.
+   </p>
+  </div>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="migration55.changes.html">Qu&eacute; ha cambiado en PHP 5.5.x</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="migration55.new-features.html">Nuevas caracteristicas</a></div>
+ <div class="up"><a href="migration55.html">Migrar de PHP 5.4.x a PHP 5.5.x</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

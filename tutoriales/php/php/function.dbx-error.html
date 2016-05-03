@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Reporta un mensaje de error de la &uacute;ltima llamada a la funci&oacute;n en el m&oacute;dulo</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.dbx-connect.html">dbx_connect</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.dbx-escape-string.html">dbx_escape_string</a></div>
+ <div class="up"><a href="ref.dbx.html">Funciones de dbx</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.dbx-error" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">dbx_error</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.0.6, PHP 5 &lt;= 5.0.5, PECL dbx &gt;= 1.1.0)</p><p class="refpurpose"><span class="refname">dbx_error</span> &mdash; <span class="dc-title">
+   Reporta un mensaje de error de la última llamada a la función en el módulo
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.dbx-error-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">string</span> <span class="methodname"><strong>dbx_error</strong></span>
+    ( <span class="methodparam"><span class="type">object</span> <code class="parameter">$link_identifier</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   <span class="function"><strong>dbx_error()</strong></span> devuelve el último mensaje de error.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.dbx-error-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">link_identifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El objeto de enlace de DBX devuelto por <span class="function"><a href="function.dbx-connect.html" class="function">dbx_connect()</a></span>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.dbx-error-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve una cadena que contiene el mensaje de error de la última llamada a la función
+   del módulo abstracto (p.ej. el módulo mysql). Si existen múltiples
+   conexiones en el mismo módulo sólo se da el último error. Si existen
+   conexiones en diferentes módulos, se devuelve el último error del
+   módulo especificado por el parámetro <code class="parameter">link_identifier</code>.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.dbx-error-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-982">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>dbx_error()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$enlace&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">dbx_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">DBX_MYSQL</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"db"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"username"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"password"</span><span style="color: #007700">)<br />&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;die(</span><span style="color: #DD0000">"No&nbsp;se&nbsp;pudo&nbsp;conectar"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">dbx_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"select&nbsp;id&nbsp;from&nbsp;non_existing_table"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">dbx_error</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">dbx_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$enlace</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.dbx-error-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Consulte siempre la documentación específica del módulo también.
+   </p>
+   <p class="para">
+    El mensaje de error para <span class="productname">Microsoft SQL Server</span> es en realidad el resultado
+    de la función <span class="function"><a href="function.mssql-get-last-message.html" class="function">mssql_get_last_message()</a></span>.
+   </p>
+   <p class="para">
+    El mensaje de error para Oracle (oci8) no está aún implementado.
+   </p>
+  </p></blockquote>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.dbx-connect.html">dbx_connect</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.dbx-escape-string.html">dbx_escape_string</a></div>
+ <div class="up"><a href="ref.dbx.html">Funciones de dbx</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

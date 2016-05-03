@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Elimina un cursor espec&iacute;fico del servidor</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongoclient.getwriteconcern.html">MongoClient::getWriteConcern</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongoclient.listdbs.html">MongoClient::listDBs</a></div>
+ <div class="up"><a href="class.mongoclient.html">MongoClient</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mongoclient.killcursor" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">MongoClient::killCursor</h1>
+  <p class="verinfo">(PECL mongo &gt;=1.5.0)</p><p class="refpurpose"><span class="refname">MongoClient::killCursor</span> &mdash; <span class="dc-title">Elimina un cursor específico del servidor</span></p>
+
+ </div>
+
+ <div id="mongoclient.killcursor-soft-deprecation-notice" class="soft-deprecation-notice">
+  <p class="para">Esta extenisón que define este método
+está obsoleta. En su lugar debe usarse la extensión <a href="set.mongodb.html" class="link">MongoDB</a>.
+No hay equivalente para este método en la nueva extensión.</p>
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-mongoclient.killcursor-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">bool</span> <span class="methodname"><strong>MongoClient::killCursor</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$server_hash</code></span>
+   , <span class="methodparam"><span class="type"><span class="type int|MongoInt64">int|MongoInt64</span></span> <code class="parameter">$id</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   En ciertas situaciones, podría ser necesario eliminar un cursor del servidor.
+   Normalmente, los cursores expiran tras 10 minutos de inactividad, pero es posible
+   crear un cursor inmortal con
+   <span class="methodname"><a href="mongocursor.immortal.html" class="methodname">MongoCursor::immortal()</a></span> que nunca expira. Para
+   poder eliminar dicho cursor inmortal, se puede llamar a este
+   método con la información proporcionada por
+   <span class="methodname"><a href="mongocursor.info.html" class="methodname">MongoCursor::info()</a></span>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-mongoclient.killcursor-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+
+      <code class="parameter">server_hash</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       El hash del servidor que posee el cursor. Puede obtenerse a través de
+       <span class="methodname"><a href="mongocursor.info.html" class="methodname">MongoCursor::info()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+
+      <code class="parameter">id</code>
+     </dt>
+
+     <dd>
+
+      <p class="para">
+       El ID del cursor a eliminar. Se puede proporcionar un valor de tipo <span class="type"><a href="language.types.integer.html" class="type int">int</a></span>
+       que contenga el ID de 6a bits del cursor , o un objeto de la clase
+       <a href="class.mongoint64.html" class="classname">MongoInt64</a>. Lo último es necesario en plataformas
+       de 32 bits (y en Windows).
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-mongoclient.killcursor-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> si el método intentó eliminar el cursor, y <strong><code>FALSE</code></strong> si
+   había algo erróneo en los argumentos (tal como un
+   <code class="parameter">server_hash</code> erróneo). El estado devuelto <em class="emphasis">no
+   refleja</em> dónde fue elminado el cursor, ya que el servidor no
+   proporciona tal información.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 errors" id="refsect1-mongoclient.killcursor-errors">
+  <h3 class="title">Errores/Excepciones</h3>
+  <p class="para">
+   Este método muestra una advertencia si el
+   <code class="parameter">server_hash</code> proporcionado no coincide con una conexión
+   existente. No intentar eliminar un cursor tampoco se intenta en este caso.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="mongo.mongoclient.killcursor.examples">
+  <h3 class="title">Ejemplos</h3>
+  <div class="example" id="example-1511">
+   <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>MongoClient::killCursor()</strong></span></strong></p>
+   <div class="example-contents"><p>
+    Este ejemplo muestra cómo conectarse, realizar una consulta, obtener la información
+    del cursor y luego eliminarlo.
+   </p></div>
+   <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$m&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$m</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">testdb</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">collection</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$cursor&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$c</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">find</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$cursor</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">next</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;Ahora&nbsp;el&nbsp;cursor&nbsp;es&nbsp;válido,&nbsp;por&nbsp;lo&nbsp;que&nbsp;se&nbsp;puede&nbsp;obtener&nbsp;el&nbsp;hash&nbsp;y&nbsp;el&nbsp;ID:<br /></span><span style="color: #0000BB">$info&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$cursor</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">info</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">//&nbsp;Eliminar&nbsp;el&nbsp;cursor&nbsp;the&nbsp;cursor<br /></span><span style="color: #0000BB">MongoClient</span><span style="color: #007700">::</span><span style="color: #0000BB">killCursor</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$info</span><span style="color: #007700">[</span><span style="color: #DD0000">'server'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">$info</span><span style="color: #007700">[</span><span style="color: #DD0000">'id'</span><span style="color: #007700">]&nbsp;);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+   </div>
+
+  </div>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mongoclient.getwriteconcern.html">MongoClient::getWriteConcern</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mongoclient.listdbs.html">MongoClient::listDBs</a></div>
+ <div class="up"><a href="class.mongoclient.html">MongoClient</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

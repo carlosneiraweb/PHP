@@ -1,0 +1,441 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Sentencias Preparadas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli.quickstart.statements.html">Ejecutar sentencias</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli.quickstart.stored-procedures.html">Procedimientos almacenados</a></div>
+ <div class="up"><a href="mysqli.quickstart.html">Gu&iacute;a r&aacute;pida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="mysqli.quickstart.prepared-statements" class="section">
+  <h2 class="title">Sentencias Preparadas</h2>
+  <p class="para">
+   Las bases de datos MySQL soportan sentencias preparadas. Una sentencia preparada
+   o una sentencia parametrizada se usa para ejecutar la misma sentencia
+   repetidamente con gran eficiencia.
+  </p>
+  <p class="para">
+   <em class="emphasis">Flujo de trabajo básico</em>
+  </p>
+  <p class="para">
+   La ejecución de sentencias preparadas consiste en dos etapas:
+   la preparación y la ejecución. En la etapa de preparación se envía una plantilla de sentencia
+   al servidor de bases de datos. El servidor realiza una comprobación de sintaxis e inicializa
+   los recursos internos del servidor para su uso posterior.
+  </p>
+  <p class="para">
+   El servidor de MySQL soporta el uso de parámetros de sustitución posicionales anónimos
+   con <em>?</em>.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1848">
+    <p><strong>Ejemplo #1 Primera etapa: prepación</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"ejemplo.com"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"basedatos"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión&nbsp;a&nbsp;MySQL:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_error</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Sentencia&nbsp;no&nbsp;preparada&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">)&nbsp;||&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT)"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;creación&nbsp;de&nbsp;la&nbsp;tabla:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Sentencia&nbsp;preparada,&nbsp;etapa&nbsp;1:&nbsp;preparación&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!(</span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id)&nbsp;VALUES&nbsp;(?)"</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;preparación:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   La preparación es seguida de la ejecución. Durante la ejecución el cliente vincula
+   los valores de los parámetros y los envía al servidor. El servidor crea una
+   sentencia desde la plantilla de la sentencia y los valores vinculados para
+   ejecutarla usando los recursos internos previamente creados.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1849">
+    <p><strong>Ejemplo #2 Segunda etapa: vincular y ejecutar</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Sentencia&nbsp;preparada,&nbsp;etapa&nbsp;2:&nbsp;vincular&nbsp;y&nbsp;ejecutar&nbsp;*/<br /></span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />if&nbsp;(!</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bind_param</span><span style="color: #007700">(</span><span style="color: #DD0000">"i"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$id</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;vinculación&nbsp;de&nbsp;parámetros:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;ejecución:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <em class="emphasis">Ejecución repetida</em>
+  </p>
+  <p class="para">
+   Una sentencia preparada se puede ejecutar repetidamente. En cada ejecución
+   el valor actual de la variable vinculada se evalúa y se envía al servidor.
+   La sentencia no se analiza de nuevo. La plantilla de la sentencia no
+   es transferida otra vez al servidor.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1850">
+    <p><strong>Ejemplo #3 INSERT preparada una vez, ejecutada múltiples veces</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"ejemplo.com"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"basedatos"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión&nbsp;a&nbsp;MySQL:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_error</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Sentencia&nbsp;no&nbsp;preparada&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">)&nbsp;||&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT)"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;creación&nbsp;de&nbsp;la&nbsp;tabla:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Sentencia&nbsp;preparada,&nbsp;etapa&nbsp;1:&nbsp;preparación&nbsp;*/<br /></span><span style="color: #007700">if&nbsp;(!(</span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id)&nbsp;VALUES&nbsp;(?)"</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;preparación:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Sentencia&nbsp;preparada,&nbsp;etapa&nbsp;2:&nbsp;vinculación&nbsp;y&nbsp;ejecución&nbsp;*/<br /></span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />if&nbsp;(!</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bind_param</span><span style="color: #007700">(</span><span style="color: #DD0000">"i"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$id</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;vinculación&nbsp;de&nbsp;parámetros:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;ejecución:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;Sentencia&nbsp;preparada:&nbsp;ejecución&nbsp;repetida,&nbsp;sólo&nbsp;datos&nbsp;transferidos&nbsp;desde&nbsp;el&nbsp;cliente&nbsp;al&nbsp;servidor&nbsp;*/<br /></span><span style="color: #007700">for&nbsp;(</span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$id</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;ejecución:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br /><br /></span><span style="color: #FF8000">/*&nbsp;se&nbsp;recomienda&nbsp;el&nbsp;cierre&nbsp;explícito&nbsp;*/<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /><br /></span><span style="color: #FF8000">/*&nbsp;Sentencia&nbsp;no&nbsp;preparada&nbsp;*/<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id&nbsp;FROM&nbsp;test"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_all</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(4) {
+  [0]=&gt;
+  array(1) {
+    [0]=&gt;
+    string(1) &quot;1&quot;
+  }
+  [1]=&gt;
+  array(1) {
+    [0]=&gt;
+    string(1) &quot;2&quot;
+  }
+  [2]=&gt;
+  array(1) {
+    [0]=&gt;
+    string(1) &quot;3&quot;
+  }
+  [3]=&gt;
+  array(1) {
+    [0]=&gt;
+    string(1) &quot;4&quot;
+  }
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Cada sentencia preparada ocupa recursos del servidor.
+   Las sentencias deberían cerrarse explícitamente inmediatamente después de su uso.
+   Si no se realiza explícitamente, la sentencia será cerrada cuando
+   el gestor de la sentencia sea liberado por PHP.
+  </p>
+  <p class="para">
+   Usar una sentencia preparada no es siempre la manera más
+   eficiente de ejecutar una sentencia. Una sentencia preparada ejecutada una sola
+   vez causa más viajes de ida y vuelta desde el cliente al servidor que una sentencia no preparada.
+   Es por esta razón por lo que <em>SELECT</em> no se ejecuta arriba como
+   una sentencia preparada.
+  </p>
+  <p class="para">
+   También se ha de considerar el uso de la sintaxis SQL multi-INSERT de MySQL para sentencias INSERT.
+   Por ejemplo, multi-INSERT requiere menos viajes de ida y vuelta entre
+   el servidor y el cliente que la sentencia preparada mostrada arriba.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1851">
+    <p><strong>Ejemplo #4 Menos viajes de ida y vuelta usando SQL multi-INSERT</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id)&nbsp;VALUES&nbsp;(1),&nbsp;(2),&nbsp;(3),&nbsp;(4)"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;multi-INSERT:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   <em class="emphasis">Tipos de datos de los valores del conjunto de resultados</em>
+  </p>
+  <p class="para">
+   El Protocolo Cliente Servidor de MySQL define un protocolo de transporte de datos diferente
+   para sentencias preparadas y no preparadas. Las sentencias preparadas
+   usan el llamado protocolo binario. El servidor de MySQL envía los datos
+   del conjunto de resultados &quot;tal cual&quot; en formato binario. Los resultados no son serializados en
+   cadenas antes del envío. Las bibliotecas cliente no reciben cadenas solamente.
+   En su lugar, recibirán datos binarios e intentarán convertir los valores a
+   los tipos de datos de PHP apropiados. Por ejemplo, los resultados de una columna
+   de SQL <em>INT</em> serán proporcionados como variables de tipo integer de PHP.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1852">
+    <p><strong>Ejemplo #5 Tipos de datos nativos</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"ejemplo.com"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"basedatos"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión&nbsp;a&nbsp;MySQL:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT,&nbsp;etiqueta&nbsp;CHAR(1))"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id,&nbsp;etiqueta)&nbsp;VALUES&nbsp;(1,&nbsp;'a')"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;creación&nbsp;de&nbsp;la&nbsp;tabla:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;etiqueta&nbsp;FROM&nbsp;test&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;1"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">get_result</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$fila&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">();<br /><br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"id&nbsp;=&nbsp;%s&nbsp;(%s)\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'id'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">gettype</span><span style="color: #007700">(</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'id'</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"etiqueta&nbsp;=&nbsp;%s&nbsp;(%s)\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'etiqueta'</span><span style="color: #007700">],&nbsp;</span><span style="color: #0000BB">gettype</span><span style="color: #007700">(</span><span style="color: #0000BB">$fila</span><span style="color: #007700">[</span><span style="color: #DD0000">'etiqueta'</span><span style="color: #007700">]));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+id = 1 (integer)
+etiqueta = a (string)
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Este comportamiento difiere de las sentencias no preparadas. Por defecto,
+   las sentencias no preparadas devolverán todos los resultados como cadenas.
+   Este comportamiento predeterminado se puede cambiar usand una opción de conexión.
+   Si se utiliza la opción de conexión no existirán diferencias.
+  </p>
+  <p class="para">
+   <em class="emphasis">Obtener resultados usando variables vinculadas</em>
+  </p>
+  <p class="para">
+   Los resultados de las sentencias preparadas pueden ser recuperados mediante
+   varibles de salida vinculadas, o por la petición de un objeto <a href="class.mysqli-result.html" class="classname">mysqli_result</a>.
+  </p>
+  <p class="para">
+   Las variables de salida deben ser vinculadas después de la ejecución de la sentencia.
+   Una variable debe estar vinculada para cada columna del conjunto de resultados de las sentencias.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1853">
+    <p><strong>Ejemplo #6 Vinculación de variables de salida</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"ejemplo.com"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"basedatos"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión&nbsp;a&nbsp;MySQL:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT,&nbsp;etiqueta&nbsp;CHAR(1))"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id,&nbsp;etiqueta)&nbsp;VALUES&nbsp;(1,&nbsp;'a')"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;creación&nbsp;de&nbsp;la&nbsp;tabla:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!(</span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;etiqueta&nbsp;FROM&nbsp;test"</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;preparación:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;ejecución:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$id_salida&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$etiqueta_salida&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br />if&nbsp;(!</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">bind_result</span><span style="color: #007700">(</span><span style="color: #0000BB">$id_salida</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$etiqueta_salida</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;vinculación&nbsp;de&nbsp;los&nbsp;parámetros&nbsp;de&nbsp;salida:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />while&nbsp;(</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"id&nbsp;=&nbsp;%s&nbsp;(%s),&nbsp;etiqueta&nbsp;=&nbsp;%s&nbsp;(%s)\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$id_salida</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">gettype</span><span style="color: #007700">(</span><span style="color: #0000BB">$id_salida</span><span style="color: #007700">),&nbsp;</span><span style="color: #0000BB">$etiqueta_salida</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">gettype</span><span style="color: #007700">(</span><span style="color: #0000BB">$etiqueta_salida</span><span style="color: #007700">));<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+id = 1 (integer), etiqueta = a (string)
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Las sentencias preparadas devuelven de manera predeterminada conjuntos de resultados no almacenados en buffer.
+   Los resultados de la sentencia no son obtenidas y transferidas implícitamente
+   desde el servidor al cliente para el almacenamiento en buffer de lado del cliente. El conjunto de resultados
+   toma recursos del servidor hasta que todos los resultados hayan sido obtenidos por el cliente.
+   Por lo que se recomienda consumir resultados cuando sea oportuno. Si un cliente falla al obtener todos
+   los resultados o el cliente cierra la consulta antes de haber obtenido todos los datos,
+   los datos han de ser obtenidos implícitamente por <em>mysqli</em>.
+  </p>
+  <p class="para">
+   También es posible almacenar en buffer los resutados de una sentencia preparada
+   usando <span class="function"><a href="mysqli-stmt.store-result.html" class="function">mysqli_stmt_store_result()</a></span>.
+  </p>
+  <p class="para">
+   <em class="emphasis">Obtener los resultados usando la interfaz mysqli_result</em>
+  </p>
+  <p class="para">
+   En lugar de usar resultados vinculados, los resultados también se pueden recuperar a través de la
+   interfaz mysqli_result. <span class="function"><a href="mysqli-stmt.get-result.html" class="function">mysqli_stmt_get_result()</a></span>
+   devuelve un conjunto de resultados almacenado en buffer.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1854">
+    <p><strong>Ejemplo #7 Usar mysqli_result para obtener los resultados</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"ejemplo.com"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"basedatos"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión&nbsp;a&nbsp;MySQL:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT,&nbsp;etiqueta&nbsp;CHAR(1))"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id,&nbsp;etiqueta)&nbsp;VALUES&nbsp;(1,&nbsp;'a')"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;creación&nbsp;de&nbsp;la&nbsp;tabla:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!(</span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;etiqueta&nbsp;FROM&nbsp;test&nbsp;ORDER&nbsp;BY&nbsp;id&nbsp;ASC"</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;preparación:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;ejecución:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!(</span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">get_result</span><span style="color: #007700">()))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;obtención&nbsp;del&nbsp;conjunto&nbsp;de&nbsp;resultados:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_all</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(1) {
+  [0]=&gt;
+  array(2) {
+    [0]=&gt;
+    int(1)
+    [1]=&gt;
+    string(1) &quot;a&quot;
+  }
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   Usar la <strong class="classname">interfaz mysqli_result</strong> ofrece el beneficio adicional de
+   la navegación flexible del conjunto de resultados en el lado del cliente.
+  </p>
+  <p class="para">
+   <div class="example" id="example-1855">
+    <p><strong>Ejemplo #8 Conjunto de resultados almacenado en buffer para la lectura flexible</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$mysqli&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">mysqli</span><span style="color: #007700">(</span><span style="color: #DD0000">"ejemplo.com"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"usuario"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"contraseña"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"basedatos"</span><span style="color: #007700">);<br />if&nbsp;(</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;conexión&nbsp;a&nbsp;MySQL:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">connect_error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"DROP&nbsp;TABLE&nbsp;IF&nbsp;EXISTS&nbsp;test"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"CREATE&nbsp;TABLE&nbsp;test(id&nbsp;INT,&nbsp;etiqueta&nbsp;CHAR(1))"</span><span style="color: #007700">)&nbsp;||<br />&nbsp;&nbsp;&nbsp;&nbsp;!</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">query</span><span style="color: #007700">(</span><span style="color: #DD0000">"INSERT&nbsp;INTO&nbsp;test(id,&nbsp;etiqueta)&nbsp;VALUES&nbsp;(1,&nbsp;'a'),&nbsp;(2,&nbsp;'b'),&nbsp;(3,&nbsp;'c')"</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;creación&nbsp;de&nbsp;la&nbsp;tabla:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!(</span><span style="color: #0000BB">$sentencia&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">prepare</span><span style="color: #007700">(</span><span style="color: #DD0000">"SELECT&nbsp;id,&nbsp;etiqueta&nbsp;FROM&nbsp;test"</span><span style="color: #007700">)))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;preparación:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$mysqli</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">execute</span><span style="color: #007700">())&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;ejecución:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />if&nbsp;(!(</span><span style="color: #0000BB">$resultado&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">get_result</span><span style="color: #007700">()))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;la&nbsp;obtención&nbsp;del&nbsp;conjunto&nbsp;de&nbsp;resultados:&nbsp;("&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">errno&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">")&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$sentencia</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">error</span><span style="color: #007700">;<br />}<br /><br />for&nbsp;(</span><span style="color: #0000BB">$num_fila&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">num_rows&nbsp;</span><span style="color: #007700">-&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">);&nbsp;</span><span style="color: #0000BB">$num_fila&nbsp;</span><span style="color: #007700">&gt;=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$num_fila</span><span style="color: #007700">--)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">data_seek</span><span style="color: #007700">(</span><span style="color: #0000BB">$num_fila</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$resultado</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">fetch_assoc</span><span style="color: #007700">());<br />}<br /></span><span style="color: #0000BB">$resultado</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">close</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+array(2) {
+  [&quot;id&quot;]=&gt;
+  int(3)
+  [&quot;etiqueta&quot;]=&gt;
+  string(1) &quot;c&quot;
+}
+array(2) {
+  [&quot;id&quot;]=&gt;
+  int(2)
+  [&quot;etiqueta&quot;]=&gt;
+  string(1) &quot;b&quot;
+}
+array(2) {
+  [&quot;id&quot;]=&gt;
+  int(1)
+  [&quot;etiqueta&quot;]=&gt;
+  string(1) &quot;a&quot;
+}
+</pre></div>
+    </div>
+   </div>
+  </p>
+  <p class="para">
+   <em class="emphasis">Escape de valores e inyección SQL</em>
+  </p>
+  <p class="para">
+   Las variables vinculadas son enviadas desde la consulta al servidor por separado, por lo que
+   no se puede interferir. El servidor usa estos valores directamente en el momento
+   de la ejecución, después de haber analizado la plantilla de la sentencia. Los parámetros vinculados no
+   necesitan ser escapados porque nunca son sustituidos directamente dentro del string de
+   consulta. Se puede proporcionar una sugerencia al servidor para el tipo de variable
+   vinculada, para crear una conversión apropiada. 
+   Véase la función <span class="function"><a href="mysqli-stmt.bind-param.html" class="function">mysqli_stmt_bind_param()</a></span> para más
+   información.
+  </p>
+  <p class="para">
+   A veces, tal separación es considerada como la única característica de seguridad para
+   evitar inyecciones SQL, pero se puede alcanzar el mismo grado de seguridad con
+   sentencias no preparadas, si todos los valores están formateados correctamente. Debería
+   observarse que el formateo correcto no es lo mismo que usar escapes, y que involucra
+   más lógica que simplemente usar escapes. Por lo tanto, las sentencias preparadas son sencillamente una
+   estrategia más conveniente y menos propensa a errores para este elemetno de seguridad de bases de datos.
+  </p>
+  <p class="para">
+   <em class="emphasis">Emulación de sentencias preparadas en el lado del cliente</em>
+  </p>
+  <p class="para">
+   La API no inclye la emulación para sentencias preparadas en el lado del cliente.
+  </p>
+  <p class="para">
+   <em class="emphasis">Comparación entre sentencias preparadas y no preparadas</em>
+  </p>
+  <p class="para">
+   La tabla de abajo compara las sentencias preparadas y no preparadas del lado del servidor.
+  </p>
+  <table class="doctable table">
+   <caption><strong>Comparación entre sentencias preparadas y no preparadas</strong></caption>
+   
+    <thead>
+     <tr>
+      <th class="empty">&nbsp;</th>
+      <th>Sentencia preparada</th>
+      <th>Sentencia no preparada</th>
+    </tr>
+
+    </thead>
+
+    <tbody class="tbody">
+     <tr>
+      <td>Viajes de ida y vuelta desde el cliente al servidor, SELECT, ejecución única</td>
+      <td>2</td>
+      <td>1</td>
+     </tr>
+
+     <tr>
+      <td>Cadenas de sentencias tranferidas desde el cliente al servidor</td>
+      <td>1</td>
+      <td>1</td>
+     </tr>
+
+     <tr>
+      <td>Viajes de ida y vuelta desde el cliente al servidor, SELECT, ejecución repetida (n)</td>
+      <td>1 + n</td>
+      <td>n</td>
+     </tr>
+
+     <tr>
+      <td>Cadenas de sentencias tranferidas desde el cliente al servidor</td>
+      <td>1 plantilla, n veces parametro vinculado, si existe</td>
+      <td>n veces junto con el parámetro, si existe</td>
+     </tr>
+
+     <tr>
+      <td>API de vinculación de parámetros de entrada</td>
+      <td>Sí, escape de entradas automático</td>
+      <td>No, escape de entradas manual</td>
+     </tr>
+
+     <tr>
+      <td>API de vinculación de variables de salida</td>
+      <td>Sí</td>
+      <td>No</td>
+     </tr>
+
+     <tr>
+      <td>Soporte para el uso de la API mysqli_result</td>
+      <td>Sí, use <span class="function"><a href="mysqli-stmt.get-result.html" class="function">mysqli_stmt_get_result()</a></span></td>
+      <td>Sí</td>
+     </tr>
+
+     <tr>
+      <td>Conjuntos de resultados almacenados en buffer</td>
+      <td>
+       Sí, use <span class="function"><a href="mysqli-stmt.get-result.html" class="function">mysqli_stmt_get_result()</a></span> o
+       la vinculación con <span class="function"><a href="mysqli-stmt.store-result.html" class="function">mysqli_stmt_store_result()</a></span>
+      </td>
+      <td>Sí, lo predeterminado de <span class="function"><a href="mysqli.query.html" class="function">mysqli_query()</a></span></td>
+     </tr>
+
+     <tr>
+      <td>Conjuntos de resultados no almacenados en buffer</td>
+      <td>Sí, use la API de vinculación de salida</td>
+      <td>
+       Sí, use <span class="function"><a href="mysqli.real-query.html" class="function">mysqli_real_query()</a></span> con
+       <span class="function"><a href="mysqli.use-result.html" class="function">mysqli_use_result()</a></span>
+      </td>
+     </tr>
+
+     <tr>
+      <td>&quot;Sabor&quot; de la transferencia de datos del protocolo Cliente Servidor de MySQL</td>
+      <td>Protocolo binario</td>
+      <td>Protocolo de texto</td>
+     </tr>
+
+     <tr>
+      <td>Tipos de datos SQL de los valores del conjunto de resultados</td>
+      <td>Preservados al obtenerlos</td>
+      <td>Convertidos a cadena o preservados al obetenerlos</td>
+     </tr>
+
+     <tr>
+      <td>Soporta todas las sentencia SQL</td>
+      <td>Versiones reciente de MySQL soportan muchas pero no todas</td>
+      <td>Sí</td>
+     </tr>
+
+    </tbody>
+   
+  </table>
+
+  <p class="para">
+   <em class="emphasis">Véase también</em>
+  </p>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="mysqli.construct.html" class="methodname">mysqli::__construct()</a></span></li>
+    <li class="member"><span class="methodname"><a href="mysqli.query.html" class="methodname">mysqli::query()</a></span></li>
+    <li class="member"><span class="methodname"><a href="mysqli.prepare.html" class="methodname">mysqli::prepare()</a></span></li>
+    <li class="member"><span class="methodname"><a href="mysqli-stmt.prepare.html" class="methodname">mysqli_stmt::prepare()</a></span></li>
+    <li class="member"><span class="methodname"><a href="mysqli-stmt.execute.html" class="methodname">mysqli_stmt::execute()</a></span></li>
+    <li class="member"><span class="methodname"><a href="mysqli-stmt.bind-param.html" class="methodname">mysqli_stmt::bind_param()</a></span></li>
+    <li class="member"><span class="methodname"><a href="mysqli-stmt.bind-result.html" class="methodname">mysqli_stmt::bind_result()</a></span></li>
+   </ul>
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="mysqli.quickstart.statements.html">Ejecutar sentencias</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="mysqli.quickstart.stored-procedures.html">Procedimientos almacenados</a></div>
+ <div class="up"><a href="mysqli.quickstart.html">Gu&iacute;a r&aacute;pida</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

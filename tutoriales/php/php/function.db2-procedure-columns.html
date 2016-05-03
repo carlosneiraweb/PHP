@@ -1,0 +1,315 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devolver un resultado con los par&aacute;metros de los procedimientos almacenados</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.db2-primary-keys.html">db2_primary_keys</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-procedures.html">db2_procedures</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.db2-procedure-columns" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">db2_procedure_columns</h1>
+  <p class="verinfo">(PECL ibm_db2 &gt;= 1.0.0)</p><p class="refpurpose"><span class="refname">db2_procedure_columns</span> &mdash; <span class="dc-title">
+   Devolver un resultado con los parámetros de los procedimientos almacenados
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.db2-procedure-columns-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">resource</span> <span class="methodname"><strong>db2_procedure_columns</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$connection</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$qualifier</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$schema</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$procedure</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$parameter</code></span>
+   )</div>
+
+ 
+  <p class="para rdfs-comment">
+   Devuelve un resultado con los parámetros de uno o más procedimientos almacenados.
+  </p>
+
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.db2-procedure-columns-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">connection</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Una conexión válida a una base de datos IBM DB2, Cloudscape, o Apache Derby.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">qualifier</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un calificador para bases de datos ejecutándose en servidores OS/390 o z/OS. Para otras 
+       bases de datos se debe pasar <strong><code>NULL</code></strong> o una cadena vacia.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">schema</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El esquema que contiene los procedimientos. Este perámetro acepta las 
+       etiquetas <em>_</em> y <em>%</em> para búsquedas de cadena.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">procedure</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del procedimiento. Este parámetro acepta las etiquetas 
+       <em>_</em> y <em>%</em> para búsquedas de cadena.
+      </p>
+     </dd>
+
+     
+    
+     <dt>
+<code class="parameter">parameter</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El nombre del parámetro. Este parámetro acepta las etiquetas 
+       <em>_</em> y <em>%</em> para búsquedas de cadena.
+       Si el parámetro es <strong><code>NULL</code></strong>, todos los parámetros para el procedimiento almacenado 
+       serán devueltos.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.db2-procedure-columns-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un recurso de sentencia con un bloque de resultados que contienen los 
+   parámetros de los procedimientos almacenados que coinciden con los criterios de búsqueda.
+   Las filas devueltas se componen de las siguientes columnas:
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Columna</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+       <tr>
+        <td>PROCEDURE_CAT</td>
+        <td>El catálogo que contiene el procedimiento. El valor es <strong><code>NULL</code></strong> si 
+        esta tabla no tiene catálogos.</td>
+       </tr>
+
+       <tr>
+        <td>PROCEDURE_SCHEM</td>
+        <td>Nombre del esquema que contiene el procedimiento almacenado.</td>
+       </tr>
+
+       <tr>
+        <td>PROCEDURE_NAME</td>
+        <td>Nombre del procedimiento.</td>
+       </tr>
+
+       <tr>
+        <td>COLUMN_NAME</td>
+        <td>Nombre del parámetro.</td>
+       </tr>
+
+       <tr>
+        <td>COLUMN_TYPE</td>
+        <td>
+         <p class="para">
+          Un valor entero que representa el tipo de parámetro:
+          <table class="doctable informaltable">
+           
+            <thead>
+             <tr>
+              <th>Valor devuelto</th>
+              <th>Tipo de parámetro</th>
+             </tr>
+
+            </thead>
+
+            <tbody class="tbody">
+             <tr>
+              <td>1 (SQL_PARAM_INPUT)</td>
+              <td>Parámetro de entrada (IN).</td>
+             </tr>
+
+             <tr>
+              <td>2 (SQL_PARAM_INPUT_OUTPUT)</td>
+              <td>Parámetro de entrada/salida (INOUT).</td>
+             </tr>
+
+             <tr>
+              <td>3 (SQL_PARAM_OUTPUT)</td>
+              <td>Parámetro de salida (OUT).</td>
+             </tr>
+
+            </tbody>
+           
+          </table>
+
+         </p>
+        </td>
+       </tr>
+
+       <tr>
+        <td>DATA_TYPE</td>
+        <td>El tipo de dato SQL para el parámetro representado como un valor entero.</td>
+       </tr>
+
+       <tr>
+        <td>TYPE_NAME</td>
+        <td>El tipo de dato SQL para el parámetro en forma de cadena.</td>
+       </tr>
+
+       <tr>
+        <td>COLUMN_SIZE</td>
+        <td>Un valor entero que representa el tamaño del parámetro.</td>
+       </tr>
+
+       <tr>
+        <td>BUFFER_LENGTH</td>
+        <td>
+         Número máximo de bytes necesarios para almacenar información del parámetro.
+        </td>
+       </tr>
+
+       <tr>
+        <td>DECIMAL_DIGITS</td>
+        <td>
+         La escala del parámetro o <strong><code>NULL</code></strong> si la escala no es aplicable.
+        </td>
+       </tr>
+
+       <tr>
+        <td>NUM_PREC_RADIX</td>
+        <td>
+         Un valor entero de <em>10</em> (que representa un tipo de dato numérico exacto), 
+         <em>2</em> (que representa un tipo de dato número aproximado), o <strong><code>NULL</code></strong> (que representa 
+         un tipo de dato sin base aplicable).
+        </td>
+       </tr>
+
+       <tr>
+        <td>NULLABLE</td>
+        <td>Un valor entero que representa si un parámetro puede ser nulo o no.</td>
+       </tr>
+
+       <tr>
+        <td>REMARKS</td>
+        <td>Descripción del parámetro.</td>
+       </tr>
+
+       <tr>
+        <td>COLUMN_DEF</td>
+        <td>Valor predeterminado del parámetro.</td>
+       </tr>
+
+       <tr>
+        <td>SQL_DATA_TYPE</td>
+        <td>Un valor entero que representa el tamaño del parámetro.</td>
+       </tr>
+
+       <tr>
+        <td>SQL_DATETIME_SUB</td>
+        <td>
+         Devuelve un valor entero que representa el código de un subtipo de dato fecha,
+         o <strong><code>NULL</code></strong> para tipos de dato SQL donde esto no aplica.
+        </td>
+       </tr>
+
+       <tr>
+        <td>CHAR_OCTET_LENGTH</td>
+        <td>
+         Longitud máxima en octetos para parámetros con tipo de dato caracter, en cual 
+         coincide con COLUMN_SIZE para datos de caracter de un solo byte, o <strong><code>NULL</code></strong> para 
+         tipos de dato que no son caracter.
+        </td>
+       </tr>
+
+       <tr>
+        <td>ORDINAL_POSITION</td>
+        <td>La posición (indexada a partir de uno) del parámetro en la sentencia.</td>
+       </tr>
+
+       <tr>
+        <td>IS_NULLABLE</td>
+        <td>
+         Una cadena donde &#039;YES&#039; significa que el parámetro acepta o devuelve valores <strong><code>NULL</code></strong> y 
+         donde &#039;NO&#039; significa que el parámetro no acepta o devuelve valores <strong><code>NULL</code></strong>.
+       </td>
+       </tr>
+
+     </tbody>
+    
+   </table>
+
+
+  </p>
+ </div>
+
+
+ 
+
+ <div class="refsect1 seealso" id="refsect1-function.db2-procedure-columns-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.db2-column-privileges.html" class="function" rel="rdfs-seeAlso">db2_column_privileges()</a> - Obtiene la lista de columnas y permisos asociados a una tabla</span></li>
+    <li class="member"><span class="function"><a href="function.db2-columns.html" class="function" rel="rdfs-seeAlso">db2_columns()</a> - Devuelve los campos de una tabla y sus metadatos asociados.</span></li>
+    <li class="member"><span class="function"><a href="function.db2-foreign-keys.html" class="function" rel="rdfs-seeAlso">db2_foreign_keys()</a> - Devolver un resultado que contenga las llaves foraneas de una tabla</span></li>
+    <li class="member"><span class="function"><a href="function.db2-primary-keys.html" class="function" rel="rdfs-seeAlso">db2_primary_keys()</a> - Devolver un resultado con las llaves primarias de una tabla</span></li>
+    <li class="member"><span class="function"><a href="function.db2-procedures.html" class="function" rel="rdfs-seeAlso">db2_procedures()</a> - Devolver un resultado con los procedimientos almacenados registrados en la base de datos</span></li>
+    <li class="member"><span class="function"><a href="function.db2-special-columns.html" class="function" rel="rdfs-seeAlso">db2_special_columns()</a> - Returns a result set listing the unique row identifier columns for a table</span></li>
+    <li class="member"><span class="function"><a href="function.db2-statistics.html" class="function" rel="rdfs-seeAlso">db2_statistics()</a> - Returns a result set listing the index and statistics for a table</span></li>
+    <li class="member"><span class="function"><a href="function.db2-table-privileges.html" class="function" rel="rdfs-seeAlso">db2_table_privileges()</a> - Returns a result set listing the tables and associated privileges in a database</span></li>
+    <li class="member"><span class="function"><a href="function.db2-tables.html" class="function" rel="rdfs-seeAlso">db2_tables()</a> - Returns a result set listing the tables and associated metadata in a database</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.db2-primary-keys.html">db2_primary_keys</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.db2-procedures.html">db2_procedures</a></div>
+ <div class="up"><a href="ref.ibm-db2.html">Funciones de IBM DB2</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

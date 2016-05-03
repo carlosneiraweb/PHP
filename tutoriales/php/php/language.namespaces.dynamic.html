@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Espacios de nombres y caracter&iacute;sticas din&aacute;micas del lenguaje</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.namespaces.basics.html">Uso de los espacios de nombres: lo b&aacute;sico</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.namespaces.nsconstants.html">La palabra reservada namespace y la constante __NAMESPACE__</a></div>
+ <div class="up"><a href="language.namespaces.html">Espacios de nombres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="language.namespaces.dynamic" class="sect1">
+  <h2 class="title">Espacios de nombres y características dinámicas del lenguaje</h2>
+  <p class="verinfo">(PHP 5 &gt;= 5.3.0, PHP 7)</p>
+  <p class="para">
+   La implementación de PHP de los espacios de nombres está influenciada por su naturaleza dinámica como
+   lenguaje de programación. Así, para convertir código como el del siguiente ejemplo en código de espacios de nombres:
+   <div class="example" id="example-274">
+    <p><strong>Ejemplo #1 Acceder dinámicamente a elementos</strong></p>
+    <div class="example-contents"><p>ejemplo1.php:</p></div>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">nombre_clase<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">__construct</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">__METHOD__</span><span style="color: #007700">,</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br />function&nbsp;</span><span style="color: #0000BB">nombre_func</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">__FUNCTION__</span><span style="color: #007700">,</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br />const&nbsp;</span><span style="color: #0000BB">nombre_const&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"global"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'nombre_clase'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;imprime&nbsp;nombre_clase::__construct<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'nombre_func'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">//&nbsp;imprime&nbsp;nombre_func<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">constant</span><span style="color: #007700">(</span><span style="color: #DD0000">'nombre_const'</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;imprime&nbsp;global<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+   se debe emplear el nombre completamente cualificado (nombre de clase con prefijo de espacio de nombres).
+   Observe que, debido a que no hay diferencia entre un nombre cualificado y uno completamente cualificado
+   dentro de un nombre de clase, función, o constante dinámicas, no es necesario
+   la barra invertida inicial.
+   <div class="example" id="example-275">
+    <p><strong>Ejemplo #2 Acceder dinámicamente a elementos de un espacio de nombres</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">namespace&nbsp;</span><span style="color: #0000BB">nombre_espacio_de_nombres</span><span style="color: #007700">;<br />class&nbsp;</span><span style="color: #0000BB">nombre_clase<br /></span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">__construct</span><span style="color: #007700">()<br />&nbsp;&nbsp;&nbsp;&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">__METHOD__</span><span style="color: #007700">,</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}<br />function&nbsp;</span><span style="color: #0000BB">nombre_func</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">__FUNCTION__</span><span style="color: #007700">,</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br />const&nbsp;</span><span style="color: #0000BB">nombre_const&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"de&nbsp;espacio&nbsp;de&nbsp;nombres"</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">/*&nbsp;observe&nbsp;que&nbsp;si&nbsp;se&nbsp;emplean&nbsp;comillas&nbsp;dobles,&nbsp;se&nbsp;debe&nbsp;usar&nbsp;"\\nombre_espacio_de_nombres\\nombre_clase"&nbsp;*/<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'\nombre_espacio_de_nombres\nombre_clase'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;imprime&nbsp;nombre_espacio_de_nombres\nombre_clase::__construct<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'nombre_espacio_de_nombres\nombre_clase'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;también&nbsp;imprime&nbsp;nombre_espacio_de_nombres\nombre_clase::__construct<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'nombre_espacio_de_nombres\nombre_func'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">//&nbsp;imprime&nbsp;nombre_espacio_de_nombres\nombre_func<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'\nombre_espacio_de_nombres\nombre_func'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">//&nbsp;también&nbsp;imprime&nbsp;nombre_espacio_de_nombres\nombre_func<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">constant</span><span style="color: #007700">(</span><span style="color: #DD0000">'\nombre_espacio_de_nombres\nombre_const'</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;imprime&nbsp;de&nbsp;espacio&nbsp;de&nbsp;nombres<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">constant</span><span style="color: #007700">(</span><span style="color: #DD0000">'nombre_espacio_de_nombres\nombre_const'</span><span style="color: #007700">),&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;también&nbsp;imprime&nbsp;de&nbsp;espacio&nbsp;de&nbsp;nombres<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+  <p class="para">
+   Asegúrese de leer la <a href="language.namespaces.faq.html#language.namespaces.faq.quote" class="link">nota sobre
+   escapar nombres de espacios de nombres en cadenas</a>.
+  </p>
+ </div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="language.namespaces.basics.html">Uso de los espacios de nombres: lo b&aacute;sico</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="language.namespaces.nsconstants.html">La palabra reservada namespace y la constante __NAMESPACE__</a></div>
+ <div class="up"><a href="language.namespaces.html">Espacios de nombres</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

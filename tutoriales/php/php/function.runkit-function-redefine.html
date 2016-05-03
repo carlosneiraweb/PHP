@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Reemplazar una definici&oacute;n de funci&oacute;n con una nueva implementaci&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.runkit-function-copy.html">runkit_function_copy</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.runkit-function-remove.html">runkit_function_remove</a></div>
+ <div class="up"><a href="ref.runkit.html">Funciones runkit</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.runkit-function-redefine" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">runkit_function_redefine</h1>
+  <p class="verinfo">(PECL runkit &gt;= 0.7.0)</p><p class="refpurpose"><span class="refname">runkit_function_redefine</span> &mdash; <span class="dc-title">
+   Reemplazar una definición de función con una nueva implementación
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.runkit-function-redefine-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>runkit_function_redefine</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$funcname</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$arglist</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$code</code></span>
+   )</div>
+
+
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Por defecto, sólo
+funciones del espacio de usuario pueden ser eliminadas, renombradas, o modificadas.  Para
+controlar funciones internas, la opción
+<em>runkit.internal_override</em> en <var class="filename">php.ini</var> debe ser habilitada.</span>
+</p></blockquote>
+
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.runkit-function-redefine-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">funcname</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Nombre de la función a redefinir
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">arglist</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Nueva lista de argumentos a ser aceptados por la función
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">code</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Nueva implementación de código
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.runkit-function-redefine-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.runkit-function-redefine-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-601">
+    <p><strong>Ejemplo #1 Un ejemplo de <span class="function"><strong>runkit_function_redefine()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">testme</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Implementación&nbsp;Original&nbsp;de&nbsp;Testme\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">testme</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">runkit_function_redefine</span><span style="color: #007700">(</span><span style="color: #DD0000">'testme'</span><span style="color: #007700">,</span><span style="color: #DD0000">''</span><span style="color: #007700">,</span><span style="color: #DD0000">'echo&nbsp;"Nueva&nbsp;Implementación&nbsp;de&nbsp;Testme\n";'</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">testme</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo sería:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Implementación Original de Testme
+Nueva Implementación de Testme
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 seealso" id="refsect1-function.runkit-function-redefine-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.runkit-function-add.html" class="function" rel="rdfs-seeAlso">runkit_function_add()</a> - A&ntilde;adir una nueva funci&oacute;n, similar a create_function</span></li>
+    <li class="member"><span class="function"><a href="function.runkit-function-copy.html" class="function" rel="rdfs-seeAlso">runkit_function_copy()</a> - Copiar una funci&oacute;n a un nombre de funci&oacute;n nuevo</span></li>
+    <li class="member"><span class="function"><a href="function.runkit-function-rename.html" class="function" rel="rdfs-seeAlso">runkit_function_rename()</a> - Cambiar el nombre de una funci&oacute;n</span></li>
+    <li class="member"><span class="function"><a href="function.runkit-function-remove.html" class="function" rel="rdfs-seeAlso">runkit_function_remove()</a> - Eliminar una definici&oacute;n de funci&oacute;n</span></li>
+   </ul>
+  </p>
+ </div>
+
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.runkit-function-copy.html">runkit_function_copy</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.runkit-function-remove.html">runkit_function_remove</a></div>
+ <div class="up"><a href="ref.runkit.html">Funciones runkit</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

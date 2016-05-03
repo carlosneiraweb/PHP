@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Devuelve las interfaces que son implementadas por la clase o interfaz dadas</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.spl.html">Funciones SPL</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.class-parents.html">class_parents</a></div>
+ <div class="up"><a href="ref.spl.html">Funciones SPL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.class-implements" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">class_implements</h1>
+  <p class="verinfo">(PHP 5 &gt;= 5.1.0, PHP 7)</p><p class="refpurpose"><span class="refname">class_implements</span> &mdash; <span class="dc-title">
+   Devuelve las interfaces que son implementadas por la clase o interfaz dadas
+  </span></p>
+
+ </div>
+ <div class="refsect1 description" id="refsect1-function.class-implements-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>class_implements</strong></span>
+    ( <span class="methodparam"><span class="type"><a href="language.pseudo-types.html#language.types.mixed" class="type mixed">mixed</a></span> <code class="parameter">$class</code></span>
+   [, <span class="methodparam"><span class="type">bool</span> <code class="parameter">$autoload</code><span class="initializer"> = true</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Esta función devuelve un array con los nombres de las interfaces que 
+   implementa la <code class="parameter">class</code> dada y sus padres.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.class-implements-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">class</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un objeto (instancia de clase) o un string (nombre de clase o interfaz).
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">autoload</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Establece si se va a permitir que la clase se cargue automáticamente a 
+       a través del método mágico <span class="function"><a href="function.autoload.html" class="function">__autoload()</a></span>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.class-implements-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Un array en caso de éxito, o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-function.class-implements-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>5.1.0</td>
+       <td>
+        Añadida la opción para pasar el parámetro <code class="parameter">class</code> como 
+        un string. Añadido el parámetro <code class="parameter">autoload</code>.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-function.class-implements-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-4458">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>class_implements()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">interface&nbsp;</span><span style="color: #0000BB">foo&nbsp;</span><span style="color: #007700">{&nbsp;}<br />class&nbsp;</span><span style="color: #0000BB">bar&nbsp;</span><span style="color: #007700">implements&nbsp;</span><span style="color: #0000BB">foo&nbsp;</span><span style="color: #007700">{}<br /><br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">class_implements</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">bar</span><span style="color: #007700">));<br /><br /></span><span style="color: #FF8000">//&nbsp;desde&nbsp;PHP&nbsp;5.1.0&nbsp;se&nbsp;puede&nbsp;especificar&nbsp;el&nbsp;parámetro&nbsp;como&nbsp;un&nbsp;string<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">class_implements</span><span style="color: #007700">(</span><span style="color: #DD0000">'bar'</span><span style="color: #007700">));<br /><br /><br />function&nbsp;</span><span style="color: #0000BB">__autoload</span><span style="color: #007700">(</span><span style="color: #0000BB">$class_name</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;require_once&nbsp;</span><span style="color: #0000BB">$class_name&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">'.php'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #FF8000">//&nbsp;uso&nbsp;de&nbsp;__autoload&nbsp;para&nbsp;cargar&nbsp;la&nbsp;clase&nbsp;'not_loaded'<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">class_implements</span><span style="color: #007700">(</span><span style="color: #DD0000">'not_loaded'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [foo] =&gt; foo
+)
+
+Array
+(
+    [interface_of_not_loaded] =&gt; interface_of_not_loaded
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.class-implements-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.class-parents.html" class="function" rel="rdfs-seeAlso">class_parents()</a> - Devuelve las clases padre de la clase dada.</span></li>
+    <li class="member"><span class="function"><a href="function.get-declared-interfaces.html" class="function" rel="rdfs-seeAlso">get_declared_interfaces()</a> - Devuelve un array con todas las interfaces declaradas</span></li>
+   </ul>
+  </p>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="ref.spl.html">Funciones SPL</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.class-parents.html">class_parents</a></div>
+ <div class="up"><a href="ref.spl.html">Funciones SPL</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

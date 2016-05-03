@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Obtiene un token de petici&oacute;n</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="oauth.getrequestheader.html">OAuth::getRequestHeader</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="oauth.setauthtype.html">OAuth::setAuthType</a></div>
+ <div class="up"><a href="class.oauth.html">OAuth</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="oauth.getrequesttoken" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">OAuth::getRequestToken</h1>
+  <p class="verinfo">(PECL OAuth &gt;= 0.99.1)</p><p class="refpurpose"><span class="refname">OAuth::getRequestToken</span> &mdash; <span class="dc-title">Obtiene un token de petición</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-oauth.getrequesttoken-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="modifier">public</span> <span class="type">array</span> <span class="methodname"><strong>OAuth::getRequestToken</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$request_token_url</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$callback_url</code></span>
+   [, <span class="methodparam"><span class="type">string</span> <code class="parameter">$http_method</code></span>   
+  ]] )</div>
+
+  <p class="para rdfs-comment">
+   Obtiene un token de petición, secreto y cualquier parámetro adicional de respuesta del proveedor de servicio.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-oauth.getrequesttoken-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">request_token_url</code></dt>
+
+     <dd>
+
+      <p class="para">
+       URL al token de solicitud de la API.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">callback_url</code></dt>
+
+     <dd>
+
+      <p class="para">
+       URL del callback OAuth. Si <code class="parameter">callback_url</code> es pasado y es un valor vacío, este es puesto a &quot;oob&quot; para satisfacer las exigencias de OAuth 2009.1 advisory.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">http_method</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Método HTTP a usar, por ejemplo <em>GET</em> o <em>POST</em>.
+      </p>
+     </dd>
+
+        
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-oauth.getrequesttoken-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve un array conteniendo las respuestas OAuth analizadas al tener éxitoo <strong><code>FALSE</code></strong> al fallar.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 changelog" id="refsect1-oauth.getrequesttoken-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>1.0.0</td>
+       <td>
+        Antes devolvía <strong><code>NULL</code></strong> en caso de falla, en lugar de <strong><code>FALSE</code></strong>.
+       </td>
+      </tr>
+
+      <tr>
+       <td>0.99.9</td>
+       <td>
+        El parámetro <code class="parameter">callback_url</code> fue agregado
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 examples" id="refsect1-oauth.getrequesttoken-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-5862">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>OAuth::getRequestToken()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">try&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$oauth&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">OAuth</span><span style="color: #007700">(</span><span style="color: #0000BB">OAUTH_CONSUMER_KEY</span><span style="color: #007700">,</span><span style="color: #0000BB">OAUTH_CONSUMER_SECRET</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$request_token_info&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$oauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getRequestToken</span><span style="color: #007700">(</span><span style="color: #DD0000">"https://example.com/oauth/request_token"</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;if(!empty(</span><span style="color: #0000BB">$request_token_info</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$request_token_info</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #DD0000">"Falló&nbsp;obteniendo&nbsp;el&nbsp;token&nbsp;de&nbsp;petición,&nbsp;la&nbsp;respuesta&nbsp;fue:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$oauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getLastResponse</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />}&nbsp;catch(</span><span style="color: #0000BB">OAuthException&nbsp;$E</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Respuesta:&nbsp;"</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$E</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">lastResponse&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>El resultado del ejemplo 
+sería algo similar a:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [oauth_token] =&gt; some_token
+    [oauth_token_secret] =&gt; some_token_secret
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-oauth.getrequesttoken-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="methodname"><a href="oauth.getlastresponse.html" class="methodname" rel="rdfs-seeAlso">OAuth::getLastResponse()</a> - Obtiene la &uacute;ltima respuesta</span></li>
+    <li class="member"><span class="methodname"><a href="oauth.getlastresponseinfo.html" class="methodname" rel="rdfs-seeAlso">OAuth::getLastResponseInfo()</a> - Obtiene la informaci&oacute;n HTTP sobre la &uacute;ltima respuesta</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="oauth.getrequestheader.html">OAuth::getRequestHeader</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="oauth.setauthtype.html">OAuth::setAuthType</a></div>
+ <div class="up"><a href="class.oauth.html">OAuth</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

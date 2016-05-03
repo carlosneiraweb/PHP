@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambiar el vector de codificaci&oacute;n de car&aacute;cter de un tipo de letra</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imagepsbbox.html">imagepsbbox</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagepsextendfont.html">imagepsextendfont</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.imagepsencodefont" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">imagepsencodefont</h1>
+  <p class="verinfo">(PHP 4, PHP 5)</p><p class="refpurpose"><span class="refname">imagepsencodefont</span> &mdash; <span class="dc-title">Cambiar el vector de codificación de carácter de un tipo de letra</span></p>
+
+ </div>
+ <div id="function.imagepsencodefont-refsynopsisdiv">
+  <div class="warning"><strong class="warning">Advertencia</strong><p class="simpara">Esta función fue
+<em class="emphasis">ELILMINADA</em> en PHP 7.0.0.</p></div>
+ </div>
+ <div class="refsect1 description" id="refsect1-function.imagepsencodefont-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>imagepsencodefont</strong></span>
+    ( <span class="methodparam"><span class="type">resource</span> <code class="parameter">$font_index</code></span>
+   , <span class="methodparam"><span class="type">string</span> <code class="parameter">$encodingfile</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Carga el vector de codificación de caracteres desde un fichero y cambia el vector
+   de codificación de tipos de letra a éste. Ya que el vector predeterminado de tipos de letra de PostScript
+   carece de la mayoría de las posiciones de caracteres superiores a 127, definitivamente querrá
+   cambiar esto si usa otro lenguaje que no sea el Inglés. 
+  </p>
+  <p class="para">
+   Si se utiliza esta función con frecuencia, una manera
+   mucho mejor de definir la codificación es establecer ps.default_encoding en
+   el <a href="configuration.file.html" class="link">fichero de configuración</a>
+   para que apunte al fichero de codificación correcto, y así todas los tipos de letra que
+   se cargen tendrán automáticamente la codificación correcta.
+  </p>
+ </div>
+
+ <div class="refsect1 parameters" id="refsect1-function.imagepsencodefont-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">font_index</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Un recurso de tipo de letra, devuelto por <span class="function"><a href="function.imagepsloadfont.html" class="function">imagepsloadfont()</a></span>.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">encodingfile</code></dt>
+
+     <dd>
+
+      <p class="para">
+       El formato exacto de este fichero está descrito en la documentación de T1lib. 
+       T1lib viene con dos ficheros listos para usar,
+       <var class="filename">IsoLatin1.enc</var> y 
+       <var class="filename">IsoLatin2.enc</var>.
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ <div class="refsect1 returnvalues" id="refsect1-function.imagepsencodefont-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ <div class="refsect1 examples" id="refsect1-function.imagepsencodefont-examples">
+  <h3 class="title">Ejemplos</h3>
+  <p class="para">
+   <div class="example" id="example-3562">
+    <p><strong>Ejemplo #1 Ejemplo de <span class="function"><strong>imagepsencodefont()</strong></span></strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Cargar&nbsp;un&nbsp;fichero&nbsp;.pfb&nbsp;de&nbsp;tipos&nbsp;de&nbsp;letra<br /></span><span style="color: #0000BB">$font&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagepsloadfont</span><span style="color: #007700">(</span><span style="color: #DD0000">'./px3l.pfb'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Indicar&nbsp;a&nbsp;T1lib&nbsp;que&nbsp;use&nbsp;la&nbsp;codificación&nbsp;ISO&nbsp;Latin&nbsp;1<br /></span><span style="color: #0000BB">imagepsencode</span><span style="color: #007700">(</span><span style="color: #0000BB">$font</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'./IsoLatin1.enc'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Hacer&nbsp;cualesquiera&nbsp;operaciones&nbsp;con&nbsp;el&nbsp;tipo&nbsp;de&nbsp;letra&nbsp;aquí<br /><br />//&nbsp;Liberar&nbsp;el&nbsp;tipo&nbsp;de&nbsp;letra&nbsp;de&nbsp;la&nbsp;memoria<br /></span><span style="color: #0000BB">imagepsfreefont</span><span style="color: #007700">(</span><span style="color: #0000BB">$font</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+   </div>
+  </p>
+ </div>
+
+ <div class="refsect1 changelog" id="refsect1-function.imagepsencodefont-changelog">
+  <h3 class="title">Historial de cambios</h3>
+  <p class="para">
+   <table class="doctable informaltable">
+    
+     <thead>
+      <tr>
+       <th>Versión</th>
+       <th>Descripción</th>
+      </tr>
+
+     </thead>
+
+     <tbody class="tbody">
+      <tr>
+       <td>7.0.0</td>
+       <td>
+        Se elimió el soporte para T1Lib de PHP, y así la eliminación de esta función.
+       </td>
+      </tr>
+
+     </tbody>
+    
+   </table>
+
+  </p>
+ </div>
+
+ <div class="refsect1 notes" id="refsect1-function.imagepsencodefont-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Esta función sólo está disponible
+si PHP fue compilado usando <strong class="option configure">--with-t1lib[=DIR]</strong>
+.
+</span></p></blockquote>
+ </div>
+
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.imagepsbbox.html">imagepsbbox</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.imagepsextendfont.html">imagepsextendfont</a></div>
+ <div class="up"><a href="ref.image.html">Funciones de GD e Im&aacute;genes</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>

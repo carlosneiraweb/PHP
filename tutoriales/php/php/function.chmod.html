@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Cambia el modo de un fichero</title>
+
+ </head>
+ <body><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.chgrp.html">chgrp</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.chown.html">chown</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div><hr /><div id="function.chmod" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">chmod</h1>
+  <p class="verinfo">(PHP 4, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">chmod</span> &mdash; <span class="dc-title">Cambia el modo de un fichero</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.chmod-description">
+  <h3 class="title">Descripción</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">bool</span> <span class="methodname"><strong>chmod</strong></span>
+    ( <span class="methodparam"><span class="type">string</span> <code class="parameter">$filename</code></span>
+   , <span class="methodparam"><span class="type">int</span> <code class="parameter">$mode</code></span>
+   )</div>
+
+  <p class="para rdfs-comment">
+   Intenta cambiar el modo de un fichero especificado por el dado en
+   <code class="parameter">mode</code>.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 parameters" id="refsect1-function.chmod-parameters">
+  <h3 class="title">Parámetros</h3>
+  <p class="para">
+   <dl>
+
+    
+     <dt>
+<code class="parameter">filename</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Ruta del fichero.
+      </p>
+     </dd>
+
+    
+    
+     <dt>
+<code class="parameter">mode</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Observe que no se asume que <code class="parameter">mode</code> sea automáticamente
+       un valor octal, por lo que, para asegurarse de que la opración sea la esperada,
+       es necesario prefijar <code class="parameter">mode</code> con un cero (0). 
+       String tales como &quot;g+w&quot; no funcionarán adecuadamente.
+      </p>
+      <p class="para">
+       <div class="informalexample">
+        <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />chmod</span><span style="color: #007700">(</span><span style="color: #DD0000">"/directorio/fichero"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">755</span><span style="color: #007700">);&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;decimal;&nbsp;probablemente&nbsp;incorrecto<br /></span><span style="color: #0000BB">chmod</span><span style="color: #007700">(</span><span style="color: #DD0000">"/directorio/fichero"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"u+rwx,go+rx"</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;string;&nbsp;incorrecto<br /></span><span style="color: #0000BB">chmod</span><span style="color: #007700">(</span><span style="color: #DD0000">"/directorio/fichero"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0755</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;octal;&nbsp;valor&nbsp;de&nbsp;modo&nbsp;correcto<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+        </div>
+
+       </div>
+      </p>
+      <p class="para">
+       El parámetro <code class="parameter">mode</code> consiste en tres componentes
+       numéricos octales que especifican las restricciones de acceso para el propietario,
+       el grupo de usuarios al que pertenece el propietario, y para todos los demás, en
+       este orden. Un componente puede ser computado sumando los permisos
+       necesarios para ese usuario objetivo base. El número 1 significa que se conceden
+       derechos de ejecución, el número 2 significa que se puede escribir
+       en el fichero, el número 4 significa que el fichero se puede leer. Sume
+       estos números para especificar los derechos necesarios. Se puede leer más
+       sobre los modos en sistemas Unix con &#039;<strong class="command">man 1 chmod</strong>&#039;
+       y &#039;<strong class="command">man 2 chmod</strong>&#039;.
+      </p>
+      <p class="para">
+       <div class="informalexample">
+        <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Lectura&nbsp;y&nbsp;escritura&nbsp;para&nbsp;el&nbsp;propietario,&nbsp;nada&nbsp;para&nbsp;los&nbsp;demás<br /></span><span style="color: #0000BB">chmod</span><span style="color: #007700">(</span><span style="color: #DD0000">"/directorio/fichero"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0600</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Lectura&nbsp;y&nbsp;escritura&nbsp;para&nbsp;el&nbsp;propietario,&nbsp;lectura&nbsp;para&nbsp;los&nbsp;demás<br /></span><span style="color: #0000BB">chmod</span><span style="color: #007700">(</span><span style="color: #DD0000">"/directorio/fichero"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0644</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Todo&nbsp;para&nbsp;el&nbsp;propietario,&nbsp;lectura&nbsp;y&nbsp;ejecución&nbsp;para&nbsp;los&nbsp;otros<br /></span><span style="color: #0000BB">chmod</span><span style="color: #007700">(</span><span style="color: #DD0000">"/directorio/fichero"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0755</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Todo&nbsp;para&nbsp;el&nbsp;propietario,&nbsp;lectura&nbsp;y&nbsp;ejecución&nbsp;para&nbsp;el&nbsp;grupo&nbsp;del&nbsp;propietario<br /></span><span style="color: #0000BB">chmod</span><span style="color: #007700">(</span><span style="color: #DD0000">"/directorio/fichero"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">0750</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+        </div>
+
+       </div>
+      </p>
+     </dd>
+
+    
+   </dl>
+
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 returnvalues" id="refsect1-function.chmod-returnvalues">
+  <h3 class="title">Valores devueltos</h3>
+  <p class="para">
+   Devuelve <strong><code>TRUE</code></strong> en caso de éxito o <strong><code>FALSE</code></strong> en caso de error.
+  </p>
+ </div>
+
+ 
+ <div class="refsect1 notes" id="refsect1-function.chmod-notes">
+  <h3 class="title">Notas</h3>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    El usuario actual es el usuario bajo el que se ejecuta PHP. Probablemente no sea
+    el mismo usuario que se utilize para el intérprete de comandos normal o el acceso FTP.
+    EL modo puede ser cambiado sólo por el usuario al que pertenece el fichero en la mayoría de sistemas.
+   </p>
+  </p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: <span class="simpara">Esta función no funcionará en 
+<a href="features.remote-files.html" class="link">ficheros remotos</a> ya que el fichero debe ser
+accesible vía el sistema de ficheros del servidor para poder ser examinado.</span></p></blockquote>
+  <blockquote class="note"><p><strong class="note">Nota</strong>: 
+   <p class="para">
+    Cuando <a href="ini.sect.safe-mode.html#ini.safe-mode" class="link">modo seguro</a> está habilitado, PHP verifica si los ficheros o directorios
+    sobre los que se va a operar tienen el mismo UID (propietario) que el del script que
+    está siendo ejecutado. Además, no se pueden establecer los bits SUID, SGID y
+    sticky.
+   </p>
+  </p></blockquote>
+ </div>
+
+ 
+ <div class="refsect1 seealso" id="refsect1-function.chmod-seealso">
+  <h3 class="title">Ver también</h3>
+  <p class="para">
+   <ul class="simplelist">
+    <li class="member"><span class="function"><a href="function.chown.html" class="function" rel="rdfs-seeAlso">chown()</a> - Cambia el propietario del fichero</span></li>
+    <li class="member"><span class="function"><a href="function.chgrp.html" class="function" rel="rdfs-seeAlso">chgrp()</a> - Cambia el grupo del archivo</span></li>
+    <li class="member"><span class="function"><a href="function.fileperms.html" class="function" rel="rdfs-seeAlso">fileperms()</a> - Obtiene los permisos de un archivo</span></li>
+    <li class="member"><span class="function"><a href="function.stat.html" class="function" rel="rdfs-seeAlso">stat()</a> - Da informaci&oacute;n acerca de un fichero</span></li>
+   </ul>
+  </p>
+ </div>
+
+ 
+</div><hr /><div class="manualnavbar" style="text-align: center;">
+ <div class="prev" style="text-align: left; float: left;"><a href="function.chgrp.html">chgrp</a></div>
+ <div class="next" style="text-align: right; float: right;"><a href="function.chown.html">chown</a></div>
+ <div class="up"><a href="ref.filesystem.html">Funciones del Sistema de Archivos</a></div>
+ <div class="home"><a href="index.html">PHP Manual</a></div>
+</div></body></html>
