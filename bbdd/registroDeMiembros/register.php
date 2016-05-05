@@ -20,7 +20,7 @@ if(isset($_POST["action"]) and $_POST["action"] == 'register'){
 
 function displayForm($errorMessages, $missingFields, $member){
     displayPageHeader("Sign up for the book club!");
-     
+
     if($errorMessages){
         foreach($errorMessages as $errorMessage){
             echo $errorMessage;
@@ -125,7 +125,7 @@ function displayForm($errorMessages, $missingFields, $member){
         
         if(Member::getByEmailAddress($member->getValue("emailaddress"))){
             $errorMessages[] = '<p class="error">A member with that email already exists.</p>';
-            
+           
         }
         
         if($errorMessages){
