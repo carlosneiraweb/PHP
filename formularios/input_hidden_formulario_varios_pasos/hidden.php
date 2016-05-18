@@ -58,7 +58,7 @@
             if(isset($_GET["submitButton"]) and $_GET["submitButton"] == "< Back"){
                 displayStep2();
             }else{
-                displayStep3();
+                displayThanks();
             }
         }
         

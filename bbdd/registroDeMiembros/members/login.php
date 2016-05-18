@@ -65,6 +65,7 @@ function processForm(){
     
     foreach($requiredFields as $requiredField){
         if(!$member->getValue($requiredField)){
+            
             $missingFields[] = $requiredField;
         }
     }

@@ -37,6 +37,7 @@ class Member extends DataObject{
         "nonFiction" => "Non-Fiction"
         
     );
+    
     /**
      * Metodo publico y statico
      * Recive tres parametros
@@ -46,8 +47,9 @@ class Member extends DataObject{
      * @return type
      */
     public static function getMembers($startRow, $numRows, $order){
-        
+       
         $con = parent::connect();
+        
         //SQL_CALC_FOUND_ROWS => Para saber el número de filas devueltas si no se 
         //hubiera aplicado un limit
         $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM ".TBL_MEMBERS." ORDER BY $order LIMIT :startRow, :numRows";
@@ -239,7 +241,7 @@ class Member extends DataObject{
             $st->bindValue(":otherinterests", $this->data["otherinterests"], PDO::PARAM_STR);
             
             $total = $st->execute();
-           // echo 'total campos: '.$total.'<br>';
+            echo 'total campos: '.$total.'<br>';
            
             parent::disconnect($con);
         } catch (Exception $ex) {

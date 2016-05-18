@@ -10,17 +10,19 @@
 
 require_once "config.php";
 
-abstract class DataObject {
+
+abstract class DataObject  {
 
     protected  $data = array();
     
-    
+
     /**
      * Constructor public
      * @param type $data
      */
     public function __construct($data){
-    
+       
+        
         foreach ($data as $k => $v){
            // echo 'Clave: '.$k. ': valor: '.$v.'<br>';
             if(array_key_exists($k, $this->data)){ //si $k existe en la tabla data, important!!!           
@@ -55,7 +57,6 @@ abstract class DataObject {
      * @return type
      */
     public function getValueEncoded($field){
-  
         return htmlspecialchars($this->getValue($field));
     }
     
