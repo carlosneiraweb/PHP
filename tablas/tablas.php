@@ -6,6 +6,11 @@
   Nombre Archivo : tablas.php
  */
 
+$array = [
+    "foo" => "bar",
+    "bar" => "foo"
+];
+
 echo '<h3>Declaracion de tablas indexeadas.</h3>' . '<br>';
 $pr = array('title' => 'una histria',
     'author' => 'desconocido',
