@@ -121,7 +121,11 @@ $cola = array(array(
     4
 ));
 
-$cola2 = array(array(
+$cola2 = array(
+    
+    $cola,
+    
+    array(
     "carlos",
     "david"
     
@@ -133,21 +137,7 @@ $cola2 = array(array(
 echo '<br>';
 
 
-//var_dump(array_map(null, $cola,$cola2));
 
-function unirBidimensionales($arr1,$arr2){
-    
-    
-$unir = function($arr)use($arr1,$arr2){
-    var_dump($arr1);
-    var_dump($arr2);
-};
-
-$arr = array();
-array_walk($arr, 'unir');
-
-}
-unirBidimensionales($cola,$cola2);
 
 echo "<br>********************<br>";
 echo "Crear multiples instancias de un objeto <br>";

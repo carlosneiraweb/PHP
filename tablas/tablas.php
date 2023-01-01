@@ -10,6 +10,7 @@ $array = [
     "foo" => "bar",
     "bar" => "foo"
 ];
+//echo $array{"foo"};
 
 echo '<h3>Declaracion de tablas indexeadas.</h3>' . '<br>';
 $pr = array('title' => 'una histria',
