@@ -1,7 +1,8 @@
 <?php
 
-require_once('ConstantesBbdd.php');
-require_once('Usuarios.php');
+require_once("../../Connexion/ConstantesBbdd.php");
+require_once("../../Connexion/Conne.php");
+require_once('./Usuarios.php');
 
 
 
@@ -20,10 +21,12 @@ require_once('Usuarios.php');
 
 
 function ejemplosFetchAssoc($nick){
-    
+  
     $con = Conne::connect();
+   
+   
         $sql = "Select * FROM ".TBL_USUARIO. " WHERE  nick = :nick";
-        
+    
         try{
             $st = $con->prepare($sql);
             $st ->bindValue(":nick", $nick, PDO::PARAM_STR);
@@ -35,10 +38,7 @@ function ejemplosFetchAssoc($nick){
                 
                 echo "idUsuario => $row[idUsuario]<br/>";
                 echo "nick => $row[nick]<br/>";
-                echo "password => $row[password]<br/>";
-                echo "email => $row[email]<br/>";
-                echo "fecha => $row[fecha]<br/>";
-                echo "bloqu => $row[bloqueado]<br/>";
+                
    
             }
             
@@ -58,7 +58,7 @@ function ejemplosFetchAssoc($nick){
 
 
 
-//ejemplosFetchAssoc("carlos"); 
+ejemplosFetchAssoc("pedro"); 
 
 /**
  * PDO::FETCH_BOUND
@@ -145,4 +145,4 @@ function ejemplosFetchClass($id){
 
 }
 
-ejemplosFetchClass(0);
+//ejemplosFetchClass(0);
