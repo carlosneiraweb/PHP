@@ -8,6 +8,9 @@
  * @nameAndExt index.php
  */
 
+/*
+ * bbbbbbbbbbbbbbb
+ */
 $var = 'mundo';
 
 echo 'castellón $var'.'<br>';
