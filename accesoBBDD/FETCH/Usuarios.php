@@ -2,29 +2,49 @@
 
 require_once("../../Connexion/ConstantesBbdd.php");
 
+ 
 
-
-
-
-/**
- * Description of Usuarios
- * Esta clase extiende DataObj
- * Crea usuarios y dispone de varios metodos para 
- * insertar, actualizar o borrar un obj de Usuarios
- */ 
-
-//extends DataObj
 class Usuarios {
 
-    protected $data = array(
-            "nombre" => "",
-            
-        );
+        public  $idusuario = "" ;
+        public  $nick ="";
+        public  $data= array();
+        static $estatico = 1;
+        
     
-        public function __construct($data) {
-            $this->data = $data;
+        public function __construct( $idusuario) {
+            self::$estatico++;
+            $this->idusuario = $idusuario;
+            
         }
 
+        
+    public function __set($name, $value)
+    {
+        
+        $this->data[$name] = $value;
+    }
+    
+    public function __get($name)
+    {
+      
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        }
+    }
+    
+    
+   
+    
+    
+        public function saludo(){
+            
+            echo "hola soy $this->nick"."<br>";
+           
+        }
+        
+        
+        
         
      /**
       *
@@ -154,7 +174,7 @@ public final function insert(){
         
             $date = date('Y-m-d');
             $st = $con->prepare($sql);
-            $st->bindValue(":nick", $this->data["nick"], PDO::PARAM_STR);
+            $st->bindValue(":nick", $this->idusuario["nick"], PDO::PARAM_STR);
             
 
                 $st->execute(); 
@@ -169,8 +189,8 @@ public final function insert(){
                              
                         $stDireccion = $con->prepare($sqlDireccion);
                         $stDireccion->bindValue(":idDireccion", $idUsu, PDO::PARAM_INT);
-                        $stDireccion->bindValue(":codigoPostal", $this->data["codigoPostal"], PDO::PARAM_STR);
-                        $stDireccion->bindValue(":ciudad", $this->data["ciudad"], PDO::PARAM_STR);
+                        $stDireccion->bindValue(":codigoPostal", $this->idusuario["codigoPostal"], PDO::PARAM_STR);
+                        $stDireccion->bindValue(":ciudad", $this->idusuario["ciudad"], PDO::PARAM_STR);
                        
                         
                 $stDireccion->execute();             
@@ -264,7 +284,38 @@ public final function insert(){
 }
     
 
+
+/**
+ * Metodo que recibe un id y devuelve su nick
+ */
+public function devuelveNick($id){
     
+    $con = Conne::connect();
+        
+        try{
+            
+            $sql = "Select nick from ".TBL_USUARIO. " WHERE idusuario = $id";
+
+                $row = $con->query($sql);
+                
+                //Con FETCH_ASSOC se recupera por nombre de campo
+                $nick = $row->fetch(PDO::FETCH_ASSOC);
+               
+                $row->closeCursor();
+                Conne::disconnect($con);
+               
+                return $nick['nick'];
+                
+        } catch (Exception $ex) {
+            Conne::disconnect($con);
+            echo $ex->getLine().'<br>';
+            echo $ex->getFile().'<br>';
+            die("Query failed: ".$ex->getMessage());
+        }
+    
+    
+    
+}    
 
 
 /**

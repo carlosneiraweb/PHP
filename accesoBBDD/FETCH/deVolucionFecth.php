@@ -20,35 +20,61 @@ require_once('./Usuarios.php');
  */
 
 
-function ejemplosFetchAssoc($nick){
+/**
+ * Ejemplo usando fetchAll sin mode <br>
+ * array(2) { [0]=> array(4) { ["idusuario"]=> int(1) [0]=> int(1) <br>
+ * ["nick"]=> string(5) "pedro" [1]=> string(5) "pedro" } <br>
+ * [1]=> array(4) { ["idusuario"]=> int(2) [0]=> int(2) <br>
+ * ["nick"]=> string(5) "david" [1]=> string(5) "david" } }<br>
+ * 
+ * Ejemplo fetchAll(PDO::FETCH_ASSOC)<br>
+ * array(2) { [0]=> array(2) { ["idusuario"]=> int(1) ["nick"]=> string(5) "pedro" } <br>
+ * [1]=> array(2) { ["idusuario"]=> int(2) ["nick"]=> string(5) "david" } } <br>
+ * 
+ *                              IMPORTANTE
+ * 
+ * A la hora de recuperar datos hay que tener en cuenta: <br>
+ * 
+ * Si se usa  fetchAll sin mode<br>
+ * Los recuperaremos con un bucle de un paso.<br>
+ * Y accederos al contenido tanto por nombre <br>
+ * de la clave como por su numero. <br>
+ * 
+ * Si se usa mode FETCH_ASSOC <br>
+ * lo recuperaremos unicamnete por nombre.<br>
+ * 
+ * 
+ * @param type $id
+ */
+
+
+function ejemplosFetchAssoc($id){
   
     $con = Conne::connect();
    
    
-        $sql = "Select * FROM ".TBL_USUARIO. " WHERE  nick = :nick";
+        $sql = "Select * FROM ".TBL_USUARIO. " where idusuario > :id;";
     
         try{
             $st = $con->prepare($sql);
-            $st ->bindValue(":nick", $nick, PDO::PARAM_STR);
+            $st ->bindValue(":id", $id, PDO::PARAM_INT);
            
             $st ->execute();
-           // $row = $st->fetch();
-           // var_dump($row);
-            while($row = $st->fetch(PDO::FETCH_ASSOC)){
-                
-                echo "idUsuario => $row[idUsuario]<br/>";
-                echo "nick => $row[nick]<br/>";
-                
-   
-            }
-            
-            $st->closeCursor();
+           $datos = array();
+           while($row = $st->fetchAll(PDO::FETCH_ASSOC)){
+               
+               $datos = $row;
+           }
+           var_dump($datos);
+           foreach($datos as $a ){
+              
+               echo $a["idusuario"] ." ".$a["nick"]. "<br/>";
+              
+           }
+          
             Conne::disconnect($con);
         } catch (Exception $ex) {
-            echo $ex->getFile();
-           
-            echo $ex->getCode();
-            echo '<br>';
+            echo $ex->getMessage();
             echo $ex->getLine();
             Conne::disconnet($con);
         }
@@ -58,7 +84,7 @@ function ejemplosFetchAssoc($nick){
 
 
 
-ejemplosFetchAssoc("pedro"); 
+//ejemplosFetchAssoc(-1); 
 
 /**
  * PDO::FETCH_BOUND
@@ -69,33 +95,29 @@ ejemplosFetchAssoc("pedro");
  * @param type $id
  */
 
-function ejemplosFetchBoth($id){
+function ejemplosFetchBound($id){
     
     $con = Conne::connect();
-        $sql = "Select nick,email FROM ".TBL_USUARIO. " WHERE  idUsuario > :id;";
+        $sql = "Select idusuario, nick FROM ".TBL_USUARIO. " WHERE  idUsuario > :id;";
         
         try{
             $st = $con->prepare($sql);
             $st ->bindValue(":id", $id, PDO::PARAM_STR);
            
             $st ->execute();
-            //devuelve array
-            //$row = $st->fetch();
-           // var_dump($row);
-            $st->bindColumn(1, $nick);
-            $st->bindColumn("email", $email);
+            
+            //Siempre vincular despues de execute
+            $st->bindColumn(1, $idusuario);
+            $st->bindColumn("nick", $nick);
             
             while($row = $st->fetch(PDO::FETCH_BOUND)){
-                echo $nick . " : ".$email."<br/>";
+                echo $nick . " : ".$idusuario."<br/>";
             }
             
-            $st->closeCursor();
+          
             Conne::disconnect($con);
         } catch (Exception $ex) {
-            echo $ex->getFile();
-           
-            echo $ex->getCode();
-            echo '<br>';
+            echo $ex->getMessage();
             echo $ex->getLine();
             Conne::disconnet($con);
         }
@@ -112,32 +134,42 @@ function ejemplosFetchBoth($id){
  */
 
 
-function ejemplosFetchClass($id){
+
+/**
+ * 
+ * Devuelve objeto que podremos instanciar. <br>
+ * $user = new Usuario()<br>
+ * object(stdClass)#3 (2) { ["idusuario"]=> int(2) ["nick"]=> string(5) "david" } <br>
+ * @param type $id
+ */
+function ejemplosFetchObject($id){
     
     $con = Conne::connect();
         $sql = "Select * FROM ".TBL_USUARIO. " WHERE  idUsuario > :id;";
         
         try{
-            //$usuario = array("carlos");
+           
             $st = $con->prepare($sql);
             $st ->bindValue(":id", $id, PDO::PARAM_STR);
-            //$st->setFetchMode(PDO::FETCH_OBJ);
+            $st->setFetchMode(PDO::FETCH_OBJ);
             
-            $row = $st ->execute();
+             $st ->execute();
            
             while($row = $st->fetch()){
-                echo "sssss";
-                var_dump($row);
+                //var_dump($row);
+                $prueba = new Usuarios($row);
+                $nick = $prueba->devuelveNick($id);
+               
+                echo "nick".$nick;
+                
+                
             } 
            
             
-            $st->closeCursor();
+           
             Conne::disconnect($con);
         } catch (Exception $ex) {
-            echo $ex->getFile();
-           
-            echo $ex->getCode();
-            echo '<br>';
+            echo $ex->getMessage();
             echo $ex->getLine();
             Conne::disconnet($con);
         }
@@ -145,4 +177,111 @@ function ejemplosFetchClass($id){
 
 }
 
-//ejemplosFetchClass(0);
+//ejemplosFetchObject(1);
+
+
+/**
+ * PDO::FETCH_NUM nos devuelve un array <br>
+ * cuyos indices son numeros.<br>
+ * array(2) { [0]=> array(2) { [0]=> int(1) [1]=> string(5) "pedro" } <br>
+ * [1]=> array(2) { [0]=> int(2) [1]=> string(5) "david" } } 
+ */
+
+
+function fetchNum($id){
+
+    $con = Conne::connect();
+        $sql = "Select * FROM ".TBL_USUARIO. " WHERE  idUsuario > :id;";
+        
+        try{
+           
+            $st = $con->prepare($sql);
+            $st ->bindValue(":id", $id, PDO::PARAM_STR);
+          
+            
+             $st ->execute();
+           
+            while($row = $st->fetchAll(PDO::FETCH_NUM)){
+                var_dump($row);
+                
+            } 
+           
+            
+           
+            Conne::disconnect($con);
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+            echo $ex->getLine();
+            Conne::disconnet($con);
+        }
+    
+    
+ 
+    
+    //fin fetchNum
+}
+
+
+//fetchNum(0);
+
+
+
+/**
+ * PDO::FETCH_CLASS<br>
+ * Devuelve una instancia de la clase<br>
+ * Si no se aplica PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE<br>
+ * Se asignan primeri las propiedades del objeto<br>
+ * y luego se llama  al constructor.<br>
+ * Si se aplica entonces al reves. 
+ * 
+ * 
+ * @param type $id
+ */
+
+
+function fecthClass($id){
+
+
+    $con = Conne::connect();
+    
+        $sql = "Select idusuario,nick,sexo  FROM ".TBL_USUARIO. " WHERE  idusuario > :idusuario;";
+        
+        try{
+           
+            $st = $con->prepare($sql);
+           
+            //
+            $st->execute([':idusuario' => $id]);
+            $st->setFetchMode(PDO::FETCH_CLASS ,'Usuarios',[$id]);
+            $row = $st->fetchAll();
+           
+            //OJO SI DEVUELVE MAS DE UN OBJETO
+            //RECUPERAMOS COMO ARRAY
+            //SINO ACCEDEMOS COMO OBJETO NORMAR  $row->idusuario
+            //var_dump($row);
+            echo $row[0]->idusuario;
+            echo "<br>";
+            echo $row[0]->nick;
+            echo "<br>";
+            echo $row[0]->sexo;
+            echo "<br>";
+            echo $row[0]->saludo();
+            
+            
+
+            Conne::disconnect($con);
+        } catch (Exception $ex) {
+            echo $ex->getPrevious();
+            echo $ex->getMessage();
+            echo $ex->getLine();
+            Conne::disconnet($con);
+        }
+    
+    
+    
+    
+    //fin fecthClass
+}
+
+
+fecthClass(0);

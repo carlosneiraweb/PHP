@@ -24,3 +24,4 @@ $listaTextos = array(
 		if ($esCoincidente) {
 			echo '<br/>Correo reconocido: ' . $texto;
 		}
+        }
